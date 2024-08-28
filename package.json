@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@codegenie/serverless-express": "^4.15.0"
+  }
+}
