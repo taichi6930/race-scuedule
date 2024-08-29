@@ -17,4 +17,16 @@ export class NarPlaceData {
         public readonly dateTime: Date,
         public readonly location: NarRaceCourse,
     ) { }
+
+    /**
+     * データのコピー
+     * @param partial
+     * @returns
+     */
+    copy(partial: Partial<NarPlaceData> = {}): NarPlaceData {
+        return new NarPlaceData(
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location
+        );
+    }
 }

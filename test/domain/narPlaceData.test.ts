@@ -1,14 +1,34 @@
 import { NarPlaceData } from '../../src/domain/narPlaceData';
-import { NarRaceCourse } from '../../src/utility/raceSpecificData';
 
 describe('NarPlaceDataクラスのテスト', () => {
     it('正しい入力でNarPlaceDataのインスタンスを作成できることを確認', () => {
-        const dateTime = new Date('2024-08-12');
-        const location = "大井" as NarRaceCourse;
+        const placeData = new NarPlaceData(
+            new Date('2024-06-03'),
+            "大井",
+        );
 
-        const placeData = new NarPlaceData(dateTime, location);
+        expect(placeData.dateTime).toEqual(new Date('2024-06-03'));
+        expect(placeData.location).toBe("大井");
+    });
 
-        expect(placeData.dateTime).toEqual(dateTime);
-        expect(placeData.location).toBe(location);
+    it('日付を変更したNarPlaceDataのインスタンスを作成できることを確認', () => {
+        const placeData = new NarPlaceData(
+            new Date('2024-06-03'),
+            "大井",
+        );
+        const newPlaceData = placeData.copy({ dateTime: new Date('2024-06-04') });
+
+        expect(newPlaceData.dateTime).toEqual(new Date('2024-06-04'));
+        expect(newPlaceData.location).toBe("大井");
+    });
+
+    it('何も変更せずNarPlaceDataのインスタンスを作成できることを確認', () => {
+        const placeData = new NarPlaceData(
+            new Date('2024-06-03'),
+            "大井",
+        );
+        const newPlaceData = placeData.copy();
+
+        expect(newPlaceData).toEqual(placeData);
     });
 });

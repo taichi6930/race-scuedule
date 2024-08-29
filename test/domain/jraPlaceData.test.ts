@@ -1,14 +1,34 @@
 import { JraPlaceData } from '../../src/domain/jraPlaceData';
-import { JraRaceCourse } from '../../src/utility/raceSpecificData';
 
 describe('JraPlaceDataクラスのテスト', () => {
     it('正しい入力でJraPlaceDataのインスタンスを作成できることを確認', () => {
-        const dateTime = new Date('2024-08-12');
-        const location = "東京" as JraRaceCourse;
+        const placeData = new JraPlaceData(
+            new Date('2024-05-26'),
+            "東京",
+        );
 
-        const placeData = new JraPlaceData(dateTime, location);
+        expect(placeData.dateTime).toEqual(new Date('2024-05-26'));
+        expect(placeData.location).toBe("東京");
+    });
 
-        expect(placeData.dateTime).toEqual(dateTime);
-        expect(placeData.location).toBe(location);
+    it('日付を変更したNarPlaceDataのインスタンスを作成できることを確認', () => {
+        const placeData = new JraPlaceData(
+            new Date('2024-05-26'),
+            "東京",
+        );
+        const newPlaceData = placeData.copy({ dateTime: new Date('2024-06-04') });
+
+        expect(newPlaceData.dateTime).toEqual(new Date('2024-06-04'));
+        expect(newPlaceData.location).toBe("東京");
+    });
+
+    it('何も変更せずJraPlaceDataのインスタンスを作成できることを確認', () => {
+        const placeData = new JraPlaceData(
+            new Date('2024-05-26'),
+            "東京",
+        );
+        const newPlaceData = placeData.copy();
+
+        expect(newPlaceData).toEqual(placeData);
     });
 });

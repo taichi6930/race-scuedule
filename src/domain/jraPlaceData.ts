@@ -17,4 +17,16 @@ export class JraPlaceData {
         public readonly dateTime: Date,
         public readonly location: JraRaceCourse,
     ) { }
+
+    /**
+     * データのコピー
+     * @param partial
+     * @returns
+     */
+    copy(partial: Partial<JraPlaceData> = {}): JraPlaceData {
+        return new JraPlaceData(
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location
+        );
+    }
 }
