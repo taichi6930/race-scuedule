@@ -22,4 +22,20 @@ export class CalendarData {
         public readonly location: string,
         public readonly description: string,
     ) { }
+
+    /**
+     * データのコピー
+     * @param partial
+     * @returns
+     */
+    copy(partial: Partial<CalendarData> = {}): CalendarData {
+        return new CalendarData(
+            partial.id ?? this.id,
+            partial.title ?? this.title,
+            partial.startTime ?? this.startTime,
+            partial.endTime ?? this.endTime,
+            partial.location ?? this.location,
+            partial.description ?? this.description
+        );
+    }
 }
