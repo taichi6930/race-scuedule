@@ -8,8 +8,8 @@ import { NarCalendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { IRaceRepository } from '../../../src/repository/interface/IRaceRepository';
 import { mockNarRaceRepositoryFromS3Impl } from '../../mock/repository/narRaceRepositoryFromS3Impl';
 import { NarPlaceData } from '../../../src/domain/narPlaceData';
-import { NarGradeType } from '../../../src/utility/raceSpecificData';
-import { NAR_SPECIFIED_GRADE_LIST } from '../../../src/utility/raceSpecificData';
+import { NarGradeType } from '../../../src/utility/data/raceSpecific';
+import { NAR_SPECIFIED_GRADE_LIST } from '../../../src/utility/data/raceSpecific';
 
 describe('NarRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceData>>;
