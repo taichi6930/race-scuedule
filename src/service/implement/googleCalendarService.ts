@@ -9,6 +9,7 @@ import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { CHIHO_KEIBA_LIVE_URL, CHIHO_KEIBA_YOUTUBE_USER_ID, getYoutubeLiveUrl } from '../../utility/data/movie';
 import { NAR_BABACODE } from '../../utility/data/nar';
+import '../../utility/format';
 
 @injectable()
 export class GoogleCalendarService<R extends { [key: string]: any }> implements ICalendarService<R> {
@@ -135,27 +136,25 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      * カレンダーのクレンジングを行う
      * @param startDate
      * @param endDate
-     * @param isLeaveNewData 新しいデータを残すかどうか デフォルトは残す
      */
     @Logger
-    async cleansingEvents(startDate: Date, endDate: Date, isLeaveNewData: boolean = true): Promise<void> {
-        await this.deleteEvents(startDate, endDate, isLeaveNewData);
+    async cleansingEvents(startDate: Date, endDate: Date): Promise<void> {
+        await this.deleteEvents(startDate, endDate);
     }
 
     /**
      * イベントを削除する（期間内のイベントを取得して削除）
      * @param startDate
      * @param endDate
-     * @param isLeaveNewData 新しいデータを残すかどうか デフォルトは残さない
+     * @param isLeaveNewData 新しいデータを残すかどうか
      * @returns
      */
     @Logger
-    private async deleteEvents(startDate: Date, endDate: Date, isLeaveNewData: boolean = false): Promise<void> {
+    private async deleteEvents(startDate: Date, endDate: Date): Promise<void> {
         const events = (await this.getEventsWithinDateRange(startDate, endDate)).filter(event => {
             // trueの場合は削除対象
             // イベントIDが指定したレースタイプで始まっていない場合は削除対象
-            // 新しいデータを残さない場合は削除対象
-            return !event.id?.startsWith(this.raceType) || !isLeaveNewData;
+            return !event.id?.startsWith(this.raceType);
         });
         if (events.length === 0) {
             console.debug("指定された期間にイベントが見つかりませんでした。");
@@ -171,10 +170,11 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      */
     @Logger
     private async deleteEvent(event: calendar_v3.Schema$Event): Promise<void> {
-        if (!event.id) return;
         try {
-            await this.calendar.events.delete({ calendarId: this.calendarId, eventId: event.id });
-            console.debug(`Google Calendar APIからレースを削除しました: ${event.summary}`);
+            if (event.id) {
+                await this.calendar.events.delete({ calendarId: this.calendarId, eventId: event.id });
+                console.debug(`Google Calendar APIからレースを削除しました: ${event.summary}`);
+            }
         } catch (error) {
             throw new Error(`Google Calendar APIからのレース削除に失敗しました: ${event.summary}`);
         }
@@ -241,8 +241,6 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
                 return this.translateToCalendarEventForJra(raceData);
             case 'nar':
                 return this.translateToCalendarEventForNar(raceData);
-            default:
-                throw new Error('不正な競馬タイプです');
         }
     }
 
