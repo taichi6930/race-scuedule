@@ -17,12 +17,12 @@ export interface ICalendarService<R> {
      * @param calendarId
      * @param raceList
      */
-    upsertEvents(raceList: R[]): Promise<void>;
+    // upsertEvents(raceList: R[]): Promise<void>;
     /**
      * カレンダーのクレンジングを行う
      * @param calendarId
      * @param startDate
      * @param endDate
      */
-    cleansingEvents(startDate: Date, endDate: Date): Promise<void>;
+    // cleansingEvents(startDate: Date, endDate: Date): Promise<void>;
 }

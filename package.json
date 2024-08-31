@@ -5,6 +5,7 @@
   "dependencies": {
     "@codegenie/serverless-express": "^4.15.0",
     "@types/jest": "^29.5.12",
+    "googleapis": "^143.0.0",
     "jest": "^29.7.0",
     "reflect-metadata": "^0.2.2",
     "ts-jest": "^29.2.5",
