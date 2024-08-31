@@ -37,7 +37,7 @@ describe('GoogleCalendarService', () => {
         jest.spyOn(google.calendar('v3').events, 'update');
         jest.spyOn(google.calendar('v3').events, 'delete');
 
-        // `console.debug` メソッドをスパイ
+        // `console` メソッドをスパイ
         jest.spyOn(console, 'error');
         jest.spyOn(console, 'log');
         jest.spyOn(console, 'debug');

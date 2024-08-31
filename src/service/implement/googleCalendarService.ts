@@ -5,6 +5,10 @@ import { ICalendarService } from '../interface/ICalendarService';
 import { Logger } from '../../utility/logger';
 import { CalendarData } from '../../domain/calendarData';
 import { JWT } from 'google-auth-library';
+import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import { createAnchorTag, formatDate } from '../../utility/format';
+import { CHIHO_KEIBA_LIVE_URL, CHIHO_KEIBA_YOUTUBE_USER_ID, getYoutubeLiveUrl } from '../../utility/data/movie';
+import { NAR_BABACODE } from '../../utility/data/nar';
 
 @injectable()
 export class GoogleCalendarService<R extends { [key: string]: any }> implements ICalendarService<R> {
@@ -84,8 +88,48 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      */
     @Logger
     async upsertEvents(raceList: R[]): Promise<void> {
-        // イベントデータをGoogleカレンダーAPIに登録
+        await Promise.all(raceList.map(async (raceData) => {
+            // イベントIDを生成
+            const eventId = this.generateEventId(raceData);
+            try {
+                // イベントを取得
+                const event = await this.calendar.events.get({ calendarId: this.calendarId, eventId: eventId });
+                // イベントが見つかった場合は更新
+                if (event.data.id) {
+                    console.log(`Google Calendar APIにイベントが見つかりました。更新を行います。レース名: ${raceData.name}`);
+                    await this.updateEvent(raceData, eventId);
+                } else {
+                    // イベントが見つからなかった場合は新規登録
+                    console.log(`Google Calendar APIにイベントが見つからなかったため、新規登録します。レース名: ${raceData.name}`);
+                    await this.createEvent(this.translateToCalendarEvent(raceData));
+                }
+            } catch (error: any) {
+                try {
+                    // イベントが見つからなかった場合は新規登録
+                    console.log(`Google Calendar APIにイベントが見つからなかったため、新規登録します。レース名: ${raceData.name}`);
+                    await this.createEvent(this.translateToCalendarEvent(raceData));
+                } catch (error) {
+                    console.error('Google Calendar APIへのイベント新規登録に失敗しました', error);
+                }
+            }
+        }));
     }
+
+    /**
+     * イベントを新規登録する
+     * @param event
+     * @returns
+     */
+    @Logger
+    private async createEvent(event: calendar_v3.Schema$Event): Promise<void> {
+        try {
+            await this.calendar.events.insert({ calendarId: this.calendarId, requestBody: event });
+            console.debug(`Google Calendar APIにレースを登録しました: ${event.summary}`);
+        } catch (error) {
+            throw new Error(`Google Calendar APIへのレース登録に失敗しました: ${event.summary}`);
+        }
+    }
+
 
     /**
      * カレンダーのクレンジングを行う
@@ -154,5 +198,134 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
         } catch (error) {
             console.error(`Google Calendar APIへのレース${actionName}に失敗しました（processEvents）`, error);
         }
+    }
+
+    /**
+    * イベントIDを生成する
+    * netkeibaのレースIDを元に生成
+    * @param raceData
+    * @returns
+    */
+    private generateEventId(raceData: R): string {
+        return `${this.raceType}${raceData.dateTime.getFullYear()}${raceData.dateTime.getXDigitMonth(2)}${raceData.dateTime.getXDigitDays(2)}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
+    }
+
+    /**
+     * イベントを更新する
+     * @param raceData
+     * @param eventId
+     * @returns
+     */
+    @Logger
+    private async updateEvent(raceData: R, eventId: string): Promise<void> {
+        try {
+            await this.calendar.events.update({
+                calendarId: this.calendarId,
+                eventId: eventId,
+                requestBody: this.translateToCalendarEvent(raceData)
+            });
+            console.debug(`Google Calendar APIにレースを更新しました: ${raceData.name}`);
+        } catch (error) {
+            throw new Error(`Google Calendar APIへのレース更新に失敗しました: ${raceData.name}`);
+        }
+    }
+
+    /**
+     * raceDataをGoogleカレンダーのイベントに変換する
+     * @param raceData
+     * @returns
+     */
+    private translateToCalendarEvent(raceData: R): calendar_v3.Schema$Event {
+        switch (this.raceType) {
+            case 'jra':
+                return this.translateToCalendarEventForJra(raceData);
+            case 'nar':
+                return this.translateToCalendarEventForNar(raceData);
+            default:
+                throw new Error('不正な競馬タイプです');
+        }
+    }
+
+    /**
+     * レースデータをGoogleカレンダーのイベントに変換する（JRA）
+     * @param raceData
+     * @returns
+     */
+    private translateToCalendarEventForJra(raceData: R): calendar_v3.Schema$Event {
+        const data = raceData;
+        return {
+            id: this.generateEventId(data),
+            summary: data.name,
+            location: `${data.location}競馬場`,
+            start: {
+                dateTime: formatDate(data.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(new Date(data.dateTime.getTime() + 10 * 60 * 1000)),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(data.grade),
+            description: `距離: ${data.surfaceType}${data.distance}m
+            発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
+            ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${data.dateTime.getFullYear()}${NETKEIBA_BABACODE[data.location]}${data.heldTimes.toXDigits(2)}${data.heldDayTimes.toXDigits(2)}${data.number.toXDigits(2)}`)}
+        `.replace(/\n\s+/g, '\n'),
+        };
+    }
+
+    /**
+     * レースデータをGoogleカレンダーのイベントに変換する（NAR）
+     * @param raceData
+     * @returns
+     */
+    private translateToCalendarEventForNar(raceData: R): calendar_v3.Schema$Event {
+        const data = raceData;
+        return {
+            id: this.generateEventId(data),
+            summary: data.name,
+            location: `${data.location}競馬場`,
+            start: {
+                dateTime: formatDate(data.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(new Date(data.dateTime.getTime() + 10 * 60 * 1000)),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(data.grade),
+            description: `距離: ${data.surfaceType}${data.distance}m
+            発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
+            ${createAnchorTag('レース映像（地方競馬LIVE）', CHIHO_KEIBA_LIVE_URL)}
+            ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(CHIHO_KEIBA_YOUTUBE_USER_ID[data.location]))}
+            ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${data.dateTime.getFullYear()}${NETKEIBA_BABACODE[data.location]}${(raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceData.dateTime.getDate().toXDigits(2)}${raceData.number.toXDigits(2)}`)}
+            ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${data.dateTime.getFullYear()}%2f${(raceData.dateTime.getMonth() + 1).toXDigits(2)}%2f${raceData.dateTime.getDate().toXDigits(2)}&k_raceNo=${data.number.toXDigits(2)}&k_babaCode=${NAR_BABACODE[data.location]}`)}
+        `.replace(/\n\s+/g, '\n'),
+        };
+    }
+
+    /**
+     * Googleカレンダーのイベントの色IDを取得する
+     * @param raceGrade
+     * @returns
+     */
+    private getColorId(raceGrade: string): string {
+        const gradeColorMap: { [key: string]: string } = {
+            "GⅠ": "9",
+            "J.GⅠ": "9",
+            "GⅡ": "11",
+            "J.GⅡ": "11",
+            "GⅢ": "10",
+            "J.GⅢ": "10",
+            "JpnⅠ": "1",
+            "JpnⅡ": "4",
+            "JpnⅢ": "2",
+            "Listed": "5",
+            "オープン": "6",
+            "オープン特別": "6",
+            "地方重賞": "3",
+        };
+        return gradeColorMap[raceGrade] || "8";
     }
 }
