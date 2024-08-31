@@ -77,4 +77,82 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
             event.description || ''
         ));
     }
+
+    /**
+     * カレンダーのイベントの更新を行う
+     * @param raceList
+     */
+    @Logger
+    async upsertEvents(raceList: R[]): Promise<void> {
+        // イベントデータをGoogleカレンダーAPIに登録
+    }
+
+    /**
+     * カレンダーのクレンジングを行う
+     * @param startDate
+     * @param endDate
+     * @param isLeaveNewData 新しいデータを残すかどうか デフォルトは残す
+     */
+    @Logger
+    async cleansingEvents(startDate: Date, endDate: Date, isLeaveNewData: boolean = true): Promise<void> {
+        await this.deleteEvents(startDate, endDate, isLeaveNewData);
+    }
+
+    /**
+     * イベントを削除する（期間内のイベントを取得して削除）
+     * @param startDate
+     * @param endDate
+     * @param isLeaveNewData 新しいデータを残すかどうか デフォルトは残さない
+     * @returns
+     */
+    @Logger
+    private async deleteEvents(startDate: Date, endDate: Date, isLeaveNewData: boolean = false): Promise<void> {
+        const events = (await this.getEventsWithinDateRange(startDate, endDate)).filter(event => {
+            // trueの場合は削除対象
+            // イベントIDが指定したレースタイプで始まっていない場合は削除対象
+            // 新しいデータを残さない場合は削除対象
+            return !event.id?.startsWith(this.raceType) || !isLeaveNewData;
+        });
+        if (events.length === 0) {
+            console.debug("指定された期間にイベントが見つかりませんでした。");
+            return;
+        }
+        await this.processEvents(events, this.deleteEvent.bind(this), '削除');
+    }
+
+    /**
+     * イベントを削除する（単体）
+     * @param event
+     * @returns
+     */
+    @Logger
+    private async deleteEvent(event: calendar_v3.Schema$Event): Promise<void> {
+        if (!event.id) return;
+        try {
+            await this.calendar.events.delete({ calendarId: this.calendarId, eventId: event.id });
+            console.debug(`Google Calendar APIからレースを削除しました: ${event.summary}`);
+        } catch (error) {
+            throw new Error(`Google Calendar APIからのレース削除に失敗しました: ${event.summary}`);
+        }
+    }
+
+    /**
+     * イベントを一括処理する
+     * @param events
+     * @param action
+     * @param actionName
+     * @returns
+     */
+    private async processEvents(
+        events: calendar_v3.Schema$Event[],
+        action: (event: calendar_v3.Schema$Event, calendarId: string) => Promise<void>,
+        actionName: string
+    ): Promise<void> {
+        try {
+            await Promise.all(events.map(event => action(event, this.calendarId)));
+            console.log(`Google Calendar APIにレースを${actionName}しました（processEvents）`);
+        } catch (error) {
+            console.error(`Google Calendar APIへのレース${actionName}に失敗しました（processEvents）`, error);
+        }
+    }
 }
