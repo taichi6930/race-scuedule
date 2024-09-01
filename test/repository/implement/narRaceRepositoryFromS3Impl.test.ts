@@ -7,6 +7,7 @@ import { IS3Gateway } from "../../../src/gateway/interface/iS3Gateway";
 import { mockS3GatewayForNarRace } from '../../mock/gateway/s3GatewayMock';
 import { NarPlaceData } from '../../../src/domain/narPlaceData';
 import { format, parse } from 'date-fns';
+import { RegisterRaceListRequest } from '../../../src/repository/request/registerRaceListRequest';
 
 
 describe('NarRaceRepositoryFromS3Impl', () => {
@@ -72,6 +73,33 @@ describe('NarRaceRepositoryFromS3Impl', () => {
 
             // レスポンスの検証
             expect(response.raceDataList).toHaveLength(32);
+        });
+    });
+
+    describe('registerRaceList', () => {
+        test('正しいレースデータを登録できる', async () => {
+            // 1年間のレースデータを登録する
+            const raceDataList: NarRaceData[] = Array.from({ length: 366 }, (_, day) => {
+                const date = new Date('2024-01-01');
+                date.setDate(date.getDate() + day);
+                return Array.from({ length: 12 }, (_, j) => new NarRaceData(
+                    `raceName${format(date, 'yyyyMMdd')}`,
+                    date,
+                    '大井',
+                    'ダート',
+                    1200,
+                    'GⅠ',
+                    j + 1,
+                ));
+            }).flat();
+
+            // リクエストの作成
+            const request = new RegisterRaceListRequest<NarRaceData>(raceDataList);
+            // テスト実行
+            const response = await repository.registerRaceList(request);
+
+            // uploadDataToS3が366回呼ばれることを検証
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
         });
     });
 });
