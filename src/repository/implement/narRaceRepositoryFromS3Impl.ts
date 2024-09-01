@@ -8,7 +8,7 @@ import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
-import { IS3Gateway } from '../../gateway/interface/IS3Gateway';
+import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarRaceCourse, NarRaceCourseType, NarGradeType } from '../../utility/data/raceSpecific';
 import { format } from 'date-fns';
 

@@ -1,0 +1,77 @@
+import 'reflect-metadata';
+import { container } from 'tsyringe';
+import { NarRaceData } from "../../../src/domain/narRaceData";
+import { NarRaceRepositoryFromS3Impl } from "../../../src/repository/implement/narRaceRepositoryFromS3Impl";
+import { FetchRaceListRequest } from "../../../src/repository/request/fetchRaceListRequest";
+import { IS3Gateway } from "../../../src/gateway/interface/iS3Gateway";
+import { mockS3GatewayForNarRace } from '../../mock/gateway/s3GatewayMock';
+import { NarPlaceData } from '../../../src/domain/narPlaceData';
+import { format, parse } from 'date-fns';
+
+
+describe('NarRaceRepositoryFromS3Impl', () => {
+    let s3Gateway: jest.Mocked<IS3Gateway<NarRaceData>>;
+    let repository: NarRaceRepositoryFromS3Impl;
+
+    beforeEach(() => {
+        // S3Gatewayのモックを作成
+        s3Gateway = mockS3GatewayForNarRace();
+
+        // DIコンテナにモックを登録
+        container.registerInstance('IS3Gateway', s3Gateway);
+
+        // テスト対象のリポジトリを生成
+        repository = container.resolve(NarRaceRepositoryFromS3Impl);
+    });
+
+    describe('fetchRaceList', () => {
+        test('正しいレースデータを取得できる', async () => {
+            // モックの戻り値を設定
+            s3Gateway.fetchDataFromS3.mockImplementation((filename: string) => {
+                // filenameから日付を取得 16時からのレースにしたい
+                const date = parse(filename.slice(0, 8), 'yyyyMMdd', new Date());
+                date.setHours(16);
+                const csvDataText: string = [
+                    `raceName${filename.slice(0, 8)}`,
+                    date.toISOString(),
+                    '大井',
+                    'ダート',
+                    '1200',
+                    'GⅠ',
+                    '1',
+                ].join(',');
+                const csvDataRameNameUndefinedText: string = [
+                    undefined,
+                    date.toISOString(),
+                    '大井',
+                    'ダート',
+                    '1200',
+                    'GⅠ',
+                    '1',
+                ].join(',');
+                const csvDataNumUndefinedText: string = [
+                    `raceName${filename.slice(0, 8)}`,
+                    date.toISOString(),
+                    '大井',
+                    'ダート',
+                    '1200',
+                    'GⅠ',
+                    undefined,
+                ].join(',');
+                const csvDatajoinText: string = [
+                    csvDataText,
+                    csvDataRameNameUndefinedText,
+                    csvDataNumUndefinedText,
+                ].join('\n');
+                return Promise.resolve(csvDatajoinText);
+            });
+            // リクエストの作成
+            const request = new FetchRaceListRequest<NarPlaceData>(new Date('2024-01-01'), new Date('2024-02-01'));
+            // テスト実行
+            const response = await repository.fetchRaceList(request);
+
+            // レスポンスの検証
+            expect(response.raceDataList).toHaveLength(32);
+        });
+    });
+});
