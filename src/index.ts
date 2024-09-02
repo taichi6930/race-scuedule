@@ -10,12 +10,20 @@ import { NarRaceController } from "./controller/narRaceController";
 import { IRaceCalendarUseCase } from "./usecase/interface/IRaceCalendarUseCase";
 import { NarRaceCalendarUseCase } from "./usecase/implement/narRaceCalendarUseCase";
 import { MockGoogleCalendarService } from "./service/mock/mockGoogleCalendarService";
-import { MockNarRaceRepositoryFromS3Impl } from "./repository/mock/mockNarRaceRepositoryFromS3Impl";
+import { NarRaceRepositoryFromS3Impl } from "./repository/implement/narRaceRepositoryFromS3Impl";
+import { IS3Gateway } from "./gateway/interface/iS3Gateway";
+import { MockS3Gateway } from "./gateway/mock/mockS3Gateway";
 
 // Expressアプリケーションの設定
 const app = express();
 
 // DIコンテナの初期化
+// s3Gatewayの実装クラスをDIコンテナに登錄する
+container.register<IS3Gateway<NarRaceData>>(
+    'IS3Gateway',
+    { useFactory: () => new MockS3Gateway<NarRaceData>('race-schedule-bucket', 'nar/race/') }
+);
+
 // ICalendarServiceの実装クラスをDIコンテナに登錄する
 container.register<ICalendarService<NarRaceData>>(
     'ICalendarService',
@@ -24,7 +32,7 @@ container.register<ICalendarService<NarRaceData>>(
 
 // Repositoryの実装クラスをDIコンテナに登錄する
 container.register<IRaceRepository<NarRaceData, NarPlaceData>>('IRaceRepositoryFromS3',
-    { useClass: MockNarRaceRepositoryFromS3Impl }
+    { useClass: NarRaceRepositoryFromS3Impl }
 );
 
 // Usecaseの実装クラスをDIコンテナに登錄する
