@@ -13,24 +13,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check for existing Pull Request
-        id: pr-check
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const branchName = github.ref_name;
-            const { data: pullRequests } = await octokit.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              head: `${context.repo.owner}:${branchName}`,
-            });
+      # - name: Check for existing Pull Request
+      #   id: pr-check
+      #   uses: actions/github-script@v7
+      #   with:
+      #     script: |
+      #       const branchName = github.ref_name;
+      #       const { data: pullRequests } = await octokit.rest.pulls.list({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         state: 'open',
+      #         head: `${context.repo.owner}:${branchName}`,
+      #       });
 
-            if (pullRequests.length > 0) {
-              core.setOutput('pr_exists', 'true');
-            } else {
-              core.setOutput('pr_exists', 'false');
-            }
+      #       if (pullRequests.length > 0) {
+      #         core.setOutput('pr_exists', 'true');
+      #       } else {
+      #         core.setOutput('pr_exists', 'false');
+      #       }
 
       - name: Create Pull Request
         if: steps.pr-check.outputs.pr_exists == 'false'
