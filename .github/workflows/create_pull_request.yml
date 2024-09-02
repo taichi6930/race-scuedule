@@ -8,37 +8,19 @@ on:
 jobs:
   create_pull_request:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # - name: Check for existing Pull Request
-      #   id: pr-check
-      #   uses: actions/github-script@v7
-      #   with:
-      #     script: |
-      #       const branchName = github.ref_name;
-      #       const { data: pullRequests } = await octokit.rest.pulls.list({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         state: 'open',
-      #         head: `${context.repo.owner}:${branchName}`,
-      #       });
+      - name: Get release branch name
+        id: get_branch
+        run: echo "RELEASE_BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
-      #       if (pullRequests.length > 0) {
-      #         core.setOutput('pr_exists', 'true');
-      #       } else {
-      #         core.setOutput('pr_exists', 'false');
-      #       }
-
-      - name: Create Pull Request
-        # if: steps.pr-check.outputs.pr_exists == 'false'
-        uses: peter-evans/create-pull-request@v6
+      - name: Create PR to develop
+        uses: repo-sync/pull-request@v2
         with:
-          token: ${{ secrets.GH_TOKEN }}
-          branch: ${{ github.ref_name }}  # 現在のブランチ名
-          base: main  # マージ先のブランチ名を指定（必要に応じて変更）
-          title: 'Feature: ${{ github.ref_name }}'
-          body: 'This is an auto-generated Pull Request for the feature branch ${{ github.ref_name }}.'
-          labels: 'feature'
+          source_branch: ${{ env.RELEASE_BRANCH_NAME }}
+          destination_branch: "main"
+          github_token: ${{ secrets.GH_TOKEN }}
+          pr_title: "Merge ${{ env.RELEASE_BRANCH_NAME }} into main"
+          pr_body: "This PR was auto-generated to merge ${{ env.RELEASE_BRANCH_NAME }} into the develop branch."
