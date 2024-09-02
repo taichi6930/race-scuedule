@@ -33,7 +33,7 @@ jobs:
       #       }
 
       - name: Create Pull Request
-        if: steps.pr-check.outputs.pr_exists == 'false'
+        # if: steps.pr-check.outputs.pr_exists == 'false'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GH_TOKEN }}
