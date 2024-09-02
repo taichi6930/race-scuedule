@@ -23,4 +23,3 @@ jobs:
           destination_branch: "main"
           github_token: ${{ secrets.GH_TOKEN }}
           pr_title: "Merge ${{ env.RELEASE_BRANCH_NAME }} into main"
-          pr_body: "This PR was auto-generated to merge ${{ env.RELEASE_BRANCH_NAME }} into the develop branch."
