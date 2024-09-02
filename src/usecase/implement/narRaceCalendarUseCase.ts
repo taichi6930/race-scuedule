@@ -13,7 +13,7 @@ import { IRaceCalendarUseCase } from "../interface/IRaceCalendarUseCase";
 export class NarRaceCalendarUseCase implements IRaceCalendarUseCase<NarRaceData> {
     constructor(
         @inject('ICalendarService') private calendarService: ICalendarService<NarRaceData>,
-        @inject('RaceRepositoryFromS3') private narRaceRepositoryFromS3: IRaceRepository<NarRaceData, NarPlaceData>,
+        @inject('IRaceRepositoryFromS3') private narRaceRepositoryFromS3: IRaceRepository<NarRaceData, NarPlaceData>,
     ) { }
 
     /**

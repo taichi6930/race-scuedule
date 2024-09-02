@@ -13,9 +13,4 @@ export interface IS3Gateway<T> {
      * @param fileName
      */
     fetchDataFromS3(fileName: string): Promise<string>;
-    /**
-     * S3からファイルの最終更新日時を取得する
-     * @param fileName
-     */
-    getFileLastModified(fileName: string): Promise<Date | undefined>;
 }
