@@ -25,7 +25,7 @@ describe('NarRaceCalendarUseCase', () => {
 
         // IRaceRepositoryインターフェースの依存関係を登録
         narRaceRepositoryFromS3Impl = mockNarRaceRepositoryFromS3Impl();
-        container.register<IRaceRepository<NarRaceData, NarPlaceData>>('RaceRepositoryFromS3', {
+        container.register<IRaceRepository<NarRaceData, NarPlaceData>>('IRaceRepositoryFromS3', {
             useValue: narRaceRepositoryFromS3Impl,
         });
 
