@@ -35,7 +35,7 @@ jobs:
         if: steps.pr-check.outputs.pr_exists == 'false'
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
           branch: ${{ github.ref_name }}  # 現在のブランチ名
           base: main  # マージ先のブランチ名を指定（必要に応じて変更）
           title: 'Feature: ${{ github.ref_name }}'
