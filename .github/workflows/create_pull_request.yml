@@ -1,0 +1,43 @@
+name: Auto-create Pull Request for Feature Branch
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+
+jobs:
+  create_pull_request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for existing Pull Request
+        id: pr-check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branchName = github.ref.replace('refs/heads/', '');
+            const { data: pullRequests } = await github.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              head: `${context.repo.owner}:${branchName}`,
+            });
+
+            if (pullRequests.length > 0) {
+              core.setOutput('pr_exists', 'true');
+            } else {
+              core.setOutput('pr_exists', 'false');
+            }
+      - name: Create Pull Request
+        if: steps.pr-check.outputs.pr_exists == 'false'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}  # 現在のブランチ名
+          base: main  # マージ先のブランチ名を指定（必要に応じて変更）
+          title: 'Feature: ${{ github.ref_name }}'
+          body: 'This is an auto-generated Pull Request for the feature branch ${{ github.ref_name }}.'
+          labels: 'feature'
