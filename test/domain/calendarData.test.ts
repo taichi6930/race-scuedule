@@ -31,10 +31,10 @@ describe('CalendarDataクラスのテスト', () => {
         );
 
         const copiedCalendarData = calendarData.copy({
-            id: 'event2',
+            title: 'イベントタイトル（コピー）',
         });
-        expect(copiedCalendarData.id).toBe('event2');
-        expect(copiedCalendarData.title).toBe('イベントタイトル');
+        expect(copiedCalendarData.id).toBe('event1');
+        expect(copiedCalendarData.title).toBe('イベントタイトル（コピー）');
         expect(copiedCalendarData.startTime).toEqual(new Date('2024-08-12T09:00:00'));
         expect(copiedCalendarData.endTime).toEqual(new Date('2024-08-12T10:00:00'));
         expect(copiedCalendarData.location).toBe('東京');
