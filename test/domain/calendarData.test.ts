@@ -19,5 +19,25 @@ describe('CalendarDataクラスのテスト', () => {
         expect(calendarData.location).toBe('東京');
         expect(calendarData.description).toBe('イベントの説明');
     });
-    // 他のバリデーションテストを追加することも可能です
+
+    it('copyメソッドが正常に動作することを確認', () => {
+        const calendarData = new CalendarData(
+            'event1',
+            'イベントタイトル',
+            new Date('2024-08-12T09:00:00'),
+            new Date('2024-08-12T10:00:00'),
+            '東京',
+            'イベントの説明'
+        );
+
+        const copiedCalendarData = calendarData.copy({
+            id: 'event2',
+        });
+        expect(copiedCalendarData.id).toBe('event2');
+        expect(copiedCalendarData.title).toBe('イベントタイトル');
+        expect(copiedCalendarData.startTime).toEqual(new Date('2024-08-12T09:00:00'));
+        expect(copiedCalendarData.endTime).toEqual(new Date('2024-08-12T10:00:00'));
+        expect(copiedCalendarData.location).toBe('東京');
+        expect(copiedCalendarData.description).toBe('イベントの説明');
+    });
 });
