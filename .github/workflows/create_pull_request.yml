@@ -18,8 +18,8 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const branchName = github.ref_name;  // github.ref_nameを直接使用
-            const { data: pullRequests } = await github.pulls.list({
+            const branchName = github.ref_name;
+            const { data: pullRequests } = await octokit.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',
