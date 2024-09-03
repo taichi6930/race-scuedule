@@ -1,9 +1,9 @@
-import { CalendarData } from "../../../src/domain/calendarData";
-import { GoogleCalendarService } from "../../../src/service/implement/googleCalendarService";
+import { CalendarData } from "../../../../lib/src/domain/calendarData";
+import { GoogleCalendarService } from "../../../../lib/src/service/implement/googleCalendarService";
 import { google } from 'googleapis';
 import { GaxiosPromise } from 'gaxios';
-import { NarRaceData } from "../../../src/domain/narRaceData";
-import { JraRaceData } from "../../../src/domain/jraRaceData";
+import { NarRaceData } from "../../../../lib/src/domain/narRaceData";
+import { JraRaceData } from "../../../../lib/src/domain/jraRaceData";
 
 // googleapis のモック設定
 jest.mock('googleapis', () => {

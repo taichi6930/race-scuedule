@@ -1,4 +1,4 @@
-import { CalendarData } from '../../src/domain/calendarData';
+import { CalendarData } from '../../../lib/src/domain/calendarData';
 
 describe('CalendarDataクラスのテスト', () => {
 

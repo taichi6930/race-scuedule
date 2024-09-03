@@ -1,4 +1,4 @@
-import { NarPlaceData } from '../../src/domain/narPlaceData';
+import { NarPlaceData } from '../../../lib/src/domain/narPlaceData';
 
 describe('NarPlaceDataクラスのテスト', () => {
     it('正しい入力でNarPlaceDataのインスタンスを作成できることを確認', () => {
