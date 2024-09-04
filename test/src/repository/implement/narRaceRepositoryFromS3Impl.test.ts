@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import { container } from 'tsyringe';
-import { NarRaceData } from "../../../src/domain/narRaceData";
-import { NarRaceRepositoryFromS3Impl } from "../../../src/repository/implement/narRaceRepositoryFromS3Impl";
-import { FetchRaceListRequest } from "../../../src/repository/request/fetchRaceListRequest";
-import { IS3Gateway } from "../../../src/gateway/interface/iS3Gateway";
+import { NarRaceData } from "../../../../lib/src/domain/narRaceData";
+import { NarRaceRepositoryFromS3Impl } from "../../../../lib/src/repository/implement/narRaceRepositoryFromS3Impl";
+import { FetchRaceListRequest } from "../../../../lib/src/repository/request/fetchRaceListRequest";
+import { IS3Gateway } from "../../../../lib/src/gateway/interface/iS3Gateway";
 import { mockS3GatewayForNarRace } from '../../mock/gateway/s3GatewayMock';
-import { NarPlaceData } from '../../../src/domain/narPlaceData';
+import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import { format, parse } from 'date-fns';
-import { RegisterRaceListRequest } from '../../../src/repository/request/registerRaceListRequest';
+import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 
 
 describe('NarRaceRepositoryFromS3Impl', () => {

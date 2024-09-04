@@ -1,4 +1,4 @@
-import { JraRaceData } from '../../src/domain/jraRaceData';
+import { JraRaceData } from '../../../lib/src/domain/jraRaceData';
 
 describe('JraRaceDataクラスのテスト', () => {
     /**

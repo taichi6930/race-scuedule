@@ -1,4 +1,4 @@
-import { JraPlaceData } from '../../src/domain/jraPlaceData';
+import { JraPlaceData } from '../../../lib/src/domain/jraPlaceData';
 
 describe('JraPlaceDataクラスのテスト', () => {
     it('正しい入力でJraPlaceDataのインスタンスを作成できることを確認', () => {

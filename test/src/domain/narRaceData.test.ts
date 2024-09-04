@@ -1,4 +1,4 @@
-import { NarRaceData } from '../../src/domain/narRaceData';
+import { NarRaceData } from '../../../lib/src/domain/narRaceData';
 
 describe('NarRaceDataクラスのテスト', () => {
     const baseRaceData = new NarRaceData(

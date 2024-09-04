@@ -1,15 +1,15 @@
 import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
-import { NarRaceCalendarUseCase } from '../../../src/usecase/implement/narRaceCalendarUseCase';
-import { ICalendarService } from '../../../src/service/interface/ICalendarService';
-import { CalendarData } from '../../../src/domain/calendarData';
-import { NarRaceData } from '../../../src/domain/narRaceData';
+import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
+import { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import { NarCalendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { IRaceRepository } from '../../../src/repository/interface/IRaceRepository';
+import { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { mockNarRaceRepositoryFromS3Impl } from '../../mock/repository/narRaceRepositoryFromS3Impl';
-import { NarPlaceData } from '../../../src/domain/narPlaceData';
-import { NarGradeType } from '../../../src/utility/data/raceSpecific';
-import { NAR_SPECIFIED_GRADE_LIST } from '../../../src/utility/data/raceSpecific';
+import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import { NarGradeType } from '../../../../lib/src/utility/data/raceSpecific';
+import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
 
 describe('NarRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceData>>;

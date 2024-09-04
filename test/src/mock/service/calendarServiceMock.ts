@@ -1,7 +1,7 @@
-import { ICalendarService } from '../../../src/service/interface/ICalendarService';
-import { CalendarData } from '../../../src/domain/calendarData';
-import { NarRaceData } from '../../../src/domain/narRaceData';
-import { JraRaceData } from '../../../src/domain/jraRaceData';
+import { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 
 /**
  * CalendarServiceのモックを作成する
