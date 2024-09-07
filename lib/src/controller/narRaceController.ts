@@ -3,6 +3,7 @@ import { injectable, inject } from 'tsyringe';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { NarRaceData } from '../domain/narRaceData';
 import { NAR_SPECIFIED_GRADE_LIST } from '../utility/data/raceSpecific';
+import { Logger } from '../utility/logger';
 
 @injectable()
 export class NarRaceController {
@@ -18,6 +19,7 @@ export class NarRaceController {
     /**
      * ルーティングの初期化
      */
+    @Logger
     private initializeRoutes() {
         this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
         this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
@@ -30,6 +32,7 @@ export class NarRaceController {
      * @param res
      * @returns
      */
+    @Logger
     private async getRacesFromCalendar(req: Request, res: Response) {
         try {
             const { startDate, finishDate } = req.query;
@@ -56,6 +59,7 @@ export class NarRaceController {
      * @param res
      * @returns
      */
+    @Logger
     private async updateRacesToCalendar(req: Request, res: Response) {
         try {
             const { startDate, finishDate } = req.body;
@@ -81,6 +85,7 @@ export class NarRaceController {
      * @param res
      * @returns
      */
+    @Logger
     private async cleansingRacesFromCalendar(req: Request, res: Response) {
         try {
             const { startDate, finishDate } = req.body;
