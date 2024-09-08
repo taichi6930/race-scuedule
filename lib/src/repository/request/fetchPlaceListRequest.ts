@@ -1,11 +1,10 @@
 /**
- * レース一覧取得リクエスト
+ * 競馬場一覧取得リクエスト
  */
-export class FetchRaceListRequest<P> {
+export class FetchPlaceListRequest {
     constructor(
         public readonly startDate: Date,
         public readonly endDate: Date,
-        public readonly placeDataList?: P[],
     ) {
         // startDateがendDateよりも後の日付の場合はエラー
         if (startDate > endDate) {

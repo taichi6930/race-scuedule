@@ -18,7 +18,7 @@ import {
   ServicePrincipal,
 } from "aws-cdk-lib/aws-iam";
 
-if (process.env.GITHUB_ACTIONS !== 'true') { dotenv.config({ path: './app.env' }); }
+dotenv.config({ path: '../app.env' });
 
 export class CdkRaceScheduleAppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -57,6 +57,33 @@ export class CdkRaceScheduleAppStack extends Stack {
       })
     );
 
+    // Lambda が EC2 の CreateNetworkInterface アクションを実行できるようにするポリシーステートメントを追加
+    role.addToPolicy(
+      new PolicyStatement({
+        actions: ["ec2:CreateNetworkInterface"],
+        effect: Effect.ALLOW,
+        resources: ["*"], // リソースを特定のサブネットに制限する場合は、適切なリソース ARN を指定します
+      })
+    );
+
+    // Lambda が EC2 の DescribeNetworkInterfaces アクションを実行できるようにするポリシーステートメントを追加
+    role.addToPolicy(
+      new PolicyStatement({
+        actions: ["ec2:DescribeNetworkInterfaces",],
+        effect: Effect.ALLOW,
+        resources: ["*"], // リソースを特定のネットワークインターフェースに制限する場合は、適切なリソース ARN を指定します
+      })
+    );
+
+    // Lambda が EC2 の DeleteNetworkInterface アクションを実行できるようにするポリシーステートメントを追加
+    role.addToPolicy(
+      new PolicyStatement({
+        actions: ["ec2:DeleteNetworkInterface"],
+        effect: Effect.ALLOW,
+        resources: ["*"], // リソースを特定のネットワークインターフェースに制限する場合は、適切なリソース ARN を指定します
+      })
+    );
+
     // Lambda関数を作成
     const lambdaFunction = new aws_lambda_nodejs.NodejsFunction(
       this,
@@ -67,13 +94,13 @@ export class CdkRaceScheduleAppStack extends Stack {
         entry: 'lib/src/index.ts',
         role: role,
         environment: {
-          NODE_ENV: process.env.NODE_ENV || 'local',
+          ENV: process.env.ENV || 'local',
           NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID || '',
           GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL || '',
-          // GOOGLE_PRIVATE_KEY は改行コードを含むため、置換が必要
           GOOGLE_PRIVATE_KEY: (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
         },
         timeout: Duration.seconds(30),
+        memorySize: 1024,
       },
     );
 
@@ -85,7 +112,7 @@ export class CdkRaceScheduleAppStack extends Stack {
         allowOrigins: aws_apigateway.Cors.ALL_ORIGINS,
 
         // すべてのHTTPメソッドを許可
-        allowMethods: ['GET', 'POST', 'DELETE'],
+        allowMethods: ['GET', 'POST'],
 
         // すべてのヘッダーを許可
         allowHeaders: [
