@@ -9,3 +9,6 @@ cdk.out
 
 # jest
 coverage
+
+# env
+*.env

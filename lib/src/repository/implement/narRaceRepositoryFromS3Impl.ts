@@ -12,10 +12,13 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarRaceCourse, NarRaceCourseType, NarGradeType } from '../../utility/data/raceSpecific';
 import { format } from 'date-fns';
 
+/**
+ * 競馬場開催データリポジトリの実装
+ */
 @injectable()
 export class NarRaceRepositoryFromS3Impl implements IRaceRepository<NarRaceData, NarPlaceData> {
     constructor(
-        @inject('IS3Gateway') private s3Gateway: IS3Gateway<NarRaceData>,
+        @inject('IS3GatewayForNarRace') private s3Gateway: IS3Gateway<NarRaceData>,
     ) { }
     /**
      * 競馬場開催データを取得する
