@@ -18,7 +18,7 @@ import {
   ServicePrincipal,
 } from "aws-cdk-lib/aws-iam";
 
-dotenv.config({ path: '../app.env' });
+dotenv.config({ path: './app.env' });
 
 export class CdkRaceScheduleAppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
