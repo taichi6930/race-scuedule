@@ -56,7 +56,7 @@ export class NarRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (!startDate || !finishDate) {
-                res.status(400).send('startDateとfinishDateは必須です');
+                res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
 
@@ -109,7 +109,7 @@ export class NarRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (!startDate || !finishDate) {
-                res.status(400).send('startDateとfinishDateは必須です');
+                res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
 
@@ -133,7 +133,7 @@ export class NarRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (!startDate || !finishDate) {
-                res.status(400).send('startDateとfinishDateは必須です');
+                res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
 
@@ -179,7 +179,7 @@ export class NarRaceController {
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (!startDate || !finishDate) {
-                res.status(400).send('startDateとfinishDateは必須です');
+                res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
 
