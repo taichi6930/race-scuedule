@@ -15,12 +15,25 @@ import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceList
  * 競馬場開催データUseCase
  */
 @injectable()
-export class NarRaceDataUseCase implements IRaceDataUseCase {
+export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
     constructor(
         @inject('IPlaceRepositoryFromS3') private narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceData>,
-        @inject('IRaceRepositoryFromS3') private narRaceRepositoryFromS3: IRaceRepository<NarPlaceData, NarRaceData>,
+        @inject('IRaceRepositoryFromS3') private narRaceRepositoryFromS3: IRaceRepository<NarRaceData, NarPlaceData>,
         @inject('IRaceRepositoryFromHtml') private narRaceRepositoryFromHtml: IRaceRepository<NarRaceData, NarPlaceData>,
     ) { }
+    /**
+     * レース開催データを取得する
+     * @param startDate
+     * @param finishDate
+     */
+    async fetchRaceDataList(startDate: Date, finishDate: Date): Promise<NarRaceData[]> {
+        // 競馬場データを取得する
+        const placeList = await this.getPlaceDataList(startDate, finishDate);
+
+        // レースデータを取得する
+        return await this.getRaceDataList(startDate, finishDate, placeList, 'storage');
+    }
+
     /**
      * レース開催データを更新する
      *
@@ -34,7 +47,7 @@ export class NarRaceDataUseCase implements IRaceDataUseCase {
             const placeList = await this.getPlaceDataList(startDate, finishDate);
 
             // レースデータを取得する
-            const raceList = await this.getRaceDataList(startDate, finishDate, placeList);
+            const raceList = await this.getRaceDataList(startDate, finishDate, placeList, 'web');
 
             // S3にデータを保存する
             await this.registerRaceDataList(raceList);
@@ -58,14 +71,17 @@ export class NarRaceDataUseCase implements IRaceDataUseCase {
 
     /**
      * レースデータを取得する
+     * S3から取得する場合はstorage、Webから取得する場合はwebを指定する
      *
      * @param startDate
      * @param finishDate
      */
     @Logger
-    async getRaceDataList(startDate: Date, finishDate: Date, placeList: NarPlaceData[]): Promise<NarRaceData[]> {
+    async getRaceDataList(startDate: Date, finishDate: Date, placeList: NarPlaceData[], type: 'storage' | 'web'): Promise<NarRaceData[]> {
         const fetchRaceListRequest: FetchRaceListRequest<NarPlaceData> = new FetchRaceListRequest(startDate, finishDate, placeList);
-        const fetchRaceListResponse: FetchRaceListResponse<NarRaceData> = await this.narRaceRepositoryFromHtml.fetchRaceList(fetchRaceListRequest);
+        const fetchRaceListResponse: FetchRaceListResponse<NarRaceData> = type === 'storage' ?
+            await this.narRaceRepositoryFromS3.fetchRaceList(fetchRaceListRequest) :
+            await this.narRaceRepositoryFromHtml.fetchRaceList(fetchRaceListRequest);
         return fetchRaceListResponse.raceDataList;
     }
 

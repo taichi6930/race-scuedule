@@ -93,7 +93,6 @@ container.register<INarPlaceDataHtmlGateway>(
         useFactory: () => {
             switch (process.env.ENV) {
                 case 'production':
-                    // console.log("NarPlaceDataHtmlGateway");
                     return new NarPlaceDataHtmlGateway();
                 case 'local':
                     return new NarPlaceDataHtmlMockGateway();
@@ -147,7 +146,7 @@ container.register<IRaceCalendarUseCase<NarRaceData>>(
     'IRaceCalendarUseCase',
     { useClass: NarRaceCalendarUseCase }
 );
-container.register<IRaceDataUseCase>(
+container.register<IRaceDataUseCase<NarRaceData>>(
     'IRaceDataUseCase',
     { useClass: NarRaceDataUseCase }
 );

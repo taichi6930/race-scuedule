@@ -17,7 +17,7 @@ export class NarRaceController {
 
     constructor(
         @inject('IRaceCalendarUseCase') private raceCalendarUseCase: IRaceCalendarUseCase<NarRaceData>,
-        @inject('IRaceDataUseCase') private narRaceDataUseCase: IRaceDataUseCase,
+        @inject('IRaceDataUseCase') private narRaceDataUseCase: IRaceDataUseCase<NarRaceData>,
         @inject('IPlaceDataUseCase') private narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
     ) {
         this.router = Router();
@@ -35,6 +35,7 @@ export class NarRaceController {
         this.router.delete('/nar/calendar', this.cleansingRacesFromCalendar.bind(this));
 
         // RaceData関連のAPI
+        this.router.get('/nar/race', this.getRaceDataList.bind(this));
         this.router.post('/nar/race', this.updateRaceDataList.bind(this));
 
         // PlaceData関連のAPI
@@ -117,6 +118,29 @@ export class NarRaceController {
             res.status(200).send();
         } catch (error) {
             console.error('カレンダーからレース情報をクレンジング中にエラーが発生しました:', error);
+            res.status(500).send('サーバーエラーが発生しました');
+        }
+    }
+
+    /**
+     * レース情報を取得する
+     */
+    @Logger
+    private async getRaceDataList(req: Request, res: Response) {
+        try {
+            const { startDate, finishDate } = req.query;
+
+            // startDateとfinishDateが指定されていない場合はエラーを返す
+            if (!startDate || !finishDate) {
+                res.status(400).send('startDateとfinishDateは必須です');
+                return;
+            }
+
+            // レース情報を取得する
+            const races = await this.narRaceDataUseCase.fetchRaceDataList(new Date(startDate as string), new Date(finishDate as string));
+            res.json(races);
+        } catch (error) {
+            console.error('レース情報の取得中にエラーが発生しました:', error);
             res.status(500).send('サーバーエラーが発生しました');
         }
     }
