@@ -1,6 +1,5 @@
-
-import { INarPlaceDataHtmlGateway } from "../interface/iNarPlaceDataHtmlGateway";
-import { mockNarPlaceHtml } from "./mockHtml";
+import { INarPlaceDataHtmlGateway } from '../interface/iNarPlaceDataHtmlGateway';
+import { mockNarPlaceHtml } from './mockHtml';
 
 /**
  * 競馬場開催データのHTMLを取得するGateway（mock）

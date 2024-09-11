@@ -1,13 +1,16 @@
 import { injectable, inject } from 'tsyringe';
-import { Logger } from "../../utility/logger";
-import { IRaceRepository } from "../interface/IRaceRepository";
+import { Logger } from '../../utility/logger';
+import { IRaceRepository } from '../interface/IRaceRepository';
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarRaceData } from '../../domain/narRaceData';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
-import { NarRaceCourseType, NarGradeType } from '../../utility/data/raceSpecific';
+import {
+    NarRaceCourseType,
+    NarGradeType,
+} from '../../utility/data/raceSpecific';
 import { processNarRaceName } from '../../utility/raceName';
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
 const cheerio = require('cheerio');
@@ -16,32 +19,48 @@ const cheerio = require('cheerio');
  * 競馬場開催データリポジトリの実装
  */
 @injectable()
-export class NarRaceRepositoryFromHtmlImpl implements IRaceRepository<NarRaceData, NarPlaceData> {
+export class NarRaceRepositoryFromHtmlImpl
+    implements IRaceRepository<NarRaceData, NarPlaceData>
+{
     constructor(
-        @inject('INarRaceDataHtmlGateway') private narRaceDataHtmlGateway: INarRaceDataHtmlGateway,
-    ) { }
+        @inject('INarRaceDataHtmlGateway')
+        private narRaceDataHtmlGateway: INarRaceDataHtmlGateway,
+    ) {}
     /**
      * 競馬場開催データを取得する
      * @param request
      * @returns
      */
     @Logger
-    async fetchRaceList(request: FetchRaceListRequest<NarPlaceData>): Promise<FetchRaceListResponse<NarRaceData>> {
+    async fetchRaceList(
+        request: FetchRaceListRequest<NarPlaceData>,
+    ): Promise<FetchRaceListResponse<NarRaceData>> {
         const narRaceDataList: NarRaceData[] = [];
         const placeList = request.placeDataList;
         if (placeList) {
             for (const place of placeList) {
-                narRaceDataList.push(...await this.fetchRaceListFromHtmlWithNarPlace(place));
+                narRaceDataList.push(
+                    ...(await this.fetchRaceListFromHtmlWithNarPlace(place)),
+                );
             }
         }
         return new FetchRaceListResponse(narRaceDataList);
     }
 
     @Logger
-    async fetchRaceListFromHtmlWithNarPlace(placeData: NarPlaceData): Promise<NarRaceData[]> {
+    async fetchRaceListFromHtmlWithNarPlace(
+        placeData: NarPlaceData,
+    ): Promise<NarRaceData[]> {
         try {
-            const [year, month, day] = [placeData.dateTime.getFullYear(), placeData.dateTime.getMonth() + 1, placeData.dateTime.getDate()];
-            const htmlText = await this.narRaceDataHtmlGateway.getRaceDataHtml(placeData.dateTime, placeData.location);
+            const [year, month, day] = [
+                placeData.dateTime.getFullYear(),
+                placeData.dateTime.getMonth() + 1,
+                placeData.dateTime.getDate(),
+            ];
+            const htmlText = await this.narRaceDataHtmlGateway.getRaceDataHtml(
+                placeData.dateTime,
+                placeData.location,
+            );
 
             if (typeof htmlText !== 'string') {
                 throw new Error('Expected htmlText to be a string');
@@ -54,14 +73,24 @@ export class NarRaceRepositoryFromHtmlImpl implements IRaceRepository<NarRaceDat
 
             Array.from(trs).forEach((tr: any) => {
                 const tds = $(tr).find('td');
-                const distance = this.extractDistance(Array.from(tds).map((td: any) => $(td).text()));
+                const distance = this.extractDistance(
+                    Array.from(tds).map((td: any) => $(td).text()),
+                );
                 if (distance <= 0) {
                     return;
                 }
-                const [hour, minute] = this.extractRaceTime(Array.from(tds).map((td: any) => $(td).text()));
-                const raceName = this.extractRaceName(Array.from(tds).map((td: any) => $(td).text()));
-                const grade = this.extractGrade(Array.from(tds).map((td: any) => $(td).text()));
-                const surfaceType = this.extractSurfaceType(Array.from(tds).map((td: any) => $(td).text()));
+                const [hour, minute] = this.extractRaceTime(
+                    Array.from(tds).map((td: any) => $(td).text()),
+                );
+                const raceName = this.extractRaceName(
+                    Array.from(tds).map((td: any) => $(td).text()),
+                );
+                const grade = this.extractGrade(
+                    Array.from(tds).map((td: any) => $(td).text()),
+                );
+                const surfaceType = this.extractSurfaceType(
+                    Array.from(tds).map((td: any) => $(td).text()),
+                );
                 const newRaceName = processNarRaceName({
                     name: raceName,
                     place: placeData.location,
@@ -70,15 +99,19 @@ export class NarRaceRepositoryFromHtmlImpl implements IRaceRepository<NarRaceDat
                     distance: distance,
                     grade: grade ?? '一般',
                 });
-                narRaceDataList.push(new NarRaceData(
-                    newRaceName,
-                    new Date(year, month - 1, day, hour, minute),
-                    placeData.location,
-                    surfaceType,
-                    distance,
-                    grade,
-                    this.extractRaceNumber(Array.from(tds).map((td: any) => $(td).text())),
-                ));
+                narRaceDataList.push(
+                    new NarRaceData(
+                        newRaceName,
+                        new Date(year, month - 1, day, hour, minute),
+                        placeData.location,
+                        surfaceType,
+                        distance,
+                        grade,
+                        this.extractRaceNumber(
+                            Array.from(tds).map((td: any) => $(td).text()),
+                        ),
+                    ),
+                );
             });
             return narRaceDataList;
         } catch (e) {
@@ -88,25 +121,38 @@ export class NarRaceRepositoryFromHtmlImpl implements IRaceRepository<NarRaceDat
     }
 
     private extractRaceNumber(race: string[]): number {
-        return race.map(item => {
-            const match = item.match(/(\d+)[Rr]/);
-            return match ? parseInt(match[1]) : 0;
-        }).find(item => item !== 0) || 0;
+        return (
+            race
+                .map((item) => {
+                    const match = item.match(/(\d+)[Rr]/);
+                    return match ? parseInt(match[1]) : 0;
+                })
+                .find((item) => item !== 0) || 0
+        );
     }
 
     private extractDistance(race: string[]): number {
-        return race.map(item => {
-            const match = item.match(/(\d+)m/);
-            return match ? parseInt(match[1]) : 0;
-        }).find(item => item !== 0) || 0;
+        return (
+            race
+                .map((item) => {
+                    const match = item.match(/(\d+)m/);
+                    return match ? parseInt(match[1]) : 0;
+                })
+                .find((item) => item !== 0) || 0
+        );
     }
 
     private extractRaceTime(race: string[]): [number, number] {
-        const [hour, minute] = (race.map(item => {
-            const match = item.match(/(\d+):(\d+)/);
-            return match ? match[0] : '0:0';
-        }).find(item => item !== '0:0') || '0:0')
-            .split(':').map(item => parseInt(item));
+        const [hour, minute] = (
+            race
+                .map((item) => {
+                    const match = item.match(/(\d+):(\d+)/);
+                    return match ? match[0] : '0:0';
+                })
+                .find((item) => item !== '0:0') || '0:0'
+        )
+            .split(':')
+            .map((item) => parseInt(item));
         return [hour, minute];
     }
 
@@ -125,11 +171,11 @@ export class NarRaceRepositoryFromHtmlImpl implements IRaceRepository<NarRaceDat
             grade = '地方重賞';
         }
         const regexMap: Record<string, string> = {
-            'JpnIII': 'JpnⅢ',
-            'JpnII': 'JpnⅡ',
-            'JpnI': 'JpnⅠ',
-            'JpnＩ': 'JpnⅠ',
-            'ＧＩ': 'GⅠ'
+            JpnIII: 'JpnⅢ',
+            JpnII: 'JpnⅡ',
+            JpnI: 'JpnⅠ',
+            JpnＩ: 'JpnⅠ',
+            ＧＩ: 'GⅠ',
         };
         const regexList = ['JpnIII', 'JpnII', 'JpnI', 'JpnＩ', 'ＧＩ'];
         for (const regex of regexList) {
@@ -165,8 +211,9 @@ export class NarRaceRepositoryFromHtmlImpl implements IRaceRepository<NarRaceDat
      * @param request
      */
     @Logger
-    async registerRaceList(request: RegisterRaceListRequest<NarRaceData>): Promise<RegisterRaceListResponse> {
+    async registerRaceList(
+        request: RegisterRaceListRequest<NarRaceData>,
+    ): Promise<RegisterRaceListResponse> {
         throw new Error('HTMLにはデータを登録しません');
     }
-
 }

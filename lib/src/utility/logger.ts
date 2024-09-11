@@ -1,4 +1,8 @@
-export function Logger(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+export function Logger(
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor,
+) {
     const originalMethod = descriptor.value;
     descriptor.value = async function (...args: any[]) {
         console.log(`[${target.constructor.name}.${propertyKey}] 開始`);
@@ -7,7 +11,10 @@ export function Logger(target: any, propertyKey: string, descriptor: PropertyDes
             console.log(`[${target.constructor.name}.${propertyKey}] 終了`);
             return result;
         } catch (error) {
-            console.error(`[${target.constructor.name}.${propertyKey}] エラー`, error);
+            console.error(
+                `[${target.constructor.name}.${propertyKey}] エラー`,
+                error,
+            );
             throw error;
         }
     };
@@ -15,5 +22,5 @@ export function Logger(target: any, propertyKey: string, descriptor: PropertyDes
 
 // cdkで保存したENVがproductionの場合、console.errorをオーバーライドする
 if (process.env.IS_DEBUG === 'false') {
-    console.debug = function () { };
+    console.debug = function () {};
 }

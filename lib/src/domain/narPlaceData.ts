@@ -16,7 +16,7 @@ export class NarPlaceData {
     constructor(
         public readonly dateTime: Date,
         public readonly location: NarRaceCourse,
-    ) { }
+    ) {}
 
     /**
      * データのコピー
@@ -26,7 +26,7 @@ export class NarPlaceData {
     copy(partial: Partial<NarPlaceData> = {}): NarPlaceData {
         return new NarPlaceData(
             partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location
+            partial.location ?? this.location,
         );
     }
 }

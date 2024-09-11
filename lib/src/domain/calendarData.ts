@@ -21,7 +21,7 @@ export class CalendarData {
         public readonly endTime: Date,
         public readonly location: string,
         public readonly description: string,
-    ) { }
+    ) {}
 
     /**
      * データのコピー
@@ -35,7 +35,7 @@ export class CalendarData {
             partial.startTime ?? this.startTime,
             partial.endTime ?? this.endTime,
             partial.location ?? this.location,
-            partial.description ?? this.description
+            partial.description ?? this.description,
         );
     }
 }

@@ -5,6 +5,5 @@ export class RegisterPlaceListRequest<P> {
     constructor(
         // レースデータ
         public readonly placeDataList: P[],
-    ) {
-    }
+    ) {}
 }

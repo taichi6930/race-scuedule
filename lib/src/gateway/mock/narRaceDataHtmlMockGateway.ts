@@ -1,8 +1,7 @@
-import { NAR_BABACODE } from "../../utility/data/nar";
-import { NarRaceCourse } from "../../utility/data/raceSpecific";
-import { INarRaceDataHtmlGateway } from "../interface/iNarRaceDataHtmlGateway";
-import { mockNarRaceHtml } from "./mockHtml";
-
+import { NAR_BABACODE } from '../../utility/data/nar';
+import { NarRaceCourse } from '../../utility/data/raceSpecific';
+import { INarRaceDataHtmlGateway } from '../interface/iNarRaceDataHtmlGateway';
+import { mockNarRaceHtml } from './mockHtml';
 
 /**
  * 地方競馬のレースデータのHTMLを取得するGatewayのモック

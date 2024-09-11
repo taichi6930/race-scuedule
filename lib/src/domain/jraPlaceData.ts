@@ -16,7 +16,7 @@ export class JraPlaceData {
     constructor(
         public readonly dateTime: Date,
         public readonly location: JraRaceCourse,
-    ) { }
+    ) {}
 
     /**
      * データのコピー
@@ -26,7 +26,7 @@ export class JraPlaceData {
     copy(partial: Partial<JraPlaceData> = {}): JraPlaceData {
         return new JraPlaceData(
             partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location
+            partial.location ?? this.location,
         );
     }
 }

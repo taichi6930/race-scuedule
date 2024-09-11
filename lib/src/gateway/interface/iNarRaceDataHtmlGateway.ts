@@ -1,4 +1,4 @@
-import { NarRaceCourse } from "../../utility/data/raceSpecific";
+import { NarRaceCourse } from '../../utility/data/raceSpecific';
 
 /**
  * 地方競馬のレースデータのHTMLを取得するGatewayのInterface

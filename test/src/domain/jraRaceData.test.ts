@@ -7,10 +7,10 @@ describe('JraRaceDataクラスのテスト', () => {
     const baseRaceData = new JraRaceData(
         '東京優駿',
         new Date('2024-05-26 15:40'),
-        "東京",
-        "芝",
+        '東京',
+        '芝',
         2400,
-        "GⅠ",
+        'GⅠ',
         10,
         1,
         1,

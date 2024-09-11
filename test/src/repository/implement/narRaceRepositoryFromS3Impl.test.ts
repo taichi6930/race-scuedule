@@ -1,14 +1,13 @@
 import 'reflect-metadata';
 import { container } from 'tsyringe';
-import { NarRaceData } from "../../../../lib/src/domain/narRaceData";
-import { NarRaceRepositoryFromS3Impl } from "../../../../lib/src/repository/implement/narRaceRepositoryFromS3Impl";
-import { FetchRaceListRequest } from "../../../../lib/src/repository/request/fetchRaceListRequest";
-import { IS3Gateway } from "../../../../lib/src/gateway/interface/iS3Gateway";
+import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import { NarRaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromS3Impl';
+import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
+import { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import { mockS3GatewayForNarRace } from '../../mock/gateway/s3GatewayMock';
 import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import { format, parse } from 'date-fns';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-
 
 describe('NarRaceRepositoryFromS3Impl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<NarRaceData>>;
@@ -30,7 +29,11 @@ describe('NarRaceRepositoryFromS3Impl', () => {
             // モックの戻り値を設定
             s3Gateway.fetchDataFromS3.mockImplementation((filename: string) => {
                 // filenameから日付を取得 16時からのレースにしたい
-                const date = parse(filename.slice(0, 8), 'yyyyMMdd', new Date());
+                const date = parse(
+                    filename.slice(0, 8),
+                    'yyyyMMdd',
+                    new Date(),
+                );
                 date.setHours(16);
                 const csvDataText: string = [
                     `raceName${filename.slice(0, 8)}`,
@@ -67,7 +70,10 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                 return Promise.resolve(csvDatajoinText);
             });
             // リクエストの作成
-            const request = new FetchRaceListRequest<NarPlaceData>(new Date('2024-01-01'), new Date('2024-02-01'));
+            const request = new FetchRaceListRequest<NarPlaceData>(
+                new Date('2024-01-01'),
+                new Date('2024-02-01'),
+            );
             // テスト実行
             const response = await repository.fetchRaceList(request);
 
@@ -79,22 +85,31 @@ describe('NarRaceRepositoryFromS3Impl', () => {
     describe('registerRaceList', () => {
         test('正しいレースデータを登録できる', async () => {
             // 1年間のレースデータを登録する
-            const raceDataList: NarRaceData[] = Array.from({ length: 366 }, (_, day) => {
-                const date = new Date('2024-01-01');
-                date.setDate(date.getDate() + day);
-                return Array.from({ length: 12 }, (_, j) => new NarRaceData(
-                    `raceName${format(date, 'yyyyMMdd')}`,
-                    date,
-                    '大井',
-                    'ダート',
-                    1200,
-                    'GⅠ',
-                    j + 1,
-                ));
-            }).flat();
+            const raceDataList: NarRaceData[] = Array.from(
+                { length: 366 },
+                (_, day) => {
+                    const date = new Date('2024-01-01');
+                    date.setDate(date.getDate() + day);
+                    return Array.from(
+                        { length: 12 },
+                        (_, j) =>
+                            new NarRaceData(
+                                `raceName${format(date, 'yyyyMMdd')}`,
+                                date,
+                                '大井',
+                                'ダート',
+                                1200,
+                                'GⅠ',
+                                j + 1,
+                            ),
+                    );
+                },
+            ).flat();
 
             // リクエストの作成
-            const request = new RegisterRaceListRequest<NarRaceData>(raceDataList);
+            const request = new RegisterRaceListRequest<NarRaceData>(
+                raceDataList,
+            );
             // テスト実行
             const response = await repository.registerRaceList(request);
 

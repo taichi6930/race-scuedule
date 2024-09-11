@@ -16,9 +16,12 @@ export class NarRaceController {
     public router: Router;
 
     constructor(
-        @inject('IRaceCalendarUseCase') private raceCalendarUseCase: IRaceCalendarUseCase<NarRaceData>,
-        @inject('IRaceDataUseCase') private narRaceDataUseCase: IRaceDataUseCase<NarRaceData>,
-        @inject('IPlaceDataUseCase') private narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
+        @inject('IRaceCalendarUseCase')
+        private raceCalendarUseCase: IRaceCalendarUseCase<NarRaceData>,
+        @inject('IRaceDataUseCase')
+        private narRaceDataUseCase: IRaceDataUseCase<NarRaceData>,
+        @inject('IPlaceDataUseCase')
+        private narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -31,8 +34,14 @@ export class NarRaceController {
     private initializeRoutes() {
         // Calendar関連のAPI
         this.router.get('/nar/calendar', this.getRacesFromCalendar.bind(this));
-        this.router.post('/nar/calendar', this.updateRacesToCalendar.bind(this));
-        this.router.delete('/nar/calendar', this.cleansingRacesFromCalendar.bind(this));
+        this.router.post(
+            '/nar/calendar',
+            this.updateRacesToCalendar.bind(this),
+        );
+        this.router.delete(
+            '/nar/calendar',
+            this.cleansingRacesFromCalendar.bind(this),
+        );
 
         // RaceData関連のAPI
         this.router.get('/nar/race', this.getRaceDataList.bind(this));
@@ -61,11 +70,17 @@ export class NarRaceController {
             }
 
             // カレンダーからレース情報を取得する
-            const races = await this.raceCalendarUseCase.getRacesFromCalendar(new Date(startDate as string), new Date(finishDate as string));
+            const races = await this.raceCalendarUseCase.getRacesFromCalendar(
+                new Date(startDate as string),
+                new Date(finishDate as string),
+            );
             // レース情報を返す
             res.json(races);
         } catch (error) {
-            console.error('カレンダーからレース情報を取得中にエラーが発生しました:', error);
+            console.error(
+                'カレンダーからレース情報を取得中にエラーが発生しました:',
+                error,
+            );
             res.status(500).send('サーバーエラーが発生しました');
         }
     }
@@ -88,10 +103,17 @@ export class NarRaceController {
             }
 
             // カレンダーにレース情報を更新する
-            await this.raceCalendarUseCase.updateRacesToCalendar(new Date(startDate), new Date(finishDate), NAR_SPECIFIED_GRADE_LIST);
+            await this.raceCalendarUseCase.updateRacesToCalendar(
+                new Date(startDate),
+                new Date(finishDate),
+                NAR_SPECIFIED_GRADE_LIST,
+            );
             res.status(200).send();
         } catch (error) {
-            console.error('カレンダーにレース情報を更新中にエラーが発生しました:', error);
+            console.error(
+                'カレンダーにレース情報を更新中にエラーが発生しました:',
+                error,
+            );
             res.status(500).send('サーバーエラーが発生しました');
         }
     }
@@ -114,11 +136,17 @@ export class NarRaceController {
             }
 
             // カレンダーからレース情報をクレンジングする
-            await this.raceCalendarUseCase.cleansingRacesFromCalendar(new Date(startDate), new Date(finishDate));
+            await this.raceCalendarUseCase.cleansingRacesFromCalendar(
+                new Date(startDate),
+                new Date(finishDate),
+            );
             // レース情報をクレンジングする
             res.status(200).send();
         } catch (error) {
-            console.error('カレンダーからレース情報をクレンジング中にエラーが発生しました:', error);
+            console.error(
+                'カレンダーからレース情報をクレンジング中にエラーが発生しました:',
+                error,
+            );
             res.status(500).send('サーバーエラーが発生しました');
         }
     }
@@ -138,7 +166,10 @@ export class NarRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.narRaceDataUseCase.fetchRaceDataList(new Date(startDate as string), new Date(finishDate as string));
+            const races = await this.narRaceDataUseCase.fetchRaceDataList(
+                new Date(startDate as string),
+                new Date(finishDate as string),
+            );
             res.json(races);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
@@ -161,7 +192,10 @@ export class NarRaceController {
             }
 
             // レース情報を取得する
-            await this.narRaceDataUseCase.updateRaceDataList(new Date(startDate), new Date(finishDate));
+            await this.narRaceDataUseCase.updateRaceDataList(
+                new Date(startDate),
+                new Date(finishDate),
+            );
             res.status(200).send();
         } catch (error) {
             console.error('レース情報の更新中にエラーが発生しました:', error);
@@ -184,7 +218,10 @@ export class NarRaceController {
             }
 
             // 競馬場情報を取得する
-            const placeList = await this.narPlaceDataUseCase.getPlaceDataList(new Date(startDate as string), new Date(finishDate as string));
+            const placeList = await this.narPlaceDataUseCase.getPlaceDataList(
+                new Date(startDate as string),
+                new Date(finishDate as string),
+            );
             res.json(placeList);
         } catch (error) {
             console.error('競馬場情報の取得中にエラーが発生しました:', error);
@@ -207,7 +244,10 @@ export class NarRaceController {
             }
 
             // 競馬場情報を取得する
-            await this.narPlaceDataUseCase.updatePlaceDataList(new Date(startDate), new Date(finishDate));
+            await this.narPlaceDataUseCase.updatePlaceDataList(
+                new Date(startDate),
+                new Date(finishDate),
+            );
             res.status(200).send();
         } catch (error) {
             console.error('競馬場情報の更新中にエラーが発生しました:', error);

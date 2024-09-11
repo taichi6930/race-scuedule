@@ -1,4 +1,8 @@
-import { JraGradeType, JraRaceCourse, JraRaceCourseType } from '../utility/data/raceSpecific';
+import {
+    JraGradeType,
+    JraRaceCourse,
+    JraRaceCourseType,
+} from '../utility/data/raceSpecific';
 
 /**
  * JRAのレース開催データ
@@ -32,7 +36,7 @@ export class JraRaceData {
     ) {
         const [isValid, errorMessageList] = this.validate();
         if (!isValid) {
-            throw new Error(errorMessageList.join("\n"));
+            throw new Error(errorMessageList.join('\n'));
         }
     }
 
@@ -51,7 +55,7 @@ export class JraRaceData {
             partial.grade ?? this.grade,
             partial.number ?? this.number,
             partial.heldTimes ?? this.heldTimes,
-            partial.heldDayTimes ?? this.heldDayTimes
+            partial.heldDayTimes ?? this.heldDayTimes,
         );
     }
 
@@ -67,19 +71,21 @@ export class JraRaceData {
 
         // 距離は0より大きい
         if (this.distance <= 0) {
-            errorMessageList.push("距離は0より大きい必要があります");
+            errorMessageList.push('距離は0より大きい必要があります');
         }
         // レース番号は1以上12以下
         if (this.number < 1 || this.number > 12) {
-            errorMessageList.push("レース番号は1以上12以下である必要があります");
+            errorMessageList.push(
+                'レース番号は1以上12以下である必要があります',
+            );
         }
         // 開催回数は1以上
         if (this.heldTimes < 1) {
-            errorMessageList.push("開催回数は1以上である必要があります");
+            errorMessageList.push('開催回数は1以上である必要があります');
         }
         // 開催日数は1以上
         if (this.heldDayTimes < 1) {
-            errorMessageList.push("開催日数は1以上である必要があります");
+            errorMessageList.push('開催日数は1以上である必要があります');
         }
         return [errorMessageList.length === 0, errorMessageList];
     }

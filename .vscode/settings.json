@@ -1,0 +1,6 @@
+{
+    "prettier.bracketSpacing": true,
+    "editor.formatOnSave": false,
+    "prettier.configPath": "./.prettierrc",
+    "prettier.bracketSameLine": true
+}
