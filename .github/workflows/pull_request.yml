@@ -9,6 +9,25 @@ on:
             - main
 
 jobs:
+    # prettierのチェック
+    prettier:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '22'
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Check code style
+              run: npx prettier --check lib || exit 0
+
     test:
         runs-on: ubuntu-latest
 
