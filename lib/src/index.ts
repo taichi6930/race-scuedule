@@ -5,30 +5,30 @@ import { container } from "tsyringe";
 import { NarRaceController } from "./controller/narRaceController";
 import { NarPlaceData } from "./domain/narPlaceData";
 import { NarRaceData } from "./domain/narRaceData";
+import { NarPlaceDataHtmlGateway } from "./gateway/implement/narPlaceDataHtmlGateway";
+import { NarRaceDataHtmlGateway } from "./gateway/implement/narRaceDataHtmlGateway";
 import { S3Gateway } from "./gateway/implement/s3Gateway";
+import { INarPlaceDataHtmlGateway } from "./gateway/interface/iNarPlaceDataHtmlGateway";
+import { INarRaceDataHtmlGateway } from "./gateway/interface/iNarRaceDataHtmlGateway";
 import { IS3Gateway } from "./gateway/interface/iS3Gateway";
 import { MockS3Gateway } from "./gateway/mock/mockS3Gateway";
+import { NarPlaceDataHtmlMockGateway } from "./gateway/mock/narPlaceDataHtmlMockGateway";
+import { NarRaceDataHtmlMockGateway } from "./gateway/mock/narRaceDataHtmlMockGateway";
+import { NarPlaceRepositoryFromHtmlImpl } from "./repository/implement/narPlaceRepositoryFromHtmlImpl";
+import { NarPlaceRepositoryFromS3Impl } from "./repository/implement/narPlaceRepositoryFromS3Impl";
+import { NarRaceRepositoryFromHtmlImpl } from "./repository/implement/narRaceRepositoryFromHtmlImpl";
 import { NarRaceRepositoryFromS3Impl } from "./repository/implement/narRaceRepositoryFromS3Impl";
+import { IPlaceRepository } from "./repository/interface/IPlaceRepository";
 import { IRaceRepository } from "./repository/interface/IRaceRepository";
 import { GoogleCalendarService } from "./service/implement/googleCalendarService";
 import { ICalendarService } from "./service/interface/ICalendarService";
 import { MockGoogleCalendarService } from "./service/mock/mockGoogleCalendarService";
+import { NarPlaceDataUseCase } from "./usecase/implement/narPlaceDataUseCase";
 import { NarRaceCalendarUseCase } from "./usecase/implement/narRaceCalendarUseCase";
+import { NarRaceDataUseCase } from "./usecase/implement/narRaceDataUseCase";
+import { IPlaceDataUseCase } from "./usecase/interface/IPlaceDataUseCase";
 import { IRaceCalendarUseCase } from "./usecase/interface/IRaceCalendarUseCase";
 import { IRaceDataUseCase } from "./usecase/interface/IRaceDataUseCase";
-import { NarRaceDataUseCase } from "./usecase/implement/narRaceDataUseCase";
-import { NarPlaceRepositoryFromS3Impl } from "./repository/implement/narPlaceRepositoryFromS3Impl";
-import { IPlaceRepository } from "./repository/interface/IPlaceRepository";
-import { NarRaceRepositoryFromHtmlImpl } from "./repository/implement/narRaceRepositoryFromHtmlImpl";
-import { INarRaceDataHtmlGateway } from "./gateway/interface/iNarRaceDataHtmlGateway";
-import { NarRaceDataHtmlMockGateway } from "./gateway/mock/narRaceDataHtmlMockGateway";
-import { IPlaceDataUseCase } from "./usecase/interface/IPlaceDataUseCase";
-import { NarPlaceDataUseCase } from "./usecase/implement/narPlaceDataUseCase";
-import { INarPlaceDataHtmlGateway } from "./gateway/interface/iNarPlaceDataHtmlGateway";
-import { NarPlaceDataHtmlMockGateway } from "./gateway/mock/narPlaceDataHtmlMockGateway";
-import { NarPlaceRepositoryFromHtmlImpl } from "./repository/implement/narPlaceRepositoryFromHtmlImpl";
-import { NarRaceDataHtmlGateway } from "./gateway/implement/narRaceDataHtmlGateway";
-import { NarPlaceDataHtmlGateway } from "./gateway/implement/narPlaceDataHtmlGateway";
 
 // Expressアプリケーションの設定
 const app = express();
@@ -165,6 +165,8 @@ export const handler = serverlessExpress({ app });
 
 // アプリケーションの起動
 const PORT = process.env.PORT || 3000;
+console.log('Server is running on port', process.env.PORT || 3000);
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

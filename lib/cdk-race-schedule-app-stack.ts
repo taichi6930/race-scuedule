@@ -17,6 +17,9 @@ import {
   Role,
   ServicePrincipal,
 } from "aws-cdk-lib/aws-iam";
+import * as events from 'aws-cdk-lib/aws-events';
+import * as targets from 'aws-cdk-lib/aws-events-targets';
+import * as cdk from "aws-cdk-lib";
 
 dotenv.config({ path: './app.env' });
 
@@ -57,33 +60,6 @@ export class CdkRaceScheduleAppStack extends Stack {
       })
     );
 
-    // Lambda が EC2 の CreateNetworkInterface アクションを実行できるようにするポリシーステートメントを追加
-    role.addToPolicy(
-      new PolicyStatement({
-        actions: ["ec2:CreateNetworkInterface"],
-        effect: Effect.ALLOW,
-        resources: ["*"], // リソースを特定のサブネットに制限する場合は、適切なリソース ARN を指定します
-      })
-    );
-
-    // Lambda が EC2 の DescribeNetworkInterfaces アクションを実行できるようにするポリシーステートメントを追加
-    role.addToPolicy(
-      new PolicyStatement({
-        actions: ["ec2:DescribeNetworkInterfaces",],
-        effect: Effect.ALLOW,
-        resources: ["*"], // リソースを特定のネットワークインターフェースに制限する場合は、適切なリソース ARN を指定します
-      })
-    );
-
-    // Lambda が EC2 の DeleteNetworkInterface アクションを実行できるようにするポリシーステートメントを追加
-    role.addToPolicy(
-      new PolicyStatement({
-        actions: ["ec2:DeleteNetworkInterface"],
-        effect: Effect.ALLOW,
-        resources: ["*"], // リソースを特定のネットワークインターフェースに制限する場合は、適切なリソース ARN を指定します
-      })
-    );
-
     // Lambda関数を作成
     const lambdaFunction = new aws_lambda_nodejs.NodejsFunction(
       this,
@@ -99,7 +75,7 @@ export class CdkRaceScheduleAppStack extends Stack {
           GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL || '',
           GOOGLE_PRIVATE_KEY: (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
         },
-        timeout: Duration.seconds(30),
+        timeout: Duration.seconds(60),
         memorySize: 1024,
       },
     );
@@ -130,5 +106,33 @@ export class CdkRaceScheduleAppStack extends Stack {
     new CfnOutput(this, 'RaceScheduleAppApiGatewayEndpoint', {
       value: api.deploymentStage.urlForPath(),
     });
+
+    // EventBridgeの設定
+    // narRaceControllerのupdateRacesToCalendarメソッドを毎日実行する
+    new events.Rule(
+      this,
+      'UpdateRaceDataListRule',
+      {
+        schedule: cdk.aws_events.Schedule.cron({
+          minute: '00',
+          hour: '4',
+        }),
+        targets: [
+          new targets.ApiGateway(
+            api,
+            {
+              path: '/nar/calendar',
+              method: 'POST',
+              stage: 'v1',
+              // post Body に EventBridge のイベントを設定
+              postBody: events.RuleTargetInput.fromObject({
+                startDate: '2024-09-01',
+                finishDate: '2024-09-03',
+              }),
+            }
+          )
+        ],
+      }
+    )
   }
 }
