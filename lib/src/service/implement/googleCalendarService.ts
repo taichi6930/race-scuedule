@@ -16,6 +16,7 @@ import { NAR_BABACODE } from '../../utility/data/nar';
 import '../../utility/format';
 
 @injectable()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class GoogleCalendarService<R extends { [key: string]: any }>
     implements ICalendarService<R>
 {
@@ -134,7 +135,8 @@ export class GoogleCalendarService<R extends { [key: string]: any }>
                             this.translateToCalendarEvent(raceData),
                         );
                     }
-                } catch (error: any) {
+                } catch (error) {
+                    console.debug(error);
                     try {
                         // イベントが見つからなかった場合は新規登録
                         console.log(
@@ -170,6 +172,7 @@ export class GoogleCalendarService<R extends { [key: string]: any }>
                 `Google Calendar APIにレースを登録しました: ${event.summary}`,
             );
         } catch (error) {
+            console.debug(error);
             throw new Error(
                 `Google Calendar APIへのレース登録に失敗しました: ${event.summary}`,
             );
@@ -227,6 +230,7 @@ export class GoogleCalendarService<R extends { [key: string]: any }>
                 );
             }
         } catch (error) {
+            console.debug(error);
             throw new Error(
                 `Google Calendar APIからのレース削除に失敗しました: ${event.summary}`,
             );
@@ -291,6 +295,7 @@ export class GoogleCalendarService<R extends { [key: string]: any }>
                 `Google Calendar APIにレースを更新しました: ${raceData.name}`,
             );
         } catch (error) {
+            console.debug(error);
             throw new Error(
                 `Google Calendar APIへのレース更新に失敗しました: ${raceData.name}`,
             );

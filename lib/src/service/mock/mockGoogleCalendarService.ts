@@ -5,6 +5,7 @@ import { addDays, format } from 'date-fns';
 /**
  * Googleカレンダーのモックサービス
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class MockGoogleCalendarService implements ICalendarService<any> {
     async getEvents(
         startDate: Date,
