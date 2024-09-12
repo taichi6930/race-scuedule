@@ -10,9 +10,7 @@ import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
 @injectable()
-export class NarRaceCalendarUseCase
-    implements IRaceCalendarUseCase
-{
+export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('ICalendarService')
         private calendarService: ICalendarService<NarRaceData>,

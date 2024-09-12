@@ -10,7 +10,7 @@ import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataH
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { NarRaceCourse } from '../../utility/data/raceSpecific';
 import { formatDate } from 'date-fns';
-const cheerio = require('cheerio');
+import * as cheerio from 'cheerio';
 
 /**
  * 競馬場データリポジトリの実装
@@ -116,13 +116,13 @@ export class NarPlaceRepositoryFromHtmlImpl
         const trs = tbody.find('tr');
         const narPlaceDataDict: { [key: string]: number[] } = {};
 
-        trs.each((index: number, element: any) => {
+        trs.each((index: number, element: cheerio.Element) => {
             if (index < 2) {
                 return;
             }
             const tds = $(element).find('td');
             const place = $(tds[0]).text();
-            tds.each((index: number, element: any) => {
+            tds.each((index: number, element: cheerio.Element) => {
                 if (index === 0) {
                     if (!narPlaceDataDict[place]) {
                         narPlaceDataDict[place] = [];
@@ -162,6 +162,7 @@ export class NarPlaceRepositoryFromHtmlImpl
     async registerPlaceList(
         request: RegisterPlaceListRequest<NarPlaceData>,
     ): Promise<RegisterPlaceListResponse> {
+        console.debug(request);
         throw new Error('HTMLにはデータを登録しません');
     }
 }

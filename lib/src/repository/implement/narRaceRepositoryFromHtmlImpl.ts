@@ -13,7 +13,7 @@ import {
 } from '../../utility/data/raceSpecific';
 import { processNarRaceName } from '../../utility/raceName';
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 /**
  * 競馬場開催データリポジトリの実装
@@ -71,25 +71,25 @@ export class NarRaceRepositoryFromHtmlImpl
             const raceTable = $('section.raceTable');
             const trs = raceTable.find('tr.data');
 
-            Array.from(trs).forEach((tr: any) => {
+            Array.from(trs).forEach((tr: cheerio.Element) => {
                 const tds = $(tr).find('td');
                 const distance = this.extractDistance(
-                    Array.from(tds).map((td: any) => $(td).text()),
+                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
                 );
                 if (distance <= 0) {
                     return;
                 }
                 const [hour, minute] = this.extractRaceTime(
-                    Array.from(tds).map((td: any) => $(td).text()),
+                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
                 );
                 const raceName = this.extractRaceName(
-                    Array.from(tds).map((td: any) => $(td).text()),
+                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
                 );
                 const grade = this.extractGrade(
-                    Array.from(tds).map((td: any) => $(td).text()),
+                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
                 );
                 const surfaceType = this.extractSurfaceType(
-                    Array.from(tds).map((td: any) => $(td).text()),
+                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
                 );
                 const newRaceName = processNarRaceName({
                     name: raceName,
@@ -108,7 +108,9 @@ export class NarRaceRepositoryFromHtmlImpl
                         distance,
                         grade,
                         this.extractRaceNumber(
-                            Array.from(tds).map((td: any) => $(td).text()),
+                            Array.from(tds).map((td: cheerio.Element) =>
+                                $(td).text(),
+                            ),
                         ),
                     ),
                 );
@@ -214,7 +216,7 @@ export class NarRaceRepositoryFromHtmlImpl
     async registerRaceList(
         request: RegisterRaceListRequest<NarRaceData>,
     ): Promise<RegisterRaceListResponse> {
-        console.log(request);
+        console.debug(request);
         throw new Error('HTMLにはデータを登録しません');
     }
 }
