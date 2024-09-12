@@ -13,7 +13,7 @@ import {
 } from '../../utility/data/raceSpecific';
 import { processNarRaceName } from '../../utility/raceName';
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
-const cheerio = require('cheerio');
+import cheerio from 'cheerio';
 
 /**
  * 競馬場開催データリポジトリの実装
@@ -66,7 +66,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 throw new Error('Expected htmlText to be a string');
             }
 
-            let narRaceDataList: NarRaceData[] = [];
+            const narRaceDataList: NarRaceData[] = [];
             const $ = cheerio.load(htmlText);
             const raceTable = $('section.raceTable');
             const trs = raceTable.find('tr.data');
@@ -193,7 +193,7 @@ export class NarRaceRepositoryFromHtmlImpl
         let raceName: string | null = null;
         for (const regex of regexList) {
             for (const item of race) {
-                let _raceName = item.match(regex);
+                const _raceName = item.match(regex);
                 if (_raceName !== null) {
                     raceName = item.replace(regex, '');
                 }
@@ -214,6 +214,7 @@ export class NarRaceRepositoryFromHtmlImpl
     async registerRaceList(
         request: RegisterRaceListRequest<NarRaceData>,
     ): Promise<RegisterRaceListResponse> {
+        console.log(request);
         throw new Error('HTMLにはデータを登録しません');
     }
 }

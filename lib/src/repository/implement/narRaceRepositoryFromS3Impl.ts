@@ -93,7 +93,7 @@ export class NarRaceRepositoryFromS3Impl
      */
     private generateFilenameList(startDate: Date, endDate: Date): string[] {
         const fileNames: string[] = [];
-        let currentDate = new Date(startDate);
+        const currentDate = new Date(startDate);
         while (currentDate <= endDate) {
             const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
             fileNames.push(fileName);

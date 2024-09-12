@@ -114,7 +114,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         // 2行目のtrは曜日
         // ３行目のtr以降はレース情報
         const trs = tbody.find('tr');
-        let narPlaceDataDict: { [key: string]: number[] } = {};
+        const narPlaceDataDict: { [key: string]: number[] } = {};
 
         trs.each((index: number, element: any) => {
             if (index < 2) {

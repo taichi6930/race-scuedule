@@ -1,6 +1,6 @@
 import { CalendarData } from '../../domain/calendarData';
 
-export interface IRaceCalendarUseCase<R> {
+export interface IRaceCalendarUseCase {
     /**
      * カレンダーからレース情報の取得を行う
      * @param startDate

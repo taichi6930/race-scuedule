@@ -147,7 +147,7 @@ container.register<IPlaceRepository<NarPlaceData>>('IPlaceRepositoryFromHtml', {
 });
 
 // Usecaseの実装クラスをDIコンテナに登錄する
-container.register<IRaceCalendarUseCase<NarRaceData>>('IRaceCalendarUseCase', {
+container.register<IRaceCalendarUseCase>('IRaceCalendarUseCase', {
     useClass: NarRaceCalendarUseCase,
 });
 container.register<IRaceDataUseCase<NarRaceData>>('IRaceDataUseCase', {

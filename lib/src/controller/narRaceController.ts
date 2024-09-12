@@ -17,7 +17,7 @@ export class NarRaceController {
 
     constructor(
         @inject('IRaceCalendarUseCase')
-        private raceCalendarUseCase: IRaceCalendarUseCase<NarRaceData>,
+        private raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('IRaceDataUseCase')
         private narRaceDataUseCase: IRaceDataUseCase<NarRaceData>,
         @inject('IPlaceDataUseCase')

@@ -61,7 +61,7 @@ export class NarRaceData {
      */
     private validate(): [boolean, string[]] {
         // エラー文をまとめて表示する
-        let errorMessageList: string[] = [];
+        const errorMessageList: string[] = [];
 
         // 距離は0より大きい
         if (this.distance <= 0) {
