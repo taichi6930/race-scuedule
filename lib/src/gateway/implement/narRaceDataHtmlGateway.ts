@@ -1,11 +1,10 @@
-
-import { NAR_BABACODE } from "../../utility/data/nar";
-import { NarRaceCourse } from "../../utility/data/raceSpecific";
-import { Logger } from "../../utility/logger";
-import { INarRaceDataHtmlGateway } from "../interface/iNarRaceDataHtmlGateway";
+import { NAR_BABACODE } from '../../utility/data/nar';
+import { NarRaceCourse } from '../../utility/data/raceSpecific';
+import { Logger } from '../../utility/logger';
+import { INarRaceDataHtmlGateway } from '../interface/iNarRaceDataHtmlGateway';
 
 export class NarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
-    constructor() { }
+    constructor() {}
 
     /**
      * レースデータのHTMLを取得する

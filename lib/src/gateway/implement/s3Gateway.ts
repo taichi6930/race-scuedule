@@ -1,8 +1,12 @@
-import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import {
+    S3Client,
+    PutObjectCommand,
+    GetObjectCommand,
+} from '@aws-sdk/client-s3';
 import { IS3Gateway } from '../interface/iS3Gateway';
 import { createObjectCsvWriter as createCsvWriter } from 'csv-writer';
 import * as fs from 'fs';
-import { Readable } from "stream";
+import { Readable } from 'stream';
 import { injectable } from 'tsyringe';
 
 /**
@@ -58,7 +62,10 @@ export class S3Gateway<T extends object> implements IS3Gateway<T> {
         try {
             const csvWriter = createCsvWriter({
                 path: `/tmp/${fileName}`,
-                header: Object.keys(data[0]).map(key => ({ id: key, title: key })),
+                header: Object.keys(data[0]).map((key) => ({
+                    id: key,
+                    title: key,
+                })),
             });
 
             await csvWriter.writeRecords(data);

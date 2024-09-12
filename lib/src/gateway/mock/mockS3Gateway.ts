@@ -45,10 +45,16 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         // 最初にmockStorageに値を入れておく
         switch (folderPath) {
             case 'nar/race/':
-                this.mockStorage.set('nar/race/20240901.csv', 'name,dateTime,location,surfaceType,distance,grade,number\nテストレース,2024-06-01,高知,ダート,1200,GⅠ,1');
+                this.mockStorage.set(
+                    'nar/race/20240901.csv',
+                    'name,dateTime,location,surfaceType,distance,grade,number\nテストレース,2024-06-01,高知,ダート,1200,GⅠ,1',
+                );
                 break;
             case 'nar/place/':
-                this.mockStorage.set('nar/place/202406.csv', 'dateTime,location\n2024-06-01,高知');
+                this.mockStorage.set(
+                    'nar/place/202406.csv',
+                    'dateTime,location\n2024-06-01,高知',
+                );
                 break;
         }
     }
@@ -97,7 +103,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
 
         const keys = Object.keys(data[0]);
         const csvHeader = keys.join(',') + '\n';
-        const csvRows = data.map(item => keys.map(key => (item as any)[key]).join(',')).join('\n');
+        const csvRows = data
+            .map((item) => keys.map((key) => (item as any)[key]).join(','))
+            .join('\n');
 
         return csvHeader + csvRows;
     }

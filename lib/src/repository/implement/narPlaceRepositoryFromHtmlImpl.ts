@@ -1,25 +1,28 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 import { injectable, inject } from 'tsyringe';
-import { NarPlaceData } from "../../domain/narPlaceData";
-import { Logger } from "../../utility/logger";
-import { IPlaceRepository } from "../interface/IPlaceRepository";
-import { FetchPlaceListRequest } from "../request/fetchPlaceListRequest";
-import { FetchPlaceListResponse } from "../response/fetchPlaceListResponse";
+import { NarPlaceData } from '../../domain/narPlaceData';
+import { Logger } from '../../utility/logger';
+import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
+import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataHtmlGateway';
-import { RegisterPlaceListRequest } from "../request/registerPlaceListRequest";
-import { NarRaceCourse } from "../../utility/data/raceSpecific";
-import { formatDate } from "date-fns";
-const cheerio = require('cheerio');
+import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
+import { NarRaceCourse } from '../../utility/data/raceSpecific';
+import { formatDate } from 'date-fns';
+import * as cheerio from 'cheerio';
 
 /**
  * 競馬場データリポジトリの実装
  */
 @injectable()
-export class NarPlaceRepositoryFromHtmlImpl implements IPlaceRepository<NarPlaceData> {
+export class NarPlaceRepositoryFromHtmlImpl
+    implements IPlaceRepository<NarPlaceData>
+{
     constructor(
-        @inject('INarPlaceDataHtmlGateway') private narPlaceDataHtmlGateway: INarPlaceDataHtmlGateway,
-    ) { }
+        @inject('INarPlaceDataHtmlGateway')
+        private narPlaceDataHtmlGateway: INarPlaceDataHtmlGateway,
+    ) {}
 
     /**
      * 競馬場開催データを取得する
@@ -30,14 +33,21 @@ export class NarPlaceRepositoryFromHtmlImpl implements IPlaceRepository<NarPlace
      * @returns Promise<FetchPlaceListResponse<NarPlaceData>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(request: FetchPlaceListRequest): Promise<FetchPlaceListResponse<NarPlaceData>> {
-        const months: Date[] = await this.generateMonths(request.startDate, request.endDate);
-        const promises = months.map(month =>
-            this.fetchMonthPlaceDataList(month).then(childPlaceDataList =>
-                childPlaceDataList.filter(placeData =>
-                    placeData.dateTime >= request.startDate && placeData.dateTime <= request.endDate
-                )
-            )
+    async fetchPlaceList(
+        request: FetchPlaceListRequest,
+    ): Promise<FetchPlaceListResponse<NarPlaceData>> {
+        const months: Date[] = await this.generateMonths(
+            request.startDate,
+            request.endDate,
+        );
+        const promises = months.map((month) =>
+            this.fetchMonthPlaceDataList(month).then((childPlaceDataList) =>
+                childPlaceDataList.filter(
+                    (placeData) =>
+                        placeData.dateTime >= request.startDate &&
+                        placeData.dateTime <= request.endDate,
+                ),
+            ),
         );
         const placeDataLists = await Promise.all(promises);
         const placeDataList = placeDataLists.flat();
@@ -54,7 +64,10 @@ export class NarPlaceRepositoryFromHtmlImpl implements IPlaceRepository<NarPlace
      * @returns
      */
     @Logger
-    private async generateMonths(startDate: Date, finishDate: Date): Promise<Date[]> {
+    private async generateMonths(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<Date[]> {
         const months: Date[] = [];
         let currentDate = new Date(startDate);
 
@@ -67,7 +80,9 @@ export class NarPlaceRepositoryFromHtmlImpl implements IPlaceRepository<NarPlace
             // 次の月の1日を取得
             currentDate = new Date(year, currentDate.getMonth() + 1, 1);
         }
-        console.debug(`月リストを生成しました: ${formatDate(currentDate, 'yyyy-MM-dd')}`);
+        console.debug(
+            `月リストを生成しました: ${formatDate(currentDate, 'yyyy-MM-dd')}`,
+        );
         return months;
     }
 
@@ -84,7 +99,8 @@ export class NarPlaceRepositoryFromHtmlImpl implements IPlaceRepository<NarPlace
     private async fetchMonthPlaceDataList(date: Date): Promise<NarPlaceData[]> {
         console.log(`S3から${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
-        const htmlText: string = await this.narPlaceDataHtmlGateway.getPlaceDataHtml(date);
+        const htmlText: string =
+            await this.narPlaceDataHtmlGateway.getPlaceDataHtml(date);
 
         const $ = cheerio.load(htmlText);
         // <div class="chartWrapprer">を取得
@@ -98,22 +114,26 @@ export class NarPlaceRepositoryFromHtmlImpl implements IPlaceRepository<NarPlace
         // 2行目のtrは曜日
         // ３行目のtr以降はレース情報
         const trs = tbody.find('tr');
-        let narPlaceDataDict: { [key: string]: number[] } = {};
+        const narPlaceDataDict: { [key: string]: number[] } = {};
 
-        trs.each((index: number, element: any) => {
+        trs.each((index: number, element: cheerio.Element) => {
             if (index < 2) {
                 return;
             }
             const tds = $(element).find('td');
             const place = $(tds[0]).text();
-            tds.each((index: number, element: any) => {
+            tds.each((index: number, element: cheerio.Element) => {
                 if (index === 0) {
                     if (!narPlaceDataDict[place]) {
                         narPlaceDataDict[place] = [];
                     }
                     return;
                 }
-                if ($(element).text().includes('●') || $(element).text().includes('☆') || $(element).text().includes('Ｄ')) {
+                if (
+                    $(element).text().includes('●') ||
+                    $(element).text().includes('☆') ||
+                    $(element).text().includes('Ｄ')
+                ) {
                     narPlaceDataDict[place].push(index);
                 }
             });
@@ -122,7 +142,12 @@ export class NarPlaceRepositoryFromHtmlImpl implements IPlaceRepository<NarPlace
         const narPlaceDataList: NarPlaceData[] = [];
         for (const [place, raceDays] of Object.entries(narPlaceDataDict)) {
             raceDays.forEach((raceDay) => {
-                narPlaceDataList.push(new NarPlaceData(new Date(date.getFullYear(), date.getMonth(), raceDay), place as NarRaceCourse));
+                narPlaceDataList.push(
+                    new NarPlaceData(
+                        new Date(date.getFullYear(), date.getMonth(), raceDay),
+                        place as NarRaceCourse,
+                    ),
+                );
             });
         }
         return narPlaceDataList;
@@ -134,7 +159,10 @@ export class NarPlaceRepositoryFromHtmlImpl implements IPlaceRepository<NarPlace
      * @param request
      */
     @Logger
-    async registerPlaceList(request: RegisterPlaceListRequest<NarPlaceData>): Promise<RegisterPlaceListResponse> {
+    async registerPlaceList(
+        request: RegisterPlaceListRequest<NarPlaceData>,
+    ): Promise<RegisterPlaceListResponse> {
+        console.debug(request);
         throw new Error('HTMLにはデータを登録しません');
     }
 }

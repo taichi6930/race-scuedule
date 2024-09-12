@@ -2,7 +2,5 @@
  * レースリスト登録レスポンス
  */
 export class RegisterRaceListResponse {
-    constructor(
-        public readonly code: number,
-    ) { }
+    constructor(public readonly code: number) {}
 }

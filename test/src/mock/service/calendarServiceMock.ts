@@ -7,22 +7,26 @@ import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
  * CalendarServiceのモックを作成する
  * @returns
  */
-export const JraCalendarServiceMock = (): jest.Mocked<ICalendarService<JraRaceData>> => {
+export const JraCalendarServiceMock = (): jest.Mocked<
+    ICalendarService<JraRaceData>
+> => {
     return {
         getEvents: jest.fn().mockResolvedValue([] as CalendarData[]),
         upsertEvents: jest.fn().mockResolvedValue(undefined),
         cleansingEvents: jest.fn().mockResolvedValue(undefined),
     };
-}
+};
 
 /**
  * CalendarServiceのモックを作成する
  * @returns
  */
-export const NarCalendarServiceMock = (): jest.Mocked<ICalendarService<NarRaceData>> => {
+export const NarCalendarServiceMock = (): jest.Mocked<
+    ICalendarService<NarRaceData>
+> => {
     return {
         getEvents: jest.fn().mockResolvedValue([] as CalendarData[]),
         upsertEvents: jest.fn().mockResolvedValue(undefined),
         cleansingEvents: jest.fn().mockResolvedValue(undefined),
     };
-}
+};

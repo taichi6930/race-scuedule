@@ -1,7 +1,6 @@
 import { CalendarData } from '../../../lib/src/domain/calendarData';
 
 describe('CalendarDataクラスのテスト', () => {
-
     it('正しい入力でCalendarDataのインスタンスを作成できることを確認', () => {
         const calendarData = new CalendarData(
             'event1',
@@ -9,7 +8,7 @@ describe('CalendarDataクラスのテスト', () => {
             new Date('2024-08-12T09:00:00'),
             new Date('2024-08-12T10:00:00'),
             '東京',
-            'イベントの説明'
+            'イベントの説明',
         );
 
         expect(calendarData.id).toBe('event1');
@@ -27,7 +26,7 @@ describe('CalendarDataクラスのテスト', () => {
             new Date('2024-08-12T09:00:00'),
             new Date('2024-08-12T10:00:00'),
             '東京',
-            'イベントの説明'
+            'イベントの説明',
         );
 
         const copiedCalendarData = calendarData.copy({
@@ -35,8 +34,12 @@ describe('CalendarDataクラスのテスト', () => {
         });
         expect(copiedCalendarData.id).toBe('event1');
         expect(copiedCalendarData.title).toBe('イベントタイトル（コピー）');
-        expect(copiedCalendarData.startTime).toEqual(new Date('2024-08-12T09:00:00'));
-        expect(copiedCalendarData.endTime).toEqual(new Date('2024-08-12T10:00:00'));
+        expect(copiedCalendarData.startTime).toEqual(
+            new Date('2024-08-12T09:00:00'),
+        );
+        expect(copiedCalendarData.endTime).toEqual(
+            new Date('2024-08-12T10:00:00'),
+        );
         expect(copiedCalendarData.location).toBe('東京');
         expect(copiedCalendarData.description).toBe('イベントの説明');
     });

@@ -4,10 +4,10 @@ describe('NarRaceDataクラスのテスト', () => {
     const baseRaceData = new NarRaceData(
         '東京ダービー',
         new Date('2024-06-03 20:10'),
-        "大井",
-        "ダート",
+        '大井',
+        'ダート',
         2000,
-        "JpnⅠ",
+        'JpnⅠ',
         11,
     );
 

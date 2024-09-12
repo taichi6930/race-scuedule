@@ -1,10 +1,12 @@
-import { NarPlaceData } from "../../../../lib/src/domain/narPlaceData";
-import { IPlaceRepository } from "../../../../lib/src/repository/interface/IPlaceRepository";
+import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 
 // NarPlaceRepositoryFromS3Implのmockを作成
-export const mockNarPlaceRepositoryFromS3Impl = (): jest.Mocked<IPlaceRepository<NarPlaceData>> => {
+export const mockNarPlaceRepositoryFromS3Impl = (): jest.Mocked<
+    IPlaceRepository<NarPlaceData>
+> => {
     return {
         fetchPlaceList: jest.fn().mockResolvedValue([] as NarPlaceData[]),
         registerPlaceList: jest.fn().mockResolvedValue({}),
     };
-}
+};

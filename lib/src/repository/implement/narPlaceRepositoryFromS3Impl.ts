@@ -1,11 +1,11 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 import { injectable, inject } from 'tsyringe';
-import { NarPlaceData } from "../../domain/narPlaceData";
-import { NarRaceCourse } from "../../utility/data/raceSpecific";
-import { Logger } from "../../utility/logger";
-import { IPlaceRepository } from "../interface/IPlaceRepository";
-import { FetchPlaceListRequest } from "../request/fetchPlaceListRequest";
-import { FetchPlaceListResponse } from "../response/fetchPlaceListResponse";
+import { NarPlaceData } from '../../domain/narPlaceData';
+import { NarRaceCourse } from '../../utility/data/raceSpecific';
+import { Logger } from '../../utility/logger';
+import { IPlaceRepository } from '../interface/IPlaceRepository';
+import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
+import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { S3Gateway } from '../../gateway/implement/s3Gateway';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
@@ -15,10 +15,13 @@ import '../../utility/format';
  * 競馬場データリポジトリの実装
  */
 @injectable()
-export class NarPlaceRepositoryFromS3Impl implements IPlaceRepository<NarPlaceData> {
+export class NarPlaceRepositoryFromS3Impl
+    implements IPlaceRepository<NarPlaceData>
+{
     constructor(
-        @inject('IS3GatewayForNarPlace') private s3Gateway: S3Gateway<NarPlaceData>,
-    ) { }
+        @inject('IS3GatewayForNarPlace')
+        private s3Gateway: S3Gateway<NarPlaceData>,
+    ) {}
     /**
      * 競馬場開催データを取得する
      *
@@ -28,14 +31,21 @@ export class NarPlaceRepositoryFromS3Impl implements IPlaceRepository<NarPlaceDa
      * @returns Promise<FetchPlaceListResponse<NarPlaceData>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(request: FetchPlaceListRequest): Promise<FetchPlaceListResponse<NarPlaceData>> {
-        const fileNames: string[] = await this.generateFileNames(request.startDate, request.endDate);
-        const promises = fileNames.map(fileName =>
-            this.fetchMonthPlaceDataList(fileName).then(childPlaceDataList =>
-                childPlaceDataList.filter(placeData =>
-                    placeData.dateTime >= request.startDate && placeData.dateTime <= request.endDate
-                )
-            )
+    async fetchPlaceList(
+        request: FetchPlaceListRequest,
+    ): Promise<FetchPlaceListResponse<NarPlaceData>> {
+        const fileNames: string[] = await this.generateFileNames(
+            request.startDate,
+            request.endDate,
+        );
+        const promises = fileNames.map((fileName) =>
+            this.fetchMonthPlaceDataList(fileName).then((childPlaceDataList) =>
+                childPlaceDataList.filter(
+                    (placeData) =>
+                        placeData.dateTime >= request.startDate &&
+                        placeData.dateTime <= request.endDate,
+                ),
+            ),
         );
         const placeDataLists = await Promise.all(promises);
         const placeDataList = placeDataLists.flat();
@@ -53,7 +63,10 @@ export class NarPlaceRepositoryFromS3Impl implements IPlaceRepository<NarPlaceDa
      * @returns
      */
     @Logger
-    private async generateFileNames(startDate: Date, finishDate: Date): Promise<string[]> {
+    private async generateFileNames(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<string[]> {
         const fileNames: string[] = [];
         let currentDate = new Date(startDate);
 
@@ -80,18 +93,28 @@ export class NarPlaceRepositoryFromS3Impl implements IPlaceRepository<NarPlaceDa
      * @returns
      */
     @Logger
-    private async fetchMonthPlaceDataList(fileName: string): Promise<NarPlaceData[]> {
+    private async fetchMonthPlaceDataList(
+        fileName: string,
+    ): Promise<NarPlaceData[]> {
         console.log(`S3から${fileName}を取得します`);
         const csv = await this.s3Gateway.fetchDataFromS3(fileName);
-        const placeData: NarPlaceData[] = csv.split('\n').map((line: string) => {
-            const [raceDate, place] = line.split(',');
-            return new NarPlaceData(new Date(raceDate), place as NarRaceCourse);
-        }).filter((placeData) => placeData !== undefined);
+        const placeData: NarPlaceData[] = csv
+            .split('\n')
+            .map((line: string) => {
+                const [raceDate, place] = line.split(',');
+                return new NarPlaceData(
+                    new Date(raceDate),
+                    place as NarRaceCourse,
+                );
+            })
+            .filter((placeData) => placeData !== undefined);
         return placeData;
     }
 
     @Logger
-    async registerPlaceList(request: RegisterPlaceListRequest<NarPlaceData>): Promise<RegisterPlaceListResponse> {
+    async registerPlaceList(
+        request: RegisterPlaceListRequest<NarPlaceData>,
+    ): Promise<RegisterPlaceListResponse> {
         const placeData: NarPlaceData[] = request.placeDataList;
         // 得られたplaceを月毎に分ける
         const placeDataDict: { [key: string]: NarPlaceData[] } = {};
@@ -110,5 +133,4 @@ export class NarPlaceRepositoryFromS3Impl implements IPlaceRepository<NarPlaceDa
 
         return new RegisterPlaceListResponse(200);
     }
-
 }

@@ -1,5 +1,4 @@
-export const mockNarPlaceHtml: { [key: string]: string } =
-{
+export const mockNarPlaceHtml: { [key: string]: string } = {
     '202401': `
 
     <!DOCTYPE HTML>
@@ -12054,7 +12053,7 @@ export const mockNarPlaceHtml: { [key: string]: string } =
 </div>
 </body>
 </html>
-    `
+    `,
 };
 
 export const mockNarRaceHtml: { [key: string]: string } = {
@@ -14561,5 +14560,5 @@ setselect1();
 </html>
 
 
-`
-}
+`,
+};

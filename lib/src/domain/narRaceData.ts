@@ -1,4 +1,8 @@
-import { NarRaceCourse, NarRaceCourseType, NarGradeType } from '../utility/data/raceSpecific';
+import {
+    NarRaceCourse,
+    NarRaceCourseType,
+    NarGradeType,
+} from '../utility/data/raceSpecific';
 
 /**
  * NARのレース開催データ
@@ -28,7 +32,7 @@ export class NarRaceData {
     ) {
         const [isValid, errorMessageList] = this.validate();
         if (!isValid) {
-            throw new Error(errorMessageList.join("\n"));
+            throw new Error(errorMessageList.join('\n'));
         }
     }
 
@@ -45,9 +49,9 @@ export class NarRaceData {
             partial.surfaceType ?? this.surfaceType,
             partial.distance ?? this.distance,
             partial.grade ?? this.grade,
-            partial.number ?? this.number
+            partial.number ?? this.number,
         );
-    };
+    }
 
     /**
      * バリデーション
@@ -57,15 +61,17 @@ export class NarRaceData {
      */
     private validate(): [boolean, string[]] {
         // エラー文をまとめて表示する
-        let errorMessageList: string[] = [];
+        const errorMessageList: string[] = [];
 
         // 距離は0より大きい
         if (this.distance <= 0) {
-            errorMessageList.push("距離は0より大きい必要があります");
+            errorMessageList.push('距離は0より大きい必要があります');
         }
         // レース番号は1以上12以下
         if (this.number < 1 || this.number > 12) {
-            errorMessageList.push("レース番号は1以上12以下である必要があります");
+            errorMessageList.push(
+                'レース番号は1以上12以下である必要があります',
+            );
         }
         return [errorMessageList.length === 0, errorMessageList];
     }

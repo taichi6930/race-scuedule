@@ -1,18 +1,24 @@
-import { NarRaceCourse, NarRaceCourseType } from "./data/raceSpecific";
+import { NarRaceCourse, NarRaceCourseType } from './data/raceSpecific';
 
 type NarRaceDataForRaceName = {
-    name: string,
-    place: NarRaceCourse,
-    grade: string,
-    date: Date,
-    surfaceType: NarRaceCourseType,
-    distance: number,
-}
-export const processNarRaceName = (raceInfo: NarRaceDataForRaceName): string => {
+    name: string;
+    place: NarRaceCourse;
+    grade: string;
+    date: Date;
+    surfaceType: NarRaceCourseType;
+    distance: number;
+};
+export const processNarRaceName = (
+    raceInfo: NarRaceDataForRaceName,
+): string => {
     // 共通系
     let newRaceName = raceInfo.name
-        .replace(/[！-～]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xFEE0))
-        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xFEE0))
+        .replace(/[！-～]/g, (s) =>
+            String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+        )
+        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) =>
+            String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+        )
         .replace(/ステークス/, 'S')
         .replace(/カップ/, 'C')
         .replace(/J(認|交|指) /g, '')
@@ -20,14 +26,26 @@ export const processNarRaceName = (raceInfo: NarRaceDataForRaceName): string => 
     // 帯広競馬
     if (['帯広ば'].includes(raceInfo.place)) {
         newRaceName = newRaceName
-            .replace(/(?:[2-5])?(?:・)?(?:[3-5])?(?:歳)?(?:以上)?(?:牡馬|牝馬)?(オープ(?:ン)?|選抜).*/, '')
-            .replace(/.*ヤングチャンピオンシップ.*/, 'ヤングチャンピオンシップ');
+            .replace(
+                /(?:[2-5])?(?:・)?(?:[3-5])?(?:歳)?(?:以上)?(?:牡馬|牝馬)?(オープ(?:ン)?|選抜).*/,
+                '',
+            )
+            .replace(
+                /.*ヤングチャンピオンシップ.*/,
+                'ヤングチャンピオンシップ',
+            );
     }
     // 門別競馬
     if (['門別'].includes(raceInfo.place)) {
         newRaceName = newRaceName
-            .replace(/(?:[2-4])?(?:歳)?(?:一般)?(?:牝馬)?(オー(?:プ(?:ン)?)?)$/, '')
-            .replace(/.*ブリーダーズゴールドジュニア.*/, 'ブリーダーズゴールドジュニアC')
+            .replace(
+                /(?:[2-4])?(?:歳)?(?:一般)?(?:牝馬)?(オー(?:プ(?:ン)?)?)$/,
+                '',
+            )
+            .replace(
+                /.*ブリーダーズゴールドジュニア.*/,
+                'ブリーダーズゴールドジュニアC',
+            )
             .replace(/〔準重賞〕.*/, '');
     }
     // 岩手競馬
@@ -59,15 +77,24 @@ export const processNarRaceName = (raceInfo: NarRaceDataForRaceName): string => 
     // 大井競馬
     if (['大井'].includes(raceInfo.place)) {
         newRaceName = newRaceName
-            .replace(/(?:[2-4])?(?:歳|上)?(選定馬|(?:牝馬)?(オー(?:プ(?:ン)?)?)).*/, '')
+            .replace(
+                /(?:[2-4])?(?:歳|上)?(選定馬|(?:牝馬)?(オー(?:プ(?:ン)?)?)).*/,
+                '',
+            )
             .replace(/.*ゴールドジュニア.*/, 'ゴールドジュニア（大井）')
             .replace(/メイカA2B1/, 'メイC');
     }
     // 金沢競馬
     if (['金沢'].includes(raceInfo.place)) {
         newRaceName = newRaceName
-            .replace('移転50周年記念金沢ファ', '移転50周年記念金沢ファンセレクトC')
-            .replace(/(\【|((?:[2-4])?歳(?:以上)?(?:牝馬)?(?:オープン)?)).*/, '')
+            .replace(
+                '移転50周年記念金沢ファ',
+                '移転50周年記念金沢ファンセレクトC',
+            )
+            .replace(
+                /(\【|((?:[2-4])?歳(?:以上)?(?:牝馬)?(?:オープン)?)).*/,
+                '',
+            )
             .replace(/((A|B1)級|A1二A2)$/, '');
     }
     // 名古屋競馬
@@ -88,12 +115,14 @@ export const processNarRaceName = (raceInfo: NarRaceDataForRaceName): string => 
             newRaceName = '東海ゴールドC';
         }
         // それ以外の場合は不要な部分を削除
-        newRaceName = newRaceName.replace(/(オープン|([2-4])歳)(?:以上)?(?:牡馬|牝馬|牡牝)?(?:・)?(オープン).*/, '');
+        newRaceName = newRaceName.replace(
+            /(オープン|([2-4])歳)(?:以上)?(?:牡馬|牝馬|牡牝)?(?:・)?(オープン).*/,
+            '',
+        );
     }
     // 園田、姫路競馬
     if (['園田', '姫路'].includes(raceInfo.place)) {
-        newRaceName = newRaceName
-            .replace(/([2-4])歳(?:以上)?(?:牝馬)?.*/, '');
+        newRaceName = newRaceName.replace(/([2-4])歳(?:以上)?(?:牝馬)?.*/, '');
     }
     // 高知競馬
     if (['高知'].includes(raceInfo.place)) {
@@ -104,9 +133,12 @@ export const processNarRaceName = (raceInfo: NarRaceDataForRaceName): string => 
     // 佐賀競馬
     if (['佐賀'].includes(raceInfo.place)) {
         newRaceName = newRaceName
-            .replace(/(?:[2-4])?(?:歳)?(?:牝馬)?(九州産|オー(?:プ(?:ン)?)?)$/, '')
+            .replace(
+                /(?:[2-4])?(?:歳)?(?:牝馬)?(九州産|オー(?:プ(?:ン)?)?)$/,
+                '',
+            )
             .replace(/(A1・B)$/, '')
             .replace(/(A1(?:・A2)?|B|3歳|2歳)$/, '');
     }
     return newRaceName;
-}
+};

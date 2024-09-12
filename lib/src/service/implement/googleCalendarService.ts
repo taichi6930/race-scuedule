@@ -7,12 +7,19 @@ import { CalendarData } from '../../domain/calendarData';
 import { JWT } from 'google-auth-library';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { createAnchorTag, formatDate } from '../../utility/format';
-import { CHIHO_KEIBA_LIVE_URL, CHIHO_KEIBA_YOUTUBE_USER_ID, getYoutubeLiveUrl } from '../../utility/data/movie';
+import {
+    CHIHO_KEIBA_LIVE_URL,
+    CHIHO_KEIBA_YOUTUBE_USER_ID,
+    getYoutubeLiveUrl,
+} from '../../utility/data/movie';
 import { NAR_BABACODE } from '../../utility/data/nar';
 import '../../utility/format';
 
 @injectable()
-export class GoogleCalendarService<R extends { [key: string]: any }> implements ICalendarService<R> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class GoogleCalendarService<R extends { [key: string]: any }>
+    implements ICalendarService<R>
+{
     private credentials: JWT;
     private calendar: calendar_v3.Calendar;
     private raceType: 'jra' | 'nar';
@@ -26,9 +33,12 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
             undefined,
             // private_keyは環境変数から取得
             process.env.GOOGLE_PRIVATE_KEY,
-            ["https://www.googleapis.com/auth/calendar"],
+            ['https://www.googleapis.com/auth/calendar'],
         );
-        this.calendar = google.calendar({ version: 'v3', auth: this.credentials });
+        this.calendar = google.calendar({
+            version: 'v3',
+            auth: this.credentials,
+        });
         this.calendarId = calendarId;
     }
 
@@ -41,7 +51,10 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
     @Logger
     async getEvents(startDate: Date, endDate: Date): Promise<CalendarData[]> {
         // GoogleカレンダーAPIからイベントを取得
-        const calendarList = await this.getEventsWithinDateRange(startDate, endDate);
+        const calendarList = await this.getEventsWithinDateRange(
+            startDate,
+            endDate,
+        );
         // イベントデータをCalendarData型に変換
         return this.convertToCalendarData(calendarList);
     }
@@ -53,7 +66,10 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      * @returns
      */
     @Logger
-    private async getEventsWithinDateRange(startDate: Date, endDate: Date): Promise<calendar_v3.Schema$Event[]> {
+    private async getEventsWithinDateRange(
+        startDate: Date,
+        endDate: Date,
+    ): Promise<calendar_v3.Schema$Event[]> {
         // orderBy: 'startTime'で開始時刻順に取得
         const response = await this.calendar.events.list({
             calendarId: this.calendarId,
@@ -61,7 +77,7 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
             timeMax: endDate.toISOString(),
             singleEvents: true,
             orderBy: 'startTime',
-            timeZone: 'Asia/Tokyo'
+            timeZone: 'Asia/Tokyo',
         });
         return response.data.items || [];
     }
@@ -72,15 +88,20 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      * @returns
      */
     @Logger
-    private convertToCalendarData(events: calendar_v3.Schema$Event[]): CalendarData[] {
-        return events.map((event) => new CalendarData(
-            event.id || '',
-            event.summary || '',
-            new Date(event.start?.dateTime || ''),
-            new Date(event.end?.dateTime || ''),
-            event.location || '',
-            event.description || ''
-        ));
+    private convertToCalendarData(
+        events: calendar_v3.Schema$Event[],
+    ): CalendarData[] {
+        return events.map(
+            (event) =>
+                new CalendarData(
+                    event.id || '',
+                    event.summary || '',
+                    new Date(event.start?.dateTime || ''),
+                    new Date(event.end?.dateTime || ''),
+                    event.location || '',
+                    event.description || '',
+                ),
+        );
     }
 
     /**
@@ -89,31 +110,50 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      */
     @Logger
     async upsertEvents(raceList: R[]): Promise<void> {
-        await Promise.all(raceList.map(async (raceData) => {
-            // イベントIDを生成
-            const eventId = this.generateEventId(raceData);
-            try {
-                // イベントを取得
-                const event = await this.calendar.events.get({ calendarId: this.calendarId, eventId: eventId });
-                // イベントが見つかった場合は更新
-                if (event.data.id) {
-                    console.log(`Google Calendar APIにイベントが見つかりました。更新を行います。レース名: ${raceData.name}`);
-                    await this.updateEvent(raceData, eventId);
-                } else {
-                    // イベントが見つからなかった場合は新規登録
-                    console.log(`Google Calendar APIにイベントが見つからなかったため、新規登録します。レース名: ${raceData.name}`);
-                    await this.createEvent(this.translateToCalendarEvent(raceData));
-                }
-            } catch (error: any) {
+        await Promise.all(
+            raceList.map(async (raceData) => {
+                // イベントIDを生成
+                const eventId = this.generateEventId(raceData);
                 try {
-                    // イベントが見つからなかった場合は新規登録
-                    console.log(`Google Calendar APIにイベントが見つからなかったため、新規登録します。レース名: ${raceData.name}`);
-                    await this.createEvent(this.translateToCalendarEvent(raceData));
+                    // イベントを取得
+                    const event = await this.calendar.events.get({
+                        calendarId: this.calendarId,
+                        eventId: eventId,
+                    });
+                    // イベントが見つかった場合は更新
+                    if (event.data.id) {
+                        console.log(
+                            `Google Calendar APIにイベントが見つかりました。更新を行います。レース名: ${raceData.name}`,
+                        );
+                        await this.updateEvent(raceData, eventId);
+                    } else {
+                        // イベントが見つからなかった場合は新規登録
+                        console.log(
+                            `Google Calendar APIにイベントが見つからなかったため、新規登録します。レース名: ${raceData.name}`,
+                        );
+                        await this.createEvent(
+                            this.translateToCalendarEvent(raceData),
+                        );
+                    }
                 } catch (error) {
-                    console.error('Google Calendar APIへのイベント新規登録に失敗しました', error);
+                    console.debug(error);
+                    try {
+                        // イベントが見つからなかった場合は新規登録
+                        console.log(
+                            `Google Calendar APIにイベントが見つからなかったため、新規登録します。レース名: ${raceData.name}`,
+                        );
+                        await this.createEvent(
+                            this.translateToCalendarEvent(raceData),
+                        );
+                    } catch (error) {
+                        console.error(
+                            'Google Calendar APIへのイベント新規登録に失敗しました',
+                            error,
+                        );
+                    }
                 }
-            }
-        }));
+            }),
+        );
     }
 
     /**
@@ -124,13 +164,20 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
     @Logger
     private async createEvent(event: calendar_v3.Schema$Event): Promise<void> {
         try {
-            await this.calendar.events.insert({ calendarId: this.calendarId, requestBody: event });
-            console.debug(`Google Calendar APIにレースを登録しました: ${event.summary}`);
+            await this.calendar.events.insert({
+                calendarId: this.calendarId,
+                requestBody: event,
+            });
+            console.debug(
+                `Google Calendar APIにレースを登録しました: ${event.summary}`,
+            );
         } catch (error) {
-            throw new Error(`Google Calendar APIへのレース登録に失敗しました: ${event.summary}`);
+            console.debug(error);
+            throw new Error(
+                `Google Calendar APIへのレース登録に失敗しました: ${event.summary}`,
+            );
         }
     }
-
 
     /**
      * カレンダーのクレンジングを行う
@@ -151,13 +198,15 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      */
     @Logger
     private async deleteEvents(startDate: Date, endDate: Date): Promise<void> {
-        const events = (await this.getEventsWithinDateRange(startDate, endDate)).filter(event => {
+        const events = (
+            await this.getEventsWithinDateRange(startDate, endDate)
+        ).filter((event) => {
             // trueの場合は削除対象
             // イベントIDが指定したレースタイプで始まっていない場合は削除対象
             return !event.id?.startsWith(this.raceType);
         });
         if (events.length === 0) {
-            console.debug("指定された期間にイベントが見つかりませんでした。");
+            console.debug('指定された期間にイベントが見つかりませんでした。');
             return;
         }
         await this.processEvents(events, this.deleteEvent.bind(this), '削除');
@@ -172,11 +221,19 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
     private async deleteEvent(event: calendar_v3.Schema$Event): Promise<void> {
         try {
             if (event.id) {
-                await this.calendar.events.delete({ calendarId: this.calendarId, eventId: event.id });
-                console.debug(`Google Calendar APIからレースを削除しました: ${event.summary}`);
+                await this.calendar.events.delete({
+                    calendarId: this.calendarId,
+                    eventId: event.id,
+                });
+                console.debug(
+                    `Google Calendar APIからレースを削除しました: ${event.summary}`,
+                );
             }
         } catch (error) {
-            throw new Error(`Google Calendar APIからのレース削除に失敗しました: ${event.summary}`);
+            console.debug(error);
+            throw new Error(
+                `Google Calendar APIからのレース削除に失敗しました: ${event.summary}`,
+            );
         }
     }
 
@@ -189,23 +246,33 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      */
     private async processEvents(
         events: calendar_v3.Schema$Event[],
-        action: (event: calendar_v3.Schema$Event, calendarId: string) => Promise<void>,
-        actionName: string
+        action: (
+            event: calendar_v3.Schema$Event,
+            calendarId: string,
+        ) => Promise<void>,
+        actionName: string,
     ): Promise<void> {
         try {
-            await Promise.all(events.map(event => action(event, this.calendarId)));
-            console.log(`Google Calendar APIにレースを${actionName}しました（processEvents）`);
+            await Promise.all(
+                events.map((event) => action(event, this.calendarId)),
+            );
+            console.log(
+                `Google Calendar APIにレースを${actionName}しました（processEvents）`,
+            );
         } catch (error) {
-            console.error(`Google Calendar APIへのレース${actionName}に失敗しました（processEvents）`, error);
+            console.error(
+                `Google Calendar APIへのレース${actionName}に失敗しました（processEvents）`,
+                error,
+            );
         }
     }
 
     /**
-    * イベントIDを生成する
-    * netkeibaのレースIDを元に生成
-    * @param raceData
-    * @returns
-    */
+     * イベントIDを生成する
+     * netkeibaのレースIDを元に生成
+     * @param raceData
+     * @returns
+     */
     private generateEventId(raceData: R): string {
         return `${this.raceType}${raceData.dateTime.getFullYear()}${raceData.dateTime.getXDigitMonth(2)}${raceData.dateTime.getXDigitDays(2)}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
     }
@@ -222,11 +289,16 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
             await this.calendar.events.update({
                 calendarId: this.calendarId,
                 eventId: eventId,
-                requestBody: this.translateToCalendarEvent(raceData)
+                requestBody: this.translateToCalendarEvent(raceData),
             });
-            console.debug(`Google Calendar APIにレースを更新しました: ${raceData.name}`);
+            console.debug(
+                `Google Calendar APIにレースを更新しました: ${raceData.name}`,
+            );
         } catch (error) {
-            throw new Error(`Google Calendar APIへのレース更新に失敗しました: ${raceData.name}`);
+            console.debug(error);
+            throw new Error(
+                `Google Calendar APIへのレース更新に失敗しました: ${raceData.name}`,
+            );
         }
     }
 
@@ -249,7 +321,9 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      * @param raceData
      * @returns
      */
-    private translateToCalendarEventForJra(raceData: R): calendar_v3.Schema$Event {
+    private translateToCalendarEventForJra(
+        raceData: R,
+    ): calendar_v3.Schema$Event {
         const data = raceData;
         return {
             id: this.generateEventId(data),
@@ -261,7 +335,9 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
             },
             end: {
                 // 終了時刻は発走時刻から10分後とする
-                dateTime: formatDate(new Date(data.dateTime.getTime() + 10 * 60 * 1000)),
+                dateTime: formatDate(
+                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                ),
                 timeZone: 'Asia/Tokyo',
             },
             colorId: this.getColorId(data.grade),
@@ -277,7 +353,9 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      * @param raceData
      * @returns
      */
-    private translateToCalendarEventForNar(raceData: R): calendar_v3.Schema$Event {
+    private translateToCalendarEventForNar(
+        raceData: R,
+    ): calendar_v3.Schema$Event {
         const data = raceData;
         return {
             id: this.generateEventId(data),
@@ -289,7 +367,9 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
             },
             end: {
                 // 終了時刻は発走時刻から10分後とする
-                dateTime: formatDate(new Date(data.dateTime.getTime() + 10 * 60 * 1000)),
+                dateTime: formatDate(
+                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                ),
                 timeZone: 'Asia/Tokyo',
             },
             colorId: this.getColorId(data.grade),
@@ -310,20 +390,20 @@ export class GoogleCalendarService<R extends { [key: string]: any }> implements 
      */
     private getColorId(raceGrade: string): string {
         const gradeColorMap: { [key: string]: string } = {
-            "GⅠ": "9",
-            "J.GⅠ": "9",
-            "GⅡ": "11",
-            "J.GⅡ": "11",
-            "GⅢ": "10",
-            "J.GⅢ": "10",
-            "JpnⅠ": "1",
-            "JpnⅡ": "4",
-            "JpnⅢ": "2",
-            "Listed": "5",
-            "オープン": "6",
-            "オープン特別": "6",
-            "地方重賞": "3",
+            'GⅠ': '9',
+            'J.GⅠ': '9',
+            'GⅡ': '11',
+            'J.GⅡ': '11',
+            'GⅢ': '10',
+            'J.GⅢ': '10',
+            'JpnⅠ': '1',
+            'JpnⅡ': '4',
+            'JpnⅢ': '2',
+            'Listed': '5',
+            'オープン': '6',
+            'オープン特別': '6',
+            '地方重賞': '3',
         };
-        return gradeColorMap[raceGrade] || "8";
+        return gradeColorMap[raceGrade] || '8';
     }
 }

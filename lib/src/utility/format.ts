@@ -13,8 +13,8 @@ export const formatDate = (date: Date) => {
  * @param url
  * @returns
  */
-export const createAnchorTag = (text: string, url: string): string => `<a href="${url}">${text}</a>`;
-
+export const createAnchorTag = (text: string, url: string): string =>
+    `<a href="${url}">${text}</a>`;
 
 /**
  * 日付をフォーマットする
@@ -33,28 +33,28 @@ declare global {
  */
 Date.prototype.getXDigitMonth = function (digit: number): string {
     return (this.getMonth() + 1).toString().padStart(digit, '0');
-}
+};
 
 /**
  * 日をX桁に変換する
  */
 Date.prototype.getXDigitDays = function (digit: number): string {
     return this.getDate().toString().padStart(digit, '0');
-}
+};
 
 /**
  * 時をX桁に変換する
  */
 Date.prototype.getXDigitHours = function (digit: number): string {
     return this.getHours().toString().padStart(digit, '0');
-}
+};
 
 /**
  * 分をX桁に変換する
  */
 Date.prototype.getXDigitMinutes = function (digit: number): string {
     return this.getMinutes().toString().padStart(digit, '0');
-}
+};
 
 declare global {
     interface Number {
@@ -64,6 +64,6 @@ declare global {
 
 Number.prototype.toXDigits = function (this: number, digit: number): string {
     return this.toString().padStart(digit, '0');
-}
+};
 
-export { };
+export {};
