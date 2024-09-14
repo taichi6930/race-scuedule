@@ -79,7 +79,8 @@ export class S3Gateway<T extends object> implements IS3Gateway<T> {
 
             const command = new PutObjectCommand(params);
             await this.s3Client.send(command);
-        } catch (error) {
+        } catch (error: unknown) {
+            console.debug( error);
             throw new Error('ファイルのアップロードに失敗しました');
         }
     }
@@ -107,6 +108,7 @@ export class S3Gateway<T extends object> implements IS3Gateway<T> {
             }
             return data;
         } catch (error) {
+            console.debug(error);
             console.warn('ファイルが存在しません');
             return '';
         }

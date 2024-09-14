@@ -13,6 +13,7 @@ export class MockNarRaceRepositoryFromS3Impl
     async fetchRaceList(
         request: FetchRaceListRequest<NarPlaceData>,
     ): Promise<FetchRaceListResponse<NarRaceData>> {
+        console.debug(request);
         return new FetchRaceListResponse([
             new NarRaceData(
                 '東京ダービー',
@@ -29,6 +30,7 @@ export class MockNarRaceRepositoryFromS3Impl
     async registerRaceList(
         request: RegisterRaceListRequest<NarRaceData>,
     ): Promise<RegisterRaceListResponse> {
+        console.debug(request);
         return new RegisterRaceListResponse(200);
     }
 }
