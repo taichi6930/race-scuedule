@@ -14,12 +14,12 @@ jobs:
 
             - name: Get release branch name
               id: get_branch
-              run: echo "RELEASE_BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+              run: echo "RELEASE_BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
 
             - name: Create PR to develop
               uses: repo-sync/pull-request@v2
               with:
-                  source_branch: ${{ env.RELEASE_BRANCH_NAME }}
+                  source_branch: ${{ steps.get_branch.outputs.RELEASE_BRANCH_NAME }}
                   destination_branch: 'main'
                   github_token: ${{ secrets.GH_TOKEN }}
-                  pr_title: 'Merge ${{ env.RELEASE_BRANCH_NAME }} into main'
+                  pr_title: 'Merge ${{ steps.get_branch.outputs.RELEASE_BRANCH_NAME }} into main'
