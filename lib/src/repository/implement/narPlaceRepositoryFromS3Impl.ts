@@ -6,7 +6,7 @@ import { Logger } from '../../utility/logger';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { S3Gateway } from '../../gateway/implement/s3Gateway';
+import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 import '../../utility/format';
@@ -20,7 +20,7 @@ export class NarPlaceRepositoryFromS3Impl
 {
     constructor(
         @inject('IS3GatewayForNarPlace')
-        private s3Gateway: S3Gateway<NarPlaceData>,
+        private s3Gateway: IS3Gateway<NarPlaceData>,
     ) {}
     /**
      * 競馬場開催データを取得する

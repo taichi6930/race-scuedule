@@ -23,7 +23,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
      * @returns
      */
     @Logger
-    async getPlaceDataList(
+    async fetchPlaceDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<NarPlaceData[]> {

@@ -21,11 +21,9 @@ import { NarPlaceRepositoryFromS3Impl } from './repository/implement/narPlaceRep
 import { IPlaceRepository } from './repository/interface/IPlaceRepository';
 import { NarRaceRepositoryFromHtmlImpl } from './repository/implement/narRaceRepositoryFromHtmlImpl';
 import { INarRaceDataHtmlGateway } from './gateway/interface/iNarRaceDataHtmlGateway';
-import { NarRaceDataHtmlMockGateway } from './gateway/mock/narRaceDataHtmlMockGateway';
 import { IPlaceDataUseCase } from './usecase/interface/IPlaceDataUseCase';
 import { NarPlaceDataUseCase } from './usecase/implement/narPlaceDataUseCase';
 import { INarPlaceDataHtmlGateway } from './gateway/interface/iNarPlaceDataHtmlGateway';
-import { NarPlaceDataHtmlMockGateway } from './gateway/mock/narPlaceDataHtmlMockGateway';
 import { NarPlaceRepositoryFromHtmlImpl } from './repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { NarRaceDataHtmlGateway } from './gateway/implement/narRaceDataHtmlGateway';
 import { NarPlaceDataHtmlGateway } from './gateway/implement/narPlaceDataHtmlGateway';
@@ -90,10 +88,8 @@ container.register<INarRaceDataHtmlGateway>('INarRaceDataHtmlGateway', {
             case 'production':
                 console.log('NarRaceDataHtmlGateway');
                 return new NarRaceDataHtmlGateway();
-            case 'local':
-                return new NarRaceDataHtmlMockGateway();
             default:
-                return new NarRaceDataHtmlMockGateway();
+                return new NarRaceDataHtmlGateway();
         }
     },
 });
@@ -102,10 +98,8 @@ container.register<INarPlaceDataHtmlGateway>('INarPlaceDataHtmlGateway', {
         switch (process.env.ENV) {
             case 'production':
                 return new NarPlaceDataHtmlGateway();
-            case 'local':
-                return new NarPlaceDataHtmlMockGateway();
             default:
-                return new NarPlaceDataHtmlMockGateway();
+                return new NarPlaceDataHtmlGateway();
         }
     },
 });
