@@ -22,7 +22,8 @@ export class NarPlaceDataHtmlGateway implements INarPlaceDataHtmlGateway {
             const htmlText = await html.text();
             console.debug('htmlを取得できました');
             return htmlText;
-        } catch (e) {
+        } catch (error) {
+            console.debug('htmlを取得できませんでした', error);
             throw new Error('htmlを取得できませんでした');
         }
     }

@@ -94,14 +94,6 @@ describe('NarRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseCalendarData = new CalendarData(
-            'test202408014411',
-            '東京大賞典',
-            new Date('2023-08-01T10:00:00Z'),
-            new Date('2023-08-01T10:10:00Z'),
-            '大井競馬場',
-            'テスト',
-        );
         const baseNarCalendarData = new NarRaceData(
             `東京大賞典`,
             new Date('2023-08-01'),

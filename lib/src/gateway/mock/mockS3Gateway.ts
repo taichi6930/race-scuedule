@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { injectable } from 'tsyringe';
 import { IS3Gateway } from '../interface/iS3Gateway';
 
@@ -71,6 +72,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
             const key = `${this.folderPath}${fileName}`;
             this.mockStorage.set(key, csvContent);
         } catch (error) {
+            console.debug(error);
             throw new Error('モックのファイルのアップロードに失敗しました');
         }
     }

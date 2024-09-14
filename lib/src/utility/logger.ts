@@ -12,10 +12,7 @@ export function Logger<T>(
             console.log(`[${constructorName}.${propertyKey}] 終了`);
             return result;
         } catch (error) {
-            console.error(
-                `[${constructorName}.${propertyKey}] エラー`,
-                error,
-            );
+            console.error(`[${constructorName}.${propertyKey}] エラー`, error);
             throw error;
         }
     };

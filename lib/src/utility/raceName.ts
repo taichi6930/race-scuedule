@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { NarRaceCourse, NarRaceCourseType } from './data/raceSpecific';
 
 type NarRaceDataForRaceName = {

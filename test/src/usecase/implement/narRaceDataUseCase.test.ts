@@ -1,21 +1,14 @@
 import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
-import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
-import { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
-import { NarCalendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { mockNarRaceRepositoryFromS3Impl } from '../../mock/repository/narRaceRepositoryFromS3Impl';
 import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { NarGradeType } from '../../../../lib/src/utility/data/raceSpecific';
-import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
 import { mockNarRaceRepositoryFromHtmlImpl } from '../../mock/repository/narRaceRepositoryFromHtmlImpl';
 import { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { mockNarPlaceRepositoryFromS3Impl } from '../../mock/repository/narPlaceRepositoryFromS3Impl';
 import { NarRaceDataUseCase } from '../../../../lib/src/usecase/implement/narRaceDataUseCase';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
-import { mock } from 'node:test';
 
 describe('NarRaceDataUseCase', () => {
     let narRaceRepositoryFromS3Impl: jest.Mocked<

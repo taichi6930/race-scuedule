@@ -25,8 +25,8 @@ export class NarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
             const htmlText = await html.text();
             console.log(`htmlを取得できました ${url}`);
             return htmlText;
-        } catch (e) {
-            console.error('htmlを取得できませんでした');
+        } catch (error) {
+            console.debug('htmlを取得できませんでした', error);
             return '';
         }
     }

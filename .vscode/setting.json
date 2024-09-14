@@ -1,6 +1,0 @@
-{
-    "[yaml]": {
-        "trailing-spaces.modifiedLinesOnly": true,
-        "trailing-spaces.regexp": "^\\s{2}"
-    }
-}
