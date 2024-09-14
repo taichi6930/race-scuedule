@@ -2,17 +2,30 @@
 
 公営競技のレーススケジュールを管理する
 
-## Welcome to your CDK TypeScript project
+## 実行方法
 
-This is a blank project for CDK development with TypeScript.
+localで実行する場合は、
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+・次のコマンドを実行する
 
-## Useful commands
+```bash
+npm run dev
+```
 
--   `npm run build` compile typescript to js
--   `npm run watch` watch for changes and compile
--   `npm run test` perform the jest unit tests
--   `npx cdk deploy` deploy this stack to your default AWS account/region
--   `npx cdk diff` compare deployed stack with current state
--   `npx cdk synth` emits the synthesized CloudFormation template
+・次のcurlを実行する（カレンダー取得のためのGETリクエストの場合）
+
+```bash
+curl -X GET "http://localhost:3000/api/races/nar/calendar?startDate=2024-09-01&finishDate=2024-09-30"
+```
+
+・次のcurlを実行する（カレンダー更新のためのPOSTリクエストの場合）
+
+```bash
+curl -X POST \
+"http://localhost:3000/api/races/nar/calendar" \
+-H "Content-Type: application/json" \
+-d '{
+  "startDate": "2024-09-10",
+  "finishDate": "2024-09-13"
+}'
+```
