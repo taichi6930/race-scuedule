@@ -26,6 +26,7 @@ jest.mock('googleapis', () => {
     };
 });
 
+/* eslint-disable */
 describe('GoogleCalendarService', () => {
     let googleCalendarService: GoogleCalendarService<{}>;
 
@@ -95,9 +96,6 @@ describe('GoogleCalendarService', () => {
             const startDate = new Date('2021-01-01T00:00:00');
             const endDate = new Date('2021-01-02T00:00:00');
             const calendarList = [{}];
-            const expected = [
-                new CalendarData('', '', new Date(''), new Date(''), '', ''),
-            ];
 
             // モックの `events.list` メソッドを設定
             const eventsListMock = google.calendar('v3').events

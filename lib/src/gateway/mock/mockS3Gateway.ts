@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { injectable } from 'tsyringe';
 import { IS3Gateway } from '../interface/iS3Gateway';
 

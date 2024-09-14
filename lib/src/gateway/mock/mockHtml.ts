@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const mockNarPlaceHtml: { [key: string]: string } = {
     '202401': `
 

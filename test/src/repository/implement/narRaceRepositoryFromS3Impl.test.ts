@@ -111,7 +111,7 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                 raceDataList,
             );
             // テスト実行
-            const response = await repository.registerRaceList(request);
+            await repository.registerRaceList(request);
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
