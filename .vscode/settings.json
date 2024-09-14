@@ -1,6 +1,16 @@
 {
     "prettier.bracketSpacing": true,
+    // { } が{}に自動で変換されるのを防ぐために一時的にfalseにしている
     "editor.formatOnSave": false,
     "prettier.configPath": "./.prettierrc",
-    "prettier.bracketSameLine": true
+    "prettier.bracketSameLine": true,
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+        // For ESLint
+        "source.fixAll.eslint": "always",
+        // For TSLint
+        "source.fixAll.tslint": "always",
+        // For Stylelint
+        "source.fixAll.stylelint": "always"
+    }
 }
