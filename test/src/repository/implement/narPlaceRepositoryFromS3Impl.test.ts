@@ -28,20 +28,13 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
             // モックの戻り値を設定
             s3Gateway.fetchDataFromS3.mockImplementation((filename: string) => {
                 // filenameから日付を取得 16時からの競馬場にしたい
-                const date = parse(
-                    filename.slice(0, 6),
-                    'yyyyMM',
-                    new Date(),
-                );
+                const date = parse(filename.slice(0, 6), 'yyyyMM', new Date());
                 date.setHours(16);
                 console.log(date);
-                const csvDataText: string = [
-                    date.toISOString(),
-                    '大井',
-                ].join(',');
-                const csvDatajoinText: string = [
-                    csvDataText,
-                ].join('\n');
+                const csvDataText: string = [date.toISOString(), '大井'].join(
+                    ',',
+                );
+                const csvDatajoinText: string = [csvDataText].join('\n');
                 return Promise.resolve(csvDatajoinText);
             });
             // リクエストの作成
@@ -67,11 +60,7 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from(
                         { length: 12 },
-                        () =>
-                            new NarPlaceData(
-                                date,
-                                '大井',
-                            ),
+                        () => new NarPlaceData(date, '大井'),
                     );
                 },
             ).flat();

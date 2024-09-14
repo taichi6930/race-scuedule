@@ -11,7 +11,6 @@ import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 import '../../utility/format';
 
-
 /**
  * 競馬場データリポジトリの実装
  */

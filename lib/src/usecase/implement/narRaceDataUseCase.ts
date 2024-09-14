@@ -120,11 +120,11 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
         const fetchRaceListResponse: FetchRaceListResponse<NarRaceData> =
             type === 'storage'
                 ? await this.narRaceRepositoryFromS3.fetchRaceList(
-                    fetchRaceListRequest,
-                )
+                      fetchRaceListRequest,
+                  )
                 : await this.narRaceRepositoryFromHtml.fetchRaceList(
-                    fetchRaceListRequest,
-                );
+                      fetchRaceListRequest,
+                  );
         return fetchRaceListResponse.raceDataList;
     }
 
