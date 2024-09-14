@@ -218,7 +218,7 @@ export class NarRaceController {
             }
 
             // 競馬場情報を取得する
-            const placeList = await this.narPlaceDataUseCase.getPlaceDataList(
+            const placeList = await this.narPlaceDataUseCase.fetchPlaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
             );
