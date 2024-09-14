@@ -3,7 +3,7 @@
  * @param date
  * @returns
  */
-export const formatDate = (date: Date) => {
+export const formatDate = (date: Date): string => {
     return date.toISOString().replace('Z', '+09:00');
 };
 
@@ -65,5 +65,3 @@ declare global {
 Number.prototype.toXDigits = function (this: number, digit: number): string {
     return this.toString().padStart(digit, '0');
 };
-
-export {};

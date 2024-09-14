@@ -25,7 +25,7 @@ export class NarRaceRepositoryFromS3Impl
 {
     constructor(
         @inject('IS3GatewayForNarRace')
-        private s3Gateway: IS3Gateway<NarRaceData>,
+        private readonly s3Gateway: IS3Gateway<NarRaceData>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -45,7 +45,7 @@ export class NarRaceRepositoryFromS3Impl
         // ファイル名リストから競馬場開催データを取得する
         const raceDataList = (
             await Promise.all(
-                fileNames.map((fileName) =>
+                fileNames.map(async (fileName) =>
                     // S3からデータを取得する
                     this.s3Gateway.fetchDataFromS3(fileName).then((csv) => {
                         // csvをパースしてNarRaceDataのリストを生成する
@@ -110,15 +110,15 @@ export class NarRaceRepositoryFromS3Impl
     async registerRaceList(
         request: RegisterRaceListRequest<NarRaceData>,
     ): Promise<RegisterRaceListResponse> {
-        const raceData: NarRaceData[] = request.raceDataList;
+        const raceDataList: NarRaceData[] = request.raceDataList;
         // レースデータを日付ごとに分割する
-        const raceDataDict: { [key: string]: NarRaceData[] } = {};
-        raceData.forEach((race) => {
-            const key = `${format(race.dateTime, 'yyyyMMdd')}.csv`;
+        const raceDataDict: Record<string, NarRaceData[]> = {};
+        raceDataList.forEach((raceData) => {
+            const key = `${format(raceData.dateTime, 'yyyyMMdd')}.csv`;
             if (!raceDataDict[key]) {
                 raceDataDict[key] = [];
             }
-            raceDataDict[key].push(race);
+            raceDataDict[key].push(raceData);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする

@@ -1,7 +1,7 @@
 /**
  * NARのレース場名とコードの対応表
  */
-export const NAR_BABACODE: { [key: string]: string } = {
+export const NAR_BABACODE: Record<string, string> = {
     北見ば: '1',
     岩見ば: '2',
     帯広ば: '3',

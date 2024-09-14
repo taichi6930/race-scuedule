@@ -24,7 +24,7 @@ export class NarRaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('INarRaceDataHtmlGateway')
-        private narRaceDataHtmlGateway: INarRaceDataHtmlGateway,
+        private readonly narRaceDataHtmlGateway: INarRaceDataHtmlGateway,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -126,10 +126,10 @@ export class NarRaceRepositoryFromHtmlImpl
         return (
             race
                 .map((item) => {
-                    const match = item.match(/(\d+)[Rr]/);
+                    const match = /(\d+)[Rr]/.exec(item);
                     return match ? parseInt(match[1]) : 0;
                 })
-                .find((item) => item !== 0) || 0
+                .find((item) => item !== 0) ?? 0
         );
     }
 
@@ -137,10 +137,10 @@ export class NarRaceRepositoryFromHtmlImpl
         return (
             race
                 .map((item) => {
-                    const match = item.match(/(\d+)m/);
+                    const match = /(\d+)m/.exec(item);
                     return match ? parseInt(match[1]) : 0;
                 })
-                .find((item) => item !== 0) || 0
+                .find((item) => item !== 0) ?? 0
         );
     }
 
@@ -148,10 +148,10 @@ export class NarRaceRepositoryFromHtmlImpl
         const [hour, minute] = (
             race
                 .map((item) => {
-                    const match = item.match(/(\d+):(\d+)/);
+                    const match = /(\d+):(\d+)/.exec(item);
                     return match ? match[0] : '0:0';
                 })
-                .find((item) => item !== '0:0') || '0:0'
+                .find((item) => item !== '0:0') ?? '0:0'
         )
             .split(':')
             .map((item) => parseInt(item));

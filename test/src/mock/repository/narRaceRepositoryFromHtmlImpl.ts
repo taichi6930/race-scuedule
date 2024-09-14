@@ -1,6 +1,6 @@
-import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
+import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 
 // NarRaceRepositoryFromHtmlImplのmockを作成
 export const mockNarRaceRepositoryFromHtmlImpl = (): jest.Mocked<

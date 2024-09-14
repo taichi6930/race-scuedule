@@ -1,4 +1,4 @@
-import { NarRaceCourse } from '../utility/data/raceSpecific';
+import type { NarRaceCourse } from '../utility/data/raceSpecific';
 
 /**
  * NARのレース開催場所データ

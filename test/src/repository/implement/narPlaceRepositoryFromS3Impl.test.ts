@@ -2,7 +2,7 @@ import { parse } from 'date-fns';
 import 'reflect-metadata';
 import { container } from 'tsyringe';
 import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import { NarPlaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromS3Impl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
@@ -26,17 +26,24 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
     describe('fetchPlaceList', () => {
         test('正しい競馬場データを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation((filename: string) => {
-                // filenameから日付を取得 16時からの競馬場にしたい
-                const date = parse(filename.slice(0, 6), 'yyyyMM', new Date());
-                date.setHours(16);
-                console.log(date);
-                const csvDataText: string = [date.toISOString(), '大井'].join(
-                    ',',
-                );
-                const csvDatajoinText: string = [csvDataText].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            });
+            s3Gateway.fetchDataFromS3.mockImplementation(
+                async (filename: string) => {
+                    // filenameから日付を取得 16時からの競馬場にしたい
+                    const date = parse(
+                        filename.slice(0, 6),
+                        'yyyyMM',
+                        new Date(),
+                    );
+                    date.setHours(16);
+                    console.log(date);
+                    const csvDataText: string = [
+                        date.toISOString(),
+                        '大井',
+                    ].join(',');
+                    const csvDatajoinText: string = [csvDataText].join('\n');
+                    return Promise.resolve(csvDatajoinText);
+                },
+            );
             // リクエストの作成
             const request = new FetchPlaceListRequest(
                 new Date('2024-01-01'),

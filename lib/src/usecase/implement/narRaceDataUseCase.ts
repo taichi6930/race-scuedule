@@ -18,14 +18,14 @@ import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceList
 export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
     constructor(
         @inject('IPlaceRepositoryFromS3')
-        private narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceData>,
+        private readonly narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceData>,
         @inject('IRaceRepositoryFromS3')
-        private narRaceRepositoryFromS3: IRaceRepository<
+        private readonly narRaceRepositoryFromS3: IRaceRepository<
             NarRaceData,
             NarPlaceData
         >,
         @inject('IRaceRepositoryFromHtml')
-        private narRaceRepositoryFromHtml: IRaceRepository<
+        private readonly narRaceRepositoryFromHtml: IRaceRepository<
             NarRaceData,
             NarPlaceData
         >,
@@ -43,7 +43,7 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
         const placeList = await this.getPlaceDataList(startDate, finishDate);
 
         // レースデータを取得する
-        return await this.getRaceDataList(
+        return this.getRaceDataList(
             startDate,
             finishDate,
             placeList,
@@ -115,8 +115,11 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
         placeList: NarPlaceData[],
         type: 'storage' | 'web',
     ): Promise<NarRaceData[]> {
-        const fetchRaceListRequest: FetchRaceListRequest<NarPlaceData> =
-            new FetchRaceListRequest(startDate, finishDate, placeList);
+        const fetchRaceListRequest = new FetchRaceListRequest<NarPlaceData>(
+            startDate,
+            finishDate,
+            placeList,
+        );
         const fetchRaceListResponse: FetchRaceListResponse<NarRaceData> =
             type === 'storage'
                 ? await this.narRaceRepositoryFromS3.fetchRaceList(
@@ -135,8 +138,8 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
      */
     @Logger
     private async registerRaceDataList(raceList: NarRaceData[]): Promise<void> {
-        const registerRaceListRequest: RegisterRaceListRequest<NarRaceData> =
-            new RegisterRaceListRequest(raceList);
+        const registerRaceListRequest =
+            new RegisterRaceListRequest<NarRaceData>(raceList);
         await this.narRaceRepositoryFromS3.registerRaceList(
             registerRaceListRequest,
         );

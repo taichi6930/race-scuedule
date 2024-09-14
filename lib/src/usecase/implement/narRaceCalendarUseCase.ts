@@ -13,9 +13,9 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('ICalendarService')
-        private calendarService: ICalendarService<NarRaceData>,
+        private readonly calendarService: ICalendarService<NarRaceData>,
         @inject('IRaceRepositoryFromS3')
-        private narRaceRepositoryFromS3: IRaceRepository<
+        private readonly narRaceRepositoryFromS3: IRaceRepository<
             NarRaceData,
             NarPlaceData
         >,
@@ -62,7 +62,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
                 await this.narRaceRepositoryFromS3.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const raceDataList = fetchRaceDataListResponse.raceDataList;
+            const { raceDataList } = fetchRaceDataListResponse;
 
             // displayGradeListに含まれるレース情報のみを抽出
             const filteredRaceDataList: NarRaceData[] = raceDataList.filter(

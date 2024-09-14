@@ -1,4 +1,4 @@
-import { CalendarData } from '../../domain/calendarData';
+import type { CalendarData } from '../../domain/calendarData';
 
 /**
  * CalendarServiceのインターフェース
@@ -10,16 +10,16 @@ export interface ICalendarService<R> {
      * @param startDate
      * @param endDate
      */
-    getEvents(startDate: Date, endDate: Date): Promise<CalendarData[]>;
+    getEvents: (startDate: Date, endDate: Date) => Promise<CalendarData[]>;
     /**
      * カレンダーのイベントの更新を行う
      * @param raceList
      */
-    upsertEvents(raceList: R[]): Promise<void>;
+    upsertEvents: (raceList: R[]) => Promise<void>;
     /**
      * カレンダーのクレンジングを行う
      * @param startDate
      * @param endDate
      */
-    cleansingEvents(startDate: Date, endDate: Date): Promise<void>;
+    cleansingEvents: (startDate: Date, endDate: Date) => Promise<void>;
 }

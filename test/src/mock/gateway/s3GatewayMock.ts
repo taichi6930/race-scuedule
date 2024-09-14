@@ -1,6 +1,6 @@
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
-import { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 
 export const mockS3GatewayForNarRace = (): jest.Mocked<
     IS3Gateway<NarRaceData>

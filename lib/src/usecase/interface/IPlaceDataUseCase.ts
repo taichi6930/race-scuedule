@@ -7,11 +7,11 @@ export interface IPlaceDataUseCase<P> {
      * @param startDate
      * @param finishDate
      */
-    fetchPlaceDataList(startDate: Date, finishDate: Date): Promise<P[]>;
+    fetchPlaceDataList: (startDate: Date, finishDate: Date) => Promise<P[]>;
     /**
      * レース開催地のデータを更新する
      * @param startDate
      * @param finishDate
      */
-    updatePlaceDataList(startDate: Date, finishDate: Date): Promise<void>;
+    updatePlaceDataList: (startDate: Date, finishDate: Date) => Promise<void>;
 }

@@ -1,4 +1,4 @@
-import { NarRaceCourse } from '../../utility/data/raceSpecific';
+import type { NarRaceCourse } from '../../utility/data/raceSpecific';
 
 /**
  * 地方競馬のレースデータのHTMLを取得するGatewayのInterface
@@ -10,5 +10,5 @@ export interface INarRaceDataHtmlGateway {
      * @param place 競馬場
      * @returns レースデータのHTML
      */
-    getRaceDataHtml(date: Date, place: NarRaceCourse): Promise<string>;
+    getRaceDataHtml: (date: Date, place: NarRaceCourse) => Promise<string>;
 }

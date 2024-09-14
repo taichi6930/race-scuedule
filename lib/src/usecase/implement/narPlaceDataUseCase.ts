@@ -11,9 +11,9 @@ import { RegisterPlaceListRequest } from '../../repository/request/registerPlace
 export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
     constructor(
         @inject('IPlaceRepositoryFromS3')
-        private narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceData>,
+        private readonly narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceData>,
         @inject('IPlaceRepositoryFromHtml')
-        private narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceData>,
+        private readonly narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceData>,
     ) {}
     /**
      * レース開催データを取得する
@@ -67,8 +67,10 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
                 fetchPlaceListRequest,
             );
         // S3にデータを保存する
-        const registerPlaceListRequest: RegisterPlaceListRequest<NarPlaceData> =
-            new RegisterPlaceListRequest(fetchPlaceListResponse.placeDataList);
+        const registerPlaceListRequest =
+            new RegisterPlaceListRequest<NarPlaceData>(
+                fetchPlaceListResponse.placeDataList,
+            );
         await this.narPlaceRepositoryFromS3.registerPlaceList(
             registerPlaceListRequest,
         );

@@ -1,4 +1,4 @@
-import { JraRaceCourse } from '../utility/data/raceSpecific';
+import type { JraRaceCourse } from '../utility/data/raceSpecific';
 
 /**
  * JRAのレース開催場所データ

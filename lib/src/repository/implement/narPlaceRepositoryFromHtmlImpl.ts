@@ -21,7 +21,7 @@ export class NarPlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('INarPlaceDataHtmlGateway')
-        private narPlaceDataHtmlGateway: INarPlaceDataHtmlGateway,
+        private readonly narPlaceDataHtmlGateway: INarPlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -40,7 +40,7 @@ export class NarPlaceRepositoryFromHtmlImpl
             request.startDate,
             request.endDate,
         );
-        const promises = months.map((month) =>
+        const promises = months.map(async (month) =>
             this.fetchMonthPlaceDataList(month).then((childPlaceDataList) =>
                 childPlaceDataList.filter(
                     (placeData) =>
@@ -114,7 +114,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         // 2行目のtrは曜日
         // ３行目のtr以降はレース情報
         const trs = tbody.find('tr');
-        const narPlaceDataDict: { [key: string]: number[] } = {};
+        const narPlaceDataDict: Record<string, number[]> = {};
 
         trs.each((index: number, element: cheerio.Element) => {
             if (index < 2) {
@@ -122,6 +122,8 @@ export class NarPlaceRepositoryFromHtmlImpl
             }
             const tds = $(element).find('td');
             const place = $(tds[0]).text();
+            // すぐには解決できないので、disableにしておく
+            // eslint-disable-next-line @typescript-eslint/no-shadow
             tds.each((index: number, element: cheerio.Element) => {
                 if (index === 0) {
                     if (!narPlaceDataDict[place]) {

@@ -1,5 +1,5 @@
 import { CalendarData } from '../../domain/calendarData';
-import { ICalendarService } from '../interface/ICalendarService';
+import type { ICalendarService } from '../interface/ICalendarService';
 import { addDays, format } from 'date-fns';
 
 /**

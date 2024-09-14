@@ -1,7 +1,8 @@
-import { Construct } from 'constructs';
+import type { Construct } from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dotenv from 'dotenv';
+import type { StackProps } from 'aws-cdk-lib';
 import {
     aws_lambda_nodejs,
     aws_apigateway,
@@ -9,7 +10,6 @@ import {
     Stack,
     Duration,
     CfnOutput,
-    StackProps,
 } from 'aws-cdk-lib';
 import {
     Effect,
@@ -94,11 +94,11 @@ export class CdkRaceScheduleAppStack extends Stack {
                 entry: 'lib/src/index.ts',
                 role: role,
                 environment: {
-                    ENV: process.env.ENV || 'local',
-                    NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID || '',
-                    GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL || '',
+                    ENV: process.env.ENV ?? 'local',
+                    NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID ?? '',
+                    GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL ?? '',
                     GOOGLE_PRIVATE_KEY: (
-                        process.env.GOOGLE_PRIVATE_KEY || ''
+                        process.env.GOOGLE_PRIVATE_KEY ?? ''
                     ).replace(/\\n/g, '\n'),
                 },
                 timeout: Duration.seconds(30),
