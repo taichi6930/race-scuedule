@@ -25,6 +25,26 @@ jobs:
             - name: Check code style
               run: npx prettier --check lib || exit 0
 
+    # ESLintのチェック
+    eslint:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '22'
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Check code style
+              run: npm run lint lib || exit 0
+
+    # テストの実行
     test:
         runs-on: ubuntu-latest
 
