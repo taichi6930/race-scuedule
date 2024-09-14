@@ -62,6 +62,24 @@ describe('NarRaceDataUseCase', () => {
         11,
     );
 
+    describe('fetchRaceDataList', () => {
+        it('正常にレースデータが取得できること', async () => {
+            const mockRaceData: NarRaceData[] = [baseRaceData];
+
+            // モックの戻り値を設定
+            narRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
+                new FetchRaceListResponse<NarRaceData>(mockRaceData),
+            );
+
+            const startDate = new Date('2024-06-01');
+            const endDate = new Date('2024-06-30');
+
+            const result = await useCase.fetchRaceDataList(startDate, endDate);
+
+            expect(result).toEqual(mockRaceData);
+        });
+    });
+
     describe('updateRaceDataList', () => {
         it('正常にレースデータが更新されること', async () => {
             const mockRaceData: NarRaceData[] = [baseRaceData];

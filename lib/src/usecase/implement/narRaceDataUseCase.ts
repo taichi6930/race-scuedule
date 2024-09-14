@@ -109,7 +109,7 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
      * @param finishDate
      */
     @Logger
-    async getRaceDataList(
+    private async getRaceDataList(
         startDate: Date,
         finishDate: Date,
         placeList: NarPlaceData[],
@@ -134,7 +134,7 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
      * @param raceDataList
      */
     @Logger
-    async registerRaceDataList(raceList: NarRaceData[]): Promise<void> {
+    private async registerRaceDataList(raceList: NarRaceData[]): Promise<void> {
         const registerRaceListRequest: RegisterRaceListRequest<NarRaceData> =
             new RegisterRaceListRequest(raceList);
         await this.narRaceRepositoryFromS3.registerRaceList(

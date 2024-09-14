@@ -1,8 +1,8 @@
 import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 
-// NarPlaceRepositoryFromS3Implのmockを作成
-export const mockNarPlaceRepositoryFromS3Impl = (): jest.Mocked<
+// NarPlaceRepositoryFromHtmlImplのmockを作成
+export const mockNarPlaceRepositoryFromHtmlImpl = (): jest.Mocked<
     IPlaceRepository<NarPlaceData>
 > => {
     return {
