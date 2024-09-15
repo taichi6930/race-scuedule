@@ -30,15 +30,15 @@ describe('JraPlaceRepositoryFromS3Impl', () => {
                 async (filename: string) => {
                     // filenameから日付を取得 16時からの競馬場にしたい
                     const date = parse(
-                        filename.slice(0, 6),
-                        'yyyyMM',
+                        filename.slice(0, 4),
+                        'yyyy',
                         new Date(),
                     );
                     date.setHours(16);
                     console.log(date);
                     const csvDataText: string = [
                         date.toISOString(),
-                        '大井',
+                        '東京',
                     ].join(',');
                     const csvDatajoinText: string = [csvDataText].join('\n');
                     return Promise.resolve(csvDatajoinText);
@@ -80,7 +80,7 @@ describe('JraPlaceRepositoryFromS3Impl', () => {
             await repository.registerPlaceList(request);
 
             // uploadDataToS3が12回呼ばれることを検証
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(12);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 });
