@@ -23,7 +23,7 @@ export class NarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<NarRaceData, NarPlaceData>
 {
     constructor(
-        @inject('INarRaceDataHtmlGateway')
+        @inject('NarRaceDataHtmlGateway')
         private readonly narRaceDataHtmlGateway: INarRaceDataHtmlGateway,
     ) {}
     /**

@@ -34,7 +34,7 @@ const app = express();
 console.log('express app created');
 // DIコンテナの初期化
 // s3Gatewayの実装クラスをDIコンテナに登錄する
-container.register<IS3Gateway<NarRaceData>>('IS3GatewayForNarRace', {
+container.register<IS3Gateway<NarRaceData>>('NarRaceS3Gateway', {
     useFactory: () => {
         switch (process.env.ENV) {
             case 'production':
@@ -58,10 +58,10 @@ container.register<IS3Gateway<NarRaceData>>('IS3GatewayForNarRace', {
         }
     },
 });
-// IS3GatewayForNarPlace
-container.register<IS3Gateway<NarPlaceData>>('IS3GatewayForNarPlace', {
+// NarPlaceS3Gateway
+container.register<IS3Gateway<NarPlaceData>>('NarPlaceS3Gateway', {
     useFactory: () => {
-        console.log(`IS3GatewayForNarPlace ${process.env.ENV}`);
+        console.log(`NarPlaceS3Gateway ${process.env.ENV}`);
         switch (process.env.ENV) {
             case 'production':
                 return new S3Gateway<NarPlaceData>(
@@ -82,7 +82,7 @@ container.register<IS3Gateway<NarPlaceData>>('IS3GatewayForNarPlace', {
     },
 });
 // INarRaceDataHtmlGateway
-container.register<INarRaceDataHtmlGateway>('INarRaceDataHtmlGateway', {
+container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
     useFactory: () => {
         switch (process.env.ENV) {
             case 'production':
@@ -93,7 +93,7 @@ container.register<INarRaceDataHtmlGateway>('INarRaceDataHtmlGateway', {
         }
     },
 });
-container.register<INarPlaceDataHtmlGateway>('INarPlaceDataHtmlGateway', {
+container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (process.env.ENV) {
             case 'production':
@@ -105,7 +105,7 @@ container.register<INarPlaceDataHtmlGateway>('INarPlaceDataHtmlGateway', {
 });
 
 // ICalendarServiceの実装クラスをDIコンテナに登錄する
-container.register<ICalendarService<NarRaceData>>('ICalendarService', {
+container.register<ICalendarService<NarRaceData>>('NarCalendarService', {
     useFactory: () => {
         switch (process.env.ENV) {
             case 'production':
@@ -116,45 +116,48 @@ container.register<ICalendarService<NarRaceData>>('ICalendarService', {
                 );
             case 'local':
                 // ENV が local の場合、MockGoogleCalendarService を使用
-                return new MockGoogleCalendarService();
+                return new MockGoogleCalendarService('nar');
             default:
                 // ENV が指定されていない場合も MockGoogleCalendarService を使用
-                return new MockGoogleCalendarService();
+                return new MockGoogleCalendarService('nar');
         }
     },
 });
 
 // Repositoryの実装クラスをDIコンテナに登錄する
 container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
-    'IRaceRepositoryFromS3',
+    'NarRaceRepositoryFromS3',
     { useClass: NarRaceRepositoryFromS3Impl },
 );
-container.register<IPlaceRepository<NarPlaceData>>('IPlaceRepositoryFromS3', {
+container.register<IPlaceRepository<NarPlaceData>>('NarPlaceRepositoryFromS3', {
     useClass: NarPlaceRepositoryFromS3Impl,
 });
 container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
-    'IRaceRepositoryFromHtml',
+    'NarRaceRepositoryFromHtml',
     { useClass: NarRaceRepositoryFromHtmlImpl },
 );
-container.register<IPlaceRepository<NarPlaceData>>('IPlaceRepositoryFromHtml', {
-    useClass: NarPlaceRepositoryFromHtmlImpl,
-});
+container.register<IPlaceRepository<NarPlaceData>>(
+    'NarPlaceRepositoryFromHtml',
+    {
+        useClass: NarPlaceRepositoryFromHtmlImpl,
+    },
+);
 
 // Usecaseの実装クラスをDIコンテナに登錄する
-container.register<IRaceCalendarUseCase>('IRaceCalendarUseCase', {
+container.register<IRaceCalendarUseCase>('NarRaceCalendarUseCase', {
     useClass: NarRaceCalendarUseCase,
 });
-container.register<IRaceDataUseCase<NarRaceData>>('IRaceDataUseCase', {
+container.register<IRaceDataUseCase<NarRaceData>>('NarRaceDataUseCase', {
     useClass: NarRaceDataUseCase,
 });
-container.register<IPlaceDataUseCase<NarPlaceData>>('IPlaceDataUseCase', {
+container.register<IPlaceDataUseCase<NarPlaceData>>('NarPlaceDataUseCase', {
     useClass: NarPlaceDataUseCase,
 });
 
 const narRaceController = container.resolve(NarRaceController);
 
 app.use(express.json());
-app.use('/api/races', narRaceController.router);
+app.use('/api/races/nar', narRaceController.router);
 
 // Lambda用のハンドラーをエクスポート
 export const handler = serverlessExpress({ app });

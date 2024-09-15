@@ -20,7 +20,7 @@ describe('NarPlaceDataUseCase', () => {
         // narPlaceRepositoryFromS3Implをコンテナに登録
         narPlaceRepositoryFromS3Impl = mockNarPlaceRepositoryFromS3Impl();
         container.register<IPlaceRepository<NarPlaceData>>(
-            'IPlaceRepositoryFromS3',
+            'NarPlaceRepositoryFromS3',
             {
                 useValue: narPlaceRepositoryFromS3Impl,
             },
@@ -28,7 +28,7 @@ describe('NarPlaceDataUseCase', () => {
 
         narPlaceRepositoryFromHtmlImpl = mockNarPlaceRepositoryFromHtmlImpl();
         container.register<IPlaceRepository<NarPlaceData>>(
-            'IPlaceRepositoryFromHtml',
+            'NarPlaceRepositoryFromHtml',
             {
                 useValue: narPlaceRepositoryFromHtmlImpl,
             },

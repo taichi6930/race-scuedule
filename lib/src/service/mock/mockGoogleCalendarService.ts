@@ -7,6 +7,8 @@ import { addDays, format } from 'date-fns';
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class MockGoogleCalendarService implements ICalendarService<any> {
+    constructor(private readonly raceType: 'jra' | 'nar') {}
+
     async getEvents(
         startDate: Date,
         finishDate: Date,
@@ -19,8 +21,8 @@ export class MockGoogleCalendarService implements ICalendarService<any> {
         ) {
             events.push(
                 new CalendarData(
-                    `test-${format(date, 'yyyyMMdd')}-id`,
-                    `test-${format(date, 'yyyyMMdd')}-title`,
+                    `mock-${this.raceType}-${format(date, 'yyyyMMdd')}-id`,
+                    `mock-${this.raceType}-${format(date, 'yyyyMMdd')}-title`,
                     date,
                     date,
                     'testLocation',

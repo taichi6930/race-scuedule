@@ -24,7 +24,7 @@ export class NarRaceRepositoryFromS3Impl
     implements IRaceRepository<NarRaceData, NarPlaceData>
 {
     constructor(
-        @inject('IS3GatewayForNarRace')
+        @inject('NarRaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<NarRaceData>,
     ) {}
     /**

@@ -26,14 +26,14 @@ describe('NarRaceDataUseCase', () => {
         // IRaceRepositoryインターフェースの依存関係を登録
         narRaceRepositoryFromS3Impl = mockNarRaceRepositoryFromS3Impl();
         container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
-            'IRaceRepositoryFromS3',
+            'NarRaceRepositoryFromS3',
             {
                 useValue: narRaceRepositoryFromS3Impl,
             },
         );
         narRaceRepositoryFromHtmlImpl = mockNarRaceRepositoryFromHtmlImpl();
         container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
-            'IRaceRepositoryFromHtml',
+            'NarRaceRepositoryFromHtml',
             {
                 useValue: narRaceRepositoryFromHtmlImpl,
             },
@@ -42,7 +42,7 @@ describe('NarRaceDataUseCase', () => {
         // narPlaceRepositoryFromS3Implをコンテナに登録
         narPlaceRepositoryFromS3Impl = mockNarPlaceRepositoryFromS3Impl();
         container.register<IPlaceRepository<NarPlaceData>>(
-            'IPlaceRepositoryFromS3',
+            'NarPlaceRepositoryFromS3',
             {
                 useValue: narPlaceRepositoryFromS3Impl,
             },
