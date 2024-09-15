@@ -17,14 +17,14 @@ import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceList
 @injectable()
 export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
     constructor(
-        @inject('IPlaceRepositoryFromS3')
+        @inject('NarPlaceRepositoryFromS3')
         private readonly narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceData>,
-        @inject('IRaceRepositoryFromS3')
+        @inject('NarRaceRepositoryFromS3')
         private readonly narRaceRepositoryFromS3: IRaceRepository<
             NarRaceData,
             NarPlaceData
         >,
-        @inject('IRaceRepositoryFromHtml')
+        @inject('NarRaceRepositoryFromHtml')
         private readonly narRaceRepositoryFromHtml: IRaceRepository<
             NarRaceData,
             NarPlaceData

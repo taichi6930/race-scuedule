@@ -20,7 +20,7 @@ export class NarPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<NarPlaceData>
 {
     constructor(
-        @inject('INarPlaceDataHtmlGateway')
+        @inject('NarPlaceDataHtmlGateway')
         private readonly narPlaceDataHtmlGateway: INarPlaceDataHtmlGateway,
     ) {}
 

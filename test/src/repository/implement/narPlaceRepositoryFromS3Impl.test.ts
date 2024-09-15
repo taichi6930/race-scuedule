@@ -17,7 +17,7 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
         s3Gateway = mockS3GatewayForNarPlace();
 
         // DIコンテナにモックを登録
-        container.registerInstance('IS3GatewayForNarPlace', s3Gateway);
+        container.registerInstance('NarPlaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(NarPlaceRepositoryFromS3Impl);

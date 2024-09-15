@@ -16,11 +16,11 @@ export class NarRaceController {
     public router: Router;
 
     constructor(
-        @inject('IRaceCalendarUseCase')
+        @inject('NarRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
-        @inject('IRaceDataUseCase')
+        @inject('NarRaceDataUseCase')
         private readonly narRaceDataUseCase: IRaceDataUseCase<NarRaceData>,
-        @inject('IPlaceDataUseCase')
+        @inject('NarPlaceDataUseCase')
         private readonly narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
     ) {
         this.router = Router();
@@ -33,23 +33,20 @@ export class NarRaceController {
     @Logger
     private initializeRoutes(): void {
         // Calendar関連のAPI
-        this.router.get('/nar/calendar', this.getRacesFromCalendar.bind(this));
-        this.router.post(
-            '/nar/calendar',
-            this.updateRacesToCalendar.bind(this),
-        );
+        this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
+        this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
         this.router.delete(
-            '/nar/calendar',
+            '/calendar',
             this.cleansingRacesFromCalendar.bind(this),
         );
 
         // RaceData関連のAPI
-        this.router.get('/nar/race', this.getRaceDataList.bind(this));
-        this.router.post('/nar/race', this.updateRaceDataList.bind(this));
+        this.router.get('/race', this.getRaceDataList.bind(this));
+        this.router.post('/race', this.updateRaceDataList.bind(this));
 
         // PlaceData関連のAPI
-        this.router.get('/nar/place', this.getPlaceDataList.bind(this));
-        this.router.post('/nar/place', this.updatePlaceDataList.bind(this));
+        this.router.get('/place', this.getPlaceDataList.bind(this));
+        this.router.post('/place', this.updatePlaceDataList.bind(this));
     }
 
     /**

@@ -10,9 +10,9 @@ import { RegisterPlaceListRequest } from '../../repository/request/registerPlace
 @injectable()
 export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
     constructor(
-        @inject('IPlaceRepositoryFromS3')
+        @inject('NarPlaceRepositoryFromS3')
         private readonly narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceData>,
-        @inject('IPlaceRepositoryFromHtml')
+        @inject('NarPlaceRepositoryFromHtml')
         private readonly narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceData>,
     ) {}
     /**

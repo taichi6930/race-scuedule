@@ -19,7 +19,7 @@ export class NarPlaceRepositoryFromS3Impl
     implements IPlaceRepository<NarPlaceData>
 {
     constructor(
-        @inject('IS3GatewayForNarPlace')
+        @inject('NarPlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<NarPlaceData>,
     ) {}
     /**

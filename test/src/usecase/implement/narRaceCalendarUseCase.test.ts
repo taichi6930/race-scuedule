@@ -21,14 +21,17 @@ describe('NarRaceCalendarUseCase', () => {
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
         calendarServiceMock = NarCalendarServiceMock();
-        container.register<ICalendarService<NarRaceData>>('ICalendarService', {
-            useValue: calendarServiceMock,
-        });
+        container.register<ICalendarService<NarRaceData>>(
+            'NarCalendarService',
+            {
+                useValue: calendarServiceMock,
+            },
+        );
 
         // IRaceRepositoryインターフェースの依存関係を登録
         narRaceRepositoryFromS3Impl = mockNarRaceRepositoryFromS3Impl();
         container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
-            'IRaceRepositoryFromS3',
+            'NarRaceRepositoryFromS3',
             {
                 useValue: narRaceRepositoryFromS3Impl,
             },
