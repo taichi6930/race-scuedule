@@ -95,6 +95,7 @@ export class CdkRaceScheduleAppStack extends Stack {
                 role: role,
                 environment: {
                     ENV: process.env.ENV ?? 'local',
+                    JRA_CALENDAR_ID: process.env.JRA_CALENDAR_ID ?? '',
                     NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID ?? '',
                     GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL ?? '',
                     GOOGLE_PRIVATE_KEY: (
