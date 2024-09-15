@@ -8,6 +8,7 @@ import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
+import '../../utility/format';
 
 @injectable()
 export class JraPlaceRepositoryFromS3Impl
