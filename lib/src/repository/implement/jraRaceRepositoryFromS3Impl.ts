@@ -13,6 +13,7 @@ import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
+import '../../utility/format';
 
 @injectable()
 export class JraRaceRepositoryFromS3Impl
