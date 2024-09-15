@@ -32,6 +32,15 @@ import { NarRaceDataUseCase } from './usecase/implement/narRaceDataUseCase';
 import { IPlaceDataUseCase } from './usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from './usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from './usecase/interface/IRaceDataUseCase';
+import { IJraRaceDataHtmlGateway } from './gateway/interface/iJraRaceDataHtmlGateway';
+import { JraRaceDataHtmlGateway } from './gateway/implement/jraRaceDataHtmlGateway';
+import { JraPlaceDataHtmlGateway } from './gateway/implement/jraPlaceDataHtmlGateway';
+import { IJraPlaceDataHtmlGateway } from './gateway/interface/iJraPlaceDataHtmlGateway';
+import { JraPlaceRepositoryFromHtmlImpl } from './repository/implement/jraPlaceRepositoryFromHtmlImpl';
+import { JraPlaceRepositoryFromS3Impl } from './repository/implement/jraPlaceRepositoryFromS3Impl';
+import { JraRaceRepositoryFromHtmlImpl } from './repository/implement/jraRaceRepositoryFromHtmlImpl';
+import { JraRaceDataUseCase } from './usecase/implement/jraRaceDataUseCase';
+import { JraPlaceDataUseCase } from './usecase/implement/jraPlaceDataUseCase';
 
 // Expressアプリケーションの設定
 const app = express();
@@ -86,7 +95,6 @@ container.register<IS3Gateway<JraRaceData>>('JraRaceS3Gateway', {
         }
     },
 });
-// NarPlaceS3Gateway
 container.register<IS3Gateway<NarPlaceData>>('NarPlaceS3Gateway', {
     useFactory: () => {
         console.log(`NarPlaceS3Gateway ${process.env.ENV}`);
@@ -109,7 +117,28 @@ container.register<IS3Gateway<NarPlaceData>>('NarPlaceS3Gateway', {
         }
     },
 });
-// INarRaceDataHtmlGateway
+container.register<IS3Gateway<JraPlaceData>>('JraPlaceS3Gateway', {
+    useFactory: () => {
+        console.log(`JraPlaceS3Gateway ${process.env.ENV}`);
+        switch (process.env.ENV) {
+            case 'production':
+                return new S3Gateway<JraPlaceData>(
+                    'race-schedule-bucket',
+                    'jra/place/',
+                );
+            case 'local':
+                return new MockS3Gateway<JraPlaceData>(
+                    'race-schedule-bucket',
+                    'jra/place/',
+                );
+            default:
+                return new MockS3Gateway<JraPlaceData>(
+                    'race-schedule-bucket',
+                    'jra/place/',
+                );
+        }
+    },
+});
 container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
     useFactory: () => {
         switch (process.env.ENV) {
@@ -121,6 +150,17 @@ container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
         }
     },
 });
+container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
+    useFactory: () => {
+        switch (process.env.ENV) {
+            case 'production':
+                console.log('JraRaceDataHtmlGateway');
+                return new JraRaceDataHtmlGateway();
+            default:
+                return new JraRaceDataHtmlGateway();
+        }
+    },
+});
 container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (process.env.ENV) {
@@ -128,6 +168,16 @@ container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
                 return new NarPlaceDataHtmlGateway();
             default:
                 return new NarPlaceDataHtmlGateway();
+        }
+    },
+});
+container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
+    useFactory: () => {
+        switch (process.env.ENV) {
+            case 'production':
+                return new JraPlaceDataHtmlGateway();
+            default:
+                return new JraPlaceDataHtmlGateway();
         }
     },
 });
@@ -172,40 +222,55 @@ container.register<ICalendarService<JraRaceData>>('JraCalendarService', {
 });
 
 // Repositoryの実装クラスをDIコンテナに登錄する
-container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
-    'JraRaceRepositoryFromS3',
-    { useClass: JraRaceRepositoryFromS3Impl },
-);
 container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
     'NarRaceRepositoryFromS3',
     { useClass: NarRaceRepositoryFromS3Impl },
 );
+container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
+    'JraRaceRepositoryFromS3',
+    { useClass: JraRaceRepositoryFromS3Impl },
+);
 container.register<IPlaceRepository<NarPlaceData>>('NarPlaceRepositoryFromS3', {
     useClass: NarPlaceRepositoryFromS3Impl,
+});
+container.register<IPlaceRepository<JraPlaceData>>('JraPlaceRepositoryFromS3', {
+    useClass: JraPlaceRepositoryFromS3Impl,
 });
 container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
     'NarRaceRepositoryFromHtml',
     { useClass: NarRaceRepositoryFromHtmlImpl },
 );
+container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
+    'JraRaceRepositoryFromHtml',
+    { useClass: JraRaceRepositoryFromHtmlImpl },
+);
 container.register<IPlaceRepository<NarPlaceData>>(
     'NarPlaceRepositoryFromHtml',
-    {
-        useClass: NarPlaceRepositoryFromHtmlImpl,
-    },
+    { useClass: NarPlaceRepositoryFromHtmlImpl },
+);
+container.register<IPlaceRepository<JraPlaceData>>(
+    'JraPlaceRepositoryFromHtml',
+    { useClass: JraPlaceRepositoryFromHtmlImpl },
 );
 
 // Usecaseの実装クラスをDIコンテナに登錄する
-container.register<IRaceCalendarUseCase>('JraRaceCalendarUseCase', {
-    useClass: JraRaceCalendarUseCase,
-});
 container.register<IRaceCalendarUseCase>('NarRaceCalendarUseCase', {
     useClass: NarRaceCalendarUseCase,
+});
+container.register<IRaceCalendarUseCase>('JraRaceCalendarUseCase', {
+    useClass: JraRaceCalendarUseCase,
 });
 container.register<IRaceDataUseCase<NarRaceData>>('NarRaceDataUseCase', {
     useClass: NarRaceDataUseCase,
 });
+container.register<IRaceDataUseCase<JraRaceData>>('JraRaceDataUseCase', {
+    useClass: JraRaceDataUseCase,
+});
 container.register<IPlaceDataUseCase<NarPlaceData>>('NarPlaceDataUseCase', {
     useClass: NarPlaceDataUseCase,
+});
+container.register<IPlaceDataUseCase<JraPlaceData>>('JraPlaceDataUseCase', {
+    useClass: JraPlaceDataUseCase,
 });
 
 const narRaceController = container.resolve(NarRaceController);
