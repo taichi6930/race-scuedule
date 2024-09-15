@@ -1,5 +1,7 @@
 import 'reflect-metadata'; // reflect-metadataをインポート
+
 import { container } from 'tsyringe';
+
 import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';

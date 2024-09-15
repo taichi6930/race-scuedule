@@ -1,20 +1,29 @@
 import 'reflect-metadata';
-import express from 'express';
+
 import serverlessExpress from '@codegenie/serverless-express';
+import express from 'express';
 import { container } from 'tsyringe';
+
 import { JraRaceController } from './controller/jraRaceController';
 import { NarRaceController } from './controller/narRaceController';
 import { JraPlaceData } from './domain/jraPlaceData';
 import { JraRaceData } from './domain/jraRaceData';
 import { NarPlaceData } from './domain/narPlaceData';
 import { NarRaceData } from './domain/narRaceData';
+import { JraPlaceDataHtmlGateway } from './gateway/implement/jraPlaceDataHtmlGateway';
+import { JraRaceDataHtmlGateway } from './gateway/implement/jraRaceDataHtmlGateway';
 import { NarPlaceDataHtmlGateway } from './gateway/implement/narPlaceDataHtmlGateway';
 import { NarRaceDataHtmlGateway } from './gateway/implement/narRaceDataHtmlGateway';
 import { S3Gateway } from './gateway/implement/s3Gateway';
+import { IJraPlaceDataHtmlGateway } from './gateway/interface/iJraPlaceDataHtmlGateway';
+import { IJraRaceDataHtmlGateway } from './gateway/interface/iJraRaceDataHtmlGateway';
 import { INarPlaceDataHtmlGateway } from './gateway/interface/iNarPlaceDataHtmlGateway';
 import { INarRaceDataHtmlGateway } from './gateway/interface/iNarRaceDataHtmlGateway';
 import { IS3Gateway } from './gateway/interface/iS3Gateway';
 import { MockS3Gateway } from './gateway/mock/mockS3Gateway';
+import { JraPlaceRepositoryFromHtmlImpl } from './repository/implement/jraPlaceRepositoryFromHtmlImpl';
+import { JraPlaceRepositoryFromS3Impl } from './repository/implement/jraPlaceRepositoryFromS3Impl';
+import { JraRaceRepositoryFromHtmlImpl } from './repository/implement/jraRaceRepositoryFromHtmlImpl';
 import { JraRaceRepositoryFromS3Impl } from './repository/implement/jraRaceRepositoryFromS3Impl';
 import { NarPlaceRepositoryFromHtmlImpl } from './repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { NarPlaceRepositoryFromS3Impl } from './repository/implement/narPlaceRepositoryFromS3Impl';
@@ -25,22 +34,15 @@ import { IRaceRepository } from './repository/interface/IRaceRepository';
 import { GoogleCalendarService } from './service/implement/googleCalendarService';
 import { ICalendarService } from './service/interface/ICalendarService';
 import { MockGoogleCalendarService } from './service/mock/mockGoogleCalendarService';
+import { JraPlaceDataUseCase } from './usecase/implement/jraPlaceDataUseCase';
 import { JraRaceCalendarUseCase } from './usecase/implement/jraRaceCalendarUseCase';
+import { JraRaceDataUseCase } from './usecase/implement/jraRaceDataUseCase';
 import { NarPlaceDataUseCase } from './usecase/implement/narPlaceDataUseCase';
 import { NarRaceCalendarUseCase } from './usecase/implement/narRaceCalendarUseCase';
 import { NarRaceDataUseCase } from './usecase/implement/narRaceDataUseCase';
 import { IPlaceDataUseCase } from './usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from './usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from './usecase/interface/IRaceDataUseCase';
-import { IJraRaceDataHtmlGateway } from './gateway/interface/iJraRaceDataHtmlGateway';
-import { JraRaceDataHtmlGateway } from './gateway/implement/jraRaceDataHtmlGateway';
-import { JraPlaceDataHtmlGateway } from './gateway/implement/jraPlaceDataHtmlGateway';
-import { IJraPlaceDataHtmlGateway } from './gateway/interface/iJraPlaceDataHtmlGateway';
-import { JraPlaceRepositoryFromHtmlImpl } from './repository/implement/jraPlaceRepositoryFromHtmlImpl';
-import { JraPlaceRepositoryFromS3Impl } from './repository/implement/jraPlaceRepositoryFromS3Impl';
-import { JraRaceRepositoryFromHtmlImpl } from './repository/implement/jraRaceRepositoryFromHtmlImpl';
-import { JraRaceDataUseCase } from './usecase/implement/jraRaceDataUseCase';
-import { JraPlaceDataUseCase } from './usecase/implement/jraPlaceDataUseCase';
 
 // Expressアプリケーションの設定
 const app = express();

@@ -1,11 +1,12 @@
-import { injectable, inject } from 'tsyringe';
-import { Logger } from '../../utility/logger';
+import { inject, injectable } from 'tsyringe';
+
 import { JraPlaceData } from '../../domain/jraPlaceData';
-import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
-import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
+import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
+import { Logger } from '../../utility/logger';
+import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 @injectable()
 export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {

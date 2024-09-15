@@ -1,5 +1,9 @@
-import { injectable, inject } from 'tsyringe';
+import '../../utility/format';
+
+import { inject, injectable } from 'tsyringe';
+
 import { JraPlaceData } from '../../domain/jraPlaceData';
+import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -7,8 +11,6 @@ import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
-import '../../utility/format';
-import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 
 @injectable()
 export class JraPlaceRepositoryFromS3Impl

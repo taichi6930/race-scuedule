@@ -1,5 +1,7 @@
 import 'reflect-metadata'; // reflect-metadataをインポート
-import { injectable, inject } from 'tsyringe';
+
+import { inject, injectable } from 'tsyringe';
+
 import { CalendarData } from '../../domain/calendarData';
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraRaceData } from '../../domain/jraRaceData';

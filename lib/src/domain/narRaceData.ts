@@ -1,7 +1,7 @@
 import type {
+    NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
-    NarGradeType,
 } from '../utility/data/raceSpecific';
 
 /**

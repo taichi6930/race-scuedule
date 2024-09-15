@@ -1,15 +1,17 @@
 import 'reflect-metadata';
-import { injectable, inject } from 'tsyringe';
+import '../../utility/format';
+
+import { inject, injectable } from 'tsyringe';
+
 import { NarPlaceData } from '../../domain/narPlaceData';
+import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
+import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
-import '../../utility/format';
 
 /**
  * 競馬場データリポジトリの実装

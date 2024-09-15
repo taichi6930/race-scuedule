@@ -1,10 +1,14 @@
-import { injectable, inject } from 'tsyringe';
+import '../../utility/format';
+
+import { inject, injectable } from 'tsyringe';
+
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraRaceData } from '../../domain/jraRaceData';
+import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import {
+    JraGradeType,
     JraRaceCourse,
     JraRaceCourseType,
-    JraGradeType,
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -12,8 +16,6 @@ import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
-import '../../utility/format';
-import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 
 @injectable()
 export class JraRaceRepositoryFromS3Impl

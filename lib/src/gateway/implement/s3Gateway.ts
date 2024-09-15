@@ -1,13 +1,14 @@
 import {
-    S3Client,
-    PutObjectCommand,
     GetObjectCommand,
+    PutObjectCommand,
+    S3Client,
 } from '@aws-sdk/client-s3';
-import { IS3Gateway } from '../interface/iS3Gateway';
 import { createObjectCsvWriter as createCsvWriter } from 'csv-writer';
 import * as fs from 'fs';
 import { Readable } from 'stream';
 import { injectable } from 'tsyringe';
+
+import { IS3Gateway } from '../interface/iS3Gateway';
 
 /**
  * S3Gateway

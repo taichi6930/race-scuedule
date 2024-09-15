@@ -1,9 +1,9 @@
-import tseslint from 'typescript-eslint';
-import unusedImports from 'eslint-plugin-unused-imports';
 import eslint from '@eslint/js';
-import eslintPluginPrettier from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintPluginPrettier from 'eslint-plugin-prettier';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import unusedImports from 'eslint-plugin-unused-imports';
+import tseslint from 'typescript-eslint';
 
 export default [
     // lint対象ファイル

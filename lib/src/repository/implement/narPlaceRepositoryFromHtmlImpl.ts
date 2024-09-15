@@ -1,16 +1,18 @@
 import 'reflect-metadata';
-import { injectable, inject } from 'tsyringe';
+
+import * as cheerio from 'cheerio';
+import { formatDate } from 'date-fns';
+import { inject, injectable } from 'tsyringe';
+
 import { NarPlaceData } from '../../domain/narPlaceData';
+import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataHtmlGateway';
+import { NarRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
+import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
-import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataHtmlGateway';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { NarRaceCourse } from '../../utility/data/raceSpecific';
-import { formatDate } from 'date-fns';
-import * as cheerio from 'cheerio';
 
 /**
  * 競馬場データリポジトリの実装

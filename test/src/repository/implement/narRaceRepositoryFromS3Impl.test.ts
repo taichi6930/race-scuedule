@@ -1,6 +1,8 @@
-import { format, parse } from 'date-fns';
 import 'reflect-metadata';
+
+import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
+
 import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
