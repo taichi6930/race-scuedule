@@ -122,8 +122,6 @@ export class NarPlaceRepositoryFromHtmlImpl
             }
             const tds = $(element).find('td');
             const place = $(tds[0]).text();
-            // すぐには解決できないので、disableにしておく
-            // eslint-disable-next-line @typescript-eslint/no-shadow
             tds.each((index: number, element: cheerio.Element) => {
                 if (index === 0) {
                     if (!narPlaceDataDict[place]) {

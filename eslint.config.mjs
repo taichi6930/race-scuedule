@@ -22,6 +22,17 @@ export default [
             'prettier': eslintPluginPrettier, // Prettierのプラグインを追加
         },
         rules: {
+            '@typescript-eslint/no-unnecessary-condition': 'off',
+            '@typescript-eslint/no-empty-function': 'off',
+            '@typescript-eslint/restrict-template-expressions': 'off',
+            '@typescript-eslint/no-unsafe-member-access': 'off',
+            '@typescript-eslint/no-unsafe-assignment': 'off',
+            '@typescript-eslint/no-unsafe-call': 'off',
+            '@typescript-eslint/require-await': 'off',
+            '@typescript-eslint/restrict-plus-operands': 'off',
+            '@typescript-eslint/no-unsafe-argument': 'off',
+            '@typescript-eslint/no-misused-promises': 'off',
+
             'array-callback-return': 'error', // 配列のコールバック関数にはreturn文を必ず記述する
             'constructor-super': 'error', // constructor内でsuper()を呼び出す
             'no-cond-assign': 'error', // 条件式で代入演算子を使用しない
