@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { injectable, inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
+
 import { NarPlaceData } from '../domain/narPlaceData';
 import { NarRaceData } from '../domain/narRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';

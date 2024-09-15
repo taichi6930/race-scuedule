@@ -1,14 +1,15 @@
-import { injectable, inject } from 'tsyringe';
+import * as cheerio from 'cheerio';
+import { inject, injectable } from 'tsyringe';
+
 import { JraPlaceData } from '../../domain/jraPlaceData';
+import { IJraPlaceDataHtmlGateway } from '../../gateway/interface/iJraPlaceDataHtmlGateway';
 import { JraRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
+import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
-import { IJraPlaceDataHtmlGateway } from '../../gateway/interface/iJraPlaceDataHtmlGateway';
-import * as cheerio from 'cheerio';
 
 @injectable()
 export class JraPlaceRepositoryFromHtmlImpl

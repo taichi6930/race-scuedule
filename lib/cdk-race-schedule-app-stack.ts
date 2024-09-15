@@ -1,22 +1,22 @@
-import type { Construct } from 'constructs';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as apigateway from 'aws-cdk-lib/aws-apigateway';
-import * as dotenv from 'dotenv';
 import type { StackProps } from 'aws-cdk-lib';
 import {
-    aws_lambda_nodejs,
     aws_apigateway,
+    aws_lambda_nodejs,
     aws_s3,
-    Stack,
-    Duration,
     CfnOutput,
+    Duration,
+    Stack,
 } from 'aws-cdk-lib';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import {
     Effect,
     PolicyStatement,
     Role,
     ServicePrincipal,
 } from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import type { Construct } from 'constructs';
+import * as dotenv from 'dotenv';
 
 dotenv.config({ path: './app.env' });
 

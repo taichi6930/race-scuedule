@@ -1,19 +1,21 @@
 import 'reflect-metadata';
-import { injectable } from 'tsyringe';
-import { calendar_v3, google } from 'googleapis';
-import { ICalendarService } from '../interface/ICalendarService';
-import { Logger } from '../../utility/logger';
-import { CalendarData } from '../../domain/calendarData';
+import '../../utility/format';
+
 import { JWT } from 'google-auth-library';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
-import { createAnchorTag, formatDate } from '../../utility/format';
+import { calendar_v3, google } from 'googleapis';
+import { injectable } from 'tsyringe';
+
+import { CalendarData } from '../../domain/calendarData';
 import {
     CHIHO_KEIBA_LIVE_URL,
     CHIHO_KEIBA_YOUTUBE_USER_ID,
     getYoutubeLiveUrl,
 } from '../../utility/data/movie';
 import { NAR_BABACODE } from '../../utility/data/nar';
-import '../../utility/format';
+import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import { createAnchorTag, formatDate } from '../../utility/format';
+import { Logger } from '../../utility/logger';
+import { ICalendarService } from '../interface/ICalendarService';
 
 @injectable()
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

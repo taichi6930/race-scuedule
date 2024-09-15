@@ -1,5 +1,7 @@
 import 'reflect-metadata'; // reflect-metadataをインポート
+
 import { container } from 'tsyringe';
+
 import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';

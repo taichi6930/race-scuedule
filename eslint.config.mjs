@@ -1,8 +1,9 @@
-import tseslint from 'typescript-eslint';
-import unusedImports from 'eslint-plugin-unused-imports';
 import eslint from '@eslint/js';
-import eslintPluginPrettier from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintPluginPrettier from 'eslint-plugin-prettier';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import unusedImports from 'eslint-plugin-unused-imports';
+import tseslint from 'typescript-eslint';
 
 export default [
     // lint対象ファイル
@@ -25,6 +26,7 @@ export default [
         plugins: {
             'unused-imports': unusedImports,
             'prettier': eslintPluginPrettier, // Prettierのプラグインを追加
+            'simple-import-sort': simpleImportSort,
         },
         rules: {
             '@typescript-eslint/no-unnecessary-condition': 'off',
@@ -39,6 +41,8 @@ export default [
             '@typescript-eslint/no-misused-promises': 'off',
             // 他のルールを追加
             'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+            'simple-import-sort/imports': 'error',
+            'simple-import-sort/exports': 'error',
         },
     },
 ];

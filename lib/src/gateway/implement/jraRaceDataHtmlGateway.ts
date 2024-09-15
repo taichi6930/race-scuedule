@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+
 import { Logger } from '../../utility/logger';
 import { IJraRaceDataHtmlGateway } from '../interface/iJraRaceDataHtmlGateway';
 

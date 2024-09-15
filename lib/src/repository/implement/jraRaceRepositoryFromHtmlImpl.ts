@@ -1,16 +1,17 @@
-import { injectable, inject } from 'tsyringe';
-import { Logger } from '../../utility/logger';
+import * as cheerio from 'cheerio';
+import { inject, injectable } from 'tsyringe';
+
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraRaceData } from '../../domain/jraRaceData';
-import { JraRaceCourse, JraGradeType } from '../../utility/data/raceSpecific';
+import { IJraRaceDataHtmlGateway } from '../../gateway/interface/iJraRaceDataHtmlGateway';
+import { JraGradeType, JraRaceCourse } from '../../utility/data/raceSpecific';
+import { Logger } from '../../utility/logger';
+import { processJraRaceName } from '../../utility/raceName';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
-import * as cheerio from 'cheerio';
-import { IJraRaceDataHtmlGateway } from '../../gateway/interface/iJraRaceDataHtmlGateway';
-import { processJraRaceName } from '../../utility/raceName';
 
 @injectable()
 export class JraRaceRepositoryFromHtmlImpl

@@ -1,19 +1,20 @@
-import { injectable, inject } from 'tsyringe';
-import { Logger } from '../../utility/logger';
-import { IRaceRepository } from '../interface/IRaceRepository';
+import * as cheerio from 'cheerio';
+import { inject, injectable } from 'tsyringe';
+
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarRaceData } from '../../domain/narRaceData';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
-import {
-    NarRaceCourseType,
-    NarGradeType,
-} from '../../utility/data/raceSpecific';
-import { processNarRaceName } from '../../utility/raceName';
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
-import * as cheerio from 'cheerio';
+import {
+    NarGradeType,
+    NarRaceCourseType,
+} from '../../utility/data/raceSpecific';
+import { Logger } from '../../utility/logger';
+import { processNarRaceName } from '../../utility/raceName';
+import { IRaceRepository } from '../interface/IRaceRepository';
+import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
+import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
+import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
+import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * 競馬場開催データリポジトリの実装

@@ -1,14 +1,16 @@
 import 'reflect-metadata'; // reflect-metadataをインポート
+
 import { container } from 'tsyringe';
-import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
-import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
-import { mockJraRaceRepositoryFromS3Impl } from '../../mock/repository/jraRaceRepositoryFromS3Impl';
+
 import type { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
-import { mockJraRaceRepositoryFromHtmlImpl } from '../../mock/repository/jraRaceRepositoryFromHtmlImpl';
+import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { mockJraPlaceRepositoryFromS3Impl } from '../../mock/repository/jraPlaceRepositoryFromS3Impl';
-import { JraRaceDataUseCase } from '../../../../lib/src/usecase/implement/jraRaceDataUseCase';
+import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
+import { JraRaceDataUseCase } from '../../../../lib/src/usecase/implement/jraRaceDataUseCase';
+import { mockJraPlaceRepositoryFromS3Impl } from '../../mock/repository/jraPlaceRepositoryFromS3Impl';
+import { mockJraRaceRepositoryFromHtmlImpl } from '../../mock/repository/jraRaceRepositoryFromHtmlImpl';
+import { mockJraRaceRepositoryFromS3Impl } from '../../mock/repository/jraRaceRepositoryFromS3Impl';
 
 describe('JraRaceDataUseCase', () => {
     let jraRaceRepositoryFromS3Impl: jest.Mocked<
