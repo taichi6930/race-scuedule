@@ -16,9 +16,7 @@ export class NarPlaceDataHtmlGateway implements INarPlaceDataHtmlGateway {
             // keibalabのURLからHTMLを取得する
             const url = `https://www.keiba.go.jp/KeibaWeb/MonthlyConveneInfo/MonthlyConveneInfoTop?k_year=${date.getFullYear()}&k_month=${date.getXDigitMonth(2)}`;
             const html = await fetch(url);
-            console.debug('htmlを取得しています');
             const htmlText = await html.text();
-            console.debug('htmlを取得できました');
             return htmlText;
         } catch (error) {
             console.debug('htmlを取得できませんでした', error);

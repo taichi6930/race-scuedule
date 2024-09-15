@@ -1,5 +1,174 @@
 /* eslint-disable */
-import { NarRaceCourse, NarRaceCourseType } from './data/raceSpecific';
+import {
+    JraRaceCourse,
+    JraRaceCourseType,
+    NarRaceCourse,
+    NarRaceCourseType,
+} from './data/raceSpecific';
+
+type JraRaceDataForRaceName = {
+    name: string;
+    place: JraRaceCourse;
+    grade: string;
+    date: Date;
+    surfaceType: JraRaceCourseType;
+    distance: number;
+};
+
+export const processJraRaceName = (
+    raceInfo: JraRaceDataForRaceName,
+): string => {
+    if (isHanshinJuvenileFillies(raceInfo)) {
+        return '阪神JF';
+    }
+    if (isAsahiHaiFuturityStakes(raceInfo)) {
+        return '朝日杯FS';
+    }
+    if (isMileChampionship(raceInfo)) {
+        return 'マイルCS';
+    }
+    if (isAmericanJockeyClubCup(raceInfo)) {
+        return 'AJCC';
+    }
+    if (isFuchuHimbaStakes(raceInfo)) {
+        return '府中牝馬S';
+    }
+    if (isIbisSummerDash(raceInfo)) {
+        return 'アイビスサマーD';
+    }
+    if (isKeiseiHaiAutumnHandicap(raceInfo)) {
+        return '京成杯オータムH';
+    }
+    if (isSaudiArabiaRoyalCup(raceInfo)) {
+        return 'サウジアラビアRC';
+    }
+    if (isLumiereAutumnDash(raceInfo)) {
+        return 'ルミエールオータムD';
+    }
+    return raceInfo.name;
+};
+
+/**
+ * レース情報から、このレースは阪神JFかどうかを判定する
+ *
+ * @param JraWebRaceInfoEntity raceInfo
+ * @returns {boolean}
+ */
+const isHanshinJuvenileFillies = (raceInfo: JraRaceDataForRaceName): boolean =>
+    raceInfo.place === '阪神' &&
+    raceInfo.grade === 'GⅠ' &&
+    [11 - 1, 12 - 1].includes(raceInfo.date.getMonth()) &&
+    raceInfo.name.includes('阪神') &&
+    raceInfo.name.includes('ジュベナイル');
+
+/**
+ * レース情報このレース朝日杯FSかどうかを判定する
+ *
+ * @param JraWebRaceInfoEntity raceInfo
+ * @returns {boolean}
+ */
+const isAsahiHaiFuturityStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
+    ['中山', '阪神'].includes(raceInfo.place) &&
+    raceInfo.grade === 'GⅠ' &&
+    [12 - 1].includes(raceInfo.date.getMonth()) &&
+    raceInfo.name.includes('朝日') &&
+    raceInfo.name.includes('フュー');
+
+/**
+ * レース情報から、このレースはマイルCSかどうかを判定する
+ *
+ * @param JraWebRaceInfoEntity raceInfo
+ * @returns {boolean}
+ */
+const isMileChampionship = (raceInfo: JraRaceDataForRaceName): boolean =>
+    ['阪神', '京都'].includes(raceInfo.place) &&
+    raceInfo.grade === 'GⅠ' &&
+    [11 - 1].includes(raceInfo.date.getMonth()) &&
+    raceInfo.surfaceType === '芝' &&
+    raceInfo.name.includes('マイル');
+
+/**
+ * レース情報から、このレースはAJCCかどうかを判定する
+ *
+ * @param JraWebRaceInfoEntity raceInfo
+ * @returns {boolean}
+ */
+const isAmericanJockeyClubCup = (raceInfo: JraRaceDataForRaceName): boolean =>
+    ['中山', '東京'].includes(raceInfo.place) &&
+    raceInfo.grade === 'GⅡ' &&
+    [1 - 1, 2 - 1].includes(raceInfo.date.getMonth()) &&
+    raceInfo.surfaceType === '芝' &&
+    raceInfo.name.includes('アメリカ') &&
+    (raceInfo.name.includes('J') || raceInfo.name.includes('ジョッキー')) &&
+    (raceInfo.name.includes('C') || raceInfo.name.includes('クラブ'));
+
+/**
+ * レース情報から、このレースは府中牝馬Sかどうかを判定する
+ *
+ * @param JraWebRaceInfoEntity raceInfo
+ * @returns {boolean}
+ */
+const isFuchuHimbaStakes = (raceInfo: JraRaceDataForRaceName): boolean =>
+    ['中山', '東京'].includes(raceInfo.place) &&
+    raceInfo.grade === 'GⅡ' &&
+    [10 - 1].includes(raceInfo.date.getMonth()) &&
+    raceInfo.surfaceType === '芝' &&
+    raceInfo.name.includes('府中牝馬');
+
+/**
+ * レース情報から、このレースはアイビスサマーDかどうかを判定する
+ *
+ * @param JraWebRaceInfoEntity raceInfo
+ * @returns {boolean}
+ */
+const isIbisSummerDash = (raceInfo: JraRaceDataForRaceName): boolean =>
+    ['新潟'].includes(raceInfo.place) &&
+    raceInfo.grade === 'GⅢ' &&
+    raceInfo.surfaceType === '芝' &&
+    raceInfo.name.includes('アイビス') &&
+    raceInfo.distance === 1000;
+
+/**
+ * レース情報から、このレースは京成杯オータムHかどうかを判定する
+ *
+ * @param JraWebRaceInfoEntity raceInfo
+ * @returns {boolean}
+ */
+const isKeiseiHaiAutumnHandicap = (raceInfo: JraRaceDataForRaceName): boolean =>
+    ['中山'].includes(raceInfo.place) &&
+    raceInfo.grade === 'GⅢ' &&
+    [9 - 1].includes(raceInfo.date.getMonth()) &&
+    raceInfo.surfaceType === '芝' &&
+    raceInfo.name.includes('京成杯') &&
+    raceInfo.distance === 1600;
+
+/**
+ * レース情報から、このレースはサウジアラビアRCかどうかを判定する
+ *
+ * @param JraWebRaceInfoEntity raceInfo
+ * @returns {boolean}
+ */
+const isSaudiArabiaRoyalCup = (raceInfo: JraRaceDataForRaceName): boolean =>
+    ['東京'].includes(raceInfo.place) &&
+    raceInfo.grade === 'GⅢ' &&
+    [10 - 1].includes(raceInfo.date.getMonth()) &&
+    raceInfo.surfaceType === '芝' &&
+    raceInfo.name.includes('サウジ') &&
+    raceInfo.distance === 1600;
+
+/**
+ * レース情報から、このレースはルミエールオータムDかどうかを判定する
+ *
+ * @param JraWebRaceInfoEntity raceInfo
+ * @returns {boolean}
+ */
+const isLumiereAutumnDash = (raceInfo: JraRaceDataForRaceName): boolean =>
+    ['新潟'].includes(raceInfo.place) &&
+    raceInfo.grade === 'Listed' &&
+    [10 - 1, 11 - 1].includes(raceInfo.date.getMonth()) &&
+    raceInfo.surfaceType === '芝' &&
+    raceInfo.name.includes('ルミエール') &&
+    raceInfo.distance === 1000;
 
 type NarRaceDataForRaceName = {
     name: string;
