@@ -1,6 +1,5 @@
 import { injectable, inject } from 'tsyringe';
 import { JraPlaceData } from '../../domain/jraPlaceData';
-import { S3Gateway } from '../../gateway/implement/s3Gateway';
 import { JraRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -9,6 +8,7 @@ import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 import '../../utility/format';
+import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 
 @injectable()
 export class JraPlaceRepositoryFromS3Impl
@@ -16,7 +16,7 @@ export class JraPlaceRepositoryFromS3Impl
 {
     constructor(
         @inject('JraPlaceS3Gateway')
-        private s3Gateway: S3Gateway<JraPlaceData>,
+        private s3Gateway: IS3Gateway<JraPlaceData>,
     ) {}
     /**
      * 競馬場開催データを取得する
