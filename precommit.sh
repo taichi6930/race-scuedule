@@ -2,7 +2,7 @@
 npm run format:check
 if [ $? -ne 0 ]; then
     echo "フォーマットエラーがあります。"
-    npm run format
+    npm run lint:fix
     echo "フォーマットを修正しました。"
     echo "再度コミットしてください。"
     exit 1
