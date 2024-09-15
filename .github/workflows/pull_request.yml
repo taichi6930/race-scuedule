@@ -23,7 +23,7 @@ jobs:
               run: npm install
 
             - name: Check code style
-              run: npx prettier --check lib || exit 0
+              run: npx prettier --check lib
 
     # ESLintのチェック
     eslint:
@@ -42,7 +42,7 @@ jobs:
               run: npm install
 
             - name: Check code style
-              run: npm run lint lib || exit 0
+              run: npm run lint lib
 
     # テストの実行
     test:
