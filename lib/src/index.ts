@@ -2,36 +2,36 @@ import 'reflect-metadata';
 import express from 'express';
 import serverlessExpress from '@codegenie/serverless-express';
 import { container } from 'tsyringe';
-import { NarRaceController } from './controller/narRaceController';
-import type { NarPlaceData } from './domain/narPlaceData';
-import type { NarRaceData } from './domain/narRaceData';
-import { S3Gateway } from './gateway/implement/s3Gateway';
-import type { IS3Gateway } from './gateway/interface/iS3Gateway';
-import { MockS3Gateway } from './gateway/mock/mockS3Gateway';
-import { NarRaceRepositoryFromS3Impl } from './repository/implement/narRaceRepositoryFromS3Impl';
-import type { IRaceRepository } from './repository/interface/IRaceRepository';
-import { GoogleCalendarService } from './service/implement/googleCalendarService';
-import type { ICalendarService } from './service/interface/ICalendarService';
-import { MockGoogleCalendarService } from './service/mock/mockGoogleCalendarService';
-import { NarRaceCalendarUseCase } from './usecase/implement/narRaceCalendarUseCase';
-import type { IRaceCalendarUseCase } from './usecase/interface/IRaceCalendarUseCase';
-import type { IRaceDataUseCase } from './usecase/interface/IRaceDataUseCase';
-import { NarRaceDataUseCase } from './usecase/implement/narRaceDataUseCase';
-import { NarPlaceRepositoryFromS3Impl } from './repository/implement/narPlaceRepositoryFromS3Impl';
-import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
-import { NarRaceRepositoryFromHtmlImpl } from './repository/implement/narRaceRepositoryFromHtmlImpl';
-import type { INarRaceDataHtmlGateway } from './gateway/interface/iNarRaceDataHtmlGateway';
-import type { IPlaceDataUseCase } from './usecase/interface/IPlaceDataUseCase';
-import { NarPlaceDataUseCase } from './usecase/implement/narPlaceDataUseCase';
-import type { INarPlaceDataHtmlGateway } from './gateway/interface/iNarPlaceDataHtmlGateway';
-import { NarPlaceRepositoryFromHtmlImpl } from './repository/implement/narPlaceRepositoryFromHtmlImpl';
-import { NarRaceDataHtmlGateway } from './gateway/implement/narRaceDataHtmlGateway';
-import { NarPlaceDataHtmlGateway } from './gateway/implement/narPlaceDataHtmlGateway';
 import { JraRaceController } from './controller/jraRaceController';
-import { JraRaceData } from './domain/jraRaceData';
-import { JraRaceCalendarUseCase } from './usecase/implement/jraRaceCalendarUseCase';
-import { MockJraRaceRepositoryFromS3Impl } from './repository/mock/mockJraRaceRepositoryFromS3Impl';
+import { NarRaceController } from './controller/narRaceController';
 import { JraPlaceData } from './domain/jraPlaceData';
+import { JraRaceData } from './domain/jraRaceData';
+import { NarPlaceData } from './domain/narPlaceData';
+import { NarRaceData } from './domain/narRaceData';
+import { NarPlaceDataHtmlGateway } from './gateway/implement/narPlaceDataHtmlGateway';
+import { NarRaceDataHtmlGateway } from './gateway/implement/narRaceDataHtmlGateway';
+import { S3Gateway } from './gateway/implement/s3Gateway';
+import { INarPlaceDataHtmlGateway } from './gateway/interface/iNarPlaceDataHtmlGateway';
+import { INarRaceDataHtmlGateway } from './gateway/interface/iNarRaceDataHtmlGateway';
+import { IS3Gateway } from './gateway/interface/iS3Gateway';
+import { MockS3Gateway } from './gateway/mock/mockS3Gateway';
+import { JraRaceRepositoryFromS3Impl } from './repository/implement/jraRaceRepositoryFromS3Impl';
+import { NarPlaceRepositoryFromHtmlImpl } from './repository/implement/narPlaceRepositoryFromHtmlImpl';
+import { NarPlaceRepositoryFromS3Impl } from './repository/implement/narPlaceRepositoryFromS3Impl';
+import { NarRaceRepositoryFromHtmlImpl } from './repository/implement/narRaceRepositoryFromHtmlImpl';
+import { NarRaceRepositoryFromS3Impl } from './repository/implement/narRaceRepositoryFromS3Impl';
+import { IPlaceRepository } from './repository/interface/IPlaceRepository';
+import { IRaceRepository } from './repository/interface/IRaceRepository';
+import { GoogleCalendarService } from './service/implement/googleCalendarService';
+import { ICalendarService } from './service/interface/ICalendarService';
+import { MockGoogleCalendarService } from './service/mock/mockGoogleCalendarService';
+import { JraRaceCalendarUseCase } from './usecase/implement/jraRaceCalendarUseCase';
+import { NarPlaceDataUseCase } from './usecase/implement/narPlaceDataUseCase';
+import { NarRaceCalendarUseCase } from './usecase/implement/narRaceCalendarUseCase';
+import { NarRaceDataUseCase } from './usecase/implement/narRaceDataUseCase';
+import { IPlaceDataUseCase } from './usecase/interface/IPlaceDataUseCase';
+import { IRaceCalendarUseCase } from './usecase/interface/IRaceCalendarUseCase';
+import { IRaceDataUseCase } from './usecase/interface/IRaceDataUseCase';
 
 // Expressアプリケーションの設定
 const app = express();
@@ -58,6 +58,30 @@ container.register<IS3Gateway<NarRaceData>>('NarRaceS3Gateway', {
                 return new MockS3Gateway<NarRaceData>(
                     'race-schedule-bucket',
                     'nar/race/',
+                );
+        }
+    },
+});
+container.register<IS3Gateway<JraRaceData>>('JraRaceS3Gateway', {
+    useFactory: () => {
+        switch (process.env.ENV) {
+            case 'production':
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<JraRaceData>(
+                    'race-schedule-bucket',
+                    'jra/race/',
+                );
+            case 'local':
+                // ENV が local の場合、MockS3Gateway を使用
+                return new MockS3Gateway<JraRaceData>(
+                    'race-schedule-bucket',
+                    'jra/race/',
+                );
+            default:
+                // ENV が ない場合、MockS3Gateway を使用
+                return new MockS3Gateway<JraRaceData>(
+                    'race-schedule-bucket',
+                    'jra/race/',
                 );
         }
     },
@@ -150,7 +174,7 @@ container.register<ICalendarService<JraRaceData>>('JraCalendarService', {
 // Repositoryの実装クラスをDIコンテナに登錄する
 container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
     'JraRaceRepositoryFromS3',
-    { useClass: MockJraRaceRepositoryFromS3Impl },
+    { useClass: JraRaceRepositoryFromS3Impl },
 );
 container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
     'NarRaceRepositoryFromS3',
