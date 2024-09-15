@@ -1,27 +1,52 @@
 /* eslint-disable */
-import { JraRaceCourse, JraRaceCourseType, NarRaceCourse, NarRaceCourseType } from './data/raceSpecific';
+import {
+    JraRaceCourse,
+    JraRaceCourseType,
+    NarRaceCourse,
+    NarRaceCourseType,
+} from './data/raceSpecific';
 
 type JraRaceDataForRaceName = {
-    name: string,
-    place: JraRaceCourse,
-    grade: string,
-    date: Date,
-    surfaceType: JraRaceCourseType,
-    distance: number,
-}
+    name: string;
+    place: JraRaceCourse;
+    grade: string;
+    date: Date;
+    surfaceType: JraRaceCourseType;
+    distance: number;
+};
 
-export const processJraRaceName = (raceInfo: JraRaceDataForRaceName): string => {
-    if (isHanshinJuvenileFillies(raceInfo)) { return '阪神JF'; }
-    if (isAsahiHaiFuturityStakes(raceInfo)) { return '朝日杯FS'; }
-    if (isMileChampionship(raceInfo)) { return 'マイルCS'; }
-    if (isAmericanJockeyClubCup(raceInfo)) { return 'AJCC'; }
-    if (isFuchuHimbaStakes(raceInfo)) { return '府中牝馬S'; }
-    if (isIbisSummerDash(raceInfo)) { return 'アイビスサマーD'; }
-    if (isKeiseiHaiAutumnHandicap(raceInfo)) { return '京成杯オータムH'; }
-    if (isSaudiArabiaRoyalCup(raceInfo)) { return 'サウジアラビアRC'; }
-    if (isLumiereAutumnDash(raceInfo)) { return 'ルミエールオータムD'; }
+export const processJraRaceName = (
+    raceInfo: JraRaceDataForRaceName,
+): string => {
+    if (isHanshinJuvenileFillies(raceInfo)) {
+        return '阪神JF';
+    }
+    if (isAsahiHaiFuturityStakes(raceInfo)) {
+        return '朝日杯FS';
+    }
+    if (isMileChampionship(raceInfo)) {
+        return 'マイルCS';
+    }
+    if (isAmericanJockeyClubCup(raceInfo)) {
+        return 'AJCC';
+    }
+    if (isFuchuHimbaStakes(raceInfo)) {
+        return '府中牝馬S';
+    }
+    if (isIbisSummerDash(raceInfo)) {
+        return 'アイビスサマーD';
+    }
+    if (isKeiseiHaiAutumnHandicap(raceInfo)) {
+        return '京成杯オータムH';
+    }
+    if (isSaudiArabiaRoyalCup(raceInfo)) {
+        return 'サウジアラビアRC';
+    }
+    if (isLumiereAutumnDash(raceInfo)) {
+        return 'ルミエールオータムD';
+    }
     return raceInfo.name;
-}
+};
 
 /**
  * レース情報から、このレースは阪神JFかどうかを判定する

@@ -2,6 +2,9 @@
 npm run format:check
 if [ $? -ne 0 ]; then
     echo "フォーマットエラーがあります。"
+    npm run format
+    echo "フォーマットを修正しました。"
+    echo "再度コミットしてください。"
     exit 1
 fi
 
@@ -9,5 +12,8 @@ fi
 npm run lint:check
 if [ $? -ne 0 ]; then
     echo "Lintエラーがあります。"
+    npm run lint:fix
+    echo "Lintを修正しました。"
+    echo "再度コミットしてください。"
     exit 1
 fi
