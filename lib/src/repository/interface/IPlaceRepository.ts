@@ -1,7 +1,7 @@
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
+import type { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
+import type { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
+import type { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
+import type { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * 競馬場データリポジトリ
@@ -13,16 +13,16 @@ export interface IPlaceRepository<P> {
      * @param request リクエスト
      * @returns 競馬場データ
      */
-    fetchPlaceList(
+    fetchPlaceList: (
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<P>>;
+    ) => Promise<FetchPlaceListResponse<P>>;
 
     /**
      * 競馬場データを登録する
      * @param placeDataList 競馬場データリスト
      * @param startDate 開始日
      */
-    registerPlaceList(
+    registerPlaceList: (
         request: RegisterPlaceListRequest<P>,
-    ): Promise<RegisterPlaceListResponse>;
+    ) => Promise<RegisterPlaceListResponse>;
 }

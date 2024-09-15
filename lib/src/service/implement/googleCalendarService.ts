@@ -17,13 +17,13 @@ import '../../utility/format';
 
 @injectable()
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export class GoogleCalendarService<R extends { [key: string]: any }>
+export class GoogleCalendarService<R extends Record<string, any>>
     implements ICalendarService<R>
 {
-    private credentials: JWT;
-    private calendar: calendar_v3.Calendar;
-    private raceType: 'jra' | 'nar';
-    private calendarId: string;
+    private readonly credentials: JWT;
+    private readonly calendar: calendar_v3.Calendar;
+    private readonly raceType: 'jra' | 'nar';
+    private readonly calendarId: string;
 
     constructor(raceType: 'jra' | 'nar', calendarId: string) {
         this.raceType = raceType;
@@ -79,7 +79,7 @@ export class GoogleCalendarService<R extends { [key: string]: any }>
             orderBy: 'startTime',
             timeZone: 'Asia/Tokyo',
         });
-        return response.data.items || [];
+        return response.data.items ?? [];
     }
 
     /**
@@ -94,12 +94,12 @@ export class GoogleCalendarService<R extends { [key: string]: any }>
         return events.map(
             (event) =>
                 new CalendarData(
-                    event.id || '',
-                    event.summary || '',
-                    new Date(event.start?.dateTime || ''),
-                    new Date(event.end?.dateTime || ''),
-                    event.location || '',
-                    event.description || '',
+                    event.id ?? '',
+                    event.summary ?? '',
+                    new Date(event.start?.dateTime ?? ''),
+                    new Date(event.end?.dateTime ?? ''),
+                    event.location ?? '',
+                    event.description ?? '',
                 ),
         );
     }
@@ -145,10 +145,10 @@ export class GoogleCalendarService<R extends { [key: string]: any }>
                         await this.createEvent(
                             this.translateToCalendarEvent(raceData),
                         );
-                    } catch (error) {
+                    } catch (_error) {
                         console.error(
                             'Google Calendar APIへのイベント新規登録に失敗しました',
-                            error,
+                            _error,
                         );
                     }
                 }
@@ -254,7 +254,7 @@ export class GoogleCalendarService<R extends { [key: string]: any }>
     ): Promise<void> {
         try {
             await Promise.all(
-                events.map((event) => action(event, this.calendarId)),
+                events.map(async (event) => action(event, this.calendarId)),
             );
             console.log(
                 `Google Calendar APIにレースを${actionName}しました（processEvents）`,
@@ -389,7 +389,7 @@ export class GoogleCalendarService<R extends { [key: string]: any }>
      * @returns
      */
     private getColorId(raceGrade: string): string {
-        const gradeColorMap: { [key: string]: string } = {
+        const gradeColorMap: Record<string, string> = {
             'GⅠ': '9',
             'J.GⅠ': '9',
             'GⅡ': '11',

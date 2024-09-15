@@ -21,7 +21,7 @@ export class S3Gateway<T extends object> implements IS3Gateway<T> {
      * @type {S3Client}
      * @memberof S3Gateway
      */
-    private s3Client: S3Client;
+    private readonly s3Client: S3Client;
     /**
      * バケット名 S3の中にあるデータの保存場所
      *
@@ -29,7 +29,7 @@ export class S3Gateway<T extends object> implements IS3Gateway<T> {
      * @type {string}
      * @memberof S3Gateway
      */
-    private bucketName: string;
+    private readonly bucketName: string;
     /**
      * フォルダのパス
      *
@@ -37,7 +37,7 @@ export class S3Gateway<T extends object> implements IS3Gateway<T> {
      * @type {string}
      * @memberof S3Gateway
      */
-    private folderPath: string;
+    private readonly folderPath: string;
 
     /**
      * S3Gatewayのコンストラクタ

@@ -1,14 +1,14 @@
-export function Logger<T>(
-    target: T,
+export function Logger(
+    _target: object,
     propertyKey: string,
     descriptor: PropertyDescriptor,
-) {
+): void {
     const originalMethod = descriptor.value;
-    descriptor.value = async function (...args: unknown[]) {
+    descriptor.value = async function (...args: unknown[]): Promise<unknown> {
         const constructorName = Object.getPrototypeOf(this).constructor.name;
         console.log(`[${constructorName}.${propertyKey}] 開始`);
         try {
-            const result = await originalMethod.apply(this, args);
+            const result: unknown = await originalMethod.apply(this, args);
             console.log(`[${constructorName}.${propertyKey}] 終了`);
             return result;
         } catch (error) {
@@ -20,5 +20,5 @@ export function Logger<T>(
 
 // cdkで保存したENVがproductionの場合、console.errorをオーバーライドする
 if (process.env.IS_DEBUG === 'false') {
-    console.debug = function () {};
+    console.debug = (): void => {};
 }

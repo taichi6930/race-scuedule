@@ -17,11 +17,11 @@ export class NarRaceController {
 
     constructor(
         @inject('IRaceCalendarUseCase')
-        private raceCalendarUseCase: IRaceCalendarUseCase,
+        private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('IRaceDataUseCase')
-        private narRaceDataUseCase: IRaceDataUseCase<NarRaceData>,
+        private readonly narRaceDataUseCase: IRaceDataUseCase<NarRaceData>,
         @inject('IPlaceDataUseCase')
-        private narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
+        private readonly narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -31,7 +31,7 @@ export class NarRaceController {
      * ルーティングの初期化
      */
     @Logger
-    private initializeRoutes() {
+    private initializeRoutes(): void {
         // Calendar関連のAPI
         this.router.get('/nar/calendar', this.getRacesFromCalendar.bind(this));
         this.router.post(
@@ -59,7 +59,10 @@ export class NarRaceController {
      * @returns
      */
     @Logger
-    private async getRacesFromCalendar(req: Request, res: Response) {
+    private async getRacesFromCalendar(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             const { startDate, finishDate } = req.query;
 
@@ -92,7 +95,10 @@ export class NarRaceController {
      * @returns
      */
     @Logger
-    private async updateRacesToCalendar(req: Request, res: Response) {
+    private async updateRacesToCalendar(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             const { startDate, finishDate } = req.body;
 
@@ -125,7 +131,10 @@ export class NarRaceController {
      * @returns
      */
     @Logger
-    private async cleansingRacesFromCalendar(req: Request, res: Response) {
+    private async cleansingRacesFromCalendar(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             const { startDate, finishDate } = req.body;
 
@@ -155,7 +164,7 @@ export class NarRaceController {
      * レース情報を取得する
      */
     @Logger
-    private async getRaceDataList(req: Request, res: Response) {
+    private async getRaceDataList(req: Request, res: Response): Promise<void> {
         try {
             const { startDate, finishDate } = req.query;
 
@@ -181,7 +190,10 @@ export class NarRaceController {
      * レース情報を更新する
      */
     @Logger
-    private async updateRaceDataList(req: Request, res: Response) {
+    private async updateRaceDataList(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             const { startDate, finishDate } = req.body;
 
@@ -207,7 +219,7 @@ export class NarRaceController {
      * 競馬場情報を取得する
      */
     @Logger
-    private async getPlaceDataList(req: Request, res: Response) {
+    private async getPlaceDataList(req: Request, res: Response): Promise<void> {
         try {
             const { startDate, finishDate } = req.query;
 
@@ -233,7 +245,10 @@ export class NarRaceController {
      * 競馬場情報を更新する
      */
     @Logger
-    private async updatePlaceDataList(req: Request, res: Response) {
+    private async updatePlaceDataList(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
         try {
             const { startDate, finishDate } = req.body;
 

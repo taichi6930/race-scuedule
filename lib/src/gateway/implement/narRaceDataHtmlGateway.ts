@@ -4,8 +4,6 @@ import { Logger } from '../../utility/logger';
 import { INarRaceDataHtmlGateway } from '../interface/iNarRaceDataHtmlGateway';
 
 export class NarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
-    constructor() {}
-
     /**
      * レースデータのHTMLを取得する
      *

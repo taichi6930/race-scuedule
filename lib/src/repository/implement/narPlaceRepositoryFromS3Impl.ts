@@ -20,7 +20,7 @@ export class NarPlaceRepositoryFromS3Impl
 {
     constructor(
         @inject('IS3GatewayForNarPlace')
-        private s3Gateway: IS3Gateway<NarPlaceData>,
+        private readonly s3Gateway: IS3Gateway<NarPlaceData>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -38,7 +38,7 @@ export class NarPlaceRepositoryFromS3Impl
             request.startDate,
             request.endDate,
         );
-        const promises = fileNames.map((fileName) =>
+        const promises = fileNames.map(async (fileName) =>
             this.fetchMonthPlaceDataList(fileName).then((childPlaceDataList) =>
                 childPlaceDataList.filter(
                     (placeData) =>
@@ -79,7 +79,9 @@ export class NarPlaceRepositoryFromS3Impl
             // 次の月の1日を取得
             currentDate = new Date(year, currentDate.getMonth() + 1, 1);
         }
-        console.debug(`ファイル名リストを生成しました: ${fileNames}`);
+        console.debug(
+            `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
+        );
         return fileNames;
     }
 
@@ -98,7 +100,7 @@ export class NarPlaceRepositoryFromS3Impl
     ): Promise<NarPlaceData[]> {
         console.log(`S3から${fileName}を取得します`);
         const csv = await this.s3Gateway.fetchDataFromS3(fileName);
-        const placeData: NarPlaceData[] = csv
+        const placeDataList: NarPlaceData[] = csv
             .split('\n')
             .map((line: string) => {
                 const [raceDate, place] = line.split(',');
@@ -108,22 +110,22 @@ export class NarPlaceRepositoryFromS3Impl
                 );
             })
             .filter((placeData) => placeData !== undefined);
-        return placeData;
+        return placeDataList;
     }
 
     @Logger
     async registerPlaceList(
         request: RegisterPlaceListRequest<NarPlaceData>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeData: NarPlaceData[] = request.placeDataList;
+        const placeDataList: NarPlaceData[] = request.placeDataList;
         // 得られたplaceを月毎に分ける
-        const placeDataDict: { [key: string]: NarPlaceData[] } = {};
-        placeData.forEach((place) => {
-            const key = `${place.dateTime.getFullYear()}${place.dateTime.getXDigitMonth(2)}.csv`;
+        const placeDataDict: Record<string, NarPlaceData[]> = {};
+        placeDataList.forEach((placeData) => {
+            const key = `${placeData.dateTime.getFullYear()}${placeData.dateTime.getXDigitMonth(2)}.csv`;
             if (!placeDataDict[key]) {
                 placeDataDict[key] = [];
             }
-            placeDataDict[key].push(place);
+            placeDataDict[key].push(placeData);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする

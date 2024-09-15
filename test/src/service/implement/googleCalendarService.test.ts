@@ -1,7 +1,7 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { GoogleCalendarService } from '../../../../lib/src/service/implement/googleCalendarService';
 import { google } from 'googleapis';
-import { GaxiosPromise } from 'gaxios';
+import type { GaxiosPromise } from 'gaxios';
 import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 

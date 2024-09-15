@@ -3,27 +3,27 @@ import express from 'express';
 import serverlessExpress from '@codegenie/serverless-express';
 import { container } from 'tsyringe';
 import { NarRaceController } from './controller/narRaceController';
-import { NarPlaceData } from './domain/narPlaceData';
-import { NarRaceData } from './domain/narRaceData';
+import type { NarPlaceData } from './domain/narPlaceData';
+import type { NarRaceData } from './domain/narRaceData';
 import { S3Gateway } from './gateway/implement/s3Gateway';
-import { IS3Gateway } from './gateway/interface/iS3Gateway';
+import type { IS3Gateway } from './gateway/interface/iS3Gateway';
 import { MockS3Gateway } from './gateway/mock/mockS3Gateway';
 import { NarRaceRepositoryFromS3Impl } from './repository/implement/narRaceRepositoryFromS3Impl';
-import { IRaceRepository } from './repository/interface/IRaceRepository';
+import type { IRaceRepository } from './repository/interface/IRaceRepository';
 import { GoogleCalendarService } from './service/implement/googleCalendarService';
-import { ICalendarService } from './service/interface/ICalendarService';
+import type { ICalendarService } from './service/interface/ICalendarService';
 import { MockGoogleCalendarService } from './service/mock/mockGoogleCalendarService';
 import { NarRaceCalendarUseCase } from './usecase/implement/narRaceCalendarUseCase';
-import { IRaceCalendarUseCase } from './usecase/interface/IRaceCalendarUseCase';
-import { IRaceDataUseCase } from './usecase/interface/IRaceDataUseCase';
+import type { IRaceCalendarUseCase } from './usecase/interface/IRaceCalendarUseCase';
+import type { IRaceDataUseCase } from './usecase/interface/IRaceDataUseCase';
 import { NarRaceDataUseCase } from './usecase/implement/narRaceDataUseCase';
 import { NarPlaceRepositoryFromS3Impl } from './repository/implement/narPlaceRepositoryFromS3Impl';
-import { IPlaceRepository } from './repository/interface/IPlaceRepository';
+import type { IPlaceRepository } from './repository/interface/IPlaceRepository';
 import { NarRaceRepositoryFromHtmlImpl } from './repository/implement/narRaceRepositoryFromHtmlImpl';
-import { INarRaceDataHtmlGateway } from './gateway/interface/iNarRaceDataHtmlGateway';
-import { IPlaceDataUseCase } from './usecase/interface/IPlaceDataUseCase';
+import type { INarRaceDataHtmlGateway } from './gateway/interface/iNarRaceDataHtmlGateway';
+import type { IPlaceDataUseCase } from './usecase/interface/IPlaceDataUseCase';
 import { NarPlaceDataUseCase } from './usecase/implement/narPlaceDataUseCase';
-import { INarPlaceDataHtmlGateway } from './gateway/interface/iNarPlaceDataHtmlGateway';
+import type { INarPlaceDataHtmlGateway } from './gateway/interface/iNarPlaceDataHtmlGateway';
 import { NarPlaceRepositoryFromHtmlImpl } from './repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { NarRaceDataHtmlGateway } from './gateway/implement/narRaceDataHtmlGateway';
 import { NarPlaceDataHtmlGateway } from './gateway/implement/narPlaceDataHtmlGateway';
@@ -112,7 +112,7 @@ container.register<ICalendarService<NarRaceData>>('ICalendarService', {
                 // ENV が production の場合、GoogleCalendarService を使用
                 return new GoogleCalendarService<NarRaceData>(
                     'nar',
-                    process.env.NAR_CALENDAR_ID || '',
+                    process.env.NAR_CALENDAR_ID ?? '',
                 );
             case 'local':
                 // ENV が local の場合、MockGoogleCalendarService を使用
@@ -160,7 +160,7 @@ app.use('/api/races', narRaceController.router);
 export const handler = serverlessExpress({ app });
 
 // アプリケーションの起動
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT ?? 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

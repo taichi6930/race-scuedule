@@ -1,5 +1,5 @@
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
+import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 
 // NarPlaceRepositoryFromHtmlImplのmockを作成
 export const mockNarPlaceRepositoryFromHtmlImpl = (): jest.Mocked<

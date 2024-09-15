@@ -4,8 +4,6 @@ import { INarPlaceDataHtmlGateway } from '../interface/iNarPlaceDataHtmlGateway'
  * 競馬場開催データのHTMLを取得するGateway
  */
 export class NarPlaceDataHtmlGateway implements INarPlaceDataHtmlGateway {
-    constructor() {}
-
     /**
      * 競馬場開催データのHTMLを取得する
      *

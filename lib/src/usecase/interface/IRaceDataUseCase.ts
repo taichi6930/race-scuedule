@@ -7,11 +7,11 @@ export interface IRaceDataUseCase<R> {
      * @param startDate
      * @param finishDate
      */
-    fetchRaceDataList(startDate: Date, finishDate: Date): Promise<R[]>;
+    fetchRaceDataList: (startDate: Date, finishDate: Date) => Promise<R[]>;
     /**
      * レースデータのリストを更新する
      * @param startDate
      * @param finishDate
      */
-    updateRaceDataList(startDate: Date, endDate: Date): Promise<void>;
+    updateRaceDataList: (startDate: Date, endDate: Date) => Promise<void>;
 }

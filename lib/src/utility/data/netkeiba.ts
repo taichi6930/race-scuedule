@@ -1,4 +1,4 @@
-export const NETKEIBA_BABACODE: { [key: string]: string } = {
+export const NETKEIBA_BABACODE: Record<string, string> = {
     // 中央競馬
     札幌: '01',
     函館: '02',

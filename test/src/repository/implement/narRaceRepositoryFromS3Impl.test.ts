@@ -1,9 +1,9 @@
 import { format, parse } from 'date-fns';
 import 'reflect-metadata';
 import { container } from 'tsyringe';
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
-import { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import { NarRaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromS3Impl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
@@ -27,48 +27,50 @@ describe('NarRaceRepositoryFromS3Impl', () => {
     describe('fetchRaceList', () => {
         test('正しいレースデータを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation((filename: string) => {
-                // filenameから日付を取得 16時からのレースにしたい
-                const date = parse(
-                    filename.slice(0, 8),
-                    'yyyyMMdd',
-                    new Date(),
-                );
-                date.setHours(16);
-                const csvDataText: string = [
-                    `raceName${filename.slice(0, 8)}`,
-                    date.toISOString(),
-                    '大井',
-                    'ダート',
-                    '1200',
-                    'GⅠ',
-                    '1',
-                ].join(',');
-                const csvDataRameNameUndefinedText: string = [
-                    undefined,
-                    date.toISOString(),
-                    '大井',
-                    'ダート',
-                    '1200',
-                    'GⅠ',
-                    '1',
-                ].join(',');
-                const csvDataNumUndefinedText: string = [
-                    `raceName${filename.slice(0, 8)}`,
-                    date.toISOString(),
-                    '大井',
-                    'ダート',
-                    '1200',
-                    'GⅠ',
-                    undefined,
-                ].join(',');
-                const csvDatajoinText: string = [
-                    csvDataText,
-                    csvDataRameNameUndefinedText,
-                    csvDataNumUndefinedText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            });
+            s3Gateway.fetchDataFromS3.mockImplementation(
+                async (filename: string) => {
+                    // filenameから日付を取得 16時からのレースにしたい
+                    const date = parse(
+                        filename.slice(0, 8),
+                        'yyyyMMdd',
+                        new Date(),
+                    );
+                    date.setHours(16);
+                    const csvDataText: string = [
+                        `raceName${filename.slice(0, 8)}`,
+                        date.toISOString(),
+                        '大井',
+                        'ダート',
+                        '1200',
+                        'GⅠ',
+                        '1',
+                    ].join(',');
+                    const csvDataRameNameUndefinedText: string = [
+                        undefined,
+                        date.toISOString(),
+                        '大井',
+                        'ダート',
+                        '1200',
+                        'GⅠ',
+                        '1',
+                    ].join(',');
+                    const csvDataNumUndefinedText: string = [
+                        `raceName${filename.slice(0, 8)}`,
+                        date.toISOString(),
+                        '大井',
+                        'ダート',
+                        '1200',
+                        'GⅠ',
+                        undefined,
+                    ].join(',');
+                    const csvDatajoinText: string = [
+                        csvDataText,
+                        csvDataRameNameUndefinedText,
+                        csvDataNumUndefinedText,
+                    ].join('\n');
+                    return Promise.resolve(csvDatajoinText);
+                },
+            );
             // リクエストの作成
             const request = new FetchRaceListRequest<NarPlaceData>(
                 new Date('2024-01-01'),
@@ -92,7 +94,7 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from(
                         { length: 12 },
-                        (_, j) =>
+                        (__, j) =>
                             new NarRaceData(
                                 `raceName${format(date, 'yyyyMMdd')}`,
                                 date,

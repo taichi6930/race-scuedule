@@ -1,7 +1,7 @@
 /**
  * 地方競馬ライブのURL
  */
-export const CHIHO_KEIBA_LIVE_URL: string = 'http://keiba-lv-st.jp/';
+export const CHIHO_KEIBA_LIVE_URL = 'http://keiba-lv-st.jp/';
 
 /**
  * YoutubeのライブURLを取得する
@@ -14,7 +14,7 @@ export const getYoutubeLiveUrl = (userId: string): string =>
 /**
  * 地方競馬のYoutubeのユーザーID
  */
-export const CHIHO_KEIBA_YOUTUBE_USER_ID: { [key: string]: string } = {
+export const CHIHO_KEIBA_YOUTUBE_USER_ID: Record<string, string> = {
     門別: 'live2820',
     帯広ば: 'user-di2dh2dc4q',
     水沢: 'IwateKeibaITV',

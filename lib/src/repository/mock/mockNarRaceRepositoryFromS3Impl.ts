@@ -1,8 +1,8 @@
-import { NarPlaceData } from '../../domain/narPlaceData';
+import type { NarPlaceData } from '../../domain/narPlaceData';
 import { NarRaceData } from '../../domain/narRaceData';
-import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
+import type { IRaceRepository } from '../interface/IRaceRepository';
+import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
+import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 

@@ -1,4 +1,4 @@
-import { CalendarData } from '../../domain/calendarData';
+import type { CalendarData } from '../../domain/calendarData';
 
 export interface IRaceCalendarUseCase {
     /**
@@ -7,29 +7,29 @@ export interface IRaceCalendarUseCase {
      * @param finishDate
      * @returns CalendarData[]
      */
-    getRacesFromCalendar(
+    getRacesFromCalendar: (
         startDate: Date,
         finishDate: Date,
-    ): Promise<CalendarData[]>;
+    ) => Promise<CalendarData[]>;
     /**
      * カレンダーの更新を行う
      * @param startDate
      * @param finishDate
      * @param displayGradeList
      */
-    updateRacesToCalendar(
+    updateRacesToCalendar: (
         startDate: Date,
         finishDate: Date,
         displayGradeList: string[],
-    ): Promise<void>;
+    ) => Promise<void>;
     /**
      * カレンダーのクレンジングを行う
      * 既に旧システムのレース情報が登録されている場合、削除する
      * @param startDate
      * @param finishDate
      */
-    cleansingRacesFromCalendar(
+    cleansingRacesFromCalendar: (
         startDate: Date,
         finishDate: Date,
-    ): Promise<void>;
+    ) => Promise<void>;
 }
