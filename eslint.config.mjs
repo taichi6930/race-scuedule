@@ -40,6 +40,7 @@ export default [
             '@typescript-eslint/no-unsafe-argument': 'off',
             '@typescript-eslint/no-misused-promises': 'off',
             '@typescript-eslint/consistent-type-imports': 'error',
+            '@typescript-eslint/explicit-module-boundary-types': 'error',
             // 他のルールを追加
             'prettier/prettier': ['error', {}, { usePrettierrc: true }],
             'simple-import-sort/imports': 'error',
