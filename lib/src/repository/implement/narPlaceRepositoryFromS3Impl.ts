@@ -36,10 +36,11 @@ export class NarPlaceRepositoryFromS3Impl
     async fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<NarPlaceData>> {
-        const fileNames: string[] = this.generateFileNames(
+        const fileNames: string[] = await this.generateFileNames(
             request.startDate,
             request.endDate,
         );
+        console.log(fileNames);
         const promises = fileNames.map(async (fileName) =>
             this.fetchMonthPlaceDataList(fileName).then((childPlaceDataList) =>
                 childPlaceDataList.filter(
@@ -65,7 +66,10 @@ export class NarPlaceRepositoryFromS3Impl
      * @returns
      */
     @Logger
-    private generateFileNames(startDate: Date, finishDate: Date): string[] {
+    private async generateFileNames(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<string[]> {
         const fileNames: string[] = [];
         let currentDate = new Date(startDate);
 
@@ -81,7 +85,7 @@ export class NarPlaceRepositoryFromS3Impl
         console.debug(
             `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
         );
-        return fileNames;
+        return Promise.resolve(fileNames);
     }
 
     /**
