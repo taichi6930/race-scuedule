@@ -1,5 +1,5 @@
-import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
-import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
+import type { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
+import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';

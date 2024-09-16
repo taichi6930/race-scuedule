@@ -39,6 +39,7 @@ export default [
             '@typescript-eslint/restrict-plus-operands': 'off',
             '@typescript-eslint/no-unsafe-argument': 'off',
             '@typescript-eslint/no-misused-promises': 'off',
+            '@typescript-eslint/consistent-type-imports': 'error',
             // 他のルールを追加
             'prettier/prettier': ['error', {}, { usePrettierrc: true }],
             'simple-import-sort/imports': 'error',
