@@ -38,7 +38,6 @@ export default [
             '@typescript-eslint/restrict-plus-operands': 'off',
             '@typescript-eslint/no-unsafe-argument': 'off',
             '@typescript-eslint/no-misused-promises': 'off',
-            '@typescript-eslint/consistent-type-imports': 'error',
             '@typescript-eslint/explicit-module-boundary-types': 'error',
             '@typescript-eslint/prefer-enum-initializers': 'error',
             '@typescript-eslint/strict-boolean-expressions': 'off',
