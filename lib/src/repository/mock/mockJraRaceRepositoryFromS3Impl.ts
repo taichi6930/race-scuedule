@@ -10,29 +10,31 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 export class MockJraRaceRepositoryFromS3Impl
     implements IRaceRepository<JraRaceData, JraPlaceData>
 {
-    async fetchRaceList(
+    fetchRaceList(
         request: FetchRaceListRequest<JraPlaceData>,
     ): Promise<FetchRaceListResponse<JraRaceData>> {
         console.debug(request);
-        return new FetchRaceListResponse([
-            new JraRaceData(
-                '有馬記念',
-                new Date('2024-12-28 15:45'),
-                '中山',
-                '芝',
-                2500,
-                'GⅠ',
-                11,
-                5,
-                8,
-            ),
-        ]);
+        return Promise.resolve(
+            new FetchRaceListResponse([
+                new JraRaceData(
+                    '有馬記念',
+                    new Date('2024-12-28 15:45'),
+                    '中山',
+                    '芝',
+                    2500,
+                    'GⅠ',
+                    11,
+                    5,
+                    8,
+                ),
+            ]),
+        );
     }
 
-    async registerRaceList(
+    registerRaceList(
         request: RegisterRaceListRequest<JraRaceData>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
-        return new RegisterRaceListResponse(200);
+        return Promise.resolve(new RegisterRaceListResponse(200));
     }
 }

@@ -296,7 +296,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    async registerRaceList(
+    registerRaceList(
         request: RegisterRaceListRequest<JraRaceData>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

@@ -10,27 +10,29 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 export class MockNarRaceRepositoryFromS3Impl
     implements IRaceRepository<NarRaceData, NarPlaceData>
 {
-    async fetchRaceList(
+    fetchRaceList(
         request: FetchRaceListRequest<NarPlaceData>,
     ): Promise<FetchRaceListResponse<NarRaceData>> {
         console.debug(request);
-        return new FetchRaceListResponse([
-            new NarRaceData(
-                '東京ダービー',
-                new Date('2024-06-01'),
-                '大井',
-                'ダート',
-                2000,
-                'GⅠ',
-                1,
-            ),
-        ]);
+        return Promise.resolve(
+            new FetchRaceListResponse([
+                new NarRaceData(
+                    '東京ダービー',
+                    new Date('2024-06-01'),
+                    '大井',
+                    'ダート',
+                    2000,
+                    'GⅠ',
+                    1,
+                ),
+            ]),
+        );
     }
 
-    async registerRaceList(
+    registerRaceList(
         request: RegisterRaceListRequest<NarRaceData>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
-        return new RegisterRaceListResponse(200);
+        return Promise.resolve(new RegisterRaceListResponse(200));
     }
 }

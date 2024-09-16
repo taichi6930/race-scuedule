@@ -32,7 +32,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     async fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceData>> {
-        const years: Date[] = await this.generateYears(
+        const years: Date[] = this.generateYears(
             request.startDate,
             request.endDate,
         );
@@ -60,10 +60,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private async generateYears(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<Date[]> {
+    private generateYears(startDate: Date, finishDate: Date): Date[] {
         const years: Date[] = [];
         let currentDate = new Date(startDate);
 
@@ -146,7 +143,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    async registerPlaceList(
+    registerPlaceList(
         request: RegisterPlaceListRequest<JraPlaceData>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

@@ -32,7 +32,7 @@ export class JraPlaceRepositoryFromS3Impl
     async fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceData>> {
-        const fileNames: string[] = await this.generateFileNames(
+        const fileNames: string[] = this.generateFileNames(
             request.startDate,
             request.endDate,
         );
@@ -61,10 +61,7 @@ export class JraPlaceRepositoryFromS3Impl
      * @returns
      */
     @Logger
-    private async generateFileNames(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<string[]> {
+    private generateFileNames(startDate: Date, finishDate: Date): string[] {
         const fileNames: string[] = [];
         let currentDate = new Date(startDate);
 

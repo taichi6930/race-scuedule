@@ -214,7 +214,7 @@ export class NarRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    async registerRaceList(
+    registerRaceList(
         request: RegisterRaceListRequest<NarRaceData>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
