@@ -10,10 +10,7 @@ import type { ICalendarService } from '../interface/ICalendarService';
 export class MockGoogleCalendarService implements ICalendarService<any> {
     constructor(private readonly raceType: 'jra' | 'nar') {}
 
-    async getEvents(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<CalendarData[]> {
+    getEvents(startDate: Date, finishDate: Date): Promise<CalendarData[]> {
         const events: CalendarData[] = [];
         for (
             let date = new Date(startDate);
@@ -31,7 +28,7 @@ export class MockGoogleCalendarService implements ICalendarService<any> {
                 ),
             );
         }
-        return events;
+        return Promise.resolve(events);
     }
 
     async upsertEvents(): Promise<void> {

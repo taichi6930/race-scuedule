@@ -2,7 +2,7 @@
     "prettier.bracketSpacing": true,
     // { } が{}に自動で変換されるのを防ぐために一時的にfalseにしている
     "editor.formatOnSave": false,
-    "prettier.configPath": "./.prettierrc",
+    "prettier.configPath": "./.prettier.config.js",
     "prettier.bracketSameLine": true,
     "editor.formatOnPaste": true,
     "editor.codeActionsOnSave": {

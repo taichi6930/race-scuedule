@@ -77,7 +77,7 @@ export class JraPlaceRepositoryFromS3Impl
             currentDate = new Date(year + 1, 0, 1);
         }
         console.debug(`ファイル名リストを生成しました: ${fileNames}`);
-        return fileNames;
+        return Promise.resolve(fileNames);
     }
 
     /**

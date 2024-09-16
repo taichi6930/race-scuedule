@@ -14,7 +14,7 @@
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "lint": "eslint '**/*.{ts,tsx}'",
-        "lint:fix": "eslint --fix '**/*.{ts,tsx}'",
+        "lint:fix": "eslint --fix '**/*.{ts,tsx}' && prettier --write .",
         "lint:check": "eslint --quiet '**/*.{ts,tsx}'"
     },
     "dependencies": {
