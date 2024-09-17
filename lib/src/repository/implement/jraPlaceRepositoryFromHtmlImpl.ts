@@ -32,7 +32,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     async fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceData>> {
-        const years: Date[] = this.generateYears(
+        const years: Date[] = await this.generateYears(
             request.startDate,
             request.endDate,
         );
@@ -60,7 +60,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private generateYears(startDate: Date, finishDate: Date): Date[] {
+    private generateYears(startDate: Date, finishDate: Date): Promise<Date[]> {
         const years: Date[] = [];
         let currentDate = new Date(startDate);
 
@@ -75,7 +75,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         console.debug(
             `年リストを生成しました: ${years.map((year) => year.toISOString().split('T')[0])}`,
         );
-        return years;
+        return Promise.resolve(years);
     }
 
     /**
