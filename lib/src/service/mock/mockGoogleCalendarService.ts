@@ -1,6 +1,7 @@
 import { addDays, format } from 'date-fns';
 
 import { CalendarData } from '../../domain/calendarData';
+import { Logger } from '../../utility/logger';
 import type { ICalendarService } from '../interface/ICalendarService';
 
 /**
@@ -10,6 +11,7 @@ import type { ICalendarService } from '../interface/ICalendarService';
 export class MockGoogleCalendarService implements ICalendarService<any> {
     constructor(private readonly raceType: 'jra' | 'nar') {}
 
+    @Logger
     getEvents(startDate: Date, finishDate: Date): Promise<CalendarData[]> {
         const events: CalendarData[] = [];
         for (
@@ -31,10 +33,12 @@ export class MockGoogleCalendarService implements ICalendarService<any> {
         return Promise.resolve(events);
     }
 
+    @Logger
     async upsertEvents(): Promise<void> {
         // モックの動作を記述
     }
 
+    @Logger
     async cleansingEvents(): Promise<void> {
         // モックの動作を記述
     }

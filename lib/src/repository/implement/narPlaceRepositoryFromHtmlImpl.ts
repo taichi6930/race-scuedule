@@ -38,7 +38,7 @@ export class NarPlaceRepositoryFromHtmlImpl
     async fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<NarPlaceData>> {
-        const months: Date[] = this.generateMonths(
+        const months: Date[] = await this.generateMonths(
             request.startDate,
             request.endDate,
         );
@@ -66,7 +66,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private generateMonths(startDate: Date, finishDate: Date): Date[] {
+    private generateMonths(startDate: Date, finishDate: Date): Promise<Date[]> {
         const months: Date[] = [];
         let currentDate = new Date(startDate);
 
@@ -82,7 +82,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         console.debug(
             `月リストを生成しました: ${formatDate(currentDate, 'yyyy-MM-dd')}`,
         );
-        return months;
+        return Promise.resolve(months);
     }
 
     /**

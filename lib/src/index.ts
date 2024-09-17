@@ -2,6 +2,8 @@ import 'reflect-metadata';
 
 import serverlessExpress from '@codegenie/serverless-express';
 import express from 'express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 import { container } from 'tsyringe';
 
 import { JraRaceController } from './controller/jraRaceController';
@@ -281,6 +283,26 @@ const jraRaceController = container.resolve(JraRaceController);
 app.use(express.json());
 app.use('/api/races/nar', narRaceController.router);
 app.use('/api/races/jra', jraRaceController.router);
+
+const swaggerDefinition = {
+    basePath: '/',
+    openapi: '3.0.0',
+    info: {
+        version: '1.0.0',
+        title: 'My API',
+        description: 'Loading and retrieving  data from firebase firestore',
+    },
+    servers: [{ url: 'http://localhost:3000/' }],
+};
+
+const swaggerOptions = {
+    swaggerDefinition,
+    apis: ['./**/*.ts'],
+};
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
+
+app.use('/api-docs', swaggerUi.serve);
+app.get('/api-docs', swaggerUi.setup(swaggerDocs, { explorer: true }));
 
 // Lambda用のハンドラーをエクスポート
 export const handler = serverlessExpress({ app });
