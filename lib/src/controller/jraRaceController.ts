@@ -167,6 +167,32 @@ export class JraRaceController {
      * @param req
      * @param res
      * @returns
+     * @swagger
+     * /api/races/jra/calendar:
+     *   post:
+     *     description: カレンダーにレース情報を更新する
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               startDate:
+     *                 type: string
+     *                 format: date-time
+     *                 description: レース情報の開始日
+     *               finishDate:
+     *                 type: string
+     *                 format: date-time
+     *                 description: レース情報の終了日
+     *     responses:
+     *       200:
+     *         description: レース情報を更新
+     *       400:
+     *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
+     *       500:
+     *         description: サーバーエラー。カレンダーへのレース情報更新中にエラーが発生した場合
      */
     @Logger
     private async updateRacesToCalendar(
@@ -177,7 +203,10 @@ export class JraRaceController {
             const { startDate, finishDate } = req.body;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (!startDate || !finishDate) {
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
@@ -213,7 +242,10 @@ export class JraRaceController {
             const { startDate, finishDate } = req.body;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (!startDate || !finishDate) {
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
@@ -243,7 +275,10 @@ export class JraRaceController {
             const { startDate, finishDate } = req.query;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (!startDate || !finishDate) {
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
@@ -272,7 +307,10 @@ export class JraRaceController {
             const { startDate, finishDate } = req.body;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (!startDate || !finishDate) {
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
@@ -298,7 +336,10 @@ export class JraRaceController {
             const { startDate, finishDate } = req.query;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (!startDate || !finishDate) {
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
@@ -327,7 +368,10 @@ export class JraRaceController {
             const { startDate, finishDate } = req.body;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (!startDate || !finishDate) {
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
