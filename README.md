@@ -11,7 +11,7 @@ localで実行する場合は、
 ・次のコマンドを実行する
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ・次のcurlを実行する（カレンダー取得のためのGETリクエストの場合）
@@ -37,7 +37,7 @@ curl -X POST \
 ・次のコマンドを実行する
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ・次のURLにアクセスする
