@@ -47,4 +47,11 @@ export default [
             'simple-import-sort/exports': 'error',
         },
     },
+    // YAMLファイルを除外する設定
+    {
+        files: ['**/*.yaml', '**/*.yml'],
+        rules: {
+            'prettier/prettier': 'off',
+        },
+    },
 ];

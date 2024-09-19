@@ -8,4 +8,12 @@ module.exports = {
     quoteProps: 'consistent',
     trailingComma: 'all',
     arrowParens: 'always',
+    overrides: [
+        {
+            files: '*.yaml',
+            options: {
+                tabWidth: 2, // インデントをスペース2つに設定
+            },
+        },
+    ],
 };

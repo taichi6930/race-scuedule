@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import './container'; // DIコンテナの設定をインポート
 
 import serverlessExpress from '@codegenie/serverless-express';
-import express from 'express';
+import express, { Application } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { container } from 'tsyringe';
 
@@ -11,7 +11,7 @@ import { NarRaceController } from './controller/narRaceController';
 import swaggerSpec from './swagger/swaggerConfig';
 
 // Expressアプリケーションの設定
-const app = express();
+const app: Application = express();
 
 // DIコンテナからControllerを取得
 const narRaceController = container.resolve(NarRaceController);
