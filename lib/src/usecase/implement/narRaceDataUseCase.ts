@@ -108,6 +108,8 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
      *
      * @param startDate
      * @param finishDate
+     * @param placeList
+     * @param type
      */
     @Logger
     private async getRaceDataList(

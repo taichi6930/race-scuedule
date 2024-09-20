@@ -4,7 +4,7 @@
 export class FetchRaceListRequest<P> {
     constructor(
         public readonly startDate: Date,
-        public readonly endDate: Date,
+        public readonly finishDate: Date,
         public readonly placeDataList?: P[],
     ) {}
 }

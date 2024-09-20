@@ -38,10 +38,10 @@ export class NarRaceRepositoryFromS3Impl
     async fetchRaceList(
         request: FetchRaceListRequest<NarPlaceData>,
     ): Promise<FetchRaceListResponse<NarRaceData>> {
-        // startDateからendDateまでの日ごとのファイル名リストを生成する
+        // startDateからfinishDateまでの日ごとのファイル名リストを生成する
         const fileNames: string[] = this.generateFilenameList(
             request.startDate,
-            request.endDate,
+            request.finishDate,
         );
 
         // ファイル名リストから競馬場開催データを取得する
@@ -88,15 +88,15 @@ export class NarRaceRepositoryFromS3Impl
     }
 
     /**
-     * startDateからendDateまでの日付ごとのファイル名リストを生成する
+     * startDateからfinishDateまでの日付ごとのファイル名リストを生成する
      * @param startDate
-     * @param endDate
+     * @param finishDate
      * @returns
      */
-    private generateFilenameList(startDate: Date, endDate: Date): string[] {
+    private generateFilenameList(startDate: Date, finishDate: Date): string[] {
         const fileNames: string[] = [];
         const currentDate = new Date(startDate);
-        while (currentDate <= endDate) {
+        while (currentDate <= finishDate) {
             const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
             fileNames.push(fileName);
             currentDate.setDate(currentDate.getDate() + 1);

@@ -33,10 +33,10 @@ export class JraRaceRepositoryFromS3Impl
     async fetchRaceList(
         request: FetchRaceListRequest<JraPlaceData>,
     ): Promise<FetchRaceListResponse<JraRaceData>> {
-        // startDateからendDateまでの日ごとのファイル名リストを生成する
+        // startDateからfinishDateまでの日ごとのファイル名リストを生成する
         const fileNames: string[] = [];
         const currentDate = new Date(request.startDate);
-        while (currentDate <= request.endDate) {
+        while (currentDate <= request.finishDate) {
             const year = currentDate.getFullYear();
             const month = currentDate.getXDigitMonth(2);
             const day = currentDate.getXDigitDays(2);

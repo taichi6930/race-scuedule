@@ -13,7 +13,6 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
      *
      * @private
      * @type {Map<string, string>}
-     * @memberof MockS3Gateway
      */
     private mockStorage: Map<string, string>;
 
@@ -22,7 +21,6 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
      *
      * @private
      * @type {string}
-     * @memberof MockS3Gateway
      */
     private bucketName: string;
     /**
@@ -30,7 +28,6 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
      *
      * @private
      * @type {string}
-     * @memberof MockS3Gateway
      */
     private folderPath: string;
 
@@ -38,7 +35,6 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
      * MockS3Gatewayのコンストラクタ
      * @param {string} bucketName
      * @param {string} folderPath
-     * @memberof MockS3Gateway
      */
     constructor(bucketName: string, folderPath: string) {
         this.bucketName = bucketName;

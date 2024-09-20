@@ -38,7 +38,7 @@ export class NarPlaceRepositoryFromS3Impl
     ): Promise<FetchPlaceListResponse<NarPlaceData>> {
         const fileNames: string[] = await this.generateFileNames(
             request.startDate,
-            request.endDate,
+            request.finishDate,
         );
         console.log(fileNames);
         const promises = fileNames.map(async (fileName) =>
@@ -46,7 +46,7 @@ export class NarPlaceRepositoryFromS3Impl
                 childPlaceDataList.filter(
                     (placeData) =>
                         placeData.dateTime >= request.startDate &&
-                        placeData.dateTime <= request.endDate,
+                        placeData.dateTime <= request.finishDate,
                 ),
             ),
         );

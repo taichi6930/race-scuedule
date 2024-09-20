@@ -13,5 +13,5 @@ export interface IRaceDataUseCase<R> {
      * @param startDate
      * @param finishDate
      */
-    updateRaceDataList: (startDate: Date, endDate: Date) => Promise<void>;
+    updateRaceDataList: (startDate: Date, finishDate: Date) => Promise<void>;
 }

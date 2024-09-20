@@ -40,14 +40,14 @@ export class NarPlaceRepositoryFromHtmlImpl
     ): Promise<FetchPlaceListResponse<NarPlaceData>> {
         const months: Date[] = await this.generateMonths(
             request.startDate,
-            request.endDate,
+            request.finishDate,
         );
         const promises = months.map(async (month) =>
             this.fetchMonthPlaceDataList(month).then((childPlaceDataList) =>
                 childPlaceDataList.filter(
                     (placeData) =>
                         placeData.dateTime >= request.startDate &&
-                        placeData.dateTime <= request.endDate,
+                        placeData.dateTime <= request.finishDate,
                 ),
             ),
         );

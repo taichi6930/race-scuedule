@@ -34,14 +34,14 @@ export class JraPlaceRepositoryFromS3Impl
     ): Promise<FetchPlaceListResponse<JraPlaceData>> {
         const fileNames: string[] = await this.generateFileNames(
             request.startDate,
-            request.endDate,
+            request.finishDate,
         );
         const promises = fileNames.map((fileName) =>
             this.fetchYearPlaceDataList(fileName).then((childPlaceDataList) =>
                 childPlaceDataList.filter(
                     (placeData) =>
                         placeData.dateTime >= request.startDate &&
-                        placeData.dateTime <= request.endDate,
+                        placeData.dateTime <= request.finishDate,
                 ),
             ),
         );

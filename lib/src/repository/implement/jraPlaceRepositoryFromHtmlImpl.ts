@@ -34,14 +34,14 @@ export class JraPlaceRepositoryFromHtmlImpl
     ): Promise<FetchPlaceListResponse<JraPlaceData>> {
         const years: Date[] = await this.generateYears(
             request.startDate,
-            request.endDate,
+            request.finishDate,
         );
         const promises = years.map((year) =>
             this.fetchYearPlaceDataList(year).then((childPlaceDataList) =>
                 childPlaceDataList.filter(
                     (placeData) =>
                         placeData.dateTime >= request.startDate &&
-                        placeData.dateTime <= request.endDate,
+                        placeData.dateTime <= request.finishDate,
                 ),
             ),
         );
