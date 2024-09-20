@@ -1,3 +1,5 @@
 # YAMLファイルをすべて除外
 *.yaml
 *.yml
+
+docs/

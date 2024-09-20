@@ -91,7 +91,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      * ファイル名を利用してS3から競馬場開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
      *
-     * @param fileName
+     * @param date
      * @returns
      */
     @Logger

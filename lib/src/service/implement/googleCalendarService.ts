@@ -89,7 +89,7 @@ export class GoogleCalendarService<R extends Record<string, any>>
 
     /**
      * イベントデータをCalendarData型に変換
-     * @param event
+     * @param events
      * @returns
      */
     @Logger
@@ -198,7 +198,6 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * イベントを削除する（期間内のイベントを取得して削除）
      * @param startDate
      * @param finishDate
-     * @param isLeaveNewData 新しいデータを残すかどうか
      * @returns
      */
     @Logger

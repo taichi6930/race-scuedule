@@ -137,7 +137,7 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
     /**
      * レースデータを登録する
      *
-     * @param raceDataList
+     * @param raceList
      */
     @Logger
     private async registerRaceDataList(raceList: NarRaceData[]): Promise<void> {
