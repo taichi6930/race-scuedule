@@ -51,7 +51,10 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @returns
      */
     @Logger
-    async getEvents(startDate: Date, finishDate: Date): Promise<CalendarData[]> {
+    async getEvents(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<CalendarData[]> {
         // GoogleカレンダーAPIからイベントを取得
         const calendarList = await this.getEventsWithinDateRange(
             startDate,
@@ -199,7 +202,10 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @returns
      */
     @Logger
-    private async deleteEvents(startDate: Date, finishDate: Date): Promise<void> {
+    private async deleteEvents(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<void> {
         const events = (
             await this.getEventsWithinDateRange(startDate, finishDate)
         ).filter((event) => {

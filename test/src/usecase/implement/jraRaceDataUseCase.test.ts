@@ -78,7 +78,10 @@ describe('JraRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(startDate, finishDate);
+            const result = await useCase.fetchRaceDataList(
+                startDate,
+                finishDate,
+            );
 
             expect(result).toEqual(mockRaceData);
         });
