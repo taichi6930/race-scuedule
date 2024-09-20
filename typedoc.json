@@ -1,0 +1,9 @@
+{
+    "exclude": ["**/node_modules/**", "**/test/**"],
+    "includeVersion": true,
+    "out": "./docs",
+    "entryPointStrategy": "expand",
+    "entryPoints": ["./lib/src/"],
+    "theme": "default",
+    "hideGenerator": true
+}
