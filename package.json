@@ -16,7 +16,8 @@
         "format:check": "prettier --check .",
         "lint": "eslint '**/*.{ts,tsx}'",
         "lint:fix": "eslint --fix '**/*.{ts,tsx}' && prettier --write .",
-        "lint:check": "eslint --quiet '**/*.{ts,tsx}'"
+        "lint:check": "eslint --quiet '**/*.{ts,tsx}'",
+        "prepare": "husky install"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.654.0",
@@ -63,6 +64,7 @@
         "nodemon": "^3.1.5",
         "ts-node": "^10.9.2",
         "typescript": "~5.5.4",
-        "typescript-eslint": "^8.6.0"
+        "typescript-eslint": "^8.6.0",
+        "husky": "^8.0.0"
     }
 }
