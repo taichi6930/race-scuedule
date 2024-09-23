@@ -34,14 +34,14 @@ export class JraPlaceRepositoryFromHtmlImpl
     ): Promise<FetchPlaceListResponse<JraPlaceData>> {
         const years: Date[] = await this.generateYears(
             request.startDate,
-            request.endDate,
+            request.finishDate,
         );
         const promises = years.map((year) =>
             this.fetchYearPlaceDataList(year).then((childPlaceDataList) =>
                 childPlaceDataList.filter(
                     (placeData) =>
                         placeData.dateTime >= request.startDate &&
-                        placeData.dateTime <= request.endDate,
+                        placeData.dateTime <= request.finishDate,
                 ),
             ),
         );
@@ -84,7 +84,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * ファイル名を利用してS3から競馬場開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
      *
-     * @param fileName
+     * @param date
      * @returns
      */
     @Logger

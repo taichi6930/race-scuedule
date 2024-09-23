@@ -108,6 +108,8 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
      *
      * @param startDate
      * @param finishDate
+     * @param placeList
+     * @param type
      */
     @Logger
     private async getRaceDataList(
@@ -135,7 +137,7 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
     /**
      * レースデータを登録する
      *
-     * @param raceDataList
+     * @param raceList
      */
     @Logger
     private async registerRaceDataList(raceList: NarRaceData[]): Promise<void> {

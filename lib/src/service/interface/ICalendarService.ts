@@ -8,9 +8,9 @@ export interface ICalendarService<R> {
     /**
      * カレンダーのイベントの取得を行う
      * @param startDate
-     * @param endDate
+     * @param finishDate
      */
-    getEvents: (startDate: Date, endDate: Date) => Promise<CalendarData[]>;
+    getEvents: (startDate: Date, finishDate: Date) => Promise<CalendarData[]>;
     /**
      * カレンダーのイベントの更新を行う
      * @param raceList
@@ -19,7 +19,7 @@ export interface ICalendarService<R> {
     /**
      * カレンダーのクレンジングを行う
      * @param startDate
-     * @param endDate
+     * @param finishDate
      */
-    cleansingEvents: (startDate: Date, endDate: Date) => Promise<void>;
+    cleansingEvents: (startDate: Date, finishDate: Date) => Promise<void>;
 }

@@ -55,9 +55,12 @@ describe('JraPlaceDataUseCase', () => {
             );
 
             const startDate = new Date('2024-06-01');
-            const endDate = new Date('2024-06-30');
+            const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchPlaceDataList(startDate, endDate);
+            const result = await useCase.fetchPlaceDataList(
+                startDate,
+                finishDate,
+            );
 
             expect(result).toEqual(mockPlaceData);
         });
@@ -68,14 +71,14 @@ describe('JraPlaceDataUseCase', () => {
             const mockPlaceData: JraPlaceData[] = [basePlaceData];
 
             const startDate = new Date('2024-06-01');
-            const endDate = new Date('2024-06-30');
+            const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromS3Impl.fetchPlaceList.mockResolvedValue(
                 new FetchPlaceListResponse<JraPlaceData>(mockPlaceData),
             );
 
-            await useCase.updatePlaceDataList(startDate, endDate);
+            await useCase.updatePlaceDataList(startDate, finishDate);
 
             expect(
                 jraPlaceRepositoryFromHtmlImpl.fetchPlaceList,

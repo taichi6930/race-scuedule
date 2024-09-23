@@ -57,7 +57,7 @@ describe('GoogleCalendarService', () => {
     describe('getEvents', () => {
         it('CalendarData[]が返ってくること', async () => {
             const startDate = new Date('2024-01-01T00:00:00');
-            const endDate = new Date('2024-02-01T00:00:00');
+            const finishDate = new Date('2024-02-01T00:00:00');
             const calendarList = [
                 {
                     id: 'testNarEventId',
@@ -86,7 +86,7 @@ describe('GoogleCalendarService', () => {
 
             const result = await googleCalendarService.getEvents(
                 startDate,
-                endDate,
+                finishDate,
             );
 
             // 期待値と結果を比較
@@ -95,7 +95,7 @@ describe('GoogleCalendarService', () => {
 
         it('event.idが空の場合、CalendarData[]を返す', async () => {
             const startDate = new Date('2021-01-01T00:00:00');
-            const endDate = new Date('2021-01-02T00:00:00');
+            const finishDate = new Date('2021-01-02T00:00:00');
             const calendarList = [{}];
 
             // モックの `events.list` メソッドを設定
@@ -105,7 +105,7 @@ describe('GoogleCalendarService', () => {
 
             const result = await googleCalendarService.getEvents(
                 startDate,
-                endDate,
+                finishDate,
             );
 
             // 結果が0件であることを確認
@@ -114,7 +114,7 @@ describe('GoogleCalendarService', () => {
 
         it('data.itemsがnullの場合、CalendarData[]を返す', async () => {
             const startDate = new Date('2021-01-01T00:00:00');
-            const endDate = new Date('2021-01-02T00:00:00');
+            const finishDate = new Date('2021-01-02T00:00:00');
 
             // モックの `events.list` メソッドを設定
             const eventsListMock = google.calendar('v3').events
@@ -123,7 +123,7 @@ describe('GoogleCalendarService', () => {
 
             const result = await googleCalendarService.getEvents(
                 startDate,
-                endDate,
+                finishDate,
             );
 
             // 結果が0件であることを確認
@@ -380,7 +380,7 @@ describe('GoogleCalendarService', () => {
     describe('cleansingEvents', () => {
         it('該当イベントが存在する場合、削除処理が行われること', async () => {
             const startDate = new Date('2024-01-01T00:00:00');
-            const endDate = new Date('2024-02-01T00:00:00');
+            const finishDate = new Date('2024-02-01T00:00:00');
             const calendarList = [
                 {
                     id: 'testNarEventId',
@@ -401,7 +401,7 @@ describe('GoogleCalendarService', () => {
             const eventsDeleteMock = jest.fn().mockResolvedValue({});
             google.calendar('v3').events.delete = eventsDeleteMock;
 
-            await googleCalendarService.cleansingEvents(startDate, endDate);
+            await googleCalendarService.cleansingEvents(startDate, finishDate);
 
             // `events.delete` メソッドが呼ばれていることを確認
             expect(google.calendar('v3').events.delete).toHaveBeenCalled();
@@ -414,14 +414,14 @@ describe('GoogleCalendarService', () => {
 
         it('該当イベントが空の場合、削除処理が行われないこと', async () => {
             const startDate = new Date('2024-01-01T00:00:00');
-            const endDate = new Date('2024-02-01T00:00:00');
+            const finishDate = new Date('2024-02-01T00:00:00');
 
             // モックの `events.list` メソッドを設定
             const eventsListMock = google.calendar('v3').events
                 .list as jest.Mock;
             eventsListMock.mockResolvedValue({ data: { items: [] } });
 
-            await googleCalendarService.cleansingEvents(startDate, endDate);
+            await googleCalendarService.cleansingEvents(startDate, finishDate);
             // console.debugで指定された期間にイベントが見つかりませんでした。というログが出力されていることを確認
             expect(console.debug).toHaveBeenCalledWith(
                 '指定された期間にイベントが見つかりませんでした。',
@@ -430,7 +430,7 @@ describe('GoogleCalendarService', () => {
 
         it('calendar.events.deleteがエラーを返した場合、エラーログが出力されること', async () => {
             const startDate = new Date('2024-01-01T00:00:00');
-            const endDate = new Date('2024-02-01T00:00:00');
+            const finishDate = new Date('2024-02-01T00:00:00');
             const calenderList = [
                 {
                     id: 'testNarEventId',
@@ -458,7 +458,7 @@ describe('GoogleCalendarService', () => {
             });
             google.calendar('v3').events.delete = eventsDeleteMock;
 
-            await googleCalendarService.cleansingEvents(startDate, endDate);
+            await googleCalendarService.cleansingEvents(startDate, finishDate);
 
             // エラーログが出力されていることを確認
             expect(console.error).toHaveBeenCalledWith(

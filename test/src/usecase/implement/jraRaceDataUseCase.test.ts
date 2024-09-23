@@ -76,9 +76,12 @@ describe('JraRaceDataUseCase', () => {
             );
 
             const startDate = new Date('2024-06-01');
-            const endDate = new Date('2024-06-30');
+            const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(startDate, endDate);
+            const result = await useCase.fetchRaceDataList(
+                startDate,
+                finishDate,
+            );
 
             expect(result).toEqual(mockRaceData);
         });
@@ -89,14 +92,14 @@ describe('JraRaceDataUseCase', () => {
             const mockRaceData: JraRaceData[] = [baseRaceData];
 
             const startDate = new Date('2024-06-01');
-            const endDate = new Date('2024-06-30');
+            const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
             jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
                 new FetchRaceListResponse<JraRaceData>(mockRaceData),
             );
 
-            await useCase.updateRaceDataList(startDate, endDate);
+            await useCase.updateRaceDataList(startDate, finishDate);
 
             expect(
                 jraPlaceRepositoryFromS3Impl.fetchPlaceList,
@@ -111,7 +114,7 @@ describe('JraRaceDataUseCase', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             const startDate = new Date('2024-06-01');
-            const endDate = new Date('2024-06-30');
+            const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定（エラーが発生するように設定）
             jraRaceRepositoryFromHtmlImpl.fetchRaceList.mockRejectedValue(
@@ -122,7 +125,7 @@ describe('JraRaceDataUseCase', () => {
                 .spyOn(console, 'error')
                 .mockImplementation();
 
-            await useCase.updateRaceDataList(startDate, endDate);
+            await useCase.updateRaceDataList(startDate, finishDate);
 
             expect(consoleSpy).toHaveBeenCalled();
         });

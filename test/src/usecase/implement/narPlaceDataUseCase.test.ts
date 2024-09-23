@@ -55,9 +55,12 @@ describe('NarPlaceDataUseCase', () => {
             );
 
             const startDate = new Date('2024-06-01');
-            const endDate = new Date('2024-06-30');
+            const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchPlaceDataList(startDate, endDate);
+            const result = await useCase.fetchPlaceDataList(
+                startDate,
+                finishDate,
+            );
 
             expect(result).toEqual(mockPlaceData);
         });
@@ -68,14 +71,14 @@ describe('NarPlaceDataUseCase', () => {
             const mockPlaceData: NarPlaceData[] = [basePlaceData];
 
             const startDate = new Date('2024-06-01');
-            const endDate = new Date('2024-06-30');
+            const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
             narPlaceRepositoryFromS3Impl.fetchPlaceList.mockResolvedValue(
                 new FetchPlaceListResponse<NarPlaceData>(mockPlaceData),
             );
 
-            await useCase.updatePlaceDataList(startDate, endDate);
+            await useCase.updatePlaceDataList(startDate, finishDate);
 
             expect(
                 narPlaceRepositoryFromHtmlImpl.fetchPlaceList,

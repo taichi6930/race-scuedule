@@ -74,9 +74,12 @@ describe('NarRaceDataUseCase', () => {
             );
 
             const startDate = new Date('2024-06-01');
-            const endDate = new Date('2024-06-30');
+            const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(startDate, endDate);
+            const result = await useCase.fetchRaceDataList(
+                startDate,
+                finishDate,
+            );
 
             expect(result).toEqual(mockRaceData);
         });
@@ -87,14 +90,14 @@ describe('NarRaceDataUseCase', () => {
             const mockRaceData: NarRaceData[] = [baseRaceData];
 
             const startDate = new Date('2024-06-01');
-            const endDate = new Date('2024-06-30');
+            const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
             narRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
                 new FetchRaceListResponse<NarRaceData>(mockRaceData),
             );
 
-            await useCase.updateRaceDataList(startDate, endDate);
+            await useCase.updateRaceDataList(startDate, finishDate);
 
             expect(
                 narPlaceRepositoryFromS3Impl.fetchPlaceList,
@@ -109,7 +112,7 @@ describe('NarRaceDataUseCase', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             const startDate = new Date('2024-06-01');
-            const endDate = new Date('2024-06-30');
+            const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定（エラーが発生するように設定）
             narRaceRepositoryFromHtmlImpl.fetchRaceList.mockRejectedValue(
@@ -120,7 +123,7 @@ describe('NarRaceDataUseCase', () => {
                 .spyOn(console, 'error')
                 .mockImplementation();
 
-            await useCase.updateRaceDataList(startDate, endDate);
+            await useCase.updateRaceDataList(startDate, finishDate);
 
             expect(consoleSpy).toHaveBeenCalled();
         });

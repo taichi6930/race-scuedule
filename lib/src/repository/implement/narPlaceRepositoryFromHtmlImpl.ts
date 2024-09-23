@@ -40,14 +40,14 @@ export class NarPlaceRepositoryFromHtmlImpl
     ): Promise<FetchPlaceListResponse<NarPlaceData>> {
         const months: Date[] = await this.generateMonths(
             request.startDate,
-            request.endDate,
+            request.finishDate,
         );
         const promises = months.map(async (month) =>
             this.fetchMonthPlaceDataList(month).then((childPlaceDataList) =>
                 childPlaceDataList.filter(
                     (placeData) =>
                         placeData.dateTime >= request.startDate &&
-                        placeData.dateTime <= request.endDate,
+                        placeData.dateTime <= request.finishDate,
                 ),
             ),
         );
@@ -91,7 +91,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      * ファイル名を利用してS3から競馬場開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
      *
-     * @param fileName
+     * @param date
      * @returns
      */
     @Logger

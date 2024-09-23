@@ -19,8 +19,7 @@ export interface IPlaceRepository<P> {
 
     /**
      * 競馬場データを登録する
-     * @param placeDataList 競馬場データリスト
-     * @param startDate 開始日
+     * @param request リクエスト
      */
     registerPlaceList: (
         request: RegisterPlaceListRequest<P>,

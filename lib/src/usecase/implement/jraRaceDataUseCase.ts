@@ -135,7 +135,7 @@ export class JraRaceDataUseCase implements IRaceDataUseCase<JraRaceData> {
     /**
      * レースデータを登録する
      *
-     * @param raceDataList
+     * @param raceList
      */
     @Logger
     private async registerRaceDataList(raceList: JraRaceData[]): Promise<void> {

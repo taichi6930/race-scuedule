@@ -47,15 +47,18 @@ export class GoogleCalendarService<R extends Record<string, any>>
     /**
      * カレンダーのイベントの取得を行う
      * @param startDate
-     * @param endDate
+     * @param finishDate
      * @returns
      */
     @Logger
-    async getEvents(startDate: Date, endDate: Date): Promise<CalendarData[]> {
+    async getEvents(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<CalendarData[]> {
         // GoogleカレンダーAPIからイベントを取得
         const calendarList = await this.getEventsWithinDateRange(
             startDate,
-            endDate,
+            finishDate,
         );
         // イベントデータをCalendarData型に変換
         return this.convertToCalendarData(calendarList);
@@ -64,19 +67,19 @@ export class GoogleCalendarService<R extends Record<string, any>>
     /**
      * 期間内のイベントを取得する
      * @param startDate
-     * @param endDate
+     * @param finishDate
      * @returns
      */
     @Logger
     private async getEventsWithinDateRange(
         startDate: Date,
-        endDate: Date,
+        finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
         // orderBy: 'startTime'で開始時刻順に取得
         const response = await this.calendar.events.list({
             calendarId: this.calendarId,
             timeMin: startDate.toISOString(),
-            timeMax: endDate.toISOString(),
+            timeMax: finishDate.toISOString(),
             singleEvents: true,
             orderBy: 'startTime',
             timeZone: 'Asia/Tokyo',
@@ -86,7 +89,7 @@ export class GoogleCalendarService<R extends Record<string, any>>
 
     /**
      * イベントデータをCalendarData型に変換
-     * @param event
+     * @param events
      * @returns
      */
     @Logger
@@ -184,24 +187,26 @@ export class GoogleCalendarService<R extends Record<string, any>>
     /**
      * カレンダーのクレンジングを行う
      * @param startDate
-     * @param endDate
+     * @param finishDate
      */
     @Logger
-    async cleansingEvents(startDate: Date, endDate: Date): Promise<void> {
-        await this.deleteEvents(startDate, endDate);
+    async cleansingEvents(startDate: Date, finishDate: Date): Promise<void> {
+        await this.deleteEvents(startDate, finishDate);
     }
 
     /**
      * イベントを削除する（期間内のイベントを取得して削除）
      * @param startDate
-     * @param endDate
-     * @param isLeaveNewData 新しいデータを残すかどうか
+     * @param finishDate
      * @returns
      */
     @Logger
-    private async deleteEvents(startDate: Date, endDate: Date): Promise<void> {
+    private async deleteEvents(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<void> {
         const events = (
-            await this.getEventsWithinDateRange(startDate, endDate)
+            await this.getEventsWithinDateRange(startDate, finishDate)
         ).filter((event) => {
             // trueの場合は削除対象
             // イベントIDが指定したレースタイプで始まっていない場合は削除対象

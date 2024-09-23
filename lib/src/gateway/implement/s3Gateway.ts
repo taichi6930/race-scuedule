@@ -20,7 +20,6 @@ export class S3Gateway<T extends object> implements IS3Gateway<T> {
      *
      * @private
      * @type {S3Client}
-     * @memberof S3Gateway
      */
     private readonly s3Client: S3Client;
     /**
@@ -28,7 +27,6 @@ export class S3Gateway<T extends object> implements IS3Gateway<T> {
      *
      * @private
      * @type {string}
-     * @memberof S3Gateway
      */
     private readonly bucketName: string;
     /**
@@ -36,7 +34,6 @@ export class S3Gateway<T extends object> implements IS3Gateway<T> {
      *
      * @private
      * @type {string}
-     * @memberof S3Gateway
      */
     private readonly folderPath: string;
 
@@ -44,7 +41,6 @@ export class S3Gateway<T extends object> implements IS3Gateway<T> {
      * S3Gatewayのコンストラクタ
      * @param {string} bucketName
      * @param {string} folderPath
-     * @memberof S3Gateway
      */
     constructor(bucketName: string, folderPath: string) {
         // S3Clientの初期化 東京リージョン
