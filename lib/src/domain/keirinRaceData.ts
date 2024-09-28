@@ -25,7 +25,6 @@ export class KeirinRaceData {
         public readonly stage: KeirinRaceStage, // 開催ステージ
         public readonly dateTime: Date, // 開催日時
         public readonly location: KeirinRaceCourse, // 競馬場名
-        public readonly distance: number, // 距離
         public readonly grade: KeirinGradeType, // グレード
         public readonly number: number, // レース番号
     ) {
@@ -46,7 +45,6 @@ export class KeirinRaceData {
             partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
-            partial.distance ?? this.distance,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
         );
@@ -62,10 +60,6 @@ export class KeirinRaceData {
         // エラー文をまとめて表示する
         const errorMessageList: string[] = [];
 
-        // 距離は0より大きい
-        if (this.distance <= 0) {
-            errorMessageList.push('距離は0より大きい必要があります');
-        }
         // レース番号は1以上12以下
         if (this.number < 1 || this.number > 12) {
             errorMessageList.push(

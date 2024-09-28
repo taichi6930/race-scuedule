@@ -153,6 +153,7 @@ export const JRA_SPECIFIED_GRADE_LIST: JraGradeType[] = [
     'Listed',
     'オープン特別',
 ];
+
 /**
  * NARのグレード
  */
@@ -199,3 +200,15 @@ export type KeirinGradeType = 'GP' | 'GⅠ' | 'GⅡ' | 'GⅢ' | 'FⅠ' | 'FⅡ';
  * 競輪のステージ
  */
 export type KeirinRaceStage = '決勝';
+
+/**
+ * 競輪の指定グレードリスト
+ */
+export const KEIRIN_SPECIFIED_GRADE_LIST: KeirinGradeType[] = [
+    'GP',
+    'GⅠ',
+    'GⅡ',
+    'GⅢ',
+    'FⅠ',
+    'FⅡ',
+];
