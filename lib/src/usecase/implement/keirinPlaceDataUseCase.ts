@@ -13,8 +13,8 @@ export class KeirinPlaceDataUseCase
     implements IPlaceDataUseCase<KeirinPlaceData>
 {
     constructor(
-        @inject('KeirinPlaceRepositoryFromS3')
-        private readonly keirinPlaceRepositoryFromS3: IPlaceRepository<KeirinPlaceData>,
+        @inject('KeirinPlaceRepositoryFromStorage')
+        private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceData>,
         @inject('KeirinPlaceRepositoryFromHtml')
         private readonly keirinPlaceRepositoryFromHtml: IPlaceRepository<KeirinPlaceData>,
     ) {}
@@ -35,7 +35,7 @@ export class KeirinPlaceDataUseCase
             finishDate,
         );
         const response: FetchPlaceListResponse<KeirinPlaceData> =
-            await this.keirinPlaceRepositoryFromS3.fetchPlaceList(request);
+            await this.keirinPlaceRepositoryFromStorage.fetchPlaceList(request);
         return response.placeDataList;
     }
 
@@ -74,7 +74,7 @@ export class KeirinPlaceDataUseCase
             new RegisterPlaceListRequest<KeirinPlaceData>(
                 fetchPlaceListResponse.placeDataList,
             );
-        await this.keirinPlaceRepositoryFromS3.registerPlaceList(
+        await this.keirinPlaceRepositoryFromStorage.registerPlaceList(
             registerPlaceListRequest,
         );
     }

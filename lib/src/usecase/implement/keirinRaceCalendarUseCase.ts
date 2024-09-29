@@ -16,8 +16,8 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('KeirinCalendarService')
         private readonly calendarService: ICalendarService<KeirinRaceData>,
-        @inject('KeirinRaceRepositoryFromS3')
-        private readonly keirinRaceRepositoryFromS3: IRaceRepository<
+        @inject('KeirinRaceRepositoryFromStorage')
+        private readonly keirinRaceRepositoryFromStorage: IRaceRepository<
             KeirinRaceData,
             KeirinPlaceData
         >,
@@ -64,7 +64,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                     finishDate,
                 );
             const fetchRaceDataListResponse =
-                await this.keirinRaceRepositoryFromS3.fetchRaceList(
+                await this.keirinRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
             const { raceDataList } = fetchRaceDataListResponse;

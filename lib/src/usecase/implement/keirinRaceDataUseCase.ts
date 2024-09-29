@@ -18,10 +18,10 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 @injectable()
 export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
     constructor(
-        @inject('KeirinPlaceRepositoryFromS3')
-        private readonly keirinPlaceRepositoryFromS3: IPlaceRepository<KeirinPlaceData>,
-        @inject('KeirinRaceRepositoryFromS3')
-        private readonly keirinRaceRepositoryFromS3: IRaceRepository<
+        @inject('KeirinPlaceRepositoryFromStorage')
+        private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceData>,
+        @inject('KeirinRaceRepositoryFromStorage')
+        private readonly keirinRaceRepositoryFromStorage: IRaceRepository<
             KeirinRaceData,
             KeirinPlaceData
         >,
@@ -96,7 +96,7 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<KeirinPlaceData> =
-            await this.keirinPlaceRepositoryFromS3.fetchPlaceList(
+            await this.keirinPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
         return fetchPlaceListResponse.placeDataList;
@@ -125,7 +125,7 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
         );
         const fetchRaceListResponse: FetchRaceListResponse<KeirinRaceData> =
             type === 'storage'
-                ? await this.keirinRaceRepositoryFromS3.fetchRaceList(
+                ? await this.keirinRaceRepositoryFromStorage.fetchRaceList(
                       fetchRaceListRequest,
                   )
                 : await this.keirinRaceRepositoryFromHtml.fetchRaceList(
@@ -145,7 +145,7 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<KeirinRaceData>(raceList);
-        await this.keirinRaceRepositoryFromS3.registerRaceList(
+        await this.keirinRaceRepositoryFromStorage.registerRaceList(
             registerRaceListRequest,
         );
     }

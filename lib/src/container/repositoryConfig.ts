@@ -16,7 +16,7 @@ import { NarRaceRepositoryFromHtmlImpl } from '../repository/implement/narRaceRe
 import { NarRaceRepositoryFromS3Impl } from '../repository/implement/narRaceRepositoryFromS3Impl';
 import { IPlaceRepository } from '../repository/interface/IPlaceRepository';
 import { IRaceRepository } from '../repository/interface/IRaceRepository';
-import { MockKeirinRaceRepositoryFromS3Impl } from '../repository/mock/mockKeirinRaceRepositoryFromS3Impl';
+import { MockKeirinRaceRepositoryFromStorageImpl } from '../repository/mock/mockKeirinRaceRepositoryFromStorageImpl';
 
 // Repositoryの実装クラスをDIコンテナに登錄する
 container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
@@ -28,8 +28,8 @@ container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
     { useClass: JraRaceRepositoryFromS3Impl },
 );
 container.register<IRaceRepository<KeirinRaceData, KeirinPlaceData>>(
-    'KeirinRaceRepositoryFromS3',
-    { useClass: MockKeirinRaceRepositoryFromS3Impl },
+    'KeirinRaceRepositoryFromStorage',
+    { useClass: MockKeirinRaceRepositoryFromStorageImpl },
 );
 container.register<IPlaceRepository<NarPlaceData>>('NarPlaceRepositoryFromS3', {
     useClass: NarPlaceRepositoryFromS3Impl,

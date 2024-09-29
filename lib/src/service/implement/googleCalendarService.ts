@@ -17,6 +17,7 @@ import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
+export type RaceType = 'jra' | 'nar' | 'keirin';
 @injectable()
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class GoogleCalendarService<R extends Record<string, any>>
@@ -24,10 +25,10 @@ export class GoogleCalendarService<R extends Record<string, any>>
 {
     private readonly credentials: JWT;
     private readonly calendar: calendar_v3.Calendar;
-    private readonly raceType: 'jra' | 'nar' | 'keirin';
+    private readonly raceType: RaceType;
     private readonly calendarId: string;
 
-    constructor(raceType: 'jra' | 'nar' | 'keirin', calendarId: string) {
+    constructor(raceType: RaceType, calendarId: string) {
         this.raceType = raceType;
         this.credentials = new google.auth.JWT(
             // client_emailは環境変数から取得

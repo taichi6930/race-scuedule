@@ -6,8 +6,8 @@ import type { RegisterRaceListRequest } from '../request/registerRaceListRequest
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
-// KeirinRaceRepositoryFromS3Implのモックを作成
-export class MockKeirinRaceRepositoryFromS3Impl
+// KeirinRaceRepositoryFromStorageImplのモックを作成
+export class MockKeirinRaceRepositoryFromStorageImpl
     implements IRaceRepository<KeirinRaceData, KeirinPlaceData>
 {
     fetchRaceList(
