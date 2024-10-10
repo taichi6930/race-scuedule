@@ -30,7 +30,7 @@ export class MockKeirinPlaceDataHtmlGateway
 
 			<meta name="robots" content="noindex" />
 
-		<title >競輪開催スケジュール(2024年8月)｜競輪（KEIRIN）ならオッズパーク競輪</title>
+		<title >競輪開催スケジュール(2024年11月)｜競輪（KEIRIN）ならオッズパーク競輪</title>
 
 
 		<link rel="stylesheet" type="text/css" media="screen,print" href="/ud_shared/pc/keirin/keirin/shared/css/main.css?20131001&20220510132530" />
@@ -100,7 +100,7 @@ export class MockKeirinPlaceDataHtmlGateway
 			</div>
 			<!-- //nav -->
 
-				<div id="marq"><marquee>ミッドナイト開催　四日市、久留米競輪　通常賭式発売中！　　　　　和歌山競輪　Dokanto!・通常賭式発売中！　　防府競輪　LOTO・通常賭式発売中！　　西武園、小田原競輪　通常賭式発売中！
+				<div id="marq"><marquee>和歌山競輪　Dokanto!・通常賭式発売中！　　防府競輪　LOTO・通常賭式発売中！
 </marquee></div>
 
 
@@ -123,7 +123,7 @@ export class MockKeirinPlaceDataHtmlGateway
 						<ul id="date_pr">
     						<li>
 
-    								<a href="/keirin/KaisaiCalendar.do?target=202407">
+    								<a href="/keirin/KaisaiCalendar.do?target=202410">
     								←前月</a>
 
     						</li>
@@ -158,10 +158,10 @@ export class MockKeirinPlaceDataHtmlGateway
         						<option value="5">5</option>
         						<option value="6">6</option>
         						<option value="7">7</option>
-        						<option value="8" selected="selected">8</option>
+        						<option value="8">8</option>
         						<option value="9">9</option>
         						<option value="10">10</option>
-        						<option value="11">11</option>
+        						<option value="11" selected="selected">11</option>
         						<option value="12">12</option>
 							</select>
 							月
@@ -177,7 +177,7 @@ export class MockKeirinPlaceDataHtmlGateway
 						<ul id="date_nx">
 							<li>
 
-									<a href="/keirin/KaisaiCalendar.do?target=202409">
+									<a href="/keirin/KaisaiCalendar.do?target=202412">
 									次月→</a>
 
 							</li>
@@ -607,14 +607,6 @@ tr.ref_sche td {
 
 										</th>
 
-										<th class="noborder">
-
-
-
-												<img src="/ud_shared/pc/keirin/keirin/shared/images/spacer.gif?20220510132531" width="19" height="17"/>
-
-										</th>
-
 								</tr>
 
 								<tr class="ref_sche">
@@ -622,9 +614,9 @@ tr.ref_sche td {
 
 										<th width="3%">1</th>
 
-										<th width="3%">2</th>
+										<th width="3%" class="bg-4-lt">2</th>
 
-										<th width="3%" class="bg-4-lt">3</th>
+										<th width="3%" class="bg-3-lt">3</th>
 
 										<th width="3%" class="bg-3-lt">4</th>
 
@@ -636,13 +628,13 @@ tr.ref_sche td {
 
 										<th width="3%">8</th>
 
-										<th width="3%">9</th>
+										<th width="3%" class="bg-4-lt">9</th>
 
-										<th width="3%" class="bg-4-lt">10</th>
+										<th width="3%" class="bg-3-lt">10</th>
 
-										<th width="3%" class="bg-3-lt">11</th>
+										<th width="3%">11</th>
 
-										<th width="3%" class="bg-3-lt">12</th>
+										<th width="3%">12</th>
 
 										<th width="3%">13</th>
 
@@ -650,11 +642,11 @@ tr.ref_sche td {
 
 										<th width="3%">15</th>
 
-										<th width="3%">16</th>
+										<th width="3%" class="bg-4-lt">16</th>
 
-										<th width="3%" class="bg-4-lt">17</th>
+										<th width="3%" class="bg-3-lt">17</th>
 
-										<th width="3%" class="bg-3-lt">18</th>
+										<th width="3%">18</th>
 
 										<th width="3%">19</th>
 
@@ -664,11 +656,11 @@ tr.ref_sche td {
 
 										<th width="3%">22</th>
 
-										<th width="3%">23</th>
+										<th width="3%" class="bg-3-lt">23</th>
 
-										<th width="3%" class="bg-4-lt">24</th>
+										<th width="3%" class="bg-3-lt">24</th>
 
-										<th width="3%" class="bg-3-lt">25</th>
+										<th width="3%">25</th>
 
 										<th width="3%">26</th>
 
@@ -678,29 +670,11 @@ tr.ref_sche td {
 
 										<th width="3%">29</th>
 
-										<th width="3%">30</th>
-
-										<th width="3%" class="bg-4-lt">31</th>
+										<th width="3%" class="bg-4-lt">30</th>
 
 								</tr>
 
 								<tr class="ref_sche_week" id="targetBox5">
-
-										<td>木</td>
-
-										<td>金</td>
-
-										<td class="bg-4-lt">土</td>
-
-										<td class="bg-3-lt">日</td>
-
-										<td>月</td>
-
-										<td>火</td>
-
-										<td>水</td>
-
-										<td>木</td>
 
 										<td>金</td>
 
@@ -746,6 +720,20 @@ tr.ref_sche td {
 
 										<td>金</td>
 
+										<td class="bg-3-lt">土</td>
+
+										<td class="bg-3-lt">日</td>
+
+										<td>月</td>
+
+										<td>火</td>
+
+										<td>水</td>
+
+										<td>木</td>
+
+										<td>金</td>
+
 										<td class="bg-4-lt">土</td>
 
 								</tr>
@@ -766,17 +754,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -792,110 +769,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240804&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240805&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240806&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240810&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -905,37 +780,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240811&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240812&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -1011,19 +857,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240819&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -1033,19 +868,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240820&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -1055,19 +879,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240821&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -1110,19 +923,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240825&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -1132,19 +934,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240826&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -1154,19 +945,85 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240827&amp;joCode=11">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -1227,16 +1084,47 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
 
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+													</div>
+												</td>
 
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -1247,17 +1135,55 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
 
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240802&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -1362,83 +1288,62 @@ tr.ref_sche td {
 													</div>
 												</td>
 
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
 												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240813&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240814&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240815&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -1464,17 +1369,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240819&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -1484,17 +1380,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240820&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -1504,17 +1391,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240821&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -1546,134 +1424,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240825&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240826&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240830&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240831&amp;joCode=12">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -1697,127 +1449,12 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
 
 														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240808&amp;joCode=13">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240809&amp;joCode=13">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240810&amp;joCode=13">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -1937,8 +1574,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -1948,8 +1594,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -1959,8 +1614,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -2043,12 +1707,119 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
 
 														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
 
 
 													</div>
@@ -2386,14 +2157,6 @@ tr.ref_sche td {
 
 										</th>
 
-										<th class="noborder">
-
-
-
-												<img src="/ud_shared/pc/keirin/keirin/shared/images/spacer.gif?20220510132531" width="19" height="17"/>
-
-										</th>
-
 								</tr>
 
 								<tr class="ref_sche">
@@ -2401,9 +2164,9 @@ tr.ref_sche td {
 
 										<th width="3%">1</th>
 
-										<th width="3%">2</th>
+										<th width="3%" class="bg-4-lt">2</th>
 
-										<th width="3%" class="bg-4-lt">3</th>
+										<th width="3%" class="bg-3-lt">3</th>
 
 										<th width="3%" class="bg-3-lt">4</th>
 
@@ -2415,13 +2178,13 @@ tr.ref_sche td {
 
 										<th width="3%">8</th>
 
-										<th width="3%">9</th>
+										<th width="3%" class="bg-4-lt">9</th>
 
-										<th width="3%" class="bg-4-lt">10</th>
+										<th width="3%" class="bg-3-lt">10</th>
 
-										<th width="3%" class="bg-3-lt">11</th>
+										<th width="3%">11</th>
 
-										<th width="3%" class="bg-3-lt">12</th>
+										<th width="3%">12</th>
 
 										<th width="3%">13</th>
 
@@ -2429,11 +2192,11 @@ tr.ref_sche td {
 
 										<th width="3%">15</th>
 
-										<th width="3%">16</th>
+										<th width="3%" class="bg-4-lt">16</th>
 
-										<th width="3%" class="bg-4-lt">17</th>
+										<th width="3%" class="bg-3-lt">17</th>
 
-										<th width="3%" class="bg-3-lt">18</th>
+										<th width="3%">18</th>
 
 										<th width="3%">19</th>
 
@@ -2443,11 +2206,11 @@ tr.ref_sche td {
 
 										<th width="3%">22</th>
 
-										<th width="3%">23</th>
+										<th width="3%" class="bg-3-lt">23</th>
 
-										<th width="3%" class="bg-4-lt">24</th>
+										<th width="3%" class="bg-3-lt">24</th>
 
-										<th width="3%" class="bg-3-lt">25</th>
+										<th width="3%">25</th>
 
 										<th width="3%">26</th>
 
@@ -2457,29 +2220,11 @@ tr.ref_sche td {
 
 										<th width="3%">29</th>
 
-										<th width="3%">30</th>
-
-										<th width="3%" class="bg-4-lt">31</th>
+										<th width="3%" class="bg-4-lt">30</th>
 
 								</tr>
 
 								<tr class="ref_sche_week" id="targetBox5">
-
-										<td>木</td>
-
-										<td>金</td>
-
-										<td class="bg-4-lt">土</td>
-
-										<td class="bg-3-lt">日</td>
-
-										<td>月</td>
-
-										<td>火</td>
-
-										<td>水</td>
-
-										<td>木</td>
 
 										<td>金</td>
 
@@ -2525,6 +2270,20 @@ tr.ref_sche td {
 
 										<td>金</td>
 
+										<td class="bg-3-lt">土</td>
+
+										<td class="bg-3-lt">日</td>
+
+										<td>月</td>
+
+										<td>火</td>
+
+										<td>水</td>
+
+										<td>木</td>
+
+										<td>金</td>
+
 										<td class="bg-4-lt">土</td>
 
 								</tr>
@@ -2545,95 +2304,14 @@ tr.ref_sche td {
 														<div class="time">
 
 
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -2673,154 +2351,6 @@ tr.ref_sche td {
 												</td>
 
 												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240816&amp;joCode=21">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240817&amp;joCode=21">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240818&amp;joCode=21">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -2830,30 +2360,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=21">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240825&amp;joCode=21">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -2870,11 +2378,225 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240826&amp;joCode=21">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -2946,96 +2668,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -3115,13 +2756,6 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240816&amp;joCode=22">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
 													</div>
 												</td>
 
@@ -3131,13 +2765,6 @@ tr.ref_sche td {
 
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240817&amp;joCode=22">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -3151,10 +2778,23 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240818&amp;joCode=22">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
+													</div>
+												</td>
 
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -3165,8 +2805,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -3176,19 +2825,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
 
 
 													</div>
@@ -3222,6 +2869,110 @@ tr.ref_sche td {
 
 
 														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -3315,26 +3066,6 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=23">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
 
 														</div>
 
@@ -3364,116 +3095,12 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240810&amp;joCode=23">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
 												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240811&amp;joCode=23">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240812&amp;joCode=23">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -3535,17 +3162,6 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
 													<div class="grade">
 														<div class="time">
 
@@ -3577,30 +3193,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240821&amp;joCode=23">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240822&amp;joCode=23">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -3617,11 +3211,38 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240823&amp;joCode=23">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -3644,6 +3265,104 @@ tr.ref_sche td {
 
 
 														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -3733,121 +3452,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240803&amp;joCode=24">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240804&amp;joCode=24">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240805&amp;joCode=24">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -4050,19 +3654,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240828&amp;joCode=24">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -4072,19 +3665,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240829&amp;joCode=24">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -4094,25 +3676,14 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240830&amp;joCode=24">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -4123,12 +3694,49 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-										</tr>
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
 
-									 	<tr class="ref_sche">
-									 		<th height="34" class="sub mh30 bg-2-lt">大宮</th>
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
 
 												<td >
 													<div class="grade">
@@ -4163,60 +3771,12 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
+										</tr>
 
 
-														</div>
 
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
+									 	<tr class="ref_sche">
+									 		<th height="34" class="sub mh30 bg-2-lt">大宮</th>
 
 												<td >
 													<div class="grade">
@@ -4384,6 +3944,98 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -4482,6 +4134,197 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
 
 														</div>
 
@@ -4577,111 +4420,7 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240810&amp;joCode=26">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
 												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240811&amp;joCode=26">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240812&amp;joCode=26">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -4740,17 +4479,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240822&amp;joCode=26">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -4760,16 +4490,16 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
 
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240823&amp;joCode=26">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -4780,60 +4510,7 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=26">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
 
 
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
@@ -4841,66 +4518,9 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240828&amp;joCode=26">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240829&amp;joCode=26">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240830&amp;joCode=26">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -4924,6 +4544,93 @@ tr.ref_sche td {
 													</div>
 												</td>
 
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
 												<td >
 													<div class="grade">
 														<div class="time">
@@ -5016,222 +4723,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
 
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240810&amp;joCode=27">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240811&amp;joCode=27">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240812&amp;joCode=27">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240819&amp;joCode=27">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240820&amp;joCode=27">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240821&amp;joCode=27">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -5247,10 +4747,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240825&amp;joCode=27">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -5267,10 +4765,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240826&amp;joCode=27">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -5281,17 +4777,85 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240827&amp;joCode=27">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -5334,8 +4898,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -5359,121 +4930,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240804&amp;joCode=28">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240805&amp;joCode=28">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240806&amp;joCode=28">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -5497,6 +4953,104 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
 													<div class="grade">
 														<div class="time">
 
@@ -5628,7 +5182,7 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -5699,16 +5253,7 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240830&amp;joCode=28">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -5719,16 +5264,7 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240831&amp;joCode=28">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -6050,14 +5586,6 @@ tr.ref_sche td {
 
 										</th>
 
-										<th class="noborder">
-
-
-
-												<img src="/ud_shared/pc/keirin/keirin/shared/images/spacer.gif?20220510132531" width="19" height="17"/>
-
-										</th>
-
 								</tr>
 
 								<tr class="ref_sche">
@@ -6065,9 +5593,9 @@ tr.ref_sche td {
 
 										<th width="3%">1</th>
 
-										<th width="3%">2</th>
+										<th width="3%" class="bg-4-lt">2</th>
 
-										<th width="3%" class="bg-4-lt">3</th>
+										<th width="3%" class="bg-3-lt">3</th>
 
 										<th width="3%" class="bg-3-lt">4</th>
 
@@ -6079,13 +5607,13 @@ tr.ref_sche td {
 
 										<th width="3%">8</th>
 
-										<th width="3%">9</th>
+										<th width="3%" class="bg-4-lt">9</th>
 
-										<th width="3%" class="bg-4-lt">10</th>
+										<th width="3%" class="bg-3-lt">10</th>
 
-										<th width="3%" class="bg-3-lt">11</th>
+										<th width="3%">11</th>
 
-										<th width="3%" class="bg-3-lt">12</th>
+										<th width="3%">12</th>
 
 										<th width="3%">13</th>
 
@@ -6093,11 +5621,11 @@ tr.ref_sche td {
 
 										<th width="3%">15</th>
 
-										<th width="3%">16</th>
+										<th width="3%" class="bg-4-lt">16</th>
 
-										<th width="3%" class="bg-4-lt">17</th>
+										<th width="3%" class="bg-3-lt">17</th>
 
-										<th width="3%" class="bg-3-lt">18</th>
+										<th width="3%">18</th>
 
 										<th width="3%">19</th>
 
@@ -6107,11 +5635,11 @@ tr.ref_sche td {
 
 										<th width="3%">22</th>
 
-										<th width="3%">23</th>
+										<th width="3%" class="bg-3-lt">23</th>
 
-										<th width="3%" class="bg-4-lt">24</th>
+										<th width="3%" class="bg-3-lt">24</th>
 
-										<th width="3%" class="bg-3-lt">25</th>
+										<th width="3%">25</th>
 
 										<th width="3%">26</th>
 
@@ -6121,29 +5649,11 @@ tr.ref_sche td {
 
 										<th width="3%">29</th>
 
-										<th width="3%">30</th>
-
-										<th width="3%" class="bg-4-lt">31</th>
+										<th width="3%" class="bg-4-lt">30</th>
 
 								</tr>
 
 								<tr class="ref_sche_week" id="targetBox5">
-
-										<td>木</td>
-
-										<td>金</td>
-
-										<td class="bg-4-lt">土</td>
-
-										<td class="bg-3-lt">日</td>
-
-										<td>月</td>
-
-										<td>火</td>
-
-										<td>水</td>
-
-										<td>木</td>
 
 										<td>金</td>
 
@@ -6176,6 +5686,20 @@ tr.ref_sche td {
 										<td>金</td>
 
 										<td class="bg-4-lt">土</td>
+
+										<td class="bg-3-lt">日</td>
+
+										<td>月</td>
+
+										<td>火</td>
+
+										<td>水</td>
+
+										<td>木</td>
+
+										<td>金</td>
+
+										<td class="bg-3-lt">土</td>
 
 										<td class="bg-3-lt">日</td>
 
@@ -6224,124 +5748,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=31">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240802&amp;joCode=31">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240803&amp;joCode=31">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240804&amp;joCode=31">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -6384,8 +5801,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -6395,8 +5819,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -6406,8 +5837,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -6483,8 +5921,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -6494,8 +5939,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -6505,8 +5957,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -6551,6 +6010,110 @@ tr.ref_sche td {
 
 
 														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
 
 
 													</div>
@@ -6607,94 +6170,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -6850,6 +6325,83 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -6955,17 +6507,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -6988,116 +6529,12 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240810&amp;joCode=34">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
 												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240811&amp;joCode=34">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240812&amp;joCode=34">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -7184,16 +6621,16 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240820&amp;joCode=34">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -7204,16 +6641,16 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240821&amp;joCode=34">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -7224,16 +6661,16 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240822&amp;joCode=34">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -7252,6 +6689,104 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -7299,17 +6834,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240828&amp;joCode=34">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -7319,17 +6845,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240829&amp;joCode=34">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -7339,17 +6856,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240830&amp;joCode=34">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -7359,8 +6867,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -7384,127 +6899,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240807&amp;joCode=35">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240808&amp;joCode=35">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240809&amp;joCode=35">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -7531,17 +6925,6 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
 
 
@@ -7550,10 +6933,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240813&amp;joCode=35">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1_a.gif?20220510132531" width="22" height="14" alt="G1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -7572,10 +6953,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240814&amp;joCode=35">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1_a.gif?20220510132531" width="22" height="14" alt="G1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -7594,10 +6973,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240815&amp;joCode=35">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1_a.gif?20220510132531" width="22" height="14" alt="G1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -7608,16 +6985,23 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240816&amp;joCode=35">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1_a.gif?20220510132531" width="22" height="14" alt="G1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -7628,16 +7012,12 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240817&amp;joCode=35">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1_a.gif?20220510132531" width="22" height="14" alt="G1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -7648,16 +7028,12 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240818&amp;joCode=35">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1_a.gif?20220510132531" width="22" height="14" alt="G1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -7670,6 +7046,11 @@ tr.ref_sche td {
 
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
 
 
 													</div>
@@ -7796,21 +7177,89 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240831&amp;joCode=35">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -7834,115 +7283,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240806&amp;joCode=36">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240807&amp;joCode=36">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240808&amp;joCode=36">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -8105,11 +7445,70 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=36">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -8123,11 +7522,15 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240825&amp;joCode=36">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
 
 
 													</div>
@@ -8141,13 +7544,6 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240826&amp;joCode=36">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
-
-
-
-
 													</div>
 												</td>
 
@@ -8157,13 +7553,6 @@ tr.ref_sche td {
 
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240827&amp;joCode=36">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
-
-
 
 
 													</div>
@@ -8231,23 +7620,19 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -8257,74 +7642,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -8334,96 +7660,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -8544,16 +7789,7 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240830&amp;joCode=37">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -8564,15 +7800,182 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240831&amp;joCode=37">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+													</div>
+												</td>
 
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -8597,94 +8000,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -8916,12 +8231,104 @@ tr.ref_sche td {
 													</div>
 												</td>
 
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
 
 
 													</div>
@@ -9229,14 +8636,6 @@ tr.ref_sche td {
 
 										</th>
 
-										<th class="noborder">
-
-
-
-												<img src="/ud_shared/pc/keirin/keirin/shared/images/spacer.gif?20220510132531" width="19" height="17"/>
-
-										</th>
-
 								</tr>
 
 								<tr class="ref_sche">
@@ -9244,9 +8643,9 @@ tr.ref_sche td {
 
 										<th width="3%">1</th>
 
-										<th width="3%">2</th>
+										<th width="3%" class="bg-4-lt">2</th>
 
-										<th width="3%" class="bg-4-lt">3</th>
+										<th width="3%" class="bg-3-lt">3</th>
 
 										<th width="3%" class="bg-3-lt">4</th>
 
@@ -9258,13 +8657,13 @@ tr.ref_sche td {
 
 										<th width="3%">8</th>
 
-										<th width="3%">9</th>
+										<th width="3%" class="bg-4-lt">9</th>
 
-										<th width="3%" class="bg-4-lt">10</th>
+										<th width="3%" class="bg-3-lt">10</th>
 
-										<th width="3%" class="bg-3-lt">11</th>
+										<th width="3%">11</th>
 
-										<th width="3%" class="bg-3-lt">12</th>
+										<th width="3%">12</th>
 
 										<th width="3%">13</th>
 
@@ -9272,11 +8671,11 @@ tr.ref_sche td {
 
 										<th width="3%">15</th>
 
-										<th width="3%">16</th>
+										<th width="3%" class="bg-4-lt">16</th>
 
-										<th width="3%" class="bg-4-lt">17</th>
+										<th width="3%" class="bg-3-lt">17</th>
 
-										<th width="3%" class="bg-3-lt">18</th>
+										<th width="3%">18</th>
 
 										<th width="3%">19</th>
 
@@ -9286,11 +8685,11 @@ tr.ref_sche td {
 
 										<th width="3%">22</th>
 
-										<th width="3%">23</th>
+										<th width="3%" class="bg-3-lt">23</th>
 
-										<th width="3%" class="bg-4-lt">24</th>
+										<th width="3%" class="bg-3-lt">24</th>
 
-										<th width="3%" class="bg-3-lt">25</th>
+										<th width="3%">25</th>
 
 										<th width="3%">26</th>
 
@@ -9300,29 +8699,11 @@ tr.ref_sche td {
 
 										<th width="3%">29</th>
 
-										<th width="3%">30</th>
-
-										<th width="3%" class="bg-4-lt">31</th>
+										<th width="3%" class="bg-4-lt">30</th>
 
 								</tr>
 
 								<tr class="ref_sche_week" id="targetBox5">
-
-										<td>木</td>
-
-										<td>金</td>
-
-										<td class="bg-4-lt">土</td>
-
-										<td class="bg-3-lt">日</td>
-
-										<td>月</td>
-
-										<td>火</td>
-
-										<td>水</td>
-
-										<td>木</td>
 
 										<td>金</td>
 
@@ -9355,6 +8736,20 @@ tr.ref_sche td {
 										<td>金</td>
 
 										<td class="bg-4-lt">土</td>
+
+										<td class="bg-3-lt">日</td>
+
+										<td>月</td>
+
+										<td>火</td>
+
+										<td>水</td>
+
+										<td>木</td>
+
+										<td>金</td>
+
+										<td class="bg-3-lt">土</td>
 
 										<td class="bg-3-lt">日</td>
 
@@ -9421,15 +8816,9 @@ tr.ref_sche td {
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
-
-														</div>
 
 
 													</div>
@@ -9439,16 +8828,12 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240803&amp;joCode=42">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -9459,37 +8844,24 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240804&amp;joCode=42">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
 													</div>
 												</td>
 
-												<td >
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240805&amp;joCode=42">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -9561,17 +8933,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td >
 													<div class="grade">
 														<div class="time">
@@ -9613,11 +8974,15 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240816&amp;joCode=42">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
 
 
 													</div>
@@ -9631,11 +8996,70 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240817&amp;joCode=42">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -9649,97 +9073,6 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240818&amp;joCode=42">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240823&amp;joCode=42">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=42">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
 													</div>
 												</td>
 
@@ -9747,17 +9080,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240825&amp;joCode=42">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -9847,94 +9171,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -10038,8 +9274,214 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -10077,10 +9519,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240822&amp;joCode=43">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -10097,17 +9537,15 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240823&amp;joCode=43">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td >
 													<div class="grade">
 														<div class="time">
 
@@ -10117,77 +9555,9 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=43">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -10222,7 +9592,7 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
+												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -10233,7 +9603,7 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -10259,49 +9629,7 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
@@ -10309,19 +9637,19 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240809&amp;joCode=44">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td >
 													<div class="grade">
 														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
@@ -10329,19 +9657,19 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240810&amp;joCode=44">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
 													</div>
 												</td>
 
-												<td class="bg-3-lt" >
+												<td >
 													<div class="grade">
 														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
@@ -10349,55 +9677,9 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240811&amp;joCode=44">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -10484,6 +9766,66 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
 
 														</div>
 
@@ -10491,7 +9833,51 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -10521,15 +9907,9 @@ tr.ref_sche td {
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
-
-														</div>
 
 
 													</div>
@@ -10541,6 +9921,27 @@ tr.ref_sche td {
 
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
 
 
 													</div>
@@ -10574,6 +9975,11 @@ tr.ref_sche td {
 
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
+
 
 
 													</div>
@@ -10594,134 +10000,6 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=45">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240807&amp;joCode=45">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240808&amp;joCode=45">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240809&amp;joCode=45">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
 													</div>
 												</td>
 
@@ -10748,110 +10026,6 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240813&amp;joCode=45">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240814&amp;joCode=45">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240815&amp;joCode=45">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
 													<div class="grade">
 														<div class="time">
 
@@ -10907,6 +10081,202 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -11006,121 +10376,6 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=46">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240802&amp;joCode=46">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240803&amp;joCode=46">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
 														</div>
 
 
@@ -11242,16 +10497,7 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240820&amp;joCode=46">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -11262,16 +10508,7 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240821&amp;joCode=46">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -11282,16 +10519,7 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240822&amp;joCode=46">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -11371,11 +10599,37 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240829&amp;joCode=46">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -11389,11 +10643,48 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240830&amp;joCode=46">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -11405,13 +10696,6 @@ tr.ref_sche td {
 
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240831&amp;joCode=46">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
-
-
 
 
 													</div>
@@ -11428,19 +10712,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -11463,83 +10743,6 @@ tr.ref_sche td {
 
 
 														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240810&amp;joCode=47">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -11557,17 +10760,15 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240811&amp;joCode=47">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
 													</div>
 												</td>
 
-												<td class="bg-3-lt" >
+												<td >
 													<div class="grade">
 														<div class="time">
 
@@ -11579,10 +10780,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240812&amp;joCode=47">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -11593,19 +10792,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
 
 
 													</div>
@@ -11696,6 +10893,11 @@ tr.ref_sche td {
 														</div>
 
 
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
+
+
+
 													</div>
 												</td>
 
@@ -11703,16 +10905,12 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240823&amp;joCode=47">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
 
 
 
@@ -11723,16 +10921,12 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=47">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
 
 
 
@@ -11743,16 +10937,12 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240825&amp;joCode=47">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
 
 
 
@@ -11776,6 +10966,104 @@ tr.ref_sche td {
 
 
 														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -11836,6 +11124,184 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
 
 														</div>
 
@@ -11931,161 +11397,7 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -12461,14 +11773,6 @@ tr.ref_sche td {
 
 										</th>
 
-										<th class="noborder">
-
-
-
-												<img src="/ud_shared/pc/keirin/keirin/shared/images/spacer.gif?20220510132531" width="19" height="17"/>
-
-										</th>
-
 								</tr>
 
 								<tr class="ref_sche">
@@ -12476,9 +11780,9 @@ tr.ref_sche td {
 
 										<th width="3%">1</th>
 
-										<th width="3%">2</th>
+										<th width="3%" class="bg-4-lt">2</th>
 
-										<th width="3%" class="bg-4-lt">3</th>
+										<th width="3%" class="bg-3-lt">3</th>
 
 										<th width="3%" class="bg-3-lt">4</th>
 
@@ -12490,13 +11794,13 @@ tr.ref_sche td {
 
 										<th width="3%">8</th>
 
-										<th width="3%">9</th>
+										<th width="3%" class="bg-4-lt">9</th>
 
-										<th width="3%" class="bg-4-lt">10</th>
+										<th width="3%" class="bg-3-lt">10</th>
 
-										<th width="3%" class="bg-3-lt">11</th>
+										<th width="3%">11</th>
 
-										<th width="3%" class="bg-3-lt">12</th>
+										<th width="3%">12</th>
 
 										<th width="3%">13</th>
 
@@ -12504,11 +11808,11 @@ tr.ref_sche td {
 
 										<th width="3%">15</th>
 
-										<th width="3%">16</th>
+										<th width="3%" class="bg-4-lt">16</th>
 
-										<th width="3%" class="bg-4-lt">17</th>
+										<th width="3%" class="bg-3-lt">17</th>
 
-										<th width="3%" class="bg-3-lt">18</th>
+										<th width="3%">18</th>
 
 										<th width="3%">19</th>
 
@@ -12518,11 +11822,11 @@ tr.ref_sche td {
 
 										<th width="3%">22</th>
 
-										<th width="3%">23</th>
+										<th width="3%" class="bg-3-lt">23</th>
 
-										<th width="3%" class="bg-4-lt">24</th>
+										<th width="3%" class="bg-3-lt">24</th>
 
-										<th width="3%" class="bg-3-lt">25</th>
+										<th width="3%">25</th>
 
 										<th width="3%">26</th>
 
@@ -12532,29 +11836,11 @@ tr.ref_sche td {
 
 										<th width="3%">29</th>
 
-										<th width="3%">30</th>
-
-										<th width="3%" class="bg-4-lt">31</th>
+										<th width="3%" class="bg-4-lt">30</th>
 
 								</tr>
 
 								<tr class="ref_sche_week" id="targetBox5">
-
-										<td>木</td>
-
-										<td>金</td>
-
-										<td class="bg-4-lt">土</td>
-
-										<td class="bg-3-lt">日</td>
-
-										<td>月</td>
-
-										<td>火</td>
-
-										<td>水</td>
-
-										<td>木</td>
 
 										<td>金</td>
 
@@ -12587,6 +11873,20 @@ tr.ref_sche td {
 										<td>金</td>
 
 										<td class="bg-4-lt">土</td>
+
+										<td class="bg-3-lt">日</td>
+
+										<td>月</td>
+
+										<td>火</td>
+
+										<td>水</td>
+
+										<td>木</td>
+
+										<td>金</td>
+
+										<td class="bg-3-lt">土</td>
 
 										<td class="bg-3-lt">日</td>
 
@@ -12664,36 +11964,7 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=51">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240802&amp;joCode=51">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -12721,110 +11992,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240808&amp;joCode=51">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240809&amp;joCode=51">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240810&amp;joCode=51">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
@@ -12844,13 +12011,6 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240813&amp;joCode=51">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
 													</div>
 												</td>
 
@@ -12862,13 +12022,6 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240814&amp;joCode=51">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
 													</div>
 												</td>
 
@@ -12878,13 +12031,6 @@ tr.ref_sche td {
 
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240815&amp;joCode=51">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -12979,6 +12125,83 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -13084,94 +12307,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -13308,6 +12443,66 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
 
 														</div>
 
@@ -13326,7 +12521,40 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
 													<div class="grade">
 														<div class="time">
 
@@ -13341,57 +12569,19 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240825&amp;joCode=53">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
 												</td>
 
-												<td >
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240826&amp;joCode=53">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240827&amp;joCode=53">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -13423,8 +12613,51 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
 
 
 													</div>
@@ -13434,17 +12667,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240831&amp;joCode=53">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -13468,121 +12692,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240803&amp;joCode=54">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240804&amp;joCode=54">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240805&amp;joCode=54">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -13720,16 +12829,7 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240822&amp;joCode=54">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -13740,16 +12840,7 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240823&amp;joCode=54">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -13760,16 +12851,84 @@ tr.ref_sche td {
 														<div class="time">
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=54">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -13863,19 +13022,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
 
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -13885,85 +13040,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
 
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -14058,138 +13143,6 @@ tr.ref_sche td {
 												</td>
 
 												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -14199,11 +13152,253 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240831&amp;joCode=55">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -14227,30 +13422,12 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240803&amp;joCode=56">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -14264,35 +13441,10 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240804&amp;joCode=56">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240805&amp;joCode=56">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -14311,6 +13463,11 @@ tr.ref_sche td {
 														</div>
 
 
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
 													</div>
 												</td>
 
@@ -14320,6 +13477,27 @@ tr.ref_sche td {
 
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
 
 
 													</div>
@@ -14358,7 +13536,7 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-3-lt" >
+												<td >
 													<div class="grade">
 														<div class="time">
 
@@ -14440,13 +13618,13 @@ tr.ref_sche td {
 														<div class="time">
 
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240819&amp;joCode=56">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -14458,13 +13636,13 @@ tr.ref_sche td {
 														<div class="time">
 
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240820&amp;joCode=56">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -14476,25 +13654,14 @@ tr.ref_sche td {
 														<div class="time">
 
 
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240821&amp;joCode=56">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -14511,7 +13678,18 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -14877,14 +14055,6 @@ tr.ref_sche td {
 
 										</th>
 
-										<th class="noborder">
-
-
-
-												<img src="/ud_shared/pc/keirin/keirin/shared/images/spacer.gif?20220510132531" width="19" height="17"/>
-
-										</th>
-
 								</tr>
 
 								<tr class="ref_sche">
@@ -14892,9 +14062,9 @@ tr.ref_sche td {
 
 										<th width="3%">1</th>
 
-										<th width="3%">2</th>
+										<th width="3%" class="bg-4-lt">2</th>
 
-										<th width="3%" class="bg-4-lt">3</th>
+										<th width="3%" class="bg-3-lt">3</th>
 
 										<th width="3%" class="bg-3-lt">4</th>
 
@@ -14906,13 +14076,13 @@ tr.ref_sche td {
 
 										<th width="3%">8</th>
 
-										<th width="3%">9</th>
+										<th width="3%" class="bg-4-lt">9</th>
 
-										<th width="3%" class="bg-4-lt">10</th>
+										<th width="3%" class="bg-3-lt">10</th>
 
-										<th width="3%" class="bg-3-lt">11</th>
+										<th width="3%">11</th>
 
-										<th width="3%" class="bg-3-lt">12</th>
+										<th width="3%">12</th>
 
 										<th width="3%">13</th>
 
@@ -14920,11 +14090,11 @@ tr.ref_sche td {
 
 										<th width="3%">15</th>
 
-										<th width="3%">16</th>
+										<th width="3%" class="bg-4-lt">16</th>
 
-										<th width="3%" class="bg-4-lt">17</th>
+										<th width="3%" class="bg-3-lt">17</th>
 
-										<th width="3%" class="bg-3-lt">18</th>
+										<th width="3%">18</th>
 
 										<th width="3%">19</th>
 
@@ -14934,11 +14104,11 @@ tr.ref_sche td {
 
 										<th width="3%">22</th>
 
-										<th width="3%">23</th>
+										<th width="3%" class="bg-3-lt">23</th>
 
-										<th width="3%" class="bg-4-lt">24</th>
+										<th width="3%" class="bg-3-lt">24</th>
 
-										<th width="3%" class="bg-3-lt">25</th>
+										<th width="3%">25</th>
 
 										<th width="3%">26</th>
 
@@ -14948,29 +14118,11 @@ tr.ref_sche td {
 
 										<th width="3%">29</th>
 
-										<th width="3%">30</th>
-
-										<th width="3%" class="bg-4-lt">31</th>
+										<th width="3%" class="bg-4-lt">30</th>
 
 								</tr>
 
 								<tr class="ref_sche_week" id="targetBox5">
-
-										<td>木</td>
-
-										<td>金</td>
-
-										<td class="bg-4-lt">土</td>
-
-										<td class="bg-3-lt">日</td>
-
-										<td>月</td>
-
-										<td>火</td>
-
-										<td>水</td>
-
-										<td>木</td>
 
 										<td>金</td>
 
@@ -15003,6 +14155,20 @@ tr.ref_sche td {
 										<td>金</td>
 
 										<td class="bg-4-lt">土</td>
+
+										<td class="bg-3-lt">日</td>
+
+										<td>月</td>
+
+										<td>火</td>
+
+										<td>水</td>
+
+										<td>木</td>
+
+										<td>金</td>
+
+										<td class="bg-3-lt">土</td>
 
 										<td class="bg-3-lt">日</td>
 
@@ -15096,121 +14262,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240804&amp;joCode=61">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240805&amp;joCode=61">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240806&amp;joCode=61">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -15280,167 +14331,6 @@ tr.ref_sche td {
 												<td >
 													<div class="grade">
 														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240816&amp;joCode=61">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240817&amp;joCode=61">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240818&amp;joCode=61">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
@@ -15448,10 +14338,44 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240828&amp;joCode=61">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -15462,18 +14386,165 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240829&amp;joCode=61">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+													</div>
+												</td>
 
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -15484,19 +14555,52 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240830&amp;joCode=61">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -15531,94 +14635,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -15774,6 +14790,83 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -15876,6 +14969,94 @@ tr.ref_sche td {
 														</div>
 
 
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3.gif?20220510132531" width="22" height="14" alt="G3" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
 													</div>
 												</td>
 
@@ -15975,6 +15156,87 @@ tr.ref_sche td {
 														</div>
 
 
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
 													</div>
 												</td>
 
@@ -16004,8 +15266,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -16015,8 +15286,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -16026,151 +15306,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -16481,14 +15627,6 @@ tr.ref_sche td {
 
 										</th>
 
-										<th class="noborder">
-
-
-
-												<img src="/ud_shared/pc/keirin/keirin/shared/images/spacer.gif?20220510132531" width="19" height="17"/>
-
-										</th>
-
 								</tr>
 
 								<tr class="ref_sche">
@@ -16496,9 +15634,9 @@ tr.ref_sche td {
 
 										<th width="3%">1</th>
 
-										<th width="3%">2</th>
+										<th width="3%" class="bg-4-lt">2</th>
 
-										<th width="3%" class="bg-4-lt">3</th>
+										<th width="3%" class="bg-3-lt">3</th>
 
 										<th width="3%" class="bg-3-lt">4</th>
 
@@ -16510,13 +15648,13 @@ tr.ref_sche td {
 
 										<th width="3%">8</th>
 
-										<th width="3%">9</th>
+										<th width="3%" class="bg-4-lt">9</th>
 
-										<th width="3%" class="bg-4-lt">10</th>
+										<th width="3%" class="bg-3-lt">10</th>
 
-										<th width="3%" class="bg-3-lt">11</th>
+										<th width="3%">11</th>
 
-										<th width="3%" class="bg-3-lt">12</th>
+										<th width="3%">12</th>
 
 										<th width="3%">13</th>
 
@@ -16524,11 +15662,11 @@ tr.ref_sche td {
 
 										<th width="3%">15</th>
 
-										<th width="3%">16</th>
+										<th width="3%" class="bg-4-lt">16</th>
 
-										<th width="3%" class="bg-4-lt">17</th>
+										<th width="3%" class="bg-3-lt">17</th>
 
-										<th width="3%" class="bg-3-lt">18</th>
+										<th width="3%">18</th>
 
 										<th width="3%">19</th>
 
@@ -16538,11 +15676,11 @@ tr.ref_sche td {
 
 										<th width="3%">22</th>
 
-										<th width="3%">23</th>
+										<th width="3%" class="bg-3-lt">23</th>
 
-										<th width="3%" class="bg-4-lt">24</th>
+										<th width="3%" class="bg-3-lt">24</th>
 
-										<th width="3%" class="bg-3-lt">25</th>
+										<th width="3%">25</th>
 
 										<th width="3%">26</th>
 
@@ -16552,29 +15690,11 @@ tr.ref_sche td {
 
 										<th width="3%">29</th>
 
-										<th width="3%">30</th>
-
-										<th width="3%" class="bg-4-lt">31</th>
+										<th width="3%" class="bg-4-lt">30</th>
 
 								</tr>
 
 								<tr class="ref_sche_week" id="targetBox5">
-
-										<td>木</td>
-
-										<td>金</td>
-
-										<td class="bg-4-lt">土</td>
-
-										<td class="bg-3-lt">日</td>
-
-										<td>月</td>
-
-										<td>火</td>
-
-										<td>水</td>
-
-										<td>木</td>
 
 										<td>金</td>
 
@@ -16607,6 +15727,20 @@ tr.ref_sche td {
 										<td>金</td>
 
 										<td class="bg-4-lt">土</td>
+
+										<td class="bg-3-lt">日</td>
+
+										<td>月</td>
+
+										<td>火</td>
+
+										<td>水</td>
+
+										<td>木</td>
+
+										<td>金</td>
+
+										<td class="bg-3-lt">土</td>
 
 										<td class="bg-3-lt">日</td>
 
@@ -16706,6 +15840,39 @@ tr.ref_sche td {
 													</div>
 												</td>
 
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
 												<td >
 													<div class="grade">
 														<div class="time">
@@ -16717,11 +15884,33 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td class="bg-4-lt" >
+												<td >
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
@@ -16729,21 +15918,19 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240803&amp;joCode=71">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
 													</div>
 												</td>
 
-												<td class="bg-3-lt" >
+												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
@@ -16751,21 +15938,19 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240804&amp;joCode=71">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
 													</div>
 												</td>
 
-												<td >
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
@@ -16773,10 +15958,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240805&amp;joCode=71">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -16784,72 +15967,6 @@ tr.ref_sche td {
 												</td>
 
 												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -16938,148 +16055,6 @@ tr.ref_sche td {
 												</td>
 
 												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=71">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240825&amp;joCode=71">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240826&amp;joCode=71">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -17089,11 +16064,165 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240831&amp;joCode=71">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -17117,94 +16246,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -17242,19 +16283,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240813&amp;joCode=73">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -17264,19 +16294,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240814&amp;joCode=73">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -17286,19 +16305,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240815&amp;joCode=73">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -17327,6 +16335,17 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
 													<div class="grade">
 														<div class="time">
 
@@ -17377,33 +16396,13 @@ tr.ref_sche td {
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240822&amp;joCode=73">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240823&amp;joCode=73">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -17417,13 +16416,126 @@ tr.ref_sche td {
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=73">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -17471,11 +16583,15 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240828&amp;joCode=73">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
 
 
 													</div>
@@ -17488,33 +16604,6 @@ tr.ref_sche td {
 
 														</div>
 
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240829&amp;joCode=73">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240830&amp;joCode=73">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-															<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-abort.gif?20220510132532" width="23" height="13" alt="中止" class="mT1"/>
 
 													</div>
 												</td>
@@ -17541,127 +16630,6 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=74">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240802&amp;joCode=74">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240803&amp;joCode=74">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
 
 														</div>
 
@@ -17783,16 +16751,12 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240820&amp;joCode=74">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -17803,16 +16767,12 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240821&amp;joCode=74">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -17823,16 +16783,12 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240822&amp;joCode=74">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -17911,6 +16867,98 @@ tr.ref_sche td {
 
 
 														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
 
 
 													</div>
@@ -17949,16 +16997,302 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=75">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -17972,86 +17306,13 @@ tr.ref_sche td {
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240802&amp;joCode=75">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240808&amp;joCode=75">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
-
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -18062,260 +17323,17 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240809&amp;joCode=75">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240810&amp;joCode=75">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240811&amp;joCode=75">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g3_a.gif?20220510132532" width="22" height="14" alt="G3"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -18596,14 +17614,6 @@ tr.ref_sche td {
 
 										</th>
 
-										<th class="noborder">
-
-
-
-												<img src="/ud_shared/pc/keirin/keirin/shared/images/spacer.gif?20220510132531" width="19" height="17"/>
-
-										</th>
-
 								</tr>
 
 								<tr class="ref_sche">
@@ -18611,9 +17621,9 @@ tr.ref_sche td {
 
 										<th width="3%">1</th>
 
-										<th width="3%">2</th>
+										<th width="3%" class="bg-4-lt">2</th>
 
-										<th width="3%" class="bg-4-lt">3</th>
+										<th width="3%" class="bg-3-lt">3</th>
 
 										<th width="3%" class="bg-3-lt">4</th>
 
@@ -18625,13 +17635,13 @@ tr.ref_sche td {
 
 										<th width="3%">8</th>
 
-										<th width="3%">9</th>
+										<th width="3%" class="bg-4-lt">9</th>
 
-										<th width="3%" class="bg-4-lt">10</th>
+										<th width="3%" class="bg-3-lt">10</th>
 
-										<th width="3%" class="bg-3-lt">11</th>
+										<th width="3%">11</th>
 
-										<th width="3%" class="bg-3-lt">12</th>
+										<th width="3%">12</th>
 
 										<th width="3%">13</th>
 
@@ -18639,11 +17649,11 @@ tr.ref_sche td {
 
 										<th width="3%">15</th>
 
-										<th width="3%">16</th>
+										<th width="3%" class="bg-4-lt">16</th>
 
-										<th width="3%" class="bg-4-lt">17</th>
+										<th width="3%" class="bg-3-lt">17</th>
 
-										<th width="3%" class="bg-3-lt">18</th>
+										<th width="3%">18</th>
 
 										<th width="3%">19</th>
 
@@ -18653,11 +17663,11 @@ tr.ref_sche td {
 
 										<th width="3%">22</th>
 
-										<th width="3%">23</th>
+										<th width="3%" class="bg-3-lt">23</th>
 
-										<th width="3%" class="bg-4-lt">24</th>
+										<th width="3%" class="bg-3-lt">24</th>
 
-										<th width="3%" class="bg-3-lt">25</th>
+										<th width="3%">25</th>
 
 										<th width="3%">26</th>
 
@@ -18667,29 +17677,11 @@ tr.ref_sche td {
 
 										<th width="3%">29</th>
 
-										<th width="3%">30</th>
-
-										<th width="3%" class="bg-4-lt">31</th>
+										<th width="3%" class="bg-4-lt">30</th>
 
 								</tr>
 
 								<tr class="ref_sche_week" id="targetBox5">
-
-										<td>木</td>
-
-										<td>金</td>
-
-										<td class="bg-4-lt">土</td>
-
-										<td class="bg-3-lt">日</td>
-
-										<td>月</td>
-
-										<td>火</td>
-
-										<td>水</td>
-
-										<td>木</td>
 
 										<td>金</td>
 
@@ -18722,6 +17714,20 @@ tr.ref_sche td {
 										<td>金</td>
 
 										<td class="bg-4-lt">土</td>
+
+										<td class="bg-3-lt">日</td>
+
+										<td>月</td>
+
+										<td>火</td>
+
+										<td>水</td>
+
+										<td>木</td>
+
+										<td>金</td>
+
+										<td class="bg-3-lt">土</td>
 
 										<td class="bg-3-lt">日</td>
 
@@ -18829,23 +17835,19 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -18855,74 +17857,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -18932,96 +17875,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -19154,6 +18016,215 @@ tr.ref_sche td {
 
 
 														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1.gif?20220510132532" width="22" height="14" alt="G1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1.gif?20220510132532" width="22" height="14" alt="G1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1.gif?20220510132532" width="22" height="14" alt="G1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1.gif?20220510132532" width="22" height="14" alt="G1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1.gif?20220510132532" width="22" height="14" alt="G1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_g1.gif?20220510132532" width="22" height="14" alt="G1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -19170,121 +18241,6 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=83">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240802&amp;joCode=83">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240803&amp;joCode=83">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
 
 														</div>
 
@@ -19447,6 +18403,83 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -19545,16 +18578,150 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=84">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -19571,219 +18738,8 @@ tr.ref_sche td {
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240802&amp;joCode=84">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240816&amp;joCode=84">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240817&amp;joCode=84">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240818&amp;joCode=84">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
 
 
@@ -19794,41 +18750,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
 
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -19882,19 +18812,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240827&amp;joCode=84">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -19904,19 +18823,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240828&amp;joCode=84">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
 
 
 													</div>
@@ -19926,22 +18834,86 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240829&amp;joCode=84">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
 
 
-															<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-abort.gif?20220510132532" width="23" height="13" alt="中止" class="mT1"/>
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
 
 													</div>
 												</td>
@@ -19979,6 +18951,191 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
 
 														</div>
 
@@ -20045,19 +19202,8 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240807&amp;joCode=85">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
@@ -20067,47 +19213,14 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240808&amp;joCode=85">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
 
 
 													</div>
 												</td>
 
 												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240809&amp;joCode=85">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1_a.gif?20220510132530" width="22" height="14" alt="F1"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -20144,88 +19257,6 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240813&amp;joCode=85">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240814&amp;joCode=85">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240815&amp;joCode=85">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
 
 														</div>
 
@@ -20248,40 +19279,14 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
 
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240822&amp;joCode=85">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -20292,52 +19297,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240823&amp;joCode=85">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-night3.gif?20220510132532" width="10" height="10" alt="ﾅｲﾀｰ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240824&amp;joCode=85">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
 
 
 														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
 
 
 													</div>
@@ -20347,52 +19315,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
 
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -20427,17 +19358,6 @@ tr.ref_sche td {
 													</div>
 												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
 												<td class="bg-4-lt" >
 													<div class="grade">
 														<div class="time">
@@ -20453,19 +19373,30 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240804&amp;joCode=86">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -20478,15 +19409,11 @@ tr.ref_sche td {
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240805&amp;joCode=86">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -20500,15 +19427,11 @@ tr.ref_sche td {
 																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
 
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240806&amp;joCode=86">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
 
 
@@ -20519,217 +19442,15 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
 
 
 														</div>
 
 
-													</div>
-												</td>
 
-												<td >
-													<div class="grade">
-														<div class="time">
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
 
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240819&amp;joCode=86">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240820&amp;joCode=86">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
-
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240821&amp;joCode=86">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
 
 
 													</div>
@@ -20816,17 +19537,177 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-midnight3.gif?20220510132533" width="10" height="10" alt="ﾐｯﾄﾞﾅｲﾄ"  class="mT2"/>
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
 
 
 														</div>
 
 
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240831&amp;joCode=86">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
 
 
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
 
 
 													</div>
@@ -20843,112 +19724,6 @@ tr.ref_sche td {
 													<div class="grade">
 														<div class="time">
 
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240801&amp;joCode=87">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240802&amp;joCode=87">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
 
 														</div>
 
@@ -21027,6 +19802,104 @@ tr.ref_sche td {
 														<div class="time">
 
 
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-girls.png?20220510132533" width="10" height="10" alt="ｶﾞｰﾙｽﾞ" />
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f1.gif?20220510132530" width="22" height="14" alt="F1" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
 														</div>
 
 
@@ -21034,6 +19907,104 @@ tr.ref_sche td {
 												</td>
 
 												<td class="bg-4-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
+
+
+														</div>
+
+
+
+																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2.gif?20220510132531" width="22" height="14" alt="F2" />
+
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td >
+													<div class="grade">
+														<div class="time">
+
+
+														</div>
+
+
+													</div>
+												</td>
+
+												<td class="bg-3-lt" >
 													<div class="grade">
 														<div class="time">
 
@@ -21095,112 +20066,6 @@ tr.ref_sche td {
 
 														</div>
 
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-4-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td class="bg-3-lt" >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-
-														</div>
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240827&amp;joCode=87">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240828&amp;joCode=87">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-													</div>
-												</td>
-
-												<td >
-													<div class="grade">
-														<div class="time">
-
-																<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-morning.png?20220510132530" width="10" height="10" alt="ﾓｰﾆﾝｸﾞ"  class="mT2"/>
-
-
-														</div>
-
-
-																<a href="/keirin/AllRaceList.do?kaisaiBi=20240829&amp;joCode=87">
-																	<img src="/ud_shared/pc/keirin/keirin/shared/images/ico_f2_a.gif?20220510132531" width="22" height="14" alt="F2"  />
-																</a>
-
-
-
-
-															<img src="/ud_shared/pc/keirin/keirin/shared/images/ico-abort.gif?20220510132532" width="23" height="13" alt="中止" class="mT1"/>
 
 													</div>
 												</td>
@@ -21352,7 +20217,7 @@ tr.ref_sche td {
 
 		</div>
 
-	<script type="text/javascript"  src="/mqpkYa/64n9/lIE/s66/8GWUQ3uv/aQ1kQraOY9thOb/bB8MYypVAQ/dnkxFA0/QJUAB"></script></body>
+	<script type="text/javascript"  src="/rTbMCE026h_A4WgQls7F/iEbif49wzikV/DCRTdgwB/AFJVFy/IGYyYB"></script></body>
 </html>`;
 
     /**

@@ -7,6 +7,7 @@ import { inject, injectable } from 'tsyringe';
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlaceDataHtmlGateway';
 import {
+    KeirinGradeType,
     KeirinRaceCourse,
     keirinRaceCourseList,
 } from '../../utility/data/raceSpecific';
@@ -71,6 +72,8 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      */
     @Logger
     private generateMonths(startDate: Date, finishDate: Date): Promise<Date[]> {
+        console.log('startDate', startDate);
+        console.log('finishDate', finishDate);
         const months: Date[] = [];
         let currentDate = new Date(startDate);
 
@@ -83,8 +86,8 @@ export class KeirinPlaceRepositoryFromHtmlImpl
             // 次の月の1日を取得
             currentDate = new Date(year, currentDate.getMonth() + 1, 1);
         }
-        console.debug(
-            `月リストを生成しました: ${formatDate(currentDate, 'yyyy-MM-dd')}`,
+        console.log(
+            `月リストを生成しました: ${months.map((month) => formatDate(month, 'yyyy-MM-dd'))}`,
         );
         return Promise.resolve(months);
     }
@@ -103,7 +106,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         date: Date,
     ): Promise<KeirinPlaceData[]> {
         const keirinPlaceDataList: KeirinPlaceData[] = [];
-        console.log(`S3から${formatDate(date, 'yyyy-MM')}を取得します`);
+        console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
             await this.keirinPlaceDataHtmlGateway.getPlaceDataHtml(date);
@@ -135,23 +138,33 @@ export class KeirinPlaceRepositoryFromHtmlImpl
 
                 const tds = $(element).find('td');
                 tds.each((index: number, element: cheerio.Element) => {
-                    // alt属性を取得
-                    const alt = $(element).find('a').find('img').attr('alt');
-                    // altがない場合はスキップ
-                    if (!alt) {
-                        return;
-                    }
+                    const imgs = $(element).find('img');
+                    let grade: KeirinGradeType | undefined;
+
+                    imgs.each((_, img) => {
+                        const alt = $(img).attr('alt');
+                        if (alt) {
+                            grade = alt
+                                .replace('1', 'I')
+                                .replace('2', 'Ⅱ')
+                                .replace('3', 'Ⅲ') as KeirinGradeType;
+                        }
+                    });
+
                     // alt属性を出力
-                    keirinPlaceDataList.push(
-                        new KeirinPlaceData(
-                            new Date(
-                                date.getFullYear(),
-                                date.getMonth(),
-                                index + 1,
+                    if (grade) {
+                        keirinPlaceDataList.push(
+                            new KeirinPlaceData(
+                                new Date(
+                                    date.getFullYear(),
+                                    date.getMonth(),
+                                    index + 1,
+                                ),
+                                place,
+                                grade,
                             ),
-                            place,
-                        ),
-                    );
+                        );
+                    }
                 });
             });
         });

@@ -5,7 +5,10 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { KeirinRaceCourse } from '../../utility/data/raceSpecific';
+import {
+    KeirinGradeType,
+    KeirinRaceCourse,
+} from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -106,10 +109,11 @@ export class KeirinPlaceRepositoryFromStorageImpl
         const placeDataList: KeirinPlaceData[] = csv
             .split('\n')
             .map((line: string) => {
-                const [raceDate, place] = line.split(',');
+                const [raceDate, place, grade] = line.split(',');
                 return new KeirinPlaceData(
                     new Date(raceDate),
                     place as KeirinRaceCourse,
+                    grade as KeirinGradeType,
                 );
             })
             .filter((placeData) => placeData !== undefined);
