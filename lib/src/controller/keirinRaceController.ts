@@ -364,7 +364,6 @@ export class KeirinRaceController {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
-            return;
 
             // レース情報を取得する
             const races = await this.keirinRaceDataUseCase.fetchRaceDataList(

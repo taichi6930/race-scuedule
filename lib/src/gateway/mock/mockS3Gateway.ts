@@ -125,6 +125,47 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                     }
                 }
                 break;
+            case 'keirin/race/':
+                // 2024年のデータ366日分を作成
+                for (let i = 0; i < 366; i++) {
+                    const date = new Date('2024-01-01');
+                    date.setDate(date.getDate() + i);
+                    const fileName = `${folderPath}${format(date, 'yyyyMMdd')}.csv`;
+                    for (let j = 1; j <= 12; j++) {
+                        this.mockStorage.set(
+                            fileName,
+                            [
+                                `name,stage,dateTime,location,grade,number\n`,
+                                `KEIRINグランプリ,グランプリ,${format(date, 'yyyy-MM-dd')} ${j + 6}:00,立川,GP,${j}`,
+                            ].join(''),
+                        );
+                    }
+                }
+                break;
+            case 'keirin/place/':
+                // 2024年のデータ12ヶ月分を作成
+                for (let i = 1; i <= 12; i++) {
+                    const date = new Date('2024-01-01');
+                    date.setDate(date.getMonth() + i);
+                    const fileName = `${folderPath}${format(date, 'yyyyMM')}.csv`;
+                    // 1ヶ月分のデータ（28~31日）を作成
+                    for (let j = 1; j <= 31; j++) {
+                        const _date = date;
+                        _date.setDate(j);
+                        // もし_dateの月とdateの月が違う場合はbreak
+                        if (date.getMonth() !== _date.getMonth()) {
+                            break;
+                        }
+                        this.mockStorage.set(
+                            fileName,
+                            [
+                                'dateTime,location\n',
+                                `${format(_date, 'yyyy-MM-dd')},立川,GP`,
+                            ].join(''),
+                        );
+                    }
+                }
+                break;
         }
     }
 
