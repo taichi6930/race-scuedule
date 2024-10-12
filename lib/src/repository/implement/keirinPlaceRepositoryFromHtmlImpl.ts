@@ -57,7 +57,6 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         );
         const placeDataLists = await Promise.all(promises);
         const placeDataList = placeDataLists.flat();
-        console.log(placeDataList);
         return new FetchPlaceListResponse(placeDataList);
     }
 

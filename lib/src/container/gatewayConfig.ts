@@ -3,21 +3,25 @@ import { container } from 'tsyringe';
 import { JraPlaceData } from '../domain/jraPlaceData';
 import { JraRaceData } from '../domain/jraRaceData';
 import { KeirinPlaceData } from '../domain/keirinPlaceData';
+import { KeirinRaceData } from '../domain/keirinRaceData';
 import { NarPlaceData } from '../domain/narPlaceData';
 import { NarRaceData } from '../domain/narRaceData';
 import { JraPlaceDataHtmlGateway } from '../gateway/implement/jraPlaceDataHtmlGateway';
 import { JraRaceDataHtmlGateway } from '../gateway/implement/jraRaceDataHtmlGateway';
 import { KeirinPlaceDataHtmlGateway } from '../gateway/implement/keirinPlaceDataHtmlGateway';
+import { KeirinRaceDataHtmlGateway } from '../gateway/implement/keirinRaceDataHtmlGateway';
 import { NarPlaceDataHtmlGateway } from '../gateway/implement/narPlaceDataHtmlGateway';
 import { NarRaceDataHtmlGateway } from '../gateway/implement/narRaceDataHtmlGateway';
 import { S3Gateway } from '../gateway/implement/s3Gateway';
 import { IJraPlaceDataHtmlGateway } from '../gateway/interface/iJraPlaceDataHtmlGateway';
 import { IJraRaceDataHtmlGateway } from '../gateway/interface/iJraRaceDataHtmlGateway';
 import { IKeirinPlaceDataHtmlGateway } from '../gateway/interface/iKeirinPlaceDataHtmlGateway';
+import { IKeirinRaceDataHtmlGateway } from '../gateway/interface/iKeirinRaceDataHtmlGateway';
 import { INarPlaceDataHtmlGateway } from '../gateway/interface/iNarPlaceDataHtmlGateway';
 import { INarRaceDataHtmlGateway } from '../gateway/interface/iNarRaceDataHtmlGateway';
 import { IS3Gateway } from '../gateway/interface/iS3Gateway';
 import { MockKeirinPlaceDataHtmlGateway } from '../gateway/mock/mockKeirinPlaceDataHtmlGateway';
+import { MockKeirinRaceDataHtmlGateway } from '../gateway/mock/mockKeirinRaceDataHtmlGateway';
 import { MockS3Gateway } from '../gateway/mock/mockS3Gateway';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
@@ -63,6 +67,30 @@ container.register<IS3Gateway<NarRaceData>>('NarRaceS3Gateway', {
                 return new MockS3Gateway<NarRaceData>(
                     'race-schedule-bucket',
                     'nar/race/',
+                );
+        }
+    },
+});
+container.register<IS3Gateway<KeirinRaceData>>('KeirinRaceS3Gateway', {
+    useFactory: () => {
+        switch (process.env.ENV) {
+            case 'production':
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<KeirinRaceData>(
+                    'race-schedule-bucket',
+                    'keirin/race/',
+                );
+            case 'local':
+                // ENV が local の場合、MockS3Gateway を使用
+                return new MockS3Gateway<KeirinRaceData>(
+                    'race-schedule-bucket',
+                    'keirin/race/',
+                );
+            default:
+                // ENV が ない場合、MockS3Gateway を使用
+                return new MockS3Gateway<KeirinRaceData>(
+                    'race-schedule-bucket',
+                    'keirin/race/',
                 );
         }
     },
@@ -185,6 +213,17 @@ container.register<IKeirinPlaceDataHtmlGateway>('KeirinPlaceDataHtmlGateway', {
                 return new KeirinPlaceDataHtmlGateway();
             default:
                 return new MockKeirinPlaceDataHtmlGateway();
+        }
+    },
+});
+
+container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
+    useFactory: () => {
+        switch (process.env.ENV) {
+            case 'production':
+                return new KeirinRaceDataHtmlGateway();
+            default:
+                return new MockKeirinRaceDataHtmlGateway();
         }
     },
 });

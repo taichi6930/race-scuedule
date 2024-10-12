@@ -2,8 +2,10 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../domain/keirinPlaceData';
+import { KeirinRaceData } from '../domain/keirinRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
+import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { KEIRIN_SPECIFIED_GRADE_LIST } from '../utility/data/raceSpecific';
 import { Logger } from '../utility/logger';
 
@@ -17,8 +19,8 @@ export class KeirinRaceController {
     constructor(
         @inject('KeirinRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
-        // @inject('KeirinRaceDataUseCase')
-        // private readonly keirinRaceDataUseCase: IRaceDataUseCase<KeirinRaceData>,
+        @inject('KeirinRaceDataUseCase')
+        private readonly keirinRaceDataUseCase: IRaceDataUseCase<KeirinRaceData>,
         @inject('KeirinPlaceDataUseCase')
         private readonly keirinPlaceDataUseCase: IPlaceDataUseCase<KeirinPlaceData>,
     ) {
@@ -39,8 +41,8 @@ export class KeirinRaceController {
             this.cleansingRacesFromCalendar.bind(this),
         );
 
-        // // RaceData関連のAPI
-        // this.router.get('/race', this.getRaceDataList.bind(this));
+        // RaceData関連のAPI
+        this.router.get('/race', this.getRaceDataList.bind(this));
         // this.router.post('/race', this.updateRaceDataList.bind(this));
 
         // PlaceData関連のAPI
@@ -349,31 +351,32 @@ export class KeirinRaceController {
      *                   type: string
      *                   description: エラーの詳細（任意でより具体的な説明を提供することができます）
      */
-    // @Logger
-    // private async getRaceDataList(req: Request, res: Response): Promise<void> {
-    //     try {
-    //         const { startDate, finishDate } = req.query;
+    @Logger
+    private async getRaceDataList(req: Request, res: Response): Promise<void> {
+        try {
+            const { startDate, finishDate } = req.query;
 
-    //         // startDateとfinishDateが指定されていない場合はエラーを返す
-    //         if (
-    //             isNaN(Date.parse(startDate as string)) ||
-    //             isNaN(Date.parse(finishDate as string))
-    //         ) {
-    //             res.status(400).send('startDate、finishDateは必須です');
-    //             return;
-    //         }
+            // startDateとfinishDateが指定されていない場合はエラーを返す
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
+                res.status(400).send('startDate、finishDateは必須です');
+                return;
+            }
+            return;
 
-    //         // レース情報を取得する
-    //         const races = await this.keirinRaceDataUseCase.fetchRaceDataList(
-    //             new Date(startDate as string),
-    //             new Date(finishDate as string),
-    //         );
-    //         res.json(races);
-    //     } catch (error) {
-    //         console.error('レース情報の取得中にエラーが発生しました:', error);
-    //         res.status(500).send('サーバーエラーが発生しました');
-    //     }
-    // }
+            // レース情報を取得する
+            const races = await this.keirinRaceDataUseCase.fetchRaceDataList(
+                new Date(startDate as string),
+                new Date(finishDate as string),
+            );
+            res.json(races);
+        } catch (error) {
+            console.error('レース情報の取得中にエラーが発生しました:', error);
+            res.status(500).send('サーバーエラーが発生しました');
+        }
+    }
 
     /**
      * レース情報を更新する
@@ -404,34 +407,36 @@ export class KeirinRaceController {
      *       500:
      *         description: サーバーエラー。カレンダーへのレース情報更新中にエラーが発生した場合
      */
-    // @Logger
-    // private async updateRaceDataList(
-    //     req: Request,
-    //     res: Response,
-    // ): Promise<void> {
-    //     try {
-    //         const { startDate, finishDate } = req.body;
+    @Logger
+    private async updateRaceDataList(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startDate, finishDate } = req.body;
 
-    //         // startDateとfinishDateが指定されていない場合はエラーを返す
-    //         if (
-    //             isNaN(Date.parse(startDate as string)) ||
-    //             isNaN(Date.parse(finishDate as string))
-    //         ) {
-    //             res.status(400).send('startDate、finishDateは必須です');
-    //             return;
-    //         }
+            // startDateとfinishDateが指定されていない場合はエラーを返す
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
+                res.status(400).send('startDate、finishDateは必須です');
+                return;
+            }
+            return;
 
-    //         // レース情報を取得する
-    //         await this.keirinRaceDataUseCase.updateRaceDataList(
-    //             new Date(startDate),
-    //             new Date(finishDate),
-    //         );
-    //         res.status(200).send();
-    //     } catch (error) {
-    //         console.error('レース情報の更新中にエラーが発生しました:', error);
-    //         res.status(500).send('サーバーエラーが発生しました');
-    //     }
-    // }
+            console.log('test: updateRaceDataList');
+            // レース情報を取得する
+            await this.keirinRaceDataUseCase.updateRaceDataList(
+                new Date(startDate),
+                new Date(finishDate),
+            );
+            res.status(200).send();
+        } catch (error) {
+            console.error('レース情報の更新中にエラーが発生しました:', error);
+            res.status(500).send('サーバーエラーが発生しました');
+        }
+    }
 
     /**
      * 競輪場情報を取得する

@@ -66,6 +66,7 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
                 startDate,
                 finishDate,
             );
+            console.log(placeList);
 
             // レースデータを取得する
             const raceList = await this.getRaceDataList(
@@ -75,6 +76,7 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
                 'web',
             );
 
+            console.log('レースデータを登録する');
             // S3にデータを保存する
             await this.registerRaceDataList(raceList);
         } catch (error) {
