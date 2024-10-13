@@ -42,6 +42,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 keirinRaceDataList.push(
                     ...(await this.fetchRaceListFromHtmlWithKeirinPlace(place)),
                 );
+                console.debug('1秒待ちます');
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                console.debug('1秒経ちました');
             }
         }
         return new FetchRaceListResponse(keirinRaceDataList);
@@ -79,6 +82,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 `${placeData.location}${placeData.grade}`;
             // class="section1"を取得
             const section1 = content.find('.section1');
+            console.log(
+                `raceInfo: ${year}/${month}/${day} ${placeData.location} ${placeData.grade} ${raceName}`,
+            );
             section1.each((index, element) => {
                 // class="w480px"を取得
                 $(element)

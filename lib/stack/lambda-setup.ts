@@ -25,7 +25,7 @@ export function createLambdaFunction(
                     process.env.GOOGLE_PRIVATE_KEY ?? ''
                 ).replace(/\\n/g, '\n'),
             },
-            timeout: Duration.seconds(30),
+            timeout: Duration.seconds(60),
             memorySize: 1024,
         },
     );
