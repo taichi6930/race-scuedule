@@ -1,8 +1,12 @@
+import 'reflect-metadata';
+
+import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
+import { KeirinRaceStage } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
@@ -62,149 +66,245 @@ export class KeirinRaceRepositoryFromHtmlImpl
             if (typeof htmlText !== 'string') {
                 throw new Error('Expected htmlText to be a string');
             }
-            console.log(year, month, day);
-
             const keirinRaceDataList: KeirinRaceData[] = [];
-            // const $ = cheerio.load(htmlText);
-            // const raceTable = $('section.raceTable');
-            // const trs = raceTable.find('tr.data');
-
-            // Array.from(trs).forEach((tr: cheerio.Element) => {
-            //     const tds = $(tr).find('td');
-            //     const distance = this.extractDistance(
-            //         Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-            //     );
-            //     if (distance <= 0) {
-            //         return;
-            //     }
-            //     const [hour, minute] = this.extractRaceTime(
-            //         Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-            //     );
-            //     const raceName = this.extractRaceName(
-            //         Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-            //     );
-            //     const grade = this.extractGrade(
-            //         Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-            //     );
-            //     const surfaceType = this.extractSurfaceType(
-            //         Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-            //     );
-            //     const newRaceName = processKeirinRaceName({
-            //         name: raceName,
-            //         place: placeData.location,
-            //         date: new Date(year, month - 1, day),
-            //         surfaceType: surfaceType,
-            //         distance: distance,
-            //         grade: grade ?? '一般',
-            //     });
-            //     keirinRaceDataList.push(
-            //         new KeirinRaceData(
-            //             newRaceName,
-            //             new Date(year, month - 1, day, hour, minute),
-            //             placeData.location,
-            //             surfaceType,
-            //             distance,
-            //             grade,
-            //             this.extractRaceNumber(
-            //                 Array.from(tds).map((td: cheerio.Element) =>
-            //                     $(td).text(),
-            //                 ),
-            //             ),
-            //         ),
-            //     );
-            // });
+            const $ = cheerio.load(htmlText);
+            // id="content"を取得
+            const content = $('#content');
+            const raceName =
+                content
+                    .find('h2')
+                    .text()
+                    .split('\n')
+                    .filter((name) => name)[1] ??
+                `${placeData.location}${placeData.grade}`;
+            // class="section1"を取得
+            const section1 = content.find('.section1');
+            section1.each((index, element) => {
+                // class="w480px"を取得
+                $(element)
+                    .find('.w480px')
+                    .each((index, element) => {
+                        // 発走時間の取得 10: 50
+                        const raceTime = $(element)
+                            .find('.tx_blue')
+                            .next()
+                            .text()
+                            .trim();
+                        const [hour, minute] = raceTime.split(':').map(Number);
+                        // レースナンバーの取得 aタグの中にある 第11R の11
+                        // 第 と R の間にある
+                        const raceNumber = /第(\d+)R/.exec(
+                            $(element).find('a').text(),
+                        )?.[1];
+                        const raceStage = this.extractRaceStage(
+                            $(element).text(),
+                        );
+                        if (raceStage) {
+                            keirinRaceDataList.push(
+                                new KeirinRaceData(
+                                    raceName,
+                                    raceStage,
+                                    new Date(
+                                        year,
+                                        month - 1,
+                                        day,
+                                        hour,
+                                        minute,
+                                    ),
+                                    placeData.location,
+                                    placeData.grade,
+                                    Number(raceNumber),
+                                ),
+                            );
+                        }
+                    });
+            });
             return keirinRaceDataList;
         } catch (e) {
             console.error('htmlを取得できませんでした', e);
             return [];
         }
     }
-
-    // private extractRaceNumber(race: string[]): number {
-    //     return (
-    //         race
-    //             .map((item) => {
-    //                 const match = /(\d+)[Rr]/.exec(item);
-    //                 return match ? parseInt(match[1]) : 0;
-    //             })
-    //             .find((item) => item !== 0) ?? 0
-    //     );
-    // }
-
-    // private extractDistance(race: string[]): number {
-    //     return (
-    //         race
-    //             .map((item) => {
-    //                 const match = /(\d+)m/.exec(item);
-    //                 return match ? parseInt(match[1]) : 0;
-    //             })
-    //             .find((item) => item !== 0) ?? 0
-    //     );
-    // }
-
-    // private extractRaceTime(race: string[]): [number, number] {
-    //     const [hour, minute] = (
-    //         race
-    //             .map((item) => {
-    //                 const match = /(\d+):(\d+)/.exec(item);
-    //                 return match ? match[0] : '0:0';
-    //             })
-    //             .find((item) => item !== '0:0') ?? '0:0'
-    //     )
-    //         .split(':')
-    //         .map((item) => parseInt(item));
-    //     return [hour, minute];
-    // }
-
-    // private extractSurfaceType(race: string[]): KeirinRaceCourseType {
-    //     const regex = /(芝)[左右直]+[0-9]+m/;
-    //     const trackType = race.find((item) => regex.test(item));
-    //     return trackType ? '芝' : 'ダート';
-    // }
-
-    // private extractGrade(race: string[]): KeirinGradeType {
-    //     let grade: KeirinGradeType = '一般';
-    //     if (race.includes('準重賞')) {
-    //         return '地方準重賞';
-    //     }
-    //     if (race.includes('重賞')) {
-    //         grade = '地方重賞';
-    //     }
-    //     const regexMap: Record<string, string> = {
-    //         JpnIII: 'JpnⅢ',
-    //         JpnII: 'JpnⅡ',
-    //         JpnI: 'JpnⅠ',
-    //         JpnＩ: 'JpnⅠ',
-    //         ＧＩ: 'GⅠ',
-    //     };
-    //     const regexList = ['JpnIII', 'JpnII', 'JpnI', 'JpnＩ', 'ＧＩ'];
-    //     for (const regex of regexList) {
-    //         if (race.some((item) => item.includes(regex))) {
-    //             grade = regexMap[regex] as KeirinGradeType;
-    //             break;
-    //         }
-    //     }
-    //     return grade || '地方重賞';
-    // }
-
-    // private extractRaceName(race: string[]): string {
-    //     // 重賞の取得
-    //     const regexList = ['JpnIII', 'JpnII', 'JpnI', 'JpnＩ', 'ＧＩ'];
-    //     let raceName: string | null = null;
-    //     for (const regex of regexList) {
-    //         for (const item of race) {
-    //             const _raceName = item.match(regex);
-    //             if (_raceName !== null) {
-    //                 raceName = item.replace(regex, '');
-    //             }
-    //         }
-    //         if (raceName !== null) {
-    //             break;
-    //         }
-    //     }
-    //     return (raceName ? raceName : race[4]).replace(/\n/g, '');
-    // }
-
+    private extractRaceStage(
+        raceSummaryInfoChild: string,
+    ): KeirinRaceStage | null {
+        if (/Ｓ級ＧＰ/.exec(raceSummaryInfoChild)) {
+            // KEIRINグランプリ
+            return 'グランプリ';
+        }
+        if (/Ｌ級ＧＧＰ/.exec(raceSummaryInfoChild)) {
+            // ガールズKEIRINグランプリ
+            return 'ガールズグランプリ';
+        }
+        if (/ＳＡ混合ＹＧＰ/.exec(raceSummaryInfoChild)) {
+            // ヤンググランプリ
+            return 'ヤンググランプリ';
+        }
+        if (/Ｓ級ＳＴＲ/.exec(raceSummaryInfoChild)) {
+            // 読売新聞社杯全日本選抜競輪
+            return 'スタールビー賞';
+        }
+        if (/Ｓ級ＤＭＤ/.exec(raceSummaryInfoChild)) {
+            // 競輪祭
+            return 'ダイヤモンドレース';
+        }
+        if (/Ｓ級毘沙門/.exec(raceSummaryInfoChild)) {
+            // ウィナーズカップ
+            return '毘沙門天賞';
+        }
+        if (/Ｓ級一予/.exec(raceSummaryInfoChild)) {
+            return '一次予選';
+        }
+        if (/Ｓ級特選予/.exec(raceSummaryInfoChild)) {
+            return '特別選抜予選';
+        }
+        if (/Ｓ級特一般/.exec(raceSummaryInfoChild)) {
+            return '特一般';
+        }
+        if (/Ｓ級二予/.exec(raceSummaryInfoChild)) {
+            return '二次予選';
+        }
+        if (/Ｓ級準決勝/.exec(raceSummaryInfoChild)) {
+            return '準決勝';
+        }
+        if (/Ｓ級特選/.exec(raceSummaryInfoChild)) {
+            return '特選';
+        }
+        if (/Ｓ級選抜/.exec(raceSummaryInfoChild)) {
+            return '選抜';
+        }
+        if (/Ｓ級一般/.exec(raceSummaryInfoChild)) {
+            return '一般';
+        }
+        if (/Ｓ級特秀/.exec(raceSummaryInfoChild)) {
+            return '特別優秀';
+        }
+        if (/Ｓ級優秀/.exec(raceSummaryInfoChild)) {
+            return '優秀';
+        }
+        if (/Ｓ級決勝/.exec(raceSummaryInfoChild)) {
+            return '決勝';
+        }
+        if (/Ｓ級初特選/.exec(raceSummaryInfoChild)) {
+            return '初日特別選抜';
+        }
+        if (/Ｓ級西予二予/.exec(raceSummaryInfoChild)) {
+            // 高松宮記念杯競輪
+            return '西日本二次予選';
+        }
+        if (/Ｓ級西予[１２]/.exec(raceSummaryInfoChild)) {
+            // 高松宮記念杯競輪
+            return '西日本一次予選';
+        }
+        if (/Ｓ級東二予/.exec(raceSummaryInfoChild)) {
+            // 高松宮記念杯競輪
+            return '東日本二次予選';
+        }
+        if (/Ｓ級東予[１２]/.exec(raceSummaryInfoChild)) {
+            // 高松宮記念杯競輪
+            return '東日本一次予選';
+        }
+        if (/Ｓ級白虎賞/.exec(raceSummaryInfoChild)) {
+            // 高松宮記念杯競輪
+            return '白虎賞';
+        }
+        if (/Ｓ級青龍賞/.exec(raceSummaryInfoChild)) {
+            // 高松宮記念杯競輪
+            return '青龍賞';
+        }
+        if (/Ｓ級西準決/.exec(raceSummaryInfoChild)) {
+            // 高松宮記念杯競輪
+            return '西日本準決勝';
+        }
+        if (/Ｓ級東準決/.exec(raceSummaryInfoChild)) {
+            // 高松宮記念杯競輪
+            return '東日本準決勝';
+        }
+        if (/Ｓ級西特選/.exec(raceSummaryInfoChild)) {
+            // 高松宮記念杯競輪
+            return '西日本特別選抜予選';
+        }
+        if (/Ｓ級東特選/.exec(raceSummaryInfoChild)) {
+            // 高松宮記念杯競輪
+            return '東日本特別選抜予選';
+        }
+        if (/Ｓ級ＧＤＲ/.exec(raceSummaryInfoChild)) {
+            // 日本選手権
+            return 'ゴールデンレーサー賞';
+        }
+        if (/Ｓ級ＤＲＭ/.exec(raceSummaryInfoChild)) {
+            // オールスター競輪
+            return 'ドリームレース';
+        }
+        if (/Ｓ級ＯＲＩ/.exec(raceSummaryInfoChild)) {
+            // オールスター競輪
+            return 'オリオン賞';
+        }
+        if (/Ｓ級日競杯/.exec(raceSummaryInfoChild)) {
+            // 寛仁親王牌・世界選手権記念トーナメント
+            return '日本競輪選手会理事長杯';
+        }
+        if (/Ｓ級ローズ/.exec(raceSummaryInfoChild)) {
+            // 寛仁親王牌・世界選手権記念トーナメント
+            return 'ローズカップ';
+        }
+        if (/Ｓ級予選/.exec(raceSummaryInfoChild)) {
+            return '予選';
+        }
+        if (/Ｓ級順位決/.exec(raceSummaryInfoChild)) {
+            return '順位決定';
+        }
+        if (/Ｌ級ＤＲＭ/.exec(raceSummaryInfoChild)) {
+            return 'ガールズドリームレース';
+        }
+        if (/Ｌ級ＡＲＴ/.exec(raceSummaryInfoChild)) {
+            return 'ガールズアルテミス賞';
+        }
+        if (/Ｌ級ガ決勝/.exec(raceSummaryInfoChild)) {
+            return 'ガールズ決勝';
+        }
+        if (/Ｌ級ティア/.exec(raceSummaryInfoChild)) {
+            // オールガールズクラシック
+            return 'ティアラカップ';
+        }
+        if (/Ｌ級ガ準決/.exec(raceSummaryInfoChild)) {
+            return 'ガールズ準決勝';
+        }
+        if (/Ｌ級ガ予/.exec(raceSummaryInfoChild)) {
+            return 'ガールズ予選';
+        }
+        if (/Ｌ級ガ特選/.exec(raceSummaryInfoChild)) {
+            return 'ガールズ特選';
+        }
+        if (/Ｌ級ガ選抜/.exec(raceSummaryInfoChild)) {
+            return 'ガールズ選抜';
+        }
+        if (/Ｌ級西ガ準/.exec(raceSummaryInfoChild)) {
+            return 'ガールズ西日本準決勝';
+        }
+        if (/Ｌ級東ガ準/.exec(raceSummaryInfoChild)) {
+            return 'ガールズ東日本準決勝';
+        }
+        if (/Ｌ級西ガ予/.exec(raceSummaryInfoChild)) {
+            return 'ガールズ西日本予選';
+        }
+        if (/Ｌ級東ガ予/.exec(raceSummaryInfoChild)) {
+            return 'ガールズ東日本予選';
+        }
+        if (/Ｌ級Ｇコレ/.exec(raceSummaryInfoChild)) {
+            return 'ガールズコレクション';
+        }
+        if (/ＤＳ/.exec(raceSummaryInfoChild)) {
+            return 'ダイナミックステージ';
+        }
+        if (/ＷＳ/.exec(raceSummaryInfoChild)) {
+            return 'ワンダーステージ';
+        }
+        if (/ＳＰＲ/.exec(raceSummaryInfoChild)) {
+            return 'スーパープロピストレーサー賞';
+        }
+        return null;
+    }
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない

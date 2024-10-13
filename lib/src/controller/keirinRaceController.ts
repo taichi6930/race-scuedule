@@ -43,7 +43,7 @@ export class KeirinRaceController {
 
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
-        // this.router.post('/race', this.updateRaceDataList.bind(this));
+        this.router.post('/race', this.updateRaceDataList.bind(this));
 
         // PlaceData関連のAPI
         this.router.get('/place', this.getPlaceDataList.bind(this));
@@ -422,7 +422,6 @@ export class KeirinRaceController {
                 res.status(400).send('startDate、finishDateは必須です');
                 return;
             }
-            return;
 
             console.log('test: updateRaceDataList');
             // レース情報を取得する

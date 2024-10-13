@@ -73,6 +73,7 @@ container.register<IS3Gateway<NarRaceData>>('NarRaceS3Gateway', {
 });
 container.register<IS3Gateway<KeirinRaceData>>('KeirinRaceS3Gateway', {
     useFactory: () => {
+        console.log(`KeirinRaceS3Gateway ${process.env.ENV}`);
         switch (process.env.ENV) {
             case 'production':
                 // ENV が production の場合、S3Gateway を使用

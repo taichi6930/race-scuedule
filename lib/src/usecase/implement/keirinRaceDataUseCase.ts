@@ -66,7 +66,6 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
                 startDate,
                 finishDate,
             );
-            console.log(placeList);
 
             // レースデータを取得する
             const raceList = await this.getRaceDataList(
