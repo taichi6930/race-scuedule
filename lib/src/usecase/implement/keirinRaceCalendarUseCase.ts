@@ -8,6 +8,7 @@ import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
+import { KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -70,9 +71,19 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
             const { raceDataList } = fetchRaceDataListResponse;
 
             // displayGradeListに含まれるレース情報のみを抽出
-            const filteredRaceDataList: KeirinRaceData[] = raceDataList.filter(
-                (raceData) => displayGradeList.includes(raceData.grade),
-            );
+            const filteredRaceDataList: KeirinRaceData[] = raceDataList
+                .filter((raceData) => displayGradeList.includes(raceData.grade))
+                .filter((raceData) => {
+                    return KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST.some(
+                        (specifiedGradeAndStage) => {
+                            return (
+                                specifiedGradeAndStage.grade ===
+                                    raceData.grade &&
+                                specifiedGradeAndStage.stage === raceData.stage
+                            );
+                        },
+                    );
+                });
 
             // レース情報をカレンダーに登録
             await this.calendarService.upsertEvents(filteredRaceDataList);

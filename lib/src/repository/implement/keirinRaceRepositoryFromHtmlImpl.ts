@@ -6,7 +6,10 @@ import { inject, injectable } from 'tsyringe';
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
-import { KeirinRaceStage } from '../../utility/data/raceSpecific';
+import {
+    KeirinGradeType,
+    KeirinRaceStage,
+} from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
@@ -105,6 +108,12 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         const raceStage = this.extractRaceStage(
                             $(element).text(),
                         );
+                        const raceGrade = this.extractRaceGrade(
+                            raceName,
+                            placeData.grade,
+                            raceStage ?? '',
+                            new Date(year, month - 1, day),
+                        );
                         if (raceStage) {
                             keirinRaceDataList.push(
                                 new KeirinRaceData(
@@ -118,7 +127,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                         minute,
                                     ),
                                     placeData.location,
-                                    placeData.grade,
+                                    raceGrade,
                                     Number(raceNumber),
                                 ),
                             );
@@ -153,6 +162,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
         if (/Ｓ級ＤＭＤ/.exec(raceSummaryInfoChild)) {
             // 競輪祭
             return 'ダイヤモンドレース';
+        }
+        if (/Ｓ級シャイ/.exec(raceSummaryInfoChild)) {
+            return 'シャイニングスター賞';
         }
         if (/Ｓ級毘沙門/.exec(raceSummaryInfoChild)) {
             // ウィナーズカップ
@@ -310,6 +322,43 @@ export class KeirinRaceRepositoryFromHtmlImpl
             return 'スーパープロピストレーサー賞';
         }
         return null;
+    }
+
+    private extractRaceGrade(
+        raceName: string,
+        raceGrade: KeirinGradeType,
+        raceStage: KeirinRaceStage,
+        raceDate: Date,
+    ): KeirinGradeType {
+        // raceStageが「ヤンググランプリ」の場合、GⅡを返す
+        if (raceStage === 'ヤンググランプリ') {
+            return 'GⅡ';
+        }
+        // raceNameに女子オールスター競輪が入っている場合、2024年であればFⅡ、2025年以降であればGⅠを返す
+        if (
+            /女子オールスター競輪/.exec(raceName) &&
+            raceDate.getFullYear() >= 2025
+        ) {
+            return 'GⅠ';
+        }
+        if (
+            /女子オールスター競輪/.exec(raceName) &&
+            raceDate.getFullYear() === 2024
+        ) {
+            return 'FⅡ';
+        }
+        // raceNameにサマーナイトフェスティバルが入っている場合、raceStageが「ガールズ」が含まれている場合、FⅡを返す
+        if (
+            /サマーナイトフェスティバル/.exec(raceName) &&
+            /ガールズ/.exec(raceStage)
+        ) {
+            return 'FⅡ';
+        }
+        // raceNameに寺内大吉記念杯競輪が入っている場合、FⅠを返す
+        if (/寺内大吉記念杯競輪/.exec(raceName)) {
+            return 'FⅠ';
+        }
+        return raceGrade;
     }
     /**
      * レースデータを登録する

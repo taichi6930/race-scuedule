@@ -52,7 +52,7 @@ container.register<ICalendarService<NarRaceData>>('KeirinCalendarService', {
                 // ENV が production の場合、GoogleCalendarService を使用
                 return new GoogleCalendarService<NarRaceData>(
                     'keirin',
-                    process.env.NAR_CALENDAR_ID ?? '',
+                    process.env.KEIRIN_CALENDAR_ID ?? '',
                 );
             case 'local':
                 // ENV が local の場合、MockGoogleCalendarService を使用

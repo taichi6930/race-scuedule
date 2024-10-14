@@ -259,6 +259,7 @@ export type KeirinRaceStage =
     | 'ドリームレース'
     | 'オリオン賞'
     | 'ダイヤモンドレース'
+    | 'シャイニングスター賞'
     | '毘沙門天賞'
     | '準決勝'
     | '特選'
@@ -308,4 +309,52 @@ export const KEIRIN_SPECIFIED_GRADE_LIST: KeirinGradeType[] = [
     'GⅢ',
     'FⅠ',
     'FⅡ',
+];
+
+/**
+ * 競輪の指定グレード・ステージリスト
+ */
+export const KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST: {
+    grade: KeirinGradeType;
+    stage: KeirinRaceStage;
+}[] = [
+    { grade: 'GP', stage: 'グランプリ' },
+    { grade: 'GP', stage: 'ガールズグランプリ' },
+
+    { grade: 'GⅠ', stage: '決勝' },
+    { grade: 'GⅠ', stage: '準決勝' },
+    { grade: 'GⅠ', stage: '特別選抜予選' },
+    { grade: 'GⅠ', stage: '初日特別選抜' },
+    { grade: 'GⅠ', stage: 'ゴールデンレーサー賞' },
+    { grade: 'GⅠ', stage: 'ダイヤモンドレース' },
+    { grade: 'GⅠ', stage: 'ドリームレース' },
+    { grade: 'GⅠ', stage: 'オリオン賞' },
+    { grade: 'GⅠ', stage: 'シャイニングスター賞' },
+    { grade: 'GⅠ', stage: 'スタールビー賞' },
+    { grade: 'GⅠ', stage: '白虎賞' },
+    { grade: 'GⅠ', stage: '青龍賞' },
+    { grade: 'GⅠ', stage: '西日本準決勝' },
+    { grade: 'GⅠ', stage: '東日本準決勝' },
+    { grade: 'GⅠ', stage: '西日本特別選抜予選' },
+    { grade: 'GⅠ', stage: '東日本特別選抜予選' },
+    { grade: 'GⅠ', stage: '日本競輪選手会理事長杯' },
+    { grade: 'GⅠ', stage: 'ローズカップ' },
+    { grade: 'GⅠ', stage: 'ティアラカップ' },
+    { grade: 'GⅠ', stage: 'ガールズ決勝' },
+    { grade: 'GⅠ', stage: 'ガールズ準決勝' },
+    { grade: 'GⅠ', stage: 'ガールズ西日本準決勝' },
+    { grade: 'GⅠ', stage: 'ガールズ東日本準決勝' },
+
+    { grade: 'GⅡ', stage: 'ヤンググランプリ' },
+    { grade: 'GⅡ', stage: '毘沙門天賞' },
+    { grade: 'GⅡ', stage: '決勝' },
+    { grade: 'GⅡ', stage: '準決勝' },
+    { grade: 'GⅡ', stage: '特別選抜予選' },
+
+    { grade: 'GⅢ', stage: '決勝' },
+    { grade: 'GⅢ', stage: '初日特別選抜' },
+
+    { grade: 'FⅡ', stage: 'ガールズドリームレース' },
+    { grade: 'FⅡ', stage: 'ガールズアルテミス賞' },
+    { grade: 'FⅡ', stage: 'スーパープロピストレーサー賞' },
 ];
