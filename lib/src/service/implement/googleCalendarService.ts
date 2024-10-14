@@ -6,6 +6,7 @@ import { calendar_v3, google } from 'googleapis';
 import { injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
+import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import {
     CHIHO_KEIBA_LIVE_URL,
     CHIHO_KEIBA_YOUTUBE_USER_ID,
@@ -404,7 +405,7 @@ export class GoogleCalendarService<R extends Record<string, any>>
         const data = raceData;
         return {
             id: this.generateEventId(data),
-            summary: data.name,
+            summary: `${data.stage} ${data.name}`,
             location: `${data.location}競輪場`,
             start: {
                 dateTime: formatDate(data.dateTime),
@@ -420,6 +421,7 @@ export class GoogleCalendarService<R extends Record<string, any>>
             colorId: this.getColorId(data.grade),
             description:
                 `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
+            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${data.dateTime.getFullYear()}${(data.dateTime.getMonth() + 1).toString().padStart(2, '0')}${data.dateTime.getDate().toString().padStart(2, '0')}${KEIRIN_PLACE_CODE[data.location]}${data.number.toXDigits(2)}`)}
         `.replace(/\n\s+/g, '\n'),
         };
     }
