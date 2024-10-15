@@ -1,28 +1,28 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../domain/narPlaceData';
-import { NarRaceData } from '../domain/narRaceData';
+import { KeirinPlaceData } from '../domain/keirinPlaceData';
+import { KeirinRaceData } from '../domain/keirinRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { NAR_SPECIFIED_GRADE_LIST } from '../utility/data/raceSpecific';
+import { KEIRIN_SPECIFIED_GRADE_LIST } from '../utility/data/raceSpecific';
 import { Logger } from '../utility/logger';
 
 /**
- * 地方競馬のレース情報コントローラー
+ * 競輪のレース情報コントローラー
  */
 @injectable()
-export class NarRaceController {
+export class KeirinRaceController {
     public router: Router;
 
     constructor(
-        @inject('NarRaceCalendarUseCase')
+        @inject('KeirinRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
-        @inject('NarRaceDataUseCase')
-        private readonly narRaceDataUseCase: IRaceDataUseCase<NarRaceData>,
-        @inject('NarPlaceDataUseCase')
-        private readonly narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
+        @inject('KeirinRaceDataUseCase')
+        private readonly keirinRaceDataUseCase: IRaceDataUseCase<KeirinRaceData>,
+        @inject('KeirinPlaceDataUseCase')
+        private readonly keirinPlaceDataUseCase: IPlaceDataUseCase<KeirinPlaceData>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -51,12 +51,12 @@ export class NarRaceController {
     }
 
     /**
-     * NARカレンダーからレース情報を取得する
+     * 競輪カレンダーからレース情報を取得する
      * @param req リクエスト
      * @param res レスポンス
      * @returns
      * @swagger
-     * /api/races/nar/calendar:
+     * /api/races/keirin/calendar:
      *   get:
      *     description: カレンダーからレース情報を取得する
      *     parameters:
@@ -100,7 +100,7 @@ export class NarRaceController {
      *                     description: レース終了時刻
      *                   location:
      *                     type: string
-     *                     description: 競馬場の名称
+     *                     description: 競輪場の名称
      *                   description:
      *                     type: string
      *                     description: レースの説明
@@ -170,7 +170,7 @@ export class NarRaceController {
      * @param res
      * @returns
      * @swagger
-     * /api/races/nar/calendar:
+     * /api/races/keirin/calendar:
      *   post:
      *     description: カレンダーにレース情報を更新する
      *     requestBody:
@@ -217,7 +217,7 @@ export class NarRaceController {
             await this.raceCalendarUseCase.updateRacesToCalendar(
                 new Date(startDate),
                 new Date(finishDate),
-                NAR_SPECIFIED_GRADE_LIST,
+                KEIRIN_SPECIFIED_GRADE_LIST,
             );
             res.status(200).send();
         } catch (error) {
@@ -241,7 +241,8 @@ export class NarRaceController {
         res: Response,
     ): Promise<void> {
         try {
-            const { startDate, finishDate } = req.query;
+            const { startDate, finishDate } = req.body;
+
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
                 isNaN(Date.parse(startDate as string)) ||
@@ -253,8 +254,8 @@ export class NarRaceController {
 
             // カレンダーからレース情報をクレンジングする
             await this.raceCalendarUseCase.cleansingRacesFromCalendar(
-                new Date(startDate as string),
-                new Date(finishDate as string),
+                new Date(startDate),
+                new Date(finishDate),
             );
             // レース情報をクレンジングする
             res.status(200).send();
@@ -273,7 +274,7 @@ export class NarRaceController {
      * @param res
      * @returns
      * @swagger
-     * /api/races/nar/race:
+     * /api/races/keirin/race:
      *   get:
      *     description: レース情報を取得する
      *     parameters:
@@ -304,16 +305,16 @@ export class NarRaceController {
      *                   name:
      *                     type: string
      *                     description: レース名
+     *                   stage:
+     *                     type: string
+     *                     description: ステージ（決勝、準決勝、予選など）
      *                   dateTime:
      *                     type: string
      *                     format: date-time
      *                     description: レース開始時刻
      *                   location:
      *                     type: string
-     *                     description: 競馬場の名称
-     *                   surfaceType:
-     *                     type: string
-     *                     description: 馬場の種類
+     *                     description: 競輪場の名称
      *                   distance:
      *                     type: number
      *                     description: 距離
@@ -365,7 +366,7 @@ export class NarRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.narRaceDataUseCase.fetchRaceDataList(
+            const races = await this.keirinRaceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
             );
@@ -379,7 +380,7 @@ export class NarRaceController {
     /**
      * レース情報を更新する
      * @swagger
-     * /api/races/nar/race:
+     * /api/races/keirin/race:
      *   post:
      *     description: レース情報を更新する
      *     requestBody:
@@ -422,8 +423,9 @@ export class NarRaceController {
                 return;
             }
 
+            console.log('test: updateRaceDataList');
             // レース情報を取得する
-            await this.narRaceDataUseCase.updateRaceDataList(
+            await this.keirinRaceDataUseCase.updateRaceDataList(
                 new Date(startDate),
                 new Date(finishDate),
             );
@@ -435,14 +437,14 @@ export class NarRaceController {
     }
 
     /**
-     * 競馬場情報を取得する
+     * 競輪場情報を取得する
      * @param req
      * @param res
      * @returns
      * @swagger
-     * /api/races/nar/place:
+     * /api/races/keirin/place:
      *   get:
-     *     description: 競馬場情報を取得する
+     *     description: 競輪場情報を取得する
      *     parameters:
      *       - name: startDate
      *         in: query
@@ -474,7 +476,7 @@ export class NarRaceController {
      *                     description: レース開始時刻
      *                   location:
      *                     type: string
-     *                     description: 競馬場の名称
+     *                     description: 競輪場の名称
      *       400:
      *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
      *         content:
@@ -516,27 +518,28 @@ export class NarRaceController {
                 return;
             }
 
-            // 競馬場情報を取得する
-            const placeList = await this.narPlaceDataUseCase.fetchPlaceDataList(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-            );
+            // 競輪場情報を取得する
+            const placeList =
+                await this.keirinPlaceDataUseCase.fetchPlaceDataList(
+                    new Date(startDate as string),
+                    new Date(finishDate as string),
+                );
             res.json(placeList);
         } catch (error) {
-            console.error('競馬場情報の取得中にエラーが発生しました:', error);
+            console.error('競輪場情報の取得中にエラーが発生しました:', error);
             res.status(500).send('サーバーエラーが発生しました');
         }
     }
 
     /**
-     * 競馬場情報を更新する
+     * 競輪場情報を更新する
      * @param req
      * @param res
      * @returns
      * @swagger
-     * /api/races/nar/place:
+     * /api/races/keirin/place:
      *   post:
-     *     description: 競馬場情報を更新する
+     *     description: 競輪場情報を更新する
      *     requestBody:
      *       required: true
      *       content:
@@ -554,7 +557,7 @@ export class NarRaceController {
      *                 description: レース情報の終了日
      *     responses:
      *       200:
-     *         description: 競馬場情報を更新
+     *         description: 競輪場情報を更新
      *       400:
      *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
      *       500:
@@ -577,14 +580,14 @@ export class NarRaceController {
                 return;
             }
 
-            // 競馬場情報を取得する
-            await this.narPlaceDataUseCase.updatePlaceDataList(
+            // 競輪場情報を取得する
+            await this.keirinPlaceDataUseCase.updatePlaceDataList(
                 new Date(startDate),
                 new Date(finishDate),
             );
             res.status(200).send();
         } catch (error) {
-            console.error('競馬場情報の更新中にエラーが発生しました:', error);
+            console.error('競輪場情報の更新中にエラーが発生しました:', error);
             res.status(500).send('サーバーエラーが発生しました');
         }
     }

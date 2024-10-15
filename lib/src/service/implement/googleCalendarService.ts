@@ -6,6 +6,7 @@ import { calendar_v3, google } from 'googleapis';
 import { injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
+import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import {
     CHIHO_KEIBA_LIVE_URL,
     CHIHO_KEIBA_YOUTUBE_USER_ID,
@@ -17,6 +18,7 @@ import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
+export type RaceType = 'jra' | 'nar' | 'keirin';
 @injectable()
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class GoogleCalendarService<R extends Record<string, any>>
@@ -24,10 +26,10 @@ export class GoogleCalendarService<R extends Record<string, any>>
 {
     private readonly credentials: JWT;
     private readonly calendar: calendar_v3.Calendar;
-    private readonly raceType: 'jra' | 'nar';
+    private readonly raceType: RaceType;
     private readonly calendarId: string;
 
-    constructor(raceType: 'jra' | 'nar', calendarId: string) {
+    constructor(raceType: RaceType, calendarId: string) {
         this.raceType = raceType;
         this.credentials = new google.auth.JWT(
             // client_emailは環境変数から取得
@@ -320,6 +322,8 @@ export class GoogleCalendarService<R extends Record<string, any>>
                 return this.translateToCalendarEventForJra(raceData);
             case 'nar':
                 return this.translateToCalendarEventForNar(raceData);
+            case 'keirin':
+                return this.translateToCalendarEventForKeirin(raceData);
         }
     }
 
@@ -386,6 +390,38 @@ export class GoogleCalendarService<R extends Record<string, any>>
             ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(CHIHO_KEIBA_YOUTUBE_USER_ID[data.location]))}
             ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${data.dateTime.getFullYear()}${NETKEIBA_BABACODE[data.location]}${(raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceData.dateTime.getDate().toXDigits(2)}${raceData.number.toXDigits(2)}`)}
             ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${data.dateTime.getFullYear()}%2f${(raceData.dateTime.getMonth() + 1).toXDigits(2)}%2f${raceData.dateTime.getDate().toXDigits(2)}&k_raceNo=${data.number.toXDigits(2)}&k_babaCode=${NAR_BABACODE[data.location]}`)}
+        `.replace(/\n\s+/g, '\n'),
+        };
+    }
+
+    /**
+     * レースデータをGoogleカレンダーのイベントに変換する（競輪）
+     * @param raceData
+     * @returns
+     */
+    private translateToCalendarEventForKeirin(
+        raceData: R,
+    ): calendar_v3.Schema$Event {
+        const data = raceData;
+        return {
+            id: this.generateEventId(data),
+            summary: `${data.stage} ${data.name}`,
+            location: `${data.location}競輪場`,
+            start: {
+                dateTime: formatDate(data.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(
+                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                ),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(data.grade),
+            description:
+                `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
+            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${data.dateTime.getFullYear()}${(data.dateTime.getMonth() + 1).toString().padStart(2, '0')}${data.dateTime.getDate().toString().padStart(2, '0')}${KEIRIN_PLACE_CODE[data.location]}${data.number.toXDigits(2)}`)}
         `.replace(/\n\s+/g, '\n'),
         };
     }

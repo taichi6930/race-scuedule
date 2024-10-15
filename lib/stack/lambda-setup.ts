@@ -19,12 +19,13 @@ export function createLambdaFunction(
                 ENV: process.env.ENV ?? 'local',
                 JRA_CALENDAR_ID: process.env.JRA_CALENDAR_ID ?? '',
                 NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID ?? '',
+                KEIRIN_CALENDAR_ID: process.env.KEIRIN_CALENDAR_ID ?? '',
                 GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL ?? '',
                 GOOGLE_PRIVATE_KEY: (
                     process.env.GOOGLE_PRIVATE_KEY ?? ''
                 ).replace(/\\n/g, '\n'),
             },
-            timeout: Duration.seconds(30),
+            timeout: Duration.seconds(60),
             memorySize: 1024,
         },
     );
