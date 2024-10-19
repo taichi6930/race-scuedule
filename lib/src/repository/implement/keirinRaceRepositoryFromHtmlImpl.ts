@@ -3,14 +3,14 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
 import {
     KeirinGradeType,
     KeirinRaceStage,
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
+import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -22,7 +22,7 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
  */
 @injectable()
 export class KeirinRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<KeirinRaceData, KeirinPlaceData>
+    implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 {
     constructor(
         @inject('KeirinRaceDataHtmlGateway')
@@ -35,9 +35,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchRaceList(
-        request: FetchRaceListRequest<KeirinPlaceData>,
-    ): Promise<FetchRaceListResponse<KeirinRaceData>> {
-        const keirinRaceDataList: KeirinRaceData[] = [];
+        request: FetchRaceListRequest<KeirinPlaceEntity>,
+    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
+        const keirinRaceDataList: KeirinRaceEntity[] = [];
         const placeList = request.placeDataList;
         console.log('placeList: ', placeList);
         if (placeList) {
@@ -55,8 +55,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
 
     @Logger
     async fetchRaceListFromHtmlWithKeirinPlace(
-        placeData: KeirinPlaceData,
-    ): Promise<KeirinRaceData[]> {
+        placeData: KeirinPlaceEntity,
+    ): Promise<KeirinRaceEntity[]> {
         try {
             const [year, month, day] = [
                 placeData.dateTime.getFullYear(),
@@ -72,7 +72,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
             if (typeof htmlText !== 'string') {
                 throw new Error('Expected htmlText to be a string');
             }
-            const keirinRaceDataList: KeirinRaceData[] = [];
+            const keirinRaceDataList: KeirinRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -116,7 +116,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         );
                         if (raceStage) {
                             keirinRaceDataList.push(
-                                new KeirinRaceData(
+                                new KeirinRaceEntity(
+                                    null,
                                     raceName,
                                     raceStage,
                                     new Date(
@@ -367,7 +368,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
      */
     @Logger
     registerRaceList(
-        request: RegisterRaceListRequest<KeirinRaceData>,
+        request: RegisterRaceListRequest<KeirinRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
         throw new Error('HTMLにはデータを登録しません');

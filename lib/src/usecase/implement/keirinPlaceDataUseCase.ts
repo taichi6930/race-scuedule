@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import { KeirinPlaceEntity } from '../../repository/entity/KeirinPlaceEntity';
+import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';

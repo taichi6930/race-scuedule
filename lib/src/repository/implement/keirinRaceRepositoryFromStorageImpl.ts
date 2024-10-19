@@ -3,8 +3,6 @@ import 'reflect-metadata';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import {
     KeirinGradeType,
@@ -12,6 +10,8 @@ import {
     KeirinRaceStage,
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
+import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -23,11 +23,11 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
  */
 @injectable()
 export class KeirinRaceRepositoryFromStorageImpl
-    implements IRaceRepository<KeirinRaceData, KeirinPlaceData>
+    implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 {
     constructor(
         @inject('KeirinRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<KeirinRaceData>,
+        private readonly s3Gateway: IS3Gateway<KeirinRaceEntity>,
     ) {}
     /**
      * 競輪場開催データを取得する
@@ -36,8 +36,8 @@ export class KeirinRaceRepositoryFromStorageImpl
      */
     @Logger
     async fetchRaceList(
-        request: FetchRaceListRequest<KeirinPlaceData>,
-    ): Promise<FetchRaceListResponse<KeirinRaceData>> {
+        request: FetchRaceListRequest<KeirinPlaceEntity>,
+    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
         const fileNames: string[] = this.generateFilenameList(
             request.startDate,
@@ -55,6 +55,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                             .split('\n')
                             .map((line: string) => {
                                 const [
+                                    id,
                                     raceName,
                                     raceStage,
                                     raceDate,
@@ -65,7 +66,8 @@ export class KeirinRaceRepositoryFromStorageImpl
                                 if (!raceName || isNaN(parseInt(raceNum))) {
                                     return undefined;
                                 }
-                                return new KeirinRaceData(
+                                return new KeirinRaceEntity(
+                                    id,
                                     raceName,
                                     raceStage as KeirinRaceStage,
                                     new Date(raceDate),
@@ -75,7 +77,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                                 );
                             })
                             .filter(
-                                (raceData): raceData is KeirinRaceData =>
+                                (raceData): raceData is KeirinRaceEntity =>
                                     raceData !== undefined,
                             );
                     }),
@@ -108,11 +110,11 @@ export class KeirinRaceRepositoryFromStorageImpl
      */
     @Logger
     async registerRaceList(
-        request: RegisterRaceListRequest<KeirinRaceData>,
+        request: RegisterRaceListRequest<KeirinRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceDataList: KeirinRaceData[] = request.raceDataList;
+        const raceDataList: KeirinRaceEntity[] = request.raceDataList;
         // レースデータを日付ごとに分割する
-        const raceDataDict: Record<string, KeirinRaceData[]> = {};
+        const raceDataDict: Record<string, KeirinRaceEntity[]> = {};
         raceDataList.forEach((raceData) => {
             const key = `${format(raceData.dateTime, 'yyyyMMdd')}.csv`;
             if (!raceDataDict[key]) {

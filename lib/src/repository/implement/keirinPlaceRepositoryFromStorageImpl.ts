@@ -10,7 +10,7 @@ import {
     KeirinRaceCourse,
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
-import { KeirinPlaceEntity } from '../entity/KeirinPlaceEntity';
+import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';

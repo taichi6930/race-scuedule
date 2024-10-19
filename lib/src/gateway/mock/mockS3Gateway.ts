@@ -3,7 +3,6 @@ import { injectable } from 'tsyringe';
 import { IS3Gateway } from '../interface/iS3Gateway';
 import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
-import { mock } from 'node:test';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 
 /**

@@ -16,21 +16,6 @@ export class KeirinPlaceEntity {
     public readonly id: string;
 
     /**
-     * 開催日時
-     */
-    public readonly dateTime: Date;
-
-    /**
-     * 開催場所
-     */
-    public readonly location: KeirinRaceCourse;
-
-    /**
-     * 競輪のグレード
-     */
-    public readonly grade: KeirinGradeType;
-
-    /**
      * コンストラクタ
      *
      * @remarks
@@ -41,13 +26,11 @@ export class KeirinPlaceEntity {
      */
     constructor(
         id: string | null,
-        dateTime: Date,
-        location: KeirinRaceCourse,
-        grade: KeirinGradeType,
+        public readonly dateTime: Date,
+        public readonly location: KeirinRaceCourse,
+        public readonly grade: KeirinGradeType,
     ) {
         this.id = id ?? this.generateId(dateTime, location);
-        this.dateTime = dateTime;
-        this.location = location;
         this.grade = grade;
     }
 

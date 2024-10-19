@@ -2,11 +2,10 @@ import { container } from 'tsyringe';
 
 import { JraPlaceData } from '../domain/jraPlaceData';
 import { JraRaceData } from '../domain/jraRaceData';
-import { KeirinPlaceData } from '../domain/keirinPlaceData';
-import { KeirinRaceData } from '../domain/keirinRaceData';
 import { NarPlaceData } from '../domain/narPlaceData';
 import { NarRaceData } from '../domain/narRaceData';
-import { KeirinPlaceEntity } from '../repository/entity/KeirinPlaceEntity';
+import { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
+import { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromS3Impl } from '../repository/implement/jraPlaceRepositoryFromS3Impl';
 import { JraRaceRepositoryFromHtmlImpl } from '../repository/implement/jraRaceRepositoryFromHtmlImpl';
@@ -32,7 +31,7 @@ container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
     'JraRaceRepositoryFromS3',
     { useClass: JraRaceRepositoryFromS3Impl },
 );
-container.register<IRaceRepository<KeirinRaceData, KeirinPlaceData>>(
+container.register<IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>>(
     'KeirinRaceRepositoryFromStorage',
     { useClass: KeirinRaceRepositoryFromStorageImpl },
 );
@@ -50,7 +49,7 @@ container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
     'NarRaceRepositoryFromHtml',
     { useClass: NarRaceRepositoryFromHtmlImpl },
 );
-container.register<IRaceRepository<KeirinRaceData, KeirinPlaceData>>(
+container.register<IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>>(
     'KeirinRaceRepositoryFromHtml',
     { useClass: KeirinRaceRepositoryFromHtmlImpl },
 );
