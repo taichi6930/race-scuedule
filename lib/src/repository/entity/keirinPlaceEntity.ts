@@ -40,11 +40,12 @@ export class KeirinPlaceEntity {
      * @param grade - 競輪のグレード
      */
     constructor(
+        id: string | null,
         dateTime: Date,
         location: KeirinRaceCourse,
         grade: KeirinGradeType,
     ) {
-        this.id = this.generateId(dateTime, location);
+        this.id = id ?? this.generateId(dateTime, location);
         this.dateTime = dateTime;
         this.location = location;
         this.grade = grade;

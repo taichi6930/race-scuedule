@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { KeirinPlaceEntity } from '../../repository/entity/KeirinPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
@@ -13,13 +14,13 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 競馬場開催データUseCase
+ * 競輪場開催データUseCase
  */
 @injectable()
 export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
     constructor(
         @inject('KeirinPlaceRepositoryFromStorage')
-        private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceData>,
+        private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceEntity>,
         @inject('KeirinRaceRepositoryFromStorage')
         private readonly keirinRaceRepositoryFromStorage: IRaceRepository<
             KeirinRaceData,
@@ -96,11 +97,18 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
     ): Promise<KeirinPlaceData[]> {
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<KeirinPlaceData> =
+        const fetchPlaceListResponse: FetchPlaceListResponse<KeirinPlaceEntity> =
             await this.keirinPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
-        return fetchPlaceListResponse.placeDataList;
+        // KeirinPlaceEntityをKeirinPlaceDataに変換する
+        return fetchPlaceListResponse.placeDataList.map((placeEntity) => {
+            return new KeirinPlaceData(
+                placeEntity.dateTime,
+                placeEntity.location,
+                placeEntity.grade,
+            );
+        });
     }
 
     /**

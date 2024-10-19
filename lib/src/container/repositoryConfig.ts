@@ -6,6 +6,7 @@ import { KeirinPlaceData } from '../domain/keirinPlaceData';
 import { KeirinRaceData } from '../domain/keirinRaceData';
 import { NarPlaceData } from '../domain/narPlaceData';
 import { NarRaceData } from '../domain/narRaceData';
+import { KeirinPlaceEntity } from '../repository/entity/KeirinPlaceEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromS3Impl } from '../repository/implement/jraPlaceRepositoryFromS3Impl';
 import { JraRaceRepositoryFromHtmlImpl } from '../repository/implement/jraRaceRepositoryFromHtmlImpl';
@@ -20,6 +21,7 @@ import { NarRaceRepositoryFromHtmlImpl } from '../repository/implement/narRaceRe
 import { NarRaceRepositoryFromS3Impl } from '../repository/implement/narRaceRepositoryFromS3Impl';
 import { IPlaceRepository } from '../repository/interface/IPlaceRepository';
 import { IRaceRepository } from '../repository/interface/IRaceRepository';
+import { MockKeirinPlaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinPlaceRepositoryFromHtmlImpl';
 
 // Repositoryの実装クラスをDIコンテナに登錄する
 container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
@@ -40,7 +42,7 @@ container.register<IPlaceRepository<NarPlaceData>>('NarPlaceRepositoryFromS3', {
 container.register<IPlaceRepository<JraPlaceData>>('JraPlaceRepositoryFromS3', {
     useClass: JraPlaceRepositoryFromS3Impl,
 });
-container.register<IPlaceRepository<KeirinPlaceData>>(
+container.register<IPlaceRepository<KeirinPlaceEntity>>(
     'KeirinPlaceRepositoryFromStorage',
     { useClass: KeirinPlaceRepositoryFromStorageImpl },
 );
@@ -64,7 +66,23 @@ container.register<IPlaceRepository<JraPlaceData>>(
     'JraPlaceRepositoryFromHtml',
     { useClass: JraPlaceRepositoryFromHtmlImpl },
 );
-container.register<IPlaceRepository<KeirinPlaceData>>(
-    'KeirinPlaceRepositoryFromHtml',
-    { useClass: KeirinPlaceRepositoryFromHtmlImpl },
-);
+switch (process.env.ENV) {
+    case 'production':
+        container.register<IPlaceRepository<KeirinPlaceEntity>>(
+            'KeirinPlaceRepositoryFromHtml',
+            { useClass: KeirinPlaceRepositoryFromHtmlImpl },
+        );
+        break;
+    case 'local':
+        container.register<IPlaceRepository<KeirinPlaceEntity>>(
+            'KeirinPlaceRepositoryFromHtml',
+            { useClass: MockKeirinPlaceRepositoryFromHtmlImpl },
+        );
+        break;
+    default:
+        container.register<IPlaceRepository<KeirinPlaceEntity>>(
+            'KeirinPlaceRepositoryFromHtml',
+            { useClass: MockKeirinPlaceRepositoryFromHtmlImpl },
+        );
+        break;
+}

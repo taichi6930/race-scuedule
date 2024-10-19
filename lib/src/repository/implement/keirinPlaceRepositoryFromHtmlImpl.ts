@@ -4,7 +4,6 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlaceDataHtmlGateway';
 import {
     KeirinGradeType,
@@ -12,6 +11,7 @@ import {
     keirinRaceCourseList,
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { KeirinPlaceEntity } from '../entity/KeirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
@@ -23,7 +23,7 @@ import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse
  */
 @injectable()
 export class KeirinPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<KeirinPlaceData>
+    implements IPlaceRepository<KeirinPlaceEntity>
 {
     constructor(
         @inject('KeirinPlaceDataHtmlGateway')
@@ -36,28 +36,28 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<KeirinPlaceData>> - 開催データ取得レスポンス
+     * @returns Promise<FetchPlaceListResponse<KeirinPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<KeirinPlaceData>> {
+    ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
         const months: Date[] = await this.generateMonths(
             request.startDate,
             request.finishDate,
         );
         const promises = months.map(async (month) =>
-            this.fetchMonthPlaceDataList(month).then((childPlaceDataList) =>
-                childPlaceDataList.filter(
-                    (placeData) =>
-                        placeData.dateTime >= request.startDate &&
-                        placeData.dateTime <= request.finishDate,
+            this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
+                childPlaceEntityList.filter(
+                    (PlaceEntity) =>
+                        PlaceEntity.dateTime >= request.startDate &&
+                        PlaceEntity.dateTime <= request.finishDate,
                 ),
             ),
         );
-        const placeDataLists = await Promise.all(promises);
-        const placeDataList = placeDataLists.flat();
-        return new FetchPlaceListResponse(placeDataList);
+        const PlaceEntityLists = await Promise.all(promises);
+        const PlaceEntityList = PlaceEntityLists.flat();
+        return new FetchPlaceListResponse(PlaceEntityList);
     }
 
     /**
@@ -95,16 +95,16 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * S3から競馬場開催データを取得する
      *
      * ファイル名を利用してS3から競馬場開催データを取得する
-     * placeDataが存在しない場合はundefinedを返すので、filterで除外する
+     * PlaceEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
      * @returns
      */
     @Logger
-    private async fetchMonthPlaceDataList(
+    private async fetchMonthPlaceEntityList(
         date: Date,
-    ): Promise<KeirinPlaceData[]> {
-        const keirinPlaceDataList: KeirinPlaceData[] = [];
+    ): Promise<KeirinPlaceEntity[]> {
+        const keirinPlaceEntityList: KeirinPlaceEntity[] = [];
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
@@ -152,8 +152,9 @@ export class KeirinPlaceRepositoryFromHtmlImpl
 
                     // alt属性を出力
                     if (grade) {
-                        keirinPlaceDataList.push(
-                            new KeirinPlaceData(
+                        keirinPlaceEntityList.push(
+                            new KeirinPlaceEntity(
+                                null,
                                 new Date(
                                     date.getFullYear(),
                                     date.getMonth(),
@@ -167,7 +168,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 });
             });
         });
-        return keirinPlaceDataList;
+        return keirinPlaceEntityList;
     }
 
     /**
@@ -177,7 +178,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      */
     @Logger
     registerPlaceList(
-        request: RegisterPlaceListRequest<KeirinPlaceData>,
+        request: RegisterPlaceListRequest<KeirinPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);
         throw new Error('HTMLにはデータを登録しません');
