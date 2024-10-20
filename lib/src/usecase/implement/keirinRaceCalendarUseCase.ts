@@ -80,21 +80,21 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                     raceEntity.number,
                 );
             });
-
-            // displayGradeListに含まれるレース情報のみを抽出
-            const filteredRaceDataList: KeirinRaceData[] = raceDataList
-                .filter((raceData) => displayGradeList.includes(raceData.grade))
-                .filter((raceData) => {
+            console.log(raceDataList);
+            console.log(displayGradeList);
+            const filteredRaceDataList: KeirinRaceData[] = raceDataList.filter(
+                (raceData) => {
                     return KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST.some(
-                        (specifiedGradeAndStage) => {
+                        (raceGradeList) => {
                             return (
-                                specifiedGradeAndStage.grade ===
-                                    raceData.grade &&
-                                specifiedGradeAndStage.stage === raceData.stage
+                                raceGradeList.grade === raceData.grade &&
+                                raceGradeList.stage === raceData.stage
                             );
                         },
                     );
-                });
+                },
+            );
+            console.log(filteredRaceDataList);
 
             // レース情報をカレンダーに登録
             await this.calendarService.upsertEvents(filteredRaceDataList);

@@ -144,7 +144,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         const alt = $(img).attr('alt');
                         if (alt) {
                             grade = alt
-                                .replace('1', 'I')
+                                .replace('1', 'Ⅰ')
                                 .replace('2', 'Ⅱ')
                                 .replace('3', 'Ⅲ') as KeirinGradeType;
                         }
