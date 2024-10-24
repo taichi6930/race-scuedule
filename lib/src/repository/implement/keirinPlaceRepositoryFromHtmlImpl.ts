@@ -77,13 +77,19 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getXDigitMonth(2);
-            const date = new Date(year, Number(month) - 1, 1);
+            const date = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth() - 1,
+                1,
+            );
             months.push(date);
 
             // 次の月の1日を取得
-            currentDate = new Date(year, currentDate.getMonth() + 1, 1);
+            currentDate = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth() + 1,
+                1,
+            );
         }
         console.log(
             `月リストを生成しました: ${months.map((month) => formatDate(month, 'yyyy-MM-dd'))}`,

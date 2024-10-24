@@ -79,13 +79,15 @@ export class KeirinPlaceRepositoryFromStorageImpl
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getXDigitMonth(2);
-            const fileName = `${year}${month}.csv`;
+            const fileName = `${format(currentDate, 'yyyyMM')}.csv`;
             fileNames.push(fileName);
 
             // 次の月の1日を取得
-            currentDate = new Date(year, currentDate.getMonth() + 1, 1);
+            currentDate = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth() + 1,
+                1,
+            );
         }
         console.debug(
             `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
