@@ -1,7 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
+import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
@@ -13,22 +14,22 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 競馬場開催データUseCase
+ * 競輪場開催データUseCase
  */
 @injectable()
 export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
     constructor(
         @inject('KeirinPlaceRepositoryFromStorage')
-        private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceData>,
+        private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceEntity>,
         @inject('KeirinRaceRepositoryFromStorage')
         private readonly keirinRaceRepositoryFromStorage: IRaceRepository<
-            KeirinRaceData,
-            KeirinPlaceData
+            KeirinRaceEntity,
+            KeirinPlaceEntity
         >,
         @inject('KeirinRaceRepositoryFromHtml')
         private readonly keirinRaceRepositoryFromHtml: IRaceRepository<
-            KeirinRaceData,
-            KeirinPlaceData
+            KeirinRaceEntity,
+            KeirinPlaceEntity
         >,
     ) {}
     /**
@@ -44,12 +45,23 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
         const placeList = await this.getPlaceDataList(startDate, finishDate);
 
         // レースデータを取得する
-        return this.getRaceDataList(
-            startDate,
-            finishDate,
-            placeList,
-            'storage',
-        );
+        return (
+            await this.getRaceDataList(
+                startDate,
+                finishDate,
+                placeList,
+                'storage',
+            )
+        ).map((raceEntity) => {
+            return new KeirinRaceData(
+                raceEntity.name,
+                raceEntity.stage,
+                raceEntity.dateTime,
+                raceEntity.location,
+                raceEntity.grade,
+                raceEntity.number,
+            );
+        });
     }
 
     /**
@@ -93,13 +105,14 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
     private async getPlaceDataList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<KeirinPlaceData[]> {
+    ): Promise<KeirinPlaceEntity[]> {
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<KeirinPlaceData> =
+        const fetchPlaceListResponse: FetchPlaceListResponse<KeirinPlaceEntity> =
             await this.keirinPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
+        // KeirinPlaceEntityをKeirinPlaceDataに変換する
         return fetchPlaceListResponse.placeDataList;
     }
 
@@ -116,15 +129,16 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
     private async getRaceDataList(
         startDate: Date,
         finishDate: Date,
-        placeList: KeirinPlaceData[],
+        placeList: KeirinPlaceEntity[],
         type: 'storage' | 'web',
-    ): Promise<KeirinRaceData[]> {
-        const fetchRaceListRequest = new FetchRaceListRequest<KeirinPlaceData>(
-            startDate,
-            finishDate,
-            placeList,
-        );
-        const fetchRaceListResponse: FetchRaceListResponse<KeirinRaceData> =
+    ): Promise<KeirinRaceEntity[]> {
+        const fetchRaceListRequest =
+            new FetchRaceListRequest<KeirinPlaceEntity>(
+                startDate,
+                finishDate,
+                placeList,
+            );
+        const fetchRaceListResponse: FetchRaceListResponse<KeirinRaceEntity> =
             type === 'storage'
                 ? await this.keirinRaceRepositoryFromStorage.fetchRaceList(
                       fetchRaceListRequest,
@@ -142,10 +156,10 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
      */
     @Logger
     private async registerRaceDataList(
-        raceList: KeirinRaceData[],
+        raceList: KeirinRaceEntity[],
     ): Promise<void> {
         const registerRaceListRequest =
-            new RegisterRaceListRequest<KeirinRaceData>(raceList);
+            new RegisterRaceListRequest<KeirinRaceEntity>(raceList);
         await this.keirinRaceRepositoryFromStorage.registerRaceList(
             registerRaceListRequest,
         );

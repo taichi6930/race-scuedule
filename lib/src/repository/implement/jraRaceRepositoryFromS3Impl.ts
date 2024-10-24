@@ -1,5 +1,6 @@
 import '../../utility/format';
 
+import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { JraPlaceData } from '../../domain/jraPlaceData';
@@ -37,10 +38,7 @@ export class JraRaceRepositoryFromS3Impl
         const fileNames: string[] = [];
         const currentDate = new Date(request.startDate);
         while (currentDate <= request.finishDate) {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getXDigitMonth(2);
-            const day = currentDate.getXDigitDays(2);
-            const fileName = `${year}${month}${day}.csv`;
+            const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
             fileNames.push(fileName);
             currentDate.setDate(currentDate.getDate() + 1);
         }
@@ -103,7 +101,7 @@ export class JraRaceRepositoryFromS3Impl
         // レースデータを日付ごとに分割する
         const raceDataDict: Record<string, JraRaceData[]> = {};
         raceData.forEach((race) => {
-            const key = `${race.dateTime.getFullYear()}${race.dateTime.getXDigitMonth(2)}${race.dateTime.getXDigitDays(2)}.csv`;
+            const key = `${format(race.dateTime, 'yyyyMMdd')}.csv`;
             if (!raceDataDict[key]) {
                 raceDataDict[key] = [];
             }

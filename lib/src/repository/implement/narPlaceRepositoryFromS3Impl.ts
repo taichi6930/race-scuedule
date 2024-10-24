@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import '../../utility/format';
 
+import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { NarPlaceData } from '../../domain/narPlaceData';
@@ -40,7 +41,6 @@ export class NarPlaceRepositoryFromS3Impl
             request.startDate,
             request.finishDate,
         );
-        console.log(fileNames);
         const promises = fileNames.map(async (fileName) =>
             this.fetchMonthPlaceDataList(fileName).then((childPlaceDataList) =>
                 childPlaceDataList.filter(
@@ -74,13 +74,15 @@ export class NarPlaceRepositoryFromS3Impl
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getXDigitMonth(2);
-            const fileName = `${year}${month}.csv`;
+            const fileName = `${format(currentDate, 'yyyyMM')}.csv`;
             fileNames.push(fileName);
 
             // 次の月の1日を取得
-            currentDate = new Date(year, currentDate.getMonth() + 1, 1);
+            currentDate = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth() + 1,
+                1,
+            );
         }
         console.debug(
             `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
@@ -124,7 +126,7 @@ export class NarPlaceRepositoryFromS3Impl
         // 得られたplaceを月毎に分ける
         const placeDataDict: Record<string, NarPlaceData[]> = {};
         placeDataList.forEach((placeData) => {
-            const key = `${placeData.dateTime.getFullYear()}${placeData.dateTime.getXDigitMonth(2)}.csv`;
+            const key = `${format(placeData.dateTime, 'yyyyMM')}.csv`;
             if (!placeDataDict[key]) {
                 placeDataDict[key] = [];
             }

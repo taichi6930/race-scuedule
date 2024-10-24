@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import '../../utility/format';
 
+import { format } from 'date-fns';
 import { JWT } from 'google-auth-library';
 import { calendar_v3, google } from 'googleapis';
 import { injectable } from 'tsyringe';
@@ -283,7 +284,15 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @returns
      */
     private generateEventId(raceData: R): string {
-        return `${this.raceType}${raceData.dateTime.getFullYear()}${raceData.dateTime.getXDigitMonth(2)}${raceData.dateTime.getXDigitDays(2)}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
+        switch (this.raceType) {
+            case 'jra':
+            case 'nar':
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
+            case 'keirin':
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[raceData.location]}${raceData.number.toXDigits(2)}`;
+            default:
+                return '';
+        }
     }
 
     /**
