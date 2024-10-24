@@ -88,7 +88,8 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                         (raceGradeList) => {
                             return (
                                 raceGradeList.grade === raceData.grade &&
-                                raceGradeList.stage === raceData.stage
+                                raceGradeList.stage === raceData.stage &&
+                                raceGradeList.priority >= 6
                             );
                         },
                     );
