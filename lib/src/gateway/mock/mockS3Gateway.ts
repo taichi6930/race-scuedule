@@ -60,14 +60,14 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         }
         // 2024年のデータ12ヶ月分を作成
         for (let i = 1; i <= 12; i++) {
-            const date = new Date(2024, i - 1, 1);
-            const fileName = `nar/place/${format(date, 'yyyyMM')}.csv`;
+            const sdate = new Date(2024, i - 1, 1);
+            const fileName = `nar/place/${format(sdate, 'yyyyMM')}.csv`;
             const mockData = ['dateTime,location\n', ,];
             // 1ヶ月分のデータ（28~31日）を作成
             for (let j = 1; j <= 31; j++) {
                 const date = new Date(2024, i - 1, j);
                 // もし_dateの月とdateの月が違う場合はbreak
-                if (date.getMonth() !== date.getMonth()) {
+                if (sdate.getMonth() !== date.getMonth()) {
                     break;
                 }
                 mockData.push(`${format(date, 'yyyy-MM-dd')},高知\n`);
@@ -91,14 +91,14 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         }
         // 2024年のデータ12ヶ月分を作成
         for (let i = 1; i <= 12; i++) {
-            const date = new Date(2024, i - 1, 1);
-            const fileName = `jra/place/${format(date, 'yyyyMM')}.csv`;
+            const sdate = new Date(2024, i - 1, 1);
+            const fileName = `jra/place/${format(sdate, 'yyyyMM')}.csv`;
             const mockData = ['dateTime,location\n', ,];
             // 1ヶ月分のデータ（28~31日）を作成
             for (let j = 1; j <= 31; j++) {
                 const date = new Date(2024, i - 1, j);
                 // もし_dateの月とdateの月が違う場合はbreak
-                if (date.getMonth() !== date.getMonth()) {
+                if (sdate.getMonth() !== date.getMonth()) {
                     break;
                 }
                 mockData.push(`${format(date, 'yyyy-MM-dd')},東京\n`);
@@ -122,14 +122,14 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         }
         // 2024年のデータ12ヶ月分を作成
         for (let i = 1; i <= 12; i++) {
-            const date = new Date(2024, i - 1, 1);
-            const fileName = `keirin/place/${format(date, 'yyyyMM')}.csv`;
+            const sdate = new Date(2024, i - 1, 1);
+            const fileName = `keirin/place/${format(sdate, 'yyyyMM')}.csv`;
             const mockData = ['id,dateTime,location,stage\n'];
             // 1ヶ月分のデータ（28~31日）を作成
             for (let j = 1; j <= 31; j++) {
                 const date = new Date(2024, i - 1, j);
                 // もし_dateの月とdateの月が違う場合はbreak
-                if (date.getMonth() !== date.getMonth()) {
+                if (sdate.getMonth() !== date.getMonth()) {
                     break;
                 }
                 mockData.push(
