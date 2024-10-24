@@ -108,18 +108,45 @@ export class KeirinPlaceRepositoryFromStorageImpl
     ): Promise<KeirinPlaceEntity[]> {
         console.log(`S3から${fileName}を取得します`);
         const csv = await this.s3Gateway.fetchDataFromS3(fileName);
-        const placeEntityList: KeirinPlaceEntity[] = csv
-            .split('\n')
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const idIndex = headers.indexOf('id');
+        const raceDateIndex = headers.indexOf('dateTime');
+        const placeIndex = headers.indexOf('location');
+        const gradeIndex = headers.indexOf('grade');
+
+        // データ行を解析してKeirinPlaceEntityのリストを生成
+        const placeEntityList: KeirinPlaceEntity[] = lines
+            .slice(1)
             .map((line: string) => {
-                const [id, raceDate, place, grade] = line.split(',');
+                const columns = line.split(',');
+
+                // 必要なフィールドが存在しない場合はundefinedを返す
+                if (
+                    !columns[idIndex] ||
+                    !columns[raceDateIndex] ||
+                    !columns[placeIndex] ||
+                    !columns[gradeIndex]
+                ) {
+                    return undefined;
+                }
+
                 return new KeirinPlaceEntity(
-                    id,
-                    new Date(raceDate),
-                    place as KeirinRaceCourse,
-                    grade as KeirinGradeType,
+                    columns[idIndex],
+                    new Date(columns[raceDateIndex]),
+                    columns[placeIndex] as KeirinRaceCourse,
+                    columns[gradeIndex] as KeirinGradeType,
                 );
             })
-            .filter((placeEntity) => placeEntity !== undefined);
+            .filter(
+                (placeEntity): placeEntity is KeirinPlaceEntity =>
+                    placeEntity !== undefined,
+            );
+
         return placeEntityList;
     }
 

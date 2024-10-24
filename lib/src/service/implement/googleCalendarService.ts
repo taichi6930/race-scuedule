@@ -283,7 +283,15 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @returns
      */
     private generateEventId(raceData: R): string {
-        return `${this.raceType}${raceData.dateTime.getFullYear()}${raceData.dateTime.getXDigitMonth(2)}${raceData.dateTime.getXDigitDays(2)}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
+        switch (this.raceType) {
+            case 'jra':
+            case 'nar':
+                return `${this.raceType}${raceData.dateTime.getFullYear()}${raceData.dateTime.getXDigitMonth(2)}${raceData.dateTime.getXDigitDays(2)}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
+            case 'keirin':
+                return `${this.raceType}${raceData.dateTime.getFullYear()}${raceData.dateTime.getXDigitMonth(2)}${raceData.dateTime.getXDigitDays(2)}${KEIRIN_PLACE_CODE[raceData.location] || '00'}${raceData.number.toXDigits(2)}`;
+            default:
+                return '';
+        }
     }
 
     /**

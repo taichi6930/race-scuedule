@@ -1,6 +1,7 @@
 import { container } from 'tsyringe';
 
 import { JraRaceData } from '../domain/jraRaceData';
+import { KeirinRaceData } from '../domain/keirinRaceData';
 import { NarRaceData } from '../domain/narRaceData';
 import { GoogleCalendarService } from '../service/implement/googleCalendarService';
 import { ICalendarService } from '../service/interface/ICalendarService';
@@ -45,12 +46,12 @@ container.register<ICalendarService<JraRaceData>>('JraCalendarService', {
     },
 });
 
-container.register<ICalendarService<NarRaceData>>('KeirinCalendarService', {
+container.register<ICalendarService<KeirinRaceData>>('KeirinCalendarService', {
     useFactory: () => {
         switch (process.env.ENV) {
             case 'production':
                 // ENV が production の場合、GoogleCalendarService を使用
-                return new GoogleCalendarService<NarRaceData>(
+                return new GoogleCalendarService<KeirinRaceData>(
                     'keirin',
                     process.env.KEIRIN_CALENDAR_ID ?? '',
                 );
