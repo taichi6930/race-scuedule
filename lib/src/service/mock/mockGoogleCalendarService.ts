@@ -37,7 +37,6 @@ export class MockGoogleCalendarService implements ICalendarService<any> {
     @Logger
     async upsertEvents(): Promise<void> {
         // モックの動作を記述
-        // console.log('upsertEvents')を出す
         await Promise.resolve(() => {
             console.log('upsertEvents');
         });

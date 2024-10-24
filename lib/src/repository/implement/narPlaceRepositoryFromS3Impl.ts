@@ -41,7 +41,6 @@ export class NarPlaceRepositoryFromS3Impl
             request.startDate,
             request.finishDate,
         );
-        console.log(fileNames);
         const promises = fileNames.map(async (fileName) =>
             this.fetchMonthPlaceDataList(fileName).then((childPlaceDataList) =>
                 childPlaceDataList.filter(

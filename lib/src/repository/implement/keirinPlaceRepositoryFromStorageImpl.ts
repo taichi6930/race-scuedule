@@ -44,7 +44,6 @@ export class KeirinPlaceRepositoryFromStorageImpl
             request.startDate,
             request.finishDate,
         );
-        console.log(fileNames);
         const promises = fileNames.map(async (fileName) =>
             this.fetchMonthPlaceEntityList(fileName).then(
                 (childPlaceEntityList) =>

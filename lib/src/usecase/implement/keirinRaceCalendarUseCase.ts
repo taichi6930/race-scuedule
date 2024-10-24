@@ -80,13 +80,12 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                     raceEntity.number,
                 );
             });
-            console.log(raceDataList);
-            console.log(displayGradeList);
             const filteredRaceDataList: KeirinRaceData[] = raceDataList.filter(
                 (raceData) => {
                     return KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST.some(
                         (raceGradeList) => {
                             return (
+                                displayGradeList.includes(raceData.grade) &&
                                 raceGradeList.grade === raceData.grade &&
                                 raceGradeList.stage === raceData.stage &&
                                 raceGradeList.priority >= 6
@@ -95,7 +94,6 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                     );
                 },
             );
-            console.log(filteredRaceDataList);
 
             // レース情報をカレンダーに登録
             await this.calendarService.upsertEvents(filteredRaceDataList);
