@@ -1,15 +1,12 @@
 import { format } from 'date-fns';
 
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-} from '../../utility/data/raceSpecific';
+import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import type { NarRaceCourse } from '../../utility/data/raceSpecific';
 
 /**
  * Repository層のEntity 競輪のレース開催場所データ
  */
-export class KeirinPlaceEntity {
+export class NarPlaceEntity {
     /**
      * ID
      */
@@ -19,16 +16,14 @@ export class KeirinPlaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催場所データを生成する
+     * 地方競馬のレース開催場所データを生成する
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param grade - 競輪のグレード
      */
     constructor(
         id: string | null,
         public readonly dateTime: Date,
-        public readonly location: KeirinRaceCourse,
-        public readonly grade: KeirinGradeType,
+        public readonly location: NarRaceCourse,
     ) {
         this.id = id ?? this.generateId(dateTime, location);
     }
@@ -41,7 +36,7 @@ export class KeirinPlaceEntity {
      * @param location - 開催場所
      * @returns 生成されたID
      */
-    private generateId(dateTime: Date, location: KeirinRaceCourse): string {
-        return `keirin${format(dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[location]}`;
+    private generateId(dateTime: Date, location: NarRaceCourse): string {
+        return `nar${format(dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}`;
     }
 }
