@@ -370,6 +370,6 @@ export class KeirinRaceRepositoryFromHtmlImpl
         request: RegisterRaceListRequest<KeirinRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
-        throw new Error('HTMLにはデータを登録しません');
+        throw new Error('HTMLにはデータを登録出来ません');
     }
 }
