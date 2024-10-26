@@ -10,9 +10,6 @@ import { IKeirinPlaceDataHtmlGateway } from '../interface/iKeirinPlaceDataHtmlGa
 export class MockKeirinPlaceDataHtmlGateway
     implements IKeirinPlaceDataHtmlGateway
 {
-    constructor() {
-        console.log('MockKeirinPlaceDataHtmlGateway constructor');
-    }
     /**
      * 競馬場開催データのHTMLを取得する
      *

@@ -10,15 +10,18 @@ import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fe
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 
 describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
-    let gateway: IKeirinPlaceDataHtmlGateway;
+    let keirinPlaceDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
     let repository: KeirinPlaceRepositoryFromHtmlImpl;
 
     beforeEach(() => {
         // gatwayのモックを作成
-        gateway = new MockKeirinPlaceDataHtmlGateway();
+        keirinPlaceDataHtmlgateway = new MockKeirinPlaceDataHtmlGateway();
 
         // DIコンテナにモックを登録
-        container.registerInstance('KeirinPlaceDataHtmlGateway', gateway);
+        container.registerInstance(
+            'KeirinPlaceDataHtmlGateway',
+            keirinPlaceDataHtmlgateway,
+        );
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(KeirinPlaceRepositoryFromHtmlImpl);

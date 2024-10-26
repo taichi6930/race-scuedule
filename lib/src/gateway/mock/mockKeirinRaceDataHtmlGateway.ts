@@ -1,3 +1,8 @@
+import { format } from 'date-fns';
+import * as fs from 'fs';
+import * as path from 'path';
+
+import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import { KeirinRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { IKeirinRaceDataHtmlGateway } from '../interface/iKeirinRaceDataHtmlGateway';
@@ -18,8 +23,13 @@ export class MockKeirinRaceDataHtmlGateway
         date: Date,
         place: KeirinRaceCourse,
     ): Promise<string> {
-        console.log(date, place);
-        return Promise.resolve(this.html);
+        // mockDataフォルダにあるhtmlを取得
+        const testHtmlUrl = `../mockData/keirin/race/${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[place]}.html`;
+        // lib/src/gateway/mockData/keirin/placeの中にあるhtmlを取得
+        const htmlFilePath = path.join(__dirname, testHtmlUrl);
+
+        const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
+        return Promise.resolve(htmlContent);
     }
 
     html = ``;
