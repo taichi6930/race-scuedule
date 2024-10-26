@@ -1,3 +1,5 @@
+import '../../utility/format';
+
 import { format } from 'date-fns';
 
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';

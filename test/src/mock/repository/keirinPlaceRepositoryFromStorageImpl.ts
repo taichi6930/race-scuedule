@@ -1,7 +1,7 @@
 import type { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 
-// KeirinPlaceRepositoryFromS3Implのmockを作成
+// KeirinPlaceRepositoryFromStorageImplのmockを作成
 export const mockKeirinPlaceRepositoryFromStorageImpl = (): jest.Mocked<
     IPlaceRepository<KeirinPlaceData>
 > => {
