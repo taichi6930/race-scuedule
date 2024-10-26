@@ -35,7 +35,6 @@ describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
                     new Date('2024-10-31'),
                 ),
             );
-            console.log(response.placeDataList);
             expect(response.placeDataList).toHaveLength(221);
         });
     });

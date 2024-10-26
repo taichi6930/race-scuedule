@@ -44,7 +44,6 @@ describe('KeirinRaceRepositoryFromHtmlImpl', () => {
                     ],
                 ),
             );
-            console.log(response.raceDataList);
             expect(response.raceDataList).toHaveLength(12);
         });
     });
