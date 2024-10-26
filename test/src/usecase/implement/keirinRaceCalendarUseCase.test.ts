@@ -10,12 +10,12 @@ import type { ICalendarService } from '../../../../lib/src/service/interface/ICa
 import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/keirinRaceCalendarUseCase';
 import type { KeirinGradeType } from '../../../../lib/src/utility/data/raceSpecific';
 import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
-import { mockKeirinRaceRepositoryFromS3Impl } from '../../mock/repository/keirinRaceRepositoryFromS3Impl';
+import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';
 import { KeirinCalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('KeirinRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<KeirinRaceData>>;
-    let keirinRaceRepositoryFromS3Impl: jest.Mocked<
+    let keirinRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<KeirinRaceData, KeirinPlaceData>
     >;
     let useCase: KeirinRaceCalendarUseCase;
@@ -31,11 +31,12 @@ describe('KeirinRaceCalendarUseCase', () => {
         );
 
         // IRaceRepositoryインターフェースの依存関係を登録
-        keirinRaceRepositoryFromS3Impl = mockKeirinRaceRepositoryFromS3Impl();
+        keirinRaceRepositoryFromStorageImpl =
+            mockKeirinRaceRepositoryFromStorageImpl();
         container.register<IRaceRepository<KeirinRaceData, KeirinPlaceData>>(
             'KeirinRaceRepositoryFromStorage',
             {
-                useValue: keirinRaceRepositoryFromS3Impl,
+                useValue: keirinRaceRepositoryFromStorageImpl,
             },
         );
 
@@ -142,9 +143,11 @@ describe('KeirinRaceCalendarUseCase', () => {
             });
 
             // モックが値を返すよう設定
-            keirinRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue({
-                raceDataList: mockRaceDataList,
-            });
+            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+                {
+                    raceDataList: mockRaceDataList,
+                },
+            );
 
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
@@ -157,7 +160,7 @@ describe('KeirinRaceCalendarUseCase', () => {
 
             // モックが呼び出されたことを確認
             expect(
-                keirinRaceRepositoryFromS3Impl.fetchRaceList,
+                keirinRaceRepositoryFromStorageImpl.fetchRaceList,
             ).toHaveBeenCalled();
 
             // updateEventsが呼び出された回数を確認
@@ -173,7 +176,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListがエラーをスローするようにモック
-            keirinRaceRepositoryFromS3Impl.fetchRaceList.mockRejectedValue(
+            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
                 new Error('Fetch Error'),
             );
 
@@ -203,9 +206,11 @@ describe('KeirinRaceCalendarUseCase', () => {
 
             // fetchRaceListは正常に動作するように設定
             const mockRaceDataList: KeirinRaceData[] = [baseKeirinCalendarData];
-            keirinRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue({
-                raceDataList: mockRaceDataList,
-            });
+            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+                {
+                    raceDataList: mockRaceDataList,
+                },
+            );
 
             // updateEventsがエラーをスローするようにモック
             calendarServiceMock.upsertEvents.mockRejectedValue(
