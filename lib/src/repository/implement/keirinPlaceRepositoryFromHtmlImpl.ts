@@ -8,7 +8,6 @@ import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlac
 import {
     KeirinGradeType,
     KeirinRaceCourse,
-    keirinRaceCourseList,
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
@@ -131,12 +130,9 @@ export class KeirinPlaceRepositoryFromHtmlImpl
             trs.each((index: number, element: cheerio.Element) => {
                 // thを取得
                 const th = $(element).find('th');
+
                 // thのテキストが KeirinRaceCourseに含まれているか
-                if (
-                    !keirinRaceCourseList.includes(
-                        th.text() as KeirinRaceCourse,
-                    )
-                ) {
+                if (!(th.text() as KeirinRaceCourse)) {
                     return;
                 }
                 const place: KeirinRaceCourse = th.text() as KeirinRaceCourse;

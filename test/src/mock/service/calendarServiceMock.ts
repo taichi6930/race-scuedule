@@ -1,6 +1,6 @@
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
-import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
+import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 

@@ -41,7 +41,12 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                     console.log(date);
 
                     // CSVのヘッダーを定義
-                    const headers = ['dateTime', 'location', 'grade', 'id'];
+                    const csvHeaderDataText = [
+                        'dateTime',
+                        'location',
+                        'grade',
+                        'id',
+                    ].join(',');
 
                     // データ行を生成
                     const csvDataText: string = [
@@ -50,11 +55,19 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                         'GP',
                         `keirin${format(date, 'yyyyMM')}`,
                     ].join(',');
+                    // データ行を生成
+                    const csvUndefinedDataText: string = [
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                    ].join(',');
 
                     // ヘッダーとデータ行を結合して完全なCSVデータを生成
                     const csvDatajoinText: string = [
-                        headers.join(','),
+                        csvHeaderDataText,
                         csvDataText,
+                        csvUndefinedDataText,
                     ].join('\n');
                     return Promise.resolve(csvDatajoinText);
                 },
