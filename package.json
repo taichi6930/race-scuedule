@@ -9,7 +9,6 @@
         "build": "tsc",
         "watch": "tsc -w",
         "test": "jest --coverage --maxWorkers=49%",
-        "test:ci": "jest --maxWorkers=49% --testPathIgnorePatterns=\".*RepositoryFromHtmlImpl\\.test\\.ts$\"",
         "cdk": "cdk",
         "start": "ts-node lib/src/index.ts",
         "dev": "TZ=jst nodemon lib/src/index.ts",
