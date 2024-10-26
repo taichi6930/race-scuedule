@@ -357,6 +357,8 @@ export const KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST: {
     { grade: 'GⅢ', stage: '決勝', priority: 7 },
     { grade: 'GⅢ', stage: '初日特別選抜', priority: 6 },
 
+    { grade: 'FⅠ', stage: '決勝', priority: 4 },
+
     { grade: 'FⅡ', stage: 'ガールズドリームレース', priority: 7 },
     { grade: 'FⅡ', stage: 'ガールズアルテミス賞', priority: 6 },
     { grade: 'FⅡ', stage: 'スーパープロピストレーサー賞', priority: 7 },

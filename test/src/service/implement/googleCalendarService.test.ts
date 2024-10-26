@@ -3,6 +3,7 @@ import { google } from 'googleapis';
 
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
+import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import { GoogleCalendarService } from '../../../../lib/src/service/implement/googleCalendarService';
 
@@ -168,7 +169,7 @@ describe('GoogleCalendarService', () => {
         it('JRAイベントが存在しない場合、新規作成処理が行われること', async () => {
             googleCalendarService = new GoogleCalendarService(
                 'jra',
-                'testNarCalendarId',
+                'testJraCalendarId',
             );
             const jraRaceDataList = [
                 new JraRaceData(
@@ -212,6 +213,42 @@ describe('GoogleCalendarService', () => {
             // console.debugで確認
             expect(console.debug).toHaveBeenCalledWith(
                 'Google Calendar APIにレースを登録しました: 有馬記念',
+            );
+        });
+
+        it('KEIRINイベントが存在しない場合、新規作成処理が行われること', async () => {
+            googleCalendarService = new GoogleCalendarService(
+                'keirin',
+                'testKeirinCalendarId',
+            );
+            const keirinRaceDataList = [
+                new KeirinRaceData(
+                    'KEIRINグランプリ',
+                    'グランプリ',
+                    new Date('2025-12-30 16:30'),
+                    '平塚',
+                    'GP',
+                    11,
+                ),
+            ];
+
+            // モックの `events.list` メソッドを設定
+            const eventsListMock = google.calendar('v3').events
+                .list as jest.Mock;
+            eventsListMock.mockResolvedValue({ data: { items: [] } });
+
+            // モックの `events.insert` メソッドを設定
+            const eventsInsertMock = jest.fn().mockResolvedValue({});
+            google.calendar('v3').events.insert = eventsInsertMock;
+
+            await googleCalendarService.upsertEvents(keirinRaceDataList);
+
+            // `events.insert` メソッドが呼ばれていることを確認
+            expect(google.calendar('v3').events.insert).toHaveBeenCalled();
+
+            // console.debugで確認
+            expect(console.debug).toHaveBeenCalledWith(
+                'Google Calendar APIにレースを登録しました: グランプリ KEIRINグランプリ',
             );
         });
 
