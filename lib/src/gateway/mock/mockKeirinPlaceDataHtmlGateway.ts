@@ -1,3 +1,7 @@
+import { format } from 'date-fns';
+import * as fs from 'fs';
+import * as path from 'path';
+
 import { Logger } from '../../utility/logger';
 import { IKeirinPlaceDataHtmlGateway } from '../interface/iKeirinPlaceDataHtmlGateway';
 /**
@@ -6,8 +10,9 @@ import { IKeirinPlaceDataHtmlGateway } from '../interface/iKeirinPlaceDataHtmlGa
 export class MockKeirinPlaceDataHtmlGateway
     implements IKeirinPlaceDataHtmlGateway
 {
-    testHtmlUrl = ``;
-
+    constructor() {
+        console.log('MockKeirinPlaceDataHtmlGateway constructor');
+    }
     /**
      * 競馬場開催データのHTMLを取得する
      *
@@ -17,8 +22,13 @@ export class MockKeirinPlaceDataHtmlGateway
     @Logger
     getPlaceDataHtml(date: Date): Promise<string> {
         try {
-            console.log(date);
-            return Promise.resolve(this.testHtmlUrl);
+            // mockDataフォルダにあるhtmlを取得
+            const testHtmlUrl = `../mockData/keirin/place/${format(date, 'yyyyMM')}.html`;
+            // lib/src/gateway/mockData/keirin/placeの中にあるhtmlを取得
+            const htmlFilePath = path.join(__dirname, testHtmlUrl);
+
+            const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
+            return Promise.resolve(htmlContent);
         } catch (error) {
             console.debug('htmlを取得できませんでした', error);
             throw new Error('htmlを取得できませんでした');

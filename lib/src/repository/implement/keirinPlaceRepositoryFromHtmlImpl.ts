@@ -78,7 +78,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         while (currentDate <= finishDate) {
             const date = new Date(
                 currentDate.getFullYear(),
-                currentDate.getMonth() - 1,
+                currentDate.getMonth(),
                 1,
             );
             months.push(date);
@@ -170,6 +170,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 });
             });
         });
+        console.log('keirinPlaceEntityList:', keirinPlaceEntityList);
         return keirinPlaceEntityList;
     }
 

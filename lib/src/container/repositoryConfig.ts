@@ -81,7 +81,7 @@ switch (process.env.ENV) {
     default:
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
-            { useClass: MockKeirinPlaceRepositoryFromHtmlImpl },
+            { useClass: KeirinPlaceRepositoryFromHtmlImpl },
         );
         break;
 }

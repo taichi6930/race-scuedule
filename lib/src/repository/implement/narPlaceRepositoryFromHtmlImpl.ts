@@ -73,7 +73,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         while (currentDate <= finishDate) {
             const date = new Date(
                 currentDate.getFullYear(),
-                currentDate.getMonth() - 1,
+                currentDate.getMonth(),
                 1,
             );
             months.push(date);

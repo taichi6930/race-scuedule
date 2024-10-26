@@ -16,7 +16,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
      * @private
      * @type {Map<string, string>}
      */
-    private mockStorage: Map<string, string>;
+    private static mockStorage: Map<string, string> = new Map<string, string>();
 
     /**
      * バケット名 S3の中にあるデータの保存場所
@@ -41,7 +41,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
     constructor(bucketName: string, folderPath: string) {
         this.bucketName = bucketName;
         this.folderPath = folderPath;
-        this.mockStorage = new Map<string, string>();
+        const mockStorage = MockS3Gateway.mockStorage;
         // 最初にmockStorageに値を入れておく
         // 2024年のデータ366日分を作成
         for (let i = 0; i < 366; i++) {
@@ -49,7 +49,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
             date.setDate(date.getDate() + i);
             const fileName = `nar/race/${format(date, 'yyyyMMdd')}.csv`;
             for (let j = 1; j <= 12; j++) {
-                this.mockStorage.set(
+                mockStorage.set(
                     fileName,
                     [
                         `name,dateTime,location,surfaceType,distance,grade,number\n`,
@@ -72,7 +72,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                 }
                 mockData.push(`${format(date, 'yyyy-MM-dd')},高知\n`);
             }
-            this.mockStorage.set(fileName, mockData.join(''));
+            mockStorage.set(fileName, mockData.join(''));
         }
         // 2024年のデータ366日分を作成
         for (let i = 0; i < 366; i++) {
@@ -80,7 +80,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
             date.setDate(date.getDate() + i);
             const fileName = `jra/race/${format(date, 'yyyyMMdd')}.csv`;
             for (let j = 1; j <= 12; j++) {
-                this.mockStorage.set(
+                mockStorage.set(
                     fileName,
                     [
                         `name,dateTime,location,surfaceType,distance,grade,number,heldTimes,heldDayTimes\n`,
@@ -103,7 +103,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                 }
                 mockData.push(`${format(date, 'yyyy-MM-dd')},東京\n`);
             }
-            this.mockStorage.set(fileName, mockData.join(''));
+            mockStorage.set(fileName, mockData.join(''));
         }
         // 2024年のデータ366日分を作成
         for (let i = 0; i < 366; i++) {
@@ -111,11 +111,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
             date.setDate(date.getDate() + i);
             const fileName = `keirin/race/${format(date, 'yyyyMMdd')}.csv`;
             for (let j = 1; j <= 12; j++) {
-                this.mockStorage.set(
+                mockStorage.set(
                     fileName,
                     [
-                        `name,stage,dateTime,location,grade,number\n`,
-                        `KEIRINグランプリ,グランプリ,${format(date, 'yyyy-MM-dd')} ${j + 6}:00,立川,GP,${j}`,
+                        `name,stage,dateTime,location,grade,number,id\n`,
+                        `KEIRINグランプリ,グランプリ,${format(date, 'yyyy-MM-dd')} ${j + 6}:00,立川,GP,${j},keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['立川']}${j.toXDigits(2)}`,
                     ].join(''),
                 );
             }
@@ -124,7 +124,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         for (let i = 1; i <= 12; i++) {
             const sdate = new Date(2024, i - 1, 1);
             const fileName = `keirin/place/${format(sdate, 'yyyyMM')}.csv`;
-            const mockData = ['id,dateTime,location,stage\n'];
+            const mockData = ['id,dateTime,location,grade\n'];
             // 1ヶ月分のデータ（28~31日）を作成
             for (let j = 1; j <= 31; j++) {
                 const date = new Date(2024, i - 1, j);
@@ -136,7 +136,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                     `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']},${format(date, 'yyyy-MM-dd')},川崎,GP\n`,
                 );
             }
-            this.mockStorage.set(fileName, mockData.join(''));
+            mockStorage.set(fileName, mockData.join(''));
         }
     }
 
@@ -151,7 +151,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         try {
             const csvContent = this.convertToCsv(data);
             const key = `${this.folderPath}${fileName}`;
-            this.mockStorage.set(key, csvContent);
+            MockS3Gateway.mockStorage.set(key, csvContent);
+            console.log(this.fetchDataFromS3(key));
         } catch (error) {
             console.debug(error);
             throw new Error('モックのファイルのアップロードに失敗しました');
@@ -167,7 +168,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
     @Logger
     async fetchDataFromS3(fileName: string): Promise<string> {
         const key = `${this.folderPath}${fileName}`;
-        const data = this.mockStorage.get(key);
+        const data = MockS3Gateway.mockStorage.get(key);
         if (!data) {
             console.warn(`モックのファイルが存在しません: ${key}`);
             return '';
