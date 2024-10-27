@@ -183,10 +183,10 @@ export const processNarRaceName = (
 ): string => {
     // 共通系
     let newRaceName = raceInfo.name
-        .replace(/[！-～]/g, (s) =>
+        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) =>
             String.fromCharCode(s.charCodeAt(0) - 0xfee0),
         )
-        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) =>
+        .replace(/[！-～]/g, (s) =>
             String.fromCharCode(s.charCodeAt(0) - 0xfee0),
         )
         .replace(/ステークス/, 'S')
@@ -258,7 +258,7 @@ export const processNarRaceName = (
     if (['金沢'].includes(raceInfo.place)) {
         newRaceName = newRaceName
             .replace(
-                '移転50周年記念金沢ファ',
+                '/(移転50周年記念金沢ファ).*/',
                 '移転50周年記念金沢ファンセレクトC',
             )
             .replace(
