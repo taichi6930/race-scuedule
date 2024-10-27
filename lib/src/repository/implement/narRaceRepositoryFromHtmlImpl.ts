@@ -62,11 +62,6 @@ export class NarRaceRepositoryFromHtmlImpl
                 placeData.dateTime,
                 placeData.location,
             );
-
-            if (typeof htmlText !== 'string') {
-                throw new Error('Expected htmlText to be a string');
-            }
-
             const narRaceDataList: NarRaceData[] = [];
             const $ = cheerio.load(htmlText);
             const raceTable = $('section.raceTable');
