@@ -2,16 +2,14 @@ import { format } from 'date-fns';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
-import { KeirinRaceCourse } from '../../utility/data/raceSpecific';
+import { NAR_BABACODE } from '../../utility/data/nar';
+import { NarRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
-import { IKeirinRaceDataHtmlGateway } from '../interface/iKeirinRaceDataHtmlGateway';
+import { INarRaceDataHtmlGateway } from '../interface/iNarRaceDataHtmlGateway';
 /**
  * レースデータのHTMLを取得するGateway
  */
-export class MockKeirinRaceDataHtmlGateway
-    implements IKeirinRaceDataHtmlGateway
-{
+export class MockNarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
     /**
      * レースデータのHTMLを取得する
      *
@@ -19,13 +17,10 @@ export class MockKeirinRaceDataHtmlGateway
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger
-    async getRaceDataHtml(
-        date: Date,
-        place: KeirinRaceCourse,
-    ): Promise<string> {
+    async getRaceDataHtml(date: Date, place: NarRaceCourse): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/keirin/race/${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[place]}.html`;
-        // lib/src/gateway/mockData/keirin/placeの中にあるhtmlを取得
+        const testHtmlUrl = `../mockData/nar/race/${format(date, 'yyyyMMdd')}${NAR_BABACODE[place]}.html`;
+        // lib/src/gateway/mockData/nar/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');

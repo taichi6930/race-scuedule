@@ -11,7 +11,7 @@
         "test": "jest --coverage --maxWorkers=49%",
         "cdk": "cdk",
         "start": "ts-node lib/src/index.ts",
-        "dev": "nodemon lib/src/index.ts",
+        "dev": "TZ=jst nodemon lib/src/index.ts",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "lint": "eslint '**/*.{ts,tsx}'",

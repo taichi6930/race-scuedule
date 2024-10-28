@@ -1,3 +1,5 @@
+import '../../utility/format';
+
 import { Logger } from '../../utility/logger';
 import { INarPlaceDataHtmlGateway } from '../interface/iNarPlaceDataHtmlGateway';
 /**

@@ -3,13 +3,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { Logger } from '../../utility/logger';
-import { IKeirinPlaceDataHtmlGateway } from '../interface/iKeirinPlaceDataHtmlGateway';
+import { INarPlaceDataHtmlGateway } from '../interface/iNarPlaceDataHtmlGateway';
 /**
  * 競馬場開催データのHTMLを取得するGateway
  */
-export class MockKeirinPlaceDataHtmlGateway
-    implements IKeirinPlaceDataHtmlGateway
-{
+export class MockNarPlaceDataHtmlGateway implements INarPlaceDataHtmlGateway {
     /**
      * 競馬場開催データのHTMLを取得する
      *
@@ -19,8 +17,8 @@ export class MockKeirinPlaceDataHtmlGateway
     @Logger
     getPlaceDataHtml(date: Date): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/keirin/place/${format(date, 'yyyyMM')}.html`;
-        // lib/src/gateway/mockData/keirin/placeの中にあるhtmlを取得
+        const testHtmlUrl = `../mockData/nar/place/${format(date, 'yyyyMM')}.html`;
+        // lib/src/gateway/mockData/nar/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');

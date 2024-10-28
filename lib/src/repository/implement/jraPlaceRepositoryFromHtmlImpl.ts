@@ -147,6 +147,6 @@ export class JraPlaceRepositoryFromHtmlImpl
         request: RegisterPlaceListRequest<JraPlaceData>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);
-        throw new Error('HTMLにはデータを登録しません');
+        throw new Error('HTMLにはデータを登録出来ません');
     }
 }

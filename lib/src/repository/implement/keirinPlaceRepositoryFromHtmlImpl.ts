@@ -8,7 +8,6 @@ import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlac
 import {
     KeirinGradeType,
     KeirinRaceCourse,
-    keirinRaceCourseList,
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
@@ -79,7 +78,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         while (currentDate <= finishDate) {
             const date = new Date(
                 currentDate.getFullYear(),
-                currentDate.getMonth() - 1,
+                currentDate.getMonth(),
                 1,
             );
             months.push(date);
@@ -131,12 +130,9 @@ export class KeirinPlaceRepositoryFromHtmlImpl
             trs.each((index: number, element: cheerio.Element) => {
                 // thを取得
                 const th = $(element).find('th');
+
                 // thのテキストが KeirinRaceCourseに含まれているか
-                if (
-                    !keirinRaceCourseList.includes(
-                        th.text() as KeirinRaceCourse,
-                    )
-                ) {
+                if (!(th.text() as KeirinRaceCourse)) {
                     return;
                 }
                 const place: KeirinRaceCourse = th.text() as KeirinRaceCourse;
@@ -174,6 +170,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 });
             });
         });
+        console.log('keirinPlaceEntityList:', keirinPlaceEntityList);
         return keirinPlaceEntityList;
     }
 
@@ -187,6 +184,6 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         request: RegisterPlaceListRequest<KeirinPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);
-        throw new Error('HTMLにはデータを登録しません');
+        throw new Error('HTMLにはデータを登録出来ません');
     }
 }

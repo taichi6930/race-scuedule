@@ -70,4 +70,4 @@ jobs:
               run: pnpm install
 
             - name: Run tests
-              run: pnpm run test
+              run: ENV=GITHUB_ACTIONS_CI pnpm run test

@@ -300,6 +300,6 @@ export class JraRaceRepositoryFromHtmlImpl
         request: RegisterRaceListRequest<JraRaceData>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
-        throw new Error('HTMLにはデータを登録しません');
+        throw new Error('HTMLにはデータを登録出来ません');
     }
 }

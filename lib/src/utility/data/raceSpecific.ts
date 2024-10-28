@@ -107,51 +107,6 @@ export type KeirinRaceCourse =
     | '別府'
     | '熊本';
 
-export const keirinRaceCourseList: KeirinRaceCourse[] = [
-    '函館',
-    '青森',
-    'いわき平',
-    '弥彦',
-    '前橋',
-    '取手',
-    '宇都宮',
-    '大宮',
-    '西武園',
-    '京王閣',
-    '立川',
-    '松戸',
-    '千葉',
-    '川崎',
-    '平塚',
-    '小田原',
-    '伊東',
-    '静岡',
-    '名古屋',
-    '岐阜',
-    '大垣',
-    '豊橋',
-    '富山',
-    '松阪',
-    '四日市',
-    '福井',
-    '奈良',
-    '向日町',
-    '和歌山',
-    '岸和田',
-    '玉野',
-    '広島',
-    '防府',
-    '高松',
-    '小松島',
-    '高知',
-    '松山',
-    '小倉',
-    '久留米',
-    '武雄',
-    '佐世保',
-    '別府',
-    '熊本',
-];
 /**
  * JRAのグレード
  */
@@ -356,6 +311,8 @@ export const KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST: {
 
     { grade: 'GⅢ', stage: '決勝', priority: 7 },
     { grade: 'GⅢ', stage: '初日特別選抜', priority: 6 },
+
+    { grade: 'FⅠ', stage: '決勝', priority: 4 },
 
     { grade: 'FⅡ', stage: 'ガールズドリームレース', priority: 7 },
     { grade: 'FⅡ', stage: 'ガールズアルテミス賞', priority: 6 },

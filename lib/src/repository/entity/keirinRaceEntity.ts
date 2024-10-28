@@ -1,3 +1,5 @@
+import '../../utility/format';
+
 import { format } from 'date-fns';
 
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
@@ -38,10 +40,6 @@ export class KeirinRaceEntity {
         public readonly number: number, // レース番号
     ) {
         this.id = id ?? this.generateId(dateTime, location, number);
-        const [isValid, errorMessageList] = this.validate();
-        if (!isValid) {
-            throw new Error(errorMessageList.join('\n'));
-        }
     }
 
     /**
@@ -59,24 +57,5 @@ export class KeirinRaceEntity {
         number: number,
     ): string {
         return `keirin${format(dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[location]}${number.toXDigits(2)}`;
-    }
-
-    /**
-     * バリデーション
-     * 型ではない部分でのバリデーションを行う
-     *
-     * @returns バリデーション結果
-     */
-    private validate(): [boolean, string[]] {
-        // エラー文をまとめて表示する
-        const errorMessageList: string[] = [];
-
-        // レース番号は1以上12以下
-        if (this.number < 1 || this.number > 12) {
-            errorMessageList.push(
-                'レース番号は1以上12以下である必要があります',
-            );
-        }
-        return [errorMessageList.length === 0, errorMessageList];
     }
 }

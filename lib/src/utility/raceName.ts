@@ -1,7 +1,9 @@
 /* eslint-disable */
 import {
+    JraGradeType,
     JraRaceCourse,
     JraRaceCourseType,
+    NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
 } from './data/raceSpecific';
@@ -9,7 +11,7 @@ import {
 type JraRaceDataForRaceName = {
     name: string;
     place: JraRaceCourse;
-    grade: string;
+    grade: JraGradeType;
     date: Date;
     surfaceType: JraRaceCourseType;
     distance: number;
@@ -173,7 +175,7 @@ const isLumiereAutumnDash = (raceInfo: JraRaceDataForRaceName): boolean =>
 type NarRaceDataForRaceName = {
     name: string;
     place: NarRaceCourse;
-    grade: string;
+    grade: NarGradeType;
     date: Date;
     surfaceType: NarRaceCourseType;
     distance: number;
@@ -183,10 +185,10 @@ export const processNarRaceName = (
 ): string => {
     // 共通系
     let newRaceName = raceInfo.name
-        .replace(/[！-～]/g, (s) =>
+        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) =>
             String.fromCharCode(s.charCodeAt(0) - 0xfee0),
         )
-        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) =>
+        .replace(/[！-～]/g, (s) =>
             String.fromCharCode(s.charCodeAt(0) - 0xfee0),
         )
         .replace(/ステークス/, 'S')
@@ -258,7 +260,7 @@ export const processNarRaceName = (
     if (['金沢'].includes(raceInfo.place)) {
         newRaceName = newRaceName
             .replace(
-                '移転50周年記念金沢ファ',
+                '/(移転50周年記念金沢ファ).*/',
                 '移転50周年記念金沢ファンセレクトC',
             )
             .replace(

@@ -290,8 +290,6 @@ export class GoogleCalendarService<R extends Record<string, any>>
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
             case 'keirin':
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[raceData.location]}${raceData.number.toXDigits(2)}`;
-            default:
-                return '';
         }
     }
 
