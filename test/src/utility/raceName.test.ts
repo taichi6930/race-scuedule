@@ -1,6 +1,8 @@
 import {
+    JraGradeType,
     JraRaceCourse,
     JraRaceCourseType,
+    NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
 } from '../../../lib/src/utility/data/raceSpecific';
@@ -14,7 +16,7 @@ describe('processJraRaceName', () => {
         const raceInfo = {
             name: '阪神ジュベナイルフィリーズ',
             place: '阪神' as JraRaceCourse,
-            grade: 'GⅠ',
+            grade: 'GⅠ' as JraGradeType,
             date: new Date('2023-12-10'),
             surfaceType: '芝' as JraRaceCourseType,
             distance: 1600,
@@ -26,7 +28,7 @@ describe('processJraRaceName', () => {
         const raceInfo = {
             name: '朝日杯フューチュリティステークス',
             place: '阪神' as JraRaceCourse,
-            grade: 'GⅠ',
+            grade: 'GⅠ' as JraGradeType,
             date: new Date('2023-12-17'),
             surfaceType: '芝' as JraRaceCourseType,
             distance: 1600,
@@ -38,7 +40,7 @@ describe('processJraRaceName', () => {
         const raceInfo = {
             name: 'マイルチャンピオンシップ',
             place: '京都' as JraRaceCourse,
-            grade: 'GⅠ',
+            grade: 'GⅠ' as JraGradeType,
             date: new Date('2023-11-19'),
             surfaceType: '芝' as JraRaceCourseType,
             distance: 1600,
@@ -50,7 +52,7 @@ describe('processJraRaceName', () => {
         const raceInfo = {
             name: 'アメリカジョッキークラブカップ',
             place: '中山' as JraRaceCourse,
-            grade: 'GⅡ',
+            grade: 'GⅡ' as JraGradeType,
             date: new Date('2023-01-22'),
             surfaceType: '芝' as JraRaceCourseType,
             distance: 2200,
@@ -62,7 +64,7 @@ describe('processJraRaceName', () => {
         const raceInfo = {
             name: '府中牝馬ステークス',
             place: '東京' as JraRaceCourse,
-            grade: 'GⅡ',
+            grade: 'GⅡ' as JraGradeType,
             date: new Date('2023-10-14'),
             surfaceType: '芝' as JraRaceCourseType,
             distance: 1800,
@@ -74,7 +76,7 @@ describe('processJraRaceName', () => {
         const raceInfo = {
             name: 'アイビスサマーダッシュ',
             place: '新潟' as JraRaceCourse,
-            grade: 'GⅢ',
+            grade: 'GⅢ' as JraGradeType,
             date: new Date('2023-07-30'),
             surfaceType: '芝' as JraRaceCourseType,
             distance: 1000,
@@ -86,7 +88,7 @@ describe('processJraRaceName', () => {
         const raceInfo = {
             name: '京成杯オータムハンデキャップ',
             place: '中山' as JraRaceCourse,
-            grade: 'GⅢ',
+            grade: 'GⅢ' as JraGradeType,
             date: new Date('2023-09-10'),
             surfaceType: '芝' as JraRaceCourseType,
             distance: 1600,
@@ -98,7 +100,7 @@ describe('processJraRaceName', () => {
         const raceInfo = {
             name: 'サウジアラビアロイヤルカップ',
             place: '東京' as JraRaceCourse,
-            grade: 'GⅢ',
+            grade: 'GⅢ' as JraGradeType,
             date: new Date('2023-10-07'),
             surfaceType: '芝' as JraRaceCourseType,
             distance: 1600,
@@ -110,7 +112,7 @@ describe('processJraRaceName', () => {
         const raceInfo = {
             name: 'ルミエールオータムダッシュ',
             place: '新潟' as JraRaceCourse,
-            grade: 'Listed',
+            grade: 'Listed' as JraGradeType,
             date: new Date('2023-10-29'),
             surfaceType: '芝' as JraRaceCourseType,
             distance: 1000,
@@ -122,7 +124,7 @@ describe('processJraRaceName', () => {
         const raceInfo = {
             name: 'その他のレース',
             place: '東京' as JraRaceCourse,
-            grade: 'GⅢ',
+            grade: 'GⅢ' as JraGradeType,
             date: new Date('2023-10-07'),
             surfaceType: '芝' as JraRaceCourseType,
             distance: 1600,
@@ -136,7 +138,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: '3歳以上オープン',
             place: '帯広ば' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -148,7 +150,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: '2歳オープン',
             place: '門別' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -160,7 +162,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: '岩手県知事杯ＯＲＯカップ',
             place: '水沢' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -172,7 +174,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: '3歳未格選抜馬',
             place: '浦和' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -184,7 +186,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: '川崎記念【地方交流】',
             place: '川崎' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -196,7 +198,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: 'ゴールドジュニア',
             place: '大井' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -208,7 +210,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: '移転50周年記念金沢ファンセレクトC',
             place: '金沢' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -222,7 +224,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: 'スプリングC（名古屋）',
             place: '名古屋' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -234,7 +236,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: 'ゴールドジュニア（笠松）',
             place: '笠松' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -246,7 +248,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: '東海ゴールドオープン',
             place: '笠松' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -258,7 +260,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: '3歳以上牝馬',
             place: '園田' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -270,7 +272,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: '3歳以上牝馬',
             place: '高知' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,
@@ -282,7 +284,7 @@ describe('processNarRaceName', () => {
         const raceInfo = {
             name: '九州産グランプリオープン',
             place: '佐賀' as NarRaceCourse,
-            grade: 'A1',
+            grade: '地方重賞' as NarGradeType,
             date: new Date('2023-07-30'),
             surfaceType: 'ダート' as NarRaceCourseType,
             distance: 2000,

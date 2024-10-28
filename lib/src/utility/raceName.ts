@@ -1,7 +1,9 @@
 /* eslint-disable */
 import {
+    JraGradeType,
     JraRaceCourse,
     JraRaceCourseType,
+    NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
 } from './data/raceSpecific';
@@ -9,7 +11,7 @@ import {
 type JraRaceDataForRaceName = {
     name: string;
     place: JraRaceCourse;
-    grade: string;
+    grade: JraGradeType;
     date: Date;
     surfaceType: JraRaceCourseType;
     distance: number;
@@ -173,7 +175,7 @@ const isLumiereAutumnDash = (raceInfo: JraRaceDataForRaceName): boolean =>
 type NarRaceDataForRaceName = {
     name: string;
     place: NarRaceCourse;
-    grade: string;
+    grade: NarGradeType;
     date: Date;
     surfaceType: NarRaceCourseType;
     distance: number;
