@@ -20,7 +20,7 @@ export class MockKeirinRaceRepositoryFromStorageImpl
                     '競輪祭',
                     '決勝',
                     new Date('2024-09-01'),
-                    '立川',
+                    '川崎',
                     'GⅠ',
                     12,
                 ),

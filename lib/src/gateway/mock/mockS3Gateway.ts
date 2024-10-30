@@ -177,7 +177,6 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
             const csvContent = this.convertToCsv(data);
             const key = `${this.folderPath}${fileName}`;
             MockS3Gateway.mockStorage.set(key, csvContent);
-            console.log(this.fetchDataFromS3(key));
         } catch (error) {
             console.debug(error);
             throw new Error('モックのファイルのアップロードに失敗しました');

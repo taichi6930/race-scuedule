@@ -160,7 +160,7 @@ export class KeirinRaceController {
                 'カレンダーからレース情報を取得中にエラーが発生しました:',
                 error,
             );
-            res.status(500).send('サーバーエラーが発生しました');
+            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
         }
     }
 
@@ -225,7 +225,7 @@ export class KeirinRaceController {
                 'カレンダーにレース情報を更新中にエラーが発生しました:',
                 error,
             );
-            res.status(500).send('サーバーエラーが発生しました');
+            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
         }
     }
 
@@ -264,7 +264,7 @@ export class KeirinRaceController {
                 'カレンダーからレース情報をクレンジング中にエラーが発生しました:',
                 error,
             );
-            res.status(500).send('サーバーエラーが発生しました');
+            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
         }
     }
 
@@ -373,7 +373,7 @@ export class KeirinRaceController {
             res.json(races);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
-            res.status(500).send('サーバーエラーが発生しました');
+            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
         }
     }
 
@@ -432,7 +432,7 @@ export class KeirinRaceController {
             res.status(200).send();
         } catch (error) {
             console.error('レース情報の更新中にエラーが発生しました:', error);
-            res.status(500).send('サーバーエラーが発生しました');
+            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
         }
     }
 
@@ -527,7 +527,7 @@ export class KeirinRaceController {
             res.json(placeList);
         } catch (error) {
             console.error('競輪場情報の取得中にエラーが発生しました:', error);
-            res.status(500).send('サーバーエラーが発生しました');
+            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
         }
     }
 
@@ -588,7 +588,7 @@ export class KeirinRaceController {
             res.status(200).send();
         } catch (error) {
             console.error('競輪場情報の更新中にエラーが発生しました:', error);
-            res.status(500).send('サーバーエラーが発生しました');
+            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
         }
     }
 }
