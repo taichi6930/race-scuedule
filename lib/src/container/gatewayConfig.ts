@@ -20,8 +20,12 @@ import { IKeirinRaceDataHtmlGateway } from '../gateway/interface/iKeirinRaceData
 import { INarPlaceDataHtmlGateway } from '../gateway/interface/iNarPlaceDataHtmlGateway';
 import { INarRaceDataHtmlGateway } from '../gateway/interface/iNarRaceDataHtmlGateway';
 import { IS3Gateway } from '../gateway/interface/iS3Gateway';
+import { MockJraPlaceDataHtmlGateway } from '../gateway/mock/mockJraPlaceDataHtmlGateway';
+import { MockJraRaceDataHtmlGateway } from '../gateway/mock/mockJraRaceDataHtmlGateway';
 import { MockKeirinPlaceDataHtmlGateway } from '../gateway/mock/mockKeirinPlaceDataHtmlGateway';
 import { MockKeirinRaceDataHtmlGateway } from '../gateway/mock/mockKeirinRaceDataHtmlGateway';
+import { MockNarPlaceDataHtmlGateway } from '../gateway/mock/mockNarPlaceDataHtmlGateway';
+import { MockNarRaceDataHtmlGateway } from '../gateway/mock/mockNarRaceDataHtmlGateway';
 import { MockS3Gateway } from '../gateway/mock/mockS3Gateway';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
@@ -34,11 +38,8 @@ container.register<IS3Gateway<KeirinPlaceData>>('KeirinPlaceS3Gateway', {
                     'race-schedule-bucket',
                     'keirin/place/',
                 );
+            case 'ita':
             case 'local':
-                return new MockS3Gateway<KeirinPlaceData>(
-                    'race-schedule-bucket',
-                    'keirin/place/',
-                );
             default:
                 return new MockS3Gateway<KeirinPlaceData>(
                     'race-schedule-bucket',
@@ -56,14 +57,9 @@ container.register<IS3Gateway<NarRaceData>>('NarRaceS3Gateway', {
                     'race-schedule-bucket',
                     'nar/race/',
                 );
+            case 'ita':
             case 'local':
-                // ENV が local の場合、MockS3Gateway を使用
-                return new MockS3Gateway<NarRaceData>(
-                    'race-schedule-bucket',
-                    'nar/race/',
-                );
             default:
-                // ENV が ない場合、MockS3Gateway を使用
                 return new MockS3Gateway<NarRaceData>(
                     'race-schedule-bucket',
                     'nar/race/',
@@ -81,14 +77,9 @@ container.register<IS3Gateway<KeirinRaceData>>('KeirinRaceS3Gateway', {
                     'race-schedule-bucket',
                     'keirin/race/',
                 );
+            case 'ita':
             case 'local':
-                // ENV が local の場合、MockS3Gateway を使用
-                return new MockS3Gateway<KeirinRaceData>(
-                    'race-schedule-bucket',
-                    'keirin/race/',
-                );
             default:
-                // ENV が ない場合、MockS3Gateway を使用
                 return new MockS3Gateway<KeirinRaceData>(
                     'race-schedule-bucket',
                     'keirin/race/',
@@ -105,14 +96,9 @@ container.register<IS3Gateway<JraRaceData>>('JraRaceS3Gateway', {
                     'race-schedule-bucket',
                     'jra/race/',
                 );
+            case 'ita':
             case 'local':
-                // ENV が local の場合、MockS3Gateway を使用
-                return new MockS3Gateway<JraRaceData>(
-                    'race-schedule-bucket',
-                    'jra/race/',
-                );
             default:
-                // ENV が ない場合、MockS3Gateway を使用
                 return new MockS3Gateway<JraRaceData>(
                     'race-schedule-bucket',
                     'jra/race/',
@@ -129,11 +115,8 @@ container.register<IS3Gateway<NarPlaceData>>('NarPlaceS3Gateway', {
                     'race-schedule-bucket',
                     'nar/place/',
                 );
+            case 'ita':
             case 'local':
-                return new MockS3Gateway<NarPlaceData>(
-                    'race-schedule-bucket',
-                    'nar/place/',
-                );
             default:
                 return new MockS3Gateway<NarPlaceData>(
                     'race-schedule-bucket',
@@ -151,11 +134,8 @@ container.register<IS3Gateway<JraPlaceData>>('JraPlaceS3Gateway', {
                     'race-schedule-bucket',
                     'jra/place/',
                 );
+            case 'ita':
             case 'local':
-                return new MockS3Gateway<JraPlaceData>(
-                    'race-schedule-bucket',
-                    'jra/place/',
-                );
             default:
                 return new MockS3Gateway<JraPlaceData>(
                     'race-schedule-bucket',
@@ -170,8 +150,10 @@ container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
             case 'production':
                 console.log('NarRaceDataHtmlGateway');
                 return new NarRaceDataHtmlGateway();
+            case 'ita':
+            case 'local':
             default:
-                return new NarRaceDataHtmlGateway();
+                return new MockNarRaceDataHtmlGateway();
         }
     },
 });
@@ -181,8 +163,10 @@ container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
             case 'production':
                 console.log('JraRaceDataHtmlGateway');
                 return new JraRaceDataHtmlGateway();
+            case 'ita':
+            case 'local':
             default:
-                return new JraRaceDataHtmlGateway();
+                return new MockJraRaceDataHtmlGateway();
         }
     },
 });
@@ -191,8 +175,10 @@ container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
         switch (process.env.ENV) {
             case 'production':
                 return new NarPlaceDataHtmlGateway();
+            case 'ita':
+            case 'local':
             default:
-                return new NarPlaceDataHtmlGateway();
+                return new MockNarPlaceDataHtmlGateway();
         }
     },
 });
@@ -201,8 +187,10 @@ container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
         switch (process.env.ENV) {
             case 'production':
                 return new JraPlaceDataHtmlGateway();
+            case 'ita':
+            case 'local':
             default:
-                return new JraPlaceDataHtmlGateway();
+                return new MockJraPlaceDataHtmlGateway();
         }
     },
 });
