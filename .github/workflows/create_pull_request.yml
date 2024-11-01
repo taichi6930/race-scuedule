@@ -1,25 +1,25 @@
 name: Auto-create Pull Request for Feature Branch
 
 on:
-    push:
-        branches:
-            - 'feature/**'
+  push:
+    branches:
+      - 'feature/**'
 
 jobs:
-    create_pull_request:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+  create_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Get release branch name
-              id: get_branch
-              run: echo "RELEASE_BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+      - name: Get release branch name
+        id: get_branch
+        run: echo "RELEASE_BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
 
-            - name: Create PR to develop
-              uses: repo-sync/pull-request@v2
-              with:
-                  source_branch: ${{ steps.get_branch.outputs.RELEASE_BRANCH_NAME }}
-                  destination_branch: 'main'
-                  github_token: ${{ secrets.GH_TOKEN }}
-                  pr_title: 'Merge ${{ steps.get_branch.outputs.RELEASE_BRANCH_NAME }} into main'
+      - name: Create PR to develop
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: ${{ steps.get_branch.outputs.RELEASE_BRANCH_NAME }}
+          destination_branch: 'main'
+          github_token: ${{ secrets.GH_TOKEN }}
+          pr_title: 'Merge ${{ steps.get_branch.outputs.RELEASE_BRANCH_NAME }} into main'
