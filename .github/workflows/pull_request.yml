@@ -11,26 +11,8 @@ jobs:
     uses: ./.github/workflows/linter/prettier-check.yml
 
   # ESLintのチェック
-  eslint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22'
-
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Check code style
-        run: npm run lint lib
+  call-eslint-check:
+    uses: ./.github/workflows/linter/eslint-check.yml
 
   # テストの実行
   unit-test:
