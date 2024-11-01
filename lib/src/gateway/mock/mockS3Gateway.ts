@@ -105,22 +105,32 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
             }
             mockStorage.set(fileName, mockData.join(''));
         }
-        // 2024年のデータ366日分を作成
-        for (let i = 0; i < 366; i++) {
-            const date = new Date('2024-01-01');
-            date.setDate(date.getDate() + i);
-            const fileName = `keirin/race/${format(date, 'yyyyMMdd')}.csv`;
-            for (let j = 1; j <= 12; j++) {
-                mockStorage.set(
-                    fileName,
-                    [
-                        `name,stage,dateTime,location,grade,number,id\n`,
-                        `KEIRINグランプリ,グランプリ,${format(date, 'yyyy-MM-dd')} ${j + 6}:00,立川,GP,${j},keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['立川']}${j.toXDigits(2)}`,
-                    ].join(''),
-                );
-            }
-        }
+        this.setKeirinRaceMockData();
         this.setKeirinPlaceMockData();
+    }
+
+    private setKeirinRaceMockData() {
+        switch (process.env.ENV) {
+            case 'ita':
+                break;
+            default:
+                // 2024年のデータ366日分を作成
+                for (let i = 0; i < 366; i++) {
+                    const date = new Date('2024-01-01');
+                    date.setDate(date.getDate() + i);
+                    const fileName = `keirin/race/${format(date, 'yyyyMMdd')}.csv`;
+                    for (let j = 1; j <= 12; j++) {
+                        MockS3Gateway.mockStorage.set(
+                            fileName,
+                            [
+                                `name,stage,dateTime,location,grade,number,id\n`,
+                                `KEIRINグランプリ,グランプリ,${format(date, 'yyyy-MM-dd')} ${j + 6}:00,立川,GP,${j},keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['立川']}${j.toXDigits(2)}`,
+                            ].join(''),
+                        );
+                    }
+                }
+                break;
+        }
     }
 
     private setKeirinPlaceMockData() {

@@ -21,6 +21,7 @@ import { NarRaceRepositoryFromS3Impl } from '../repository/implement/narRaceRepo
 import { IPlaceRepository } from '../repository/interface/IPlaceRepository';
 import { IRaceRepository } from '../repository/interface/IRaceRepository';
 import { MockKeirinPlaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinPlaceRepositoryFromHtmlImpl';
+import { MockKeirinRaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinRaceRepositoryFromHtmlImpl';
 
 // Repositoryの実装クラスをDIコンテナに登錄する
 container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
@@ -49,10 +50,6 @@ container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
     'NarRaceRepositoryFromHtml',
     { useClass: NarRaceRepositoryFromHtmlImpl },
 );
-container.register<IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>>(
-    'KeirinRaceRepositoryFromHtml',
-    { useClass: KeirinRaceRepositoryFromHtmlImpl },
-);
 container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
     'JraRaceRepositoryFromHtml',
     { useClass: JraRaceRepositoryFromHtmlImpl },
@@ -72,11 +69,21 @@ switch (process.env.ENV) {
             'KeirinPlaceRepositoryFromHtml',
             { useClass: KeirinPlaceRepositoryFromHtmlImpl },
         );
+        container.register<
+            IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+        >('KeirinRaceRepositoryFromHtml', {
+            useClass: KeirinRaceRepositoryFromHtmlImpl,
+        });
         break;
     case 'ita':
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
             { useClass: MockKeirinPlaceRepositoryFromHtmlImpl },
         );
+        container.register<
+            IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+        >('KeirinRaceRepositoryFromHtml', {
+            useClass: MockKeirinRaceRepositoryFromHtmlImpl,
+        });
         break;
 }
