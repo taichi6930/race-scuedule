@@ -1,15 +1,20 @@
+import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
 export class MockKeirinPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<KeirinPlaceEntity>
 {
+    /**
+     * 競輪場データを取得する
+     * @param request
+     */
+    @Logger
     fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
@@ -21,7 +26,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
             // 競輪場データを作成
             const keirinPlaceEntity = new KeirinPlaceEntity(
                 null,
-                currentDate,
+                new Date(currentDate),
                 '川崎',
                 'GⅠ',
             );
@@ -35,10 +40,16 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
         );
     }
 
+    /**
+     * 競馬場開催データを登録する
+     * HTMLにはデータを登録しない
+     * @param request
+     */
+    @Logger
     registerPlaceList(
         request: RegisterPlaceListRequest<KeirinPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);
-        return Promise.resolve(new RegisterRaceListResponse(200));
+        throw new Error('HTMLにはデータを登録出来ません');
     }
 }

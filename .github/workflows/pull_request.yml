@@ -1,73 +1,158 @@
 name: CI
 
 on:
-    pull_request:
-        branches:
-            - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-    # prettierのチェック
-    prettier:
-        runs-on: ubuntu-latest
+  # prettierのチェック
+  call-prettier-check:
+    uses: ./.github/workflows/linter/prettier-check.yml
 
-        steps:
-            - name: Check out the repository
-              uses: actions/checkout@v3
+  # ESLintのチェック
+  call-eslint-check:
+    uses: ./.github/workflows/linter/eslint-check.yml
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '22'
+  # テストの実行
+  unit-test:
+    runs-on: ubuntu-latest
 
-            - name: Install pnpm
-              run: npm install -g pnpm
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
 
-            - name: Install dependencies
-              run: pnpm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
 
-            - name: Check code style
-              run: npx prettier --check lib
+      - name: Install pnpm
+        run: npm install -g pnpm
 
-    # ESLintのチェック
-    eslint:
-        runs-on: ubuntu-latest
+      - name: Install dependencies
+        run: pnpm install
 
-        steps:
-            - name: Check out the repository
-              uses: actions/checkout@v3
+      - name: Run tests
+        run: ENV=GITHUB_ACTIONS_CI pnpm run test
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '22'
+  # itaテストの実行
+  ita-test:
+    runs-on: ubuntu-latest
 
-            - name: Install pnpm
-              run: npm install -g pnpm
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
 
-            - name: Install dependencies
-              run: pnpm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
 
-            - name: Check code style
-              run: npm run lint lib
+      - name: Install pnpm
+        run: npm install -g pnpm
 
-    # テストの実行
-    test:
-        runs-on: ubuntu-latest
+      - name: Install dependencies
+        run: pnpm install
 
-        steps:
-            - name: Check out the repository
-              uses: actions/checkout@v3
+      # サーバーが起動したらcurlを叩く
+      - name: Start server in background
+        run: |
+          pnpm run start:ita &  # サーバーをバックグラウンドで起動
+          for i in {1..5}; do
+            curl --silent --head http://localhost:3000/health && break
+            echo "Waiting for server to start..."
+            sleep 10
+          done
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '22'
+      - name: Curl API for Keirin Place
+        run: |
+          # Initial GET request
+          response=$(curl -s -X 'GET' \
+            'http://localhost:3000/api/races/keirin/place?startDate=2024-10-01&finishDate=2024-10-31' \
+            -H 'accept: application/json')
 
-            - name: Install pnpm
-              run: npm install -g pnpm
+          # Initial GET Response Check
+          if [[ "$response" != "[]" ]]; then
+            echo "❌ Initial GET request failed. Expected [], but got $response"
+            echo "Initial GET Response: $response"
+            exit 1
+          fi
 
-            - name: Install dependencies
-              run: pnpm install
+          # POST request
+          post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
+            'http://localhost:3000/api/races/keirin/place' \
+            -H 'accept: */*' \
+            -H 'Content-Type: application/json' \
+            -d '{
+                  "startDate": "2024-10-01",
+                  "finishDate": "2024-10-31"
+                }')
 
-            - name: Run tests
-              run: ENV=GITHUB_ACTIONS_CI pnpm run test
+          # POST Response Check
+          if [[ "$post_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $post_response"
+            echo "POST request HTTP Status Code: $post_response"
+            exit 1
+          fi
+
+          # Final GET request
+          response=$(curl -s -X 'GET' \
+            'http://localhost:3000/api/races/keirin/place?startDate=2024-10-01&finishDate=2024-10-31' \
+            -H 'accept: application/json')
+
+          # Final GET Response Check: 要素数が31個であることを確認
+          item_count=$(echo "$response" | jq '. | length')
+          if [[ "$item_count" -ne 31 ]]; then
+            echo "❌ Final GET request failed. Expected 31 items but got $item_count items."
+            echo "Final GET Response: $response"
+            exit 1
+          fi
+
+          echo "✅ All checks passed successfully."
+
+      - name: Curl API for Keirin Race
+        run: |
+          # Initial GET request
+          response=$(curl -s -X 'GET' \
+            'http://localhost:3000/api/races/keirin/race?startDate=2024-10-01&finishDate=2024-11-01' \
+            -H 'accept: application/json')
+
+          # Initial GET Response Check
+          if [[ "$response" != "[]" ]]; then
+            echo "❌ Initial GET request failed. Expected [], but got $response"
+            echo "Initial GET Response: $response"
+            exit 1
+          fi
+
+          # POST request
+          post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
+            'http://localhost:3000/api/races/keirin/race' \
+            -H 'accept: */*' \
+            -H 'Content-Type: application/json' \
+            -d '{
+                  "startDate": "2024-10-01",
+                  "finishDate": "2024-11-01"
+                }')
+
+          # POST Response Check
+          if [[ "$post_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $post_response"
+            echo "POST request HTTP Status Code: $post_response"
+            exit 1
+          fi
+
+          # Final GET request
+          response=$(curl -s -X 'GET' \
+            'http://localhost:3000/api/races/keirin/race?startDate=2024-10-01&finishDate=2024-11-01' \
+            -H 'accept: application/json')
+
+          # Final GET Response Check: 要素数が31個であることを確認
+          item_count=$(echo "$response" | jq '. | length')
+          if [[ "$item_count" -ne 372 ]]; then
+            echo "❌ Final GET request failed. Expected 372 items but got $item_count items."
+            echo "Final GET Response: $response"
+            exit 1
+          fi
+
+          echo "✅ All checks passed successfully."

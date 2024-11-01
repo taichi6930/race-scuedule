@@ -1,26 +1,27 @@
-import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
+import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
-import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
+import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // KeirinRaceRepositoryFromStorageImplのモックを作成
 export class MockKeirinRaceRepositoryFromStorageImpl
-    implements IRaceRepository<KeirinRaceData, KeirinPlaceData>
+    implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 {
     fetchRaceList(
-        request: FetchRaceListRequest<KeirinPlaceData>,
-    ): Promise<FetchRaceListResponse<KeirinRaceData>> {
-        console.debug(request);
+        request: FetchRaceListRequest<KeirinPlaceEntity>,
+    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
+        console.log(request);
         return Promise.resolve(
             new FetchRaceListResponse([
-                new KeirinRaceData(
+                new KeirinRaceEntity(
+                    null,
                     '競輪祭',
                     '決勝',
                     new Date('2024-09-01'),
-                    '立川',
+                    '川崎',
                     'GⅠ',
                     12,
                 ),
@@ -29,7 +30,7 @@ export class MockKeirinRaceRepositoryFromStorageImpl
     }
 
     registerRaceList(
-        request: RegisterRaceListRequest<KeirinRaceData>,
+        request: RegisterRaceListRequest<KeirinRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
         return Promise.resolve(new RegisterRaceListResponse(200));

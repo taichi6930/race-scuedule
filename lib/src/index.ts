@@ -27,6 +27,11 @@ app.use('/api/races/nar', narRaceController.router);
 app.use('/api/races/jra', jraRaceController.router);
 app.use('/api/races/keirin', keirinRaceController.router);
 
+// health check
+app.get('/health', (req, res) => {
+    res.send('ok health check');
+});
+
 // Swaggerの設定
 app.use('/api-docs', swaggerUi.serve);
 app.get('/api-docs', swaggerUi.setup(swaggerSpec, { explorer: true }));
