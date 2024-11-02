@@ -7,6 +7,9 @@ import { calendar_v3, google } from 'googleapis';
 import { injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
+import type { JraRaceData } from '../../domain/jraRaceData';
+import type { KeirinRaceData } from '../../domain/keirinRaceData';
+import type { NarRaceData } from '../../domain/narRaceData';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import {
     CHIHO_KEIBA_LIVE_URL,
@@ -19,10 +22,11 @@ import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
+export type RaceData = JraRaceData | NarRaceData | KeirinRaceData;
+
 export type RaceType = 'jra' | 'nar' | 'keirin';
 @injectable()
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export class GoogleCalendarService<R extends Record<string, any>>
+export class GoogleCalendarService<R extends RaceData>
     implements ICalendarService<R>
 {
     private readonly credentials: JWT;
@@ -117,7 +121,7 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @param raceList
      */
     @Logger
-    async upsertEvents(raceList: R[]): Promise<void> {
+    async upsertEvents(raceList: RaceData[]): Promise<void> {
         await Promise.all(
             raceList.map(async (raceData) => {
                 // イベントIDを生成
@@ -283,7 +287,7 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @param raceData
      * @returns
      */
-    private generateEventId(raceData: R): string {
+    private generateEventId(raceData: RaceData): string {
         switch (this.raceType) {
             case 'jra':
             case 'nar':
@@ -300,7 +304,10 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @returns
      */
     @Logger
-    private async updateEvent(raceData: R, eventId: string): Promise<void> {
+    private async updateEvent(
+        raceData: RaceData,
+        eventId: string,
+    ): Promise<void> {
         try {
             await this.calendar.events.update({
                 calendarId: this.calendarId,
@@ -323,14 +330,22 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @param raceData
      * @returns
      */
-    private translateToCalendarEvent(raceData: R): calendar_v3.Schema$Event {
+    private translateToCalendarEvent(
+        raceData: RaceData,
+    ): calendar_v3.Schema$Event {
         switch (this.raceType) {
             case 'jra':
-                return this.translateToCalendarEventForJra(raceData);
+                return this.translateToCalendarEventForJra(
+                    raceData as JraRaceData,
+                );
             case 'nar':
-                return this.translateToCalendarEventForNar(raceData);
+                return this.translateToCalendarEventForNar(
+                    raceData as NarRaceData,
+                );
             case 'keirin':
-                return this.translateToCalendarEventForKeirin(raceData);
+                return this.translateToCalendarEventForKeirin(
+                    raceData as KeirinRaceData,
+                );
         }
     }
 
@@ -340,7 +355,7 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @returns
      */
     private translateToCalendarEventForJra(
-        raceData: R,
+        raceData: JraRaceData,
     ): calendar_v3.Schema$Event {
         const data = raceData;
         return {
@@ -372,7 +387,7 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @returns
      */
     private translateToCalendarEventForNar(
-        raceData: R,
+        raceData: NarRaceData,
     ): calendar_v3.Schema$Event {
         const data = raceData;
         return {
@@ -407,7 +422,7 @@ export class GoogleCalendarService<R extends Record<string, any>>
      * @returns
      */
     private translateToCalendarEventForKeirin(
-        raceData: R,
+        raceData: KeirinRaceData,
     ): calendar_v3.Schema$Event {
         const data = raceData;
         return {
