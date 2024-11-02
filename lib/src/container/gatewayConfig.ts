@@ -31,7 +31,6 @@ import { MockS3Gateway } from '../gateway/mock/mockS3Gateway';
 // s3Gatewayの実装クラスをDIコンテナに登錄する
 container.register<IS3Gateway<KeirinPlaceData>>('KeirinPlaceS3Gateway', {
     useFactory: () => {
-        console.log(`KeirinPlaceS3Gateway ${process.env.ENV}`);
         switch (process.env.ENV) {
             case 'production':
                 return new S3Gateway<KeirinPlaceData>(
@@ -69,7 +68,6 @@ container.register<IS3Gateway<NarRaceData>>('NarRaceS3Gateway', {
 });
 container.register<IS3Gateway<KeirinRaceData>>('KeirinRaceS3Gateway', {
     useFactory: () => {
-        console.log(`KeirinRaceS3Gateway ${process.env.ENV}`);
         switch (process.env.ENV) {
             case 'production':
                 // ENV が production の場合、S3Gateway を使用
@@ -108,7 +106,6 @@ container.register<IS3Gateway<JraRaceData>>('JraRaceS3Gateway', {
 });
 container.register<IS3Gateway<NarPlaceData>>('NarPlaceS3Gateway', {
     useFactory: () => {
-        console.log(`NarPlaceS3Gateway ${process.env.ENV}`);
         switch (process.env.ENV) {
             case 'production':
                 return new S3Gateway<NarPlaceData>(
@@ -127,7 +124,6 @@ container.register<IS3Gateway<NarPlaceData>>('NarPlaceS3Gateway', {
 });
 container.register<IS3Gateway<JraPlaceData>>('JraPlaceS3Gateway', {
     useFactory: () => {
-        console.log(`JraPlaceS3Gateway ${process.env.ENV}`);
         switch (process.env.ENV) {
             case 'production':
                 return new S3Gateway<JraPlaceData>(

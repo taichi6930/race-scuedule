@@ -76,7 +76,9 @@ export class JraPlaceRepositoryFromS3Impl
             // 次の月の1日を取得
             currentDate = new Date(year + 1, 0, 1);
         }
-        console.debug(`ファイル名リストを生成しました: ${fileNames}`);
+        console.debug(
+            `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
+        );
         return Promise.resolve(fileNames);
     }
 

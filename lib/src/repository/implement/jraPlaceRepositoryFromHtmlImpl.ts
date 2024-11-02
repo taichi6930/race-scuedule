@@ -73,7 +73,7 @@ export class JraPlaceRepositoryFromHtmlImpl
             currentDate = new Date(year + 1, 0, 1);
         }
         console.debug(
-            `年リストを生成しました: ${years.map((year) => year.toISOString().split('T')[0])}`,
+            `年リストを生成しました: ${years.map((year) => year.toISOString().split('T')[0]).join(', ')}`,
         );
         return Promise.resolve(years);
     }

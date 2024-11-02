@@ -91,7 +91,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
             );
         }
         console.log(
-            `月リストを生成しました: ${months.map((month) => formatDate(month, 'yyyy-MM-dd'))}`,
+            `月リストを生成しました: ${months.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
         );
         return Promise.resolve(months);
     }

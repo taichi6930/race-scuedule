@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 export function Logger(
     _target: object,
     propertyKey: string,

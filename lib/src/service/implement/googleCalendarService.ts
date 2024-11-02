@@ -184,12 +184,12 @@ export class GoogleCalendarService<R extends RaceData>
                 requestBody: event,
             });
             console.debug(
-                `Google Calendar APIにレースを登録しました: ${event.summary}`,
+                `Google Calendar APIにレースを登録しました: ${event.summary ?? 'No Summary'}`,
             );
         } catch (error) {
             console.debug(error);
             throw new Error(
-                `Google Calendar APIへのレース登録に失敗しました: ${event.summary}`,
+                `Google Calendar APIへのレース登録に失敗しました: ${event.summary ?? 'No Summary'}`,
             );
         }
     }
@@ -249,13 +249,13 @@ export class GoogleCalendarService<R extends RaceData>
                     eventId: event.id,
                 });
                 console.debug(
-                    `Google Calendar APIからレースを削除しました: ${event.summary}`,
+                    `Google Calendar APIからレースを削除しました: ${event.summary ?? 'No Summary'}`,
                 );
             }
         } catch (error) {
             console.debug(error);
             throw new Error(
-                `Google Calendar APIからのレース削除に失敗しました: ${event.summary}`,
+                `Google Calendar APIからのレース削除に失敗しました: ${event.summary ?? 'No Summary'}`,
             );
         }
     }
