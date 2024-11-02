@@ -1,11 +1,11 @@
 import { container } from 'tsyringe';
 
-import { JraPlaceData } from '../domain/jraPlaceData';
-import { JraRaceData } from '../domain/jraRaceData';
-import { KeirinPlaceData } from '../domain/keirinPlaceData';
-import { KeirinRaceData } from '../domain/keirinRaceData';
-import { NarPlaceData } from '../domain/narPlaceData';
-import { NarRaceData } from '../domain/narRaceData';
+import type { JraPlaceData } from '../domain/jraPlaceData';
+import type { JraRaceData } from '../domain/jraRaceData';
+import type { KeirinPlaceData } from '../domain/keirinPlaceData';
+import type { KeirinRaceData } from '../domain/keirinRaceData';
+import type { NarPlaceData } from '../domain/narPlaceData';
+import type { NarRaceData } from '../domain/narRaceData';
 import { JraPlaceDataHtmlGateway } from '../gateway/implement/jraPlaceDataHtmlGateway';
 import { JraRaceDataHtmlGateway } from '../gateway/implement/jraRaceDataHtmlGateway';
 import { KeirinPlaceDataHtmlGateway } from '../gateway/implement/keirinPlaceDataHtmlGateway';
@@ -13,13 +13,13 @@ import { KeirinRaceDataHtmlGateway } from '../gateway/implement/keirinRaceDataHt
 import { NarPlaceDataHtmlGateway } from '../gateway/implement/narPlaceDataHtmlGateway';
 import { NarRaceDataHtmlGateway } from '../gateway/implement/narRaceDataHtmlGateway';
 import { S3Gateway } from '../gateway/implement/s3Gateway';
-import { IJraPlaceDataHtmlGateway } from '../gateway/interface/iJraPlaceDataHtmlGateway';
-import { IJraRaceDataHtmlGateway } from '../gateway/interface/iJraRaceDataHtmlGateway';
-import { IKeirinPlaceDataHtmlGateway } from '../gateway/interface/iKeirinPlaceDataHtmlGateway';
-import { IKeirinRaceDataHtmlGateway } from '../gateway/interface/iKeirinRaceDataHtmlGateway';
-import { INarPlaceDataHtmlGateway } from '../gateway/interface/iNarPlaceDataHtmlGateway';
-import { INarRaceDataHtmlGateway } from '../gateway/interface/iNarRaceDataHtmlGateway';
-import { IS3Gateway } from '../gateway/interface/iS3Gateway';
+import type { IJraPlaceDataHtmlGateway } from '../gateway/interface/iJraPlaceDataHtmlGateway';
+import type { IJraRaceDataHtmlGateway } from '../gateway/interface/iJraRaceDataHtmlGateway';
+import type { IKeirinPlaceDataHtmlGateway } from '../gateway/interface/iKeirinPlaceDataHtmlGateway';
+import type { IKeirinRaceDataHtmlGateway } from '../gateway/interface/iKeirinRaceDataHtmlGateway';
+import type { INarPlaceDataHtmlGateway } from '../gateway/interface/iNarPlaceDataHtmlGateway';
+import type { INarRaceDataHtmlGateway } from '../gateway/interface/iNarRaceDataHtmlGateway';
+import type { IS3Gateway } from '../gateway/interface/iS3Gateway';
 import { MockJraPlaceDataHtmlGateway } from '../gateway/mock/mockJraPlaceDataHtmlGateway';
 import { MockJraRaceDataHtmlGateway } from '../gateway/mock/mockJraRaceDataHtmlGateway';
 import { MockKeirinPlaceDataHtmlGateway } from '../gateway/mock/mockKeirinPlaceDataHtmlGateway';

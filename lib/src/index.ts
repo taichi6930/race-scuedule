@@ -2,7 +2,8 @@ import 'reflect-metadata';
 import './container'; // DIコンテナの設定をインポート
 
 import serverlessExpress from '@codegenie/serverless-express';
-import express, { Application } from 'express';
+import type { Application } from 'express';
+import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { container } from 'tsyringe';
 

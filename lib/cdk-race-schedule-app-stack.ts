@@ -1,5 +1,5 @@
 import { aws_s3, CfnOutput, Stack, type StackProps } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import type { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
 
 import { createApiGateway } from './stack/api-setup';

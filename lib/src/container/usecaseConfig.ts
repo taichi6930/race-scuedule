@@ -1,11 +1,11 @@
 import { container } from 'tsyringe';
 
-import { JraPlaceData } from '../domain/jraPlaceData';
-import { JraRaceData } from '../domain/jraRaceData';
-import { KeirinPlaceData } from '../domain/keirinPlaceData';
-import { KeirinRaceData } from '../domain/keirinRaceData';
-import { NarPlaceData } from '../domain/narPlaceData';
-import { NarRaceData } from '../domain/narRaceData';
+import type { JraPlaceData } from '../domain/jraPlaceData';
+import type { JraRaceData } from '../domain/jraRaceData';
+import type { KeirinPlaceData } from '../domain/keirinPlaceData';
+import type { KeirinRaceData } from '../domain/keirinRaceData';
+import type { NarPlaceData } from '../domain/narPlaceData';
+import type { NarRaceData } from '../domain/narRaceData';
 import { JraPlaceDataUseCase } from '../usecase/implement/jraPlaceDataUseCase';
 import { JraRaceCalendarUseCase } from '../usecase/implement/jraRaceCalendarUseCase';
 import { JraRaceDataUseCase } from '../usecase/implement/jraRaceDataUseCase';
@@ -15,9 +15,9 @@ import { KeirinRaceDataUseCase } from '../usecase/implement/keirinRaceDataUseCas
 import { NarPlaceDataUseCase } from '../usecase/implement/narPlaceDataUseCase';
 import { NarRaceCalendarUseCase } from '../usecase/implement/narRaceCalendarUseCase';
 import { NarRaceDataUseCase } from '../usecase/implement/narRaceDataUseCase';
-import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
-import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
-import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
+import type { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
+import type { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
+import type { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 
 // Usecaseの実装クラスをDIコンテナに登錄する
 container.register<IRaceCalendarUseCase>('NarRaceCalendarUseCase', {

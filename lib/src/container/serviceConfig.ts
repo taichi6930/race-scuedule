@@ -1,10 +1,10 @@
 import { container } from 'tsyringe';
 
-import { JraRaceData } from '../domain/jraRaceData';
-import { KeirinRaceData } from '../domain/keirinRaceData';
-import { NarRaceData } from '../domain/narRaceData';
+import type { JraRaceData } from '../domain/jraRaceData';
+import type { KeirinRaceData } from '../domain/keirinRaceData';
+import type { NarRaceData } from '../domain/narRaceData';
 import { GoogleCalendarService } from '../service/implement/googleCalendarService';
-import { ICalendarService } from '../service/interface/ICalendarService';
+import type { ICalendarService } from '../service/interface/ICalendarService';
 import { MockGoogleCalendarService } from '../service/mock/mockGoogleCalendarService';
 
 // ICalendarServiceの実装クラスをDIコンテナに登錄する

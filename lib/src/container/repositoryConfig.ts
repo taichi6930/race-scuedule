@@ -1,11 +1,11 @@
 import { container } from 'tsyringe';
 
-import { JraPlaceData } from '../domain/jraPlaceData';
-import { JraRaceData } from '../domain/jraRaceData';
-import { NarPlaceData } from '../domain/narPlaceData';
-import { NarRaceData } from '../domain/narRaceData';
-import { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
-import { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
+import type { JraPlaceData } from '../domain/jraPlaceData';
+import type { JraRaceData } from '../domain/jraRaceData';
+import type { NarPlaceData } from '../domain/narPlaceData';
+import type { NarRaceData } from '../domain/narRaceData';
+import type { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
+import type { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromS3Impl } from '../repository/implement/jraPlaceRepositoryFromS3Impl';
 import { JraRaceRepositoryFromHtmlImpl } from '../repository/implement/jraRaceRepositoryFromHtmlImpl';
@@ -18,8 +18,8 @@ import { NarPlaceRepositoryFromHtmlImpl } from '../repository/implement/narPlace
 import { NarPlaceRepositoryFromS3Impl } from '../repository/implement/narPlaceRepositoryFromS3Impl';
 import { NarRaceRepositoryFromHtmlImpl } from '../repository/implement/narRaceRepositoryFromHtmlImpl';
 import { NarRaceRepositoryFromS3Impl } from '../repository/implement/narRaceRepositoryFromS3Impl';
-import { IPlaceRepository } from '../repository/interface/IPlaceRepository';
-import { IRaceRepository } from '../repository/interface/IRaceRepository';
+import type { IPlaceRepository } from '../repository/interface/IPlaceRepository';
+import type { IRaceRepository } from '../repository/interface/IRaceRepository';
 import { MockKeirinPlaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinPlaceRepositoryFromHtmlImpl';
 import { MockKeirinRaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinRaceRepositoryFromHtmlImpl';
 

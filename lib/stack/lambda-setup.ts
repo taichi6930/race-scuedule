@@ -1,5 +1,5 @@
 import { aws_lambda_nodejs, Duration } from 'aws-cdk-lib';
-import { Role } from 'aws-cdk-lib/aws-iam';
+import type { Role } from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import type { Construct } from 'constructs';
 

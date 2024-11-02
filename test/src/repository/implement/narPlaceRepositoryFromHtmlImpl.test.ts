@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { INarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarPlaceDataHtmlGateway';
+import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import type { INarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarPlaceDataHtmlGateway';
 import { MockNarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarPlaceDataHtmlGateway';
 import { NarPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';

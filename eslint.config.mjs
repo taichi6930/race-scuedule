@@ -41,6 +41,7 @@ export default [
             '@typescript-eslint/explicit-module-boundary-types': 'error',
             '@typescript-eslint/prefer-enum-initializers': 'error',
             '@typescript-eslint/strict-boolean-expressions': 'off',
+            '@typescript-eslint/consistent-type-imports': 'error',
             // 他のルールを追加
             'prettier/prettier': ['error', {}, { usePrettierrc: true }],
             'simple-import-sort/imports': 'error',
