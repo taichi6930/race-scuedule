@@ -2,15 +2,16 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { IKeirinRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iKeirinRaceDataHtmlGateway';
+import type { IKeirinRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iKeirinRaceDataHtmlGateway';
 import { MockKeirinRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockKeirinRaceDataHtmlGateway';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
-import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { ENV } from '../../../../lib/src/utility/env';
 
-if (process.env.ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('KeirinRaceRepositoryFromHtmlImpl', () => {
         let keirinRaceDataHtmlGateway: IKeirinRaceDataHtmlGateway;
         let repository: KeirinRaceRepositoryFromHtmlImpl;

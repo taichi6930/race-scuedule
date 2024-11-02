@@ -4,7 +4,7 @@ import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
-import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
+import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';

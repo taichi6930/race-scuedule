@@ -73,7 +73,7 @@ export class JraPlaceRepositoryFromHtmlImpl
             currentDate = new Date(year + 1, 0, 1);
         }
         console.debug(
-            `年リストを生成しました: ${years.map((year) => year.toISOString().split('T')[0])}`,
+            `年リストを生成しました: ${years.map((year) => year.toISOString().split('T')[0]).join(', ')}`,
         );
         return Promise.resolve(years);
     }
@@ -117,10 +117,10 @@ export class JraPlaceRepositoryFromHtmlImpl
             placeMap[placeInitial] || null;
 
         Array.from({ length: 12 }, (_, k) => k + 1).forEach((month) => {
-            const monthData = $(`#mon_${month}`);
+            const monthData = $(`#mon_${month.toString()}`);
             Array.from({ length: 31 }, (_, k) => k + 1).forEach((day) => {
                 monthData
-                    .find(`.d${day}`)
+                    .find(`.d${day.toString()}`)
                     .each((index: number, element: cheerio.Element) => {
                         const placeInitial = $(element).find('span').text();
                         const place = getPlaceName(placeInitial);

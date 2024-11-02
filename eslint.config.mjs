@@ -31,7 +31,6 @@ export default [
         rules: {
             '@typescript-eslint/no-unnecessary-condition': 'off',
             '@typescript-eslint/no-empty-function': 'off',
-            '@typescript-eslint/restrict-template-expressions': 'off',
             '@typescript-eslint/no-unsafe-member-access': 'off',
             '@typescript-eslint/no-unsafe-assignment': 'off',
             '@typescript-eslint/no-unsafe-call': 'off',
@@ -40,7 +39,8 @@ export default [
             '@typescript-eslint/no-misused-promises': 'off',
             '@typescript-eslint/explicit-module-boundary-types': 'error',
             '@typescript-eslint/prefer-enum-initializers': 'error',
-            '@typescript-eslint/strict-boolean-expressions': 'off',
+            '@typescript-eslint/strict-boolean-expressions': 'error',
+            '@typescript-eslint/consistent-type-imports': 'error',
             // 他のルールを追加
             'prettier/prettier': ['error', {}, { usePrettierrc: true }],
             'simple-import-sort/imports': 'error',

@@ -4,6 +4,7 @@ import { CalendarData } from '../../domain/calendarData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { RaceData, RaceType } from '../implement/googleCalendarService';
 import type { ICalendarService } from '../interface/ICalendarService';
@@ -19,11 +20,11 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
 
     @Logger
     private setCalendarData(): void {
-        switch (process.env.ENV) {
-            case 'production': // ENV が production の場合、GoogleCalendarService を使用
-            case 'ita': // ENV が ita の場合、データを後で設定したいので何もしない
+        switch (ENV) {
+            case 'PRODUCTION': // ENV が production の場合、GoogleCalendarService を使用
+            case 'ITa': // ENV が ita の場合、データを後で設定したいので何もしない
                 break;
-            case 'local':
+            case 'LOCAL':
             default:
                 {
                     // 2024年のデータ366日分を作成

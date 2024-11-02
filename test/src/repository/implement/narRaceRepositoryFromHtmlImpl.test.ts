@@ -3,14 +3,15 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
-import { INarRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarRaceDataHtmlGateway';
+import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import type { INarRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarRaceDataHtmlGateway';
 import { MockNarRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarRaceDataHtmlGateway';
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { ENV } from '../../../../lib/src/utility/env';
 
-if (process.env.ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('NarRaceRepositoryFromHtmlImpl', () => {
         let narRaceDataHtmlGateway: INarRaceDataHtmlGateway;
         let repository: NarRaceRepositoryFromHtmlImpl;

@@ -4,7 +4,7 @@ import {
     Role,
     ServicePrincipal,
 } from 'aws-cdk-lib/aws-iam';
-import * as aws_s3 from 'aws-cdk-lib/aws-s3';
+import type * as aws_s3 from 'aws-cdk-lib/aws-s3';
 import type { Construct } from 'constructs';
 
 export function createLambdaExecutionRole(

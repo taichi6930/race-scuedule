@@ -158,7 +158,11 @@ export class JraRaceController {
                 'カレンダーからレース情報を取得中にエラーが発生しました:',
                 error,
             );
-            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
         }
     }
 
@@ -223,7 +227,11 @@ export class JraRaceController {
                 'カレンダーにレース情報を更新中にエラーが発生しました:',
                 error,
             );
-            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
         }
     }
 
@@ -262,7 +270,11 @@ export class JraRaceController {
                 'カレンダーからレース情報をクレンジング中にエラーが発生しました:',
                 error,
             );
-            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
         }
     }
 
@@ -371,7 +383,11 @@ export class JraRaceController {
             res.json(races);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
-            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
         }
     }
 
@@ -431,7 +447,11 @@ export class JraRaceController {
             res.status(200).send();
         } catch (error) {
             console.error('レース情報の更新中にエラーが発生しました:', error);
-            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
         }
     }
 
@@ -525,7 +545,11 @@ export class JraRaceController {
             res.json(placeList);
         } catch (error) {
             console.error('競馬場情報の取得中にエラーが発生しました:', error);
-            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
         }
     }
 
@@ -585,7 +609,11 @@ export class JraRaceController {
             res.status(200).send();
         } catch (error) {
             console.error('競馬場情報の更新中にエラーが発生しました:', error);
-            res.status(500).send(`サーバーエラーが発生しました: ${error}`);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
         }
     }
 }

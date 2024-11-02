@@ -2,14 +2,15 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { IKeirinPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iKeirinPlaceDataHtmlGateway';
+import type { IKeirinPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iKeirinPlaceDataHtmlGateway';
 import { MockKeirinPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockKeirinPlaceDataHtmlGateway';
-import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
+import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { ENV } from '../../../../lib/src/utility/env';
 
-if (process.env.ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
         let keirinPlaceDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
         let repository: KeirinPlaceRepositoryFromHtmlImpl;

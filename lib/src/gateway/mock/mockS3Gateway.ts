@@ -4,6 +4,7 @@ import { IS3Gateway } from '../interface/iS3Gateway';
 import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
+import { ENV } from '../../utility/env';
 
 /**
  * MockS3Gateway
@@ -42,6 +43,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         this.bucketName = bucketName;
         this.folderPath = folderPath;
         const mockStorage = MockS3Gateway.mockStorage;
+
+        // 既にmockStorageに値が入っている場合は何もしない
+        if (mockStorage.size > 0) {
+            return;
+        }
         // 最初にmockStorageに値を入れておく
         // 2024年のデータ366日分を作成
         for (let i = 0; i < 366; i++) {
@@ -111,8 +117,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
 
     @Logger
     private setKeirinRaceMockData() {
-        switch (process.env.ENV) {
-            case 'ita':
+        switch (ENV) {
+            case 'ITa':
                 break;
             default:
                 // 2024年のデータ366日分を作成
@@ -154,8 +160,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
 
     @Logger
     private setKeirinPlaceMockData() {
-        switch (process.env.ENV) {
-            case 'ita':
+        switch (ENV) {
+            case 'ITa':
                 break;
             default:
                 // 2024年のデータ12ヶ月分を作成

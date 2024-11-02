@@ -1,4 +1,4 @@
-import { KeirinRaceStage } from './raceSpecific';
+import type { KeirinRaceStage } from './raceSpecific';
 
 /**
  * 競輪のレース場名とコードの対応表

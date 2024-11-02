@@ -129,7 +129,7 @@ export class NarPlaceRepositoryFromHtmlImpl
             const place = $(tds[0]).text();
             tds.each((index: number, element: cheerio.Element) => {
                 if (index === 0) {
-                    if (!narPlaceDataDict[place]) {
+                    if (!(place in narPlaceDataDict)) {
                         narPlaceDataDict[place] = [];
                     }
                     return;

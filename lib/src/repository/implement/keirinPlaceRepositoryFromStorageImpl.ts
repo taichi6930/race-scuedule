@@ -160,7 +160,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
         const placeDataDict: Record<string, KeirinPlaceEntity[]> = {};
         placeEntityList.forEach((placeData) => {
             const key = `${format(placeData.dateTime, 'yyyyMM')}.csv`;
-            if (!placeDataDict[key]) {
+            if (!(key in placeDataDict)) {
                 placeDataDict[key] = [];
             }
             placeDataDict[key].push(placeData);

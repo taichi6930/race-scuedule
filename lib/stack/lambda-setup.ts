@@ -1,7 +1,9 @@
 import { aws_lambda_nodejs, Duration } from 'aws-cdk-lib';
-import { Role } from 'aws-cdk-lib/aws-iam';
+import type { Role } from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import type { Construct } from 'constructs';
+
+import { ENV } from '../src/utility/env';
 
 export function createLambdaFunction(
     scope: Construct,
@@ -16,7 +18,7 @@ export function createLambdaFunction(
             entry: 'lib/src/index.ts',
             role: role,
             environment: {
-                ENV: process.env.ENV ?? 'local',
+                ENV: ENV ?? 'LOCAL',
                 JRA_CALENDAR_ID: process.env.JRA_CALENDAR_ID ?? '',
                 NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID ?? '',
                 KEIRIN_CALENDAR_ID: process.env.KEIRIN_CALENDAR_ID ?? '',

@@ -70,13 +70,15 @@ export class JraPlaceRepositoryFromS3Impl
 
         while (currentDate <= finishDate) {
             const year = currentDate.getFullYear();
-            const fileName = `${year}.csv`;
+            const fileName = `${year.toString()}.csv`;
             fileNames.push(fileName);
 
             // 次の月の1日を取得
             currentDate = new Date(year + 1, 0, 1);
         }
-        console.debug(`ファイル名リストを生成しました: ${fileNames}`);
+        console.debug(
+            `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
+        );
         return Promise.resolve(fileNames);
     }
 
@@ -116,8 +118,8 @@ export class JraPlaceRepositoryFromS3Impl
         // 得られたplaceを年毎に分ける
         const placeDataDict: Record<string, JraPlaceData[]> = {};
         placeData.forEach((place) => {
-            const key = `${place.dateTime.getFullYear()}.csv`;
-            if (!placeDataDict[key]) {
+            const key = `${place.dateTime.getFullYear().toString()}.csv`;
+            if (!(key in placeDataDict)) {
                 placeDataDict[key] = [];
             }
             placeDataDict[key].push(place);

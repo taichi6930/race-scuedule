@@ -2,14 +2,15 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { INarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarPlaceDataHtmlGateway';
+import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import type { INarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarPlaceDataHtmlGateway';
 import { MockNarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarPlaceDataHtmlGateway';
 import { NarPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { ENV } from '../../../../lib/src/utility/env';
 
-if (process.env.ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('NarPlaceRepositoryFromHtmlImpl', () => {
         let narPlaceDataHtmlgateway: INarPlaceDataHtmlGateway;
         let repository: NarPlaceRepositoryFromHtmlImpl;
