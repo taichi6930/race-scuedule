@@ -6,6 +6,8 @@ import type { NarPlaceData } from '../domain/narPlaceData';
 import type { NarRaceData } from '../domain/narRaceData';
 import type { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
+import type { WorldPlaceEntity } from '../repository/entity/worldPlaceEntity';
+import type { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromS3Impl } from '../repository/implement/jraPlaceRepositoryFromS3Impl';
 import { JraRaceRepositoryFromHtmlImpl } from '../repository/implement/jraRaceRepositoryFromHtmlImpl';
@@ -18,6 +20,7 @@ import { NarPlaceRepositoryFromHtmlImpl } from '../repository/implement/narPlace
 import { NarPlaceRepositoryFromS3Impl } from '../repository/implement/narPlaceRepositoryFromS3Impl';
 import { NarRaceRepositoryFromHtmlImpl } from '../repository/implement/narRaceRepositoryFromHtmlImpl';
 import { NarRaceRepositoryFromS3Impl } from '../repository/implement/narRaceRepositoryFromS3Impl';
+import { WorldRaceRepositoryFromStorageImpl } from '../repository/implement/worldRaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../repository/interface/IRaceRepository';
 import { MockKeirinPlaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinPlaceRepositoryFromHtmlImpl';
@@ -88,3 +91,7 @@ switch (ENV) {
         });
         break;
 }
+container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
+    'WorldRaceRepositoryFromStorage',
+    { useClass: WorldRaceRepositoryFromStorageImpl },
+);

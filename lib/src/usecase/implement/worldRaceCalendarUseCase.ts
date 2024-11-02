@@ -3,8 +3,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { WorldPlaceData } from '../../domain/worldPlaceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
+import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
+import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
@@ -18,8 +19,8 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
         private readonly calendarService: ICalendarService<WorldRaceData>,
         @inject('WorldRaceRepositoryFromStorage')
         private readonly worldRaceRepositoryFromStorage: IRaceRepository<
-            WorldRaceData,
-            WorldPlaceData
+            WorldRaceEntity,
+            WorldPlaceEntity
         >,
     ) {}
 
@@ -59,14 +60,26 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
         try {
             // startDateからfinishDateまでレース情報を取得
             const fetchRaceDataListRequest =
-                new FetchRaceListRequest<WorldPlaceData>(startDate, finishDate);
+                new FetchRaceListRequest<WorldPlaceEntity>(
+                    startDate,
+                    finishDate,
+                );
             const fetchRaceDataListResponse =
                 await this.worldRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const { raceDataList } = fetchRaceDataListResponse;
-
-            // displayGradeListに含まれるレース情報のみを抽出
+            const raceEntityList = fetchRaceDataListResponse.raceDataList;
+            const raceDataList = raceEntityList.map((raceEntity) => {
+                return new WorldRaceData(
+                    raceEntity.name,
+                    raceEntity.dateTime,
+                    raceEntity.location,
+                    raceEntity.surfaceType,
+                    raceEntity.distance,
+                    raceEntity.grade,
+                    raceEntity.number,
+                );
+            });
             const filteredRaceDataList: WorldRaceData[] = raceDataList.filter(
                 (raceData) => displayGradeList.includes(raceData.grade),
             );
