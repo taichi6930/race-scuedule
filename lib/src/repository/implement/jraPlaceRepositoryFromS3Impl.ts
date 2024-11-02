@@ -117,7 +117,7 @@ export class JraPlaceRepositoryFromS3Impl
         const placeDataDict: Record<string, JraPlaceData[]> = {};
         placeData.forEach((place) => {
             const key = `${place.dateTime.getFullYear()}.csv`;
-            if (!placeDataDict[key]) {
+            if (!(key in placeDataDict)) {
                 placeDataDict[key] = [];
             }
             placeDataDict[key].push(place);

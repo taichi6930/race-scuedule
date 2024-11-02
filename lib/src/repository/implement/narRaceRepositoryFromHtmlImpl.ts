@@ -157,7 +157,10 @@ export class NarRaceRepositoryFromHtmlImpl
     private extractSurfaceType(race: string[]): NarRaceCourseType {
         const regex = /(芝)[左右直]+[0-9]+m/;
         const trackType = race.find((item) => regex.test(item));
-        return trackType ? '芝' : 'ダート';
+        if (trackType === null || trackType === undefined || trackType === '') {
+            return 'ダート';
+        }
+        return '芝';
     }
 
     private extractGrade(race: string[]): NarGradeType {
@@ -200,7 +203,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 break;
             }
         }
-        return (raceName ? raceName : race[4]).replace(/\n/g, '');
+        return (raceName ?? race[4] ?? '').replace(/\n/g, '');
     }
 
     /**

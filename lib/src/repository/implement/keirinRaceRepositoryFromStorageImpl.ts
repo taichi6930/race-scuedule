@@ -131,7 +131,7 @@ export class KeirinRaceRepositoryFromStorageImpl
         const raceDataDict: Record<string, KeirinRaceEntity[]> = {};
         raceDataList.forEach((raceData) => {
             const key = `${format(raceData.dateTime, 'yyyyMMdd')}.csv`;
-            if (!raceDataDict[key]) {
+            if (!(key in raceDataDict)) {
                 raceDataDict[key] = [];
             }
             raceDataDict[key].push(raceData);

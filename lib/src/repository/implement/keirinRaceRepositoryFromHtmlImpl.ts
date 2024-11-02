@@ -110,7 +110,11 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             raceStage ?? '',
                             new Date(year, month - 1, day),
                         );
-                        if (raceStage) {
+                        if (
+                            raceStage !== null &&
+                            raceStage !== undefined &&
+                            raceStage.trim() !== ''
+                        ) {
                             keirinRaceDataList.push(
                                 new KeirinRaceEntity(
                                     null,

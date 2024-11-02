@@ -141,10 +141,13 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 tds.each((index: number, element: cheerio.Element) => {
                     const imgs = $(element).find('img');
                     let grade: KeirinGradeType | undefined;
-
                     imgs.each((_, img) => {
                         const alt = $(img).attr('alt');
-                        if (alt) {
+                        if (
+                            alt !== null &&
+                            alt !== undefined &&
+                            alt.trim() !== ''
+                        ) {
                             grade = alt
                                 .replace('1', 'Ⅰ')
                                 .replace('2', 'Ⅱ')

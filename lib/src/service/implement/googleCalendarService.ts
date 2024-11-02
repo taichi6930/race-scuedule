@@ -132,8 +132,11 @@ export class GoogleCalendarService<R extends RaceData>
                         calendarId: this.calendarId,
                         eventId: eventId,
                     });
-                    // イベントが見つかった場合は更新
-                    if (event.data.id) {
+                    if (
+                        event.data.id !== null &&
+                        event.data.id !== undefined &&
+                        event.data.id.trim() !== ''
+                    ) {
                         console.log(
                             `Google Calendar APIにイベントが見つかりました。更新を行います。レース名: ${raceData.name}`,
                         );
@@ -217,7 +220,9 @@ export class GoogleCalendarService<R extends RaceData>
         ).filter((event) => {
             // trueの場合は削除対象
             // イベントIDが指定したレースタイプで始まっていない場合は削除対象
-            return !event.id?.startsWith(this.raceType);
+            const eventId = event.id;
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+            return !eventId?.startsWith(this.raceType);
         });
         if (events.length === 0) {
             console.debug('指定された期間にイベントが見つかりませんでした。');
@@ -234,7 +239,11 @@ export class GoogleCalendarService<R extends RaceData>
     @Logger
     private async deleteEvent(event: calendar_v3.Schema$Event): Promise<void> {
         try {
-            if (event.id) {
+            if (
+                event.id !== null &&
+                event.id !== undefined &&
+                event.id.trim() !== ''
+            ) {
                 await this.calendar.events.delete({
                     calendarId: this.calendarId,
                     eventId: event.id,

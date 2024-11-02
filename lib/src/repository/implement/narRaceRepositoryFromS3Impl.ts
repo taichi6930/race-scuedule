@@ -117,7 +117,7 @@ export class NarRaceRepositoryFromS3Impl
         const raceDataDict: Record<string, NarRaceData[]> = {};
         raceDataList.forEach((raceData) => {
             const key = `${format(raceData.dateTime, 'yyyyMMdd')}.csv`;
-            if (!raceDataDict[key]) {
+            if (!(key in raceDataDict)) {
                 raceDataDict[key] = [];
             }
             raceDataDict[key].push(raceData);

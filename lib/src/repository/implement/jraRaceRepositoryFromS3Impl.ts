@@ -102,7 +102,7 @@ export class JraRaceRepositoryFromS3Impl
         const raceDataDict: Record<string, JraRaceData[]> = {};
         raceData.forEach((race) => {
             const key = `${format(race.dateTime, 'yyyyMMdd')}.csv`;
-            if (!raceDataDict[key]) {
+            if (!(key in raceDataDict)) {
                 raceDataDict[key] = [];
             }
             raceDataDict[key].push(race);
