@@ -22,7 +22,7 @@ import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
-type RaceData = JraRaceData | NarRaceData | KeirinRaceData;
+export type RaceData = JraRaceData | NarRaceData | KeirinRaceData;
 
 export type RaceType = 'jra' | 'nar' | 'keirin';
 @injectable()

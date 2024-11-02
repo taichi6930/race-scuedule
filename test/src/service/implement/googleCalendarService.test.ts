@@ -30,7 +30,7 @@ jest.mock('googleapis', () => {
 
 /* eslint-disable */
 describe('GoogleCalendarService', () => {
-    let googleCalendarService: GoogleCalendarService<{}>;
+    let googleCalendarService: GoogleCalendarService<NarRaceData>;
 
     beforeEach(() => {
         googleCalendarService = new GoogleCalendarService(
