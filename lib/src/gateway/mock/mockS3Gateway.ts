@@ -4,6 +4,7 @@ import { IS3Gateway } from '../interface/iS3Gateway';
 import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
+import { ENV } from '../../utility/env';
 
 /**
  * MockS3Gateway
@@ -111,7 +112,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
 
     @Logger
     private setKeirinRaceMockData() {
-        switch (process.env.ENV) {
+        switch (ENV) {
             case 'ita':
                 break;
             default:
@@ -154,7 +155,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
 
     @Logger
     private setKeirinPlaceMockData() {
-        switch (process.env.ENV) {
+        switch (ENV) {
             case 'ita':
                 break;
             default:

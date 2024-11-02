@@ -6,11 +6,12 @@ import type { NarRaceData } from '../domain/narRaceData';
 import { GoogleCalendarService } from '../service/implement/googleCalendarService';
 import type { ICalendarService } from '../service/interface/ICalendarService';
 import { MockGoogleCalendarService } from '../service/mock/mockGoogleCalendarService';
+import { ENV } from '../utility/env';
 
 // ICalendarServiceの実装クラスをDIコンテナに登錄する
 container.register<ICalendarService<NarRaceData>>('NarCalendarService', {
     useFactory: () => {
-        switch (process.env.ENV) {
+        switch (ENV) {
             case 'production':
                 // ENV が production の場合、GoogleCalendarService を使用
                 return new GoogleCalendarService<NarRaceData>(
@@ -28,7 +29,7 @@ container.register<ICalendarService<NarRaceData>>('NarCalendarService', {
 
 container.register<ICalendarService<JraRaceData>>('JraCalendarService', {
     useFactory: () => {
-        switch (process.env.ENV) {
+        switch (ENV) {
             case 'production':
                 // ENV が production の場合、GoogleCalendarService を使用
                 return new GoogleCalendarService<JraRaceData>(
@@ -46,7 +47,7 @@ container.register<ICalendarService<JraRaceData>>('JraCalendarService', {
 
 container.register<ICalendarService<KeirinRaceData>>('KeirinCalendarService', {
     useFactory: () => {
-        switch (process.env.ENV) {
+        switch (ENV) {
             case 'production':
                 // ENV が production の場合、GoogleCalendarService を使用
                 return new GoogleCalendarService<KeirinRaceData>(

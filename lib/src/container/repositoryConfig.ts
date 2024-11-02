@@ -22,6 +22,7 @@ import type { IPlaceRepository } from '../repository/interface/IPlaceRepository'
 import type { IRaceRepository } from '../repository/interface/IRaceRepository';
 import { MockKeirinPlaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinPlaceRepositoryFromHtmlImpl';
 import { MockKeirinRaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinRaceRepositoryFromHtmlImpl';
+import { ENV } from '../utility/env';
 
 // Repositoryの実装クラスをDIコンテナに登錄する
 container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
@@ -62,7 +63,7 @@ container.register<IPlaceRepository<JraPlaceData>>(
     'JraPlaceRepositoryFromHtml',
     { useClass: JraPlaceRepositoryFromHtmlImpl },
 );
-switch (process.env.ENV) {
+switch (ENV) {
     case 'production':
     case 'local':
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
