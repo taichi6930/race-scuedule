@@ -10,6 +10,7 @@ import { container } from 'tsyringe';
 import { JraRaceController } from './controller/jraRaceController';
 import { KeirinRaceController } from './controller/keirinRaceController';
 import { NarRaceController } from './controller/narRaceController';
+import { WorldRaceController } from './controller/worldRaceController';
 import swaggerSpec from './swagger/swaggerConfig';
 
 // Expressアプリケーションの設定
@@ -18,6 +19,7 @@ const app: Application = express();
 // DIコンテナからControllerを取得
 const narRaceController = container.resolve(NarRaceController);
 const jraRaceController = container.resolve(JraRaceController);
+const worldRaceController = container.resolve(WorldRaceController);
 const keirinRaceController = container.resolve(KeirinRaceController);
 
 // Expressの設定
@@ -26,6 +28,7 @@ app.use(express.json());
 // ルーティングの設定
 app.use('/api/races/nar', narRaceController.router);
 app.use('/api/races/jra', jraRaceController.router);
+app.use('/api/races/world', worldRaceController.router);
 app.use('/api/races/keirin', keirinRaceController.router);
 
 // health check
