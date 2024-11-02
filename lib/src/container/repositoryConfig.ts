@@ -64,8 +64,8 @@ container.register<IPlaceRepository<JraPlaceData>>(
     { useClass: JraPlaceRepositoryFromHtmlImpl },
 );
 switch (ENV) {
-    case 'production':
-    case 'local':
+    case 'PRODUCTION':
+    case 'LOCAL':
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
             { useClass: KeirinPlaceRepositoryFromHtmlImpl },
@@ -76,7 +76,7 @@ switch (ENV) {
             useClass: KeirinRaceRepositoryFromHtmlImpl,
         });
         break;
-    case 'ita':
+    case 'ITa':
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
             { useClass: MockKeirinPlaceRepositoryFromHtmlImpl },

@@ -8,8 +8,9 @@ import { MockJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mo
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { ENV } from '../../../../lib/src/utility/env';
 
-if (process.env.ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('JraPlaceRepositoryFromHtmlImpl', () => {
         let jraPlaceDataHtmlgateway: IJraPlaceDataHtmlGateway;
         let repository: JraPlaceRepositoryFromHtmlImpl;

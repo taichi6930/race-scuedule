@@ -33,13 +33,13 @@ import { ENV } from '../utility/env';
 container.register<IS3Gateway<KeirinPlaceData>>('KeirinPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 return new S3Gateway<KeirinPlaceData>(
                     'race-schedule-bucket',
                     'keirin/place/',
                 );
-            case 'ita':
-            case 'local':
+            case 'ITa':
+            case 'LOCAL':
             default:
                 return new MockS3Gateway<KeirinPlaceData>(
                     'race-schedule-bucket',
@@ -51,14 +51,14 @@ container.register<IS3Gateway<KeirinPlaceData>>('KeirinPlaceS3Gateway', {
 container.register<IS3Gateway<NarRaceData>>('NarRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<NarRaceData>(
                     'race-schedule-bucket',
                     'nar/race/',
                 );
-            case 'ita':
-            case 'local':
+            case 'ITa':
+            case 'LOCAL':
             default:
                 return new MockS3Gateway<NarRaceData>(
                     'race-schedule-bucket',
@@ -70,14 +70,14 @@ container.register<IS3Gateway<NarRaceData>>('NarRaceS3Gateway', {
 container.register<IS3Gateway<KeirinRaceData>>('KeirinRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<KeirinRaceData>(
                     'race-schedule-bucket',
                     'keirin/race/',
                 );
-            case 'ita':
-            case 'local':
+            case 'ITa':
+            case 'LOCAL':
             default:
                 return new MockS3Gateway<KeirinRaceData>(
                     'race-schedule-bucket',
@@ -89,14 +89,14 @@ container.register<IS3Gateway<KeirinRaceData>>('KeirinRaceS3Gateway', {
 container.register<IS3Gateway<JraRaceData>>('JraRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<JraRaceData>(
                     'race-schedule-bucket',
                     'jra/race/',
                 );
-            case 'ita':
-            case 'local':
+            case 'ITa':
+            case 'LOCAL':
             default:
                 return new MockS3Gateway<JraRaceData>(
                     'race-schedule-bucket',
@@ -108,13 +108,13 @@ container.register<IS3Gateway<JraRaceData>>('JraRaceS3Gateway', {
 container.register<IS3Gateway<NarPlaceData>>('NarPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 return new S3Gateway<NarPlaceData>(
                     'race-schedule-bucket',
                     'nar/place/',
                 );
-            case 'ita':
-            case 'local':
+            case 'ITa':
+            case 'LOCAL':
             default:
                 return new MockS3Gateway<NarPlaceData>(
                     'race-schedule-bucket',
@@ -126,13 +126,13 @@ container.register<IS3Gateway<NarPlaceData>>('NarPlaceS3Gateway', {
 container.register<IS3Gateway<JraPlaceData>>('JraPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 return new S3Gateway<JraPlaceData>(
                     'race-schedule-bucket',
                     'jra/place/',
                 );
-            case 'ita':
-            case 'local':
+            case 'ITa':
+            case 'LOCAL':
             default:
                 return new MockS3Gateway<JraPlaceData>(
                     'race-schedule-bucket',
@@ -144,11 +144,11 @@ container.register<IS3Gateway<JraPlaceData>>('JraPlaceS3Gateway', {
 container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 console.log('NarRaceDataHtmlGateway');
                 return new NarRaceDataHtmlGateway();
-            case 'ita':
-            case 'local':
+            case 'ITa':
+            case 'LOCAL':
             default:
                 return new MockNarRaceDataHtmlGateway();
         }
@@ -157,11 +157,11 @@ container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
 container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 console.log('JraRaceDataHtmlGateway');
                 return new JraRaceDataHtmlGateway();
-            case 'ita':
-            case 'local':
+            case 'ITa':
+            case 'LOCAL':
             default:
                 return new MockJraRaceDataHtmlGateway();
         }
@@ -170,10 +170,10 @@ container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
 container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 return new NarPlaceDataHtmlGateway();
-            case 'ita':
-            case 'local':
+            case 'ITa':
+            case 'LOCAL':
             default:
                 return new MockNarPlaceDataHtmlGateway();
         }
@@ -182,10 +182,10 @@ container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
 container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 return new JraPlaceDataHtmlGateway();
-            case 'ita':
-            case 'local':
+            case 'ITa':
+            case 'LOCAL':
             default:
                 return new MockJraPlaceDataHtmlGateway();
         }
@@ -195,7 +195,7 @@ container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
 container.register<IKeirinPlaceDataHtmlGateway>('KeirinPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 return new KeirinPlaceDataHtmlGateway();
             default:
                 return new MockKeirinPlaceDataHtmlGateway();
@@ -206,7 +206,7 @@ container.register<IKeirinPlaceDataHtmlGateway>('KeirinPlaceDataHtmlGateway', {
 container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'production':
+            case 'PRODUCTION':
                 return new KeirinRaceDataHtmlGateway();
             default:
                 return new MockKeirinRaceDataHtmlGateway();

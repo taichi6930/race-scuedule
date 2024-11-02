@@ -113,7 +113,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
     @Logger
     private setKeirinRaceMockData() {
         switch (ENV) {
-            case 'ita':
+            case 'ITa':
                 break;
             default:
                 // 2024年のデータ366日分を作成
@@ -156,7 +156,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
     @Logger
     private setKeirinPlaceMockData() {
         switch (ENV) {
-            case 'ita':
+            case 'ITa':
                 break;
             default:
                 // 2024年のデータ12ヶ月分を作成

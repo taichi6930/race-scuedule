@@ -9,8 +9,9 @@ import { MockJraRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/moc
 import { JraRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { ENV } from '../../../../lib/src/utility/env';
 
-if (process.env.ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('JraRaceRepositoryFromHtmlImpl', () => {
         let jraRaceDataHtmlGateway: IJraRaceDataHtmlGateway;
         let repository: JraRaceRepositoryFromHtmlImpl;

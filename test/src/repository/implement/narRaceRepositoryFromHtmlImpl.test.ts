@@ -9,8 +9,9 @@ import { MockNarRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/moc
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { ENV } from '../../../../lib/src/utility/env';
 
-if (process.env.ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('NarRaceRepositoryFromHtmlImpl', () => {
         let narRaceDataHtmlGateway: INarRaceDataHtmlGateway;
         let repository: NarRaceRepositoryFromHtmlImpl;

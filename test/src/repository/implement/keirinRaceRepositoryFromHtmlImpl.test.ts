@@ -9,8 +9,9 @@ import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/kei
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { ENV } from '../../../../lib/src/utility/env';
 
-if (process.env.ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('KeirinRaceRepositoryFromHtmlImpl', () => {
         let keirinRaceDataHtmlGateway: IKeirinRaceDataHtmlGateway;
         let repository: KeirinRaceRepositoryFromHtmlImpl;

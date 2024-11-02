@@ -21,10 +21,10 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
     @Logger
     private setCalendarData(): void {
         switch (ENV) {
-            case 'production': // ENV が production の場合、GoogleCalendarService を使用
-            case 'ita': // ENV が ita の場合、データを後で設定したいので何もしない
+            case 'PRODUCTION': // ENV が production の場合、GoogleCalendarService を使用
+            case 'ITa': // ENV が ita の場合、データを後で設定したいので何もしない
                 break;
-            case 'local':
+            case 'LOCAL':
             default:
                 {
                     // 2024年のデータ366日分を作成

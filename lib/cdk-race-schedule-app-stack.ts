@@ -6,7 +6,7 @@ import { createApiGateway } from './stack/api-setup';
 import { createLambdaExecutionRole } from './stack/iam-setup';
 import { createLambdaFunction } from './stack/lambda-setup';
 
-dotenv.config({ path: './app.env' });
+dotenv.config({ path: './.env' });
 
 export class CdkRaceScheduleAppStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {

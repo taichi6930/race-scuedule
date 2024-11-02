@@ -8,8 +8,9 @@ import { MockNarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mo
 import { NarPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { ENV } from '../../../../lib/src/utility/env';
 
-if (process.env.ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('NarPlaceRepositoryFromHtmlImpl', () => {
         let narPlaceDataHtmlgateway: INarPlaceDataHtmlGateway;
         let repository: NarPlaceRepositoryFromHtmlImpl;
