@@ -13,7 +13,76 @@ import type { ICalendarService } from '../interface/ICalendarService';
  */
 
 export class MockGoogleCalendarService implements ICalendarService<RaceData> {
-    constructor(private readonly raceType: RaceType) {}
+    constructor(private readonly raceType: RaceType) {
+        this.setCalendarData();
+    }
+
+    @Logger
+    private setCalendarData(): void {
+        switch (process.env.ENV) {
+            case 'production': // ENV が production の場合、GoogleCalendarService を使用
+            case 'ita': // ENV が ita の場合、データを後で設定したいので何もしない
+                break;
+            case 'local':
+            default:
+                {
+                    // 2024年のデータ366日分を作成
+                    const startDate = new Date('2024-01-01');
+                    const currentDate = new Date(startDate);
+                    // forで回していって、最初の日付の年数と異なったら終了
+                    while (
+                        currentDate.getFullYear() === startDate.getFullYear()
+                    ) {
+                        for (let i = 1; i <= 12; i++) {
+                            let location = '';
+                            let raceId = '';
+
+                            switch (this.raceType) {
+                                case 'jra':
+                                    location = '東京';
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${i.toXDigits(2)}`;
+                                    break;
+                                case 'nar':
+                                    location = '大井';
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${i.toXDigits(2)}`;
+                                    break;
+                                case 'keirin':
+                                    location = '川崎';
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[location]}${i.toXDigits(2)}`;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            const calendarData = new CalendarData(
+                                raceId,
+                                `テストレース${raceId}`,
+                                new Date(
+                                    currentDate.getFullYear(),
+                                    currentDate.getMonth(),
+                                    currentDate.getDate(),
+                                    i + 6,
+                                    0,
+                                ),
+                                new Date(
+                                    currentDate.getFullYear(),
+                                    currentDate.getMonth(),
+                                    currentDate.getDate(),
+                                    i + 6,
+                                    10,
+                                ),
+                                location,
+                                'testDescription',
+                            );
+                            MockGoogleCalendarService.mockCalendarData[
+                                this.raceType
+                            ].push(calendarData);
+                        }
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                }
+                break;
+        }
+    }
 
     private static mockCalendarData: Record<string, CalendarData[]> = {
         jra: [],
