@@ -42,10 +42,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
     constructor(bucketName: string, folderPath: string) {
         this.bucketName = bucketName;
         this.folderPath = folderPath;
-        const mockStorage = MockS3Gateway.mockStorage;
 
         // 既にmockStorageに値が入っている場合は何もしない
-        if (mockStorage.size > 0) {
+        if (MockS3Gateway.mockStorage.size > 0) {
             return;
         }
         // 最初にmockStorageに値を入れておく
@@ -55,7 +54,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
             date.setDate(date.getDate() + i);
             const fileName = `nar/race/${format(date, 'yyyyMMdd')}.csv`;
             for (let j = 1; j <= 12; j++) {
-                mockStorage.set(
+                MockS3Gateway.mockStorage.set(
                     fileName,
                     [
                         `name,dateTime,location,surfaceType,distance,grade,number\n`,
@@ -78,7 +77,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                 }
                 mockData.push(`${format(date, 'yyyy-MM-dd')},高知\n`);
             }
-            mockStorage.set(fileName, mockData.join(''));
+            MockS3Gateway.mockStorage.set(fileName, mockData.join(''));
         }
         // 2024年のデータ366日分を作成
         for (let i = 0; i < 366; i++) {
@@ -86,7 +85,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
             date.setDate(date.getDate() + i);
             const fileName = `jra/race/${format(date, 'yyyyMMdd')}.csv`;
             for (let j = 1; j <= 12; j++) {
-                mockStorage.set(
+                MockS3Gateway.mockStorage.set(
                     fileName,
                     [
                         `name,dateTime,location,surfaceType,distance,grade,number,heldTimes,heldDayTimes\n`,
@@ -109,7 +108,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                 }
                 mockData.push(`${format(date, 'yyyy-MM-dd')},東京\n`);
             }
-            mockStorage.set(fileName, mockData.join(''));
+            MockS3Gateway.mockStorage.set(fileName, mockData.join(''));
         }
         this.setKeirinRaceMockData();
         this.setKeirinPlaceMockData();
@@ -122,10 +121,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                 break;
             default:
                 // 2024年のデータ366日分を作成
-                for (let i = 0; i < 366; i++) {
-                    const date = new Date('2024-01-01');
-                    date.setDate(date.getDate() + i);
-                    const fileName = `keirin/race/${format(date, 'yyyyMMdd')}.csv`;
+                const startDate = new Date('2024-01-01');
+                const currentDate = new Date(startDate);
+                // whileで回していって、最初の日付の年数と異なったら終了
+                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                    const fileName = `keirin/race/${format(currentDate, 'yyyyMMdd')}.csv`;
                     const mockDataHeader = [
                         'name',
                         'stage',
@@ -136,16 +136,16 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                         'id',
                     ].join(',');
                     const mockData = [mockDataHeader];
-                    for (let j = 1; j <= 12; j++) {
+                    for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
                                 `KEIRINグランプリ`,
                                 `グランプリ`,
-                                `${format(date, 'yyyy-MM-dd')} ${j + 6}:00`,
+                                `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
                                 '川崎',
                                 'GP',
-                                j,
-                                `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']}${j.toXDigits(2)}`,
+                                raceNumber,
+                                `keirin${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']}${raceNumber.toXDigits(2)}`,
                             ].join(','),
                         );
                     }
@@ -165,9 +165,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                 break;
             default:
                 // 2024年のデータ12ヶ月分を作成
-                for (let i = 1; i <= 12; i++) {
-                    const sdate = new Date(2024, i - 1, 1);
-                    const fileName = `keirin/place/${format(sdate, 'yyyyMM')}.csv`;
+                for (let month = 1; month <= 12; month++) {
+                    const startDate = new Date(2024, month - 1, 1);
+                    const fileName = `keirin/place/${format(startDate, 'yyyyMM')}.csv`;
                     const mockDataHeader = [
                         'id',
                         'dateTime',
@@ -175,18 +175,15 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                         'grade',
                     ].join(',');
                     const mockData = [mockDataHeader];
-
                     // 1ヶ月分のデータ（28~31日）を作成
-                    for (let j = 1; j <= 31; j++) {
-                        const date = new Date(2024, i - 1, j);
-                        // sdateの月とdateの月が異なる場合はループを抜ける
-                        if (sdate.getMonth() !== date.getMonth()) {
-                            break;
-                        }
+                    // 2024年のデータ366日分を作成
+                    const currentDate = new Date(startDate);
+                    // whileで回していって、最初の日付の年数と異なったら終了
+                    while (currentDate.getMonth() === startDate.getMonth()) {
                         mockData.push(
                             [
-                                `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']}`,
-                                format(date, 'yyyy-MM-dd'),
+                                `keirin${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']}`,
+                                format(currentDate, 'yyyy-MM-dd'),
                                 '川崎',
                                 'GP',
                             ].join(','),
