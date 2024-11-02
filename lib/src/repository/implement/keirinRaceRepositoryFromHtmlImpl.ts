@@ -82,7 +82,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
             // class="section1"を取得
             const section1 = content.find('.section1');
             console.log(
-                `raceInfo: ${year}/${month}/${day} ${placeData.location} ${placeData.grade} ${raceName}`,
+                `raceInfo: ${year.toString()}/${month.toXDigits(2)}/${day.toXDigits(2)} ${placeData.location} ${placeData.grade} ${raceName}`,
             );
             section1.each((index, element) => {
                 // class="w480px"を取得

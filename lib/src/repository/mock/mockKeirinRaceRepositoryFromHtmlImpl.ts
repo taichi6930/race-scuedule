@@ -25,7 +25,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                     raceEntityList.push(
                         new KeirinRaceEntity(
                             null,
-                            `${placeEntity.location}第${i}R`,
+                            `${placeEntity.location}第${i.toString()}R`,
                             raceStage,
                             new Date(
                                 placeEntity.dateTime.getFullYear(),

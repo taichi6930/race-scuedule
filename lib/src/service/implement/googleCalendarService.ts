@@ -383,9 +383,9 @@ export class GoogleCalendarService<R extends RaceData>
                 timeZone: 'Asia/Tokyo',
             },
             colorId: this.getColorId(data.grade),
-            description: `距離: ${data.surfaceType}${data.distance}m
+            description: `距離: ${data.surfaceType}${data.distance.toString()}m
             発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
-            ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${data.dateTime.getFullYear()}${NETKEIBA_BABACODE[data.location]}${data.heldTimes.toXDigits(2)}${data.heldDayTimes.toXDigits(2)}${data.number.toXDigits(2)}`)}
+            ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${data.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[data.location]}${data.heldTimes.toXDigits(2)}${data.heldDayTimes.toXDigits(2)}${data.number.toXDigits(2)}`)}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -415,12 +415,12 @@ export class GoogleCalendarService<R extends RaceData>
                 timeZone: 'Asia/Tokyo',
             },
             colorId: this.getColorId(data.grade),
-            description: `距離: ${data.surfaceType}${data.distance}m
+            description: `距離: ${data.surfaceType}${data.distance.toString()}m
             発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
             ${createAnchorTag('レース映像（地方競馬LIVE）', CHIHO_KEIBA_LIVE_URL)}
             ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(CHIHO_KEIBA_YOUTUBE_USER_ID[data.location]))}
-            ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${data.dateTime.getFullYear()}${NETKEIBA_BABACODE[data.location]}${(raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceData.dateTime.getDate().toXDigits(2)}${raceData.number.toXDigits(2)}`)}
-            ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${data.dateTime.getFullYear()}%2f${(raceData.dateTime.getMonth() + 1).toXDigits(2)}%2f${raceData.dateTime.getDate().toXDigits(2)}&k_raceNo=${data.number.toXDigits(2)}&k_babaCode=${NAR_BABACODE[data.location]}`)}
+            ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${data.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[data.location]}${(raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceData.dateTime.getDate().toXDigits(2)}${raceData.number.toXDigits(2)}`)}
+            ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${data.dateTime.getFullYear().toString()}%2f${raceData.dateTime.getXDigitMonth(2)}%2f${raceData.dateTime.getXDigitDays(2)}&k_raceNo=${data.number.toXDigits(2)}&k_babaCode=${NAR_BABACODE[data.location]}`)}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -452,7 +452,7 @@ export class GoogleCalendarService<R extends RaceData>
             colorId: this.getColorId(data.grade),
             description:
                 `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
-            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${data.dateTime.getFullYear()}${(data.dateTime.getMonth() + 1).toString().padStart(2, '0')}${data.dateTime.getDate().toString().padStart(2, '0')}${KEIRIN_PLACE_CODE[data.location]}${data.number.toXDigits(2)}`)}
+            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(data.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[data.location]}${data.number.toXDigits(2)}`)}
         `.replace(/\n\s+/g, '\n'),
         };
     }

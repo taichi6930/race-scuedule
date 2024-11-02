@@ -18,7 +18,7 @@ export class JraPlaceDataHtmlGateway implements IJraPlaceDataHtmlGateway {
     async getPlaceDataHtml(date: Date): Promise<string> {
         // keibalabのURLからHTMLを取得する
         try {
-            const url = `https://prc.jp/jraracingviewer/contents/seiseki/${date.getFullYear()}/`;
+            const url = `https://prc.jp/jraracingviewer/contents/seiseki/${date.getFullYear().toString()}/`;
             const html = await fetch(url);
             console.debug('htmlを取得しています');
             const htmlText = await html.text();
