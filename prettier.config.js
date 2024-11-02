@@ -16,6 +16,4 @@ module.exports = {
             },
         },
     ],
-    // htmlは無視
-    ignore: ['**/docs/**', '**/*.html'],
 };
