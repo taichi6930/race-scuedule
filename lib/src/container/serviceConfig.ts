@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import type { JraRaceData } from '../domain/jraRaceData';
 import type { KeirinRaceData } from '../domain/keirinRaceData';
 import type { NarRaceData } from '../domain/narRaceData';
+import type { WorldRaceData } from '../domain/worldRaceData';
 import { GoogleCalendarService } from '../service/implement/googleCalendarService';
 import type { ICalendarService } from '../service/interface/ICalendarService';
 import { MockGoogleCalendarService } from '../service/mock/mockGoogleCalendarService';
@@ -59,6 +60,24 @@ container.register<ICalendarService<KeirinRaceData>>('KeirinCalendarService', {
             default:
                 // ENV が指定されていない場合も MockGoogleCalendarService を使用
                 return new MockGoogleCalendarService('keirin');
+        }
+    },
+});
+
+container.register<ICalendarService<WorldRaceData>>('WorldCalendarService', {
+    useFactory: () => {
+        switch (ENV) {
+            case 'PRODUCTION':
+                // ENV が production の場合、GoogleCalendarService を使用
+                return new GoogleCalendarService<WorldRaceData>(
+                    'world',
+                    process.env.WORLD_CALENDAR_ID ?? '',
+                );
+            case 'ITa':
+            case 'LOCAL':
+            default:
+                // ENV が指定されていない場合も MockGoogleCalendarService を使用
+                return new MockGoogleCalendarService('world');
         }
     },
 });

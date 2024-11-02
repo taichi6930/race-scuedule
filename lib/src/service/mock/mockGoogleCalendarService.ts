@@ -141,6 +141,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
         switch (this.raceType) {
             case 'jra':
             case 'nar':
+            case 'world':
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
             case 'keirin':
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[raceData.location]}${raceData.number.toXDigits(2)}`;
