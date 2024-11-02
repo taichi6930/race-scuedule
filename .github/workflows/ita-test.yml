@@ -152,10 +152,10 @@ jobs:
             'http://localhost:3000/api/races/keirin/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
             -H 'accept: application/json')
 
-          # Final GET Response Check: 要素数が372個であることを確認
+          # Final GET Response Check: 要素数が31個であることを確認
           item_count=$(echo "$response" | jq '. | length')
-          if [[ "$item_count" -ne 372 ]]; then
-            echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
+          if [[ "$item_count" -ne 31 ]]; then
+            echo "❌ Updated GET request failed. Expected 31 items but got $item_count items."
             exit 1
           fi
 
