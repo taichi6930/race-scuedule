@@ -30,7 +30,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
                     // 2024年のデータ366日分を作成
                     const startDate = new Date('2024-01-01');
                     const currentDate = new Date(startDate);
-                    // forで回していって、最初の日付の年数と異なったら終了
+                    // whileで回していって、最初の日付の年数と異なったら終了
                     while (
                         currentDate.getFullYear() === startDate.getFullYear()
                     ) {
