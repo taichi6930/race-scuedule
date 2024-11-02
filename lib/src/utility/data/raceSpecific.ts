@@ -318,3 +318,18 @@ export const KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST: {
     { grade: 'FⅡ', stage: 'ガールズアルテミス賞', priority: 6 },
     { grade: 'FⅡ', stage: 'スーパープロピストレーサー賞', priority: 7 },
 ];
+
+/**
+ * 世界の競馬のグレード
+ */
+export type WorldGradeType = 'GP' | 'GⅠ' | 'GⅡ' | 'GⅢ';
+
+/**
+ * 世界の競馬場
+ */
+export type WorldRaceCourse = 'ロンシャン';
+
+/**
+ * 世界の競馬の馬場種別
+ */
+export type WorldRaceCourseType = '芝' | 'ダート';
