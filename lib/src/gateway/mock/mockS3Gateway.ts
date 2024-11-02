@@ -43,6 +43,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         this.bucketName = bucketName;
         this.folderPath = folderPath;
         const mockStorage = MockS3Gateway.mockStorage;
+
+        // 既にmockStorageに値が入っている場合は何もしない
+        if (mockStorage.size > 0) {
+            return;
+        }
         // 最初にmockStorageに値を入れておく
         // 2024年のデータ366日分を作成
         for (let i = 0; i < 366; i++) {
