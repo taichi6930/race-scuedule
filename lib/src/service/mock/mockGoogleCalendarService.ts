@@ -88,6 +88,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
     private static mockCalendarData: Record<string, CalendarData[]> = {
         jra: [],
         nar: [],
+        world: [],
         keirin: [],
     };
     @Logger
