@@ -20,11 +20,13 @@ import { NarPlaceRepositoryFromHtmlImpl } from '../repository/implement/narPlace
 import { NarPlaceRepositoryFromS3Impl } from '../repository/implement/narPlaceRepositoryFromS3Impl';
 import { NarRaceRepositoryFromHtmlImpl } from '../repository/implement/narRaceRepositoryFromHtmlImpl';
 import { NarRaceRepositoryFromS3Impl } from '../repository/implement/narRaceRepositoryFromS3Impl';
+import { WorldRaceRepositoryFromHtmlImpl } from '../repository/implement/worldRaceRepositoryFromHtmlImpl';
 import { WorldRaceRepositoryFromStorageImpl } from '../repository/implement/worldRaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../repository/interface/IRaceRepository';
 import { MockKeirinPlaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinPlaceRepositoryFromHtmlImpl';
 import { MockKeirinRaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinRaceRepositoryFromHtmlImpl';
+import { MockWorldRaceRepositoryFromHtmlImpl } from '../repository/mock/mockWorldRaceRepositoryFromHtmlImpl';
 import { ENV } from '../utility/env';
 
 // Repositoryの実装クラスをDIコンテナに登錄する
@@ -95,3 +97,22 @@ container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
     'WorldRaceRepositoryFromStorage',
     { useClass: WorldRaceRepositoryFromStorageImpl },
 );
+switch (ENV) {
+    case 'PRODUCTION':
+    case 'LOCAL':
+        container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
+            'WorldRaceRepositoryFromHtml',
+            {
+                useClass: WorldRaceRepositoryFromHtmlImpl,
+            },
+        );
+        break;
+    case 'ITa':
+        container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
+            'KeirinRaceRepositoryFromHtml',
+            {
+                useClass: MockWorldRaceRepositoryFromHtmlImpl,
+            },
+        );
+        break;
+}

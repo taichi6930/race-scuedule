@@ -11,6 +11,7 @@ import { KeirinRaceDataHtmlGateway } from '../gateway/implement/keirinRaceDataHt
 import { NarPlaceDataHtmlGateway } from '../gateway/implement/narPlaceDataHtmlGateway';
 import { NarRaceDataHtmlGateway } from '../gateway/implement/narRaceDataHtmlGateway';
 import { S3Gateway } from '../gateway/implement/s3Gateway';
+import { WorldRaceDataHtmlGateway } from '../gateway/implement/worldRaceDataHtmlGateway';
 import type { IJraPlaceDataHtmlGateway } from '../gateway/interface/iJraPlaceDataHtmlGateway';
 import type { IJraRaceDataHtmlGateway } from '../gateway/interface/iJraRaceDataHtmlGateway';
 import type { IKeirinPlaceDataHtmlGateway } from '../gateway/interface/iKeirinPlaceDataHtmlGateway';
@@ -18,6 +19,7 @@ import type { IKeirinRaceDataHtmlGateway } from '../gateway/interface/iKeirinRac
 import type { INarPlaceDataHtmlGateway } from '../gateway/interface/iNarPlaceDataHtmlGateway';
 import type { INarRaceDataHtmlGateway } from '../gateway/interface/iNarRaceDataHtmlGateway';
 import type { IS3Gateway } from '../gateway/interface/iS3Gateway';
+import type { IWorldRaceDataHtmlGateway } from '../gateway/interface/iWorldRaceDataHtmlGateway';
 import { MockJraPlaceDataHtmlGateway } from '../gateway/mock/mockJraPlaceDataHtmlGateway';
 import { MockJraRaceDataHtmlGateway } from '../gateway/mock/mockJraRaceDataHtmlGateway';
 import { MockKeirinPlaceDataHtmlGateway } from '../gateway/mock/mockKeirinPlaceDataHtmlGateway';
@@ -25,6 +27,7 @@ import { MockKeirinRaceDataHtmlGateway } from '../gateway/mock/mockKeirinRaceDat
 import { MockNarPlaceDataHtmlGateway } from '../gateway/mock/mockNarPlaceDataHtmlGateway';
 import { MockNarRaceDataHtmlGateway } from '../gateway/mock/mockNarRaceDataHtmlGateway';
 import { MockS3Gateway } from '../gateway/mock/mockS3Gateway';
+import { MockWorldRaceDataHtmlGateway } from '../gateway/mock/mockWorldRaceDataHtmlGateway';
 import type { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
 import type { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
@@ -230,6 +233,20 @@ container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
                 return new KeirinRaceDataHtmlGateway();
             default:
                 return new MockKeirinRaceDataHtmlGateway();
+        }
+    },
+});
+
+container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
+    useFactory: () => {
+        switch (ENV) {
+            case 'PRODUCTION':
+                console.log('WorldRaceDataHtmlGateway');
+                return new WorldRaceDataHtmlGateway();
+            case 'ITa':
+            case 'LOCAL':
+            default:
+                return new MockWorldRaceDataHtmlGateway();
         }
     },
 });
