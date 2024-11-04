@@ -5,12 +5,12 @@ import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { IWorldRaceDataHtmlGateway } from '../../gateway/interface/iWorldRaceDataHtmlGateway';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import {
     WorldGradeType,
     WorldRaceCourse,
     WorldRaceCourseType,
 } from '../../utility/data/raceSpecific';
+import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { Logger } from '../../utility/logger';
 import { processWorldRaceName } from '../../utility/raceName';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
@@ -127,15 +127,13 @@ export class WorldRaceRepositoryFromHtmlImpl
                             .find('.name')
                             .text();
 
-                        const location = $(raceElement)
+                        const location: WorldRaceCourse = $(raceElement)
                             .find('.racelist__race__sub')
                             .find('.course')
                             .text()
-                            .trim();
+                            .trim() as WorldRaceCourse;
                         // locationがWorldRaceCourseに適していない場合はスキップ
-                        if (
-                            !Object.keys(NETKEIBA_BABACODE).includes(location)
-                        ) {
+                        if (!Object.keys(WORLD_PLACE_CODE).includes(location)) {
                             console.error(
                                 `登録されていない競馬場です: ${location} ${rowRaceName}`,
                             );
@@ -210,7 +208,7 @@ export class WorldRaceRepositoryFromHtmlImpl
 
                         const raceName = processWorldRaceName({
                             name: rowRaceName,
-                            place: location as WorldRaceCourse,
+                            place: location,
                             grade: grade,
                             date: date,
                             surfaceType: surfaceType,
@@ -221,16 +219,14 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 null,
                                 raceName,
                                 date,
-                                location as WorldRaceCourse,
+                                location,
                                 surfaceType,
                                 distance,
                                 grade,
-                                12,
                             ),
                         );
                     });
             });
-            console.log(worldRaceDataList);
             return worldRaceDataList;
         } catch (e) {
             console.error('htmlを取得できませんでした', e);

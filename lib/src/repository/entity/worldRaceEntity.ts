@@ -2,12 +2,12 @@ import '../../utility/format';
 
 import { format } from 'date-fns';
 
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import type {
     WorldGradeType,
     WorldRaceCourse,
     WorldRaceCourseType,
 } from '../../utility/data/raceSpecific';
+import { WORLD_PLACE_CODE } from '../../utility/data/world';
 
 /**
  * 海外競馬のレース開催データ
@@ -30,7 +30,6 @@ export class WorldRaceEntity {
      * @param surfaceType - 馬場種別
      * @param distance - 距離
      * @param grade - グレード
-     * @param number - レース番号
      */
     constructor(
         id: string | null,
@@ -40,9 +39,8 @@ export class WorldRaceEntity {
         public readonly surfaceType: WorldRaceCourseType,
         public readonly distance: number,
         public readonly grade: WorldGradeType,
-        public readonly number: number,
     ) {
-        this.id = id ?? this.generateId(dateTime, location, number);
+        this.id = id ?? this.generateId(dateTime, location);
     }
 
     /**
@@ -54,11 +52,7 @@ export class WorldRaceEntity {
      * @param number - レース番号
      * @returns 生成されたID
      */
-    private generateId(
-        dateTime: Date,
-        location: WorldRaceCourse,
-        number: number,
-    ): string {
-        return `world${format(dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${number.toXDigits(2)}`;
+    private generateId(dateTime: Date, location: WorldRaceCourse): string {
+        return `world${format(dateTime, 'yyyyMMdd')}${WORLD_PLACE_CODE[location]}`;
     }
 }

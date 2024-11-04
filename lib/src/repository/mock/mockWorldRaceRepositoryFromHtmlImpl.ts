@@ -32,7 +32,6 @@ export class MockWorldRaceRepositoryFromHtmlImpl
                     '芝',
                     2400,
                     'GⅠ',
-                    i,
                 ),
             );
         }

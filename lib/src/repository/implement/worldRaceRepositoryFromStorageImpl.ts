@@ -91,7 +91,6 @@ export class WorldRaceRepositoryFromStorageImpl
                                 ] as WorldRaceCourseType,
                                 parseInt(columns[distanceIndex]),
                                 columns[gradeIndex] as WorldGradeType,
-                                parseInt(columns[raceNumIndex]),
                             );
                         })
                         .filter(

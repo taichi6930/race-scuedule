@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import type { WorldRaceCourse } from '../../utility/data/raceSpecific';
+import { WORLD_PLACE_CODE } from '../../utility/data/world';
 
 /**
  * Repository層のEntity 海外競馬のレース開催場所データ
@@ -37,6 +37,6 @@ export class WorldPlaceEntity {
      * @returns 生成されたID
      */
     private generateId(dateTime: Date, location: WorldRaceCourse): string {
-        return `world${format(dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}`;
+        return `world${format(dateTime, 'yyyyMMdd')}${WORLD_PLACE_CODE[location]}`;
     }
 }

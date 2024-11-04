@@ -77,7 +77,6 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
                     raceEntity.surfaceType,
                     raceEntity.distance,
                     raceEntity.grade,
-                    raceEntity.number,
                 );
             });
             const filteredRaceDataList: WorldRaceData[] = raceDataList.filter(
