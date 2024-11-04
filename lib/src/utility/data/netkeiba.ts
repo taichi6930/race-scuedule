@@ -1,4 +1,13 @@
-export const NETKEIBA_BABACODE: Record<string, string> = {
+import type {
+    JraRaceCourse,
+    NarRaceCourse,
+    WorldRaceCourse,
+} from './raceSpecific';
+
+export const NETKEIBA_BABACODE: Record<
+    JraRaceCourse | NarRaceCourse | WorldRaceCourse,
+    string
+> = {
     // 中央競馬
     札幌: '01',
     函館: '02',
@@ -16,6 +25,11 @@ export const NETKEIBA_BABACODE: Record<string, string> = {
     門別: '30',
     盛岡: '35',
     水沢: '36',
+    上山: '37',
+    三条: '38',
+    足利: '39',
+    宇都宮: '40',
+    高崎: '41',
     浦和: '42',
     船橋: '43',
     大井: '44',
@@ -27,13 +41,16 @@ export const NETKEIBA_BABACODE: Record<string, string> = {
     姫路: '51',
     高知: '54',
     佐賀: '55',
+    北見ば: '',
+    岩見ば: '',
+    旭川ば: '',
+    旭川: '',
+    益田: '',
+    福山: '',
+    荒尾: '',
+    中津: '',
 
     // 海外
-    シャティン: 'H1',
-    サンタアニタパーク: 'F3',
-    チャーチルダウンズ: 'F4',
-    メイダン: 'J0',
+    ロンシャン: 'C8',
     パリロンシャン: 'C8',
-    アスコット: 'A0',
-    ベルモントパーク: 'FD',
 };

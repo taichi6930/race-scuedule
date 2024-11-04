@@ -5,7 +5,14 @@ import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { IWorldRaceDataHtmlGateway } from '../../gateway/interface/iWorldRaceDataHtmlGateway';
+import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import {
+    WorldGradeType,
+    WorldRaceCourse,
+    WorldRaceCourseType,
+} from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { processWorldRaceName } from '../../utility/raceName';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -106,59 +113,124 @@ export class WorldRaceRepositoryFromHtmlImpl
                     dataTarget?.slice(4, 6),
                     dataTarget?.slice(6, 8),
                 ].map(Number);
-                console.log('start---------');
-                console.log(index, dataTarget);
-                console.log('end---------');
-                /*
-                <div class="racelist__day" data-target="20241011">
-                    <div class="trigger">11日（金）</div>
-                    <div class="body">
-                        <div class="racelist__race">
-                            <a href="/schedule/result/R1013225/" class="racelist__race__info">
-                                <p class="racelist__race__sub">
-                                    <span class="flags flag_bri"></span>
-                                    <span class="course">ニューマーケット</span>
-                                    /
-                                    <span class="type">芝1600m</span>
-                                    /
-                                    <span class="time">23:36発走</span>
-                                </p>
-                                <h3 class="racelist__race__title">
-                                    <span class="name">フィリーズマイル</span>
-                                    <span class="grade _g1"><span>G1</span></span>
-                                </h3>
-                                <p class="racelist__race__tag">
-                                    <span class="item _video active"><i class="fas fa-play-circle"></i>動画</span>
-                                    <span class="item _photo"><i class="fas fa-camera"></i>フォト</span>
-                                    <span class="item _news active"><i class="far fa-newspaper"></i>ニュース</span>
-                                    <span class="item _special"><i class="fas fa-horse-head"></i>特集</span>
-                                </p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                */
+
+                // 同じ日付になっているが、日本時間では日付がずれている場合があるのでそのための変数
+                let recordHour = -1;
+                let recordDay = 0;
+                let recordPlace = '';
+
                 $(dayElement)
                     .find('.racelist__race')
                     .each((_, raceElement) => {
-                        const raceName = $(raceElement)
+                        const rowRaceName = $(raceElement)
                             .find('.racelist__race__title')
                             .find('.name')
                             .text();
+
+                        const location = $(raceElement)
+                            .find('.racelist__race__sub')
+                            .find('.course')
+                            .text()
+                            .trim();
+                        // locationがWorldRaceCourseに適していない場合はスキップ
+                        if (
+                            !Object.keys(NETKEIBA_BABACODE).includes(location)
+                        ) {
+                            console.error(
+                                `登録されていない競馬場です: ${location} ${rowRaceName}`,
+                            );
+                            return;
+                        }
+                        // 芝1600mのような文字列からsurfaceTypeを取得
+                        // 芝、ダート、障害、AWがある
+                        const surfaceTypeAndDistanceText = $(raceElement)
+                            .find('.racelist__race__sub')
+                            .find('.type')
+                            .text()
+                            .trim(); // テキストをトリムして不要な空白を削除
+
+                        const surfaceType: WorldRaceCourseType | null =
+                            (['芝', 'ダート', '障害', 'AW'].find((type) =>
+                                surfaceTypeAndDistanceText.includes(type),
+                            ) as WorldRaceCourseType) ?? null;
+                        if (surfaceType == null) {
+                            return;
+                        }
+                        const distanceMatch = /\d+/.exec(
+                            surfaceTypeAndDistanceText,
+                        );
+                        const distance: number | null = distanceMatch
+                            ? Number(distanceMatch[0])
+                            : null;
+                        if (distance == null) {
+                            return;
+                        }
+                        const grade: WorldGradeType = $(raceElement)
+                            .find('.racelist__race__title')
+                            .find('.grade')
+                            .find('span')
+                            .text()
+                            .replace('G1', 'GⅠ')
+                            .replace('G2', 'GⅡ')
+                            .replace('G3', 'GⅢ')
+                            .replace('Listed', 'Listed') as WorldGradeType;
+                        // timeは<span class="time">23:36発走</span>の"23:36"を取得
+                        const timeText = $(raceElement)
+                            .find('.racelist__race__sub')
+                            .find('.time')
+                            .text()
+                            .trim();
+
+                        const timeMatch = /\d{2}:\d{2}/.exec(timeText);
+                        const time = timeMatch ? timeMatch[0] : null;
+                        if (time == null) {
+                            return;
+                        }
+                        const [hour, minute] = time.split(':').map(Number);
+
+                        // 競馬場が異なる場合はrecordDayをリセット
+                        if (recordPlace !== location) {
+                            recordHour = -1;
+                            recordDay = 0;
+                        }
+                        recordPlace = location;
+
+                        // 日付が変わっているのでrecordDayを増やす
+                        if (recordHour > hour) {
+                            recordDay++;
+                        }
+                        recordHour = hour;
+                        const date = new Date(
+                            year,
+                            month - 1,
+                            day + recordDay,
+                            hour,
+                            minute,
+                        );
+
+                        const raceName = processWorldRaceName({
+                            name: rowRaceName,
+                            place: location as WorldRaceCourse,
+                            grade: grade,
+                            date: date,
+                            surfaceType: surfaceType,
+                            distance: distance,
+                        });
                         worldRaceDataList.push(
                             new WorldRaceEntity(
                                 null,
                                 raceName,
-                                new Date(year, month - 1, day),
-                                'ロンシャン',
-                                '芝',
-                                2400,
-                                'GⅠ',
+                                date,
+                                location as WorldRaceCourse,
+                                surfaceType,
+                                distance,
+                                grade,
                                 12,
                             ),
                         );
                     });
             });
+            console.log(worldRaceDataList);
             return worldRaceDataList;
         } catch (e) {
             console.error('htmlを取得できませんでした', e);

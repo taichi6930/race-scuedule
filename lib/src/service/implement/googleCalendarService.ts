@@ -19,6 +19,11 @@ import {
 } from '../../utility/data/movie';
 import { NAR_BABACODE } from '../../utility/data/nar';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import {
+    JraRaceCourse,
+    NarRaceCourse,
+    WorldRaceCourse,
+} from '../../utility/data/raceSpecific';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
@@ -297,16 +302,24 @@ export class GoogleCalendarService<R extends RaceData>
 
     /**
      * イベントIDを生成する
-     * netkeibaのレースIDを元に生成
+     * netkeiba、netkeirinのレースIDを元に生成
      * @param raceData
      * @returns
      */
     private generateEventId(raceData: RaceData): string {
         switch (this.raceType) {
-            case 'jra':
-            case 'nar':
-            case 'world':
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
+            case 'jra': {
+                const location = raceData.location as JraRaceCourse;
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${raceData.number.toXDigits(2)}`;
+            }
+            case 'nar': {
+                const location = raceData.location as NarRaceCourse;
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${raceData.number.toXDigits(2)}`;
+            }
+            case 'world': {
+                const location = raceData.location as WorldRaceCourse;
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${raceData.number.toXDigits(2)}`;
+            }
             case 'keirin':
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[raceData.location]}${raceData.number.toXDigits(2)}`;
         }

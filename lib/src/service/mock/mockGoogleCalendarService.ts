@@ -4,6 +4,11 @@ import { CalendarData } from '../../domain/calendarData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import {
+    JraRaceCourse,
+    NarRaceCourse,
+    WorldRaceCourse,
+} from '../../utility/data/raceSpecific';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { RaceData, RaceType } from '../implement/googleCalendarService';
@@ -41,11 +46,15 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
                             switch (this.raceType) {
                                 case 'jra':
                                     location = '東京';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location as JraRaceCourse]}${i.toXDigits(2)}`;
                                     break;
                                 case 'nar':
                                     location = '大井';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location as NarRaceCourse]}${i.toXDigits(2)}`;
+                                    break;
+                                case 'world':
+                                    location = 'ロンシャン';
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location as WorldRaceCourse]}${i.toXDigits(2)}`;
                                     break;
                                 case 'keirin':
                                     location = '川崎';
@@ -140,10 +149,18 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
      */
     private generateEventId(raceData: RaceData): string {
         switch (this.raceType) {
-            case 'jra':
-            case 'nar':
-            case 'world':
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
+            case 'jra': {
+                const location = raceData.location as JraRaceCourse;
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${raceData.number.toXDigits(2)}`;
+            }
+            case 'nar': {
+                const location = raceData.location as NarRaceCourse;
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${raceData.number.toXDigits(2)}`;
+            }
+            case 'world': {
+                const location = raceData.location as WorldRaceCourse;
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${raceData.number.toXDigits(2)}`;
+            }
             case 'keirin':
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[raceData.location]}${raceData.number.toXDigits(2)}`;
         }
