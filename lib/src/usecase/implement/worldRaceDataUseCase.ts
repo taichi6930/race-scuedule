@@ -47,6 +47,7 @@ export class WorldRaceDataUseCase implements IRaceDataUseCase<WorldRaceData> {
                 raceEntity.surfaceType,
                 raceEntity.distance,
                 raceEntity.grade,
+                raceEntity.number,
             );
         });
     }

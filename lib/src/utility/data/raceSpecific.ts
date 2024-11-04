@@ -322,7 +322,7 @@ export const KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST: {
 /**
  * 世界の競馬のグレード
  */
-export type WorldGradeType = 'GⅠ' | 'GⅡ' | 'GⅢ' | 'Listed';
+export type WorldGradeType = 'GⅠ' | 'GⅡ' | 'GⅢ' | 'Listed' | '格付けなし';
 
 /**
  * 世界の競馬場

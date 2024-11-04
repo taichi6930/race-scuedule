@@ -19,6 +19,7 @@ export class WorldRaceData {
      * @param surfaceType - 馬場種別
      * @param distance - 距離
      * @param grade - グレード
+     * @param number - レース番号
      */
     constructor(
         public readonly name: string,
@@ -27,6 +28,7 @@ export class WorldRaceData {
         public readonly surfaceType: WorldRaceCourseType,
         public readonly distance: number,
         public readonly grade: WorldGradeType,
+        public readonly number: number,
     ) {
         const [isValid, errorMessageList] = this.validate();
         if (!isValid) {
@@ -47,6 +49,7 @@ export class WorldRaceData {
             partial.surfaceType ?? this.surfaceType,
             partial.distance ?? this.distance,
             partial.grade ?? this.grade,
+            partial.number ?? this.number,
         );
     }
 

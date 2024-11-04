@@ -163,7 +163,10 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
             }
             case 'world': {
                 const worldRaceData = raceData as WorldRaceData;
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${WORLD_PLACE_CODE[worldRaceData.location]}`;
+                const locationCode = WORLD_PLACE_CODE[
+                    worldRaceData.location
+                ].substring(0, 10);
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${locationCode}${worldRaceData.number.toXDigits(2)}`;
             }
             case 'keirin': {
                 const keirinRaceData = raceData as KeirinRaceData;

@@ -30,6 +30,7 @@ export class WorldRaceEntity {
      * @param surfaceType - 馬場種別
      * @param distance - 距離
      * @param grade - グレード
+     * @param number - レース番号
      */
     constructor(
         id: string | null,
@@ -39,8 +40,9 @@ export class WorldRaceEntity {
         public readonly surfaceType: WorldRaceCourseType,
         public readonly distance: number,
         public readonly grade: WorldGradeType,
+        public readonly number: number,
     ) {
-        this.id = id ?? this.generateId(dateTime, location);
+        this.id = id ?? this.generateId(dateTime, location, number);
     }
 
     /**
@@ -52,7 +54,12 @@ export class WorldRaceEntity {
      * @param number - レース番号
      * @returns 生成されたID
      */
-    private generateId(dateTime: Date, location: WorldRaceCourse): string {
-        return `world${format(dateTime, 'yyyyMMdd')}${WORLD_PLACE_CODE[location]}`;
+    private generateId(
+        dateTime: Date,
+        location: WorldRaceCourse,
+        number: number,
+    ): string {
+        const locationCode = WORLD_PLACE_CODE[location].substring(0, 10);
+        return `world${format(dateTime, 'yyyyMMdd')}${locationCode}${number.toXDigits(2)}`;
     }
 }

@@ -118,10 +118,16 @@ export class WorldRaceRepositoryFromHtmlImpl
                 let recordHour = -1;
                 let recordDay = 0;
                 let recordPlace = '';
+                let recordNumber = 0;
 
                 $(dayElement)
                     .find('.racelist__race')
                     .each((_, raceElement) => {
+                        // classにnolinkがある場合はスキップ
+                        if ($(raceElement).find('.nolink').text().length > 0) {
+                            return;
+                        }
+
                         const rowRaceName = $(raceElement)
                             .find('.racelist__race__title')
                             .find('.name')
@@ -136,6 +142,12 @@ export class WorldRaceRepositoryFromHtmlImpl
                         if (!Object.keys(WORLD_PLACE_CODE).includes(location)) {
                             console.error(
                                 `登録されていない競馬場です: ${location} ${rowRaceName}`,
+                            );
+                            return;
+                        }
+                        if (WORLD_PLACE_CODE[location] === '') {
+                            console.error(
+                                `コードが登録されていない競馬場です: ${location} ${rowRaceName}`,
                             );
                             return;
                         }
@@ -163,15 +175,22 @@ export class WorldRaceRepositoryFromHtmlImpl
                         if (distance == null) {
                             return;
                         }
-                        const grade: WorldGradeType = $(raceElement)
-                            .find('.racelist__race__title')
-                            .find('.grade')
-                            .find('span')
-                            .text()
-                            .replace('G1', 'GⅠ')
-                            .replace('G2', 'GⅡ')
-                            .replace('G3', 'GⅢ')
-                            .replace('Listed', 'Listed') as WorldGradeType;
+                        const gradeText: string = rowRaceName.includes('（L）')
+                            ? 'Listed'
+                            : $(raceElement)
+                                  .find('.racelist__race__title')
+                                  .find('.grade')
+                                  .find('span')
+                                  .text()
+                                  .replace('G1', 'GⅠ')
+                                  .replace('G2', 'GⅡ')
+                                  .replace('G3', 'GⅢ')
+                                  .replace('Listed', 'Listed');
+                        const grade: WorldGradeType =
+                            gradeText === ''
+                                ? '格付けなし'
+                                : (gradeText as WorldGradeType);
+
                         // timeは<span class="time">23:36発走</span>の"23:36"を取得
                         const timeText = $(raceElement)
                             .find('.racelist__race__sub')
@@ -190,6 +209,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                         if (recordPlace !== location) {
                             recordHour = -1;
                             recordDay = 0;
+                            recordNumber = 0;
                         }
                         recordPlace = location;
 
@@ -198,6 +218,9 @@ export class WorldRaceRepositoryFromHtmlImpl
                             recordDay++;
                         }
                         recordHour = hour;
+
+                        recordNumber++;
+                        const number = recordNumber;
                         const date = new Date(
                             year,
                             month - 1,
@@ -223,6 +246,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 surfaceType,
                                 distance,
                                 grade,
+                                number,
                             ),
                         );
                     });
