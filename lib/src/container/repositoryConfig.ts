@@ -109,7 +109,7 @@ switch (ENV) {
         break;
     case 'ITa':
         container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
-            'KeirinRaceRepositoryFromHtml',
+            'WorldRaceRepositoryFromHtml',
             {
                 useClass: MockWorldRaceRepositoryFromHtmlImpl,
             },
