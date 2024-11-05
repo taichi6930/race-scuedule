@@ -1,0 +1,24 @@
+on:
+  schedule:
+    - cron: '0 21 * * *' # 毎日21時に実行
+  workflow_dispatch: # 手動トリガーを許可
+
+jobs:
+  world-race:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Send curl request to API
+        env:
+          API_PRODUCTION_URL: ${{ secrets.API_PRODUCTION_URL }}
+        run: |
+          # 日付を計算
+          startDate=$(date -d "yesterday" +"%Y-%m-%d")
+          finishDate=$(date -d "+2 days" +"%Y-%m-%d")
+
+          # GETリクエストを送信
+          response=$(curl -s -X GET "${API_PRODUCTION_URL}/api/races/world/calendar?startDate=${startDate}&finishDate=${finishDate}" -H "accept: application/json")
+
+          echo "Response: $response"
