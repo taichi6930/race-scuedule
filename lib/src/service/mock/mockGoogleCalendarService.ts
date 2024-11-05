@@ -1,9 +1,18 @@
 import { format } from 'date-fns';
 
 import { CalendarData } from '../../domain/calendarData';
+import { JraRaceData } from '../../domain/jraRaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { NarRaceData } from '../../domain/narRaceData';
+import { WorldRaceData } from '../../domain/worldRaceData';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import {
+    JraRaceCourse,
+    NarRaceCourse,
+    WorldRaceCourse,
+} from '../../utility/data/raceSpecific';
+import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { RaceData, RaceType } from '../implement/googleCalendarService';
@@ -41,11 +50,15 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
                             switch (this.raceType) {
                                 case 'jra':
                                     location = '東京';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location as JraRaceCourse]}${i.toXDigits(2)}`;
                                     break;
                                 case 'nar':
                                     location = '大井';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location as NarRaceCourse]}${i.toXDigits(2)}`;
+                                    break;
+                                case 'world':
+                                    location = 'ロンシャン';
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WORLD_PLACE_CODE[location as WorldRaceCourse]}${i.toXDigits(2)}`;
                                     break;
                                 case 'keirin':
                                     location = '川崎';
@@ -88,6 +101,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
     private static mockCalendarData: Record<string, CalendarData[]> = {
         jra: [],
         nar: [],
+        world: [],
         keirin: [],
     };
     @Logger
@@ -133,17 +147,31 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
 
     /**
      * イベントIDを生成する
-     * netkeibaのレースIDを元に生成
+     * netkeiba、netkeirinのレースIDを元に生成
      * @param raceData
      * @returns
      */
     private generateEventId(raceData: RaceData): string {
         switch (this.raceType) {
-            case 'jra':
-            case 'nar':
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[raceData.location]}${raceData.number.toXDigits(2)}`;
-            case 'keirin':
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[raceData.location]}${raceData.number.toXDigits(2)}`;
+            case 'jra': {
+                const jraRaceData = raceData as JraRaceData;
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[jraRaceData.location]}${jraRaceData.number.toXDigits(2)}`;
+            }
+            case 'nar': {
+                const narRaceData = raceData as NarRaceData;
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[narRaceData.location]}${narRaceData.number.toXDigits(2)}`;
+            }
+            case 'world': {
+                const worldRaceData = raceData as WorldRaceData;
+                const locationCode = WORLD_PLACE_CODE[
+                    worldRaceData.location
+                ].substring(0, 10);
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${locationCode}${worldRaceData.number.toXDigits(2)}`;
+            }
+            case 'keirin': {
+                const keirinRaceData = raceData as KeirinRaceData;
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[keirinRaceData.location]}${keirinRaceData.number.toXDigits(2)}`;
+            }
         }
     }
 

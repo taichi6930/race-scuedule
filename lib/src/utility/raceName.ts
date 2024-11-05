@@ -6,6 +6,9 @@ import {
     NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
+    WorldGradeType,
+    WorldRaceCourse,
+    WorldRaceCourseType,
 } from './data/raceSpecific';
 
 type JraRaceDataForRaceName = {
@@ -313,4 +316,32 @@ export const processNarRaceName = (
             .replace(/(A1(?:・A2)?|B|3歳|2歳)$/, '');
     }
     return newRaceName;
+};
+
+type WorldRaceDataForRaceName = {
+    name: string;
+    place: WorldRaceCourse;
+    grade: WorldGradeType;
+    date: Date;
+    surfaceType: WorldRaceCourseType;
+    distance: number;
+};
+
+export const processWorldRaceName = (
+    raceInfo: WorldRaceDataForRaceName,
+): string => {
+    return raceInfo.name
+        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
+            return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+        })
+        .replace(/[！-～]/g, function (s) {
+            return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+        })
+        .replace(/ステークス/, 'S')
+        .replace(/カップ/, 'C')
+        .replace('サラ系', '')
+        .replace('（L）', '')
+        .replace('(L)', '')
+        .replace('ブリーダーズC', 'BC')
+        .replace('ハンデキャップ', 'H');
 };

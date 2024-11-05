@@ -6,6 +6,7 @@ import type { KeirinPlaceData } from '../domain/keirinPlaceData';
 import type { KeirinRaceData } from '../domain/keirinRaceData';
 import type { NarPlaceData } from '../domain/narPlaceData';
 import type { NarRaceData } from '../domain/narRaceData';
+import type { WorldRaceData } from '../domain/worldRaceData';
 import { JraPlaceDataUseCase } from '../usecase/implement/jraPlaceDataUseCase';
 import { JraRaceCalendarUseCase } from '../usecase/implement/jraRaceCalendarUseCase';
 import { JraRaceDataUseCase } from '../usecase/implement/jraRaceDataUseCase';
@@ -15,6 +16,8 @@ import { KeirinRaceDataUseCase } from '../usecase/implement/keirinRaceDataUseCas
 import { NarPlaceDataUseCase } from '../usecase/implement/narPlaceDataUseCase';
 import { NarRaceCalendarUseCase } from '../usecase/implement/narRaceCalendarUseCase';
 import { NarRaceDataUseCase } from '../usecase/implement/narRaceDataUseCase';
+import { WorldRaceCalendarUseCase } from '../usecase/implement/worldRaceCalendarUseCase';
+import { WorldRaceDataUseCase } from '../usecase/implement/worldRaceDataUseCase';
 import type { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import type { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import type { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
@@ -50,3 +53,9 @@ container.register<IPlaceDataUseCase<KeirinPlaceData>>(
         useClass: KeirinPlaceDataUseCase,
     },
 );
+container.register<IRaceCalendarUseCase>('WorldRaceCalendarUseCase', {
+    useClass: WorldRaceCalendarUseCase,
+});
+container.register<IRaceDataUseCase<WorldRaceData>>('WorldRaceDataUseCase', {
+    useClass: WorldRaceDataUseCase,
+});

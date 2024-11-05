@@ -153,6 +153,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                         fileName,
                         mockData.join('\n'),
                     );
+                    currentDate.setDate(currentDate.getDate() + 1);
                 }
                 break;
         }
@@ -188,6 +189,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                                 'GP',
                             ].join(','),
                         );
+                        currentDate.setDate(currentDate.getDate() + 1);
                     }
                     MockS3Gateway.mockStorage.set(
                         fileName,
