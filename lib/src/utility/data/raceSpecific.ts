@@ -386,4 +386,10 @@ export type WorldRaceCourseType = '芝' | 'ダート' | '障害' | 'AW';
 /**
  * 世界の競馬の指定グレードリスト
  */
-export const WORLD_SPECIFIED_GRADE_LIST: KeirinGradeType[] = ['GⅠ', 'GⅡ', 'GⅢ'];
+export const WORLD_SPECIFIED_GRADE_LIST: WorldGradeType[] = [
+    'GⅠ',
+    'GⅡ',
+    'GⅢ',
+    'Listed',
+    '格付けなし',
+];
