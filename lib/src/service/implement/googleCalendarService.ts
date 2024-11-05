@@ -313,11 +313,15 @@ export class GoogleCalendarService<R extends RaceData>
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[narRaceData.location]}${narRaceData.number.toXDigits(2)}`;
             }
             case 'world': {
+                // w, x, y, zはGoogle Calendar APIのIDで使用できないため、置換
+                // https://developers.google.com/calendar/api/v3/reference/events/insert?hl=ja
                 const worldRaceData = raceData as WorldRaceData;
-                const locationCode = WORLD_PLACE_CODE[
-                    worldRaceData.location
-                ].substring(0, 10);
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${locationCode}${worldRaceData.number.toXDigits(2)}`;
+                const locationCode = WORLD_PLACE_CODE[worldRaceData.location];
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${locationCode}${worldRaceData.number.toXDigits(2)}`
+                    .replace('w', 'vv')
+                    .replace('x', 'cs')
+                    .replace('y', 'v')
+                    .replace('z', 's');
             }
             case 'keirin': {
                 const keirinRaceData = raceData as KeirinRaceData;
@@ -458,6 +462,7 @@ export class GoogleCalendarService<R extends RaceData>
         raceData: WorldRaceData,
     ): calendar_v3.Schema$Event {
         const data = raceData;
+        console.log(this.generateEventId(data));
         return {
             id: this.generateEventId(data),
             summary: data.name,
