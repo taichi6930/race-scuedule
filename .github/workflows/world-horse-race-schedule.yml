@@ -18,7 +18,34 @@ jobs:
           startDate=$(date -d "yesterday" +"%Y-%m-%d")
           finishDate=$(date -d "+2 days" +"%Y-%m-%d")
 
-          # GETリクエストを送信
-          response=$(curl -s -X GET "${API_PRODUCTION_URL}/api/races/world/calendar?startDate=${startDate}&finishDate=${finishDate}" -H "accept: application/json")
+          # update race data
+          update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
+            '${API_PRODUCTION_URL}/api/races/world/race' \
+            -H 'accept: */*' \
+            -H 'Content-Type: application/json' \
+            -d '{
+                  "startDate": ${startDate},
+                  "finishDate": ${finishDate}
+                }')
 
-          echo "Response: $response"
+          # update race data response check
+          if [[ "$update_race_data_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $update_race_data_response"
+            exit 1
+          fi
+
+          # update race calendar
+          update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
+            '${API_PRODUCTION_URL}/api/races/world/calendar' \
+            -H 'accept: */*' \
+            -H 'Content-Type: application/json' \
+            -d '{
+                  "startDate": ${startDate},
+                  "finishDate": ${finishDate}
+                }')
+
+          # update race calendar response check
+          if [[ "$update_race_calendar_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $update_race_calendar_response"
+            exit 1
+          fi
