@@ -48,7 +48,7 @@ jobs:
 
       - name: Send curl request to API
         env:
-          API_PRODUCTION_URL: ${{ secrets.API_PRODUCTION_URL }}
+          API_PRODUCTION_URL: "${{ secrets.API_PRODUCTION_URL }}"
         run: |
           # 日付はset-datesで設定済み
           startDate="${{ needs.set-dates.outputs.start-date }}"
@@ -79,7 +79,7 @@ jobs:
 
       - name: Send curl request to API
         env:
-          API_PRODUCTION_URL: ${{ secrets.API_PRODUCTION_URL }}
+          API_PRODUCTION_URL: "${{ secrets.API_PRODUCTION_URL }}"
         run: |
           startDate="${{ needs.set-dates.outputs.start-date }}"
           finishDate="${{ needs.set-dates.outputs.finish-date }}"
