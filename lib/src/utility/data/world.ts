@@ -32,6 +32,7 @@ export const WORLD_PLACE_CODE: Record<WorldRaceCourse, string> = {
     デルマー: 'delmar',
     パークスレーシング: 'parxracing',
     キーンランド: 'keeneland',
+    オークローンパーク: 'oaklawnpark',
     ミュンヘン: 'munich',
     ホッペガルテン: 'hoppegarten',
     バーデンバーデン: 'badenbaden',
