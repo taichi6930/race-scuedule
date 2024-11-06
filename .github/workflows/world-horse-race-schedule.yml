@@ -1,3 +1,5 @@
+name: World Horse Race Schedule Batch
+
 on:
   schedule:
     - cron: '0 21 * * *' # 毎日21時に実行
