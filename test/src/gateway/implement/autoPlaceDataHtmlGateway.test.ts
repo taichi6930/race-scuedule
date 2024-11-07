@@ -1,4 +1,4 @@
-import { AutoPlaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/autoPlaceDataHtmlGateway';
+import { AutoPlaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/autoracePlaceDataHtmlGateway';
 
 describe('AutoPlaceDataHtmlGateway', () => {
     let gateway: AutoPlaceDataHtmlGateway;
