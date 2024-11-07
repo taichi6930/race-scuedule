@@ -18,7 +18,7 @@ import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
- * 競輪場データリポジトリの実装
+ * オートレースデータリポジトリの実装
  */
 @injectable()
 export class AutoracePlaceRepositoryFromStorageImpl
@@ -29,9 +29,9 @@ export class AutoracePlaceRepositoryFromStorageImpl
         private readonly s3Gateway: IS3Gateway<AutoracePlaceEntity>,
     ) {}
     /**
-     * 競輪場開催データを取得する
+     * オートレース開催データを取得する
      *
-     * このメソッドで日付の範囲を指定して競輪場開催データを取得する
+     * このメソッドで日付の範囲を指定してオートレース開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<FetchPlaceListResponse<AutoracePlaceEntity>> - 開催データ取得レスポンス
@@ -95,9 +95,9 @@ export class AutoracePlaceRepositoryFromStorageImpl
     }
 
     /**
-     * S3から競輪場開催データを取得する
+     * S3からオートレース開催データを取得する
      *
-     * ファイル名を利用してS3から競輪場開催データを取得する
+     * ファイル名を利用してS3からオートレース開催データを取得する
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param fileName

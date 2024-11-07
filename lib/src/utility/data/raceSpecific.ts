@@ -402,10 +402,7 @@ export type AutoraceGradeType = 'SG' | '特GⅠ' | 'GⅠ' | 'GⅡ' | '開催';
 /**
  * オートレースの指定グレードリスト
  */
-export const AUTORACE_SPECIFIED_GRADE_LIST: AutoraceGradeType[] = [
-    'SG',
-    '特GⅠ',
-];
+export const AUTORACE_SPECIFIED_GRADE_LIST: AutoraceGradeType[] = ['SG'];
 
 /**
  * オートレースのステージ

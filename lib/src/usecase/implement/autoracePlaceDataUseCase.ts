@@ -4,6 +4,7 @@ import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
+import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
@@ -15,8 +16,8 @@ export class AutoracePlaceDataUseCase
     constructor(
         @inject('AutoracePlaceRepositoryFromStorage')
         private readonly autoracePlaceRepositoryFromStorage: IPlaceRepository<AutoracePlaceEntity>,
-        // @inject('AutoracePlaceRepositoryFromHtml')
-        // private readonly autoracePlaceRepositoryFromHtml: IPlaceRepository<AutoracePlaceEntity>,
+        @inject('AutoracePlaceRepositoryFromHtml')
+        private readonly autoracePlaceRepositoryFromHtml: IPlaceRepository<AutoracePlaceEntity>,
     ) {}
     /**
      * レース開催データを取得する
@@ -74,23 +75,20 @@ export class AutoracePlaceDataUseCase
             finishDate.getMonth() + 1,
             0,
         );
-        //     // HTMLからデータを取得する
-        //     const fetchPlaceListRequest: FetchPlaceListRequest =
-        //         new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
-        //     const fetchPlaceListResponse: FetchPlaceListResponse<AutoracePlaceEntity> =
-        //         await this.autoracePlaceRepositoryFromHtml.fetchPlaceList(
-        //             fetchPlaceListRequest,
-        //         );
-        //     // S3にデータを保存する
-        //     const registerPlaceListRequest =
-        //         new RegisterPlaceListRequest<AutoracePlaceEntity>(
-        //             fetchPlaceListResponse.placeDataList,
-        //         );
-        //     await this.autoracePlaceRepositoryFromStorage.registerPlaceList(
-        //         registerPlaceListRequest,
-        //     );
-        await Promise.resolve(
-            `${modifyStartDate.getFullYear().toString()}, ${modifyFinishDate.getFullYear().toString()}`,
+        // HTMLからデータを取得する
+        const fetchPlaceListRequest: FetchPlaceListRequest =
+            new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
+        const fetchPlaceListResponse: FetchPlaceListResponse<AutoracePlaceEntity> =
+            await this.autoracePlaceRepositoryFromHtml.fetchPlaceList(
+                fetchPlaceListRequest,
+            );
+        // S3にデータを保存する
+        const registerPlaceListRequest =
+            new RegisterPlaceListRequest<AutoracePlaceEntity>(
+                fetchPlaceListResponse.placeDataList,
+            );
+        await this.autoracePlaceRepositoryFromStorage.registerPlaceList(
+            registerPlaceListRequest,
         );
     }
 }

@@ -9,6 +9,7 @@ import type { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
 import type { WorldPlaceEntity } from '../repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
+import { AutoracePlaceRepositoryFromHtmlImpl } from '../repository/implement/autoracePlaceRepositoryFromHtmlImpl';
 import { AutoracePlaceRepositoryFromStorageImpl } from '../repository/implement/autoracePlaceRepositoryFromStorageImpl';
 import { JraPlaceRepositoryFromHtmlImpl } from '../repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromS3Impl } from '../repository/implement/jraPlaceRepositoryFromS3Impl';
@@ -69,6 +70,10 @@ container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
 container.register<IPlaceRepository<NarPlaceData>>(
     'NarPlaceRepositoryFromHtml',
     { useClass: NarPlaceRepositoryFromHtmlImpl },
+);
+container.register<IPlaceRepository<AutoracePlaceEntity>>(
+    'AutoracePlaceRepositoryFromHtml',
+    { useClass: AutoracePlaceRepositoryFromHtmlImpl },
 );
 container.register<IPlaceRepository<JraPlaceData>>(
     'JraPlaceRepositoryFromHtml',

@@ -4,6 +4,7 @@ import type { JraPlaceData } from '../domain/jraPlaceData';
 import type { JraRaceData } from '../domain/jraRaceData';
 import type { NarPlaceData } from '../domain/narPlaceData';
 import type { NarRaceData } from '../domain/narRaceData';
+import { AutoracePlaceDataHtmlGateway } from '../gateway/implement/autoracePlaceDataHtmlGateway';
 import { JraPlaceDataHtmlGateway } from '../gateway/implement/jraPlaceDataHtmlGateway';
 import { JraRaceDataHtmlGateway } from '../gateway/implement/jraRaceDataHtmlGateway';
 import { KeirinPlaceDataHtmlGateway } from '../gateway/implement/keirinPlaceDataHtmlGateway';
@@ -12,6 +13,7 @@ import { NarPlaceDataHtmlGateway } from '../gateway/implement/narPlaceDataHtmlGa
 import { NarRaceDataHtmlGateway } from '../gateway/implement/narRaceDataHtmlGateway';
 import { S3Gateway } from '../gateway/implement/s3Gateway';
 import { WorldRaceDataHtmlGateway } from '../gateway/implement/worldRaceDataHtmlGateway';
+import type { IAutoracePlaceDataHtmlGateway } from '../gateway/interface/iAutoracePlaceDataHtmlGateway';
 import type { IJraPlaceDataHtmlGateway } from '../gateway/interface/iJraPlaceDataHtmlGateway';
 import type { IJraRaceDataHtmlGateway } from '../gateway/interface/iJraRaceDataHtmlGateway';
 import type { IKeirinPlaceDataHtmlGateway } from '../gateway/interface/iKeirinPlaceDataHtmlGateway';
@@ -20,6 +22,7 @@ import type { INarPlaceDataHtmlGateway } from '../gateway/interface/iNarPlaceDat
 import type { INarRaceDataHtmlGateway } from '../gateway/interface/iNarRaceDataHtmlGateway';
 import type { IS3Gateway } from '../gateway/interface/iS3Gateway';
 import type { IWorldRaceDataHtmlGateway } from '../gateway/interface/iWorldRaceDataHtmlGateway';
+import { MockAutoracePlaceDataHtmlGateway } from '../gateway/mock/mockAutoracePlaceDataHtmlGateway';
 import { MockJraPlaceDataHtmlGateway } from '../gateway/mock/mockJraPlaceDataHtmlGateway';
 import { MockJraRaceDataHtmlGateway } from '../gateway/mock/mockJraRaceDataHtmlGateway';
 import { MockKeirinPlaceDataHtmlGateway } from '../gateway/mock/mockKeirinPlaceDataHtmlGateway';
@@ -270,3 +273,20 @@ container.register<IS3Gateway<AutoracePlaceEntity>>('AutoracePlaceS3Gateway', {
         }
     },
 });
+
+container.register<IAutoracePlaceDataHtmlGateway>(
+    'AutoracePlaceDataHtmlGateway',
+    {
+        useFactory: () => {
+            switch (ENV) {
+                case 'PRODUCTION':
+                    console.log('AutoracePlaceDataHtmlGateway');
+                    return new AutoracePlaceDataHtmlGateway();
+                case 'ITa':
+                case 'LOCAL':
+                default:
+                    return new MockAutoracePlaceDataHtmlGateway();
+            }
+        },
+    },
+);
