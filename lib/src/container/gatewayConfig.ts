@@ -28,6 +28,7 @@ import { MockNarPlaceDataHtmlGateway } from '../gateway/mock/mockNarPlaceDataHtm
 import { MockNarRaceDataHtmlGateway } from '../gateway/mock/mockNarRaceDataHtmlGateway';
 import { MockS3Gateway } from '../gateway/mock/mockS3Gateway';
 import { MockWorldRaceDataHtmlGateway } from '../gateway/mock/mockWorldRaceDataHtmlGateway';
+import type { AutoracePlaceEntity } from '../repository/entity/autoracePlaceEntity';
 import type { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
 import type { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
@@ -247,6 +248,25 @@ container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
             case 'LOCAL':
             default:
                 return new MockWorldRaceDataHtmlGateway();
+        }
+    },
+});
+
+container.register<IS3Gateway<AutoracePlaceEntity>>('AutoracePlaceS3Gateway', {
+    useFactory: () => {
+        switch (ENV) {
+            case 'PRODUCTION':
+                return new S3Gateway<AutoracePlaceEntity>(
+                    'race-schedule-bucket',
+                    'autorace/place/',
+                );
+            case 'ITa':
+            case 'LOCAL':
+            default:
+                return new MockS3Gateway<AutoracePlaceEntity>(
+                    'race-schedule-bucket',
+                    'autorace/place/',
+                );
         }
     },
 });
