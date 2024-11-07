@@ -1,11 +1,11 @@
 import { format } from 'date-fns';
 
 import { Logger } from '../../utility/logger';
-import { IAutoPlaceDataHtmlGateway } from '../interface/iAutoPlaceDataHtmlGateway';
+import { IAutoracePlaceDataHtmlGateway } from '../interface/iAutoracePlaceDataHtmlGateway';
 /**
  * オートレース開催データのHTMLを取得するGateway
  */
-export class AutoPlaceDataHtmlGateway implements IAutoPlaceDataHtmlGateway {
+export class AutoPlaceDataHtmlGateway implements IAutoracePlaceDataHtmlGateway {
     /**
      * オートレース開催データのHTMLを取得する
      *

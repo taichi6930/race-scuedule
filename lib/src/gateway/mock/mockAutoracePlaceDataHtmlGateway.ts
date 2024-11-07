@@ -3,11 +3,13 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { Logger } from '../../utility/logger';
-import { IAutoPlaceDataHtmlGateway } from '../interface/iAutoPlaceDataHtmlGateway';
+import { IAutoracePlaceDataHtmlGateway } from '../interface/iAutoracePlaceDataHtmlGateway';
 /**
  * オートレース開催データのHTMLを取得するGateway
  */
-export class MockAutoPlaceDataHtmlGateway implements IAutoPlaceDataHtmlGateway {
+export class MockAutoracePlaceDataHtmlGateway
+    implements IAutoracePlaceDataHtmlGateway
+{
     /**
      * オートレース開催データのHTMLを取得する
      *
