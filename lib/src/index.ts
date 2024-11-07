@@ -7,6 +7,7 @@ import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { container } from 'tsyringe';
 
+import { AutoraceRaceController } from './controller/autoraceRaceController';
 import { JraRaceController } from './controller/jraRaceController';
 import { KeirinRaceController } from './controller/keirinRaceController';
 import { NarRaceController } from './controller/narRaceController';
@@ -21,6 +22,7 @@ const narRaceController = container.resolve(NarRaceController);
 const jraRaceController = container.resolve(JraRaceController);
 const worldRaceController = container.resolve(WorldRaceController);
 const keirinRaceController = container.resolve(KeirinRaceController);
+const autoraceRaceController = container.resolve(AutoraceRaceController);
 
 // Expressの設定
 app.use(express.json());
@@ -30,6 +32,7 @@ app.use('/api/races/nar', narRaceController.router);
 app.use('/api/races/jra', jraRaceController.router);
 app.use('/api/races/world', worldRaceController.router);
 app.use('/api/races/keirin', keirinRaceController.router);
+app.use('/api/races/autorace', autoraceRaceController.router);
 
 // health check
 app.get('/health', (req, res) => {
