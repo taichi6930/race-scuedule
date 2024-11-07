@@ -5,7 +5,9 @@ import { IAutoracePlaceDataHtmlGateway } from '../interface/iAutoracePlaceDataHt
 /**
  * オートレース開催データのHTMLを取得するGateway
  */
-export class AutoPlaceDataHtmlGateway implements IAutoracePlaceDataHtmlGateway {
+export class AutoracePlaceDataHtmlGateway
+    implements IAutoracePlaceDataHtmlGateway
+{
     /**
      * オートレース開催データのHTMLを取得する
      *

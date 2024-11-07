@@ -1,11 +1,11 @@
-import { AutoPlaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/autoracePlaceDataHtmlGateway';
+import { AutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/implement/autoracePlaceDataHtmlGateway';
 
 describe('AutoPlaceDataHtmlGateway', () => {
-    let gateway: AutoPlaceDataHtmlGateway;
+    let gateway: AutoracePlaceDataHtmlGateway;
     let fetchMock: jest.Mock;
 
     beforeEach(() => {
-        gateway = new AutoPlaceDataHtmlGateway();
+        gateway = new AutoracePlaceDataHtmlGateway();
 
         // fetch をモックし、型定義を追加
         fetchMock = jest.fn();
