@@ -1,6 +1,7 @@
 import { container } from 'tsyringe';
 
 import type { AutoracePlaceData } from '../domain/autoracePlaceData';
+import type { AutoraceRaceData } from '../domain/autoraceRaceData';
 import type { JraPlaceData } from '../domain/jraPlaceData';
 import type { JraRaceData } from '../domain/jraRaceData';
 import type { KeirinPlaceData } from '../domain/keirinPlaceData';
@@ -9,6 +10,7 @@ import type { NarPlaceData } from '../domain/narPlaceData';
 import type { NarRaceData } from '../domain/narRaceData';
 import type { WorldRaceData } from '../domain/worldRaceData';
 import { AutoracePlaceDataUseCase } from '../usecase/implement/autoracePlaceDataUseCase';
+import { AutoraceRaceDataUseCase } from '../usecase/implement/autoraceRaceDataUseCase';
 import { JraPlaceDataUseCase } from '../usecase/implement/jraPlaceDataUseCase';
 import { JraRaceCalendarUseCase } from '../usecase/implement/jraRaceCalendarUseCase';
 import { JraRaceDataUseCase } from '../usecase/implement/jraRaceDataUseCase';
@@ -67,9 +69,12 @@ container.register<IPlaceDataUseCase<AutoracePlaceData>>(
         useClass: AutoracePlaceDataUseCase,
     },
 );
-// container.register<IRaceDataUseCase<AutoraceRaceData>>('AutoraceRaceDataUseCase', {
-//     useClass: AutoraceRaceDataUseCase,
-// });
+container.register<IRaceDataUseCase<AutoraceRaceData>>(
+    'AutoraceRaceDataUseCase',
+    {
+        useClass: AutoraceRaceDataUseCase,
+    },
+);
 // container.register<IRaceCalendarUseCase>('AutoraceRaceCalendarUseCase', {
 //     useClass: AutoraceRaceCalendarUseCase,
 // });

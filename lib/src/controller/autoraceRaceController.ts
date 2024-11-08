@@ -2,7 +2,9 @@ import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
 import { AutoracePlaceData } from '../domain/autoracePlaceData';
+import { AutoraceRaceData } from '../domain/autoraceRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
+import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import { Logger } from '../utility/logger';
 
 /**
@@ -15,8 +17,8 @@ export class AutoraceRaceController {
     constructor(
         // @inject('AutoraceRaceCalendarUseCase')
         // private readonly raceCalendarUseCase: IRaceCalendarUseCase,
-        // @inject('AutoraceRaceDataUseCase')
-        // private readonly autoraceRaceDataUseCase: IRaceDataUseCase<AutoraceRaceData>,
+        @inject('AutoraceRaceDataUseCase')
+        private readonly autoraceRaceDataUseCase: IRaceDataUseCase<AutoraceRaceData>,
         @inject('AutoracePlaceDataUseCase')
         private readonly autoracePlaceDataUseCase: IPlaceDataUseCase<AutoracePlaceData>,
     ) {
@@ -360,35 +362,34 @@ export class AutoraceRaceController {
      *                   description: エラーの詳細（任意でより具体的な説明を提供することができます）
      */
     @Logger
-    // private async getRaceDataList(req: Request, res: Response): Promise<void> {
-    //     try {
-    //         const { startDate, finishDate } = req.query;
+    private async getRaceDataList(req: Request, res: Response): Promise<void> {
+        try {
+            const { startDate, finishDate } = req.query;
 
-    //         // startDateとfinishDateが指定されていない場合はエラーを返す
-    //         if (
-    //             isNaN(Date.parse(startDate as string)) ||
-    //             isNaN(Date.parse(finishDate as string))
-    //         ) {
-    //             res.status(400).send('startDate、finishDateは必須です');
-    //             return;
-    //         }
+            // startDateとfinishDateが指定されていない場合はエラーを返す
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
+                res.status(400).send('startDate、finishDateは必須です');
+                return;
+            }
 
-    //         // レース情報を取得する
-    //         // const races = await this.autoraceRaceDataUseCase.fetchRaceDataList(
-    //         //     new Date(startDate as string),
-    //         //     new Date(finishDate as string),
-    //         // );
-    //         const races = [];
-    //         res.json(races);
-    //     } catch (error) {
-    //         console.error('レース情報の取得中にエラーが発生しました:', error);
-    //         const errorMessage =
-    //             error instanceof Error ? error.message : String(error);
-    //         res.status(500).send(
-    //             `サーバーエラーが発生しました: ${errorMessage}`,
-    //         );
-    //     }
-    // }
+            // レース情報を取得する
+            const races = await this.autoraceRaceDataUseCase.fetchRaceDataList(
+                new Date(startDate as string),
+                new Date(finishDate as string),
+            );
+            res.json(races);
+        } catch (error) {
+            console.error('レース情報の取得中にエラーが発生しました:', error);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
+        }
+    }
 
     /**
      * レース情報を更新する
@@ -420,38 +421,38 @@ export class AutoraceRaceController {
      *         description: サーバーエラー。カレンダーへのレース情報更新中にエラーが発生した場合
      */
     @Logger
-    // private async updateRaceDataList(
-    //     req: Request,
-    //     res: Response,
-    // ): Promise<void> {
-    //     try {
-    //         const { startDate, finishDate } = req.body;
+    private async updateRaceDataList(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startDate, finishDate } = req.body;
 
-    //         // startDateとfinishDateが指定されていない場合はエラーを返す
-    //         if (
-    //             isNaN(Date.parse(startDate as string)) ||
-    //             isNaN(Date.parse(finishDate as string))
-    //         ) {
-    //             res.status(400).send('startDate、finishDateは必須です');
-    //             return;
-    //         }
+            // startDateとfinishDateが指定されていない場合はエラーを返す
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
+                res.status(400).send('startDate、finishDateは必須です');
+                return;
+            }
 
-    //         console.log('test: updateRaceDataList');
-    //         // レース情報を取得する
-    //         await this.autoraceRaceDataUseCase.updateRaceDataList(
-    //             new Date(startDate),
-    //             new Date(finishDate),
-    //         );
-    //         res.status(200).send();
-    //     } catch (error) {
-    //         console.error('レース情報の更新中にエラーが発生しました:', error);
-    //         const errorMessage =
-    //             error instanceof Error ? error.message : String(error);
-    //         res.status(500).send(
-    //             `サーバーエラーが発生しました: ${errorMessage}`,
-    //         );
-    //     }
-    // }
+            console.log('test: updateRaceDataList');
+            // レース情報を取得する
+            await this.autoraceRaceDataUseCase.updateRaceDataList(
+                new Date(startDate),
+                new Date(finishDate),
+            );
+            res.status(200).send();
+        } catch (error) {
+            console.error('レース情報の更新中にエラーが発生しました:', error);
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
+        }
+    }
 
     /**
      * 競輪場情報を取得する
