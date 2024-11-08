@@ -1,10 +1,12 @@
 import { format } from 'date-fns';
 
+import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { CalendarData } from '../../domain/calendarData';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { NarRaceData } from '../../domain/narRaceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
+import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import {
@@ -64,6 +66,10 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
                                     location = '川崎';
                                     raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[location]}${i.toXDigits(2)}`;
                                     break;
+                                case 'autorace':
+                                    location = '伊勢崎';
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[location]}${i.toXDigits(2)}`;
+                                    break;
                                 default:
                                     break;
                             }
@@ -103,6 +109,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
         nar: [],
         world: [],
         keirin: [],
+        autorace: [],
     };
     @Logger
     getEvents(startDate: Date, finishDate: Date): Promise<CalendarData[]> {
@@ -162,15 +169,23 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[narRaceData.location]}${narRaceData.number.toXDigits(2)}`;
             }
             case 'world': {
+                // w, x, y, zはGoogle Calendar APIのIDで使用できないため、置換
+                // https://developers.google.com/calendar/api/v3/reference/events/insert?hl=ja
                 const worldRaceData = raceData as WorldRaceData;
-                const locationCode = WORLD_PLACE_CODE[
-                    worldRaceData.location
-                ].substring(0, 10);
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${locationCode}${worldRaceData.number.toXDigits(2)}`;
+                const locationCode = WORLD_PLACE_CODE[worldRaceData.location];
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${locationCode}${worldRaceData.number.toXDigits(2)}`
+                    .replace('w', 'vv')
+                    .replace('x', 'cs')
+                    .replace('y', 'v')
+                    .replace('z', 's');
             }
             case 'keirin': {
                 const keirinRaceData = raceData as KeirinRaceData;
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[keirinRaceData.location]}${keirinRaceData.number.toXDigits(2)}`;
+            }
+            case 'autorace': {
+                const autoraceRaceData = raceData as AutoraceRaceData;
+                return `autorace${format(raceData.dateTime, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[autoraceRaceData.location]}${autoraceRaceData.number.toXDigits(2)}`;
             }
         }
     }

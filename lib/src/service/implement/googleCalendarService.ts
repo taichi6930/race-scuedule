@@ -6,11 +6,13 @@ import { JWT } from 'google-auth-library';
 import { calendar_v3, google } from 'googleapis';
 import { injectable } from 'tsyringe';
 
+import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { CalendarData } from '../../domain/calendarData';
 import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
+import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import {
     CHIHO_KEIBA_LIVE_URL,
@@ -28,9 +30,10 @@ export type RaceData =
     | JraRaceData
     | NarRaceData
     | WorldRaceData
-    | KeirinRaceData;
+    | KeirinRaceData
+    | AutoraceRaceData;
 
-export type RaceType = 'jra' | 'nar' | 'world' | 'keirin';
+export type RaceType = 'jra' | 'nar' | 'world' | 'keirin' | 'autorace';
 @injectable()
 export class GoogleCalendarService<R extends RaceData>
     implements ICalendarService<R>
@@ -327,6 +330,10 @@ export class GoogleCalendarService<R extends RaceData>
                 const keirinRaceData = raceData as KeirinRaceData;
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[keirinRaceData.location]}${keirinRaceData.number.toXDigits(2)}`;
             }
+            case 'autorace': {
+                const autoraceRaceData = raceData as AutoraceRaceData;
+                return `autorace${format(raceData.dateTime, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[autoraceRaceData.location]}${autoraceRaceData.number.toXDigits(2)}`;
+            }
         }
     }
 
@@ -382,6 +389,10 @@ export class GoogleCalendarService<R extends RaceData>
             case 'keirin':
                 return this.translateToCalendarEventForKeirin(
                     raceData as KeirinRaceData,
+                );
+            case 'autorace':
+                return this.translateToCalendarEventForAutorace(
+                    raceData as AutoraceRaceData,
                 );
         }
     }
@@ -513,6 +524,37 @@ export class GoogleCalendarService<R extends RaceData>
             description:
                 `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
             ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(data.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[data.location]}${data.number.toXDigits(2)}`)}
+        `.replace(/\n\s+/g, '\n'),
+        };
+    }
+
+    /**
+     * レースデータをGoogleカレンダーのイベントに変換する（オートレース）
+     * @param raceData
+     * @returns
+     */
+    private translateToCalendarEventForAutorace(
+        raceData: AutoraceRaceData,
+    ): calendar_v3.Schema$Event {
+        const data = raceData;
+        return {
+            id: this.generateEventId(data),
+            summary: `${data.stage} ${data.name}`,
+            location: `${data.location}オートレース場`,
+            start: {
+                dateTime: formatDate(data.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(
+                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                ),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(data.grade),
+            description:
+                `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
         `.replace(/\n\s+/g, '\n'),
         };
     }

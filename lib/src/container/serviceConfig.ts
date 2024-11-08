@@ -1,5 +1,6 @@
 import { container } from 'tsyringe';
 
+import type { AutoraceRaceData } from '../domain/autoraceRaceData';
 import type { JraRaceData } from '../domain/jraRaceData';
 import type { KeirinRaceData } from '../domain/keirinRaceData';
 import type { NarRaceData } from '../domain/narRaceData';
@@ -82,23 +83,23 @@ container.register<ICalendarService<WorldRaceData>>('WorldCalendarService', {
     },
 });
 
-// container.register<ICalendarService<AutoraceRaceData>>(
-//     'AutoraceCalendarService',
-//     {
-//         useFactory: () => {
-//             switch (ENV) {
-//                 case 'PRODUCTION':
-//                     // ENV が production の場合、GoogleCalendarService を使用
-//                     return new GoogleCalendarService<AutoraceRaceData>(
-//                         'autorace',
-//                         process.env.AUTORACE_CALENDAR_ID ?? '',
-//                     );
-//                 case 'ITa':
-//                 case 'LOCAL':
-//                 default:
-//                     // ENV が指定されていない場合も MockGoogleCalendarService を使用
-//                     return new MockGoogleCalendarService('autorace');
-//             }
-//         },
-//     },
-// );
+container.register<ICalendarService<AutoraceRaceData>>(
+    'AutoraceCalendarService',
+    {
+        useFactory: () => {
+            switch (ENV) {
+                case 'PRODUCTION':
+                    // ENV が production の場合、GoogleCalendarService を使用
+                    return new GoogleCalendarService<AutoraceRaceData>(
+                        'autorace',
+                        process.env.AUTORACE_CALENDAR_ID ?? '',
+                    );
+                case 'ITa':
+                case 'LOCAL':
+                default:
+                    // ENV が指定されていない場合も MockGoogleCalendarService を使用
+                    return new MockGoogleCalendarService('autorace');
+            }
+        },
+    },
+);
