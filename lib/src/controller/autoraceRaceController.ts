@@ -40,8 +40,8 @@ export class AutoraceRaceController {
         // );
 
         // RaceData関連のAPI
-        // this.router.get('/race', this.getRaceDataList.bind(this));
-        // this.router.post('/race', this.updateRaceDataList.bind(this));
+        this.router.get('/race', this.getRaceDataList.bind(this));
+        this.router.post('/race', this.updateRaceDataList.bind(this));
 
         // PlaceData関連のAPI
         this.router.get('/place', this.getPlaceDataList.bind(this));

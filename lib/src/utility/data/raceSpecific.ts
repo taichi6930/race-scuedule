@@ -407,7 +407,17 @@ export const AUTORACE_SPECIFIED_GRADE_LIST: AutoraceGradeType[] = ['SG'];
 /**
  * オートレースのステージ
  */
-export type AutoraceRaceStage = '優勝戦' | '準優勝戦' | '';
+export type AutoraceRaceStage =
+    | '優勝戦'
+    | '準決勝戦'
+    | '特別選抜戦'
+    | '特別一般戦'
+    | '一般戦'
+    | '予選'
+    | '選抜予選'
+    | '最終予選'
+    | 'オーバル特別'
+    | '選抜戦';
 
 /**
  * オートレースの指定グレード・ステージリスト

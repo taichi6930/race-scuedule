@@ -17,4 +17,16 @@ export const AUTORACE_PLACE_CODE: Record<AutoraceRaceCourse, string> = {
  */
 export const AUTORACE_STAGE_MAP: Record<string, AutoraceRaceStage> = {
     優勝戦: '優勝戦',
+    特別選抜戦: '特別選抜戦',
+    選抜戦: '選抜戦',
+    特別一般戦: '特別一般戦',
+    Ｇレース７一般戦: '一般戦',
+    予選: '予選',
+    選抜予選: '選抜予選',
+    準決勝戦Ｂ: '準決勝戦',
+    準決勝戦Ａ: '準決勝戦',
+    準決勝戦: '準決勝戦',
+    最終予選: '最終予選',
+    特別一般戦Ａ: '特別一般戦',
+    特別一般戦Ｂ: '特別一般戦',
 };
