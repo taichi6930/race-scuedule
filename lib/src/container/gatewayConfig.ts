@@ -5,6 +5,7 @@ import type { JraRaceData } from '../domain/jraRaceData';
 import type { NarPlaceData } from '../domain/narPlaceData';
 import type { NarRaceData } from '../domain/narRaceData';
 import { AutoracePlaceDataHtmlGateway } from '../gateway/implement/autoracePlaceDataHtmlGateway';
+import { AutoraceRaceDataHtmlGateway } from '../gateway/implement/autoraceRaceDataHtmlGateway';
 import { JraPlaceDataHtmlGateway } from '../gateway/implement/jraPlaceDataHtmlGateway';
 import { JraRaceDataHtmlGateway } from '../gateway/implement/jraRaceDataHtmlGateway';
 import { KeirinPlaceDataHtmlGateway } from '../gateway/implement/keirinPlaceDataHtmlGateway';
@@ -14,6 +15,7 @@ import { NarRaceDataHtmlGateway } from '../gateway/implement/narRaceDataHtmlGate
 import { S3Gateway } from '../gateway/implement/s3Gateway';
 import { WorldRaceDataHtmlGateway } from '../gateway/implement/worldRaceDataHtmlGateway';
 import type { IAutoracePlaceDataHtmlGateway } from '../gateway/interface/iAutoracePlaceDataHtmlGateway';
+import type { IAutoraceRaceDataHtmlGateway } from '../gateway/interface/iAutoraceRaceDataHtmlGateway';
 import type { IJraPlaceDataHtmlGateway } from '../gateway/interface/iJraPlaceDataHtmlGateway';
 import type { IJraRaceDataHtmlGateway } from '../gateway/interface/iJraRaceDataHtmlGateway';
 import type { IKeirinPlaceDataHtmlGateway } from '../gateway/interface/iKeirinPlaceDataHtmlGateway';
@@ -23,6 +25,7 @@ import type { INarRaceDataHtmlGateway } from '../gateway/interface/iNarRaceDataH
 import type { IS3Gateway } from '../gateway/interface/iS3Gateway';
 import type { IWorldRaceDataHtmlGateway } from '../gateway/interface/iWorldRaceDataHtmlGateway';
 import { MockAutoracePlaceDataHtmlGateway } from '../gateway/mock/mockAutoracePlaceDataHtmlGateway';
+import { MockAutoraceRaceDataHtmlGateway } from '../gateway/mock/mockAutoraceRaceDataHtmlGateway';
 import { MockJraPlaceDataHtmlGateway } from '../gateway/mock/mockJraPlaceDataHtmlGateway';
 import { MockJraRaceDataHtmlGateway } from '../gateway/mock/mockJraRaceDataHtmlGateway';
 import { MockKeirinPlaceDataHtmlGateway } from '../gateway/mock/mockKeirinPlaceDataHtmlGateway';
@@ -32,6 +35,7 @@ import { MockNarRaceDataHtmlGateway } from '../gateway/mock/mockNarRaceDataHtmlG
 import { MockS3Gateway } from '../gateway/mock/mockS3Gateway';
 import { MockWorldRaceDataHtmlGateway } from '../gateway/mock/mockWorldRaceDataHtmlGateway';
 import type { AutoracePlaceEntity } from '../repository/entity/autoracePlaceEntity';
+import type { AutoraceRaceEntity } from '../repository/entity/autoraceRaceEntity';
 import type { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
 import type { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
@@ -109,6 +113,25 @@ container.register<IS3Gateway<WorldRaceEntity>>('WorldRaceS3Gateway', {
                 return new MockS3Gateway<WorldRaceEntity>(
                     'race-schedule-bucket',
                     'world/race/',
+                );
+        }
+    },
+});
+container.register<IS3Gateway<AutoraceRaceEntity>>('AutoraceRaceS3Gateway', {
+    useFactory: () => {
+        switch (ENV) {
+            case 'PRODUCTION':
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<AutoraceRaceEntity>(
+                    'race-schedule-bucket',
+                    'autorace/race/',
+                );
+            case 'ITa':
+            case 'LOCAL':
+            default:
+                return new MockS3Gateway<AutoraceRaceEntity>(
+                    'race-schedule-bucket',
+                    'autorace/race/',
                 );
         }
     },
@@ -241,6 +264,20 @@ container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
     },
 });
 
+container.register<IAutoraceRaceDataHtmlGateway>(
+    'AutoraceRaceDataHtmlGateway',
+    {
+        useFactory: () => {
+            switch (ENV) {
+                case 'PRODUCTION':
+                    return new AutoraceRaceDataHtmlGateway();
+                default:
+                    return new MockAutoraceRaceDataHtmlGateway();
+            }
+        },
+    },
+);
+
 container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
@@ -255,24 +292,27 @@ container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
     },
 });
 
-container.register<IS3Gateway<AutoracePlaceEntity>>('AutoracePlaceS3Gateway', {
-    useFactory: () => {
-        switch (ENV) {
-            case 'PRODUCTION':
-                return new S3Gateway<AutoracePlaceEntity>(
-                    'race-schedule-bucket',
-                    'autorace/place/',
-                );
-            case 'ITa':
-            case 'LOCAL':
-            default:
-                return new MockS3Gateway<AutoracePlaceEntity>(
-                    'race-schedule-bucket',
-                    'autorace/place/',
-                );
-        }
+container.register<IS3Gateway<AutoracePlaceEntity>>(
+    'AutoracePlaceStorageGateway',
+    {
+        useFactory: () => {
+            switch (ENV) {
+                case 'PRODUCTION':
+                    return new S3Gateway<AutoracePlaceEntity>(
+                        'race-schedule-bucket',
+                        'autorace/place/',
+                    );
+                case 'ITa':
+                case 'LOCAL':
+                default:
+                    return new MockS3Gateway<AutoracePlaceEntity>(
+                        'race-schedule-bucket',
+                        'autorace/place/',
+                    );
+            }
+        },
     },
-});
+);
 
 container.register<IAutoracePlaceDataHtmlGateway>(
     'AutoracePlaceDataHtmlGateway',
@@ -286,6 +326,23 @@ container.register<IAutoracePlaceDataHtmlGateway>(
                 case 'LOCAL':
                 default:
                     return new MockAutoracePlaceDataHtmlGateway();
+            }
+        },
+    },
+);
+
+container.register<IAutoraceRaceDataHtmlGateway>(
+    'AutoraceRaceDataHtmlGateway',
+    {
+        useFactory: () => {
+            switch (ENV) {
+                case 'PRODUCTION':
+                    console.log('AutoraceRaceDataHtmlGateway');
+                    return new AutoraceRaceDataHtmlGateway();
+                case 'ITa':
+                case 'LOCAL':
+                default:
+                    return new MockAutoraceRaceDataHtmlGateway();
             }
         },
     },

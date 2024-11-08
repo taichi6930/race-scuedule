@@ -5,12 +5,15 @@ import type { JraRaceData } from '../domain/jraRaceData';
 import type { NarPlaceData } from '../domain/narPlaceData';
 import type { NarRaceData } from '../domain/narRaceData';
 import type { AutoracePlaceEntity } from '../repository/entity/autoracePlaceEntity';
+import type { AutoraceRaceEntity } from '../repository/entity/autoraceRaceEntity';
 import type { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
 import type { WorldPlaceEntity } from '../repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../repository/implement/autoracePlaceRepositoryFromHtmlImpl';
 import { AutoracePlaceRepositoryFromStorageImpl } from '../repository/implement/autoracePlaceRepositoryFromStorageImpl';
+import { AutoraceRaceRepositoryFromHtmlImpl } from '../repository/implement/autoraceRaceRepositoryFromHtmlImpl';
+import { AutoraceRaceRepositoryFromStorageImpl } from '../repository/implement/autoraceRaceRepositoryFromStorageImpl';
 import { JraPlaceRepositoryFromHtmlImpl } from '../repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromS3Impl } from '../repository/implement/jraPlaceRepositoryFromS3Impl';
 import { JraRaceRepositoryFromHtmlImpl } from '../repository/implement/jraRaceRepositoryFromHtmlImpl';
@@ -27,6 +30,8 @@ import { WorldRaceRepositoryFromHtmlImpl } from '../repository/implement/worldRa
 import { WorldRaceRepositoryFromStorageImpl } from '../repository/implement/worldRaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../repository/interface/IRaceRepository';
+import { MockAutoracePlaceRepositoryFromHtmlImpl } from '../repository/mock/mockAutoracePlaceRepositoryFromHtmlImpl';
+import { MockAutoraceRaceRepositoryFromHtmlImpl } from '../repository/mock/mockAutoraceRaceRepositoryFromHtmlImpl';
 import { MockKeirinPlaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinPlaceRepositoryFromHtmlImpl';
 import { MockKeirinRaceRepositoryFromHtmlImpl } from '../repository/mock/mockKeirinRaceRepositoryFromHtmlImpl';
 import { MockWorldRaceRepositoryFromHtmlImpl } from '../repository/mock/mockWorldRaceRepositoryFromHtmlImpl';
@@ -44,6 +49,10 @@ container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
 container.register<IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>>(
     'KeirinRaceRepositoryFromStorage',
     { useClass: KeirinRaceRepositoryFromStorageImpl },
+);
+container.register<IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>>(
+    'AutoraceRaceRepositoryFromStorage',
+    { useClass: AutoraceRaceRepositoryFromStorageImpl },
 );
 container.register<IPlaceRepository<NarPlaceData>>('NarPlaceRepositoryFromS3', {
     useClass: NarPlaceRepositoryFromS3Impl,
@@ -91,6 +100,16 @@ switch (ENV) {
         >('KeirinRaceRepositoryFromHtml', {
             useClass: KeirinRaceRepositoryFromHtmlImpl,
         });
+        container.register<
+            IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+        >('KeirinRaceRepositoryFromHtml', {
+            useClass: KeirinRaceRepositoryFromHtmlImpl,
+        });
+        container.register<
+            IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+        >('AutoraceRaceRepositoryFromHtml', {
+            useClass: AutoraceRaceRepositoryFromHtmlImpl,
+        });
         break;
     case 'ITa':
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
@@ -101,6 +120,15 @@ switch (ENV) {
             IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceRepositoryFromHtml', {
             useClass: MockKeirinRaceRepositoryFromHtmlImpl,
+        });
+        container.register<IPlaceRepository<AutoracePlaceEntity>>(
+            'AutoracePlaceRepositoryFromHtml',
+            { useClass: MockAutoracePlaceRepositoryFromHtmlImpl },
+        );
+        container.register<
+            IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+        >('AutoraceRaceRepositoryFromHtml', {
+            useClass: MockAutoraceRaceRepositoryFromHtmlImpl,
         });
         break;
 }

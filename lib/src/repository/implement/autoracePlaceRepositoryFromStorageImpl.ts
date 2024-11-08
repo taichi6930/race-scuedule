@@ -25,7 +25,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
     implements IPlaceRepository<AutoracePlaceEntity>
 {
     constructor(
-        @inject('AutoracePlaceS3Gateway')
+        @inject('AutoracePlaceStorageGateway')
         private readonly s3Gateway: IS3Gateway<AutoracePlaceEntity>,
     ) {}
     /**

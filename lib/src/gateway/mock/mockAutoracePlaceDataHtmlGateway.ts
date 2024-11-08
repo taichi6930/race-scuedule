@@ -19,8 +19,8 @@ export class MockAutoracePlaceDataHtmlGateway
     @Logger
     getPlaceDataHtml(date: Date): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/auto/place/${format(date, 'yyyyMM')}.html`;
-        // lib/src/gateway/mockData/auto/placeの中にあるhtmlを取得
+        const testHtmlUrl = `../mockData/autorace/place/${format(date, 'yyyyMM')}.html`;
+        // lib/src/gateway/mockData/autorace/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
