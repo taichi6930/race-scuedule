@@ -566,7 +566,11 @@ export class GoogleCalendarService<R extends RaceData>
      */
     private getColorId(raceGrade: string): string {
         const gradeColorMap: Record<string, string> = {
+            'SG': '9',
+            'GP': '9',
             'GⅠ': '9',
+            'PGⅠ': '9',
+            '特GⅠ': '9',
             'J.GⅠ': '9',
             'GⅡ': '11',
             'J.GⅡ': '11',
