@@ -67,7 +67,7 @@ jobs:
           "jra/place",
           "nar/place",
           "keirin/place",
-          "autoplace/place"
+          "autorace/place"
         ]
     steps:
       - name: Check out repository
