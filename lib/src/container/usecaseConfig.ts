@@ -10,6 +10,7 @@ import type { NarPlaceData } from '../domain/narPlaceData';
 import type { NarRaceData } from '../domain/narRaceData';
 import type { WorldRaceData } from '../domain/worldRaceData';
 import { AutoracePlaceDataUseCase } from '../usecase/implement/autoracePlaceDataUseCase';
+import { AutoraceRaceCalendarUseCase } from '../usecase/implement/autoraceRaceCalendarUseCase';
 import { AutoraceRaceDataUseCase } from '../usecase/implement/autoraceRaceDataUseCase';
 import { JraPlaceDataUseCase } from '../usecase/implement/jraPlaceDataUseCase';
 import { JraRaceCalendarUseCase } from '../usecase/implement/jraRaceCalendarUseCase';
@@ -75,6 +76,6 @@ container.register<IRaceDataUseCase<AutoraceRaceData>>(
         useClass: AutoraceRaceDataUseCase,
     },
 );
-// container.register<IRaceCalendarUseCase>('AutoraceRaceCalendarUseCase', {
-//     useClass: AutoraceRaceCalendarUseCase,
-// });
+container.register<IRaceCalendarUseCase>('AutoraceRaceCalendarUseCase', {
+    useClass: AutoraceRaceCalendarUseCase,
+});

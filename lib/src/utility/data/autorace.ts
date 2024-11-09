@@ -1,9 +1,9 @@
-import type { AutoraceRaceCourse, AutoraceRaceStage } from './raceSpecific';
+import type { AutoraceRaceStage } from './raceSpecific';
 
 /**
  * オートレースのレース場名とコードの対応表
  */
-export const AUTORACE_PLACE_CODE: Record<AutoraceRaceCourse, string> = {
+export const AUTORACE_PLACE_CODE: Record<string, string> = {
     船橋: '01',
     川口: '02',
     伊勢崎: '03',
@@ -21,6 +21,7 @@ export const AUTORACE_STAGE_MAP: Record<string, AutoraceRaceStage> = {
     選抜戦: '選抜戦',
     特別一般戦: '特別一般戦',
     Ｇレース７一般戦: '一般戦',
+    一般戦: '一般戦',
     予選: '予選',
     選抜予選: '選抜予選',
     準決勝戦Ｂ: '準決勝戦',

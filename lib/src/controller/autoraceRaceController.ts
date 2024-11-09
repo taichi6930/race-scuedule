@@ -4,7 +4,9 @@ import { inject, injectable } from 'tsyringe';
 import { AutoracePlaceData } from '../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../domain/autoraceRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
+import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
+import { AUTORACE_SPECIFIED_GRADE_LIST } from '../utility/data/raceSpecific';
 import { Logger } from '../utility/logger';
 
 /**
@@ -15,8 +17,8 @@ export class AutoraceRaceController {
     public router: Router;
 
     constructor(
-        // @inject('AutoraceRaceCalendarUseCase')
-        // private readonly raceCalendarUseCase: IRaceCalendarUseCase,
+        @inject('AutoraceRaceCalendarUseCase')
+        private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('AutoraceRaceDataUseCase')
         private readonly autoraceRaceDataUseCase: IRaceDataUseCase<AutoraceRaceData>,
         @inject('AutoracePlaceDataUseCase')
@@ -32,12 +34,12 @@ export class AutoraceRaceController {
     @Logger
     private initializeRoutes(): void {
         // Calendar関連のAPI
-        // this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
-        // this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
-        // this.router.delete(
-        //     '/calendar',
-        //     this.cleansingRacesFromCalendar.bind(this),
-        // );
+        this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
+        this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
+        this.router.delete(
+            '/calendar',
+            this.cleansingRacesFromCalendar.bind(this),
+        );
 
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
@@ -129,42 +131,42 @@ export class AutoraceRaceController {
      *                   type: string
      *                   description: エラーの詳細（任意でより具体的な説明を提供することができます）
      */
-    // @Logger
-    // private async getRacesFromCalendar(
-    //     req: Request,
-    //     res: Response,
-    // ): Promise<void> {
-    //     try {
-    //         const { startDate, finishDate } = req.query;
+    @Logger
+    private async getRacesFromCalendar(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startDate, finishDate } = req.query;
 
-    //         // startDateとfinishDateが指定されていない場合はエラーを返す
-    //         if (
-    //             isNaN(Date.parse(startDate as string)) ||
-    //             isNaN(Date.parse(finishDate as string))
-    //         ) {
-    //             res.status(400).send('startDate、finishDateは必須です');
-    //             return;
-    //         }
+            // startDateとfinishDateが指定されていない場合はエラーを返す
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
+                res.status(400).send('startDate、finishDateは必須です');
+                return;
+            }
 
-    //         // カレンダーからレース情報を取得する
-    //         const races = await this.raceCalendarUseCase.getRacesFromCalendar(
-    //             new Date(startDate as string),
-    //             new Date(finishDate as string),
-    //         );
-    //         // レース情報を返す
-    //         res.json(races);
-    //     } catch (error) {
-    //         console.error(
-    //             'カレンダーからレース情報を取得中にエラーが発生しました:',
-    //             error,
-    //         );
-    //         const errorMessage =
-    //             error instanceof Error ? error.message : String(error);
-    //         res.status(500).send(
-    //             `サーバーエラーが発生しました: ${errorMessage}`,
-    //         );
-    //     }
-    // }
+            // カレンダーからレース情報を取得する
+            const races = await this.raceCalendarUseCase.getRacesFromCalendar(
+                new Date(startDate as string),
+                new Date(finishDate as string),
+            );
+            // レース情報を返す
+            res.json(races);
+        } catch (error) {
+            console.error(
+                'カレンダーからレース情報を取得中にエラーが発生しました:',
+                error,
+            );
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
+        }
+    }
 
     /**
      * カレンダーにレース情報を更新する
@@ -198,42 +200,42 @@ export class AutoraceRaceController {
      *       500:
      *         description: サーバーエラー。カレンダーへのレース情報更新中にエラーが発生した場合
      */
-    // @Logger
-    // private async updateRacesToCalendar(
-    //     req: Request,
-    //     res: Response,
-    // ): Promise<void> {
-    //     try {
-    //         const { startDate, finishDate } = req.body;
+    @Logger
+    private async updateRacesToCalendar(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startDate, finishDate } = req.body;
 
-    //         // startDateとfinishDateが指定されていない場合はエラーを返す
-    //         if (
-    //             isNaN(Date.parse(startDate as string)) ||
-    //             isNaN(Date.parse(finishDate as string))
-    //         ) {
-    //             res.status(400).send('startDate、finishDateは必須です');
-    //             return;
-    //         }
+            // startDateとfinishDateが指定されていない場合はエラーを返す
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
+                res.status(400).send('startDate、finishDateは必須です');
+                return;
+            }
 
-    //         // カレンダーにレース情報を更新する
-    //         await this.raceCalendarUseCase.updateRacesToCalendar(
-    //             new Date(startDate),
-    //             new Date(finishDate),
-    //             AUTORACE_SPECIFIED_GRADE_LIST,
-    //         );
-    //         res.status(200).send();
-    //     } catch (error) {
-    //         console.error(
-    //             'カレンダーにレース情報を更新中にエラーが発生しました:',
-    //             error,
-    //         );
-    //         const errorMessage =
-    //             error instanceof Error ? error.message : String(error);
-    //         res.status(500).send(
-    //             `サーバーエラーが発生しました: ${errorMessage}`,
-    //         );
-    //     }
-    // }
+            // カレンダーにレース情報を更新する
+            await this.raceCalendarUseCase.updateRacesToCalendar(
+                new Date(startDate),
+                new Date(finishDate),
+                AUTORACE_SPECIFIED_GRADE_LIST,
+            );
+            res.status(200).send();
+        } catch (error) {
+            console.error(
+                'カレンダーにレース情報を更新中にエラーが発生しました:',
+                error,
+            );
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
+        }
+    }
 
     /**
      * カレンダーからレース情報をクレンジングする
@@ -241,42 +243,42 @@ export class AutoraceRaceController {
      * @param res
      * @returns
      */
-    // @Logger
-    // private async cleansingRacesFromCalendar(
-    //     req: Request,
-    //     res: Response,
-    // ): Promise<void> {
-    //     try {
-    //         const { startDate, finishDate } = req.body;
+    @Logger
+    private async cleansingRacesFromCalendar(
+        req: Request,
+        res: Response,
+    ): Promise<void> {
+        try {
+            const { startDate, finishDate } = req.body;
 
-    //         // startDateとfinishDateが指定されていない場合はエラーを返す
-    //         if (
-    //             isNaN(Date.parse(startDate as string)) ||
-    //             isNaN(Date.parse(finishDate as string))
-    //         ) {
-    //             res.status(400).send('startDate、finishDateは必須です');
-    //             return;
-    //         }
+            // startDateとfinishDateが指定されていない場合はエラーを返す
+            if (
+                isNaN(Date.parse(startDate as string)) ||
+                isNaN(Date.parse(finishDate as string))
+            ) {
+                res.status(400).send('startDate、finishDateは必須です');
+                return;
+            }
 
-    //         // カレンダーからレース情報をクレンジングする
-    //         await this.raceCalendarUseCase.cleansingRacesFromCalendar(
-    //             new Date(startDate),
-    //             new Date(finishDate),
-    //         );
-    //         // レース情報をクレンジングする
-    //         res.status(200).send();
-    //     } catch (error) {
-    //         console.error(
-    //             'カレンダーからレース情報をクレンジング中にエラーが発生しました:',
-    //             error,
-    //         );
-    //         const errorMessage =
-    //             error instanceof Error ? error.message : String(error);
-    //         res.status(500).send(
-    //             `サーバーエラーが発生しました: ${errorMessage}`,
-    //         );
-    //     }
-    // }
+            // カレンダーからレース情報をクレンジングする
+            await this.raceCalendarUseCase.cleansingRacesFromCalendar(
+                new Date(startDate),
+                new Date(finishDate),
+            );
+            // レース情報をクレンジングする
+            res.status(200).send();
+        } catch (error) {
+            console.error(
+                'カレンダーからレース情報をクレンジング中にエラーが発生しました:',
+                error,
+            );
+            const errorMessage =
+                error instanceof Error ? error.message : String(error);
+            res.status(500).send(
+                `サーバーエラーが発生しました: ${errorMessage}`,
+            );
+        }
+    }
 
     /**
      * レース情報を取得する
