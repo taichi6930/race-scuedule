@@ -249,7 +249,7 @@ export class KeirinRaceController {
         res: Response,
     ): Promise<void> {
         try {
-            const { startDate, finishDate } = req.body;
+            const { startDate, finishDate } = req.query;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
@@ -262,8 +262,8 @@ export class KeirinRaceController {
 
             // カレンダーからレース情報をクレンジングする
             await this.raceCalendarUseCase.cleansingRacesFromCalendar(
-                new Date(startDate),
-                new Date(finishDate),
+                new Date(startDate as string),
+                new Date(finishDate as string),
             );
             // レース情報をクレンジングする
             res.status(200).send();
