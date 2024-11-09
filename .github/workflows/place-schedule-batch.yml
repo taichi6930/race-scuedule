@@ -58,9 +58,17 @@ jobs:
             exit 1
           fi
 
-  update-jra-place-data:
+  update-place-data:
     needs: [set-dates, health-check]
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        api-endpoint: [
+          "jra/place",
+          "nar/place",
+          "keirin/place",
+          "autorace/place"
+        ]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -73,123 +81,7 @@ jobs:
 
           # レースデータの更新
           update_place_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/jra/place" \
-            -H "accept: */*" \
-            -H "Content-Type: application/json" \
-            -d "{
-                  \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
-                }")
-
-          # レスポンスチェック
-          if [[ "$update_place_data_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $update_place_data_response"
-            exit 1
-          fi
-
-  update-nar-place-data:
-    needs: [set-dates, health-check]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Send curl request to API
-        run: |
-          # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date }}"
-
-          # レースデータの更新
-          update_place_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/nar/place" \
-            -H "accept: */*" \
-            -H "Content-Type: application/json" \
-            -d "{
-                  \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
-                }")
-
-          # レスポンスチェック
-          if [[ "$update_place_data_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $update_place_data_response"
-            exit 1
-          fi
-
-  update-world-place-data:
-    needs: [set-dates, health-check]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Send curl request to API
-        run: |
-          # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date }}"
-
-          # レースデータの更新
-          update_place_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/world/place" \
-            -H "accept: */*" \
-            -H "Content-Type: application/json" \
-            -d "{
-                  \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
-                }")
-
-          # レスポンスチェック
-          if [[ "$update_place_data_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $update_place_data_response"
-            exit 1
-          fi
-
-  update-keirin-place-data:
-    needs: [set-dates, health-check]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Send curl request to API
-        run: |
-          # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date }}"
-
-          # レースデータの更新
-          update_place_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/keirin/place" \
-            -H "accept: */*" \
-            -H "Content-Type: application/json" \
-            -d "{
-                  \"startDate\": \"$startDate\",
-                  \"finishDate\": \"$finishDate\"
-                }")
-
-          # レスポンスチェック
-          if [[ "$update_place_data_response" != "200" ]]; then
-            echo "❌ POST request failed with status code $update_place_data_response"
-            exit 1
-          fi
-
-  update-autorace-place-data:
-    needs: [set-dates, health-check]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Send curl request to API
-        run: |
-          # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date }}"
-
-          # レースデータの更新
-          update_place_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-            "${API_PRODUCTION_URL}/api/races/autorace/place" \
+            "${API_PRODUCTION_URL}/api/races/${{ matrix.api-endpoint }}" \
             -H "accept: */*" \
             -H "Content-Type: application/json" \
             -d "{
