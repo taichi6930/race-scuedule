@@ -229,34 +229,34 @@ jobs:
             exit 1
           fi
 
-  # update-keirin-race-data:
-  #   needs: [set-dates, health-check]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out repository
-  #       uses: actions/checkout@v4
+  update-keirin-race-data:
+    needs: [set-dates, health-check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-  #     - name: Send curl request to API
-  #       run: |
-  #         # 日付はset-datesで設定済み
-  #         startDate="${{ needs.set-dates.outputs.start-date }}"
-  #         finishDate="${{ needs.set-dates.outputs.finish-date }}"
+      - name: Send curl request to API
+        run: |
+          # 日付はset-datesで設定済み
+          startDate="${{ needs.set-dates.outputs.start-date }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
-  #         # レースデータの更新
-  #         update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-  #           "${API_PRODUCTION_URL}/api/races/keirin/race" \
-  #           -H "accept: */*" \
-  #           -H "Content-Type: application/json" \
-  #           -d "{
-  #                 \"startDate\": \"$startDate\",
-  #                 \"finishDate\": \"$finishDate\"
-  #               }")
+          # レースデータの更新
+          update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "${API_PRODUCTION_URL}/api/races/keirin/race" \
+            -H "accept: */*" \
+            -H "Content-Type: application/json" \
+            -d "{
+                  \"startDate\": \"$startDate\",
+                  \"finishDate\": \"$finishDate\"
+                }")
 
-  #         # レスポンスチェック
-  #         if [[ "$update_race_data_response" != "200" ]]; then
-  #           echo "❌ POST request failed with status code $update_race_data_response"
-  #           exit 1
-  #         fi
+          # レスポンスチェック
+          if [[ "$update_race_data_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $update_race_data_response"
+            exit 1
+          fi
 
   # update-keirin-race-calendar:
   #   needs: [set-dates, update-keirin-race-data]
@@ -285,3 +285,60 @@ jobs:
   #           echo "❌ POST request failed with status code $update_race_calendar_response"
   #           exit 1
   #         fi
+
+  update-autorace-race-data:
+    needs: [set-dates, health-check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Send curl request to API
+        run: |
+          # 日付はset-datesで設定済み
+          startDate="${{ needs.set-dates.outputs.start-date }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
+
+          # レースデータの更新
+          update_race_data_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "${API_PRODUCTION_URL}/api/races/autorace/race" \
+            -H "accept: */*" \
+            -H "Content-Type: application/json" \
+            -d "{
+                  \"startDate\": \"$startDate\",
+                  \"finishDate\": \"$finishDate\"
+                }")
+
+          # レスポンスチェック
+          if [[ "$update_race_data_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $update_race_data_response"
+            exit 1
+          fi
+
+  update-autorace-race-calendar:
+    needs: [set-dates, update-autorace-race-data]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Send curl request to API
+        run: |
+          startDate="${{ needs.set-dates.outputs.start-date }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
+
+          # カレンダーの更新
+          update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "${API_PRODUCTION_URL}/api/races/autorace/calendar" \
+            -H "accept: */*" \
+            -H "Content-Type: application/json" \
+            -d "{
+                  \"startDate\": \"$startDate\",
+                  \"finishDate\": \"$finishDate\"
+                }")
+
+          # レスポンスチェック
+          if [[ "$update_race_calendar_response" != "200" ]]; then
+            echo "❌ POST request failed with status code $update_race_calendar_response"
+            exit 1
+          fi

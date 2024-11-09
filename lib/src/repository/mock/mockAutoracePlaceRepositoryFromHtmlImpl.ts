@@ -28,7 +28,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
                 null,
                 new Date(currentDate),
                 '伊勢崎',
-                'GⅠ',
+                'SG',
             );
             fetchPlaceEntityList.push(autoracePlaceEntity);
             // 日付を1日進める
