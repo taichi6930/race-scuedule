@@ -8,11 +8,11 @@ on:
 jobs:
   # prettierのチェック
   call-prettier-check:
-    uses: ./.github/workflows/prettier-check.yml
+    uses: ./.github/workflows/linter/prettier
 
   # eslintのチェック
   call-eslint-check:
-    uses: ./.github/workflows/eslint-check.yml
+    uses: ./.github/workflows/linter/eslint
 
   # 単体テストの実行
   call-unit-test:

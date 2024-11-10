@@ -1,13 +1,9 @@
-name: Prettier Check
+name: "Prettier Check"
+description: "[Test] Check code style with Prettier"
 
-on:
-  workflow_call:
-
-jobs:
-  prettier:
-    runs-on: ubuntu-latest
-
-    steps:
+runs:
+  using: "composite"
+  steps:
       - name: Check out the repository
         uses: actions/checkout@v4
 
