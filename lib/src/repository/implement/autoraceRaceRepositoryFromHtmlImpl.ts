@@ -71,13 +71,10 @@ export class AutoraceRaceRepositoryFromHtmlImpl
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
-            const raceName =
-                content
-                    .find('h2')
-                    .text()
-                    .split('\n')
-                    .filter((name) => name)[1] ??
-                `${placeData.location}${placeData.grade}`;
+            const raceName = this.extractRaceName(
+                content.find('h3').text(),
+                placeData,
+            );
             console.log(`raceName: ${raceName}`);
             // <div div class="section clearfix">を取得
             const section = content.find('.section');
@@ -154,6 +151,55 @@ export class AutoraceRaceRepositoryFromHtmlImpl
             }
         }
         return null;
+    }
+
+    private extractRaceName(
+        raceSummaryInfoChild: string,
+        placeData: AutoracePlaceEntity,
+    ): string {
+        const raceConditions = [
+            {
+                keyword: '日本選手権',
+                grade: 'SG',
+                name: '日本選手権オートレース',
+            },
+            {
+                keyword: 'スーパースター',
+                grade: 'SG',
+                name: 'スーパースター王座決定戦',
+            },
+            {
+                keyword: '全日本選抜',
+                grade: 'SG',
+                name: '全日本選抜オートレース',
+            },
+            {
+                keyword: 'オートレースグランプリ',
+                grade: 'SG',
+                name: 'オートレースグランプリ',
+            },
+            {
+                keyword: 'オールスター',
+                grade: 'SG',
+                name: 'オールスター・オートレース',
+            },
+            {
+                keyword: '共同通信',
+                grade: 'GⅠ',
+                name: '共同通信社杯プレミアムカップ',
+            },
+        ];
+
+        for (const condition of raceConditions) {
+            if (
+                raceSummaryInfoChild.includes(condition.keyword) &&
+                placeData.grade === condition.grade
+            ) {
+                return condition.name;
+            }
+        }
+
+        return `${placeData.location}${placeData.grade}`;
     }
 
     /**

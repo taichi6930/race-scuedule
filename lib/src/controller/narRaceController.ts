@@ -250,6 +250,7 @@ export class NarRaceController {
     ): Promise<void> {
         try {
             const { startDate, finishDate } = req.query;
+
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
                 isNaN(Date.parse(startDate as string)) ||
