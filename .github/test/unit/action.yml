@@ -1,0 +1,31 @@
+name: "Unit Test"
+description: "Run unit tests"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out the repository
+      uses: actions/checkout@v4
+
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: '9.10.0'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+        cache: 'pnpm'  # キャッシュを有効にし、依存関係のインストール時間を短縮
+
+    - name: Install pnpm
+      run: npm install -g pnpm
+      shell: bash
+
+    - name: Install dependencies
+      run: pnpm install
+      shell: bash
+
+    - name: Run unit tests
+      run: ENV=GITHUB_ACTIONS_CI pnpm run test
+      shell: bash
