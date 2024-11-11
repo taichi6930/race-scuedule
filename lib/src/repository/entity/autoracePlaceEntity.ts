@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 
+import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import type {
     AutoraceGradeType,
@@ -31,6 +32,35 @@ export class AutoracePlaceEntity {
         public readonly grade: AutoraceGradeType,
     ) {
         this.id = id ?? this.generateId(dateTime, location);
+    }
+
+    /**
+     * データのコピー
+     * @param partial
+     * @returns
+     */
+    copy(partial: Partial<AutoracePlaceEntity> = {}): AutoracePlaceEntity {
+        return new AutoracePlaceEntity(
+            partial.id ?? null,
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+            partial.grade ?? this.grade,
+        );
+    }
+
+    /**
+     * データ型に変換する
+     * @param partial
+     * @returns
+     */
+    toDomainData(
+        partial: Partial<AutoracePlaceEntity> = {},
+    ): AutoracePlaceData {
+        return new AutoracePlaceData(
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+            partial.grade ?? this.grade,
+        );
     }
 
     /**

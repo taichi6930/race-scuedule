@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 
+import { WorldPlaceData } from '../../domain/worldPlaceData';
 import type { WorldRaceCourse } from '../../utility/data/raceSpecific';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
 
@@ -26,6 +27,31 @@ export class WorldPlaceEntity {
         public readonly location: WorldRaceCourse,
     ) {
         this.id = id ?? this.generateId(dateTime, location);
+    }
+
+    /**
+     * データのコピー
+     * @param partial
+     * @returns
+     */
+    copy(partial: Partial<WorldPlaceEntity> = {}): WorldPlaceEntity {
+        return new WorldPlaceEntity(
+            partial.id ?? null,
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+        );
+    }
+
+    /**
+     * データ型に変換する
+     * @param partial
+     * @returns
+     */
+    toDomainData(partial: Partial<WorldPlaceEntity> = {}): WorldPlaceData {
+        return new WorldPlaceData(
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+        );
     }
 
     /**

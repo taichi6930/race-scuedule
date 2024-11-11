@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import type {
     KeirinGradeType,
@@ -31,6 +32,33 @@ export class KeirinPlaceEntity {
         public readonly grade: KeirinGradeType,
     ) {
         this.id = id ?? this.generateId(dateTime, location);
+    }
+
+    /**
+     * データのコピー
+     * @param partial
+     * @returns
+     */
+    copy(partial: Partial<KeirinPlaceEntity> = {}): KeirinPlaceEntity {
+        return new KeirinPlaceEntity(
+            partial.id ?? null,
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+            partial.grade ?? this.grade,
+        );
+    }
+
+    /**
+     * データ型に変換する
+     * @param partial
+     * @returns
+     */
+    toDomainData(partial: Partial<KeirinPlaceEntity> = {}): KeirinPlaceData {
+        return new KeirinPlaceData(
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+            partial.grade ?? this.grade,
+        );
     }
 
     /**
