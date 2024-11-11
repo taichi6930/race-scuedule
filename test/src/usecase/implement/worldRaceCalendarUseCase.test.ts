@@ -15,7 +15,7 @@ import {
     WORLD_SPECIFIED_GRADE_LIST,
 } from '../../../../lib/src/utility/data/raceSpecific';
 import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/worldRaceRepositoryFromStorageImpl';
-import { WorldCalendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('WorldRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<WorldRaceData>>;
@@ -26,7 +26,7 @@ describe('WorldRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = WorldCalendarServiceMock();
+        calendarServiceMock = CalendarServiceMock<WorldRaceData>();
         container.register<ICalendarService<WorldRaceData>>(
             'WorldCalendarService',
             {

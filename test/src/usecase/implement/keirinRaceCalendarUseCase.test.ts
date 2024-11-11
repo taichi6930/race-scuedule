@@ -12,7 +12,7 @@ import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement
 import type { KeirinGradeType } from '../../../../lib/src/utility/data/raceSpecific';
 import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
 import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';
-import { KeirinCalendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('KeirinRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<KeirinRaceData>>;
@@ -23,7 +23,7 @@ describe('KeirinRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = KeirinCalendarServiceMock();
+        calendarServiceMock = CalendarServiceMock<KeirinRaceData>();
         container.register<ICalendarService<KeirinRaceData>>(
             'KeirinCalendarService',
             {

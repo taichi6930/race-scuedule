@@ -12,7 +12,7 @@ import { AutoraceRaceCalendarUseCase } from '../../../../lib/src/usecase/impleme
 import type { AutoraceGradeType } from '../../../../lib/src/utility/data/raceSpecific';
 import { AUTORACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
 import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';
-import { AutoraceCalendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('AutoraceRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<AutoraceRaceData>>;
@@ -23,7 +23,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = AutoraceCalendarServiceMock();
+        calendarServiceMock = CalendarServiceMock<AutoraceRaceData>();
         container.register<ICalendarService<AutoraceRaceData>>(
             'AutoraceCalendarService',
             {
