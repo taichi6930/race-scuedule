@@ -6,18 +6,38 @@ on:
       - main
 
 jobs:
-  # prettierのチェック
+  # Prettierのチェック
   call-prettier-check:
-    uses: ./.github/workflows/prettier-check.yml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Run Prettier Check
+        uses: ./.github/actions/linter/prettier
 
-  # eslintのチェック
+  # ESLintのチェック
   call-eslint-check:
-    uses: ./.github/workflows/eslint-check.yml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Run ESLint Check
+        uses: ./.github/actions/linter/eslint
 
   # 単体テストの実行
   call-unit-test:
-    uses: ./.github/workflows/unit-test.yml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Run Unit Tests
+        uses: ./.github/actions/test/unit
 
-  # itaテストの実行
+  # ITAテストの実行
   call-ita-test:
-    uses: ./.github/workflows/ita-test.yml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Run ITA Tests
+        uses: ./.github/actions/test/ita
