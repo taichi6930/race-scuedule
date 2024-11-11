@@ -1,17 +1,10 @@
-import { AutoraceRaceData } from '../../../lib/src/domain/autoraceRaceData';
+import { baseAutoraceRaceData } from '../mock/common/baseData';
 
 describe('AutoraceRaceDataクラスのテスト', () => {
     /**
      * テスト用のAutoraceRaceDataインスタンス
      */
-    const baseRaceData = new AutoraceRaceData(
-        'スーパースター王座決定戦',
-        '優勝戦',
-        new Date('2024-12-31 16:30'),
-        '飯塚',
-        'SG',
-        11,
-    );
+    const baseRaceData = baseAutoraceRaceData;
 
     it('正しい入力でAutoraceRaceDataのインスタンスを作成できることを確認', () => {
         const raceData = baseRaceData;

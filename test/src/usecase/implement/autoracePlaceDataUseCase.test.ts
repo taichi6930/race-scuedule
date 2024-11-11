@@ -2,11 +2,15 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
-import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import type { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
+import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { AutoracePlaceDataUseCase } from '../../../../lib/src/usecase/implement/autoracePlaceDataUseCase';
+import {
+    baseAutoracePlaceData,
+    baseAutoracePlaceEntity,
+} from '../../mock/common/baseData';
 import { mockAutoracePlaceRepositoryFromHtmlImpl } from '../../mock/repository/autoracePlaceRepositoryFromHtmlImpl';
 import { mockAutoracePlaceRepositoryFromStorageImpl } from '../../mock/repository/autoracePlaceRepositoryFromStorageImpl';
 
@@ -43,17 +47,8 @@ describe('AutoracePlaceDataUseCase', () => {
         useCase = container.resolve(AutoracePlaceDataUseCase);
     });
 
-    const basePlaceData = new AutoracePlaceData(
-        new Date('2024-12-31'),
-        '飯塚',
-        'SG',
-    );
-    const basePlaceEntity = new AutoracePlaceEntity(
-        null,
-        new Date('2024-12-31'),
-        '飯塚',
-        'SG',
-    );
+    const basePlaceData = baseAutoracePlaceData;
+    const basePlaceEntity = baseAutoracePlaceEntity;
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {

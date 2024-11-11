@@ -2,13 +2,17 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
+import type { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
-import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
+import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { AutoraceRaceDataUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceDataUseCase';
+import {
+    baseAutoraceRaceData,
+    baseAutoraceRaceEntity,
+} from '../../mock/common/baseData';
 import { mockAutoracePlaceRepositoryFromStorageImpl } from '../../mock/repository/autoracePlaceRepositoryFromStorageImpl';
 import { mockAutoraceRaceRepositoryFromHtmlImpl } from '../../mock/repository/autoraceRaceRepositoryFromHtmlImpl';
 import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';
@@ -56,23 +60,8 @@ describe('AutoraceRaceDataUseCase', () => {
         useCase = container.resolve(AutoraceRaceDataUseCase);
     });
 
-    const baseRaceData = new AutoraceRaceData(
-        'スーパースター王座決定戦',
-        '優勝戦',
-        new Date('2024-12-31 16:30'),
-        '飯塚',
-        'SG',
-        11,
-    );
-    const baseRaceEntity = new AutoraceRaceEntity(
-        null,
-        'スーパースター王座決定戦',
-        '優勝戦',
-        new Date('2024-12-31 16:30'),
-        '飯塚',
-        'SG',
-        11,
-    );
+    const baseRaceData = baseAutoraceRaceData;
+    const baseRaceEntity = baseAutoraceRaceEntity;
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {

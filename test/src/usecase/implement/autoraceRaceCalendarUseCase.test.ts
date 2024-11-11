@@ -3,14 +3,18 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
-import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
-import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
+import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { AutoraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceCalendarUseCase';
 import type { AutoraceGradeType } from '../../../../lib/src/utility/data/raceSpecific';
 import { AUTORACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
+import {
+    baseAutoraceCalendarData,
+    baseAutoraceRaceEntity,
+} from '../../mock/common/baseData';
 import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
@@ -44,14 +48,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
         useCase = container.resolve(AutoraceRaceCalendarUseCase);
     });
 
-    const baseCalendarData = new CalendarData(
-        'test202512313511',
-        'スーパースター王座決定戦',
-        new Date('2024-12-31T18:00:00Z'),
-        new Date('2024-12-31T18:10:00Z'),
-        '飯塚オートレース場',
-        'テスト',
-    );
+    const baseCalendarData = baseAutoraceCalendarData;
 
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
@@ -100,15 +97,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseAutoraceCalendarEntity = new AutoraceRaceEntity(
-            null,
-            'スーパースター王座決定戦',
-            '優勝戦',
-            new Date('2025-12-30 16:30'),
-            '飯塚',
-            'SG',
-            11,
-        );
+        const baseAutoraceCalendarEntity = baseAutoraceRaceEntity;
 
         it('正常に更新できること', async () => {
             const mockRaceDataList: AutoraceRaceData[] = [];
