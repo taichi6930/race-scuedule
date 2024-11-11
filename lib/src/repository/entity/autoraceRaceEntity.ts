@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import { format } from 'date-fns';
 
+import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import type {
     AutoraceGradeType,
@@ -40,6 +41,39 @@ export class AutoraceRaceEntity {
         public readonly number: number, // レース番号
     ) {
         this.id = id ?? this.generateId(dateTime, location, number);
+    }
+
+    /**
+     * データのコピー
+     * @param partial
+     * @returns
+     */
+    copy(partial: Partial<AutoraceRaceEntity> = {}): AutoraceRaceEntity {
+        return new AutoraceRaceEntity(
+            partial.id ?? this.id,
+            partial.name ?? this.name,
+            partial.stage ?? this.stage,
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+            partial.grade ?? this.grade,
+            partial.number ?? this.number,
+        );
+    }
+
+    /**
+     * ドメインデータに変換する
+     * @param partial
+     * @returns
+     */
+    toDomainData(partial: Partial<AutoraceRaceEntity> = {}): AutoraceRaceData {
+        return new AutoraceRaceData(
+            partial.name ?? this.name,
+            partial.stage ?? this.stage,
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+            partial.grade ?? this.grade,
+            partial.number ?? this.number,
+        );
     }
 
     /**

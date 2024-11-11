@@ -3,7 +3,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 
 // KeirinPlaceRepositoryFromStorageImplのmockを作成
 export const mockKeirinPlaceRepositoryFromStorageImpl = (): jest.Mocked<
-    IPlaceRepository<KeirinPlaceData>
+    IPlaceRepository<KeirinPlaceEntity>
 > => {
     return {
         fetchPlaceList: jest.fn().mockResolvedValue([] as KeirinPlaceData[]),
