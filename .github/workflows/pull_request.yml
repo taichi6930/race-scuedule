@@ -13,7 +13,7 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
       - name: Run Prettier Check
-        uses: ./.github/linter/prettier
+        uses: ./.github/actions/linter/prettier
 
   # ESLintのチェック
   call-eslint-check:
@@ -22,7 +22,7 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
       - name: Run ESLint Check
-        uses: ./.github/linter/eslint
+        uses: ./.github/actions/linter/eslint
 
   # 単体テストの実行
   call-unit-test:
@@ -31,7 +31,7 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
       - name: Run Unit Tests
-        uses: ./.github/test/unit
+        uses: ./.github/actions/test/unit
 
   # ITAテストの実行
   call-ita-test:
@@ -40,4 +40,4 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
       - name: Run ITA Tests
-        uses: ./.github/test/ita
+        uses: ./.github/actions/test/ita
