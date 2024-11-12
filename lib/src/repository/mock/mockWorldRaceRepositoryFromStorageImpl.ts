@@ -1,5 +1,5 @@
-import type { WorldPlaceData } from '../../domain/worldPlaceData';
-import { WorldRaceData } from '../../domain/worldRaceData';
+import type { WorldPlaceEntity } from '../entity/worldPlaceEntity';
+import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -8,15 +8,16 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // WorldRaceRepositoryFromS3Implのモックを作成
 export class MockWorldRaceRepositoryFromStorageImpl
-    implements IRaceRepository<WorldRaceData, WorldPlaceData>
+    implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
 {
     fetchRaceList(
-        request: FetchRaceListRequest<WorldPlaceData>,
-    ): Promise<FetchRaceListResponse<WorldRaceData>> {
+        request: FetchRaceListRequest<WorldPlaceEntity>,
+    ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
         console.debug(request);
         return Promise.resolve(
             new FetchRaceListResponse([
-                new WorldRaceData(
+                new WorldRaceEntity(
+                    null,
                     '凱旋門賞',
                     new Date('2024-10-02 16:30'),
                     'パリロンシャン',
@@ -30,7 +31,7 @@ export class MockWorldRaceRepositoryFromStorageImpl
     }
 
     registerRaceList(
-        request: RegisterRaceListRequest<WorldRaceData>,
+        request: RegisterRaceListRequest<WorldRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
         return Promise.resolve(new RegisterRaceListResponse(200));

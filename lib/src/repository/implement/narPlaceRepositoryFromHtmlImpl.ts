@@ -8,6 +8,7 @@ import { NarPlaceData } from '../../domain/narPlaceData';
 import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataHtmlGateway';
 import { NarRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
@@ -19,7 +20,7 @@ import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse
  */
 @injectable()
 export class NarPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<NarPlaceData>
+    implements IPlaceRepository<NarPlaceEntity>
 {
     constructor(
         @inject('NarPlaceDataHtmlGateway')

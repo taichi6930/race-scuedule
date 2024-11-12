@@ -1,12 +1,12 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { JraPlaceData } from '../../domain/jraPlaceData';
-import { JraRaceData } from '../../domain/jraRaceData';
 import { IJraRaceDataHtmlGateway } from '../../gateway/interface/iJraRaceDataHtmlGateway';
 import { JraGradeType, JraRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { processJraRaceName } from '../../utility/raceName';
+import { JraPlaceEntity } from '../entity/jraPlaceEntity';
+import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -15,7 +15,7 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
 export class JraRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<JraRaceData, JraPlaceData>
+    implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
     constructor(
         @inject('JraRaceDataHtmlGateway')
@@ -28,9 +28,9 @@ export class JraRaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchRaceList(
-        request: FetchRaceListRequest<JraPlaceData>,
-    ): Promise<FetchRaceListResponse<JraRaceData>> {
-        const jraRaceDataList: JraRaceData[] = [];
+        request: FetchRaceListRequest<JraPlaceEntity>,
+    ): Promise<FetchRaceListResponse<JraRaceEntity>> {
+        const jraRaceDataList: JraRaceEntity[] = [];
         const placeList = request.placeDataList;
         // placeListからdateのみをListにする、重複すると思うので重複を削除する
         const dateList = placeList
@@ -49,7 +49,7 @@ export class JraRaceRepositoryFromHtmlImpl
     @Logger
     async fetchRaceListFromHtmlWithJraPlace(
         date: Date,
-    ): Promise<JraRaceData[]> {
+    ): Promise<JraRaceEntity[]> {
         try {
             const [year, month, day] = [
                 date.getFullYear(),
@@ -59,7 +59,7 @@ export class JraRaceRepositoryFromHtmlImpl
             // レース情報を取得
             const htmlText: string =
                 await this.jraRaceDataHtmlGateway.getRaceDataHtml(date);
-            const jraRaceDataList: JraRaceData[] = [];
+            const jraRaceDataList: JraRaceEntity[] = [];
 
             // mockHTML内のsection id="raceInfo"の中のtableを取得
             // HTMLをパースする
@@ -269,7 +269,8 @@ export class JraRaceRepositoryFromHtmlImpl
                             grade: raceGrade ?? '格付けなし',
                         });
 
-                        const jradata = new JraRaceData(
+                        const jradata = new JraRaceEntity(
+                            null,
                             newRaceName,
                             new Date(year, month - 1, day, hour, minute),
                             place,
@@ -297,7 +298,7 @@ export class JraRaceRepositoryFromHtmlImpl
      */
     @Logger
     registerRaceList(
-        request: RegisterRaceListRequest<JraRaceData>,
+        request: RegisterRaceListRequest<JraRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
         throw new Error('HTMLにはデータを登録出来ません');

@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { JraPlaceData } from '../../domain/jraPlaceData';
+import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
@@ -12,9 +13,9 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
     constructor(
         @inject('JraPlaceRepositoryFromS3')
-        private readonly jraPlaceRepositoryFromS3: IPlaceRepository<JraPlaceData>,
+        private readonly jraPlaceRepositoryFromS3: IPlaceRepository<JraPlaceEntity>,
         @inject('JraPlaceRepositoryFromHtml')
-        private readonly jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceData>,
+        private readonly jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
     ) {}
     /**
      * レース開催データを取得する
@@ -32,7 +33,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
             startDate,
             finishDate,
         );
-        const response: FetchPlaceListResponse<JraPlaceData> =
+        const response: FetchPlaceListResponse<JraPlaceEntity> =
             await this.jraPlaceRepositoryFromS3.fetchPlaceList(request);
         return response.placeDataList;
     }
@@ -55,13 +56,13 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         // HTMLからデータを取得する
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceData> =
+        const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceEntity> =
             await this.jraPlaceRepositoryFromHtml.fetchPlaceList(
                 fetchPlaceListRequest,
             );
         // S3にデータを保存する
         const registerPlaceListRequest =
-            new RegisterPlaceListRequest<JraPlaceData>(
+            new RegisterPlaceListRequest<JraPlaceEntity>(
                 fetchPlaceListResponse.placeDataList,
             );
         await this.jraPlaceRepositoryFromS3.registerPlaceList(
