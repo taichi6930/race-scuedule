@@ -1,8 +1,12 @@
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
+import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
+import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
+import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 
@@ -124,5 +128,89 @@ export const baseWorldCalendarDataFromGoogleCalendar = {
         dateTime: '2024-10-01T16:40:00Z',
     },
     location: 'パリロンシャン競馬場',
+    description: 'テスト',
+};
+
+export const baseNarPlaceEntity = new NarPlaceEntity(
+    null,
+    new Date('2024-06-03 00:00'),
+    '大井',
+);
+export const baseNarPlaceData = baseNarPlaceEntity.toDomainData();
+
+export const baseNarRaceEntity = new NarRaceEntity(
+    null,
+    '東京ダービー',
+    new Date('2024-06-03 20:10'),
+    '大井',
+    'ダート',
+    2000,
+    'JpnⅠ',
+    11,
+);
+export const baseNarRaceData = baseNarRaceEntity.toDomainData();
+
+export const baseNarCalendarData = new CalendarData(
+    'test202406032011',
+    '東京ダービー',
+    new Date('2024-06-03T20:10:00Z'),
+    new Date('2024-06-03T20:20:00Z'),
+    '大井競馬場',
+    'テスト',
+);
+
+export const baseNarCalendarDataFromGoogleCalendar = {
+    id: 'test202406032011',
+    summary: '東京ダービー',
+    start: {
+        dateTime: '2024-06-03T20:10:00Z',
+    },
+    end: {
+        dateTime: '2024-06-03T20:20:00Z',
+    },
+    location: '大井競馬場',
+    description: 'テスト',
+};
+
+export const baseJraPlaceEntity = new JraPlaceEntity(
+    null,
+    new Date('2024-12-22 00:00'),
+    '中山',
+);
+export const baseJraPlaceData = baseJraPlaceEntity.toDomainData();
+
+export const baseJraRaceEntity = new JraRaceEntity(
+    null,
+    '有馬記念',
+    new Date('2024-12-22 15:40'),
+    '中山',
+    '芝',
+    2500,
+    'GⅠ',
+    11,
+    1,
+    1,
+);
+export const baseJraRaceData = baseJraRaceEntity.toDomainData();
+
+export const baseJraCalendarData = new CalendarData(
+    'test202412220611',
+    '有馬記念',
+    new Date('2024-12-22T15:40:00Z'),
+    new Date('2024-12-22T15:50:00Z'),
+    '中山競馬場',
+    'テスト',
+);
+
+export const baseJraCalendarDataFromGoogleCalendar = {
+    id: 'test202412220611',
+    summary: '有馬記念',
+    start: {
+        dateTime: '2024-12-22T15:40:00Z',
+    },
+    end: {
+        dateTime: '2024-12-22T15:50:00Z',
+    },
+    location: '中山競馬場',
     description: 'テスト',
 };
