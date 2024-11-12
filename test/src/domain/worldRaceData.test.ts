@@ -1,4 +1,3 @@
-import { WorldRaceData } from '../../../lib/src/domain/worldRaceData';
 import { baseWorldRaceData } from '../mock/common/baseData';
 
 describe('WorldRaceDataクラスのテスト', () => {
