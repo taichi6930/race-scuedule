@@ -11,7 +11,7 @@ import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/na
 import type { NarGradeType } from '../../../../lib/src/utility/data/raceSpecific';
 import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
 import { mockNarRaceRepositoryFromS3Impl } from '../../mock/repository/narRaceRepositoryFromS3Impl';
-import { NarCalendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceData>>;
@@ -22,7 +22,7 @@ describe('NarRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = NarCalendarServiceMock();
+        calendarServiceMock = CalendarServiceMock<NarRaceData>();
         container.register<ICalendarService<NarRaceData>>(
             'NarCalendarService',
             {

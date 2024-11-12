@@ -11,7 +11,7 @@ import { JraRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/jr
 import type { JraGradeType } from '../../../../lib/src/utility/data/raceSpecific';
 import { JRA_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
 import { mockJraRaceRepositoryFromS3Impl } from '../../mock/repository/jraRaceRepositoryFromS3Impl';
-import { JraCalendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('JraRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<JraRaceData>>;
@@ -22,7 +22,7 @@ describe('JraRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = JraCalendarServiceMock();
+        calendarServiceMock = CalendarServiceMock<JraRaceData>();
         container.register<ICalendarService<JraRaceData>>(
             'JraCalendarService',
             {

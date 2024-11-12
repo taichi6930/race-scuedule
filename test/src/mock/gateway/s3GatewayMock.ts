@@ -6,6 +6,15 @@ import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gatewa
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 
+export const mockS3Gateway = <RaceData>(): jest.Mocked<
+    IS3Gateway<RaceData>
+> => {
+    return {
+        uploadDataToS3: jest.fn(),
+        fetchDataFromS3: jest.fn(),
+    };
+};
+
 export const mockS3GatewayForNarRace = (): jest.Mocked<
     IS3Gateway<NarRaceData>
 > => {

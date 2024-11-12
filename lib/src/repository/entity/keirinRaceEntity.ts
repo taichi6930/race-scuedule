@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import { format } from 'date-fns';
 
+import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import type {
     KeirinGradeType,
@@ -40,6 +41,39 @@ export class KeirinRaceEntity {
         public readonly number: number, // レース番号
     ) {
         this.id = id ?? this.generateId(dateTime, location, number);
+    }
+
+    /**
+     * データのコピー
+     * @param partial
+     * @returns
+     */
+    copy(partial: Partial<KeirinRaceEntity> = {}): KeirinRaceEntity {
+        return new KeirinRaceEntity(
+            partial.id ?? this.id,
+            partial.name ?? this.name,
+            partial.stage ?? this.stage,
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+            partial.grade ?? this.grade,
+            partial.number ?? this.number,
+        );
+    }
+
+    /**
+     * ドメインデータに変換する
+     * @param partial
+     * @returns
+     */
+    toDomainData(partial: Partial<KeirinRaceEntity> = {}): KeirinRaceData {
+        return new KeirinRaceData(
+            partial.name ?? this.name,
+            partial.stage ?? this.stage,
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+            partial.grade ?? this.grade,
+            partial.number ?? this.number,
+        );
     }
 
     /**

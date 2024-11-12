@@ -1,13 +1,13 @@
-import type { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
-import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
+import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
+import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 
 // KeirinRaceRepositoryFromStorageImplのmockを作成
 export const mockKeirinRaceRepositoryFromStorageImpl = (): jest.Mocked<
-    IRaceRepository<KeirinRaceData, KeirinPlaceData>
+    IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 > => {
     return {
-        fetchRaceList: jest.fn().mockResolvedValue([] as KeirinRaceData[]),
-        registerRaceList: jest.fn().mockResolvedValue({} as KeirinRaceData),
+        fetchRaceList: jest.fn().mockResolvedValue([] as KeirinRaceEntity[]),
+        registerRaceList: jest.fn().mockResolvedValue({} as KeirinRaceEntity),
     };
 };

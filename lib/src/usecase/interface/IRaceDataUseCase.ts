@@ -1,7 +1,9 @@
+import type { RaceData } from '../../domain/baseData';
+
 /**
  * レースデータUseCaseのインターフェース
  */
-export interface IRaceDataUseCase<R> {
+export interface IRaceDataUseCase<R extends RaceData> {
     /**
      * レースデータを取得する
      * @param startDate

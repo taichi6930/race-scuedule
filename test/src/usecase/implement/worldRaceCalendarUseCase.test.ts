@@ -3,54 +3,57 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
-import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
-import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
+import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
+import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/keirinRaceCalendarUseCase';
-import type { KeirinGradeType } from '../../../../lib/src/utility/data/raceSpecific';
-import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
-import { baseKeirinRaceEntity } from '../../mock/common/baseData';
-import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';
+import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/worldRaceCalendarUseCase';
+import type { WorldGradeType } from '../../../../lib/src/utility/data/raceSpecific';
+import {
+    KEIRIN_SPECIFIED_GRADE_LIST,
+    WORLD_SPECIFIED_GRADE_LIST,
+} from '../../../../lib/src/utility/data/raceSpecific';
+import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/worldRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
-describe('KeirinRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<KeirinRaceData>>;
-    let keirinRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+describe('WorldRaceCalendarUseCase', () => {
+    let calendarServiceMock: jest.Mocked<ICalendarService<WorldRaceData>>;
+    let worldRaceRepositoryFromStorageImpl: jest.Mocked<
+        IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
     >;
-    let useCase: KeirinRaceCalendarUseCase;
+    let useCase: WorldRaceCalendarUseCase;
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<KeirinRaceData>();
-        container.register<ICalendarService<KeirinRaceData>>(
-            'KeirinCalendarService',
+        calendarServiceMock = CalendarServiceMock<WorldRaceData>();
+        container.register<ICalendarService<WorldRaceData>>(
+            'WorldCalendarService',
             {
                 useValue: calendarServiceMock,
             },
         );
 
         // IRaceRepositoryインターフェースの依存関係を登録
-        keirinRaceRepositoryFromStorageImpl =
-            mockKeirinRaceRepositoryFromStorageImpl();
-        container.register<
-            IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
-        >('KeirinRaceRepositoryFromStorage', {
-            useValue: keirinRaceRepositoryFromStorageImpl,
-        });
+        worldRaceRepositoryFromStorageImpl =
+            mockWorldRaceRepositoryFromStorageImpl();
+        container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
+            'WorldRaceRepositoryFromStorage',
+            {
+                useValue: worldRaceRepositoryFromStorageImpl,
+            },
+        );
 
-        // KeirinRaceCalendarUseCaseをコンテナから取得
-        useCase = container.resolve(KeirinRaceCalendarUseCase);
+        // WorldRaceCalendarUseCaseをコンテナから取得
+        useCase = container.resolve(WorldRaceCalendarUseCase);
     });
 
     const baseCalendarData = new CalendarData(
-        'test202512303511',
-        'KEIRINグランプリ2025',
-        new Date('2025-12-30T10:00:00Z'),
-        new Date('2025-12-30T10:10:00Z'),
-        '平塚競輪場',
+        'test20241002',
+        '凱旋門賞',
+        new Date('2024-10-02T16:30:00Z'),
+        new Date('2024-10-02T16:40:00Z'),
+        'パリロンシャン競馬場',
         'テスト',
     );
 
@@ -61,7 +64,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);
 
-            const startDate = new Date('2025-12-01');
+            const startDate = new Date('2024-10-01');
             const finishDate = new Date('2025-12-31');
 
             const result = await useCase.getRacesFromCalendar(
@@ -101,15 +104,24 @@ describe('KeirinRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseKeirinCalendarEntity = baseKeirinRaceEntity;
+        const baseWorldCalendarEntity = new WorldRaceEntity(
+            null,
+            '凱旋門賞',
+            new Date('2024-10-02 16:30'),
+            'パリロンシャン',
+            '芝',
+            2400,
+            'GⅠ',
+            11,
+        );
 
         it('正常に更新できること', async () => {
-            const mockRaceDataList: KeirinRaceData[] = [];
-            const expectedRaceDataList: KeirinRaceData[] = [];
-            const mockRaceEntityList: KeirinRaceEntity[] = [];
-            const expectedRaceEntityList: KeirinRaceEntity[] = [];
+            const mockRaceDataList: WorldRaceData[] = [];
+            const expectedRaceDataList: WorldRaceData[] = [];
+            const mockRaceEntityList: WorldRaceEntity[] = [];
+            const expectedRaceEntityList: WorldRaceEntity[] = [];
 
-            const grades: KeirinGradeType[] = ['GP'] as KeirinGradeType[];
+            const grades: WorldGradeType[] = ['GⅠ'] as WorldGradeType[];
             const months = [12 - 1];
             const days = [29, 30, 31];
 
@@ -118,30 +130,30 @@ describe('KeirinRaceCalendarUseCase', () => {
                     days.forEach((day) => {
                         // モック用のデータを作成
                         mockRaceEntityList.push(
-                            baseKeirinCalendarEntity.copy({
+                            baseWorldCalendarEntity.copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
                             }),
                         );
                         mockRaceDataList.push(
-                            baseKeirinCalendarEntity.toDomainData({
+                            baseWorldCalendarEntity.toDomainData({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
                             }),
                         );
-                        if (KEIRIN_SPECIFIED_GRADE_LIST.includes(grade)) {
+                        if (WORLD_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
-                                baseKeirinCalendarEntity.copy({
+                                baseWorldCalendarEntity.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseKeirinCalendarEntity.toDomainData({
+                                baseWorldCalendarEntity.toDomainData({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,
@@ -153,11 +165,9 @@ describe('KeirinRaceCalendarUseCase', () => {
             });
 
             // モックが値を返すよう設定
-            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
-                {
-                    raceDataList: mockRaceEntityList,
-                },
-            );
+            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
+                raceDataList: mockRaceEntityList,
+            });
 
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
@@ -170,7 +180,7 @@ describe('KeirinRaceCalendarUseCase', () => {
 
             // モックが呼び出されたことを確認
             expect(
-                keirinRaceRepositoryFromStorageImpl.fetchRaceList,
+                worldRaceRepositoryFromStorageImpl.fetchRaceList,
             ).toHaveBeenCalled();
 
             // updateEventsが呼び出された回数を確認
@@ -186,7 +196,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListがエラーをスローするようにモック
-            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
+            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
                 new Error('Fetch Error'),
             );
 
@@ -215,14 +225,12 @@ describe('KeirinRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListは正常に動作するように設定
-            const mockRaceEntityList: KeirinRaceEntity[] = [
-                baseKeirinCalendarEntity,
+            const mockRaceEntityList: WorldRaceEntity[] = [
+                baseWorldCalendarEntity,
             ];
-            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
-                {
-                    raceDataList: mockRaceEntityList,
-                },
-            );
+            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
+                raceDataList: mockRaceEntityList,
+            });
 
             // updateEventsがエラーをスローするようにモック
             calendarServiceMock.upsertEvents.mockRejectedValue(

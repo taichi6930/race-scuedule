@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import { format } from 'date-fns';
 
+import { WorldRaceData } from '../../domain/worldRaceData';
 import type {
     WorldGradeType,
     WorldRaceCourse,
@@ -43,6 +44,41 @@ export class WorldRaceEntity {
         public readonly number: number,
     ) {
         this.id = id ?? this.generateId(dateTime, location, number);
+    }
+
+    /**
+     * データのコピー
+     * @param partial
+     * @returns
+     */
+    copy(partial: Partial<WorldRaceEntity> = {}): WorldRaceEntity {
+        return new WorldRaceEntity(
+            partial.id ?? this.id,
+            partial.name ?? this.name,
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+            partial.surfaceType ?? this.surfaceType,
+            partial.distance ?? this.distance,
+            partial.grade ?? this.grade,
+            partial.number ?? this.number,
+        );
+    }
+
+    /**
+     * ドメインデータに変換する
+     * @param partial
+     * @returns
+     */
+    toDomainData(partial: Partial<WorldRaceEntity> = {}): WorldRaceData {
+        return new WorldRaceData(
+            partial.name ?? this.name,
+            partial.dateTime ?? this.dateTime,
+            partial.location ?? this.location,
+            partial.surfaceType ?? this.surfaceType,
+            partial.distance ?? this.distance,
+            partial.grade ?? this.grade,
+            partial.number ?? this.number,
+        );
     }
 
     /**
