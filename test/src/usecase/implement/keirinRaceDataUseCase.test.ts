@@ -4,11 +4,12 @@ import { container } from 'tsyringe';
 
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
-import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { KeirinRaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinRaceDataUseCase';
+import { baseKeirinRaceEntity } from '../../mock/common/baseData';
 import { mockKeirinPlaceRepositoryFromStorageImpl } from '../../mock/repository/keirinPlaceRepositoryFromStorageImpl';
 import { mockKeirinRaceRepositoryFromHtmlImpl } from '../../mock/repository/keirinRaceRepositoryFromHtmlImpl';
 import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';
@@ -64,15 +65,7 @@ describe('KeirinRaceDataUseCase', () => {
         'GP',
         11,
     );
-    const baseRaceEntity = new KeirinRaceEntity(
-        null,
-        'KEIRINグランプリ',
-        'グランプリ',
-        new Date('2025-12-30 16:30'),
-        '平塚',
-        'GP',
-        11,
-    );
+    const baseRaceEntity = baseKeirinRaceEntity;
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {

@@ -12,6 +12,12 @@ import {
     baseAutoraceCalendarData,
     baseAutoraceCalendarDataFromGoogleCalendar,
     baseAutoraceRaceData,
+    baseKeirinCalendarData,
+    baseKeirinCalendarDataFromGoogleCalendar,
+    baseKeirinRaceData,
+    baseWorldCalendarData,
+    baseWorldCalendarDataFromGoogleCalendar,
+    baseWorldRaceData,
 } from '../../mock/common/baseData';
 
 // googleapis のモック設定
@@ -55,26 +61,20 @@ describe('GoogleCalendarService', () => {
     };
 
     const calendarDataListRecord: Record<string, CalendarData[]> = {
-        nar: [baseAutoraceCalendarData],
-        jra: [baseAutoraceCalendarData],
-        keirin: [baseAutoraceCalendarData],
-        world: [baseAutoraceCalendarData],
+        keirin: [baseKeirinCalendarData],
+        world: [baseWorldCalendarData],
         autorace: [baseAutoraceCalendarData],
     };
 
     const calendarDataListFromGoogleCalendarRecord: Record<string, any> = {
-        nar: [baseAutoraceCalendarDataFromGoogleCalendar],
-        jra: [baseAutoraceCalendarDataFromGoogleCalendar],
-        keirin: [baseAutoraceCalendarDataFromGoogleCalendar],
-        world: [baseAutoraceCalendarDataFromGoogleCalendar],
+        keirin: [baseKeirinCalendarDataFromGoogleCalendar],
+        world: [baseWorldCalendarDataFromGoogleCalendar],
         autorace: [baseAutoraceCalendarDataFromGoogleCalendar],
     };
 
     const raceDataRecord: Record<string, any> = {
-        nar: null,
-        jra: null,
-        keirin: null,
-        world: null,
+        keirin: [baseKeirinRaceData],
+        world: [baseWorldRaceData],
         autorace: [baseAutoraceRaceData],
     };
 
@@ -96,7 +96,7 @@ describe('GoogleCalendarService', () => {
         jest.clearAllMocks();
     });
 
-    (['autorace'] as const).forEach((key) => {
+    (['world','keirin','autorace'] as const).forEach((key) => {
         let googleCalendarService: GoogleCalendarService<any>;
         let raceDataList: any;
         beforeEach(() => {
@@ -107,7 +107,8 @@ describe('GoogleCalendarService', () => {
             it(`${key} CalendarData[]が返ってくること`, async () => {
                 const startDate = new Date('2024-01-01T00:00:00');
                 const finishDate = new Date('2024-02-01T00:00:00');
-                const calendarList = calendarDataListFromGoogleCalendarRecord[key];
+                const calendarList =
+                    calendarDataListFromGoogleCalendarRecord[key];
                 const expected = calendarDataListRecord[key];
 
                 // モックの `events.list` メソッドを設定
@@ -300,87 +301,100 @@ describe('GoogleCalendarService', () => {
                 );
             });
         });
-    describe(`${key} cleansingEvents`, () => {
-        it(`${key} 該当イベントが存在する場合、削除処理が行われること`, async () => {
-            const startDate = new Date('2024-01-01T00:00:00');
-            const finishDate = new Date('2024-02-01T00:00:00');
-            const calendarList = calendarDataListFromGoogleCalendarRecord[key];
+        describe(`${key} cleansingEvents`, () => {
+            it(`${key} 該当イベントが存在する場合、削除処理が行われること`, async () => {
+                const startDate = new Date('2024-01-01T00:00:00');
+                const finishDate = new Date('2024-02-01T00:00:00');
+                const calendarList =
+                    calendarDataListFromGoogleCalendarRecord[key];
 
-            // モックの `events.list` メソッドを設定
-            const eventsListMock = google.calendar('v3').events
-                .list as jest.Mock;
-            eventsListMock.mockResolvedValue({ data: { items: calendarList } });
+                // モックの `events.list` メソッドを設定
+                const eventsListMock = google.calendar('v3').events
+                    .list as jest.Mock;
+                eventsListMock.mockResolvedValue({
+                    data: { items: calendarList },
+                });
 
-            // モックの `events.delete` メソッドを設定 正常に削除されたことを確認
-            const eventsDeleteMock = jest.fn().mockResolvedValue({});
-            google.calendar('v3').events.delete = eventsDeleteMock;
+                // モックの `events.delete` メソッドを設定 正常に削除されたことを確認
+                const eventsDeleteMock = jest.fn().mockResolvedValue({});
+                google.calendar('v3').events.delete = eventsDeleteMock;
 
-            await googleCalendarService.cleansingEvents(startDate, finishDate);
-
-            // `events.delete` メソッドが呼ばれていることを確認
-            expect(google.calendar('v3').events.delete).toHaveBeenCalled();
-
-            // console.debugでGoogle Calendar APIからレースを削除しました: testNarEventTitleというログが出力されていることを確認
-            expect(console.debug).toHaveBeenCalledWith(
-                `Google Calendar APIからレースを削除しました: ${raceDataList[0].name}`,
-            );
-        });
-
-        it(`${key} 該当イベントが空の場合、削除処理が行われないこと`, async () => {
-            const startDate = new Date('2024-01-01T00:00:00');
-            const finishDate = new Date('2024-02-01T00:00:00');
-
-            // モックの `events.list` メソッドを設定
-            const eventsListMock = google.calendar('v3').events
-                .list as jest.Mock;
-            eventsListMock.mockResolvedValue({ data: { items: [] } });
-
-            await googleCalendarService.cleansingEvents(startDate, finishDate);
-            // console.debugで指定された期間にイベントが見つかりませんでした。というログが出力されていることを確認
-            expect(console.debug).toHaveBeenCalledWith(
-                '指定された期間にイベントが見つかりませんでした。',
-            );
-        });
-
-        it(`${key} calendar.events.deleteがエラーを返した場合、エラーログが出力されること`, async () => {
-            const startDate = new Date('2024-01-01T00:00:00');
-            const finishDate = new Date('2024-02-01T00:00:00');
-            const calenderList = calendarDataListFromGoogleCalendarRecord[key];
-
-            // モックの `events.list` メソッドを設定
-            const eventsListMock = google.calendar('v3').events
-                .list as jest.Mock;
-            eventsListMock.mockResolvedValue({ data: { items: calenderList } });
-
-            // モックの `events.delete` メソッドを設定
-            const eventsDeleteMock = jest.fn().mockImplementation(() => {
-                const promise: GaxiosPromise<void> = new Promise(
-                    (_, reject) => {
-                        reject(new Error('delete error'));
-                    },
+                await googleCalendarService.cleansingEvents(
+                    startDate,
+                    finishDate,
                 );
-                return promise;
+
+                // `events.delete` メソッドが呼ばれていることを確認
+                expect(google.calendar('v3').events.delete).toHaveBeenCalled();
+
+                // console.debugでGoogle Calendar APIからレースを削除しました: testNarEventTitleというログが出力されていることを確認
+                expect(console.debug).toHaveBeenCalledWith(
+                    `Google Calendar APIからレースを削除しました: ${raceDataList[0].name}`,
+                );
             });
-            google.calendar('v3').events.delete = eventsDeleteMock;
 
-            await googleCalendarService.cleansingEvents(startDate, finishDate);
+            it(`${key} 該当イベントが空の場合、削除処理が行われないこと`, async () => {
+                const startDate = new Date('2024-01-01T00:00:00');
+                const finishDate = new Date('2024-02-01T00:00:00');
 
-            // エラーログが出力されていることを確認
-            expect(console.error).toHaveBeenCalledWith(
-                '[GoogleCalendarService.deleteEvent] エラー',
-                expect.objectContaining({
-                    message:
-                        `Google Calendar APIからのレース削除に失敗しました: ${raceDataList[0].name}`,
-                }),
-            );
-            expect(console.error).toHaveBeenCalledWith(
-                'Google Calendar APIへのレース削除に失敗しました（processEvents）',
-                expect.objectContaining({
-                    message:
-                        `Google Calendar APIからのレース削除に失敗しました: ${raceDataList[0].name}`,
-                }),
-            );
+                // モックの `events.list` メソッドを設定
+                const eventsListMock = google.calendar('v3').events
+                    .list as jest.Mock;
+                eventsListMock.mockResolvedValue({ data: { items: [] } });
+
+                await googleCalendarService.cleansingEvents(
+                    startDate,
+                    finishDate,
+                );
+                // console.debugで指定された期間にイベントが見つかりませんでした。というログが出力されていることを確認
+                expect(console.debug).toHaveBeenCalledWith(
+                    '指定された期間にイベントが見つかりませんでした。',
+                );
+            });
+
+            it(`${key} calendar.events.deleteがエラーを返した場合、エラーログが出力されること`, async () => {
+                const startDate = new Date('2024-01-01T00:00:00');
+                const finishDate = new Date('2024-02-01T00:00:00');
+                const calenderList =
+                    calendarDataListFromGoogleCalendarRecord[key];
+
+                // モックの `events.list` メソッドを設定
+                const eventsListMock = google.calendar('v3').events
+                    .list as jest.Mock;
+                eventsListMock.mockResolvedValue({
+                    data: { items: calenderList },
+                });
+
+                // モックの `events.delete` メソッドを設定
+                const eventsDeleteMock = jest.fn().mockImplementation(() => {
+                    const promise: GaxiosPromise<void> = new Promise(
+                        (_, reject) => {
+                            reject(new Error('delete error'));
+                        },
+                    );
+                    return promise;
+                });
+                google.calendar('v3').events.delete = eventsDeleteMock;
+
+                await googleCalendarService.cleansingEvents(
+                    startDate,
+                    finishDate,
+                );
+
+                // エラーログが出力されていることを確認
+                expect(console.error).toHaveBeenCalledWith(
+                    '[GoogleCalendarService.deleteEvent] エラー',
+                    expect.objectContaining({
+                        message: `Google Calendar APIからのレース削除に失敗しました: ${raceDataList[0].name}`,
+                    }),
+                );
+                expect(console.error).toHaveBeenCalledWith(
+                    'Google Calendar APIへのレース削除に失敗しました（processEvents）',
+                    expect.objectContaining({
+                        message: `Google Calendar APIからのレース削除に失敗しました: ${raceDataList[0].name}`,
+                    }),
+                );
+            });
         });
     });
-});
 });

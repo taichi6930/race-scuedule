@@ -5,12 +5,13 @@ import { container } from 'tsyringe';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
-import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/keirinRaceCalendarUseCase';
 import type { KeirinGradeType } from '../../../../lib/src/utility/data/raceSpecific';
 import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
+import { baseKeirinRaceEntity } from '../../mock/common/baseData';
 import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
@@ -100,15 +101,7 @@ describe('KeirinRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseKeirinCalendarEntity = new KeirinRaceEntity(
-            null,
-            'KEIRINグランプリ',
-            'グランプリ',
-            new Date('2025-12-30 16:30'),
-            '平塚',
-            'GP',
-            11,
-        );
+        const baseKeirinCalendarEntity = baseKeirinRaceEntity;
 
         it('正常に更新できること', async () => {
             const mockRaceDataList: KeirinRaceData[] = [];

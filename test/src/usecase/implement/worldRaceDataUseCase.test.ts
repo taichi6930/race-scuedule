@@ -2,12 +2,16 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
+import type { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
-import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
+import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { WorldRaceDataUseCase } from '../../../../lib/src/usecase/implement/worldRaceDataUseCase';
+import {
+    baseWorldRaceData,
+    baseWorldRaceEntity,
+} from '../../mock/common/baseData';
 import { mockWorldRaceRepositoryFromHtmlImpl } from '../../mock/repository/worldRaceRepositoryFromHtmlImpl';
 import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/worldRaceRepositoryFromStorageImpl';
 
@@ -42,25 +46,8 @@ describe('WorldRaceDataUseCase', () => {
         useCase = container.resolve(WorldRaceDataUseCase);
     });
 
-    const baseRaceData = new WorldRaceData(
-        '凱旋門賞',
-        new Date('2024-10-02 16:30'),
-        'パリロンシャン',
-        '芝',
-        2400,
-        'GⅠ',
-        11,
-    );
-    const baseRaceEntity = new WorldRaceEntity(
-        null,
-        '凱旋門賞',
-        new Date('2024-10-02 16:30'),
-        'パリロンシャン',
-        '芝',
-        2400,
-        'GⅠ',
-        11,
-    );
+    const baseRaceData = baseWorldRaceData;
+    const baseRaceEntity = baseWorldRaceEntity;
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {

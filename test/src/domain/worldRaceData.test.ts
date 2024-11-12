@@ -1,24 +1,17 @@
 import { WorldRaceData } from '../../../lib/src/domain/worldRaceData';
+import { baseWorldRaceData } from '../mock/common/baseData';
 
 describe('WorldRaceDataクラスのテスト', () => {
     /**
      * テスト用のWorldRaceDataインスタンス
      */
-    const baseRaceData = new WorldRaceData(
-        '凱旋門賞',
-        new Date('2024-10-02 16:30'),
-        'パリロンシャン',
-        '芝',
-        2400,
-        'GⅠ',
-        11,
-    );
+    const baseRaceData = baseWorldRaceData;
 
     it('正しい入力でWorldRaceDataのインスタンスを作成できることを確認', () => {
         const raceData = baseRaceData;
         // インスタンスのプロパティが正しいか確認
         expect(raceData.name).toBe('凱旋門賞');
-        expect(raceData.dateTime).toEqual(new Date('2024-10-02 16:30'));
+        expect(raceData.dateTime).toEqual(new Date('2024-10-01 16:30'));
         expect(raceData.location).toBe('パリロンシャン');
         expect(raceData.surfaceType).toBe('芝');
         expect(raceData.distance).toBe(2400);
