@@ -7,6 +7,7 @@ import { calendar_v3, google } from 'googleapis';
 import { injectable } from 'tsyringe';
 
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
+import { RaceData } from '../../domain/baseData';
 import { CalendarData } from '../../domain/calendarData';
 import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
@@ -25,13 +26,6 @@ import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
-
-export type RaceData =
-    | JraRaceData
-    | NarRaceData
-    | WorldRaceData
-    | KeirinRaceData
-    | AutoraceRaceData;
 
 export type RaceType = 'jra' | 'nar' | 'world' | 'keirin' | 'autorace';
 @injectable()

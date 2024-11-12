@@ -1,7 +1,9 @@
+import type { PlaceData } from '../../domain/baseData';
+
 /**
  * IPlaceDataUseCase
  */
-export interface IPlaceDataUseCase<P> {
+export interface IPlaceDataUseCase<P extends PlaceData> {
     /**
      * レース開催地のデータを取得する
      * @param startDate

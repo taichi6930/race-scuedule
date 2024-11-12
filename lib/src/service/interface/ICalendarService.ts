@@ -1,10 +1,11 @@
+import type { RaceData } from '../../domain/baseData';
 import type { CalendarData } from '../../domain/calendarData';
 
 /**
  * CalendarServiceのインターフェース
  * Googleカレンダーなどの操作を行う
  */
-export interface ICalendarService<R> {
+export interface ICalendarService<R extends RaceData> {
     /**
      * カレンダーのイベントの取得を行う
      * @param startDate

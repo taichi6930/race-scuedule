@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
+import { RaceData } from '../../domain/baseData';
 import { CalendarData } from '../../domain/calendarData';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
@@ -17,7 +18,7 @@ import {
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
-import { RaceData, RaceType } from '../implement/googleCalendarService';
+import { RaceType } from '../implement/googleCalendarService';
 import type { ICalendarService } from '../interface/ICalendarService';
 
 /**
