@@ -28,3 +28,16 @@ export const baseAutoraceCalendarData = new CalendarData(
     '飯塚オートレース場',
     'テスト',
 );
+
+export const baseAutoraceCalendarDataFromGoogleCalendar = {
+    id: 'test202512310511',
+    summary: 'スーパースター王座決定戦',
+    start: {
+        dateTime: '2024-12-31T16:30:00Z',
+    },
+    end: {
+        dateTime: '2024-12-31T16:40:00Z',
+    },
+    location: '飯塚オートレース場',
+    description: 'テスト',
+};
