@@ -10,7 +10,7 @@ import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 @injectable()
-export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceEntity> {
+export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
     constructor(
         @inject('NarPlaceRepositoryFromS3')
         private readonly narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceEntity>,
