@@ -41,6 +41,17 @@ export default [
             '@typescript-eslint/prefer-enum-initializers': 'error',
             '@typescript-eslint/strict-boolean-expressions': 'error',
             '@typescript-eslint/consistent-type-imports': 'error',
+            // 不要なインポートの削除を有効化
+            'unused-imports/no-unused-imports': 'error',
+            'unused-imports/no-unused-vars': [
+                'warn',
+                {
+                    vars: 'all',
+                    varsIgnorePattern: '^_',
+                    args: 'after-used',
+                    argsIgnorePattern: '^_',
+                },
+            ],
             // 他のルールを追加
             'prettier/prettier': ['error', {}, { usePrettierrc: true }],
             'simple-import-sort/imports': 'error',
