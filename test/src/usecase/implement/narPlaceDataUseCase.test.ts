@@ -11,17 +11,17 @@ import { mockNarPlaceRepositoryFromS3Impl } from '../../mock/repository/narPlace
 
 describe('NarPlaceDataUseCase', () => {
     let narPlaceRepositoryFromS3Impl: jest.Mocked<
-        IPlaceRepository<NarPlaceData>
+        IPlaceRepository<NarPlaceEntity>
     >;
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<NarPlaceData>
+        IPlaceRepository<NarPlaceEntity>
     >;
     let useCase: NarPlaceDataUseCase;
 
     beforeEach(() => {
         // narPlaceRepositoryFromS3Implをコンテナに登録
         narPlaceRepositoryFromS3Impl = mockNarPlaceRepositoryFromS3Impl();
-        container.register<IPlaceRepository<NarPlaceData>>(
+        container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromS3',
             {
                 useValue: narPlaceRepositoryFromS3Impl,
@@ -29,7 +29,7 @@ describe('NarPlaceDataUseCase', () => {
         );
 
         narPlaceRepositoryFromHtmlImpl = mockNarPlaceRepositoryFromHtmlImpl();
-        container.register<IPlaceRepository<NarPlaceData>>(
+        container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromHtml',
             {
                 useValue: narPlaceRepositoryFromHtmlImpl,
@@ -51,7 +51,7 @@ describe('NarPlaceDataUseCase', () => {
 
             // モックの戻り値を設定
             narPlaceRepositoryFromS3Impl.fetchPlaceList.mockResolvedValue(
-                new FetchPlaceListResponse<NarPlaceData>(mockPlaceData),
+                new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceData),
             );
 
             const startDate = new Date('2024-06-01');
@@ -75,7 +75,7 @@ describe('NarPlaceDataUseCase', () => {
 
             // モックの戻り値を設定
             narPlaceRepositoryFromS3Impl.fetchPlaceList.mockResolvedValue(
-                new FetchPlaceListResponse<NarPlaceData>(mockPlaceData),
+                new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceData),
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);

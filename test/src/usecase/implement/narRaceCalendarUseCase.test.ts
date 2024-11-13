@@ -16,7 +16,7 @@ import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 describe('NarRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceData>>;
     let narRaceRepositoryFromS3Impl: jest.Mocked<
-        IRaceRepository<NarRaceData, NarPlaceData>
+        IRaceRepository<NarRaceEntity, NarPlaceEntity>
     >;
     let useCase: NarRaceCalendarUseCase;
 
@@ -32,7 +32,7 @@ describe('NarRaceCalendarUseCase', () => {
 
         // IRaceRepositoryインターフェースの依存関係を登録
         narRaceRepositoryFromS3Impl = mockNarRaceRepositoryFromS3Impl();
-        container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
+        container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromS3',
             {
                 useValue: narRaceRepositoryFromS3Impl,

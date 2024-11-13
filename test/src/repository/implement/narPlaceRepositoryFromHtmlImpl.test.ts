@@ -44,7 +44,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
         describe('registerPlaceList', () => {
             test('htmlなので登録できない', async () => {
                 // リクエストの作成
-                const request = new RegisterPlaceListRequest<NarPlaceData>([]);
+                const request = new RegisterPlaceListRequest<NarPlaceEntity>([]);
                 // テスト実行
                 await expect(
                     repository.registerPlaceList(request),

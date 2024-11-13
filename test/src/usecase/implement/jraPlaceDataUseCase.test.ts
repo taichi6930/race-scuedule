@@ -11,17 +11,17 @@ import { mockJraPlaceRepositoryFromS3Impl } from '../../mock/repository/jraPlace
 
 describe('JraPlaceDataUseCase', () => {
     let jraPlaceRepositoryFromS3Impl: jest.Mocked<
-        IPlaceRepository<JraPlaceData>
+        IPlaceRepository<JraPlaceEntity>
     >;
     let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceData>
+        IPlaceRepository<JraPlaceEntity>
     >;
     let useCase: JraPlaceDataUseCase;
 
     beforeEach(() => {
         // jraPlaceRepositoryFromS3Implをコンテナに登録
         jraPlaceRepositoryFromS3Impl = mockJraPlaceRepositoryFromS3Impl();
-        container.register<IPlaceRepository<JraPlaceData>>(
+        container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromS3',
             {
                 useValue: jraPlaceRepositoryFromS3Impl,
@@ -29,7 +29,7 @@ describe('JraPlaceDataUseCase', () => {
         );
 
         jraPlaceRepositoryFromHtmlImpl = mockJraPlaceRepositoryFromHtmlImpl();
-        container.register<IPlaceRepository<JraPlaceData>>(
+        container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
             {
                 useValue: jraPlaceRepositoryFromHtmlImpl,

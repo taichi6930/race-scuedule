@@ -3,16 +3,16 @@ import 'reflect-metadata';
 import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
-import type { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
-import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
+import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import { JraRaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromS3Impl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { mockS3GatewayForJraRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('JraRaceRepositoryFromS3Impl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<JraRaceData>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<JraRaceEntity>>;
     let repository: JraRaceRepositoryFromS3Impl;
 
     beforeEach(() => {
@@ -38,6 +38,15 @@ describe('JraRaceRepositoryFromS3Impl', () => {
                         new Date(),
                     );
                     date.setHours(16);
+                    const csvHeaderDataText: string = [
+                        'name',
+                        'dateTime',
+                        'location',
+                        'surfaceType',
+                        'distance',
+                        'grade',
+                        'number',
+                    ].join(',');
                     const csvDataText: string = [
                         `raceName${filename.slice(0, 8)}`,
                         date.toISOString(),
@@ -66,6 +75,7 @@ describe('JraRaceRepositoryFromS3Impl', () => {
                         undefined,
                     ].join(',');
                     const csvDatajoinText: string = [
+                        csvHeaderDataText,
                         csvDataText,
                         csvDataRameNameUndefinedText,
                         csvDataNumUndefinedText,
@@ -74,7 +84,7 @@ describe('JraRaceRepositoryFromS3Impl', () => {
                 },
             );
             // リクエストの作成
-            const request = new FetchRaceListRequest<JraPlaceData>(
+            const request = new FetchRaceListRequest<JraPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );
@@ -89,7 +99,7 @@ describe('JraRaceRepositoryFromS3Impl', () => {
     describe('registerRaceList', () => {
         test('正しいレースデータを登録できる', async () => {
             // 1年間のレースデータを登録する
-            const raceDataList: JraRaceData[] = Array.from(
+            const raceDataList: JraRaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -97,7 +107,8 @@ describe('JraRaceRepositoryFromS3Impl', () => {
                     return Array.from(
                         { length: 12 },
                         (__, j) =>
-                            new JraRaceData(
+                            new JraRaceEntity(
+                                null,
                                 `raceName${format(date, 'yyyyMMdd')}`,
                                 date,
                                 '東京',
@@ -113,7 +124,7 @@ describe('JraRaceRepositoryFromS3Impl', () => {
             ).flat();
 
             // リクエストの作成
-            const request = new RegisterRaceListRequest<JraRaceData>(
+            const request = new RegisterRaceListRequest<JraRaceEntity>(
                 raceDataList,
             );
             // テスト実行

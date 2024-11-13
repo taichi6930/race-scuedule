@@ -16,7 +16,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
     constructor(
-        @inject('JraPlaceEntityHtmlGateway')
+        @inject('JraPlaceDataHtmlGateway')
         private jraPlaceDataHtmlGateway: IJraPlaceDataHtmlGateway,
     ) {}
 

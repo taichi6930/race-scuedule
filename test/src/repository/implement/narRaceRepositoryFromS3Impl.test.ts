@@ -3,16 +3,16 @@ import 'reflect-metadata';
 import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
-import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
+import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import { NarRaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromS3Impl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { mockS3GatewayForNarRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('NarRaceRepositoryFromS3Impl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<NarRaceData>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<NarRaceEntity>>;
     let repository: NarRaceRepositoryFromS3Impl;
 
     beforeEach(() => {
@@ -38,6 +38,17 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                         new Date(),
                     );
                     date.setHours(16);
+                    const csvHeaderDataText: string = [
+                        'name',
+                        'dateTime',
+                        'location',
+                        'surfaceType',
+                        'distance',
+                        'grade',
+                        'number',
+                        'heldTimes',
+                        'heldDayTimes',
+                    ].join(',');
                     const csvDataText: string = [
                         `raceName${filename.slice(0, 8)}`,
                         date.toISOString(),
@@ -66,6 +77,7 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                         undefined,
                     ].join(',');
                     const csvDatajoinText: string = [
+                        csvHeaderDataText,
                         csvDataText,
                         csvDataRameNameUndefinedText,
                         csvDataNumUndefinedText,
@@ -74,7 +86,7 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                 },
             );
             // リクエストの作成
-            const request = new FetchRaceListRequest<NarPlaceData>(
+            const request = new FetchRaceListRequest<NarPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );
@@ -89,7 +101,7 @@ describe('NarRaceRepositoryFromS3Impl', () => {
     describe('registerRaceList', () => {
         test('正しいレースデータを登録できる', async () => {
             // 1年間のレースデータを登録する
-            const raceDataList: NarRaceData[] = Array.from(
+            const raceDataList: NarRaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -97,7 +109,8 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                     return Array.from(
                         { length: 12 },
                         (__, j) =>
-                            new NarRaceData(
+                            new NarRaceEntity(
+                                null,
                                 `raceName${format(date, 'yyyyMMdd')}`,
                                 date,
                                 '大井',
@@ -111,7 +124,7 @@ describe('NarRaceRepositoryFromS3Impl', () => {
             ).flat();
 
             // リクエストの作成
-            const request = new RegisterRaceListRequest<NarRaceData>(
+            const request = new RegisterRaceListRequest<NarRaceEntity>(
                 raceDataList,
             );
             // テスト実行

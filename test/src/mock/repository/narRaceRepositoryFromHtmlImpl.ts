@@ -4,7 +4,7 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 
 // NarRaceRepositoryFromHtmlImplのmockを作成
 export const mockNarRaceRepositoryFromHtmlImpl = (): jest.Mocked<
-    IRaceRepository<NarRaceData, NarPlaceData>
+    IRaceRepository<NarRaceEntity, NarPlaceEntity>
 > => {
     return {
         fetchRaceList: jest.fn().mockResolvedValue([] as NarRaceData[]),

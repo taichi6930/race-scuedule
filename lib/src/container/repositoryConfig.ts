@@ -1,13 +1,13 @@
 import { container } from 'tsyringe';
 
-import type { JraPlaceData } from '../domain/jraPlaceData';
-import type { JraRaceData } from '../domain/jraRaceData';
-import type { NarPlaceData } from '../domain/narPlaceData';
-import type { NarRaceData } from '../domain/narRaceData';
 import type { AutoracePlaceEntity } from '../repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../repository/entity/autoraceRaceEntity';
+import type { JraPlaceEntity } from '../repository/entity/jraPlaceEntity';
+import type { JraRaceEntity } from '../repository/entity/jraRaceEntity';
 import type { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
+import type { NarPlaceEntity } from '../repository/entity/narPlaceEntity';
+import type { NarRaceEntity } from '../repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../repository/implement/autoracePlaceRepositoryFromHtmlImpl';
@@ -38,11 +38,11 @@ import { MockWorldRaceRepositoryFromHtmlImpl } from '../repository/mock/mockWorl
 import { ENV } from '../utility/env';
 
 // Repositoryの実装クラスをDIコンテナに登錄する
-container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
+container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
     'NarRaceRepositoryFromS3',
     { useClass: NarRaceRepositoryFromS3Impl },
 );
-container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
+container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
     'JraRaceRepositoryFromS3',
     { useClass: JraRaceRepositoryFromS3Impl },
 );
@@ -54,12 +54,18 @@ container.register<IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>>(
     'AutoraceRaceRepositoryFromStorage',
     { useClass: AutoraceRaceRepositoryFromStorageImpl },
 );
-container.register<IPlaceRepository<NarPlaceData>>('NarPlaceRepositoryFromS3', {
-    useClass: NarPlaceRepositoryFromS3Impl,
-});
-container.register<IPlaceRepository<JraPlaceData>>('JraPlaceRepositoryFromS3', {
-    useClass: JraPlaceRepositoryFromS3Impl,
-});
+container.register<IPlaceRepository<NarPlaceEntity>>(
+    'NarPlaceRepositoryFromS3',
+    {
+        useClass: NarPlaceRepositoryFromS3Impl,
+    },
+);
+container.register<IPlaceRepository<JraPlaceEntity>>(
+    'JraPlaceRepositoryFromS3',
+    {
+        useClass: JraPlaceRepositoryFromS3Impl,
+    },
+);
 container.register<IPlaceRepository<KeirinPlaceEntity>>(
     'KeirinPlaceRepositoryFromStorage',
     { useClass: KeirinPlaceRepositoryFromStorageImpl },
@@ -68,15 +74,15 @@ container.register<IPlaceRepository<AutoracePlaceEntity>>(
     'AutoracePlaceRepositoryFromStorage',
     { useClass: AutoracePlaceRepositoryFromStorageImpl },
 );
-container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
+container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
     'NarRaceRepositoryFromHtml',
     { useClass: NarRaceRepositoryFromHtmlImpl },
 );
-container.register<IRaceRepository<JraRaceData, JraPlaceData>>(
+container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
     'JraRaceRepositoryFromHtml',
     { useClass: JraRaceRepositoryFromHtmlImpl },
 );
-container.register<IPlaceRepository<NarPlaceData>>(
+container.register<IPlaceRepository<NarPlaceEntity>>(
     'NarPlaceRepositoryFromHtml',
     { useClass: NarPlaceRepositoryFromHtmlImpl },
 );
@@ -84,7 +90,7 @@ container.register<IPlaceRepository<AutoracePlaceEntity>>(
     'AutoracePlaceRepositoryFromHtml',
     { useClass: AutoracePlaceRepositoryFromHtmlImpl },
 );
-container.register<IPlaceRepository<JraPlaceData>>(
+container.register<IPlaceRepository<JraPlaceEntity>>(
     'JraPlaceRepositoryFromHtml',
     { useClass: JraPlaceRepositoryFromHtmlImpl },
 );

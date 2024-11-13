@@ -1,10 +1,10 @@
-import type { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
-import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
-import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
+import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
+import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 
 export const mockS3Gateway = <RaceData>(): jest.Mocked<
     IS3Gateway<RaceData>
@@ -16,7 +16,7 @@ export const mockS3Gateway = <RaceData>(): jest.Mocked<
 };
 
 export const mockS3GatewayForNarRace = (): jest.Mocked<
-    IS3Gateway<NarRaceData>
+    IS3Gateway<NarRaceEntity>
 > => {
     return {
         uploadDataToS3: jest.fn(),
@@ -25,7 +25,7 @@ export const mockS3GatewayForNarRace = (): jest.Mocked<
 };
 
 export const mockS3GatewayForNarPlace = (): jest.Mocked<
-    IS3Gateway<NarPlaceData>
+    IS3Gateway<NarPlaceEntity>
 > => {
     return {
         uploadDataToS3: jest.fn(),
@@ -34,7 +34,7 @@ export const mockS3GatewayForNarPlace = (): jest.Mocked<
 };
 
 export const mockS3GatewayForJraRace = (): jest.Mocked<
-    IS3Gateway<JraRaceData>
+    IS3Gateway<JraRaceEntity>
 > => {
     return {
         uploadDataToS3: jest.fn(),
@@ -43,7 +43,7 @@ export const mockS3GatewayForJraRace = (): jest.Mocked<
 };
 
 export const mockS3GatewayForJraPlace = (): jest.Mocked<
-    IS3Gateway<JraPlaceData>
+    IS3Gateway<JraPlaceEntity>
 > => {
     return {
         uploadDataToS3: jest.fn(),

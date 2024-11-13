@@ -4,7 +4,7 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 
 // JraRaceRepositoryFromS3Implのmockを作成
 export const mockJraRaceRepositoryFromS3Impl = (): jest.Mocked<
-    IRaceRepository<JraRaceData, JraPlaceData>
+    IRaceRepository<JraRaceEntity, JraPlaceEntity>
 > => {
     return {
         fetchRaceList: jest.fn().mockResolvedValue([] as JraRaceData[]),

@@ -14,27 +14,27 @@ import { mockNarRaceRepositoryFromS3Impl } from '../../mock/repository/narRaceRe
 
 describe('NarRaceDataUseCase', () => {
     let narRaceRepositoryFromS3Impl: jest.Mocked<
-        IRaceRepository<NarRaceData, NarPlaceData>
+        IRaceRepository<NarRaceEntity, NarPlaceEntity>
     >;
     let narRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<NarRaceData, NarPlaceData>
+        IRaceRepository<NarRaceEntity, NarPlaceEntity>
     >;
     let narPlaceRepositoryFromS3Impl: jest.Mocked<
-        IPlaceRepository<NarPlaceData>
+        IPlaceRepository<NarPlaceEntity>
     >;
     let useCase: NarRaceDataUseCase;
 
     beforeEach(() => {
         // IRaceRepositoryインターフェースの依存関係を登録
         narRaceRepositoryFromS3Impl = mockNarRaceRepositoryFromS3Impl();
-        container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
+        container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromS3',
             {
                 useValue: narRaceRepositoryFromS3Impl,
             },
         );
         narRaceRepositoryFromHtmlImpl = mockNarRaceRepositoryFromHtmlImpl();
-        container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
+        container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromHtml',
             {
                 useValue: narRaceRepositoryFromHtmlImpl,
@@ -43,7 +43,7 @@ describe('NarRaceDataUseCase', () => {
 
         // narPlaceRepositoryFromS3Implをコンテナに登録
         narPlaceRepositoryFromS3Impl = mockNarPlaceRepositoryFromS3Impl();
-        container.register<IPlaceRepository<NarPlaceData>>(
+        container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromS3',
             {
                 useValue: narPlaceRepositoryFromS3Impl,
@@ -70,7 +70,7 @@ describe('NarRaceDataUseCase', () => {
 
             // モックの戻り値を設定
             narRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
-                new FetchRaceListResponse<NarRaceData>(mockRaceData),
+                new FetchRaceListResponse<NarRaceEntity>(mockRaceData),
             );
 
             const startDate = new Date('2024-06-01');
@@ -94,7 +94,7 @@ describe('NarRaceDataUseCase', () => {
 
             // モックの戻り値を設定
             narRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
-                new FetchRaceListResponse<NarRaceData>(mockRaceData),
+                new FetchRaceListResponse<NarRaceEntity>(mockRaceData),
             );
 
             await useCase.updateRaceDataList(startDate, finishDate);

@@ -3,8 +3,6 @@ import 'reflect-metadata';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../../domain/narPlaceData';
-import { NarRaceData } from '../../domain/narRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import {
     NarGradeType,
@@ -12,6 +10,8 @@ import {
     NarRaceCourseType,
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -23,11 +23,11 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
  */
 @injectable()
 export class NarRaceRepositoryFromS3Impl
-    implements IRaceRepository<NarRaceData, NarPlaceData>
+    implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
     constructor(
         @inject('NarRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<NarRaceData>,
+        private readonly s3Gateway: IS3Gateway<NarRaceEntity>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -36,8 +36,8 @@ export class NarRaceRepositoryFromS3Impl
      */
     @Logger
     async fetchRaceList(
-        request: FetchRaceListRequest<NarPlaceData>,
-    ): Promise<FetchRaceListResponse<NarRaceData>> {
+        request: FetchRaceListRequest<NarPlaceEntity>,
+    ): Promise<FetchRaceListResponse<NarRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
         const fileNames: string[] = this.generateFilenameList(
             request.startDate,
@@ -47,44 +47,70 @@ export class NarRaceRepositoryFromS3Impl
         // ファイル名リストから競馬場開催データを取得する
         const raceDataList = (
             await Promise.all(
-                fileNames.map(async (fileName) =>
-                    // S3からデータを取得する
-                    this.s3Gateway.fetchDataFromS3(fileName).then((csv) => {
-                        // csvをパースしてNarRaceDataのリストを生成する
-                        return csv
-                            .split('\n')
+                fileNames.map(async (fileName) => {
+                    try {
+                        const csv =
+                            await this.s3Gateway.fetchDataFromS3(fileName);
+
+                        // CSVを行ごとに分割
+                        const lines = csv.split('\n');
+
+                        // ヘッダー行を解析
+                        const headers = lines[0].split(',');
+
+                        // ヘッダーに基づいてインデックスを取得
+                        const idIndex = headers.indexOf('id');
+                        const raceNameIndex = headers.indexOf('name');
+                        const raceDateIndex = headers.indexOf('dateTime');
+                        const placeIndex = headers.indexOf('location');
+                        const surfaceTypeIndex = headers.indexOf('surfaceType');
+                        const distanceIndex = headers.indexOf('distance');
+                        const gradeIndex = headers.indexOf('grade');
+                        const raceNumIndex = headers.indexOf('number');
+
+                        // データ行を解析してJraRaceEntityのリストを生成
+                        return lines
+                            .slice(1)
                             .map((line: string) => {
-                                const [
-                                    raceName,
-                                    raceDate,
-                                    place,
-                                    surfaceType,
-                                    distance,
-                                    grade,
-                                    raceNum,
-                                ] = line.split(',');
-                                if (!raceName || isNaN(parseInt(raceNum))) {
+                                const columns = line.split(',');
+
+                                // 必要なフィールドが存在しない場合はundefinedを返す
+                                if (
+                                    !columns[raceNameIndex] ||
+                                    isNaN(parseInt(columns[raceNumIndex]))
+                                ) {
                                     return undefined;
                                 }
-                                return new NarRaceData(
-                                    raceName,
-                                    new Date(raceDate),
-                                    place as NarRaceCourse,
-                                    surfaceType as NarRaceCourseType,
-                                    parseInt(distance),
-                                    grade as NarGradeType,
-                                    parseInt(raceNum),
+
+                                return new NarRaceEntity(
+                                    idIndex < 0 ? null : columns[idIndex],
+                                    columns[raceNameIndex],
+                                    new Date(columns[raceDateIndex]),
+                                    columns[placeIndex] as NarRaceCourse,
+                                    columns[
+                                        surfaceTypeIndex
+                                    ] as NarRaceCourseType,
+                                    parseInt(columns[distanceIndex]),
+                                    columns[gradeIndex] as NarGradeType,
+                                    parseInt(columns[raceNumIndex]),
                                 );
                             })
                             .filter(
-                                (raceData): raceData is NarRaceData =>
+                                (raceData): raceData is NarRaceEntity =>
                                     raceData !== undefined,
                             );
-                    }),
-                ),
+                    } catch (error) {
+                        console.error(
+                            `Error processing file ${fileName}:`,
+                            error,
+                        );
+                        return [];
+                    }
+                }),
             )
         ).flat();
-        return new FetchRaceListResponse(raceDataList);
+
+        return new FetchRaceListResponse<NarRaceEntity>(raceDataList);
     }
 
     /**
@@ -110,11 +136,11 @@ export class NarRaceRepositoryFromS3Impl
      */
     @Logger
     async registerRaceList(
-        request: RegisterRaceListRequest<NarRaceData>,
+        request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceDataList: NarRaceData[] = request.raceDataList;
+        const raceDataList: NarRaceEntity[] = request.raceDataList;
         // レースデータを日付ごとに分割する
-        const raceDataDict: Record<string, NarRaceData[]> = {};
+        const raceDataDict: Record<string, NarRaceEntity[]> = {};
         raceDataList.forEach((raceData) => {
             const key = `${format(raceData.dateTime, 'yyyyMMdd')}.csv`;
             if (!(key in raceDataDict)) {

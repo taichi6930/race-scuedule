@@ -33,7 +33,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
                 const response = await repository.fetchRaceList(
-                    new FetchRaceListRequest<JraPlaceData>(
+                    new FetchRaceListRequest<JraPlaceEntity>(
                         new Date('2024-05-26'),
                         new Date('2024-05-26'),
                         [new JraPlaceData(new Date('2024-05-26'), '東京')],
@@ -46,7 +46,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
         describe('registerRaceList', () => {
             test('htmlなので登録できない', async () => {
                 // リクエストの作成
-                const request = new RegisterRaceListRequest<JraRaceData>([]);
+                const request = new RegisterRaceListRequest<JraRaceEntity>([]);
                 // テスト実行
                 await expect(
                     repository.registerRaceList(request),

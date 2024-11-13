@@ -3,7 +3,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 
 // JraPlaceRepositoryFromHtmlImplのmockを作成
 export const mockJraPlaceRepositoryFromHtmlImpl = (): jest.Mocked<
-    IPlaceRepository<JraPlaceData>
+    IPlaceRepository<JraPlaceEntity>
 > => {
     return {
         fetchPlaceList: jest.fn().mockResolvedValue([] as JraPlaceData[]),

@@ -4,10 +4,10 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../../domain/narPlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
@@ -19,11 +19,11 @@ import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse
  */
 @injectable()
 export class NarPlaceRepositoryFromS3Impl
-    implements IPlaceRepository<NarPlaceData>
+    implements IPlaceRepository<NarPlaceEntity>
 {
     constructor(
         @inject('NarPlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<NarPlaceData>,
+        private readonly s3Gateway: IS3Gateway<NarPlaceEntity>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -31,12 +31,12 @@ export class NarPlaceRepositoryFromS3Impl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<NarPlaceData>> - 開催データ取得レスポンス
+     * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<NarPlaceData>> {
+    ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
         const fileNames: string[] = await this.generateFileNames(
             request.startDate,
             request.finishDate,
@@ -102,29 +102,53 @@ export class NarPlaceRepositoryFromS3Impl
     @Logger
     private async fetchMonthPlaceDataList(
         fileName: string,
-    ): Promise<NarPlaceData[]> {
+    ): Promise<NarPlaceEntity[]> {
         console.log(`S3から${fileName}を取得します`);
         const csv = await this.s3Gateway.fetchDataFromS3(fileName);
-        const placeDataList: NarPlaceData[] = csv
-            .split('\n')
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const idIndex = headers.indexOf('id');
+        const raceDateIndex = headers.indexOf('dateTime');
+        const placeIndex = headers.indexOf('location');
+
+        // データ行を解析してJraPlaceEntityのリストを生成
+        const placeEntityList: NarPlaceEntity[] = lines
+            .slice(1)
             .map((line: string) => {
-                const [raceDate, place] = line.split(',');
-                return new NarPlaceData(
-                    new Date(raceDate),
-                    place as NarRaceCourse,
+                const columns = line.split(',');
+
+                // 必要なフィールドが存在しない場合はundefinedを返す
+                if (!columns[raceDateIndex] || !columns[placeIndex]) {
+                    return undefined;
+                }
+
+                // idIndexが存在しない場合はundefinedを返す
+                return new NarPlaceEntity(
+                    // TODO: idIndexが存在しない場合はnullを返すようにしているが、どこかのタイミングでエラーを出すように変更する
+                    idIndex < 0 ? null : columns[idIndex],
+                    new Date(columns[raceDateIndex]),
+                    columns[placeIndex] as NarRaceCourse,
                 );
             })
-            .filter((placeData) => placeData !== undefined);
-        return placeDataList;
+            .filter(
+                (placeEntity): placeEntity is NarPlaceEntity =>
+                    placeEntity !== undefined,
+            );
+
+        return placeEntityList;
     }
 
     @Logger
     async registerPlaceList(
-        request: RegisterPlaceListRequest<NarPlaceData>,
+        request: RegisterPlaceListRequest<NarPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeDataList: NarPlaceData[] = request.placeDataList;
+        const placeDataList: NarPlaceEntity[] = request.placeDataList;
         // 得られたplaceを月毎に分ける
-        const placeDataDict: Record<string, NarPlaceData[]> = {};
+        const placeDataDict: Record<string, NarPlaceEntity[]> = {};
         placeDataList.forEach((placeData) => {
             const key = `${format(placeData.dateTime, 'yyyyMM')}.csv`;
             if (!(key in placeDataDict)) {
