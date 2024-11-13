@@ -3,8 +3,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraRaceData } from '../../domain/jraRaceData';
+import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
+import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
@@ -18,8 +19,8 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
         private readonly calendarService: ICalendarService<JraRaceData>,
         @inject('JraRaceRepositoryFromS3')
         private readonly jraRaceRepositoryFromS3: IRaceRepository<
-            JraRaceData,
-            JraPlaceData
+            JraRaceEntity,
+            JraPlaceEntity
         >,
     ) {}
 
@@ -59,12 +60,25 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
         try {
             // startDateからfinishDateまでレース情報を取得
             const fetchRaceDataListRequest =
-                new FetchRaceListRequest<JraPlaceData>(startDate, finishDate);
+                new FetchRaceListRequest<JraPlaceEntity>(startDate, finishDate);
             const fetchRaceDataListResponse =
                 await this.jraRaceRepositoryFromS3.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const { raceDataList } = fetchRaceDataListResponse;
+            const raceEntityList = fetchRaceDataListResponse.raceDataList;
+            const raceDataList = raceEntityList.map((raceEntity) => {
+                return new JraRaceData(
+                    raceEntity.name,
+                    raceEntity.dateTime,
+                    raceEntity.location,
+                    raceEntity.surfaceType,
+                    raceEntity.distance,
+                    raceEntity.grade,
+                    raceEntity.number,
+                    raceEntity.heldTimes,
+                    raceEntity.heldDayTimes,
+                );
+            });
 
             // displayGradeListに含まれるレース情報のみを抽出
             const filteredRaceDataList: JraRaceData[] = raceDataList.filter(

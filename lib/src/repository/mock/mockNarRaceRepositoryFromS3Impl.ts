@@ -1,5 +1,5 @@
-import type { NarPlaceData } from '../../domain/narPlaceData';
-import { NarRaceData } from '../../domain/narRaceData';
+import type { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { NarRaceEntity } from '../entity/narRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -8,15 +8,16 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // NarRaceRepositoryFromS3Implのモックを作成
 export class MockNarRaceRepositoryFromS3Impl
-    implements IRaceRepository<NarRaceData, NarPlaceData>
+    implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
     fetchRaceList(
-        request: FetchRaceListRequest<NarPlaceData>,
-    ): Promise<FetchRaceListResponse<NarRaceData>> {
+        request: FetchRaceListRequest<NarPlaceEntity>,
+    ): Promise<FetchRaceListResponse<NarRaceEntity>> {
         console.debug(request);
         return Promise.resolve(
             new FetchRaceListResponse([
-                new NarRaceData(
+                new NarRaceEntity(
+                    null,
                     '東京ダービー',
                     new Date('2024-06-01'),
                     '大井',
@@ -30,7 +31,7 @@ export class MockNarRaceRepositoryFromS3Impl
     }
 
     registerRaceList(
-        request: RegisterRaceListRequest<NarRaceData>,
+        request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
         return Promise.resolve(new RegisterRaceListResponse(200));

@@ -2,10 +2,10 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
-import { JraPlaceData } from '../../domain/jraPlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
@@ -14,11 +14,11 @@ import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse
 
 @injectable()
 export class JraPlaceRepositoryFromS3Impl
-    implements IPlaceRepository<JraPlaceData>
+    implements IPlaceRepository<JraPlaceEntity>
 {
     constructor(
         @inject('JraPlaceS3Gateway')
-        private s3Gateway: IS3Gateway<JraPlaceData>,
+        private s3Gateway: IS3Gateway<JraPlaceEntity>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -26,12 +26,12 @@ export class JraPlaceRepositoryFromS3Impl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<JraPlaceData>> - 開催データ取得レスポンス
+     * @returns Promise<FetchPlaceListResponse<JraPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<JraPlaceData>> {
+    ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
         const fileNames: string[] = await this.generateFileNames(
             request.startDate,
             request.finishDate,
@@ -94,29 +94,53 @@ export class JraPlaceRepositoryFromS3Impl
     @Logger
     private async fetchYearPlaceDataList(
         fileName: string,
-    ): Promise<JraPlaceData[]> {
+    ): Promise<JraPlaceEntity[]> {
         console.log(`S3から${fileName}を取得します`);
         const csv = await this.s3Gateway.fetchDataFromS3(fileName);
-        const placeData: JraPlaceData[] = csv
-            .split('\n')
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const idIndex = headers.indexOf('id');
+        const raceDateIndex = headers.indexOf('dateTime');
+        const placeIndex = headers.indexOf('location');
+
+        // データ行を解析してJraPlaceEntityのリストを生成
+        const placeEntityList: JraPlaceEntity[] = lines
+            .slice(1)
             .map((line: string) => {
-                const [raceDate, place] = line.split(',');
-                return new JraPlaceData(
-                    new Date(raceDate),
-                    place as JraRaceCourse,
+                const columns = line.split(',');
+
+                // 必要なフィールドが存在しない場合はundefinedを返す
+                if (!columns[raceDateIndex] || !columns[placeIndex]) {
+                    return undefined;
+                }
+
+                // idIndexが存在しない場合はundefinedを返す
+                return new JraPlaceEntity(
+                    // TODO: idIndexが存在しない場合はnullを返すようにしているが、どこかのタイミングでエラーを出すように変更する
+                    idIndex < 0 ? null : columns[idIndex],
+                    new Date(columns[raceDateIndex]),
+                    columns[placeIndex] as JraRaceCourse,
                 );
             })
-            .filter((placeData) => placeData !== undefined);
-        return placeData;
+            .filter(
+                (placeEntity): placeEntity is JraPlaceEntity =>
+                    placeEntity !== undefined,
+            );
+
+        return placeEntityList;
     }
 
     @Logger
     async registerPlaceList(
-        request: RegisterPlaceListRequest<JraPlaceData>,
+        request: RegisterPlaceListRequest<JraPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeData: JraPlaceData[] = request.placeDataList;
+        const placeData: JraPlaceEntity[] = request.placeDataList;
         // 得られたplaceを年毎に分ける
-        const placeDataDict: Record<string, JraPlaceData[]> = {};
+        const placeDataDict: Record<string, JraPlaceEntity[]> = {};
         placeData.forEach((place) => {
             const key = `${place.dateTime.getFullYear().toString()}.csv`;
             if (!(key in placeDataDict)) {

@@ -2,9 +2,9 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { IJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iJraPlaceDataHtmlGateway';
 import { MockJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockJraPlaceDataHtmlGateway';
+import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
@@ -44,7 +44,9 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
         describe('registerPlaceList', () => {
             test('htmlなので登録できない', async () => {
                 // リクエストの作成
-                const request = new RegisterPlaceListRequest<JraPlaceData>([]);
+                const request = new RegisterPlaceListRequest<JraPlaceEntity>(
+                    [],
+                );
                 // テスト実行
                 await expect(
                     repository.registerPlaceList(request),

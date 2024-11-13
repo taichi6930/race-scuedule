@@ -4,10 +4,10 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../../domain/narPlaceData';
 import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataHtmlGateway';
 import { NarRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
@@ -19,7 +19,7 @@ import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse
  */
 @injectable()
 export class NarPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<NarPlaceData>
+    implements IPlaceRepository<NarPlaceEntity>
 {
     constructor(
         @inject('NarPlaceDataHtmlGateway')
@@ -32,12 +32,12 @@ export class NarPlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<NarPlaceData>> - 開催データ取得レスポンス
+     * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<NarPlaceData>> {
+    ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
         const months: Date[] = await this.generateMonths(
             request.startDate,
             request.finishDate,
@@ -101,7 +101,9 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private async fetchMonthPlaceDataList(date: Date): Promise<NarPlaceData[]> {
+    private async fetchMonthPlaceDataList(
+        date: Date,
+    ): Promise<NarPlaceEntity[]> {
         console.log(`S3から${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
@@ -144,11 +146,12 @@ export class NarPlaceRepositoryFromHtmlImpl
             });
         });
 
-        const narPlaceDataList: NarPlaceData[] = [];
+        const narPlaceDataList: NarPlaceEntity[] = [];
         for (const [place, raceDays] of Object.entries(narPlaceDataDict)) {
             raceDays.forEach((raceDay) => {
                 narPlaceDataList.push(
-                    new NarPlaceData(
+                    new NarPlaceEntity(
+                        null,
                         new Date(date.getFullYear(), date.getMonth(), raceDay),
                         place as NarRaceCourse,
                     ),
@@ -165,7 +168,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      */
     @Logger
     registerPlaceList(
-        request: RegisterPlaceListRequest<NarPlaceData>,
+        request: RegisterPlaceListRequest<NarPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);
         throw new Error('HTMLにはデータを登録出来ません');

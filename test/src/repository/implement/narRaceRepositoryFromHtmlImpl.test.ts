@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { INarRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarRaceDataHtmlGateway';
 import { MockNarRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarRaceDataHtmlGateway';
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
@@ -33,7 +32,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
                 const response = await repository.fetchRaceList(
-                    new FetchRaceListRequest<NarPlaceData>(
+                    new FetchRaceListRequest<NarPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [new NarPlaceData(new Date('2024-10-02'), '大井')],
@@ -46,7 +45,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
         describe('registerRaceList', () => {
             test('htmlなので登録できない', async () => {
                 // リクエストの作成
-                const request = new RegisterRaceListRequest<NarRaceData>([]);
+                const request = new RegisterRaceListRequest<NarRaceEntity>([]);
                 // テスト実行
                 await expect(
                     repository.registerRaceList(request),

@@ -3,20 +3,22 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
+import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
 import type { NarGradeType } from '../../../../lib/src/utility/data/raceSpecific';
 import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
+import { baseNarRaceEntity } from '../../mock/common/baseData';
 import { mockNarRaceRepositoryFromS3Impl } from '../../mock/repository/narRaceRepositoryFromS3Impl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceData>>;
     let narRaceRepositoryFromS3Impl: jest.Mocked<
-        IRaceRepository<NarRaceData, NarPlaceData>
+        IRaceRepository<NarRaceEntity, NarPlaceEntity>
     >;
     let useCase: NarRaceCalendarUseCase;
 
@@ -32,7 +34,7 @@ describe('NarRaceCalendarUseCase', () => {
 
         // IRaceRepositoryインターフェースの依存関係を登録
         narRaceRepositoryFromS3Impl = mockNarRaceRepositoryFromS3Impl();
-        container.register<IRaceRepository<NarRaceData, NarPlaceData>>(
+        container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromS3',
             {
                 useValue: narRaceRepositoryFromS3Impl,
@@ -99,19 +101,13 @@ describe('NarRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseNarCalendarData = new NarRaceData(
-            `東京大賞典`,
-            new Date('2023-08-01'),
-            '大井',
-            'ダート',
-            1600,
-            'GⅠ',
-            11,
-        );
+        const baseNarCalendarEntity = baseNarRaceEntity;
 
         it('正常に更新できること', async () => {
             const mockRaceDataList: NarRaceData[] = [];
+            const mockRaceEntityList: NarRaceEntity[] = [];
             const expectedRaceDataList: NarRaceData[] = [];
+            const expectedRaceEntityList: NarRaceEntity[] = [];
 
             const grades: NarGradeType[] = [
                 'GⅠ',
@@ -126,7 +122,14 @@ describe('NarRaceCalendarUseCase', () => {
                     days.forEach((day) => {
                         // モック用のデータを作成
                         mockRaceDataList.push(
-                            baseNarCalendarData.copy({
+                            baseNarCalendarEntity.toDomainData({
+                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                dateTime: new Date(2024, month, day),
+                                grade: grade,
+                            }),
+                        );
+                        mockRaceEntityList.push(
+                            baseNarCalendarEntity.copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -135,7 +138,14 @@ describe('NarRaceCalendarUseCase', () => {
                         if (NAR_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceDataList.push(
-                                baseNarCalendarData.copy({
+                                baseNarCalendarEntity.toDomainData({
+                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                    dateTime: new Date(2024, month, day),
+                                    grade: grade,
+                                }),
+                            );
+                            expectedRaceEntityList.push(
+                                baseNarCalendarEntity.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,
@@ -148,7 +158,7 @@ describe('NarRaceCalendarUseCase', () => {
 
             // モックが値を返すよう設定
             narRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue({
-                raceDataList: mockRaceDataList,
+                raceDataList: mockRaceEntityList,
             });
 
             const startDate = new Date('2024-01-01');
@@ -207,9 +217,9 @@ describe('NarRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListは正常に動作するように設定
-            const mockRaceDataList: NarRaceData[] = [baseNarCalendarData];
+            const mockRaceEntityList: NarRaceEntity[] = [baseNarCalendarEntity];
             narRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue({
-                raceDataList: mockRaceDataList,
+                raceDataList: mockRaceEntityList,
             });
 
             // updateEventsがエラーをスローするようにモック

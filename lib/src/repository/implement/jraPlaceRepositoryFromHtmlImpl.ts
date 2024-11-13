@@ -1,10 +1,10 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { JraPlaceData } from '../../domain/jraPlaceData';
 import { IJraPlaceDataHtmlGateway } from '../../gateway/interface/iJraPlaceDataHtmlGateway';
 import { JraRaceCourse } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
+import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
@@ -13,7 +13,7 @@ import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse
 
 @injectable()
 export class JraPlaceRepositoryFromHtmlImpl
-    implements IPlaceRepository<JraPlaceData>
+    implements IPlaceRepository<JraPlaceEntity>
 {
     constructor(
         @inject('JraPlaceDataHtmlGateway')
@@ -26,12 +26,12 @@ export class JraPlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<JraPlaceData>> - 開催データ取得レスポンス
+     * @returns Promise<FetchPlaceListResponse<JraPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<JraPlaceData>> {
+    ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
         const years: Date[] = await this.generateYears(
             request.startDate,
             request.finishDate,
@@ -88,7 +88,9 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private async fetchYearPlaceDataList(date: Date): Promise<JraPlaceData[]> {
+    private async fetchYearPlaceDataList(
+        date: Date,
+    ): Promise<JraPlaceEntity[]> {
         console.log(`S3から${date.toISOString().split('T')[0]}を取得します`);
         // レース情報を取得
         const htmlText: string =
@@ -96,7 +98,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 
         const $ = cheerio.load(htmlText);
 
-        const jraPlaceDataList: JraPlaceData[] = [];
+        const jraPlaceDataList: JraPlaceEntity[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
         const placeMap: Record<string, JraRaceCourse> = {
@@ -126,7 +128,8 @@ export class JraPlaceRepositoryFromHtmlImpl
                         const place = getPlaceName(placeInitial);
                         if (!place) return;
                         jraPlaceDataList.push(
-                            new JraPlaceData(
+                            new JraPlaceEntity(
+                                null,
                                 new Date(date.getFullYear(), month - 1, day),
                                 getPlaceName(placeInitial),
                             ),
@@ -144,7 +147,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      */
     @Logger
     registerPlaceList(
-        request: RegisterPlaceListRequest<JraPlaceData>,
+        request: RegisterPlaceListRequest<JraPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);
         throw new Error('HTMLにはデータを登録出来ません');

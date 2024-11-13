@@ -1,3 +1,4 @@
+import type { PlaceEntity } from '../entity/baseEntity';
 import type { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import type { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import type { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
@@ -7,7 +8,7 @@ import type { RegisterPlaceListResponse } from '../response/registerPlaceListRes
  * 競馬場データリポジトリ
  * @param <P> 競馬場データ
  */
-export interface IPlaceRepository<P> {
+export interface IPlaceRepository<P extends PlaceEntity> {
     /**
      * 競馬場データを取得する
      * @param request リクエスト

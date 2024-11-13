@@ -3,8 +3,9 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarRaceData } from '../../domain/narRaceData';
+import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
@@ -18,8 +19,8 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
         private readonly calendarService: ICalendarService<NarRaceData>,
         @inject('NarRaceRepositoryFromS3')
         private readonly narRaceRepositoryFromS3: IRaceRepository<
-            NarRaceData,
-            NarPlaceData
+            NarRaceEntity,
+            NarPlaceEntity
         >,
     ) {}
 
@@ -59,13 +60,23 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
         try {
             // startDateからfinishDateまでレース情報を取得
             const fetchRaceDataListRequest =
-                new FetchRaceListRequest<NarPlaceData>(startDate, finishDate);
+                new FetchRaceListRequest<NarPlaceEntity>(startDate, finishDate);
             const fetchRaceDataListResponse =
                 await this.narRaceRepositoryFromS3.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const { raceDataList } = fetchRaceDataListResponse;
-
+            const raceEntityList = fetchRaceDataListResponse.raceDataList;
+            const raceDataList = raceEntityList.map((raceEntity) => {
+                return new NarRaceData(
+                    raceEntity.name,
+                    raceEntity.dateTime,
+                    raceEntity.location,
+                    raceEntity.surfaceType,
+                    raceEntity.distance,
+                    raceEntity.grade,
+                    raceEntity.number,
+                );
+            });
             // displayGradeListに含まれるレース情報のみを抽出
             const filteredRaceDataList: NarRaceData[] = raceDataList.filter(
                 (raceData) => displayGradeList.includes(raceData.grade),

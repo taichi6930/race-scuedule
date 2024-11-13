@@ -3,15 +3,15 @@ import 'reflect-metadata';
 import { parse } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import { NarPlaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromS3Impl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { mockS3GatewayForNarPlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('NarPlaceRepositoryFromS3Impl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<NarPlaceData>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<NarPlaceEntity>>;
     let repository: NarPlaceRepositoryFromS3Impl;
 
     beforeEach(() => {
@@ -38,11 +38,20 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
                     );
                     date.setHours(16);
                     console.log(date);
+
+                    // CSVのヘッダーを定義
+                    const csvHeaderDataText = ['dateTime', 'location'].join(
+                        ',',
+                    );
                     const csvDataText: string = [
                         date.toISOString(),
                         '大井',
                     ].join(',');
-                    const csvDatajoinText: string = [csvDataText].join('\n');
+                    // ヘッダーとデータ行を結合して完全なCSVデータを生成
+                    const csvDatajoinText: string = [
+                        csvHeaderDataText,
+                        csvDataText,
+                    ].join('\n');
                     return Promise.resolve(csvDatajoinText);
                 },
             );
@@ -62,20 +71,20 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
     describe('registerPlaceList', () => {
         test('正しい競馬場データを登録できる', async () => {
             // 1年間の競馬場データを登録する
-            const placeDataList: NarPlaceData[] = Array.from(
+            const placeDataList: NarPlaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
                     date.setDate(date.getDate() + day);
                     return Array.from(
                         { length: 12 },
-                        () => new NarPlaceData(date, '大井'),
+                        () => new NarPlaceEntity(null, date, '大井'),
                     );
                 },
             ).flat();
 
             // リクエストの作成
-            const request = new RegisterPlaceListRequest<NarPlaceData>(
+            const request = new RegisterPlaceListRequest<NarPlaceEntity>(
                 placeDataList,
             );
             // テスト実行

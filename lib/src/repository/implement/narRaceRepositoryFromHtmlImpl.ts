@@ -1,8 +1,6 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../../domain/narPlaceData';
-import { NarRaceData } from '../../domain/narRaceData';
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
 import {
     NarGradeType,
@@ -10,6 +8,8 @@ import {
 } from '../../utility/data/raceSpecific';
 import { Logger } from '../../utility/logger';
 import { processNarRaceName } from '../../utility/raceName';
+import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -21,7 +21,7 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
  */
 @injectable()
 export class NarRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<NarRaceData, NarPlaceData>
+    implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
     constructor(
         @inject('NarRaceDataHtmlGateway')
@@ -34,9 +34,9 @@ export class NarRaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchRaceList(
-        request: FetchRaceListRequest<NarPlaceData>,
-    ): Promise<FetchRaceListResponse<NarRaceData>> {
-        const narRaceDataList: NarRaceData[] = [];
+        request: FetchRaceListRequest<NarPlaceEntity>,
+    ): Promise<FetchRaceListResponse<NarRaceEntity>> {
+        const narRaceDataList: NarRaceEntity[] = [];
         const placeList = request.placeDataList;
         if (placeList) {
             for (const place of placeList) {
@@ -50,8 +50,8 @@ export class NarRaceRepositoryFromHtmlImpl
 
     @Logger
     async fetchRaceListFromHtmlWithNarPlace(
-        placeData: NarPlaceData,
-    ): Promise<NarRaceData[]> {
+        placeData: NarPlaceEntity,
+    ): Promise<NarRaceEntity[]> {
         try {
             const [year, month, day] = [
                 placeData.dateTime.getFullYear(),
@@ -62,7 +62,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 placeData.dateTime,
                 placeData.location,
             );
-            const narRaceDataList: NarRaceData[] = [];
+            const narRaceDataList: NarRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const raceTable = $('section.raceTable');
             const trs = raceTable.find('tr.data');
@@ -96,7 +96,8 @@ export class NarRaceRepositoryFromHtmlImpl
                     grade: grade ?? '一般',
                 });
                 narRaceDataList.push(
-                    new NarRaceData(
+                    new NarRaceEntity(
+                        null,
                         newRaceName,
                         new Date(year, month - 1, day, hour, minute),
                         placeData.location,
@@ -213,7 +214,7 @@ export class NarRaceRepositoryFromHtmlImpl
      */
     @Logger
     registerRaceList(
-        request: RegisterRaceListRequest<NarRaceData>,
+        request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
         throw new Error('HTMLにはデータを登録出来ません');

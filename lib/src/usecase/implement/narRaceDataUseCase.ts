@@ -1,7 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarRaceData } from '../../domain/narRaceData';
+import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
@@ -19,16 +20,16 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
     constructor(
         @inject('NarPlaceRepositoryFromS3')
-        private readonly narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceData>,
+        private readonly narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceEntity>,
         @inject('NarRaceRepositoryFromS3')
         private readonly narRaceRepositoryFromS3: IRaceRepository<
-            NarRaceData,
-            NarPlaceData
+            NarRaceEntity,
+            NarPlaceEntity
         >,
         @inject('NarRaceRepositoryFromHtml')
         private readonly narRaceRepositoryFromHtml: IRaceRepository<
-            NarRaceData,
-            NarPlaceData
+            NarRaceEntity,
+            NarPlaceEntity
         >,
     ) {}
     /**
@@ -44,12 +45,24 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
         const placeList = await this.getPlaceDataList(startDate, finishDate);
 
         // レースデータを取得する
-        return this.getRaceDataList(
-            startDate,
-            finishDate,
-            placeList,
-            'storage',
-        );
+        return (
+            await this.getRaceDataList(
+                startDate,
+                finishDate,
+                placeList,
+                'storage',
+            )
+        ).map((raceEntity) => {
+            return new NarRaceData(
+                raceEntity.name,
+                raceEntity.dateTime,
+                raceEntity.location,
+                raceEntity.surfaceType,
+                raceEntity.distance,
+                raceEntity.grade,
+                raceEntity.number,
+            );
+        });
     }
 
     /**
@@ -92,10 +105,10 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
     private async getPlaceDataList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<NarPlaceData[]> {
+    ): Promise<NarPlaceEntity[]> {
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<NarPlaceData> =
+        const fetchPlaceListResponse: FetchPlaceListResponse<NarPlaceEntity> =
             await this.narPlaceRepositoryFromS3.fetchPlaceList(
                 fetchPlaceListRequest,
             );
@@ -115,15 +128,15 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
     private async getRaceDataList(
         startDate: Date,
         finishDate: Date,
-        placeList: NarPlaceData[],
+        placeList: NarPlaceEntity[],
         type: 'storage' | 'web',
-    ): Promise<NarRaceData[]> {
-        const fetchRaceListRequest = new FetchRaceListRequest<NarPlaceData>(
+    ): Promise<NarRaceEntity[]> {
+        const fetchRaceListRequest = new FetchRaceListRequest<NarPlaceEntity>(
             startDate,
             finishDate,
             placeList,
         );
-        const fetchRaceListResponse: FetchRaceListResponse<NarRaceData> =
+        const fetchRaceListResponse: FetchRaceListResponse<NarRaceEntity> =
             type === 'storage'
                 ? await this.narRaceRepositoryFromS3.fetchRaceList(
                       fetchRaceListRequest,
@@ -140,9 +153,11 @@ export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
      * @param raceList
      */
     @Logger
-    private async registerRaceDataList(raceList: NarRaceData[]): Promise<void> {
+    private async registerRaceDataList(
+        raceList: NarRaceEntity[],
+    ): Promise<void> {
         const registerRaceListRequest =
-            new RegisterRaceListRequest<NarRaceData>(raceList);
+            new RegisterRaceListRequest<NarRaceEntity>(raceList);
         await this.narRaceRepositoryFromS3.registerRaceList(
             registerRaceListRequest,
         );

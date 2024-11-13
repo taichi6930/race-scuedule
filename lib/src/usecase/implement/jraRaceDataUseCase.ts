@@ -1,7 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 
-import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraRaceData } from '../../domain/jraRaceData';
+import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
+import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
@@ -19,16 +20,16 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 export class JraRaceDataUseCase implements IRaceDataUseCase<JraRaceData> {
     constructor(
         @inject('JraPlaceRepositoryFromS3')
-        private readonly jraPlaceRepositoryFromS3: IPlaceRepository<JraPlaceData>,
+        private readonly jraPlaceRepositoryFromS3: IPlaceRepository<JraPlaceEntity>,
         @inject('JraRaceRepositoryFromS3')
         private readonly jraRaceRepositoryFromS3: IRaceRepository<
-            JraRaceData,
-            JraPlaceData
+            JraRaceEntity,
+            JraPlaceEntity
         >,
         @inject('JraRaceRepositoryFromHtml')
         private readonly jraRaceRepositoryFromHtml: IRaceRepository<
-            JraRaceData,
-            JraPlaceData
+            JraRaceEntity,
+            JraPlaceEntity
         >,
     ) {}
     /**
@@ -44,12 +45,26 @@ export class JraRaceDataUseCase implements IRaceDataUseCase<JraRaceData> {
         const placeList = await this.getPlaceDataList(startDate, finishDate);
 
         // レースデータを取得する
-        return this.getRaceDataList(
-            startDate,
-            finishDate,
-            placeList,
-            'storage',
-        );
+        return (
+            await this.getRaceDataList(
+                startDate,
+                finishDate,
+                placeList,
+                'storage',
+            )
+        ).map((raceEntity) => {
+            return new JraRaceData(
+                raceEntity.name,
+                raceEntity.dateTime,
+                raceEntity.location,
+                raceEntity.surfaceType,
+                raceEntity.distance,
+                raceEntity.grade,
+                raceEntity.number,
+                raceEntity.heldTimes,
+                raceEntity.heldDayTimes,
+            );
+        });
     }
 
     /**
@@ -92,10 +107,10 @@ export class JraRaceDataUseCase implements IRaceDataUseCase<JraRaceData> {
     private async getPlaceDataList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<JraPlaceData[]> {
+    ): Promise<JraPlaceEntity[]> {
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceData> =
+        const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceEntity> =
             await this.jraPlaceRepositoryFromS3.fetchPlaceList(
                 fetchPlaceListRequest,
             );
@@ -113,15 +128,15 @@ export class JraRaceDataUseCase implements IRaceDataUseCase<JraRaceData> {
     private async getRaceDataList(
         startDate: Date,
         finishDate: Date,
-        placeList: JraPlaceData[],
+        placeList: JraPlaceEntity[],
         type: 'storage' | 'web',
-    ): Promise<JraRaceData[]> {
-        const fetchRaceListRequest = new FetchRaceListRequest<JraPlaceData>(
+    ): Promise<JraRaceEntity[]> {
+        const fetchRaceListRequest = new FetchRaceListRequest<JraPlaceEntity>(
             startDate,
             finishDate,
             placeList,
         );
-        const fetchRaceListResponse: FetchRaceListResponse<JraRaceData> =
+        const fetchRaceListResponse: FetchRaceListResponse<JraRaceEntity> =
             type === 'storage'
                 ? await this.jraRaceRepositoryFromS3.fetchRaceList(
                       fetchRaceListRequest,
@@ -138,9 +153,11 @@ export class JraRaceDataUseCase implements IRaceDataUseCase<JraRaceData> {
      * @param raceList
      */
     @Logger
-    private async registerRaceDataList(raceList: JraRaceData[]): Promise<void> {
+    private async registerRaceDataList(
+        raceList: JraRaceEntity[],
+    ): Promise<void> {
         const registerRaceListRequest =
-            new RegisterRaceListRequest<JraRaceData>(raceList);
+            new RegisterRaceListRequest<JraRaceEntity>(raceList);
         await this.jraRaceRepositoryFromS3.registerRaceList(
             registerRaceListRequest,
         );

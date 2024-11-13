@@ -12,9 +12,15 @@ import {
     baseAutoraceCalendarData,
     baseAutoraceCalendarDataFromGoogleCalendar,
     baseAutoraceRaceData,
+    baseJraCalendarData,
+    baseJraCalendarDataFromGoogleCalendar,
+    baseJraRaceData,
     baseKeirinCalendarData,
     baseKeirinCalendarDataFromGoogleCalendar,
     baseKeirinRaceData,
+    baseNarCalendarData,
+    baseNarCalendarDataFromGoogleCalendar,
+    baseNarRaceData,
     baseWorldCalendarData,
     baseWorldCalendarDataFromGoogleCalendar,
     baseWorldRaceData,
@@ -61,18 +67,24 @@ describe('GoogleCalendarService', () => {
     };
 
     const calendarDataListRecord: Record<string, CalendarData[]> = {
+        jra: [baseJraCalendarData],
+        nar: [baseNarCalendarData],
         keirin: [baseKeirinCalendarData],
         world: [baseWorldCalendarData],
         autorace: [baseAutoraceCalendarData],
     };
 
     const calendarDataListFromGoogleCalendarRecord: Record<string, any> = {
+        jra: [baseJraCalendarDataFromGoogleCalendar],
+        nar: [baseNarCalendarDataFromGoogleCalendar],
         keirin: [baseKeirinCalendarDataFromGoogleCalendar],
         world: [baseWorldCalendarDataFromGoogleCalendar],
         autorace: [baseAutoraceCalendarDataFromGoogleCalendar],
     };
 
     const raceDataRecord: Record<string, any> = {
+        jra: [baseJraRaceData],
+        nar: [baseNarRaceData],
         keirin: [baseKeirinRaceData],
         world: [baseWorldRaceData],
         autorace: [baseAutoraceRaceData],
@@ -96,7 +108,7 @@ describe('GoogleCalendarService', () => {
         jest.clearAllMocks();
     });
 
-    (['world','keirin','autorace'] as const).forEach((key) => {
+    (['jra', 'nar', 'world', 'keirin', 'autorace'] as const).forEach((key) => {
         let googleCalendarService: GoogleCalendarService<any>;
         let raceDataList: any;
         beforeEach(() => {

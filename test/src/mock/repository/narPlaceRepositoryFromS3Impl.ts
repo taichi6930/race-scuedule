@@ -3,7 +3,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 
 // NarPlaceRepositoryFromS3Implのmockを作成
 export const mockNarPlaceRepositoryFromS3Impl = (): jest.Mocked<
-    IPlaceRepository<NarPlaceData>
+    IPlaceRepository<NarPlaceEntity>
 > => {
     return {
         fetchPlaceList: jest.fn().mockResolvedValue([] as NarPlaceData[]),
