@@ -9,7 +9,6 @@ import { injectable } from 'tsyringe';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { RaceData } from '../../domain/baseData';
 import { CalendarData } from '../../domain/calendarData';
-import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
@@ -34,7 +33,7 @@ export class GoogleCalendarService<R extends RaceData>
 {
     private readonly credentials: JWT;
     private readonly calendar: calendar_v3.Calendar;
-    private readonly raceType: RaceType;
+    protected readonly raceType: RaceType;
     private readonly calendarId: string;
 
     constructor(raceType: RaceType, calendarId: string) {
@@ -299,12 +298,8 @@ export class GoogleCalendarService<R extends RaceData>
      * @param raceData
      * @returns
      */
-    private generateEventId(raceData: RaceData): string {
+    protected generateEventId(raceData: RaceData): string {
         switch (this.raceType) {
-            case 'jra': {
-                const jraRaceData = raceData as JraRaceData;
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[jraRaceData.location]}${jraRaceData.number.toXDigits(2)}`;
-            }
             case 'nar': {
                 const narRaceData = raceData as NarRaceData;
                 return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[narRaceData.location]}${narRaceData.number.toXDigits(2)}`;
@@ -328,6 +323,8 @@ export class GoogleCalendarService<R extends RaceData>
                 const autoraceRaceData = raceData as AutoraceRaceData;
                 return `autorace${format(raceData.dateTime, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[autoraceRaceData.location]}${autoraceRaceData.number.toXDigits(2)}`;
             }
+            default:
+                throw new Error('Invalid raceType');
         }
     }
 
@@ -364,14 +361,10 @@ export class GoogleCalendarService<R extends RaceData>
      * @param raceData
      * @returns
      */
-    private translateToCalendarEvent(
+    protected translateToCalendarEvent(
         raceData: RaceData,
     ): calendar_v3.Schema$Event {
         switch (this.raceType) {
-            case 'jra':
-                return this.translateToCalendarEventForJra(
-                    raceData as JraRaceData,
-                );
             case 'nar':
                 return this.translateToCalendarEventForNar(
                     raceData as NarRaceData,
@@ -388,39 +381,9 @@ export class GoogleCalendarService<R extends RaceData>
                 return this.translateToCalendarEventForAutorace(
                     raceData as AutoraceRaceData,
                 );
+            default:
+                throw new Error('Invalid raceType');
         }
-    }
-
-    /**
-     * レースデータをGoogleカレンダーのイベントに変換する（JRA）
-     * @param raceData
-     * @returns
-     */
-    private translateToCalendarEventForJra(
-        raceData: JraRaceData,
-    ): calendar_v3.Schema$Event {
-        const data = raceData;
-        return {
-            id: this.generateEventId(data),
-            summary: data.name,
-            location: `${data.location}競馬場`,
-            start: {
-                dateTime: formatDate(data.dateTime),
-                timeZone: 'Asia/Tokyo',
-            },
-            end: {
-                // 終了時刻は発走時刻から10分後とする
-                dateTime: formatDate(
-                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
-                ),
-                timeZone: 'Asia/Tokyo',
-            },
-            colorId: this.getColorId(data.grade),
-            description: `距離: ${data.surfaceType}${data.distance.toString()}m
-            発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
-            ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${data.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[data.location]}${data.heldTimes.toXDigits(2)}${data.heldDayTimes.toXDigits(2)}${data.number.toXDigits(2)}`)}
-        `.replace(/\n\s+/g, '\n'),
-        };
     }
 
     /**
@@ -558,7 +521,7 @@ export class GoogleCalendarService<R extends RaceData>
      * @param raceGrade
      * @returns
      */
-    private getColorId(raceGrade: string): string {
+    protected getColorId(raceGrade: string): string {
         const gradeColorMap: Record<string, string> = {
             'SG': '9',
             'GP': '9',

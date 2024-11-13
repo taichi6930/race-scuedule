@@ -6,6 +6,7 @@ import type { KeirinRaceData } from '../domain/keirinRaceData';
 import type { NarRaceData } from '../domain/narRaceData';
 import type { WorldRaceData } from '../domain/worldRaceData';
 import { GoogleCalendarService } from '../service/implement/googleCalendarService';
+import { JraGoogleCalendarService } from '../service/implement/jraGoogleCalendarService';
 import type { ICalendarService } from '../service/interface/ICalendarService';
 import { MockGoogleCalendarService } from '../service/mock/mockGoogleCalendarService';
 import { ENV } from '../utility/env';
@@ -34,8 +35,7 @@ container.register<ICalendarService<JraRaceData>>('JraCalendarService', {
         switch (ENV) {
             case 'PRODUCTION':
                 // ENV が production の場合、GoogleCalendarService を使用
-                return new GoogleCalendarService<JraRaceData>(
-                    'jra',
+                return new JraGoogleCalendarService(
                     process.env.JRA_CALENDAR_ID ?? '',
                 );
             case 'ITa':
