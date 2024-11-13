@@ -1,4 +1,3 @@
-import type { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 

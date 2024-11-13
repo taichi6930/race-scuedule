@@ -1,4 +1,3 @@
-import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 
