@@ -47,13 +47,12 @@ describe('AutoracePlaceDataUseCase', () => {
         useCase = container.resolve(AutoracePlaceDataUseCase);
     });
 
-    const basePlaceData = baseAutoracePlaceData;
-    const basePlaceEntity = baseAutoracePlaceEntity;
-
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
-            const mockPlaceData: AutoracePlaceData[] = [basePlaceData];
-            const mockPlaceEntity: AutoracePlaceEntity[] = [basePlaceEntity];
+            const mockPlaceData: AutoracePlaceData[] = [baseAutoracePlaceData];
+            const mockPlaceEntity: AutoracePlaceEntity[] = [
+                baseAutoracePlaceEntity,
+            ];
 
             // モックの戻り値を設定
             autoracePlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
@@ -76,7 +75,9 @@ describe('AutoracePlaceDataUseCase', () => {
 
     describe('updatePlaceDataList', () => {
         it('正常に競馬場データが更新されること', async () => {
-            const mockPlaceEntity: AutoracePlaceEntity[] = [basePlaceEntity];
+            const mockPlaceEntity: AutoracePlaceEntity[] = [
+                baseAutoracePlaceEntity,
+            ];
 
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');

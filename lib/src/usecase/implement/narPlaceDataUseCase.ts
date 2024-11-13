@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
+import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
@@ -27,14 +28,22 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceEntity> {
     async fetchPlaceDataList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<NarPlaceEntity[]> {
+    ): Promise<NarPlaceData[]> {
         const request: FetchPlaceListRequest = new FetchPlaceListRequest(
             startDate,
             finishDate,
         );
         const response: FetchPlaceListResponse<NarPlaceEntity> =
             await this.narPlaceRepositoryFromS3.fetchPlaceList(request);
-        return response.placeDataList;
+        const placeDataList: NarPlaceData[] = response.placeDataList.map(
+            (placeEntity) => {
+                return new NarPlaceData(
+                    placeEntity.dateTime,
+                    placeEntity.location,
+                );
+            },
+        );
+        return placeDataList;
     }
 
     /**

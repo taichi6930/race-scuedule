@@ -2,11 +2,14 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
+import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
+import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
+import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { JraRaceDataUseCase } from '../../../../lib/src/usecase/implement/jraRaceDataUseCase';
+import { baseJraRaceData, baseJraRaceEntity } from '../../mock/common/baseData';
 import { mockJraPlaceRepositoryFromS3Impl } from '../../mock/repository/jraPlaceRepositoryFromS3Impl';
 import { mockJraRaceRepositoryFromHtmlImpl } from '../../mock/repository/jraRaceRepositoryFromHtmlImpl';
 import { mockJraRaceRepositoryFromS3Impl } from '../../mock/repository/jraRaceRepositoryFromS3Impl';
@@ -53,25 +56,14 @@ describe('JraRaceDataUseCase', () => {
         useCase = container.resolve(JraRaceDataUseCase);
     });
 
-    const baseRaceData = new JraRaceData(
-        '東京優駿',
-        new Date('2024-06-03 20:10'),
-        '東京',
-        '芝',
-        2000,
-        'GⅠ',
-        11,
-        1,
-        2,
-    );
-
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
-            const mockRaceData: JraRaceData[] = [baseRaceData];
+            const mockRaceData: JraRaceData[] = [baseJraRaceData];
+            const mockRaceEntity: JraRaceEntity[] = [baseJraRaceEntity];
 
             // モックの戻り値を設定
             jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
-                new FetchRaceListResponse<JraRaceEntity>(mockRaceData),
+                new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
             );
 
             const startDate = new Date('2024-06-01');
@@ -88,14 +80,14 @@ describe('JraRaceDataUseCase', () => {
 
     describe('updateRaceDataList', () => {
         it('正常にレースデータが更新されること', async () => {
-            const mockRaceData: JraRaceData[] = [baseRaceData];
+            const mockRaceEntity: JraRaceEntity[] = [baseJraRaceEntity];
 
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
             jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
-                new FetchRaceListResponse<JraRaceEntity>(mockRaceData),
+                new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
             );
 
             await useCase.updateRaceDataList(startDate, finishDate);

@@ -35,7 +35,15 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         );
         const response: FetchPlaceListResponse<JraPlaceEntity> =
             await this.jraPlaceRepositoryFromS3.fetchPlaceList(request);
-        return response.placeDataList;
+        const placeDataList: JraPlaceData[] = response.placeDataList.map(
+            (placeEntity) => {
+                return new JraPlaceData(
+                    placeEntity.dateTime,
+                    placeEntity.location,
+                );
+            },
+        );
+        return placeDataList;
     }
 
     /**

@@ -2,11 +2,15 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
-import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
+import type { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
+import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { KeirinPlaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinPlaceDataUseCase';
+import {
+    baseKeirinPlaceData,
+    baseKeirinPlaceEntity,
+} from '../../mock/common/baseData';
 import { mockKeirinPlaceRepositoryFromHtmlImpl } from '../../mock/repository/keirinPlaceRepositoryFromHtmlImpl';
 import { mockKeirinPlaceRepositoryFromStorageImpl } from '../../mock/repository/keirinPlaceRepositoryFromStorageImpl';
 
@@ -43,22 +47,12 @@ describe('KeirinPlaceDataUseCase', () => {
         useCase = container.resolve(KeirinPlaceDataUseCase);
     });
 
-    const basePlaceData = new KeirinPlaceData(
-        new Date('2025-12-30'),
-        '平塚',
-        'GP',
-    );
-    const basePlaceEntity = new KeirinPlaceEntity(
-        null,
-        new Date('2025-12-30'),
-        '平塚',
-        'GP',
-    );
-
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
-            const mockPlaceData: KeirinPlaceData[] = [basePlaceData];
-            const mockPlaceEntity: KeirinPlaceEntity[] = [basePlaceEntity];
+            const mockPlaceData: KeirinPlaceData[] = [baseKeirinPlaceData];
+            const mockPlaceEntity: KeirinPlaceEntity[] = [
+                baseKeirinPlaceEntity,
+            ];
 
             // モックの戻り値を設定
             keirinPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
@@ -79,7 +73,9 @@ describe('KeirinPlaceDataUseCase', () => {
 
     describe('updatePlaceDataList', () => {
         it('正常に競馬場データが更新されること', async () => {
-            const mockPlaceEntity: KeirinPlaceEntity[] = [basePlaceEntity];
+            const mockPlaceEntity: KeirinPlaceEntity[] = [
+                baseKeirinPlaceEntity,
+            ];
 
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
