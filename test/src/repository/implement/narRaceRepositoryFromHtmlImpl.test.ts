@@ -2,9 +2,10 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { INarRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarRaceDataHtmlGateway';
 import { MockNarRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarRaceDataHtmlGateway';
+import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
+import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
@@ -35,7 +36,13 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                     new FetchRaceListRequest<NarPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
-                        [new NarPlaceData(new Date('2024-10-02'), '大井')],
+                        [
+                            new NarPlaceEntity(
+                                null,
+                                new Date('2024-10-02'),
+                                '大井',
+                            ),
+                        ],
                     ),
                 );
                 expect(response.raceDataList).toHaveLength(12);

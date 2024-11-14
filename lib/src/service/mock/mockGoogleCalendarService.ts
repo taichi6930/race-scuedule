@@ -194,7 +194,8 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
     private translateToCalendarEvent(raceData: RaceData): CalendarData {
         return new CalendarData(
             this.generateEventId(raceData),
-            raceData instanceof KeirinRaceData
+            raceData instanceof KeirinRaceData ||
+            raceData instanceof AutoraceRaceData
                 ? `${raceData.name} ${raceData.grade} ${raceData.stage}`
                 : `${raceData.name} ${raceData.grade}`,
             raceData.dateTime,

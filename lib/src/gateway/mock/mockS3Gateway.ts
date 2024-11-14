@@ -5,6 +5,9 @@ import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import { ENV } from '../../utility/env';
+import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
+import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import { WORLD_PLACE_CODE } from '../../utility/data/world';
 
 /**
  * MockS3Gateway
@@ -49,69 +52,270 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         }
         // 最初にmockStorageに値を入れておく
         // 2024年のデータ366日分を作成
-        for (let i = 0; i < 366; i++) {
-            const date = new Date('2024-01-01');
-            date.setDate(date.getDate() + i);
-            const fileName = `nar/race/${format(date, 'yyyyMMdd')}.csv`;
-            for (let j = 1; j <= 12; j++) {
-                MockS3Gateway.mockStorage.set(
-                    fileName,
-                    [
-                        `name,dateTime,location,surfaceType,distance,grade,number\n`,
-                        `NARテストレース,${format(date, 'yyyy-MM-dd')} ${j + 6}:00,高知,ダート,1200,GⅠ,${j}`,
-                    ].join(''),
-                );
-            }
-        }
-        // 2024年のデータ12ヶ月分を作成
-        for (let i = 1; i <= 12; i++) {
-            const sdate = new Date(2024, i - 1, 1);
-            const fileName = `nar/place/${format(sdate, 'yyyyMM')}.csv`;
-            const mockData = ['dateTime,location\n', ,];
-            // 1ヶ月分のデータ（28~31日）を作成
-            for (let j = 1; j <= 31; j++) {
-                const date = new Date(2024, i - 1, j);
-                // もし_dateの月とdateの月が違う場合はbreak
-                if (sdate.getMonth() !== date.getMonth()) {
-                    break;
-                }
-                mockData.push(`${format(date, 'yyyy-MM-dd')},高知\n`);
-            }
-            MockS3Gateway.mockStorage.set(fileName, mockData.join(''));
-        }
-        // 2024年のデータ366日分を作成
-        for (let i = 0; i < 366; i++) {
-            const date = new Date('2024-01-01');
-            date.setDate(date.getDate() + i);
-            const fileName = `jra/race/${format(date, 'yyyyMMdd')}.csv`;
-            for (let j = 1; j <= 12; j++) {
-                MockS3Gateway.mockStorage.set(
-                    fileName,
-                    [
-                        `name,dateTime,location,surfaceType,distance,grade,number,heldTimes,heldDayTimes\n`,
-                        `JRAテストレース,${format(date, 'yyyy-MM-dd')} ${j + 6}:00,東京,芝,2400,GⅠ,${j}`,
-                    ].join(''),
-                );
-            }
-        }
-        // 2024年のデータ12ヶ月分を作成
-        for (let i = 1; i <= 12; i++) {
-            const sdate = new Date(2024, i - 1, 1);
-            const fileName = `jra/place/${format(sdate, 'yyyyMM')}.csv`;
-            const mockData = ['dateTime,location\n', ,];
-            // 1ヶ月分のデータ（28~31日）を作成
-            for (let j = 1; j <= 31; j++) {
-                const date = new Date(2024, i - 1, j);
-                // もし_dateの月とdateの月が違う場合はbreak
-                if (sdate.getMonth() !== date.getMonth()) {
-                    break;
-                }
-                mockData.push(`${format(date, 'yyyy-MM-dd')},東京\n`);
-            }
-            MockS3Gateway.mockStorage.set(fileName, mockData.join(''));
-        }
+        this.setNarRaceMockData();
+        this.setNarPlaceMockData();
+        this.setJraRaceMockData();
+        this.setJraPlaceMockData();
         this.setKeirinRaceMockData();
         this.setKeirinPlaceMockData();
+        this.setAutoraceRaceMockData();
+        this.setAutoracePlaceMockData();
+    }
+
+    @Logger
+    private setWorldRaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ366日分を作成
+                const startDate = new Date('2024-01-01');
+                const currentDate = new Date(startDate);
+                // whileで回していって、最初の日付の年数と異なったら終了
+                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                    const fileName = `world/race/${format(currentDate, 'yyyyMMdd')}.csv`;
+                    const mockDataHeader = [
+                        'name',
+                        'dateTime',
+                        'location',
+                        'surfaceType',
+                        'distance',
+                        'grade',
+                        'number',
+                        'id',
+                    ].join(',');
+                    const mockData = [mockDataHeader];
+                    for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                        mockData.push(
+                            [
+                                `凱旋門賞`,
+                                `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
+                                'パリロンシャン',
+                                '芝',
+                                '2400',
+                                'GⅠ',
+                                raceNumber,
+                                `world${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['大井']}${raceNumber.toXDigits(2)}`,
+                            ].join(','),
+                        );
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setWorldPlaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ12ヶ月分を作成
+                for (let month = 1; month <= 12; month++) {
+                    const startDate = new Date(2024, month - 1, 1);
+                    const fileName = `world/place/${format(startDate, 'yyyyMM')}.csv`;
+                    const mockDataHeader = ['id', 'dateTime', 'location'].join(
+                        ',',
+                    );
+                    const mockData = [mockDataHeader];
+                    // 1ヶ月分のデータ（28~31日）を作成
+                    // 2024年のデータ366日分を作成
+                    const currentDate = new Date(startDate);
+                    // whileで回していって、最初の日付の年数と異なったら終了
+                    while (currentDate.getMonth() === startDate.getMonth()) {
+                        mockData.push(
+                            [
+                                `world${format(currentDate, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}`,
+                                format(currentDate, 'yyyy-MM-dd'),
+                                'パリロンシャン',
+                            ].join(','),
+                        );
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setNarRaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ366日分を作成
+                const startDate = new Date('2024-01-01');
+                const currentDate = new Date(startDate);
+                // whileで回していって、最初の日付の年数と異なったら終了
+                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                    const fileName = `nar/race/${format(currentDate, 'yyyyMMdd')}.csv`;
+                    const mockDataHeader = [
+                        'name',
+                        'dateTime',
+                        'location',
+                        'surfaceType',
+                        'distance',
+                        'grade',
+                        'number',
+                        'id',
+                    ].join(',');
+                    const mockData = [mockDataHeader];
+                    for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                        mockData.push(
+                            [
+                                `東京大賞典`,
+                                `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
+                                '大井',
+                                'ダート',
+                                '2000',
+                                'GⅠ',
+                                raceNumber,
+                                `nar${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['大井']}${raceNumber.toXDigits(2)}`,
+                            ].join(','),
+                        );
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setNarPlaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ12ヶ月分を作成
+                for (let month = 1; month <= 12; month++) {
+                    const startDate = new Date(2024, month - 1, 1);
+                    const fileName = `nar/place/${format(startDate, 'yyyyMM')}.csv`;
+                    const mockDataHeader = ['id', 'dateTime', 'location'].join(
+                        ',',
+                    );
+                    const mockData = [mockDataHeader];
+                    // 1ヶ月分のデータ（28~31日）を作成
+                    // 2024年のデータ366日分を作成
+                    const currentDate = new Date(startDate);
+                    // whileで回していって、最初の日付の年数と異なったら終了
+                    while (currentDate.getMonth() === startDate.getMonth()) {
+                        mockData.push(
+                            [
+                                `nar${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['東京']}`,
+                                format(currentDate, 'yyyy-MM-dd'),
+                                '大井',
+                            ].join(','),
+                        );
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setJraRaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ366日分を作成
+                const startDate = new Date('2024-01-01');
+                const currentDate = new Date(startDate);
+                // whileで回していって、最初の日付の年数と異なったら終了
+                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                    const fileName = `jra/race/${format(currentDate, 'yyyyMMdd')}.csv`;
+                    const mockDataHeader = [
+                        'name',
+                        'dateTime',
+                        'location',
+                        'surfaceType',
+                        'distance',
+                        'grade',
+                        'number',
+                        'heldTimes',
+                        'heldDayTimes',
+                        'id',
+                    ].join(',');
+                    const mockData = [mockDataHeader];
+                    for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                        mockData.push(
+                            [
+                                `日本ダービー`,
+                                `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
+                                '東京',
+                                '芝',
+                                '2400',
+                                'GⅠ',
+                                raceNumber,
+                                '1',
+                                '1',
+                                `jra${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['東京']}${raceNumber.toXDigits(2)}`,
+                            ].join(','),
+                        );
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setJraPlaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ12ヶ月分を作成
+                for (let month = 1; month <= 12; month++) {
+                    const startDate = new Date(2024, month - 1, 1);
+                    const fileName = `jra/place/${format(startDate, 'yyyyMM')}.csv`;
+                    const mockDataHeader = ['id', 'dateTime', 'location'].join(
+                        ',',
+                    );
+                    const mockData = [mockDataHeader];
+                    // 1ヶ月分のデータ（28~31日）を作成
+                    // 2024年のデータ366日分を作成
+                    const currentDate = new Date(startDate);
+                    // whileで回していって、最初の日付の年数と異なったら終了
+                    while (currentDate.getMonth() === startDate.getMonth()) {
+                        mockData.push(
+                            [
+                                `jra${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['東京']}`,
+                                format(currentDate, 'yyyy-MM-dd'),
+                                '東京',
+                            ].join(','),
+                        );
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                }
+                break;
+        }
     }
 
     @Logger
@@ -187,6 +391,92 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                                 format(currentDate, 'yyyy-MM-dd'),
                                 '川崎',
                                 'GP',
+                            ].join(','),
+                        );
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setAutoraceRaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ366日分を作成
+                const startDate = new Date('2024-01-01');
+                const currentDate = new Date(startDate);
+                // whileで回していって、最初の日付の年数と異なったら終了
+                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                    const fileName = `autorace/race/${format(currentDate, 'yyyyMMdd')}.csv`;
+                    const mockDataHeader = [
+                        'name',
+                        'stage',
+                        'dateTime',
+                        'location',
+                        'grade',
+                        'number',
+                        'id',
+                    ].join(',');
+                    const mockData = [mockDataHeader];
+                    for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                        mockData.push(
+                            [
+                                `スーパースター王座決定戦`,
+                                `優勝戦`,
+                                `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
+                                '飯塚',
+                                'SG',
+                                raceNumber,
+                                `autorace${format(currentDate, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['飯塚']}${raceNumber.toXDigits(2)}`,
+                            ].join(','),
+                        );
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setAutoracePlaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ12ヶ月分を作成
+                for (let month = 1; month <= 12; month++) {
+                    const startDate = new Date(2024, month - 1, 1);
+                    const fileName = `autorace/place/${format(startDate, 'yyyyMM')}.csv`;
+                    const mockDataHeader = [
+                        'id',
+                        'dateTime',
+                        'location',
+                        'grade',
+                    ].join(',');
+                    const mockData = [mockDataHeader];
+                    // 1ヶ月分のデータ（28~31日）を作成
+                    // 2024年のデータ366日分を作成
+                    const currentDate = new Date(startDate);
+                    // whileで回していって、最初の日付の年数と異なったら終了
+                    while (currentDate.getMonth() === startDate.getMonth()) {
+                        mockData.push(
+                            [
+                                `autorace${format(currentDate, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['飯塚']}`,
+                                format(currentDate, 'yyyy-MM-dd'),
+                                '飯塚',
+                                'SG',
                             ].join(','),
                         );
                         currentDate.setDate(currentDate.getDate() + 1);

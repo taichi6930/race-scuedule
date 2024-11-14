@@ -279,6 +279,7 @@ export const processNarRaceName = (
             .replace(/.*スプリング.*/, 'スプリングC（名古屋）')
             .replace(/.*尾張名古屋杯.*/, '尾張名古屋杯')
             .replace(/.*あすなろ杯.*/, 'あすなろ杯')
+            .replace(/.*ネクストスター.*/, 'ネクストスター名古屋')
             .replace(/(B(?:C)?)$/, '');
     }
     // 笠松競馬
@@ -331,17 +332,14 @@ export const processWorldRaceName = (
     raceInfo: WorldRaceDataForRaceName,
 ): string => {
     return raceInfo.name
-        .replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
-            return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
-        })
-        .replace(/[！-～]/g, function (s) {
+        .replace(/[Ａ-Ｚａ-ｚ０-９！-～]/g, function (s) {
             return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
         })
         .replace(/ステークス/, 'S')
         .replace(/カップ/, 'C')
-        .replace('サラ系', '')
-        .replace('（L）', '')
-        .replace('(L)', '')
-        .replace('ブリーダーズC', 'BC')
-        .replace('ハンデキャップ', 'H');
+        .replace(/サラ系/, '')
+        .replace(/（L）/, '')
+        .replace(/(L)/, '')
+        .replace(/ブリーダーズC/, 'BC')
+        .replace(/ハンデキャップ/, 'H');
 };
