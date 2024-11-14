@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import { ENV } from '../../utility/env';
+import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 
 /**
  * MockS3Gateway
@@ -112,6 +113,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         }
         this.setKeirinRaceMockData();
         this.setKeirinPlaceMockData();
+        this.setAutoraceRaceMockData();
+        this.setAutoracePlaceMockData();
     }
 
     @Logger
@@ -187,6 +190,92 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                                 format(currentDate, 'yyyy-MM-dd'),
                                 '川崎',
                                 'GP',
+                            ].join(','),
+                        );
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setAutoraceRaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ366日分を作成
+                const startDate = new Date('2024-01-01');
+                const currentDate = new Date(startDate);
+                // whileで回していって、最初の日付の年数と異なったら終了
+                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                    const fileName = `autorace/race/${format(currentDate, 'yyyyMMdd')}.csv`;
+                    const mockDataHeader = [
+                        'name',
+                        'stage',
+                        'dateTime',
+                        'location',
+                        'grade',
+                        'number',
+                        'id',
+                    ].join(',');
+                    const mockData = [mockDataHeader];
+                    for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                        mockData.push(
+                            [
+                                `スーパースター王座決定戦`,
+                                `優勝戦`,
+                                `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
+                                '飯塚',
+                                'SG',
+                                raceNumber,
+                                `autorace${format(currentDate, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['飯塚']}${raceNumber.toXDigits(2)}`,
+                            ].join(','),
+                        );
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setAutoracePlaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ12ヶ月分を作成
+                for (let month = 1; month <= 12; month++) {
+                    const startDate = new Date(2024, month - 1, 1);
+                    const fileName = `autorace/place/${format(startDate, 'yyyyMM')}.csv`;
+                    const mockDataHeader = [
+                        'id',
+                        'dateTime',
+                        'location',
+                        'grade',
+                    ].join(',');
+                    const mockData = [mockDataHeader];
+                    // 1ヶ月分のデータ（28~31日）を作成
+                    // 2024年のデータ366日分を作成
+                    const currentDate = new Date(startDate);
+                    // whileで回していって、最初の日付の年数と異なったら終了
+                    while (currentDate.getMonth() === startDate.getMonth()) {
+                        mockData.push(
+                            [
+                                `autorace${format(currentDate, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['飯塚']}`,
+                                format(currentDate, 'yyyy-MM-dd'),
+                                '飯塚',
+                                'SG',
                             ].join(','),
                         );
                         currentDate.setDate(currentDate.getDate() + 1);
