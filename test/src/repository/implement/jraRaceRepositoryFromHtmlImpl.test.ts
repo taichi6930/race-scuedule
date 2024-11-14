@@ -2,9 +2,10 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { IJraRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iJraRaceDataHtmlGateway';
 import { MockJraRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockJraRaceDataHtmlGateway';
+import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
+import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import { JraRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
@@ -35,7 +36,13 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                     new FetchRaceListRequest<JraPlaceEntity>(
                         new Date('2024-05-26'),
                         new Date('2024-05-26'),
-                        [new JraPlaceData(new Date('2024-05-26'), '東京')],
+                        [
+                            new JraPlaceEntity(
+                                null,
+                                new Date('2024-05-26'),
+                                '東京',
+                            ),
+                        ],
                     ),
                 );
                 expect(response.raceDataList).toHaveLength(24);
