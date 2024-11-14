@@ -119,11 +119,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                 for (let month = 1; month <= 12; month++) {
                     const startDate = new Date(2024, month - 1, 1);
                     const fileName = `world/place/${format(startDate, 'yyyyMM')}.csv`;
-                    const mockDataHeader = [
-                        'id',
-                        'dateTime',
-                        'location',
-                    ].join(',');
+                    const mockDataHeader = ['id', 'dateTime', 'location'].join(
+                        ',',
+                    );
                     const mockData = [mockDataHeader];
                     // 1ヶ月分のデータ（28~31日）を作成
                     // 2024年のデータ366日分を作成
@@ -205,11 +203,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                 for (let month = 1; month <= 12; month++) {
                     const startDate = new Date(2024, month - 1, 1);
                     const fileName = `nar/place/${format(startDate, 'yyyyMM')}.csv`;
-                    const mockDataHeader = [
-                        'id',
-                        'dateTime',
-                        'location',
-                    ].join(',');
+                    const mockDataHeader = ['id', 'dateTime', 'location'].join(
+                        ',',
+                    );
                     const mockData = [mockDataHeader];
                     // 1ヶ月分のデータ（28~31日）を作成
                     // 2024年のデータ366日分を作成
@@ -295,11 +291,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                 for (let month = 1; month <= 12; month++) {
                     const startDate = new Date(2024, month - 1, 1);
                     const fileName = `jra/place/${format(startDate, 'yyyyMM')}.csv`;
-                    const mockDataHeader = [
-                        'id',
-                        'dateTime',
-                        'location',
-                    ].join(',');
+                    const mockDataHeader = ['id', 'dateTime', 'location'].join(
+                        ',',
+                    );
                     const mockData = [mockDataHeader];
                     // 1ヶ月分のデータ（28~31日）を作成
                     // 2024年のデータ366日分を作成
