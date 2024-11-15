@@ -1,4 +1,6 @@
+import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
@@ -214,3 +216,47 @@ export const baseJraCalendarDataFromGoogleCalendar = {
     location: '中山競馬場',
     description: 'テスト',
 };
+
+export const baseBoatracePlaceRecord = new BoatracePlaceRecord(
+    `boatrace2024123104`,
+    new Date('2024-12-31'),
+    '平和島',
+    'SG',
+);
+export const baseBoatracePlaceData = new BoatracePlaceData(
+    new Date('2024-12-31'),
+    '平和島',
+    'SG',
+);
+
+// export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
+//     null,
+//     'スーパースター王座決定戦',
+//     '優勝戦',
+//     new Date('2024-12-31 16:30'),
+//     '飯塚',
+//     'SG',
+//     11,
+// );
+// export const baseAutoraceRaceData = baseAutoraceRaceEntity.toDomainData();
+// export const baseAutoraceCalendarData = new CalendarData(
+//     'test202412310511',
+//     'スーパースター王座決定戦',
+//     new Date('2024-12-31T16:30:00Z'),
+//     new Date('2024-12-31T16:40:00Z'),
+//     '飯塚オートレース場',
+//     'テスト',
+// );
+
+// export const baseAutoraceCalendarDataFromGoogleCalendar = {
+//     id: 'test202412310511',
+//     summary: 'スーパースター王座決定戦',
+//     start: {
+//         dateTime: '2024-12-31T16:30:00Z',
+//     },
+//     end: {
+//         dateTime: '2024-12-31T16:40:00Z',
+//     },
+//     location: '飯塚オートレース場',
+//     description: 'テスト',
+// };
