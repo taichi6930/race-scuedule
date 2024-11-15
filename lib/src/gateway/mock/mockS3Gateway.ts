@@ -57,6 +57,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         this.setJraRaceMockData();
         this.setJraPlaceMockData();
         this.setKeirinRaceMockData();
+        this.setKeirinRacePlayerMockData();
         this.setKeirinPlaceMockData();
         this.setAutoraceRaceMockData();
         this.setAutoracePlaceMockData();
@@ -352,6 +353,45 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                                 `keirin${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']}${raceNumber.toXDigits(2)}`,
                             ].join(','),
                         );
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setKeirinRacePlayerMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ366日分を作成
+                const startDate = new Date('2024-01-01');
+                const currentDate = new Date(startDate);
+                // whileで回していって、最初の日付の年数と異なったら終了
+                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                    const fileName = `keirin/raceplayer/${format(currentDate, 'yyyyMMdd')}/${KEIRIN_PLACE_CODE["川崎"]}.csv`;
+                    const mockDataHeader = [
+                        'barrierdrawnumber',
+                        'playerid',
+                        'id',
+                    ].join(',');
+                    const mockData = [mockDataHeader];
+                    for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                        for (let playerNumber = 1; playerNumber <= 9; playerNumber++) {
+                            mockData.push(
+                                [
+                                    playerNumber,
+                                    `testplayer${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']}${raceNumber.toXDigits(2)}${playerNumber.toXDigits(2)}`,
+                                    `keirin${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']}${raceNumber.toXDigits(2)}${playerNumber.toXDigits(2)}`,
+                                ].join(','),
+                            );
+                        }
                     }
                     MockS3Gateway.mockStorage.set(
                         fileName,
