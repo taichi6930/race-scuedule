@@ -3,6 +3,7 @@ import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
+import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
@@ -227,6 +228,11 @@ export const baseBoatracePlaceData = new BoatracePlaceData(
     new Date('2024-12-31'),
     '平和島',
     'SG',
+);
+
+export const baseBoatracePlaceEntity = new BoatracePlaceEntity(
+    null,
+    baseBoatracePlaceData,
 );
 
 // export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
