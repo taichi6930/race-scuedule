@@ -5,10 +5,7 @@ import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import {
-    KeirinGradeType,
-    KeirinRaceCourse,
-} from '../../utility/data/raceSpecific';
+import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';

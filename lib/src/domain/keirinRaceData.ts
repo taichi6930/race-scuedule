@@ -2,7 +2,7 @@ import type {
     KeirinGradeType,
     KeirinRaceCourse,
     KeirinRaceStage,
-} from '../utility/data/raceSpecific';
+} from '../utility/data/keirin';
 
 /**
  * 競輪のレース開催データ

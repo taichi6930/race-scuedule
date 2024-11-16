@@ -8,7 +8,7 @@ import {
     KeirinGradeType,
     KeirinRaceCourse,
     KeirinRaceStage,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';

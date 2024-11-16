@@ -3,12 +3,12 @@ import '../../utility/format';
 import { format } from 'date-fns';
 
 import { KeirinRaceData } from '../../domain/keirinRaceData';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import type {
     KeirinGradeType,
     KeirinRaceCourse,
     KeirinRaceStage,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/keirin';
+import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 
 /**
  * 競輪のレース開催データ

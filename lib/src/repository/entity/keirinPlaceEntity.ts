@@ -1,11 +1,8 @@
 import { format } from 'date-fns';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-} from '../../utility/data/raceSpecific';
+import { KeirinRaceCourse, KeirinGradeType, KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
+
 
 /**
  * Repository層のEntity 競輪のレース開催場所データ

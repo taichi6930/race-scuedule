@@ -2,8 +2,7 @@ import { format } from 'date-fns';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
-import { KeirinRaceCourse } from '../../utility/data/raceSpecific';
+import { KEIRIN_PLACE_CODE, KeirinRaceCourse } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { IKeirinRaceDataHtmlGateway } from '../interface/iKeirinRaceDataHtmlGateway';
 /**
