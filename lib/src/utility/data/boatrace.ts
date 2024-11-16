@@ -55,7 +55,7 @@ export type BoatraceRaceCourse =
     | '大村';
 
 /**
- * 競輪のグレード
+ * ボートレースのグレード
  */
 export type BoatraceGradeType = 'SG' | 'GⅠ' | 'GⅡ' | 'GⅢ' | '一般';
 
@@ -69,3 +69,8 @@ export const BOATRACE_SPECIFIED_GRADE_LIST: BoatraceGradeType[] = [
     'GⅢ',
     '一般',
 ];
+
+/**
+ * ボートレースのレースステージ
+ */
+export type BoatraceRaceStage = '優勝戦';

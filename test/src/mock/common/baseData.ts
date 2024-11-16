@@ -1,4 +1,5 @@
 import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
+import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
@@ -235,15 +236,14 @@ export const baseBoatracePlaceEntity = new BoatracePlaceEntity(
     baseBoatracePlaceData,
 );
 
-// export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
-//     null,
-//     'スーパースター王座決定戦',
-//     '優勝戦',
-//     new Date('2024-12-31 16:30'),
-//     '飯塚',
-//     'SG',
-//     11,
-// );
+export const baseBoatraceRaceData = new BoatraceRaceData(
+    'グランプリ',
+    '優勝戦',
+    new Date('2024-12-31 16:30'),
+    '平和島',
+    'SG',
+    11,
+);
 // export const baseAutoraceRaceData = baseAutoraceRaceEntity.toDomainData();
 // export const baseAutoraceCalendarData = new CalendarData(
 //     'test202412310511',
