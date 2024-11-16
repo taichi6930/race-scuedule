@@ -1,5 +1,7 @@
 import type { AutoracePlaceData } from './autoracePlaceData';
 import type { AutoraceRaceData } from './autoraceRaceData';
+import type { BoatracePlaceData } from './boatracePlaceData';
+import type { BoatraceRaceData } from './boatraceRaceData';
 import type { JraPlaceData } from './jraPlaceData';
 import type { JraRaceData } from './jraRaceData';
 import type { KeirinPlaceData } from './keirinPlaceData';
@@ -14,11 +16,13 @@ export type RaceData =
     | NarRaceData
     | KeirinRaceData
     | WorldRaceData
-    | AutoraceRaceData;
+    | AutoraceRaceData
+    | BoatraceRaceData;
 
 export type PlaceData =
     | JraPlaceData
     | NarPlaceData
     | KeirinPlaceData
     | WorldPlaceData
-    | AutoracePlaceData;
+    | AutoracePlaceData
+    | BoatracePlaceData;

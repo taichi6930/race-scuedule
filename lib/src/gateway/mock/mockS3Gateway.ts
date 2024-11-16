@@ -8,6 +8,7 @@ import { ENV } from '../../utility/env';
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
+import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
 
 /**
  * MockS3Gateway
@@ -60,6 +61,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         this.setKeirinPlaceMockData();
         this.setAutoraceRaceMockData();
         this.setAutoracePlaceMockData();
+        this.setBoatraceRaceMockData();
+        this.setBoatracePlaceMockData();
     }
 
     @Logger
@@ -476,6 +479,92 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
                                 `autorace${format(currentDate, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['飯塚']}`,
                                 format(currentDate, 'yyyy-MM-dd'),
                                 '飯塚',
+                                'SG',
+                            ].join(','),
+                        );
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setBoatraceRaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ366日分を作成
+                const startDate = new Date('2024-01-01');
+                const currentDate = new Date(startDate);
+                // whileで回していって、最初の日付の年数と異なったら終了
+                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                    const fileName = `boatrace/race/${format(currentDate, 'yyyyMMdd')}.csv`;
+                    const mockDataHeader = [
+                        'name',
+                        'stage',
+                        'dateTime',
+                        'location',
+                        'grade',
+                        'number',
+                        'id',
+                    ].join(',');
+                    const mockData = [mockDataHeader];
+                    for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                        mockData.push(
+                            [
+                                `グランプリ`,
+                                `優勝戦`,
+                                `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
+                                '平和島',
+                                'SG',
+                                raceNumber,
+                                `boatrace${format(currentDate, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平和島']}${raceNumber.toXDigits(2)}`,
+                            ].join(','),
+                        );
+                    }
+                    MockS3Gateway.mockStorage.set(
+                        fileName,
+                        mockData.join('\n'),
+                    );
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                break;
+        }
+    }
+
+    @Logger
+    private setBoatracePlaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ12ヶ月分を作成
+                for (let month = 1; month <= 12; month++) {
+                    const startDate = new Date(2024, month - 1, 1);
+                    const fileName = `boatrace/place/${format(startDate, 'yyyyMM')}.csv`;
+                    const mockDataHeader = [
+                        'id',
+                        'dateTime',
+                        'location',
+                        'grade',
+                    ].join(',');
+                    const mockData = [mockDataHeader];
+                    // 1ヶ月分のデータ（28~31日）を作成
+                    // 2024年のデータ366日分を作成
+                    const currentDate = new Date(startDate);
+                    // whileで回していって、最初の日付の年数と異なったら終了
+                    while (currentDate.getMonth() === startDate.getMonth()) {
+                        mockData.push(
+                            [
+                                `boatrace${format(currentDate, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平和島']}`,
+                                format(currentDate, 'yyyy-MM-dd'),
+                                '平和島',
                                 'SG',
                             ].join(','),
                         );
