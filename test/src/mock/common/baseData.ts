@@ -133,7 +133,7 @@ export const baseWorldCalendarDataFromGoogleCalendar = {
 
 export const baseNarPlaceEntity = new NarPlaceEntity(
     null,
-    new Date('2024-06-03 00:00'),
+    new Date('2024-06-03'),
     '大井',
 );
 export const baseNarPlaceData = baseNarPlaceEntity.toDomainData();
@@ -174,7 +174,7 @@ export const baseNarCalendarDataFromGoogleCalendar = {
 
 export const baseJraPlaceEntity = new JraPlaceEntity(
     null,
-    new Date('2024-12-22 00:00'),
+    new Date('2024-12-22'),
     '中山',
 );
 export const baseJraPlaceData = baseJraPlaceEntity.toDomainData();
