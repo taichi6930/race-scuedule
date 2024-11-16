@@ -7,7 +7,7 @@ describe('NarPlaceEntityクラスのテスト', () => {
     it('正しい入力でNarPlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseNarPlaceEntity;
 
-        expect(placeEntity.dateTime).toEqual(new Date('2024-06-03 00:00'));
+        expect(placeEntity.dateTime).toEqual(new Date('2024-06-03'));
         expect(placeEntity.location).toBe('大井');
     });
 
