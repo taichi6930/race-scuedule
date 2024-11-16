@@ -493,7 +493,6 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
         }
     }
 
-
     @Logger
     private setBoatraceRaceMockData() {
         switch (ENV) {
