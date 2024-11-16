@@ -7,7 +7,7 @@ describe('JraPlaceEntityクラスのテスト', () => {
     it('正しい入力でJraPlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseJraPlaceEntity;
 
-        expect(placeEntity.dateTime).toEqual(new Date('2024-12-22 00:00'));
+        expect(placeEntity.dateTime).toEqual(new Date('2024-12-22'));
         expect(placeEntity.location).toBe('中山');
     });
 

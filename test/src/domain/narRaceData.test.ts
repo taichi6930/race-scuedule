@@ -1,15 +1,7 @@
-import { NarRaceData } from '../../../lib/src/domain/narRaceData';
+import { baseNarRaceData } from '../mock/common/baseData';
 
 describe('NarRaceDataクラスのテスト', () => {
-    const baseRaceData = new NarRaceData(
-        '東京ダービー',
-        new Date('2024-06-03 20:10'),
-        '大井',
-        'ダート',
-        2000,
-        'JpnⅠ',
-        11,
-    );
+    const baseRaceData = baseNarRaceData;
 
     it('正しい入力でNarRaceDataのインスタンスを作成できることを確認', () => {
         const raceData = baseRaceData;
