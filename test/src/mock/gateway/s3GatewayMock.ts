@@ -3,6 +3,7 @@ import type {
     Record,
 } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
+import { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
@@ -58,6 +59,15 @@ export const mockS3GatewayForJraPlace = (): jest.Mocked<
 
 export const mockS3GatewayForKeirinRace = (): jest.Mocked<
     IS3Gateway<KeirinRaceRecord>
+> => {
+    return {
+        uploadDataToS3: jest.fn(),
+        fetchDataFromS3: jest.fn(),
+    };
+};
+
+export const mockS3GatewayForKeirinRacePlayer = (): jest.Mocked<
+    IS3Gateway<KeirinRacePlayerRecord>
 > => {
     return {
         uploadDataToS3: jest.fn(),
