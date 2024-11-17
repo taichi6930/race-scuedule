@@ -73,4 +73,31 @@ export const BOATRACE_SPECIFIED_GRADE_LIST: BoatraceGradeType[] = [
 /**
  * ボートレースのレースステージ
  */
-export type BoatraceRaceStage = '優勝戦';
+export type BoatraceRaceStage = '優勝戦' | '';
+
+/**
+ * HTMLのステージ名を正式名称に変換するためのマップ
+ */
+export const BOATRACE_STAGE_MAP: Record<string, BoatraceRaceStage> = {
+    優勝戦: '優勝戦',
+};
+
+/**
+ * 競輪の指定グレード・ステージリスト
+ */
+export const BOATRACE_SPECIFIED_GRADE_AND_STAGE_LIST: {
+    grade: BoatraceGradeType;
+    stage: BoatraceRaceStage;
+    priority: number;
+}[] = [{ grade: 'SG', stage: '優勝戦', priority: 10 }];
+
+/**
+ * ボートレースの選手リスト
+ */
+export const BoatracePlayerList = [
+    {
+        playerNumber: 4320,
+        name: '峰竜太',
+        priority: 6,
+    },
+];

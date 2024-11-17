@@ -1,6 +1,7 @@
 import type { AutoracePlaceEntity } from './autoracePlaceEntity';
 import type { AutoraceRaceEntity } from './autoraceRaceEntity';
 import type { BoatracePlaceEntity } from './boatracePlaceEntity';
+import type { BoatraceRaceEntity } from './boatraceRaceEntity';
 import type { JraPlaceEntity } from './jraPlaceEntity';
 import type { JraRaceEntity } from './jraRaceEntity';
 import type { KeirinPlaceEntity } from './keirinPlaceEntity';
@@ -15,7 +16,8 @@ export type RaceEntity =
     | NarRaceEntity
     | KeirinRaceEntity
     | WorldRaceEntity
-    | AutoraceRaceEntity;
+    | AutoraceRaceEntity
+    | BoatraceRaceEntity;
 
 export type PlaceEntity =
     | JraPlaceEntity
