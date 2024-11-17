@@ -314,7 +314,7 @@ jobs:
 
             # カレンダーの更新
             update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
-              "${API_PRODUCTION_URL}/api/races/keirin/calendar" \
+              "${API_PRODUCTION_URL}/api/races/keirin/race" \
               -H "accept: */*" \
               -H "Content-Type: application/json" \
               -d "{
