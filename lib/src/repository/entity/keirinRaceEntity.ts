@@ -3,6 +3,7 @@ import '../../utility/format';
 import { format } from 'date-fns';
 
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
+import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import type { KeirinRaceCourse } from '../../utility/data/keirin';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 
@@ -22,11 +23,13 @@ export class KeirinRaceEntity {
      * 競輪のレース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
+     * @param racePlayerDataList - レースの選手データ
      *
      */
     constructor(
         id: string | null,
         public readonly raceData: KeirinRaceData,
+        public readonly racePlayerDataList: KeirinRacePlayerData[],
     ) {
         this.id =
             id ??
@@ -46,6 +49,7 @@ export class KeirinRaceEntity {
         return new KeirinRaceEntity(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+            partial.racePlayerDataList ?? this.racePlayerDataList,
         );
     }
 

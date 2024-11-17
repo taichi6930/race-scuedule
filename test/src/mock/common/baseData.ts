@@ -3,6 +3,7 @@ import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
+import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
@@ -76,9 +77,19 @@ export const baseKeirinRaceData = new KeirinRaceData(
     11,
 );
 
+export const baseKeirinRacePlayerData = new KeirinRacePlayerData(1, 1);
+
+export const baseKeirinRacePlayerDataList = Array.from(
+    { length: 9 },
+    (_, i) => {
+        return new KeirinRacePlayerData(i + 1, i + 1);
+    },
+);
+
 export const baseKeirinRaceEntity = new KeirinRaceEntity(
     null,
     baseKeirinRaceData,
+    baseKeirinRacePlayerDataList,
 );
 export const baseKeirinCalendarData = new CalendarData(
     'test202512303511',

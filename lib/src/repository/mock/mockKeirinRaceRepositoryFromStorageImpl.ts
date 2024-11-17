@@ -1,3 +1,4 @@
+import { baseKeirinRacePlayerDataList } from '../../../../test/src/mock/common/baseData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
@@ -27,6 +28,7 @@ export class MockKeirinRaceRepositoryFromStorageImpl
                         'GⅠ',
                         12,
                     ),
+                    baseKeirinRacePlayerDataList,
                 ),
             ]),
         );

@@ -1,3 +1,4 @@
+import { baseKeirinRacePlayerDataList } from '../../../../test/src/mock/common/baseData';
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { Logger } from '../../utility/logger';
@@ -41,6 +42,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                                 placeData.grade,
                                 i,
                             ),
+                            baseKeirinRacePlayerDataList,
                         ),
                     );
                 }
