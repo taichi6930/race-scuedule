@@ -1,7 +1,7 @@
 import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
-} from '../utility/data/raceSpecific';
+} from '../utility/data/autorace';
 
 /**
  * オートレースのレース開催場所データ

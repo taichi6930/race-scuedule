@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
-import { AutoraceRaceCourse } from '../../utility/data/raceSpecific';
+import { AutoraceRaceCourse } from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
 import { IAutoraceRaceDataHtmlGateway } from '../interface/iAutoraceRaceDataHtmlGateway';
 /**

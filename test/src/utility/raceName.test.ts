@@ -2,15 +2,16 @@ import type {
     JraGradeType,
     JraRaceCourse,
     JraRaceCourseType,
+} from '../../../lib/src/utility/data/jra';
+import type {
     NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
-} from '../../../lib/src/utility/data/raceSpecific';
+} from '../../../lib/src/utility/data/nar';
 import {
     processJraRaceName,
     processNarRaceName,
 } from '../../../lib/src/utility/raceName';
-
 describe('processJraRaceName', () => {
     it('should return 阪神JF for Hanshin Juvenile Fillies', () => {
         const raceInfo = {

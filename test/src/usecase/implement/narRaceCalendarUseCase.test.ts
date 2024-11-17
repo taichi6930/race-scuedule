@@ -9,8 +9,8 @@ import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRac
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
-import type { NarGradeType } from '../../../../lib/src/utility/data/raceSpecific';
-import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
+import type { NarGradeType } from '../../../../lib/src/utility/data/nar';
+import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/nar';
 import { baseNarRaceEntity } from '../../mock/common/baseData';
 import { mockNarRaceRepositoryFromS3Impl } from '../../mock/repository/narRaceRepositoryFromS3Impl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';

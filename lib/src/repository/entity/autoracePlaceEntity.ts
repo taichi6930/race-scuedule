@@ -1,11 +1,11 @@
 import { format } from 'date-fns';
 
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
-import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/autorace';
+import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 
 /**
  * Repository層のEntity オートレースのレース開催場所データ

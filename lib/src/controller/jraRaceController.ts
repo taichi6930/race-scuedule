@@ -6,7 +6,7 @@ import { JraRaceData } from '../domain/jraRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { JRA_SPECIFIED_GRADE_LIST } from '../utility/data/raceSpecific';
+import { JRA_SPECIFIED_GRADE_LIST } from '../utility/data/jra';
 import { Logger } from '../utility/logger';
 
 /**

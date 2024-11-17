@@ -3,12 +3,12 @@ import '../../utility/format';
 import { format } from 'date-fns';
 
 import { JraRaceData } from '../../domain/jraRaceData';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import type {
     JraGradeType,
     JraRaceCourse,
     JraRaceCourseType,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/jra';
+import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 
 /**
  * 海外競馬のレース開催データ

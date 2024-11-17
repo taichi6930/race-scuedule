@@ -1,15 +1,8 @@
 /* eslint-disable */
-import {
-    JraGradeType,
-    JraRaceCourse,
-    JraRaceCourseType,
-    NarGradeType,
-    NarRaceCourse,
-    NarRaceCourseType,
-    WorldGradeType,
-    WorldRaceCourse,
-    WorldRaceCourseType,
-} from './data/raceSpecific';
+
+import { JraRaceCourse, JraGradeType, JraRaceCourseType } from "./data/jra";
+import { NarRaceCourse, NarGradeType, NarRaceCourseType } from "./data/nar";
+import { WorldRaceCourse, WorldGradeType, WorldRaceCourseType } from "./data/world";
 
 type JraRaceDataForRaceName = {
     name: string;

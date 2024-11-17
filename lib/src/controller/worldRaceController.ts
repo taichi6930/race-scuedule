@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { WorldRaceData } from '../domain/worldRaceData';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { WORLD_SPECIFIED_GRADE_LIST } from '../utility/data/raceSpecific';
+import { WORLD_SPECIFIED_GRADE_LIST } from '../utility/data/world';
 import { Logger } from '../utility/logger';
 
 /**

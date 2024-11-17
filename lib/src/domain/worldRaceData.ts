@@ -2,7 +2,7 @@ import type {
     WorldGradeType,
     WorldRaceCourse,
     WorldRaceCourseType,
-} from '../utility/data/raceSpecific';
+} from '../utility/data/world';
 
 /**
  * 世界の競馬のレース開催データ

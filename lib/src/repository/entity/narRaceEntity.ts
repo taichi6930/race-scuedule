@@ -3,12 +3,12 @@ import '../../utility/format';
 import { format } from 'date-fns';
 
 import { NarRaceData } from '../../domain/narRaceData';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import type {
     NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/nar';
+import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 
 /**
  * 地方競馬のレース開催データ

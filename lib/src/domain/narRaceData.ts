@@ -2,7 +2,7 @@ import type {
     NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
-} from '../utility/data/raceSpecific';
+} from '../utility/data/nar';
 
 /**
  * NARのレース開催データ

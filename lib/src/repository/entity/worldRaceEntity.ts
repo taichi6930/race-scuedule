@@ -7,7 +7,7 @@ import type {
     WorldGradeType,
     WorldRaceCourse,
     WorldRaceCourseType,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/world';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
 
 /**

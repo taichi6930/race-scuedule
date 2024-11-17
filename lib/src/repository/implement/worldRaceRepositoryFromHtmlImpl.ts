@@ -9,7 +9,7 @@ import {
     WorldGradeType,
     WorldRaceCourse,
     WorldRaceCourseType,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/world';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { Logger } from '../../utility/logger';
 import { processWorldRaceName } from '../../utility/raceName';

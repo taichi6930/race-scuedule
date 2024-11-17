@@ -9,8 +9,8 @@ import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRace
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/worldRaceCalendarUseCase';
-import type { WorldGradeType } from '../../../../lib/src/utility/data/raceSpecific';
-import { WORLD_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
+import type { WorldGradeType } from '../../../../lib/src/utility/data/world';
+import { WORLD_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/world';
 import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/worldRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 

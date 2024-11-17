@@ -2,10 +2,7 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
-import {
-    NarGradeType,
-    NarRaceCourseType,
-} from '../../utility/data/raceSpecific';
+import { NarGradeType, NarRaceCourseType } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
 import { processNarRaceName } from '../../utility/raceName';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';

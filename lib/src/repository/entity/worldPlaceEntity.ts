@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 import { WorldPlaceData } from '../../domain/worldPlaceData';
-import type { WorldRaceCourse } from '../../utility/data/raceSpecific';
+import type { WorldRaceCourse } from '../../utility/data/world';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
 
 /**

@@ -2,7 +2,7 @@ import type {
     JraGradeType,
     JraRaceCourse,
     JraRaceCourseType,
-} from '../utility/data/raceSpecific';
+} from '../utility/data/jra';
 
 /**
  * JRAのレース開催データ

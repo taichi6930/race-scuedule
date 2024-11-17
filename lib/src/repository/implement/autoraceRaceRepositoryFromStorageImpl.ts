@@ -8,7 +8,7 @@ import {
     AutoraceGradeType,
     AutoraceRaceCourse,
     AutoraceRaceStage,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';

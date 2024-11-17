@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
-import type { NarRaceCourse } from '../../utility/data/raceSpecific';
+import type { NarRaceCourse } from '../../utility/data/nar';
 
 /**
  * Repository層のEntity 地方競馬のレース開催場所データ

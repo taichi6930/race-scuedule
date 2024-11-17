@@ -26,8 +26,10 @@ import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
+import { BoatraceRaceData } from '../../domain/boatraceRaceData';
+import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
 
-export type RaceType = 'jra' | 'nar' | 'world' | 'keirin' | 'autorace';
+export type RaceType = 'jra' | 'nar' | 'world' | 'keirin' | 'autorace' | 'boatrace';
 @injectable()
 export class GoogleCalendarService<R extends RaceData>
     implements ICalendarService<R>
@@ -328,6 +330,10 @@ export class GoogleCalendarService<R extends RaceData>
                 const autoraceRaceData = raceData as AutoraceRaceData;
                 return `autorace${format(raceData.dateTime, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[autoraceRaceData.location]}${autoraceRaceData.number.toXDigits(2)}`;
             }
+            case 'boatrace': {
+                const boatraceRaceData = raceData as BoatraceRaceData;
+                return `boatrace${format(raceData.dateTime, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[boatraceRaceData.location]}${boatraceRaceData.number.toXDigits(2)}`;
+            }
         }
     }
 
@@ -387,6 +393,10 @@ export class GoogleCalendarService<R extends RaceData>
             case 'autorace':
                 return this.translateToCalendarEventForAutorace(
                     raceData as AutoraceRaceData,
+                );
+            case 'boatrace':
+                return this.translateToCalendarEventForBoatrace(
+                    raceData as BoatraceRaceData,
                 );
         }
     }
@@ -535,6 +545,37 @@ export class GoogleCalendarService<R extends RaceData>
             id: this.generateEventId(data),
             summary: `${data.stage} ${data.name}`,
             location: `${data.location}オートレース場`,
+            start: {
+                dateTime: formatDate(data.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(
+                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                ),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(data.grade),
+            description:
+                `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
+        `.replace(/\n\s+/g, '\n'),
+        };
+    }
+
+    /**
+     * レースデータをGoogleカレンダーのイベントに変換する（ボートレース）
+     * @param raceData
+     * @returns
+     */
+    private translateToCalendarEventForBoatrace(
+        raceData: BoatraceRaceData,
+    ): calendar_v3.Schema$Event {
+        const data = raceData;
+        return {
+            id: this.generateEventId(data),
+            summary: `${data.stage} ${data.name}`,
+            location: `${data.location}ボートレース場`,
             start: {
                 dateTime: formatDate(data.dateTime),
                 timeZone: 'Asia/Tokyo',

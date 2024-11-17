@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IAutoraceRaceDataHtmlGateway } from '../../gateway/interface/iAutoraceRaceDataHtmlGateway';
 import { AUTORACE_STAGE_MAP } from '../../utility/data/autorace';
-import { AutoraceRaceStage } from '../../utility/data/raceSpecific';
+import { AutoraceRaceStage } from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';

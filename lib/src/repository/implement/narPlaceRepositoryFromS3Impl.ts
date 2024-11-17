@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { NarRaceCourse } from '../../utility/data/raceSpecific';
+import { NarRaceCourse } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';

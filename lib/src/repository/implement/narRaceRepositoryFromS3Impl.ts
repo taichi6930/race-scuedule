@@ -8,7 +8,7 @@ import {
     NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';

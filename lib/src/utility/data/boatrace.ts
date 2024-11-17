@@ -1,4 +1,4 @@
-export const BOATRACE_PLACE_CODE: Record<BoatraceRaceCourse, string> = {
+export const BOATRACE_PLACE_CODE: Record<string, string> = {
     桐生: '01',
     戸田: '02',
     江戸川: '03',
