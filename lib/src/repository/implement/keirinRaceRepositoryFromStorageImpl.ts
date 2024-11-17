@@ -3,7 +3,9 @@ import 'reflect-metadata';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
 import {
     KeirinGradeType,
     KeirinRaceCourse,
@@ -27,7 +29,7 @@ export class KeirinRaceRepositoryFromStorageImpl
 {
     constructor(
         @inject('KeirinRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<KeirinRaceEntity>,
+        private readonly s3Gateway: IS3Gateway<KeirinRaceRecord>,
     ) {}
     /**
      * 競輪場開催データを取得する
@@ -82,12 +84,14 @@ export class KeirinRaceRepositoryFromStorageImpl
 
                             return new KeirinRaceEntity(
                                 columns[idIndex],
-                                columns[raceNameIndex],
-                                columns[raceStageIndex] as KeirinRaceStage,
-                                new Date(columns[raceDateIndex]),
-                                columns[placeIndex] as KeirinRaceCourse,
-                                columns[gradeIndex] as KeirinGradeType,
-                                parseInt(columns[raceNumIndex]),
+                                new KeirinRaceData(
+                                    columns[raceNameIndex],
+                                    columns[raceStageIndex] as KeirinRaceStage,
+                                    new Date(columns[raceDateIndex]),
+                                    columns[placeIndex] as KeirinRaceCourse,
+                                    columns[gradeIndex] as KeirinGradeType,
+                                    parseInt(columns[raceNumIndex]),
+                                ),
                             );
                         })
                         .filter(
@@ -126,20 +130,29 @@ export class KeirinRaceRepositoryFromStorageImpl
     async registerRaceList(
         request: RegisterRaceListRequest<KeirinRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceDataList: KeirinRaceEntity[] = request.raceDataList;
+        const raceEntityList: KeirinRaceEntity[] = request.raceDataList;
         // レースデータを日付ごとに分割する
-        const raceDataDict: Record<string, KeirinRaceEntity[]> = {};
-        raceDataList.forEach((raceData) => {
-            const key = `${format(raceData.dateTime, 'yyyyMMdd')}.csv`;
-            if (!(key in raceDataDict)) {
-                raceDataDict[key] = [];
+        const raceRecordDict: Record<string, KeirinRaceRecord[]> = {};
+        raceEntityList.forEach((raceEntity) => {
+            const raceRecord = new KeirinRaceRecord(
+                raceEntity.id,
+                raceEntity.raceData.name,
+                raceEntity.raceData.stage,
+                raceEntity.raceData.dateTime,
+                raceEntity.raceData.location,
+                raceEntity.raceData.grade,
+                raceEntity.raceData.number,
+            );
+            const key = `${format(raceRecord.dateTime, 'yyyyMMdd')}.csv`;
+            if (!(key in raceRecordDict)) {
+                raceRecordDict[key] = [];
             }
-            raceDataDict[key].push(raceData);
+            raceRecordDict[key].push(raceRecord);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceData] of Object.entries(raceDataDict)) {
-            await this.s3Gateway.uploadDataToS3(raceData, fileName);
+        for (const [fileName, raceRecord] of Object.entries(raceRecordDict)) {
+            await this.s3Gateway.uploadDataToS3(raceRecord, fileName);
         }
         return new RegisterRaceListResponse(200);
     }

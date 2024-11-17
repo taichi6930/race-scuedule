@@ -9,7 +9,7 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/raceSpecific';
+import { KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -70,16 +70,9 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                     fetchRaceDataListRequest,
                 );
             const raceEntityList = fetchRaceDataListResponse.raceDataList;
-            const raceDataList = raceEntityList.map((raceEntity) => {
-                return new KeirinRaceData(
-                    raceEntity.name,
-                    raceEntity.stage,
-                    raceEntity.dateTime,
-                    raceEntity.location,
-                    raceEntity.grade,
-                    raceEntity.number,
-                );
-            });
+            const raceDataList = raceEntityList.map(
+                (raceEntity) => raceEntity.raceData,
+            );
             const filteredRaceDataList: KeirinRaceData[] = raceDataList.filter(
                 (raceData) => {
                     return KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST.some(

@@ -4,6 +4,7 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlaceDataHtmlGateway';
 import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
@@ -46,8 +47,8 @@ export class KeirinPlaceRepositoryFromHtmlImpl
             this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
                 childPlaceEntityList.filter(
                     (PlaceEntity) =>
-                        PlaceEntity.dateTime >= request.startDate &&
-                        PlaceEntity.dateTime <= request.finishDate,
+                        PlaceEntity.placeData.dateTime >= request.startDate &&
+                        PlaceEntity.placeData.dateTime <= request.finishDate,
                 ),
             ),
         );
@@ -157,13 +158,15 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         keirinPlaceEntityList.push(
                             new KeirinPlaceEntity(
                                 null,
-                                new Date(
-                                    date.getFullYear(),
-                                    date.getMonth(),
-                                    index + 1,
+                                new KeirinPlaceData(
+                                    new Date(
+                                        date.getFullYear(),
+                                        date.getMonth(),
+                                        index + 1,
+                                    ),
+                                    place,
+                                    grade,
                                 ),
-                                place,
-                                grade,
                             ),
                         );
                     }

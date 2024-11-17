@@ -6,7 +6,7 @@ import { KeirinRaceData } from '../domain/keirinRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { KEIRIN_SPECIFIED_GRADE_LIST } from '../utility/data/raceSpecific';
+import { KEIRIN_SPECIFIED_GRADE_LIST } from '../utility/data/keirin';
 import { Logger } from '../utility/logger';
 
 /**

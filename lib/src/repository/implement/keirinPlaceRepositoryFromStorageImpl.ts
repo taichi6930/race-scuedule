@@ -4,7 +4,9 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
 import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
@@ -15,7 +17,7 @@ import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
- * 競輪場データリポジトリの実装
+ * オートレースデータリポジトリの実装
  */
 @injectable()
 export class KeirinPlaceRepositoryFromStorageImpl
@@ -23,12 +25,12 @@ export class KeirinPlaceRepositoryFromStorageImpl
 {
     constructor(
         @inject('KeirinPlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<KeirinPlaceEntity>,
+        private readonly s3Gateway: IS3Gateway<KeirinPlaceRecord>,
     ) {}
     /**
-     * 競輪場開催データを取得する
+     * オートレース開催データを取得する
      *
-     * このメソッドで日付の範囲を指定して競輪場開催データを取得する
+     * このメソッドで日付の範囲を指定してオートレース開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<FetchPlaceListResponse<KeirinPlaceEntity>> - 開催データ取得レスポンス
@@ -41,18 +43,35 @@ export class KeirinPlaceRepositoryFromStorageImpl
             request.startDate,
             request.finishDate,
         );
-        const promises = fileNames.map(async (fileName) =>
-            this.fetchMonthPlaceEntityList(fileName).then(
-                (childPlaceEntityList) =>
-                    childPlaceEntityList.filter(
-                        (placeEntity) =>
-                            placeEntity.dateTime >= request.startDate &&
-                            placeEntity.dateTime <= request.finishDate,
+
+        // ファイル名リストからオートレース開催データを取得する
+        const placeRecordList: KeirinPlaceRecord[] = (
+            await Promise.all(
+                fileNames.map(async (fileName) =>
+                    this.fetchMonthPlaceRecordList(fileName),
+                ),
+            )
+        ).flat();
+
+        // KeirinPlaceRecordをKeirinPlaceEntityに変換
+        const placeEntityList: KeirinPlaceEntity[] = placeRecordList
+            .map(
+                (placeRecord) =>
+                    new KeirinPlaceEntity(
+                        placeRecord.id,
+                        new KeirinPlaceData(
+                            placeRecord.dateTime,
+                            placeRecord.location,
+                            placeRecord.grade,
+                        ),
                     ),
-            ),
-        );
-        const placeEntityLists = await Promise.all(promises);
-        const placeEntityList = placeEntityLists.flat();
+            )
+            // 日付の範囲でフィルタリング
+            .filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= request.startDate &&
+                    placeEntity.placeData.dateTime <= request.finishDate,
+            );
         return new FetchPlaceListResponse(placeEntityList);
     }
 
@@ -92,18 +111,18 @@ export class KeirinPlaceRepositoryFromStorageImpl
     }
 
     /**
-     * S3から競輪場開催データを取得する
+     * S3からオートレース開催データを取得する
      *
-     * ファイル名を利用してS3から競輪場開催データを取得する
-     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * ファイル名を利用してS3からオートレース開催データを取得する
+     * placeRecordが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param fileName
      * @returns
      */
     @Logger
-    private async fetchMonthPlaceEntityList(
+    private async fetchMonthPlaceRecordList(
         fileName: string,
-    ): Promise<KeirinPlaceEntity[]> {
+    ): Promise<KeirinPlaceRecord[]> {
         console.log(`S3から${fileName}を取得します`);
         const csv = await this.s3Gateway.fetchDataFromS3(fileName);
         const lines = csv.split('\n');
@@ -117,8 +136,8 @@ export class KeirinPlaceRepositoryFromStorageImpl
         const placeIndex = headers.indexOf('location');
         const gradeIndex = headers.indexOf('grade');
 
-        // データ行を解析してKeirinPlaceEntityのリストを生成
-        const placeEntityList: KeirinPlaceEntity[] = lines
+        // データ行を解析してKeirinPlaceRecordのリストを生成
+        const placeRecordList: KeirinPlaceRecord[] = lines
             .slice(1)
             .map((line: string) => {
                 const columns = line.split(',');
@@ -133,7 +152,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
-                return new KeirinPlaceEntity(
+                return new KeirinPlaceRecord(
                     columns[idIndex],
                     new Date(columns[raceDateIndex]),
                     columns[placeIndex] as KeirinRaceCourse,
@@ -141,11 +160,11 @@ export class KeirinPlaceRepositoryFromStorageImpl
                 );
             })
             .filter(
-                (placeEntity): placeEntity is KeirinPlaceEntity =>
-                    placeEntity !== undefined,
+                (placeRecord): placeRecord is KeirinPlaceRecord =>
+                    placeRecord !== undefined,
             );
 
-        return placeEntityList;
+        return placeRecordList;
     }
 
     @Logger
@@ -154,18 +173,24 @@ export class KeirinPlaceRepositoryFromStorageImpl
     ): Promise<RegisterPlaceListResponse> {
         const placeEntityList: KeirinPlaceEntity[] = request.placeDataList;
         // 得られたplaceを月毎に分ける
-        const placeDataDict: Record<string, KeirinPlaceEntity[]> = {};
-        placeEntityList.forEach((placeData) => {
-            const key = `${format(placeData.dateTime, 'yyyyMM')}.csv`;
-            if (!(key in placeDataDict)) {
-                placeDataDict[key] = [];
+        const placeRecordDict: Record<string, KeirinPlaceRecord[]> = {};
+        placeEntityList.forEach((placeEntity) => {
+            const placeRecord = new KeirinPlaceRecord(
+                placeEntity.id,
+                placeEntity.placeData.dateTime,
+                placeEntity.placeData.location,
+                placeEntity.placeData.grade,
+            );
+            const key = `${format(placeRecord.dateTime, 'yyyyMM')}.csv`;
+            if (!(key in placeRecordDict)) {
+                placeRecordDict[key] = [];
             }
-            placeDataDict[key].push(placeData);
+            placeRecordDict[key].push(placeRecord);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, placeData] of Object.entries(placeDataDict)) {
-            await this.s3Gateway.uploadDataToS3(placeData, fileName);
+        for (const [fileName, placeRecord] of Object.entries(placeRecordDict)) {
+            await this.s3Gateway.uploadDataToS3(placeRecord, fileName);
         }
 
         return new RegisterPlaceListResponse(200);

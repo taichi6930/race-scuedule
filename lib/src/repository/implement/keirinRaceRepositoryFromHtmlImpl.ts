@@ -3,12 +3,11 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
+import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
 import { KEIRIN_STAGE_MAP } from '../../utility/data/keirin';
-import {
-    KeirinGradeType,
-    KeirinRaceStage,
-} from '../../utility/data/raceSpecific';
+import { KeirinGradeType, KeirinRaceStage } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
@@ -43,7 +42,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
         if (placeList) {
             for (const place of placeList) {
                 keirinRaceDataList.push(
-                    ...(await this.fetchRaceListFromHtmlWithKeirinPlace(place)),
+                    ...(await this.fetchRaceListFromHtmlWithKeirinPlace(
+                        place.placeData,
+                    )),
                 );
                 console.debug('1秒待ちます');
                 await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -55,7 +56,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
 
     @Logger
     async fetchRaceListFromHtmlWithKeirinPlace(
-        placeData: KeirinPlaceEntity,
+        placeData: KeirinPlaceData,
     ): Promise<KeirinRaceEntity[]> {
         try {
             const [year, month, day] = [
@@ -118,18 +119,20 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             keirinRaceDataList.push(
                                 new KeirinRaceEntity(
                                     null,
-                                    raceName,
-                                    raceStage,
-                                    new Date(
-                                        year,
-                                        month - 1,
-                                        day,
-                                        hour,
-                                        minute,
+                                    new KeirinRaceData(
+                                        raceName,
+                                        raceStage,
+                                        new Date(
+                                            year,
+                                            month - 1,
+                                            day,
+                                            hour,
+                                            minute,
+                                        ),
+                                        placeData.location,
+                                        raceGrade,
+                                        Number(raceNumber),
                                     ),
-                                    placeData.location,
-                                    raceGrade,
-                                    Number(raceNumber),
                                 ),
                             );
                         }

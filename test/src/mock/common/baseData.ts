@@ -1,6 +1,8 @@
 import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
+import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
@@ -54,16 +56,18 @@ export const baseAutoraceCalendarDataFromGoogleCalendar = {
     description: 'テスト',
 };
 
-export const baseKeirinPlaceEntity = new KeirinPlaceEntity(
-    null,
+export const baseKeirinPlaceData = new KeirinPlaceData(
     new Date('2025-12-30'),
     '平塚',
     'GP',
 );
-export const baseKeirinPlaceData = baseKeirinPlaceEntity.toDomainData();
 
-export const baseKeirinRaceEntity = new KeirinRaceEntity(
+export const baseKeirinPlaceEntity = new KeirinPlaceEntity(
     null,
+    baseKeirinPlaceData,
+);
+
+export const baseKeirinRaceData = new KeirinRaceData(
     'KEIRINグランプリ',
     'グランプリ',
     new Date('2025-12-30 16:30'),
@@ -71,7 +75,11 @@ export const baseKeirinRaceEntity = new KeirinRaceEntity(
     'GP',
     11,
 );
-export const baseKeirinRaceData = baseKeirinRaceEntity.toDomainData();
+
+export const baseKeirinRaceEntity = new KeirinRaceEntity(
+    null,
+    baseKeirinRaceData,
+);
 export const baseKeirinCalendarData = new CalendarData(
     'test202512303511',
     'KEIRINグランプリ',

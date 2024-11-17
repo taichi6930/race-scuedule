@@ -1,3 +1,4 @@
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -26,9 +27,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
             // 競輪場データを作成
             const keirinPlaceEntity = new KeirinPlaceEntity(
                 null,
-                new Date(currentDate),
-                '川崎',
-                'GⅠ',
+                new KeirinPlaceData(new Date(currentDate), '川崎', 'GⅠ'),
             );
             fetchPlaceEntityList.push(keirinPlaceEntity);
             // 日付を1日進める

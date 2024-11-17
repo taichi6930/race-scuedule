@@ -3,7 +3,9 @@ import 'reflect-metadata';
 import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
@@ -13,7 +15,7 @@ import { KEIRIN_PLACE_CODE } from '../../../../lib/src/utility/data/keirin';
 import { mockS3GatewayForKeirinRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('KeirinRaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<KeirinRaceEntity>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<KeirinRaceRecord>>;
     let repository: KeirinRaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
@@ -110,12 +112,14 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         (__, j) =>
                             new KeirinRaceEntity(
                                 null,
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                `決勝`,
-                                date,
-                                '平塚',
-                                'GⅠ',
-                                j + 1,
+                                new KeirinRaceData(
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    `決勝`,
+                                    date,
+                                    '平塚',
+                                    'GⅠ',
+                                    j + 1,
+                                ),
                             ),
                     );
                 },

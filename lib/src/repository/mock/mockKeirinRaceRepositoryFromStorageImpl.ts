@@ -1,3 +1,4 @@
+import { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
@@ -18,12 +19,14 @@ export class MockKeirinRaceRepositoryFromStorageImpl
             new FetchRaceListResponse([
                 new KeirinRaceEntity(
                     null,
-                    '競輪祭',
-                    '決勝',
-                    new Date('2024-09-01'),
-                    '川崎',
-                    'GⅠ',
-                    12,
+                    new KeirinRaceData(
+                        '競輪祭',
+                        '決勝',
+                        new Date('2024-09-01'),
+                        '川崎',
+                        'GⅠ',
+                        12,
+                    ),
                 ),
             ]),
         );

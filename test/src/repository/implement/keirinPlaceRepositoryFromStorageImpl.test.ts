@@ -4,7 +4,9 @@ import { parse } from 'date-fns';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
@@ -12,7 +14,7 @@ import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request
 import { mockS3GatewayForKeirinPlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('KeirinPlaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<KeirinPlaceEntity>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<KeirinPlaceRecord>>;
     let repository: KeirinPlaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
@@ -95,7 +97,11 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from(
                         { length: 12 },
-                        () => new KeirinPlaceEntity(null, date, '平塚', 'GP'),
+                        () =>
+                            new KeirinPlaceEntity(
+                                null,
+                                new KeirinPlaceData(date, '平塚', 'GP'),
+                            ),
                     );
                 },
             ).flat();

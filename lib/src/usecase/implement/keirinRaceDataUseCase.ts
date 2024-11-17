@@ -52,16 +52,7 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
                 placeList,
                 'storage',
             )
-        ).map((raceEntity) => {
-            return new KeirinRaceData(
-                raceEntity.name,
-                raceEntity.stage,
-                raceEntity.dateTime,
-                raceEntity.location,
-                raceEntity.grade,
-                raceEntity.number,
-            );
-        });
+        ).map((raceEntity) => raceEntity.raceData);
     }
 
     /**

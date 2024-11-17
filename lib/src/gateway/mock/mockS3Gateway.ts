@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { injectable } from 'tsyringe';
-import { IS3Gateway } from '../interface/iS3Gateway';
+import { IS3Gateway, Record } from '../interface/iS3Gateway';
 import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
@@ -14,7 +14,7 @@ import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
  * MockS3Gateway
  */
 @injectable()
-export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
+export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     /**
      * モックデータを保存するためのマップ
      *
@@ -586,7 +586,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
      * @param fileName
      */
     @Logger
-    async uploadDataToS3(data: T[], fileName: string): Promise<void> {
+    async uploadDataToS3(data: Record[], fileName: string): Promise<void> {
         try {
             const csvContent = this.convertToCsv(data);
             const key = `${this.folderPath}${fileName}`;
@@ -623,7 +623,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<T> {
      * @returns {string}
      */
     @Logger
-    private convertToCsv(data: T[]): string {
+    private convertToCsv(data: Record[]): string {
         if (data.length === 0) return '';
 
         const keys = Object.keys(data[0]);
