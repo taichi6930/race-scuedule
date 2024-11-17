@@ -30,30 +30,31 @@ import { MockNarPlaceDataHtmlGateway } from '../gateway/mock/mockNarPlaceDataHtm
 import { MockNarRaceDataHtmlGateway } from '../gateway/mock/mockNarRaceDataHtmlGateway';
 import { MockS3Gateway } from '../gateway/mock/mockS3Gateway';
 import { MockWorldRaceDataHtmlGateway } from '../gateway/mock/mockWorldRaceDataHtmlGateway';
+import type { KeirinPlaceRecord } from '../gateway/record/keirinPlaceRecord';
+import type { KeirinRacePlayerRecord } from '../gateway/record/keirinRacePlayerRecord';
+import type { KeirinRaceRecord } from '../gateway/record/keirinRaceRecord';
 import type { AutoracePlaceEntity } from '../repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../repository/entity/autoraceRaceEntity';
 import type { JraPlaceEntity } from '../repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../repository/entity/jraRaceEntity';
-import type { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
-import type { KeirinRaceEntity } from '../repository/entity/keirinRaceEntity';
 import type { NarPlaceEntity } from '../repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../repository/entity/worldRaceEntity';
 import { ENV } from '../utility/env';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
-container.register<IS3Gateway<KeirinPlaceEntity>>('KeirinPlaceS3Gateway', {
+container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
-                return new S3Gateway<KeirinPlaceEntity>(
+                return new S3Gateway<KeirinPlaceRecord>(
                     'race-schedule-bucket',
                     'keirin/place/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<KeirinPlaceEntity>(
+                return new MockS3Gateway<KeirinPlaceRecord>(
                     'race-schedule-bucket',
                     'keirin/place/',
                 );
@@ -79,25 +80,47 @@ container.register<IS3Gateway<NarRaceEntity>>('NarRaceS3Gateway', {
         }
     },
 });
-container.register<IS3Gateway<KeirinRaceEntity>>('KeirinRaceS3Gateway', {
+container.register<IS3Gateway<KeirinRaceRecord>>('KeirinRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<KeirinRaceEntity>(
+                return new S3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
                     'keirin/race/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<KeirinRaceEntity>(
+                return new MockS3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
                     'keirin/race/',
                 );
         }
     },
 });
+container.register<IS3Gateway<KeirinRacePlayerRecord>>(
+    'KeirinRacePlayerS3Gateway',
+    {
+        useFactory: () => {
+            switch (ENV) {
+                case 'PRODUCTION':
+                    // ENV が production の場合、S3Gateway を使用
+                    return new S3Gateway<KeirinRacePlayerRecord>(
+                        'race-schedule-bucket',
+                        'keirin/raceplayer/',
+                    );
+                case 'ITa':
+                case 'LOCAL':
+                default:
+                    return new MockS3Gateway<KeirinRacePlayerRecord>(
+                        'race-schedule-bucket',
+                        'keirin/raceplayer/',
+                    );
+            }
+        },
+    },
+);
 container.register<IS3Gateway<WorldRaceEntity>>('WorldRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {

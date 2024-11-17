@@ -10,7 +10,7 @@ import { WorldRaceRepositoryFromStorageImpl } from '../../../../lib/src/reposito
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { WORLD_PLACE_CODE } from '../../../../lib/src/utility/data/world';
-import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
+import { mockS3GatewayForWorldRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('WorldRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<WorldRaceEntity>>;
@@ -18,7 +18,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<WorldRaceEntity>();
+        s3Gateway = mockS3GatewayForWorldRace();
 
         // DIコンテナにモックを登録
         container.registerInstance('WorldRaceS3Gateway', s3Gateway);

@@ -9,9 +9,12 @@ import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/kei
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/keirinRaceCalendarUseCase';
-import type { KeirinGradeType } from '../../../../lib/src/utility/data/raceSpecific';
-import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
-import { baseKeirinRaceEntity } from '../../mock/common/baseData';
+import type { KeirinGradeType } from '../../../../lib/src/utility/data/keirin';
+import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/keirin';
+import {
+    baseKeirinRaceData,
+    baseKeirinRaceEntity,
+} from '../../mock/common/baseData';
 import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
@@ -119,13 +122,15 @@ describe('KeirinRaceCalendarUseCase', () => {
                         // モック用のデータを作成
                         mockRaceEntityList.push(
                             baseKeirinCalendarEntity.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
+                                raceData: baseKeirinRaceData.copy({
+                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                    dateTime: new Date(2024, month, day),
+                                    grade: grade,
+                                }),
                             }),
                         );
                         mockRaceDataList.push(
-                            baseKeirinCalendarEntity.toDomainData({
+                            baseKeirinCalendarEntity.toDomainData().copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -135,13 +140,15 @@ describe('KeirinRaceCalendarUseCase', () => {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
                                 baseKeirinCalendarEntity.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
+                                    raceData: baseKeirinRaceData.copy({
+                                        name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                        dateTime: new Date(2024, month, day),
+                                        grade: grade,
+                                    }),
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseKeirinCalendarEntity.toDomainData({
+                                baseKeirinCalendarEntity.toDomainData().copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,

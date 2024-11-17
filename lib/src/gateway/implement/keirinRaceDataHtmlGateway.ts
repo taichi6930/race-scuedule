@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
-import { KeirinRaceCourse } from '../../utility/data/raceSpecific';
+import { KeirinRaceCourse } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { IKeirinRaceDataHtmlGateway } from '../interface/iKeirinRaceDataHtmlGateway';
 /**

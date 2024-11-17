@@ -1,14 +1,11 @@
 import { format } from 'date-fns';
 
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
+import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
+import type { KeirinRaceCourse } from '../../utility/data/keirin';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-} from '../../utility/data/raceSpecific';
 
 /**
- * Repository層のEntity 競輪のレース開催場所データ
+ * Repository層のEntity ボートレースのレース開催場所データ
  */
 export class KeirinPlaceEntity {
     /**
@@ -20,18 +17,15 @@ export class KeirinPlaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催場所データを生成する
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - 競輪のグレード
+     * ボートレースのレース開催場所データを生成する
+     * @param id - ID
+     * @param placeData - レース開催場所データ
      */
     constructor(
         id: string | null,
-        public readonly dateTime: Date,
-        public readonly location: KeirinRaceCourse,
-        public readonly grade: KeirinGradeType,
+        public readonly placeData: KeirinPlaceData,
     ) {
-        this.id = id ?? this.generateId(dateTime, location);
+        this.id = id ?? this.generateId(placeData.dateTime, placeData.location);
     }
 
     /**
@@ -42,9 +36,7 @@ export class KeirinPlaceEntity {
     copy(partial: Partial<KeirinPlaceEntity> = {}): KeirinPlaceEntity {
         return new KeirinPlaceEntity(
             partial.id ?? null,
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
-            partial.grade ?? this.grade,
+            partial.placeData ?? this.placeData,
         );
     }
 
@@ -53,12 +45,8 @@ export class KeirinPlaceEntity {
      * @param partial
      * @returns
      */
-    toDomainData(partial: Partial<KeirinPlaceEntity> = {}): KeirinPlaceData {
-        return new KeirinPlaceData(
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
-            partial.grade ?? this.grade,
-        );
+    toDomainData(): KeirinPlaceData {
+        return this.placeData;
     }
 
     /**

@@ -10,10 +10,7 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/worldRaceCalendarUseCase';
 import type { WorldGradeType } from '../../../../lib/src/utility/data/raceSpecific';
-import {
-    KEIRIN_SPECIFIED_GRADE_LIST,
-    WORLD_SPECIFIED_GRADE_LIST,
-} from '../../../../lib/src/utility/data/raceSpecific';
+import { WORLD_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
 import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/worldRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
@@ -175,7 +172,7 @@ describe('WorldRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                KEIRIN_SPECIFIED_GRADE_LIST,
+                WORLD_SPECIFIED_GRADE_LIST,
             );
 
             // モックが呼び出されたことを確認
@@ -206,7 +203,7 @@ describe('WorldRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                KEIRIN_SPECIFIED_GRADE_LIST,
+                WORLD_SPECIFIED_GRADE_LIST,
             );
 
             // コンソールエラーメッセージが出力されることを確認
@@ -243,7 +240,7 @@ describe('WorldRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                KEIRIN_SPECIFIED_GRADE_LIST,
+                WORLD_SPECIFIED_GRADE_LIST,
             );
 
             // コンソールエラーメッセージが出力されることを確認

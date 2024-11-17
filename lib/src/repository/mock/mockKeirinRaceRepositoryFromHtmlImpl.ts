@@ -1,3 +1,6 @@
+import { baseKeirinRacePlayerDataList } from '../../../../test/src/mock/common/baseData';
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
+import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
@@ -19,23 +22,27 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
         const raceEntityList: KeirinRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {
+                const placeData: KeirinPlaceData = placeEntity.placeData;
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     const raceStage = i === 12 ? '決勝' : '予選';
                     raceEntityList.push(
                         new KeirinRaceEntity(
                             null,
-                            `${placeEntity.location}第${i.toString()}R`,
-                            raceStage,
-                            new Date(
-                                placeEntity.dateTime.getFullYear(),
-                                placeEntity.dateTime.getMonth(),
-                                placeEntity.dateTime.getDate(),
-                                i + 9,
+                            new KeirinRaceData(
+                                `${placeData.location}第${i.toString()}R`,
+                                raceStage,
+                                new Date(
+                                    placeData.dateTime.getFullYear(),
+                                    placeData.dateTime.getMonth(),
+                                    placeData.dateTime.getDate(),
+                                    i + 9,
+                                ),
+                                placeData.location,
+                                placeData.grade,
+                                i,
                             ),
-                            placeEntity.location,
-                            placeEntity.grade,
-                            i,
+                            baseKeirinRacePlayerDataList,
                         ),
                     );
                 }

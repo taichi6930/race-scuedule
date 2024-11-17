@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import type { IKeirinRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iKeirinRaceDataHtmlGateway';
 import { MockKeirinRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockKeirinRaceDataHtmlGateway';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
@@ -39,9 +40,11 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         [
                             new KeirinPlaceEntity(
                                 null,
-                                new Date('2024-10-20'),
-                                '弥彦',
-                                'GⅠ',
+                                new KeirinPlaceData(
+                                    new Date('2024-10-20'),
+                                    '弥彦',
+                                    'GⅠ',
+                                ),
                             ),
                         ],
                     ),

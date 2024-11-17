@@ -3,25 +3,38 @@ import 'reflect-metadata';
 import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
+import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { KEIRIN_PLACE_CODE } from '../../../../lib/src/utility/data/keirin';
-import { mockS3GatewayForKeirinRace } from '../../mock/gateway/s3GatewayMock';
+import { baseKeirinRacePlayerDataList } from '../../mock/common/baseData';
+import {
+    mockS3GatewayForKeirinRace,
+    mockS3GatewayForKeirinRacePlayer,
+} from '../../mock/gateway/s3GatewayMock';
 
 describe('KeirinRaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<KeirinRaceEntity>>;
+    let raceS3Gateway: jest.Mocked<IS3Gateway<KeirinRaceRecord>>;
+    let racePlayerS3Gateway: jest.Mocked<IS3Gateway<KeirinRacePlayerRecord>>;
     let repository: KeirinRaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3GatewayForKeirinRace();
+        raceS3Gateway = mockS3GatewayForKeirinRace();
+        racePlayerS3Gateway = mockS3GatewayForKeirinRacePlayer();
 
         // DIコンテナにモックを登録
-        container.registerInstance('KeirinRaceS3Gateway', s3Gateway);
+        container.registerInstance('KeirinRaceS3Gateway', raceS3Gateway);
+        container.registerInstance(
+            'KeirinRacePlayerS3Gateway',
+            racePlayerS3Gateway,
+        );
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(KeirinRaceRepositoryFromStorageImpl);
@@ -30,7 +43,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('正しいレースデータを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(
+            raceS3Gateway.fetchDataFromS3.mockImplementation(
                 async (filename: string) => {
                     // filenameから日付を取得 16時からのレースにしたい
                     const date = parse(
@@ -84,6 +97,48 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                     return Promise.resolve(csvDatajoinText);
                 },
             );
+            racePlayerS3Gateway.fetchDataFromS3.mockImplementation(
+                async (filename: string) => {
+                    // filenameから日付を取得 16時からのレースにしたい
+                    const date = parse(
+                        filename.slice(0, 8),
+                        'yyyyMMdd',
+                        new Date(),
+                    );
+                    date.setHours(16);
+                    const csvHeaderDataText: string = [
+                        'id',
+                        'playerId',
+                        'positionNumber',
+                        'playerNumber',
+                    ].join(',');
+                    const csvDataText: string = [
+                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}0101`,
+                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}01`,
+                        '1',
+                        '1',
+                    ].join(',');
+                    const csvDataRameNameUndefinedText: string = [
+                        undefined,
+                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}01`,
+                        '1',
+                        '1',
+                    ].join(',');
+                    const csvDataNumUndefinedText: string = [
+                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}0101`,
+                        `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}01`,
+                        null,
+                        '1',
+                    ].join(',');
+                    const csvDatajoinText: string = [
+                        csvHeaderDataText,
+                        csvDataText,
+                        csvDataRameNameUndefinedText,
+                        csvDataNumUndefinedText,
+                    ].join('\n');
+                    return Promise.resolve(csvDatajoinText);
+                },
+            );
             // リクエストの作成
             const request = new FetchRaceListRequest<KeirinPlaceEntity>(
                 new Date('2024-01-01'),
@@ -110,12 +165,15 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         (__, j) =>
                             new KeirinRaceEntity(
                                 null,
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                `決勝`,
-                                date,
-                                '平塚',
-                                'GⅠ',
-                                j + 1,
+                                new KeirinRaceData(
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    `決勝`,
+                                    date,
+                                    '平塚',
+                                    'GⅠ',
+                                    j + 1,
+                                ),
+                                baseKeirinRacePlayerDataList,
                             ),
                     );
                 },
@@ -129,7 +187,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             await repository.registerRaceList(request);
 
             // uploadDataToS3が366回呼ばれることを検証
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
+            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
         });
     });
 });

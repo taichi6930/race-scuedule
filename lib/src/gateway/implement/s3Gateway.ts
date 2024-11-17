@@ -9,13 +9,13 @@ import { Readable } from 'stream';
 import { injectable } from 'tsyringe';
 
 import { Logger } from '../../utility/logger';
-import { IS3Gateway } from '../interface/iS3Gateway';
+import { IS3Gateway, Record } from '../interface/iS3Gateway';
 
 /**
  * S3Gateway
  */
 @injectable()
-export class S3Gateway<T extends object> implements IS3Gateway<T> {
+export class S3Gateway<T extends Record> implements IS3Gateway<T> {
     /**
      * AWS SDKのS3Client
      *

@@ -2,13 +2,10 @@ import '../../utility/format';
 
 import { format } from 'date-fns';
 
-import { KeirinRaceData } from '../../domain/keirinRaceData';
+import type { KeirinRaceData } from '../../domain/keirinRaceData';
+import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
+import type { KeirinRaceCourse } from '../../utility/data/keirin';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-    KeirinRaceStage,
-} from '../../utility/data/raceSpecific';
 
 /**
  * 競輪のレース開催データ
@@ -24,23 +21,23 @@ export class KeirinRaceEntity {
      *
      * @remarks
      * 競輪のレース開催データを生成する
-     * @param name - レース名
-     * @param stage - 開催ステージ
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - グレード
-     * @param number - レース番号
+     * @param id - ID
+     * @param raceData - レースデータ
+     * @param racePlayerDataList - レースの選手データ
+     *
      */
     constructor(
         id: string | null,
-        public readonly name: string, // レース名
-        public readonly stage: KeirinRaceStage, // 開催ステージ
-        public readonly dateTime: Date, // 開催日時
-        public readonly location: KeirinRaceCourse, // 競馬場名
-        public readonly grade: KeirinGradeType, // グレード
-        public readonly number: number, // レース番号
+        public readonly raceData: KeirinRaceData,
+        public readonly racePlayerDataList: KeirinRacePlayerData[],
     ) {
-        this.id = id ?? this.generateId(dateTime, location, number);
+        this.id =
+            id ??
+            this.generateId(
+                raceData.dateTime,
+                raceData.location,
+                raceData.number,
+            );
     }
 
     /**
@@ -51,30 +48,16 @@ export class KeirinRaceEntity {
     copy(partial: Partial<KeirinRaceEntity> = {}): KeirinRaceEntity {
         return new KeirinRaceEntity(
             partial.id ?? this.id,
-            partial.name ?? this.name,
-            partial.stage ?? this.stage,
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
-            partial.grade ?? this.grade,
-            partial.number ?? this.number,
+            partial.raceData ?? this.raceData,
+            partial.racePlayerDataList ?? this.racePlayerDataList,
         );
     }
 
     /**
      * ドメインデータに変換する
-     * @param partial
      * @returns
      */
-    toDomainData(partial: Partial<KeirinRaceEntity> = {}): KeirinRaceData {
-        return new KeirinRaceData(
-            partial.name ?? this.name,
-            partial.stage ?? this.stage,
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
-            partial.grade ?? this.grade,
-            partial.number ?? this.number,
-        );
-    }
+    toDomainData = (): KeirinRaceData => this.raceData;
 
     /**
      * IDを生成する

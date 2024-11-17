@@ -50,9 +50,9 @@ export class WorldRaceRepositoryFromHtmlImpl
             worldRaceDataList.push(
                 ...(await this.fetchRaceListFromHtml(month)),
             );
-            console.debug('1秒待ちます');
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            console.debug('1秒経ちました');
+            console.debug('0.8秒待ちます');
+            await new Promise((resolve) => setTimeout(resolve, 800));
+            console.debug('0.8秒経ちました');
         }
         return new FetchRaceListResponse(worldRaceDataList);
     }

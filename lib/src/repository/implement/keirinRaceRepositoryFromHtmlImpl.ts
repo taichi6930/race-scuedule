@@ -3,12 +3,12 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
+import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
 import { KEIRIN_STAGE_MAP } from '../../utility/data/keirin';
-import {
-    KeirinGradeType,
-    KeirinRaceStage,
-} from '../../utility/data/raceSpecific';
+import { KeirinGradeType, KeirinRaceStage } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
@@ -43,11 +43,13 @@ export class KeirinRaceRepositoryFromHtmlImpl
         if (placeList) {
             for (const place of placeList) {
                 keirinRaceDataList.push(
-                    ...(await this.fetchRaceListFromHtmlWithKeirinPlace(place)),
+                    ...(await this.fetchRaceListFromHtmlWithKeirinPlace(
+                        place.placeData,
+                    )),
                 );
-                console.debug('1秒待ちます');
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-                console.debug('1秒経ちました');
+                console.debug('0.8秒待ちます');
+                await new Promise((resolve) => setTimeout(resolve, 800));
+                console.debug('0.8秒経ちました');
             }
         }
         return new FetchRaceListResponse(keirinRaceDataList);
@@ -55,7 +57,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
 
     @Logger
     async fetchRaceListFromHtmlWithKeirinPlace(
-        placeData: KeirinPlaceEntity,
+        placeData: KeirinPlaceData,
     ): Promise<KeirinRaceEntity[]> {
         try {
             const [year, month, day] = [
@@ -68,7 +70,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                     placeData.dateTime,
                     placeData.location,
                 );
-            const keirinRaceDataList: KeirinRaceEntity[] = [];
+            const keirinRaceEntityList: KeirinRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
@@ -110,32 +112,72 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             raceStage ?? '',
                             new Date(year, month - 1, day),
                         );
-                        if (
+                        const racePlayerDataList: KeirinRacePlayerData[] = [];
+                        // tableを取得
+                        const table = $(element).find('table');
+                        // class="bg-1-pl", "bg-2-pl"..."bg-9-pl"を取得
+                        Array.from({ length: 9 }, (_, i) => i + 1) // 1から9までの配列を作成
+                            .map((i) => {
+                                const className = `bg-${i.toString()}-pl`;
+                                // class="bg-1-pl"を取得
+                                const tableRow = table.find(`.${className}`);
+                                // class="bg-1-pl"の中にあるtdを取得
+                                // <td class="no1">1</td>のような形なので、"no${i}"の中のテキストを取得、枠番になる
+                                const frameNumber = tableRow
+                                    .find(`.no${i.toString()}`)
+                                    .text();
+                                // <td class="al-left"><a href="./PlayerDetail.do?playerCd=015480">松本秀之介</a></td>
+                                // 015480が選手の登録番号なので、これを取得
+                                // "./PlayerDetail.do?playerCd=015480"のような形になっているので、parseして取得
+                                const playerNumber =
+                                    tableRow
+                                        .find('.al-left')
+                                        .find('a')
+                                        .attr('href')
+                                        ?.split('=')[1] ?? null;
+                                if (frameNumber && playerNumber !== null) {
+                                    racePlayerDataList.push(
+                                        new KeirinRacePlayerData(
+                                            Number(frameNumber),
+                                            Number(playerNumber),
+                                        ),
+                                    );
+                                }
+                            });
+                        const keirinRaceData =
                             raceStage !== null &&
                             raceStage !== undefined &&
                             raceStage.trim() !== ''
+                                ? new KeirinRaceData(
+                                      raceName,
+                                      raceStage,
+                                      new Date(
+                                          year,
+                                          month - 1,
+                                          day,
+                                          hour,
+                                          minute,
+                                      ),
+                                      placeData.location,
+                                      raceGrade,
+                                      Number(raceNumber),
+                                  )
+                                : null;
+                        if (
+                            keirinRaceData != null &&
+                            racePlayerDataList.length !== 0
                         ) {
-                            keirinRaceDataList.push(
+                            keirinRaceEntityList.push(
                                 new KeirinRaceEntity(
                                     null,
-                                    raceName,
-                                    raceStage,
-                                    new Date(
-                                        year,
-                                        month - 1,
-                                        day,
-                                        hour,
-                                        minute,
-                                    ),
-                                    placeData.location,
-                                    raceGrade,
-                                    Number(raceNumber),
+                                    keirinRaceData,
+                                    racePlayerDataList,
                                 ),
                             );
                         }
                     });
             });
-            return keirinRaceDataList;
+            return keirinRaceEntityList;
         } catch (e) {
             console.error('htmlを取得できませんでした', e);
             return [];
