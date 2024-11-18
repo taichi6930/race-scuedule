@@ -288,7 +288,7 @@ export const baseBoatraceRaceData = new BoatraceRaceData(
 export const baseBoatraceRacePlayerData = new BoatraceRacePlayerData(1, 10000);
 
 export const baseBoatraceRacePlayerDataList = Array.from(
-    { length: 9 },
+    { length: 6 },
     (_, i) => {
         return new BoatraceRacePlayerData(i + 1, i + 1);
     },
