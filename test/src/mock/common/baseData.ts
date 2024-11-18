@@ -1,5 +1,6 @@
 import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
+import { BoatraceRacePlayerData } from '../../../../lib/src/domain/boatraceRacePlayerData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
@@ -96,7 +97,7 @@ export const baseKeirinRaceRecord = new KeirinRaceRecord(
     11,
 );
 
-export const baseKeirinRacePlayerData = new KeirinRacePlayerData(1, 1);
+export const baseKeirinRacePlayerData = new KeirinRacePlayerData(1, 10000);
 
 export const baseKeirinRacePlayerDataList = Array.from(
     { length: 9 },
@@ -282,6 +283,8 @@ export const baseBoatraceRaceData = new BoatraceRaceData(
     'SG',
     11,
 );
+
+export const baseBoatraceRacePlayerData = new BoatraceRacePlayerData(1, 10000);
 // export const baseAutoraceRaceData = baseAutoraceRaceEntity.toDomainData();
 // export const baseAutoraceCalendarData = new CalendarData(
 //     'test202412310511',
