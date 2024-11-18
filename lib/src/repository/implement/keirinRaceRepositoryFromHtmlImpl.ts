@@ -74,13 +74,20 @@ export class KeirinRaceRepositoryFromHtmlImpl
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
-            const seriesRaceName =
+            const seriesRaceName = (
                 content
                     .find('h2')
                     .text()
                     .split('\n')
                     .filter((name) => name)[1] ??
-                `${placeData.location}${placeData.grade}`;
+                `${placeData.location}${placeData.grade}`
+            )
+                .replace(/[！-～]/g, (s: string) =>
+                    String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                )
+                .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s: string) =>
+                    String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                );
             // class="section1"を取得
             const section1 = content.find('.section1');
             section1.each((index, element) => {
@@ -221,11 +228,11 @@ export class KeirinRaceRepositoryFromHtmlImpl
             return 'ガールズケイリンフェスティバル';
         }
         // raceNameにKEIRINグランプリが含まれている場合、
-        // raceStageに「決勝」が含まれている場合、
+        // raceStageに「グランプリ」が含まれていなかったら、
         // raceNameを「寺内大吉記念杯競輪」にする
         if (
             /KEIRINグランプリ/.exec(raceSummaryInfoChild) &&
-            /決勝/.exec(raceStage)
+            !/グランプリ/.exec(raceStage)
         ) {
             return '寺内大吉記念杯競輪';
         }
@@ -250,7 +257,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         raceDate: Date,
     ): KeirinGradeType {
         // raceStageが「ヤンググランプリ」の場合、GⅡを返す
-        if (raceStage === 'ヤンググランプリ') {
+        if (raceStage === 'SA混合ヤンググランプリ') {
             return 'GⅡ';
         }
         // raceNameに女子オールスター競輪が入っている場合、2024年であればFⅡ、2025年以降であればGⅠを返す

@@ -59,7 +59,7 @@ describe('KeirinRaceDataUseCase', () => {
 
     const baseRaceData = new KeirinRaceData(
         'KEIRINグランプリ',
-        'グランプリ',
+        'S級グランプリ',
         new Date('2025-12-30 16:30'),
         '平塚',
         'GP',

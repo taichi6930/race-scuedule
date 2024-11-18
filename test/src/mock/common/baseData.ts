@@ -81,7 +81,7 @@ export const baseKeirinPlaceEntity = new KeirinPlaceEntity(
 
 export const baseKeirinRaceData = new KeirinRaceData(
     'KEIRINグランプリ',
-    'グランプリ',
+    'S級グランプリ',
     new Date('2025-12-30 16:30'),
     '平塚',
     'GP',
@@ -91,7 +91,7 @@ export const baseKeirinRaceData = new KeirinRaceData(
 export const baseKeirinRaceRecord = new KeirinRaceRecord(
     `keirin202412310411`,
     'KEIRINグランプリ',
-    'グランプリ',
+    'S級グランプリ',
     new Date('2025-12-30 16:30'),
     '平塚',
     'GP',
