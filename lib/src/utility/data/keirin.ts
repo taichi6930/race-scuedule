@@ -292,6 +292,9 @@ export const KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST: {
     { grade: 'FⅡ', stage: 'L級ガールズドリームレース', priority: 7 },
     { grade: 'FⅡ', stage: 'L級ガールズアルテミス賞', priority: 6 },
     { grade: 'FⅡ', stage: 'S級スーパープロピストレーサー賞', priority: 7 },
+    { grade: 'FⅡ', stage: 'L級ガールズ決勝', priority: 2 },
+    { grade: 'FⅡ', stage: 'L級ガールズ準決勝', priority: 1 },
+    { grade: 'FⅡ', stage: 'L級ガールズ予選', priority: 0 },
 ];
 
 export const KeirinPlayerList = [

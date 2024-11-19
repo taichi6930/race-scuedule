@@ -280,6 +280,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
         ) {
             return 'FⅡ';
         }
+        if (/ガールズケイリンフェスティバル/.exec(raceName)) {
+            return 'FⅡ';
+        }
         // raceNameに寺内大吉記念杯競輪が入っている場合、FⅠを返す
         if (/寺内大吉記念杯競輪/.exec(raceName)) {
             return 'FⅠ';
