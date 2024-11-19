@@ -8,7 +8,7 @@ import { IAutoracePlaceDataHtmlGateway } from '../../gateway/interface/iAutorace
 import {
     AutoraceGradeType,
     AutoraceRaceCourse,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';

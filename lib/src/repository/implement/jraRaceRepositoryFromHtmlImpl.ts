@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
 import { IJraRaceDataHtmlGateway } from '../../gateway/interface/iJraRaceDataHtmlGateway';
-import { JraGradeType, JraRaceCourse } from '../../utility/data/raceSpecific';
+import { JraGradeType, JraRaceCourse } from '../../utility/data/jra';
 import { Logger } from '../../utility/logger';
 import { processJraRaceName } from '../../utility/raceName';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';

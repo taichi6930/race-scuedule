@@ -1,5 +1,6 @@
 import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
+import { BoatraceRacePlayerData } from '../../../../lib/src/domain/boatraceRacePlayerData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
@@ -10,6 +11,7 @@ import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceR
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
+import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
@@ -79,7 +81,7 @@ export const baseKeirinPlaceEntity = new KeirinPlaceEntity(
 
 export const baseKeirinRaceData = new KeirinRaceData(
     'KEIRINグランプリ',
-    'グランプリ',
+    'S級グランプリ',
     new Date('2025-12-30 16:30'),
     '平塚',
     'GP',
@@ -89,14 +91,14 @@ export const baseKeirinRaceData = new KeirinRaceData(
 export const baseKeirinRaceRecord = new KeirinRaceRecord(
     `keirin202412310411`,
     'KEIRINグランプリ',
-    'グランプリ',
+    'S級グランプリ',
     new Date('2025-12-30 16:30'),
     '平塚',
     'GP',
     11,
 );
 
-export const baseKeirinRacePlayerData = new KeirinRacePlayerData(1, 1);
+export const baseKeirinRacePlayerData = new KeirinRacePlayerData(1, 10000);
 
 export const baseKeirinRacePlayerDataList = Array.from(
     { length: 9 },
@@ -282,25 +284,40 @@ export const baseBoatraceRaceData = new BoatraceRaceData(
     'SG',
     11,
 );
-// export const baseAutoraceRaceData = baseAutoraceRaceEntity.toDomainData();
-// export const baseAutoraceCalendarData = new CalendarData(
-//     'test202412310511',
-//     'スーパースター王座決定戦',
-//     new Date('2024-12-31T16:30:00Z'),
-//     new Date('2024-12-31T16:40:00Z'),
-//     '飯塚オートレース場',
-//     'テスト',
-// );
 
-// export const baseAutoraceCalendarDataFromGoogleCalendar = {
-//     id: 'test202412310511',
-//     summary: 'スーパースター王座決定戦',
-//     start: {
-//         dateTime: '2024-12-31T16:30:00Z',
-//     },
-//     end: {
-//         dateTime: '2024-12-31T16:40:00Z',
-//     },
-//     location: '飯塚オートレース場',
-//     description: 'テスト',
-// };
+export const baseBoatraceRacePlayerData = new BoatraceRacePlayerData(1, 10000);
+
+export const baseBoatraceRacePlayerDataList = Array.from(
+    { length: 6 },
+    (_, i) => {
+        return new BoatraceRacePlayerData(i + 1, i + 1);
+    },
+);
+
+export const baseBoatraceRaceEntity = new BoatraceRaceEntity(
+    null,
+    baseBoatraceRaceData,
+    [baseBoatraceRacePlayerData],
+);
+
+export const baseBoatraceCalendarData = new CalendarData(
+    'test202412310511',
+    'グランプリ',
+    new Date('2024-12-31T16:30:00Z'),
+    new Date('2024-12-31T16:40:00Z'),
+    '平和島ボートレース場',
+    'テスト',
+);
+
+export const baseBoatraceCalendarDataFromGoogleCalendar = {
+    id: 'test202412310511',
+    summary: 'グランプリ',
+    start: {
+        dateTime: '2024-12-31T16:30:00Z',
+    },
+    end: {
+        dateTime: '2024-12-31T16:40:00Z',
+    },
+    location: '平和島ボートレース場',
+    description: 'テスト',
+};

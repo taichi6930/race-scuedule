@@ -8,12 +8,14 @@ import { injectable } from 'tsyringe';
 
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { RaceData } from '../../domain/baseData';
+import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { CalendarData } from '../../domain/calendarData';
 import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
+import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import {
     CHIHO_KEIBA_LIVE_URL,
@@ -27,7 +29,13 @@ import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
-export type RaceType = 'jra' | 'nar' | 'world' | 'keirin' | 'autorace';
+export type RaceType =
+    | 'jra'
+    | 'nar'
+    | 'world'
+    | 'keirin'
+    | 'autorace'
+    | 'boatrace';
 @injectable()
 export class GoogleCalendarService<R extends RaceData>
     implements ICalendarService<R>
@@ -328,6 +336,10 @@ export class GoogleCalendarService<R extends RaceData>
                 const autoraceRaceData = raceData as AutoraceRaceData;
                 return `autorace${format(raceData.dateTime, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[autoraceRaceData.location]}${autoraceRaceData.number.toXDigits(2)}`;
             }
+            case 'boatrace': {
+                const boatraceRaceData = raceData as BoatraceRaceData;
+                return `boatrace${format(raceData.dateTime, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[boatraceRaceData.location]}${boatraceRaceData.number.toXDigits(2)}`;
+            }
         }
     }
 
@@ -387,6 +399,10 @@ export class GoogleCalendarService<R extends RaceData>
             case 'autorace':
                 return this.translateToCalendarEventForAutorace(
                     raceData as AutoraceRaceData,
+                );
+            case 'boatrace':
+                return this.translateToCalendarEventForBoatrace(
+                    raceData as BoatraceRaceData,
                 );
         }
     }
@@ -518,6 +534,14 @@ export class GoogleCalendarService<R extends RaceData>
             description:
                 `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
             ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(data.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[data.location]}${data.number.toXDigits(2)}`)}
+            ${
+                ['GP', 'GⅠ', 'GⅡ'].includes(raceData.grade)
+                    ? createAnchorTag(
+                          'Youtube（本気の競輪TV）',
+                          getYoutubeLiveUrl('rakutenkdreams'),
+                      )
+                    : ''
+            }
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -535,6 +559,37 @@ export class GoogleCalendarService<R extends RaceData>
             id: this.generateEventId(data),
             summary: `${data.stage} ${data.name}`,
             location: `${data.location}オートレース場`,
+            start: {
+                dateTime: formatDate(data.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(
+                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                ),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(data.grade),
+            description:
+                `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
+        `.replace(/\n\s+/g, '\n'),
+        };
+    }
+
+    /**
+     * レースデータをGoogleカレンダーのイベントに変換する（ボートレース）
+     * @param raceData
+     * @returns
+     */
+    private translateToCalendarEventForBoatrace(
+        raceData: BoatraceRaceData,
+    ): calendar_v3.Schema$Event {
+        const data = raceData;
+        return {
+            id: this.generateEventId(data),
+            summary: `${data.stage} ${data.name}`,
+            location: `${data.location}ボートレース場`,
             start: {
                 dateTime: formatDate(data.dateTime),
                 timeZone: 'Asia/Tokyo',

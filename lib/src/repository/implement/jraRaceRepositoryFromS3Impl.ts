@@ -8,7 +8,7 @@ import {
     JraGradeType,
     JraRaceCourse,
     JraRaceCourseType,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/jra';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';

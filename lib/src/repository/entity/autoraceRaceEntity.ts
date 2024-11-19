@@ -3,12 +3,12 @@ import '../../utility/format';
 import { format } from 'date-fns';
 
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
-import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
     AutoraceRaceStage,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/autorace';
+import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 
 /**
  * 競輪のレース開催データ

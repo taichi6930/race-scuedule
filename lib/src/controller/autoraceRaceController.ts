@@ -6,7 +6,7 @@ import { AutoraceRaceData } from '../domain/autoraceRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { AUTORACE_SPECIFIED_GRADE_LIST } from '../utility/data/raceSpecific';
+import { AUTORACE_SPECIFIED_GRADE_LIST } from '../utility/data/autorace';
 import { Logger } from '../utility/logger';
 
 /**

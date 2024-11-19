@@ -2,7 +2,7 @@ import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
     AutoraceRaceStage,
-} from '../utility/data/raceSpecific';
+} from '../utility/data/autorace';
 
 /**
  * オートレースのレース開催データ

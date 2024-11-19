@@ -1,14 +1,14 @@
 import { container } from 'tsyringe';
 
-import type { AutoraceRaceData } from '../domain/autoraceRaceData';
-import type { JraRaceData } from '../domain/jraRaceData';
-import type { KeirinRaceData } from '../domain/keirinRaceData';
-import type { NarRaceData } from '../domain/narRaceData';
-import type { WorldRaceData } from '../domain/worldRaceData';
-import { GoogleCalendarService } from '../service/implement/googleCalendarService';
-import type { ICalendarService } from '../service/interface/ICalendarService';
-import { MockGoogleCalendarService } from '../service/mock/mockGoogleCalendarService';
-import { ENV } from '../utility/env';
+import type { AutoraceRaceData } from '../src/domain/autoraceRaceData';
+import type { JraRaceData } from '../src/domain/jraRaceData';
+import type { KeirinRaceData } from '../src/domain/keirinRaceData';
+import type { NarRaceData } from '../src/domain/narRaceData';
+import type { WorldRaceData } from '../src/domain/worldRaceData';
+import { GoogleCalendarService } from '../src/service/implement/googleCalendarService';
+import type { ICalendarService } from '../src/service/interface/ICalendarService';
+import { MockGoogleCalendarService } from '../src/service/mock/mockGoogleCalendarService';
+import { ENV } from '../src/utility/env';
 
 // ICalendarServiceの実装クラスをDIコンテナに登錄する
 container.register<ICalendarService<NarRaceData>>('NarCalendarService', {

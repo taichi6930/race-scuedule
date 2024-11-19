@@ -1,4 +1,4 @@
-import type { WorldRaceCourse } from '../utility/data/raceSpecific';
+import type { WorldRaceCourse } from '../utility/data/world';
 
 /**
  * 世界の競馬のレース開催場所データ

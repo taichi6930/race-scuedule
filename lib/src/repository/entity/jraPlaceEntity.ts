@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
 
 import { JraPlaceData } from '../../domain/jraPlaceData';
+import type { JraRaceCourse } from '../../utility/data/jra';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
-import type { JraRaceCourse } from '../../utility/data/raceSpecific';
 
 /**
  * Repository層のEntity 海外競馬のレース開催場所データ

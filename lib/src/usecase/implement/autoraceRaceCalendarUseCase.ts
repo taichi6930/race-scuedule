@@ -9,7 +9,7 @@ import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/raceSpecific';
+import { AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 

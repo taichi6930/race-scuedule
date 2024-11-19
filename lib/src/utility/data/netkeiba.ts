@@ -1,4 +1,5 @@
-import type { JraRaceCourse, NarRaceCourse } from './raceSpecific';
+import type { JraRaceCourse } from './jra';
+import type { NarRaceCourse } from './nar';
 
 export const NETKEIBA_BABACODE: Record<JraRaceCourse | NarRaceCourse, string> =
     {

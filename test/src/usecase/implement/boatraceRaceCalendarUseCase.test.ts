@@ -2,53 +2,60 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
-import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
-import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
+import type { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
+import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
+import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
-import { AutoraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceCalendarUseCase';
-import type { AutoraceGradeType } from '../../../../lib/src/utility/data/autorace';
-import { AUTORACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/autorace';
+import { BoatraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceCalendarUseCase';
+import type { BoatraceGradeType } from '../../../../lib/src/utility/data/boatrace';
+import { BOATRACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/boatrace';
 import {
-    baseAutoraceCalendarData,
-    baseAutoraceRaceEntity,
+    baseBoatraceRaceData,
+    baseBoatraceRaceEntity,
 } from '../../mock/common/baseData';
-import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';
+import { mockBoatraceRaceRepositoryFromStorageImpl } from '../../mock/repository/boatraceRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
-describe('AutoraceRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<AutoraceRaceData>>;
-    let autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+describe('BoatraceRaceCalendarUseCase', () => {
+    let calendarServiceMock: jest.Mocked<ICalendarService<BoatraceRaceData>>;
+    let boatraceRaceRepositoryFromStorageImpl: jest.Mocked<
+        IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
-    let useCase: AutoraceRaceCalendarUseCase;
+    let useCase: BoatraceRaceCalendarUseCase;
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<AutoraceRaceData>();
-        container.register<ICalendarService<AutoraceRaceData>>(
-            'AutoraceCalendarService',
+        calendarServiceMock = CalendarServiceMock<BoatraceRaceData>();
+        container.register<ICalendarService<BoatraceRaceData>>(
+            'BoatraceCalendarService',
             {
                 useValue: calendarServiceMock,
             },
         );
 
         // IRaceRepositoryインターフェースの依存関係を登録
-        autoraceRaceRepositoryFromStorageImpl =
-            mockAutoraceRaceRepositoryFromStorageImpl();
+        boatraceRaceRepositoryFromStorageImpl =
+            mockBoatraceRaceRepositoryFromStorageImpl();
         container.register<
-            IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
-        >('AutoraceRaceRepositoryFromStorage', {
-            useValue: autoraceRaceRepositoryFromStorageImpl,
+            IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
+        >('BoatraceRaceRepositoryFromStorage', {
+            useValue: boatraceRaceRepositoryFromStorageImpl,
         });
 
-        // AutoraceRaceCalendarUseCaseをコンテナから取得
-        useCase = container.resolve(AutoraceRaceCalendarUseCase);
+        // BoatraceRaceCalendarUseCaseをコンテナから取得
+        useCase = container.resolve(BoatraceRaceCalendarUseCase);
     });
 
-    const baseCalendarData = baseAutoraceCalendarData;
+    const baseCalendarData = new CalendarData(
+        'test202512303511',
+        'BOATRACEグランプリ2025',
+        new Date('2025-12-30T10:00:00Z'),
+        new Date('2025-12-30T10:10:00Z'),
+        '平塚競輪場',
+        'テスト',
+    );
 
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
@@ -57,8 +64,8 @@ describe('AutoraceRaceCalendarUseCase', () => {
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);
 
-            const startDate = new Date('2024-12-01');
-            const finishDate = new Date('2024-12-31');
+            const startDate = new Date('2025-12-01');
+            const finishDate = new Date('2025-12-31');
 
             const result = await useCase.getRacesFromCalendar(
                 startDate,
@@ -97,15 +104,15 @@ describe('AutoraceRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseAutoraceCalendarEntity = baseAutoraceRaceEntity;
+        const baseBoatraceCalendarEntity = baseBoatraceRaceEntity;
 
         it('正常に更新できること', async () => {
-            const mockRaceDataList: AutoraceRaceData[] = [];
-            const expectedRaceDataList: AutoraceRaceData[] = [];
-            const mockRaceEntityList: AutoraceRaceEntity[] = [];
-            const expectedRaceEntityList: AutoraceRaceEntity[] = [];
+            const mockRaceDataList: BoatraceRaceData[] = [];
+            const expectedRaceDataList: BoatraceRaceData[] = [];
+            const mockRaceEntityList: BoatraceRaceEntity[] = [];
+            const expectedRaceEntityList: BoatraceRaceEntity[] = [];
 
-            const grades: AutoraceGradeType[] = ['SG'] as AutoraceGradeType[];
+            const grades: BoatraceGradeType[] = ['SG'] as BoatraceGradeType[];
             const months = [12 - 1];
             const days = [29, 30, 31];
 
@@ -114,30 +121,34 @@ describe('AutoraceRaceCalendarUseCase', () => {
                     days.forEach((day) => {
                         // モック用のデータを作成
                         mockRaceEntityList.push(
-                            baseAutoraceCalendarEntity.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
-                            }),
-                        );
-                        mockRaceDataList.push(
-                            baseAutoraceCalendarEntity.toDomainData({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
-                            }),
-                        );
-                        if (AUTORACE_SPECIFIED_GRADE_LIST.includes(grade)) {
-                            // 期待するデータを作成
-                            expectedRaceEntityList.push(
-                                baseAutoraceCalendarEntity.copy({
+                            baseBoatraceCalendarEntity.copy({
+                                raceData: baseBoatraceRaceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,
                                 }),
+                            }),
+                        );
+                        mockRaceDataList.push(
+                            baseBoatraceCalendarEntity.toDomainData().copy({
+                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                dateTime: new Date(2024, month, day),
+                                grade: grade,
+                            }),
+                        );
+                        if (BOATRACE_SPECIFIED_GRADE_LIST.includes(grade)) {
+                            // 期待するデータを作成
+                            expectedRaceEntityList.push(
+                                baseBoatraceCalendarEntity.copy({
+                                    raceData: baseBoatraceRaceData.copy({
+                                        name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                        dateTime: new Date(2024, month, day),
+                                        grade: grade,
+                                    }),
+                                }),
                             );
                             expectedRaceDataList.push(
-                                baseAutoraceCalendarEntity.toDomainData({
+                                baseBoatraceCalendarEntity.toDomainData().copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,
@@ -149,7 +160,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
             });
 
             // モックが値を返すよう設定
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 {
                     raceDataList: mockRaceEntityList,
                 },
@@ -161,12 +172,12 @@ describe('AutoraceRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                AUTORACE_SPECIFIED_GRADE_LIST,
+                BOATRACE_SPECIFIED_GRADE_LIST,
             );
 
             // モックが呼び出されたことを確認
             expect(
-                autoraceRaceRepositoryFromStorageImpl.fetchRaceList,
+                boatraceRaceRepositoryFromStorageImpl.fetchRaceList,
             ).toHaveBeenCalled();
 
             // updateEventsが呼び出された回数を確認
@@ -182,7 +193,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListがエラーをスローするようにモック
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
                 new Error('Fetch Error'),
             );
 
@@ -192,7 +203,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                AUTORACE_SPECIFIED_GRADE_LIST,
+                BOATRACE_SPECIFIED_GRADE_LIST,
             );
 
             // コンソールエラーメッセージが出力されることを確認
@@ -211,10 +222,10 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListは正常に動作するように設定
-            const mockRaceEntityList: AutoraceRaceEntity[] = [
-                baseAutoraceCalendarEntity,
+            const mockRaceEntityList: BoatraceRaceEntity[] = [
+                baseBoatraceCalendarEntity,
             ];
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 {
                     raceDataList: mockRaceEntityList,
                 },
@@ -231,7 +242,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                AUTORACE_SPECIFIED_GRADE_LIST,
+                BOATRACE_SPECIFIED_GRADE_LIST,
             );
 
             // コンソールエラーメッセージが出力されることを確認

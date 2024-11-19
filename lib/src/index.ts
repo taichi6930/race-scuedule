@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import './container'; // DIコンテナの設定をインポート
+import '../container'; // DIコンテナの設定をインポート
 
 import serverlessExpress from '@codegenie/serverless-express';
 import type { Application } from 'express';

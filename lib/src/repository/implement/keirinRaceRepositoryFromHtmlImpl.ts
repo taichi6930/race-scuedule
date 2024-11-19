@@ -74,18 +74,22 @@ export class KeirinRaceRepositoryFromHtmlImpl
             const $ = cheerio.load(htmlText);
             // id="content"を取得
             const content = $('#content');
-            const raceName =
+            const seriesRaceName = (
                 content
                     .find('h2')
                     .text()
                     .split('\n')
                     .filter((name) => name)[1] ??
-                `${placeData.location}${placeData.grade}`;
+                `${placeData.location}${placeData.grade}`
+            )
+                .replace(/[！-～]/g, (s: string) =>
+                    String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                )
+                .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s: string) =>
+                    String.fromCharCode(s.charCodeAt(0) - 0xfee0),
+                );
             // class="section1"を取得
             const section1 = content.find('.section1');
-            console.log(
-                `raceInfo: ${year.toString()}/${month.toXDigits(2)}/${day.toXDigits(2)} ${placeData.location} ${placeData.grade} ${raceName}`,
-            );
             section1.each((index, element) => {
                 // class="w480px"を取得
                 $(element)
@@ -105,6 +109,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
                         )?.[1];
                         const raceStage = this.extractRaceStage(
                             $(element).text(),
+                        );
+                        const raceName = this.extractRaceName(
+                            seriesRaceName,
+                            raceStage ?? '',
                         );
                         const raceGrade = this.extractRaceGrade(
                             raceName,
@@ -145,9 +153,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                 }
                             });
                         const keirinRaceData =
-                            raceStage !== null &&
-                            raceStage !== undefined &&
-                            raceStage.trim() !== ''
+                            raceStage !== null
                                 ? new KeirinRaceData(
                                       raceName,
                                       raceStage,
@@ -183,6 +189,56 @@ export class KeirinRaceRepositoryFromHtmlImpl
             return [];
         }
     }
+
+    private extractRaceName(
+        raceSummaryInfoChild: string,
+        raceStage: string,
+    ): string {
+        // raceNameに競輪祭が含まれている場合かつ
+        // raceStageにガールズが含まれている場合、
+        // raceNameを「競輪祭女子王座戦」にする
+        if (/競輪祭/.exec(raceSummaryInfoChild) && /ガールズ/.exec(raceStage)) {
+            return '競輪祭女子王座戦';
+        }
+        // raceNameに高松宮記念杯が含まれているかつ
+        // raceStageがガールズが含まれている場合、
+        // raceNameを「パールカップ」にする
+        if (
+            /高松宮記念杯/.exec(raceSummaryInfoChild) &&
+            /ガールズ/.exec(raceStage)
+        ) {
+            return 'パールカップ';
+        }
+        // raceNameにオールスター競輪が含まれている場合かつ
+        // raceStageにガールズが含まれている場合、
+        // raceNameを「女子オールスター競輪」にする
+        if (
+            /オールスター競輪/.exec(raceSummaryInfoChild) &&
+            /ガールズ/.exec(raceStage)
+        ) {
+            return '女子オールスター競輪';
+        }
+        // raceNameにサマーナイトフェスティバルが含まれている場合、
+        // raceStageに「ガールズ」が含まれている場合、
+        // raceNameを「ガールズケイリンフェスティバル」にする
+        if (
+            /サマーナイトフェスティバル/.exec(raceSummaryInfoChild) &&
+            /ガールズ/.exec(raceStage)
+        ) {
+            return 'ガールズケイリンフェスティバル';
+        }
+        // raceNameにKEIRINグランプリが含まれている場合、
+        // raceStageに「グランプリ」が含まれていなかったら、
+        // raceNameを「寺内大吉記念杯競輪」にする
+        if (
+            /KEIRINグランプリ/.exec(raceSummaryInfoChild) &&
+            !/グランプリ/.exec(raceStage)
+        ) {
+            return '寺内大吉記念杯競輪';
+        }
+        return raceSummaryInfoChild;
+    }
+
     private extractRaceStage(
         raceSummaryInfoChild: string,
     ): KeirinRaceStage | null {
@@ -201,7 +257,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         raceDate: Date,
     ): KeirinGradeType {
         // raceStageが「ヤンググランプリ」の場合、GⅡを返す
-        if (raceStage === 'ヤンググランプリ') {
+        if (raceStage === 'SA混合ヤンググランプリ') {
             return 'GⅡ';
         }
         // raceNameに女子オールスター競輪が入っている場合、2024年であればFⅡ、2025年以降であればGⅠを返す
@@ -222,6 +278,9 @@ export class KeirinRaceRepositoryFromHtmlImpl
             /サマーナイトフェスティバル/.exec(raceName) &&
             /ガールズ/.exec(raceStage)
         ) {
+            return 'FⅡ';
+        }
+        if (/ガールズケイリンフェスティバル/.exec(raceName)) {
             return 'FⅡ';
         }
         // raceNameに寺内大吉記念杯競輪が入っている場合、FⅠを返す

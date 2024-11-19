@@ -1,35 +1,35 @@
-import { baseKeirinRacePlayerDataList } from '../../../../test/src/mock/common/baseData';
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
-import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { baseBoatraceRacePlayerDataList } from '../../../../test/src/mock/common/baseData';
+import { BoatracePlaceData } from '../../domain/boatracePlaceData';
+import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { Logger } from '../../utility/logger';
-import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
-import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
+import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
-// KeirinRaceRepositoryFromHtmlImplのモックを作成
-export class MockKeirinRaceRepositoryFromHtmlImpl
-    implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+// BoatraceRaceRepositoryFromHtmlImplのモックを作成
+export class MockBoatraceRaceRepositoryFromHtmlImpl
+    implements IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
 {
     @Logger
     fetchRaceList(
-        request: FetchRaceListRequest<KeirinPlaceEntity>,
-    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
+        request: FetchRaceListRequest<BoatracePlaceEntity>,
+    ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
         const placeEntityList = request.placeDataList;
-        const raceEntityList: KeirinRaceEntity[] = [];
+        const raceEntityList: BoatraceRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {
-                const placeData: KeirinPlaceData = placeEntity.placeData;
+                const placeData: BoatracePlaceData = placeEntity.placeData;
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
-                    const raceStage = i === 12 ? 'S級決勝' : 'S級予選';
+                    const raceStage = i === 12 ? '優勝戦' : '';
                     raceEntityList.push(
-                        new KeirinRaceEntity(
+                        new BoatraceRaceEntity(
                             null,
-                            new KeirinRaceData(
+                            new BoatraceRaceData(
                                 `${placeData.location}第${i.toString()}R`,
                                 raceStage,
                                 new Date(
@@ -42,7 +42,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                                 placeData.grade,
                                 i,
                             ),
-                            baseKeirinRacePlayerDataList,
+                            baseBoatraceRacePlayerDataList,
                         ),
                     );
                 }
@@ -53,7 +53,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
 
     @Logger
     registerRaceList(
-        request: RegisterRaceListRequest<KeirinRaceEntity>,
+        request: RegisterRaceListRequest<BoatraceRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
         throw new Error('HTMLにはデータを登録出来ません');

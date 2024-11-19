@@ -2,20 +2,19 @@ import { format } from 'date-fns';
 
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { RaceData } from '../../domain/baseData';
+import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { CalendarData } from '../../domain/calendarData';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { NarRaceData } from '../../domain/narRaceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
+import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
+import { JraRaceCourse } from '../../utility/data/jra';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
+import { NarRaceCourse } from '../../utility/data/nar';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
-import {
-    JraRaceCourse,
-    NarRaceCourse,
-    WorldRaceCourse,
-} from '../../utility/data/raceSpecific';
-import { WORLD_PLACE_CODE } from '../../utility/data/world';
+import { WORLD_PLACE_CODE, WorldRaceCourse } from '../../utility/data/world';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { RaceType } from '../implement/googleCalendarService';
@@ -71,6 +70,10 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
                                     location = '伊勢崎';
                                     raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[location]}${i.toXDigits(2)}`;
                                     break;
+                                case 'boatrace':
+                                    location = '平和島';
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[location]}${i.toXDigits(2)}`;
+                                    break;
                                 default:
                                     break;
                             }
@@ -111,6 +114,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
         world: [],
         keirin: [],
         autorace: [],
+        boatrace: [],
     };
     @Logger
     getEvents(startDate: Date, finishDate: Date): Promise<CalendarData[]> {
@@ -173,8 +177,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
                 // w, x, y, zはGoogle Calendar APIのIDで使用できないため、置換
                 // https://developers.google.com/calendar/api/v3/reference/events/insert?hl=ja
                 const worldRaceData = raceData as WorldRaceData;
-                const locationCode = WORLD_PLACE_CODE[worldRaceData.location];
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${locationCode}${worldRaceData.number.toXDigits(2)}`
+                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${WORLD_PLACE_CODE[worldRaceData.location]}${worldRaceData.number.toXDigits(2)}`
                     .replace('w', 'vv')
                     .replace('x', 'cs')
                     .replace('y', 'v')
@@ -188,6 +191,10 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
                 const autoraceRaceData = raceData as AutoraceRaceData;
                 return `autorace${format(raceData.dateTime, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[autoraceRaceData.location]}${autoraceRaceData.number.toXDigits(2)}`;
             }
+            case 'boatrace': {
+                const boatraceRaceData = raceData as BoatraceRaceData;
+                return `boatrace${format(raceData.dateTime, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[boatraceRaceData.location]}${boatraceRaceData.number.toXDigits(2)}`;
+            }
         }
     }
 
@@ -195,7 +202,8 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
         return new CalendarData(
             this.generateEventId(raceData),
             raceData instanceof KeirinRaceData ||
-            raceData instanceof AutoraceRaceData
+            raceData instanceof AutoraceRaceData ||
+            raceData instanceof BoatraceRaceData
                 ? `${raceData.name} ${raceData.grade} ${raceData.stage}`
                 : `${raceData.name} ${raceData.grade}`,
             raceData.dateTime,

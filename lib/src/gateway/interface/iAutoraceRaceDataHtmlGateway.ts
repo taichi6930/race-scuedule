@@ -1,4 +1,4 @@
-import type { AutoraceRaceCourse } from '../../utility/data/raceSpecific';
+import type { AutoraceRaceCourse } from '../../utility/data/autorace';
 
 /**
  * 競輪場のレースデータのHTMLを取得するGatewayのInterface

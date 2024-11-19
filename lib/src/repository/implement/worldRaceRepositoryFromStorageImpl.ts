@@ -10,7 +10,7 @@ import {
     WorldGradeType,
     WorldRaceCourse,
     WorldRaceCourseType,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/world';
 import { Logger } from '../../utility/logger';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';

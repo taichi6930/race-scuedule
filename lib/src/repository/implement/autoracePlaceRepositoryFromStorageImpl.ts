@@ -8,7 +8,7 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import {
     AutoraceGradeType,
     AutoraceRaceCourse,
-} from '../../utility/data/raceSpecific';
+} from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';

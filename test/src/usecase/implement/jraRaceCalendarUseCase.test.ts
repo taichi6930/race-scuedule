@@ -9,8 +9,8 @@ import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRac
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { JraRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/jraRaceCalendarUseCase';
-import type { JraGradeType } from '../../../../lib/src/utility/data/raceSpecific';
-import { JRA_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/raceSpecific';
+import type { JraGradeType } from '../../../../lib/src/utility/data/jra';
+import { JRA_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/jra';
 import { baseJraRaceEntity } from '../../mock/common/baseData';
 import { mockJraRaceRepositoryFromS3Impl } from '../../mock/repository/jraRaceRepositoryFromS3Impl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';

@@ -6,7 +6,7 @@ import { NarRaceData } from '../domain/narRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { NAR_SPECIFIED_GRADE_LIST } from '../utility/data/raceSpecific';
+import { NAR_SPECIFIED_GRADE_LIST } from '../utility/data/nar';
 import { Logger } from '../utility/logger';
 
 /**

@@ -167,7 +167,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                                 null,
                                 new KeirinRaceData(
                                     `raceName${format(date, 'yyyyMMdd')}`,
-                                    `決勝`,
+                                    `S級決勝`,
                                     date,
                                     '平塚',
                                     'GⅠ',
