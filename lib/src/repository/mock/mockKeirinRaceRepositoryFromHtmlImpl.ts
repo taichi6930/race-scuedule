@@ -25,7 +25,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                 const placeData: KeirinPlaceData = placeEntity.placeData;
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
-                    const raceStage = i === 12 ? '決勝' : '予選';
+                    const raceStage = i === 12 ? 'S級決勝' : 'S級予選';
                     raceEntityList.push(
                         new KeirinRaceEntity(
                             null,
