@@ -8,12 +8,14 @@ import { injectable } from 'tsyringe';
 
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { RaceData } from '../../domain/baseData';
+import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { CalendarData } from '../../domain/calendarData';
 import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
+import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import {
     CHIHO_KEIBA_LIVE_URL,
@@ -26,10 +28,14 @@ import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
-import { BoatraceRaceData } from '../../domain/boatraceRaceData';
-import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
 
-export type RaceType = 'jra' | 'nar' | 'world' | 'keirin' | 'autorace' | 'boatrace';
+export type RaceType =
+    | 'jra'
+    | 'nar'
+    | 'world'
+    | 'keirin'
+    | 'autorace'
+    | 'boatrace';
 @injectable()
 export class GoogleCalendarService<R extends RaceData>
     implements ICalendarService<R>
