@@ -24,6 +24,7 @@ export function createLambdaFunction(
                 KEIRIN_CALENDAR_ID: process.env.KEIRIN_CALENDAR_ID ?? '',
                 WORLD_CALENDAR_ID: process.env.WORLD_CALENDAR_ID ?? '',
                 AUTORACE_CALENDAR_ID: process.env.AUTORACE_CALENDAR_ID ?? '',
+                BOATRACE_CALENDAR_ID: process.env.BOATRACE_CALENDAR_ID ?? '',
                 GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL ?? '',
                 GOOGLE_PRIVATE_KEY: (
                     process.env.GOOGLE_PRIVATE_KEY ?? ''
