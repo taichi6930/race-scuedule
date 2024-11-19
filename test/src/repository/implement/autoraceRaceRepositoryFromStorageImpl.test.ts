@@ -10,7 +10,7 @@ import { AutoraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repos
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { AUTORACE_PLACE_CODE } from '../../../../lib/src/utility/data/autorace';
-import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
+import { mockS3GatewayForAutoraceRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('AutoraceRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<AutoraceRaceEntity>>;
@@ -18,7 +18,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<AutoraceRaceEntity>();
+        s3Gateway = mockS3GatewayForAutoraceRace();
 
         // DIコンテナにモックを登録
         container.registerInstance('AutoraceRaceS3Gateway', s3Gateway);

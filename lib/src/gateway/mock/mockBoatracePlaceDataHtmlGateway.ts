@@ -3,15 +3,15 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { Logger } from '../../utility/logger';
-import { IAutoracePlaceDataHtmlGateway } from '../interface/iAutoracePlaceDataHtmlGateway';
+import { IBoatracePlaceDataHtmlGateway } from '../interface/iBoatracePlaceDataHtmlGateway';
 /**
- * オートレース開催データのHTMLを取得するGateway
+ * ボートレース開催データのHTMLを取得するGateway
  */
-export class MockAutoracePlaceDataHtmlGateway
-    implements IAutoracePlaceDataHtmlGateway
+export class MockBoatracePlaceDataHtmlGateway
+    implements IBoatracePlaceDataHtmlGateway
 {
     /**
-     * オートレース開催データのHTMLを取得する
+     * ボートレース開催データのHTMLを取得する
      *
      * @param date - 取得する年月
      * @returns Promise<string> - 競馬場開催データのHTML

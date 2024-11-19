@@ -16,6 +16,8 @@ import { AutoracePlaceRepositoryFromHtmlImpl } from '../src/repository/implement
 import { AutoracePlaceRepositoryFromStorageImpl } from '../src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
 import { AutoraceRaceRepositoryFromStorageImpl } from '../src/repository/implement/autoraceRaceRepositoryFromStorageImpl';
+import { BoatracePlaceRepositoryFromStorageImpl } from '../src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
+import { BoatraceRaceRepositoryFromStorageImpl } from '../src/repository/implement/boatraceRaceRepositoryFromStorageImpl';
 import { JraPlaceRepositoryFromHtmlImpl } from '../src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromS3Impl } from '../src/repository/implement/jraPlaceRepositoryFromS3Impl';
 import { JraRaceRepositoryFromHtmlImpl } from '../src/repository/implement/jraRaceRepositoryFromHtmlImpl';
@@ -35,9 +37,7 @@ import type { IRaceRepository } from '../src/repository/interface/IRaceRepositor
 import { MockAutoracePlaceRepositoryFromHtmlImpl } from '../src/repository/mock/mockAutoracePlaceRepositoryFromHtmlImpl';
 import { MockAutoraceRaceRepositoryFromHtmlImpl } from '../src/repository/mock/mockAutoraceRaceRepositoryFromHtmlImpl';
 import { MockBoatracePlaceRepositoryFromHtmlImpl } from '../src/repository/mock/mockBoatracePlaceRepositoryFromHtmlImpl';
-import { MockBoatracePlaceRepositoryFromStorageImpl } from '../src/repository/mock/mockBoatracePlaceRepositoryFromStorageImpl';
 import { MockBoatraceRaceRepositoryFromHtmlImpl } from '../src/repository/mock/mockBoatraceRaceRepositoryFromHtmlImpl';
-import { MockBoatraceRaceRepositoryFromStorageImpl } from '../src/repository/mock/mockBoatraceRaceRepositoryFromStorageImpl';
 import { MockJraPlaceRepositoryFromHtmlImpl } from '../src/repository/mock/mockJraPlaceRepositoryFromHtmlImpl';
 import { MockJraRaceRepositoryFromHtmlImpl } from '../src/repository/mock/mockJraRaceRepositoryFromHtmlImpl';
 import { MockKeirinPlaceRepositoryFromHtmlImpl } from '../src/repository/mock/mockKeirinPlaceRepositoryFromHtmlImpl';
@@ -97,11 +97,11 @@ container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
 // Boatraceリポジトリの登録
 container.register<IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>>(
     'BoatraceRaceRepositoryFromStorage',
-    { useClass: MockBoatraceRaceRepositoryFromStorageImpl },
+    { useClass: BoatraceRaceRepositoryFromStorageImpl },
 );
 container.register<IPlaceRepository<BoatracePlaceEntity>>(
     'BoatracePlaceRepositoryFromStorage',
-    { useClass: MockBoatracePlaceRepositoryFromStorageImpl },
+    { useClass: BoatracePlaceRepositoryFromStorageImpl },
 );
 
 // 環境ごとの設定

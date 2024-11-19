@@ -9,7 +9,7 @@ import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autor
 import { AutoracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
-import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
+import { mockS3GatewayForAutoracePlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('AutoracePlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<AutoracePlaceEntity>>;
@@ -17,10 +17,10 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<AutoracePlaceEntity>();
+        s3Gateway = mockS3GatewayForAutoracePlace();
 
         // DIコンテナにモックを登録
-        container.registerInstance('AutoracePlaceStorageGateway', s3Gateway);
+        container.registerInstance('AutoracePlaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(AutoracePlaceRepositoryFromStorageImpl);

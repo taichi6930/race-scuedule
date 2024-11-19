@@ -27,7 +27,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
     implements IPlaceRepository<BoatracePlaceEntity>
 {
     constructor(
-        @inject('BoatracePlaceStorageGateway')
+        @inject('BoatracePlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<BoatracePlaceRecord>,
     ) {}
     /**
