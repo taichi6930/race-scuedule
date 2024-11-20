@@ -6,7 +6,12 @@ import { JraRaceData } from '../domain/jraRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { JRA_SPECIFIED_GRADE_LIST } from '../utility/data/jra';
+import {
+    JRA_SPECIFIED_GRADE_LIST,
+    JraGradeType,
+    JraRaceCourse,
+    JraRaceCourseType,
+} from '../utility/data/jra';
 import { Logger } from '../utility/logger';
 
 /**
@@ -428,30 +433,99 @@ export class JraRaceController {
         res: Response,
     ): Promise<void> {
         try {
-            const { startDate, finishDate } = req.body;
+            const { startDate, finishDate, raceList } = req.body;
+            console.log(startDate, finishDate, raceList);
 
-            // startDateとfinishDateが指定されていない場合はエラーを返す
+            // startDateとfinishDate、raceList全て指定されている場合のパターンはないので、エラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                startDate === undefined &&
+                finishDate === undefined &&
+                raceList === undefined
             ) {
-                res.status(400).send('startDate、finishDateは必須です');
+                res.status(400).send(
+                    'startDate、finishDate、raceList全てを入力することは出来ません',
+                );
                 return;
             }
 
-            // レース情報を取得する
-            await this.jraRaceDataUseCase.updateRaceDataList(
-                new Date(startDate),
-                new Date(finishDate),
+            // startDateとfinishDateが指定されている場合
+            if (
+                typeof startDate === 'string' &&
+                typeof finishDate === 'string'
+            ) {
+                const parsedStartDate = new Date(startDate);
+                const parsedFinishDate = new Date(finishDate);
+
+                // 日付が無効な場合はエラーを返す
+                if (
+                    isNaN(parsedStartDate.getTime()) ||
+                    isNaN(parsedFinishDate.getTime())
+                ) {
+                    res.status(400).send(
+                        'startDate、finishDateは有効な日付である必要があります',
+                    );
+                    return;
+                }
+
+                // レース情報を取得する
+                await this.jraRaceDataUseCase.updateRaceDataList(
+                    parsedStartDate,
+                    parsedFinishDate,
+                );
+                res.status(200).send();
+                return;
+            }
+
+            // raceListが指定されている場合
+            if (raceList !== undefined) {
+                // raceListをJraRaceDataに変換する
+                const jraRaceDataList: JraRaceData[] = raceList
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    .map((race: any) => {
+                        try {
+                            console.info(race);
+                            return new JraRaceData(
+                                race.name,
+                                new Date(race.dateTime),
+                                race.location as JraRaceCourse,
+                                race.surfaceType as JraRaceCourseType,
+                                Number(race.distance),
+                                race.grade as JraGradeType,
+                                Number(race.number),
+                                Number(race.heldTimes),
+                                Number(race.heldDayTimes),
+                            );
+                        } catch (error) {
+                            console.error(
+                                'レース情報の変換中にエラーが発生しました:',
+                                error,
+                            );
+                            return null;
+                        }
+                    }) // nullを除外する
+                    .filter(
+                        (
+                            raceData: JraRaceData | null,
+                        ): raceData is JraRaceData => raceData !== null,
+                    );
+
+                console.info(jraRaceDataList);
+
+                // レース情報を更新する
+                await this.jraRaceDataUseCase.upsertRaceDataList(
+                    jraRaceDataList,
+                );
+                res.status(200).send();
+                return;
+            }
+
+            // どちらも指定されていない場合はエラーを返す
+            res.status(400).send(
+                'startDateとfinishDate、もしくはraceListのいずれかを指定してください',
             );
-            res.status(200).send();
         } catch (error) {
-            console.error('レース情報の更新中にエラーが発生しました:', error);
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
+            console.error('Error updating race data:', error);
+            res.status(500).send('レースデータの更新中にエラーが発生しました');
         }
     }
 

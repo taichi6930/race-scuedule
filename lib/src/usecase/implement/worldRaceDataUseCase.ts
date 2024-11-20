@@ -77,6 +77,33 @@ export class WorldRaceDataUseCase implements IRaceDataUseCase<WorldRaceData> {
     }
 
     /**
+     * レース開催データを更新する
+     * @param raceList
+     */
+    @Logger
+    async upsertRaceDataList(raceList: WorldRaceData[]): Promise<void> {
+        try {
+            // jraRaceDataをJraRaceEntityに変換する
+            const raceEntityList = raceList.map((raceData) => {
+                return new WorldRaceEntity(
+                    null,
+                    raceData.name,
+                    raceData.dateTime,
+                    raceData.location,
+                    raceData.surfaceType,
+                    raceData.distance,
+                    raceData.grade,
+                    raceData.number,
+                );
+            });
+            // S3にデータを保存する
+            await this.registerRaceDataList(raceEntityList);
+        } catch (error) {
+            console.error('レースデータの更新中にエラーが発生しました:', error);
+        }
+    }
+
+    /**
      * レースデータを取得する
      * S3から取得する場合はstorage、Webから取得する場合はwebを指定する
      *

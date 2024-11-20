@@ -89,6 +89,24 @@ export class BoatraceRaceDataUseCase
     }
 
     /**
+     * レース開催データを更新する
+     * @param raceList
+     */
+    @Logger
+    async upsertRaceDataList(raceList: BoatraceRaceData[]): Promise<void> {
+        try {
+            // jraRaceDataをJraRaceEntityに変換する
+            const raceEntityList = raceList.map((raceData) => {
+                return new BoatraceRaceEntity(null, raceData, []);
+            });
+            // S3にデータを保存する
+            await this.registerRaceDataList(raceEntityList);
+        } catch (error) {
+            console.error('レースデータの更新中にエラーが発生しました:', error);
+        }
+    }
+
+    /**
      * 競馬場データの取得
      *
      * @param startDate

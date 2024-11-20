@@ -98,6 +98,32 @@ export class AutoraceRaceDataUseCase
     }
 
     /**
+     * レース開催データを更新する
+     * @param raceList
+     */
+    @Logger
+    async upsertRaceDataList(raceList: AutoraceRaceData[]): Promise<void> {
+        try {
+            // jraRaceDataをJraRaceEntityに変換する
+            const raceEntityList = raceList.map((raceData) => {
+                return new AutoraceRaceEntity(
+                    null,
+                    raceData.name,
+                    raceData.stage,
+                    raceData.dateTime,
+                    raceData.location,
+                    raceData.grade,
+                    raceData.number,
+                );
+            });
+            // S3にデータを保存する
+            await this.registerRaceDataList(raceEntityList);
+        } catch (error) {
+            console.error('レースデータの更新中にエラーが発生しました:', error);
+        }
+    }
+
+    /**
      * 競馬場データの取得
      *
      * @param startDate

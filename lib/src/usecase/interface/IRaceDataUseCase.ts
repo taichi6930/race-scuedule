@@ -16,4 +16,10 @@ export interface IRaceDataUseCase<R extends RaceData> {
      * @param finishDate
      */
     updateRaceDataList: (startDate: Date, finishDate: Date) => Promise<void>;
+
+    /**
+     * レースデータのリストを更新する
+     * @param raceList
+     */
+    upsertRaceDataList: (raceList: R[]) => Promise<void>;
 }

@@ -87,6 +87,24 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
     }
 
     /**
+     * レース開催データを更新する
+     * @param raceList
+     */
+    @Logger
+    async upsertRaceDataList(raceList: KeirinRaceData[]): Promise<void> {
+        try {
+            // jraRaceDataをJraRaceEntityに変換する
+            const raceEntityList = raceList.map((raceData) => {
+                return new KeirinRaceEntity(null, raceData, []);
+            });
+            // S3にデータを保存する
+            await this.registerRaceDataList(raceEntityList);
+        } catch (error) {
+            console.error('レースデータの更新中にエラーが発生しました:', error);
+        }
+    }
+
+    /**
      * 競馬場データの取得
      *
      * @param startDate
