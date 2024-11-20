@@ -2,6 +2,9 @@ import type {
     IS3Gateway,
     Record,
 } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
+import { BoatraceRacePlayerRecord } from '../../../../lib/src/gateway/record/boatraceRacePlayerRecord';
+import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
 import type { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import type { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
@@ -113,6 +116,34 @@ export const mockS3GatewayForAutoraceRace = (): jest.Mocked<
 
 export const mockS3GatewayForAutoracePlace = (): jest.Mocked<
     IS3Gateway<AutoracePlaceEntity>
+> => {
+    return {
+        uploadDataToS3: jest.fn(),
+        fetchDataFromS3: jest.fn(),
+    };
+};
+
+
+export const mockS3GatewayForBoatraceRace = (): jest.Mocked<
+    IS3Gateway<BoatraceRaceRecord>
+> => {
+    return {
+        uploadDataToS3: jest.fn(),
+        fetchDataFromS3: jest.fn(),
+    };
+};
+
+export const mockS3GatewayForBoatraceRacePlayer = (): jest.Mocked<
+    IS3Gateway<BoatraceRacePlayerRecord>
+> => {
+    return {
+        uploadDataToS3: jest.fn(),
+        fetchDataFromS3: jest.fn(),
+    };
+};
+
+export const mockS3GatewayForBoatracePlace = (): jest.Mocked<
+    IS3Gateway<BoatracePlaceRecord>
 > => {
     return {
         uploadDataToS3: jest.fn(),
