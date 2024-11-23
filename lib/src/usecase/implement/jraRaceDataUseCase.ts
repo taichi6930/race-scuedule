@@ -10,6 +10,7 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import { JraGradeType, JraRaceCourse } from '../../utility/data/jra';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -40,31 +41,40 @@ export class JraRaceDataUseCase implements IRaceDataUseCase<JraRaceData> {
     async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
+        gradeList?: JraGradeType[],
+        locationList?: JraRaceCourse[],
     ): Promise<JraRaceData[]> {
         // 競馬場データを取得する
         const placeList = await this.getPlaceDataList(startDate, finishDate);
 
         // レースデータを取得する
         return (
-            await this.getRaceDataList(
-                startDate,
-                finishDate,
-                placeList,
-                'storage',
+            (
+                await this.getRaceDataList(
+                    startDate,
+                    finishDate,
+                    placeList,
+                    'storage',
+                )
             )
-        ).map((raceEntity) => {
-            return new JraRaceData(
-                raceEntity.name,
-                raceEntity.dateTime,
-                raceEntity.location,
-                raceEntity.surfaceType,
-                raceEntity.distance,
-                raceEntity.grade,
-                raceEntity.number,
-                raceEntity.heldTimes,
-                raceEntity.heldDayTimes,
-            );
-        });
+                .map((raceEntity) => {
+                    return raceEntity.toDomainData();
+                })
+                // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
+                .filter((raceData) => {
+                    if (gradeList) {
+                        return gradeList.includes(raceData.grade);
+                    }
+                    return true;
+                })
+                // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
+                .filter((raceData) => {
+                    if (locationList) {
+                        return locationList.includes(raceData.location);
+                    }
+                    return true;
+                })
+        );
     }
 
     /**
