@@ -144,32 +144,9 @@ export class NarRaceController {
         res: Response,
     ): Promise<void> {
         try {
-            // gradeが複数来ることもある
-            const { startDate, finishDate, grade, location } = req.query;
-            // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
-            const gradeList =
-                typeof grade === 'string'
-                    ? [grade as NarGradeType]
-                    : typeof grade === 'object'
-                      ? Array.isArray(grade)
-                          ? (grade as string[]).map(
-                                (g: string) => g as NarGradeType,
-                            )
-                          : undefined
-                      : undefined;
+            const { startDate, finishDate } = req.query;
 
-            const locationList =
-                typeof location === 'string'
-                    ? [location as NarRaceCourse]
-                    : typeof location === 'object'
-                      ? Array.isArray(location)
-                          ? (location as string[]).map(
-                                (l: string) => l as NarRaceCourse,
-                            )
-                          : undefined
-                      : undefined;
-
-            // startDateとfinishDateが指定されていない場合はエラーを返す
+            // startDateとfinishDateが指定されていないかつ、日付形式でない場合はエラーを返す
             if (
                 isNaN(Date.parse(startDate as string)) ||
                 isNaN(Date.parse(finishDate as string))
@@ -178,16 +155,18 @@ export class NarRaceController {
                 return;
             }
 
-            // レース情報を取得する
-            const races = await this.narRaceDataUseCase.fetchRaceDataList(
+            // カレンダーからレース情報を取得する
+            const races = await this.raceCalendarUseCase.getRacesFromCalendar(
                 new Date(startDate as string),
                 new Date(finishDate as string),
-                gradeList,
-                locationList,
             );
+            // レース情報を返す
             res.json(races);
         } catch (error) {
-            console.error('レース情報の取得中にエラーが発生しました:', error);
+            console.error(
+                'カレンダーからレース情報を取得中にエラーが発生しました:',
+                error,
+            );
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
             res.status(500).send(
@@ -432,8 +411,8 @@ export class NarRaceController {
             const races = await this.narRaceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
-                gradeList ?? undefined,
-                locationList ?? undefined,
+                gradeList,
+                locationList,
             );
             res.json(races);
         } catch (error) {
