@@ -43,29 +43,43 @@ export class NarRaceDataUseCase
     async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
+        gradeList?: NarGradeType[],
+        locationList?: NarRaceCourse[],
     ): Promise<NarRaceData[]> {
         // 競馬場データを取得する
         const placeList = await this.getPlaceDataList(startDate, finishDate);
 
         // レースデータを取得する
-        return (
-            await this.getRaceDataList(
-                startDate,
-                finishDate,
-                placeList,
-                'storage',
-            )
-        ).map((raceEntity) => {
-            return new NarRaceData(
-                raceEntity.name,
-                raceEntity.dateTime,
-                raceEntity.location,
-                raceEntity.surfaceType,
-                raceEntity.distance,
-                raceEntity.grade,
-                raceEntity.number,
-            );
+        const raceEntityList = await this.getRaceDataList(
+            startDate,
+            finishDate,
+            placeList,
+            'storage',
+        );
+
+        // レースデータをNarRaceDataに変換する
+        const raceDataList = raceEntityList.map((raceEntity) => {
+            return raceEntity.toDomainData();
         });
+
+        // フィルタリング処理
+        const filteredRaceDataList = raceDataList
+            // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
+            .filter((raceData) => {
+                if (gradeList) {
+                    return gradeList.includes(raceData.grade);
+                }
+                return true;
+            })
+            // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
+            .filter((raceData) => {
+                if (locationList) {
+                    return locationList.includes(raceData.location);
+                }
+                return true;
+            });
+
+        return filteredRaceDataList;
     }
 
     /**

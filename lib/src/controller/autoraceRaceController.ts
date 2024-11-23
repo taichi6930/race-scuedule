@@ -145,7 +145,30 @@ export class AutoraceRaceController {
         res: Response,
     ): Promise<void> {
         try {
-            const { startDate, finishDate } = req.query;
+            // gradeが複数来ることもある
+            const { startDate, finishDate, grade, location } = req.query;
+            // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            const gradeList =
+                typeof grade === 'string'
+                    ? [grade as AutoraceGradeType]
+                    : typeof grade === 'object'
+                      ? Array.isArray(grade)
+                          ? (grade as string[]).map(
+                                (g: string) => g as AutoraceGradeType,
+                            )
+                          : undefined
+                      : undefined;
+
+            const locationList =
+                typeof location === 'string'
+                    ? [location as AutoraceRaceCourse]
+                    : typeof location === 'object'
+                      ? Array.isArray(location)
+                          ? (location as string[]).map(
+                                (l: string) => l as AutoraceRaceCourse,
+                            )
+                          : undefined
+                      : undefined;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
@@ -156,18 +179,16 @@ export class AutoraceRaceController {
                 return;
             }
 
-            // カレンダーからレース情報を取得する
-            const races = await this.raceCalendarUseCase.getRacesFromCalendar(
+            // レース情報を取得する
+            const races = await this.autoraceRaceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
+                gradeList,
+                locationList,
             );
-            // レース情報を返す
             res.json(races);
         } catch (error) {
-            console.error(
-                'カレンダーからレース情報を取得中にエラーが発生しました:',
-                error,
-            );
+            console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
             res.status(500).send(
