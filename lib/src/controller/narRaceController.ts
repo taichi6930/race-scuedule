@@ -6,7 +6,12 @@ import { NarRaceData } from '../domain/narRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { NAR_SPECIFIED_GRADE_LIST } from '../utility/data/nar';
+import {
+    NAR_SPECIFIED_GRADE_LIST,
+    NarGradeType,
+    NarRaceCourse,
+    NarRaceCourseType,
+} from '../utility/data/nar';
 import { Logger } from '../utility/logger';
 
 /**
@@ -20,7 +25,11 @@ export class NarRaceController {
         @inject('NarRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('NarRaceDataUseCase')
-        private readonly narRaceDataUseCase: IRaceDataUseCase<NarRaceData>,
+        private readonly narRaceDataUseCase: IRaceDataUseCase<
+            NarRaceData,
+            NarGradeType,
+            NarRaceCourse
+        >,
         @inject('NarPlaceDataUseCase')
         private readonly narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
     ) {
@@ -40,11 +49,9 @@ export class NarRaceController {
             '/calendar',
             this.cleansingRacesFromCalendar.bind(this),
         );
-
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
         this.router.post('/race', this.updateRaceDataList.bind(this));
-
         // PlaceData関連のAPI
         this.router.get('/place', this.getPlaceDataList.bind(this));
         this.router.post('/place', this.updatePlaceDataList.bind(this));
@@ -139,7 +146,7 @@ export class NarRaceController {
         try {
             const { startDate, finishDate } = req.query;
 
-            // startDateとfinishDateが指定されていない場合はエラーを返す
+            // startDateとfinishDateが指定されていないかつ、日付形式でない場合はエラーを返す
             if (
                 isNaN(Date.parse(startDate as string)) ||
                 isNaN(Date.parse(finishDate as string))
@@ -366,7 +373,30 @@ export class NarRaceController {
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
         try {
-            const { startDate, finishDate } = req.query;
+            // gradeが複数来ることもある
+            const { startDate, finishDate, grade, location } = req.query;
+            // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            const gradeList =
+                typeof grade === 'string'
+                    ? [grade as NarGradeType]
+                    : typeof grade === 'object'
+                      ? Array.isArray(grade)
+                          ? (grade as string[]).map(
+                                (g: string) => g as NarGradeType,
+                            )
+                          : undefined
+                      : undefined;
+
+            const locationList =
+                typeof location === 'string'
+                    ? [location as NarRaceCourse]
+                    : typeof location === 'object'
+                      ? Array.isArray(location)
+                          ? (location as string[]).map(
+                                (l: string) => l as NarRaceCourse,
+                            )
+                          : undefined
+                      : undefined;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
@@ -381,6 +411,8 @@ export class NarRaceController {
             const races = await this.narRaceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
+                gradeList ?? undefined,
+                locationList ?? undefined,
             );
             res.json(races);
         } catch (error) {
@@ -395,6 +427,8 @@ export class NarRaceController {
 
     /**
      * レース情報を更新する
+     * @param req
+     * @param res
      * @swagger
      * /api/races/nar/race:
      *   post:
@@ -428,30 +462,97 @@ export class NarRaceController {
         res: Response,
     ): Promise<void> {
         try {
-            const { startDate, finishDate } = req.body;
+            const { startDate, finishDate, raceList } = req.body;
+            console.log(startDate, finishDate, raceList);
 
-            // startDateとfinishDateが指定されていない場合はエラーを返す
+            // startDateとfinishDate、raceList全て指定されている場合のパターンはないので、エラーを返す
             if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
+                startDate === undefined &&
+                finishDate === undefined &&
+                raceList === undefined
             ) {
-                res.status(400).send('startDate、finishDateは必須です');
+                res.status(400).send(
+                    'startDate、finishDate、raceList全てを入力することは出来ません',
+                );
                 return;
             }
 
-            // レース情報を取得する
-            await this.narRaceDataUseCase.updateRaceDataList(
-                new Date(startDate),
-                new Date(finishDate),
+            // startDateとfinishDateが指定されている場合
+            if (
+                typeof startDate === 'string' &&
+                typeof finishDate === 'string'
+            ) {
+                const parsedStartDate = new Date(startDate);
+                const parsedFinishDate = new Date(finishDate);
+
+                // 日付が無効な場合はエラーを返す
+                if (
+                    isNaN(parsedStartDate.getTime()) ||
+                    isNaN(parsedFinishDate.getTime())
+                ) {
+                    res.status(400).send(
+                        'startDate、finishDateは有効な日付である必要があります',
+                    );
+                    return;
+                }
+
+                // レース情報を取得する
+                await this.narRaceDataUseCase.updateRaceDataList(
+                    parsedStartDate,
+                    parsedFinishDate,
+                );
+                res.status(200).send();
+                return;
+            }
+
+            // raceListが指定されている場合
+            if (raceList !== undefined) {
+                // raceListをNarRaceDataに変換する
+                const narRaceDataList: NarRaceData[] = raceList
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    .map((race: any) => {
+                        try {
+                            console.info(race);
+                            return new NarRaceData(
+                                race.name,
+                                new Date(race.dateTime),
+                                race.location as NarRaceCourse,
+                                race.surfaceType as NarRaceCourseType,
+                                Number(race.distance),
+                                race.grade as NarGradeType,
+                                Number(race.number),
+                            );
+                        } catch (error) {
+                            console.error(
+                                'レース情報の変換中にエラーが発生しました:',
+                                error,
+                            );
+                            return null;
+                        }
+                    }) // nullを除外する
+                    .filter(
+                        (
+                            raceData: NarRaceData | null,
+                        ): raceData is NarRaceData => raceData !== null,
+                    );
+
+                console.info(narRaceDataList);
+
+                // レース情報を更新する
+                await this.narRaceDataUseCase.upsertRaceDataList(
+                    narRaceDataList,
+                );
+                res.status(200).send();
+                return;
+            }
+
+            // どちらも指定されていない場合はエラーを返す
+            res.status(400).send(
+                'startDateとfinishDate、もしくはraceListのいずれかを指定してください',
             );
-            res.status(200).send();
         } catch (error) {
-            console.error('レース情報の更新中にエラーが発生しました:', error);
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
+            console.error('Error updating race data:', error);
+            res.status(500).send('レースデータの更新中にエラーが発生しました');
         }
     }
 
@@ -557,7 +658,6 @@ export class NarRaceController {
      * 競馬場情報を更新する
      * @param req
      * @param res
-     * @returns
      * @swagger
      * /api/races/nar/place:
      *   post:

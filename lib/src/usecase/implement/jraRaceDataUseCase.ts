@@ -18,7 +18,9 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  * 競馬場開催データUseCase
  */
 @injectable()
-export class JraRaceDataUseCase implements IRaceDataUseCase<JraRaceData> {
+export class JraRaceDataUseCase
+    implements IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse>
+{
     constructor(
         @inject('JraPlaceRepositoryFromS3')
         private readonly jraPlaceRepositoryFromS3: IPlaceRepository<JraPlaceEntity>,

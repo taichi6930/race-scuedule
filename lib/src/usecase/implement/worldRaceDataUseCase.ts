@@ -7,6 +7,7 @@ import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import { WorldGradeType, WorldRaceCourse } from '../../utility/data/world';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -14,7 +15,9 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  * 競輪場開催データUseCase
  */
 @injectable()
-export class WorldRaceDataUseCase implements IRaceDataUseCase<WorldRaceData> {
+export class WorldRaceDataUseCase
+    implements IRaceDataUseCase<WorldRaceData, WorldGradeType, WorldRaceCourse>
+{
     constructor(
         @inject('WorldRaceRepositoryFromStorage')
         private readonly worldRaceRepositoryFromStorage: IRaceRepository<

@@ -10,6 +10,7 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import { NarGradeType, NarRaceCourse } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -17,7 +18,9 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  * 競馬場開催データUseCase
  */
 @injectable()
-export class NarRaceDataUseCase implements IRaceDataUseCase<NarRaceData> {
+export class NarRaceDataUseCase
+    implements IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse>
+{
     constructor(
         @inject('NarPlaceRepositoryFromS3')
         private readonly narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceEntity>,

@@ -25,7 +25,11 @@ export class JraRaceController {
         @inject('JraRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('JraRaceDataUseCase')
-        private readonly jraRaceDataUseCase: IRaceDataUseCase<JraRaceData>,
+        private readonly jraRaceDataUseCase: IRaceDataUseCase<
+            JraRaceData,
+            JraGradeType,
+            JraRaceCourse
+        >,
         @inject('JraPlaceDataUseCase')
         private readonly jraPlaceDataUseCase: IPlaceDataUseCase<JraPlaceData>,
     ) {

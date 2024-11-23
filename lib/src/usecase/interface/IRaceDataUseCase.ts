@@ -1,10 +1,14 @@
 import type { RaceData } from '../../domain/baseData';
-import type { JraGradeType, JraRaceCourse } from '../../utility/data/jra';
+import type { GradeType, RaceCourse } from '../../utility/data/base';
 
 /**
  * レースデータUseCaseのインターフェース
  */
-export interface IRaceDataUseCase<R extends RaceData> {
+export interface IRaceDataUseCase<
+    R extends RaceData,
+    G extends GradeType,
+    C extends RaceCourse,
+> {
     /**
      * レースデータを取得する
      * @param startDate
@@ -13,8 +17,8 @@ export interface IRaceDataUseCase<R extends RaceData> {
     fetchRaceDataList: (
         startDate: Date,
         finishDate: Date,
-        gradeList?: JraGradeType[],
-        locationList?: JraRaceCourse[],
+        gradeList?: G[],
+        locationList?: C[],
     ) => Promise<R[]>;
 
     /**

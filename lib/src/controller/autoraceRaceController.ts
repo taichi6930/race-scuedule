@@ -6,7 +6,11 @@ import { AutoraceRaceData } from '../domain/autoraceRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { AUTORACE_SPECIFIED_GRADE_LIST } from '../utility/data/autorace';
+import {
+    AUTORACE_SPECIFIED_GRADE_LIST,
+    AutoraceGradeType,
+    AutoraceRaceCourse,
+} from '../utility/data/autorace';
 import { Logger } from '../utility/logger';
 
 /**
@@ -20,7 +24,11 @@ export class AutoraceRaceController {
         @inject('AutoraceRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('AutoraceRaceDataUseCase')
-        private readonly autoraceRaceDataUseCase: IRaceDataUseCase<AutoraceRaceData>,
+        private readonly autoraceRaceDataUseCase: IRaceDataUseCase<
+            AutoraceRaceData,
+            AutoraceGradeType,
+            AutoraceRaceCourse
+        >,
         @inject('AutoracePlaceDataUseCase')
         private readonly autoracePlaceDataUseCase: IPlaceDataUseCase<AutoracePlaceData>,
     ) {

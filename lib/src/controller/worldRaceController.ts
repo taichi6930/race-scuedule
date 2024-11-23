@@ -4,7 +4,11 @@ import { inject, injectable } from 'tsyringe';
 import { WorldRaceData } from '../domain/worldRaceData';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { WORLD_SPECIFIED_GRADE_LIST } from '../utility/data/world';
+import {
+    WORLD_SPECIFIED_GRADE_LIST,
+    WorldGradeType,
+    WorldRaceCourse,
+} from '../utility/data/world';
 import { Logger } from '../utility/logger';
 
 /**
@@ -18,7 +22,11 @@ export class WorldRaceController {
         @inject('WorldRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('WorldRaceDataUseCase')
-        private readonly worldRaceDataUseCase: IRaceDataUseCase<WorldRaceData>,
+        private readonly worldRaceDataUseCase: IRaceDataUseCase<
+            WorldRaceData,
+            WorldGradeType,
+            WorldRaceCourse
+        >,
     ) {
         this.router = Router();
         this.initializeRoutes();

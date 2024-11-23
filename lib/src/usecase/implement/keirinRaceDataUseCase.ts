@@ -10,6 +10,7 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -17,7 +18,10 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  * 競輪場開催データUseCase
  */
 @injectable()
-export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
+export class KeirinRaceDataUseCase
+    implements
+        IRaceDataUseCase<KeirinRaceData, KeirinGradeType, KeirinRaceCourse>
+{
     constructor(
         @inject('KeirinPlaceRepositoryFromStorage')
         private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceEntity>,

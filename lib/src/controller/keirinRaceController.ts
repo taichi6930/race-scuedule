@@ -6,7 +6,11 @@ import { KeirinRaceData } from '../domain/keirinRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { KEIRIN_SPECIFIED_GRADE_LIST } from '../utility/data/keirin';
+import {
+    KEIRIN_SPECIFIED_GRADE_LIST,
+    KeirinGradeType,
+    KeirinRaceCourse,
+} from '../utility/data/keirin';
 import { Logger } from '../utility/logger';
 
 /**
@@ -20,7 +24,11 @@ export class KeirinRaceController {
         @inject('KeirinRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('KeirinRaceDataUseCase')
-        private readonly keirinRaceDataUseCase: IRaceDataUseCase<KeirinRaceData>,
+        private readonly keirinRaceDataUseCase: IRaceDataUseCase<
+            KeirinRaceData,
+            KeirinGradeType,
+            KeirinRaceCourse
+        >,
         @inject('KeirinPlaceDataUseCase')
         private readonly keirinPlaceDataUseCase: IPlaceDataUseCase<KeirinPlaceData>,
     ) {

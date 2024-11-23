@@ -10,6 +10,10 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import {
+    AutoraceGradeType,
+    AutoraceRaceCourse,
+} from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -18,7 +22,12 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  */
 @injectable()
 export class AutoraceRaceDataUseCase
-    implements IRaceDataUseCase<AutoraceRaceData>
+    implements
+        IRaceDataUseCase<
+            AutoraceRaceData,
+            AutoraceGradeType,
+            AutoraceRaceCourse
+        >
 {
     constructor(
         @inject('AutoracePlaceRepositoryFromStorage')

@@ -10,6 +10,10 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import {
+    BoatraceGradeType,
+    BoatraceRaceCourse,
+} from '../../utility/data/boatrace';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -18,7 +22,12 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  */
 @injectable()
 export class BoatraceRaceDataUseCase
-    implements IRaceDataUseCase<BoatraceRaceData>
+    implements
+        IRaceDataUseCase<
+            BoatraceRaceData,
+            BoatraceGradeType,
+            BoatraceRaceCourse
+        >
 {
     constructor(
         @inject('BoatracePlaceRepositoryFromStorage')
