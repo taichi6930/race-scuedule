@@ -2,6 +2,8 @@ import { container } from 'tsyringe';
 
 import type { AutoracePlaceData } from '../src/domain/autoracePlaceData';
 import type { AutoraceRaceData } from '../src/domain/autoraceRaceData';
+import type { BoatracePlaceData } from '../src/domain/boatracePlaceData';
+import type { BoatraceRaceData } from '../src/domain/boatraceRaceData';
 import type { JraPlaceData } from '../src/domain/jraPlaceData';
 import type { JraRaceData } from '../src/domain/jraRaceData';
 import type { KeirinPlaceData } from '../src/domain/keirinPlaceData';
@@ -12,6 +14,9 @@ import type { WorldRaceData } from '../src/domain/worldRaceData';
 import { AutoracePlaceDataUseCase } from '../src/usecase/implement/autoracePlaceDataUseCase';
 import { AutoraceRaceCalendarUseCase } from '../src/usecase/implement/autoraceRaceCalendarUseCase';
 import { AutoraceRaceDataUseCase } from '../src/usecase/implement/autoraceRaceDataUseCase';
+import { BoatracePlaceDataUseCase } from '../src/usecase/implement/boatracePlaceDataUseCase';
+import { BoatraceRaceCalendarUseCase } from '../src/usecase/implement/boatraceRaceCalendarUseCase';
+import { BoatraceRaceDataUseCase } from '../src/usecase/implement/boatraceRaceDataUseCase';
 import { JraPlaceDataUseCase } from '../src/usecase/implement/jraPlaceDataUseCase';
 import { JraRaceCalendarUseCase } from '../src/usecase/implement/jraRaceCalendarUseCase';
 import { JraRaceDataUseCase } from '../src/usecase/implement/jraRaceDataUseCase';
@@ -30,6 +35,10 @@ import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
 } from '../src/utility/data/autorace';
+import type {
+    BoatraceGradeType,
+    BoatraceRaceCourse,
+} from '../src/utility/data/boatrace';
 import type { JraGradeType, JraRaceCourse } from '../src/utility/data/jra';
 import type {
     KeirinGradeType,
@@ -101,4 +110,18 @@ container.register<
 });
 container.register<IRaceCalendarUseCase>('AutoraceRaceCalendarUseCase', {
     useClass: AutoraceRaceCalendarUseCase,
+});
+container.register<IPlaceDataUseCase<BoatracePlaceData>>(
+    'BoatracePlaceDataUseCase',
+    {
+        useClass: BoatracePlaceDataUseCase,
+    },
+);
+container.register<
+    IRaceDataUseCase<BoatraceRaceData, BoatraceGradeType, BoatraceRaceCourse>
+>('BoatraceRaceDataUseCase', {
+    useClass: BoatraceRaceDataUseCase,
+});
+container.register<IRaceCalendarUseCase>('BoatraceRaceCalendarUseCase', {
+    useClass: BoatraceRaceCalendarUseCase,
 });

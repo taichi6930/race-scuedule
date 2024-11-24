@@ -1,6 +1,7 @@
 import { container } from 'tsyringe';
 
 import type { AutoraceRaceData } from '../src/domain/autoraceRaceData';
+import type { BoatraceRaceData } from '../src/domain/boatraceRaceData';
 import type { JraRaceData } from '../src/domain/jraRaceData';
 import type { KeirinRaceData } from '../src/domain/keirinRaceData';
 import type { NarRaceData } from '../src/domain/narRaceData';
@@ -99,6 +100,27 @@ container.register<ICalendarService<AutoraceRaceData>>(
                 default:
                     // ENV が指定されていない場合も MockGoogleCalendarService を使用
                     return new MockGoogleCalendarService('autorace');
+            }
+        },
+    },
+);
+
+container.register<ICalendarService<BoatraceRaceData>>(
+    'BoatraceCalendarService',
+    {
+        useFactory: () => {
+            switch (ENV) {
+                case 'PRODUCTION':
+                    // ENV が production の場合、GoogleCalendarService を使用
+                    return new GoogleCalendarService<BoatraceRaceData>(
+                        'autorace',
+                        process.env.BOATRACE_CALENDAR_ID ?? '',
+                    );
+                case 'ITa':
+                case 'LOCAL':
+                default:
+                    // ENV が指定されていない場合も MockGoogleCalendarService を使用
+                    return new MockGoogleCalendarService('boatrace');
             }
         },
     },
