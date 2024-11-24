@@ -35,6 +35,10 @@ import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
 } from '../src/utility/data/autorace';
+import type {
+    BoatraceGradeType,
+    BoatraceRaceCourse,
+} from '../src/utility/data/boatrace';
 import type { JraGradeType, JraRaceCourse } from '../src/utility/data/jra';
 import type {
     KeirinGradeType,
@@ -113,12 +117,11 @@ container.register<IPlaceDataUseCase<BoatracePlaceData>>(
         useClass: BoatracePlaceDataUseCase,
     },
 );
-container.register<IRaceDataUseCase<BoatraceRaceData>>(
-    'BoatraceRaceDataUseCase',
-    {
-        useClass: BoatraceRaceDataUseCase,
-    },
-);
+container.register<
+    IRaceDataUseCase<BoatraceRaceData, BoatraceGradeType, BoatraceRaceCourse>
+>('BoatraceRaceDataUseCase', {
+    useClass: BoatraceRaceDataUseCase,
+});
 container.register<IRaceCalendarUseCase>('BoatraceRaceCalendarUseCase', {
     useClass: BoatraceRaceCalendarUseCase,
 });
