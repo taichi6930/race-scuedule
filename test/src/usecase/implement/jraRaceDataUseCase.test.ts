@@ -9,7 +9,11 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { JraRaceDataUseCase } from '../../../../lib/src/usecase/implement/jraRaceDataUseCase';
-import { baseJraRaceData, baseJraRaceEntity } from '../../mock/common/baseData';
+import {
+    baseJraRaceDataList,
+    baseJraRaceEntity,
+    baseJraRaceEntityList,
+} from '../../mock/common/baseData';
 import { mockJraPlaceRepositoryFromS3Impl } from '../../mock/repository/jraPlaceRepositoryFromS3Impl';
 import { mockJraRaceRepositoryFromHtmlImpl } from '../../mock/repository/jraRaceRepositoryFromHtmlImpl';
 import { mockJraRaceRepositoryFromS3Impl } from '../../mock/repository/jraRaceRepositoryFromS3Impl';
@@ -58,8 +62,8 @@ describe('JraRaceDataUseCase', () => {
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
-            const mockRaceData: JraRaceData[] = [baseJraRaceData];
-            const mockRaceEntity: JraRaceEntity[] = [baseJraRaceEntity];
+            const mockRaceData: JraRaceData[] = baseJraRaceDataList;
+            const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
 
             // モックの戻り値を設定
             jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
@@ -75,6 +79,69 @@ describe('JraRaceDataUseCase', () => {
             );
 
             expect(result).toEqual(mockRaceData);
+        });
+
+        it('正常にレースデータが取得できること（gradeを検索条件に入れて）', async () => {
+            const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
+
+            // モックの戻り値を設定
+            jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
+                new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
+            );
+
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
+
+            const result = await useCase.fetchRaceDataList(
+                startDate,
+                finishDate,
+                { gradeList: ['GⅠ'] },
+            );
+
+            // レース数が2件であることを確認
+            expect(result.length).toBe(2);
+        });
+
+        it('正常にレースデータが取得できること（locationを検索条件に入れて）', async () => {
+            const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
+
+            // モックの戻り値を設定
+            jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
+                new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
+            );
+
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
+
+            const result = await useCase.fetchRaceDataList(
+                startDate,
+                finishDate,
+                { locationList: ['東京'] },
+            );
+
+            // レース数が12件であることを確認
+            expect(result.length).toBe(12);
+        });
+
+        it('正常にレースデータが取得できること（grade, locationを検索条件に入れて）', async () => {
+            const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
+
+            // モックの戻り値を設定
+            jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
+                new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
+            );
+
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
+
+            const result = await useCase.fetchRaceDataList(
+                startDate,
+                finishDate,
+                { gradeList: ['GⅠ'], locationList: ['東京'] },
+            );
+
+            // レース数が1件であることを確認
+            expect(result.length).toBe(1);
         });
     });
 
@@ -117,6 +184,34 @@ describe('JraRaceDataUseCase', () => {
                 .mockImplementation();
 
             await useCase.updateRaceDataList(startDate, finishDate);
+
+            expect(consoleSpy).toHaveBeenCalled();
+        });
+    });
+
+    describe('upsertRaceDataList', () => {
+        it('正常にレースデータが更新されること', async () => {
+            const mockRaceData: JraRaceData[] = baseJraRaceDataList;
+
+            await useCase.upsertRaceDataList(mockRaceData);
+
+            expect(
+                jraRaceRepositoryFromS3Impl.registerRaceList,
+            ).toHaveBeenCalled();
+        });
+
+        it('レースデータが取得できない場合、エラーが発生すること', async () => {
+            const mockRaceData: JraRaceData[] = baseJraRaceDataList;
+            // モックの戻り値を設定（エラーが発生するように設定）
+            jraRaceRepositoryFromS3Impl.registerRaceList.mockRejectedValue(
+                new Error('レースデータの登録に失敗しました'),
+            );
+
+            const consoleSpy = jest
+                .spyOn(console, 'error')
+                .mockImplementation();
+
+            await useCase.upsertRaceDataList(mockRaceData);
 
             expect(consoleSpy).toHaveBeenCalled();
         });

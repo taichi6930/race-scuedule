@@ -406,8 +406,10 @@ export class WorldRaceController {
             const races = await this.worldRaceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
-                gradeList,
-                locationList,
+                {
+                    gradeList: gradeList,
+                    locationList: locationList,
+                },
             );
             res.json(races);
         } catch (error) {

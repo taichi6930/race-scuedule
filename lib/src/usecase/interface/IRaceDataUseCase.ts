@@ -17,8 +17,8 @@ export interface IRaceDataUseCase<
     fetchRaceDataList: (
         startDate: Date,
         finishDate: Date,
-        gradeList?: G[],
-        locationList?: C[],
+        // Optional parameters
+        searchList?: { gradeList?: G[]; locationList?: C[] },
     ) => Promise<R[]>;
 
     /**

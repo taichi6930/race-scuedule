@@ -430,8 +430,10 @@ export class JraRaceController {
             const races = await this.jraRaceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
-                gradeList,
-                locationList,
+                {
+                    gradeList: gradeList,
+                    locationList: locationList,
+                },
             );
             res.json(races);
         } catch (error) {

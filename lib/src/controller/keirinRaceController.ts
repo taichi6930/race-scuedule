@@ -415,8 +415,10 @@ export class KeirinRaceController {
             const races = await this.keirinRaceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
-                gradeList,
-                locationList,
+                {
+                    gradeList: gradeList,
+                    locationList: locationList,
+                },
             );
             res.json(races);
         } catch (error) {

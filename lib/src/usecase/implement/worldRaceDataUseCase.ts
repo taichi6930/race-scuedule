@@ -38,8 +38,10 @@ export class WorldRaceDataUseCase
     async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
-        gradeList?: WorldGradeType[],
-        locationList?: WorldRaceCourse[],
+        searchList?: {
+            gradeList?: WorldGradeType[];
+            locationList?: WorldRaceCourse[];
+        },
     ): Promise<WorldRaceData[]> {
         // レースデータを取得する
         const raceEntityList = await this.getRaceDataList(
@@ -57,15 +59,15 @@ export class WorldRaceDataUseCase
         const filteredRaceDataList = raceDataList
             // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
             .filter((raceData) => {
-                if (gradeList) {
-                    return gradeList.includes(raceData.grade);
+                if (searchList?.gradeList) {
+                    return searchList.gradeList.includes(raceData.grade);
                 }
                 return true;
             })
             // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
             .filter((raceData) => {
-                if (locationList) {
-                    return locationList.includes(raceData.location);
+                if (searchList?.locationList) {
+                    return searchList.locationList.includes(raceData.location);
                 }
                 return true;
             });
