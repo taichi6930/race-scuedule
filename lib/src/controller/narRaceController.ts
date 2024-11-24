@@ -403,7 +403,10 @@ export class NarRaceController {
                 isNaN(Date.parse(startDate as string)) ||
                 isNaN(Date.parse(finishDate as string))
             ) {
-                res.status(400).send('startDate、finishDateは必須です');
+                res.status(400).json({
+                    error: 'startDate、finishDateは必須です',
+                    details: 'startDateとfinishDateの両方を指定してください',
+                });
                 return;
             }
 
@@ -419,9 +422,10 @@ export class NarRaceController {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
+            res.status(500).json({
+                error: 'サーバーエラーが発生しました',
+                details: `レース情報の取得中にエラーが発生しました: ${errorMessage}`,
+            });
         }
     }
 

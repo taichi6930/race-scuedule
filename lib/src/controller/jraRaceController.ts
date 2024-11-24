@@ -311,6 +311,22 @@ export class JraRaceController {
      *         schema:
      *           type: string
      *           format: date
+     *       - name: grade
+     *         in: query
+     *         description: レースのグレード
+     *         required: false
+     *         schema:
+     *           type: array
+     *           items:
+     *             type: string
+     *       - name: location
+     *         in: query
+     *         description: 競馬場の名称
+     *         required: false
+     *         schema:
+     *           type: array
+     *           items:
+     *             type: string
      *     responses:
      *       200:
      *         description: レース情報を取得
@@ -403,7 +419,10 @@ export class JraRaceController {
                 isNaN(Date.parse(startDate as string)) ||
                 isNaN(Date.parse(finishDate as string))
             ) {
-                res.status(400).send('startDate、finishDateは必須です');
+                res.status(400).json({
+                    error: 'startDate、finishDateは必須です',
+                    details: 'startDateとfinishDateの両方を指定してください',
+                });
                 return;
             }
 
@@ -419,9 +438,10 @@ export class JraRaceController {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
+            res.status(500).json({
+                error: 'サーバーエラーが発生しました',
+                details: `レース情報の取得中にエラーが発生しました: ${errorMessage}`,
+            });
         }
     }
 
