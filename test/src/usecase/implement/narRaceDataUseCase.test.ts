@@ -203,7 +203,7 @@ describe('NarRaceDataUseCase', () => {
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             const mockRaceData: NarRaceData[] = baseNarRaceDataList;
             // モックの戻り値を設定（エラーが発生するように設定）
-            narRaceRepositoryFromHtmlImpl.registerRaceList.mockRejectedValue(
+            narRaceRepositoryFromS3Impl.registerRaceList.mockRejectedValue(
                 new Error('レースデータの登録に失敗しました'),
             );
 

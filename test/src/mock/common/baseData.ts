@@ -28,6 +28,10 @@ import type {
     NarGradeType,
     NarRaceCourse,
 } from '../../../../lib/src/utility/data/nar';
+import type {
+    WorldGradeType,
+    WorldRaceCourse,
+} from '../../../../lib/src/utility/data/world';
 
 export const baseAutoracePlaceEntity = new AutoracePlaceEntity(
     null,
@@ -148,6 +152,41 @@ export const baseWorldPlaceEntity = new WorldPlaceEntity(
     'パリロンシャン',
 );
 export const baseWorldPlaceData = baseWorldPlaceEntity.toDomainData();
+
+export const baseWorldRaceEntityList: WorldRaceEntity[] = [
+    'パリロンシャン',
+    'シャティン',
+].flatMap((location) => {
+    return [
+        '格付けなし',
+        '格付けなし',
+        '格付けなし',
+        '格付けなし',
+        '格付けなし',
+        '格付けなし',
+        '格付けなし',
+        'Listed',
+        'GⅢ',
+        'GⅡ',
+        'GⅠ',
+        '格付けなし',
+    ].map((grade, index) => {
+        return new WorldRaceEntity(
+            null,
+            `テスト${location}${grade}${(index + 1).toString()}レース`,
+            new Date(2024, 10 - 1, 1, 7 + index, 0),
+            location as WorldRaceCourse,
+            '芝',
+            1600,
+            grade as WorldGradeType,
+            index + 1,
+        );
+    });
+});
+
+export const baseWorldRaceDataList = baseWorldRaceEntityList.map((raceEntity) =>
+    raceEntity.toDomainData(),
+);
 
 export const baseWorldRaceEntity = new WorldRaceEntity(
     null,

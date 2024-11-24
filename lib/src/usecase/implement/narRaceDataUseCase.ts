@@ -121,7 +121,7 @@ export class NarRaceDataUseCase
     @Logger
     async upsertRaceDataList(raceList: NarRaceData[]): Promise<void> {
         try {
-            // jraRaceDataをJraRaceEntityに変換する
+            // NarRaceDataをNarRaceEntityに変換する
             const raceEntityList = raceList.map((raceData) => {
                 return new NarRaceEntity(
                     null,
