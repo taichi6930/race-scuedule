@@ -6,7 +6,11 @@ import { AutoraceRaceData } from '../domain/autoraceRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { AUTORACE_SPECIFIED_GRADE_LIST } from '../utility/data/autorace';
+import {
+    AUTORACE_SPECIFIED_GRADE_LIST,
+    AutoraceGradeType,
+    AutoraceRaceCourse,
+} from '../utility/data/autorace';
 import { Logger } from '../utility/logger';
 
 /**
@@ -20,7 +24,11 @@ export class AutoraceRaceController {
         @inject('AutoraceRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('AutoraceRaceDataUseCase')
-        private readonly autoraceRaceDataUseCase: IRaceDataUseCase<AutoraceRaceData>,
+        private readonly autoraceRaceDataUseCase: IRaceDataUseCase<
+            AutoraceRaceData,
+            AutoraceGradeType,
+            AutoraceRaceCourse
+        >,
         @inject('AutoracePlaceDataUseCase')
         private readonly autoracePlaceDataUseCase: IPlaceDataUseCase<AutoracePlaceData>,
     ) {
@@ -366,14 +374,40 @@ export class AutoraceRaceController {
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
         try {
-            const { startDate, finishDate } = req.query;
+            // gradeが複数来ることもある
+            const { startDate, finishDate, grade, location } = req.query;
+            // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            const gradeList =
+                typeof grade === 'string'
+                    ? [grade as AutoraceGradeType]
+                    : typeof grade === 'object'
+                      ? Array.isArray(grade)
+                          ? (grade as string[]).map(
+                                (g: string) => g as AutoraceGradeType,
+                            )
+                          : undefined
+                      : undefined;
+
+            const locationList =
+                typeof location === 'string'
+                    ? [location as AutoraceRaceCourse]
+                    : typeof location === 'object'
+                      ? Array.isArray(location)
+                          ? (location as string[]).map(
+                                (l: string) => l as AutoraceRaceCourse,
+                            )
+                          : undefined
+                      : undefined;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
                 isNaN(Date.parse(startDate as string)) ||
                 isNaN(Date.parse(finishDate as string))
             ) {
-                res.status(400).send('startDate、finishDateは必須です');
+                res.status(400).json({
+                    error: 'startDate、finishDateは必須です',
+                    details: 'startDateとfinishDateの両方を指定してください',
+                });
                 return;
             }
 
@@ -381,15 +415,20 @@ export class AutoraceRaceController {
             const races = await this.autoraceRaceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
+                {
+                    gradeList: gradeList,
+                    locationList: locationList,
+                },
             );
             res.json(races);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
+            res.status(500).json({
+                error: 'サーバーエラーが発生しました',
+                details: `レース情報の取得中にエラーが発生しました: ${errorMessage}`,
+            });
         }
     }
 

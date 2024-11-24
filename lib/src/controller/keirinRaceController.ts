@@ -6,7 +6,11 @@ import { KeirinRaceData } from '../domain/keirinRaceData';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { KEIRIN_SPECIFIED_GRADE_LIST } from '../utility/data/keirin';
+import {
+    KEIRIN_SPECIFIED_GRADE_LIST,
+    KeirinGradeType,
+    KeirinRaceCourse,
+} from '../utility/data/keirin';
 import { Logger } from '../utility/logger';
 
 /**
@@ -20,7 +24,11 @@ export class KeirinRaceController {
         @inject('KeirinRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('KeirinRaceDataUseCase')
-        private readonly keirinRaceDataUseCase: IRaceDataUseCase<KeirinRaceData>,
+        private readonly keirinRaceDataUseCase: IRaceDataUseCase<
+            KeirinRaceData,
+            KeirinGradeType,
+            KeirinRaceCourse
+        >,
         @inject('KeirinPlaceDataUseCase')
         private readonly keirinPlaceDataUseCase: IPlaceDataUseCase<KeirinPlaceData>,
     ) {
@@ -366,14 +374,40 @@ export class KeirinRaceController {
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
         try {
-            const { startDate, finishDate } = req.query;
+            // gradeが複数来ることもある
+            const { startDate, finishDate, grade, location } = req.query;
+            // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            const gradeList =
+                typeof grade === 'string'
+                    ? [grade as KeirinGradeType]
+                    : typeof grade === 'object'
+                      ? Array.isArray(grade)
+                          ? (grade as string[]).map(
+                                (g: string) => g as KeirinGradeType,
+                            )
+                          : undefined
+                      : undefined;
+
+            const locationList =
+                typeof location === 'string'
+                    ? [location as KeirinRaceCourse]
+                    : typeof location === 'object'
+                      ? Array.isArray(location)
+                          ? (location as string[]).map(
+                                (l: string) => l as KeirinRaceCourse,
+                            )
+                          : undefined
+                      : undefined;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
                 isNaN(Date.parse(startDate as string)) ||
                 isNaN(Date.parse(finishDate as string))
             ) {
-                res.status(400).send('startDate、finishDateは必須です');
+                res.status(400).json({
+                    error: 'startDate、finishDateは必須です',
+                    details: 'startDateとfinishDateの両方を指定してください',
+                });
                 return;
             }
 
@@ -381,15 +415,20 @@ export class KeirinRaceController {
             const races = await this.keirinRaceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
+                {
+                    gradeList: gradeList,
+                    locationList: locationList,
+                },
             );
             res.json(races);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
+            res.status(500).json({
+                error: 'サーバーエラーが発生しました',
+                details: `レース情報の取得中にエラーが発生しました: ${errorMessage}`,
+            });
         }
     }
 

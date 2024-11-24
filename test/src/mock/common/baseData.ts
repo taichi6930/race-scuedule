@@ -20,6 +20,14 @@ import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEn
 import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
+import type {
+    JraGradeType,
+    JraRaceCourse,
+} from '../../../../lib/src/utility/data/jra';
+import type {
+    NarGradeType,
+    NarRaceCourse,
+} from '../../../../lib/src/utility/data/nar';
 
 export const baseAutoracePlaceEntity = new AutoracePlaceEntity(
     null,
@@ -182,6 +190,40 @@ export const baseNarPlaceEntity = new NarPlaceEntity(
 );
 export const baseNarPlaceData = baseNarPlaceEntity.toDomainData();
 
+export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatMap(
+    (location) => {
+        return [
+            '一般',
+            '一般',
+            '一般',
+            'オープン特別',
+            'Listed',
+            'JpnⅢ',
+            'JpnⅡ',
+            'JpnⅠ',
+            'GⅢ',
+            'GⅡ',
+            'GⅠ',
+            '地方重賞',
+        ].map((grade, index) => {
+            return new NarRaceEntity(
+                null,
+                `テスト${location}${grade}${(index + 1).toString()}レース`,
+                new Date(2024, 6 - 1, 1, 7 + index, 0),
+                location as NarRaceCourse,
+                'ダート',
+                1600,
+                grade as NarGradeType,
+                index + 1,
+            );
+        });
+    },
+);
+
+export const baseNarRaceDataList = baseNarRaceEntityList.map((raceEntity) =>
+    raceEntity.toDomainData(),
+);
+
 export const baseNarRaceEntity = new NarRaceEntity(
     null,
     '東京ダービー',
@@ -235,6 +277,43 @@ export const baseJraRaceEntity = new JraRaceEntity(
     1,
     1,
 );
+
+export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatMap(
+    (location) => {
+        return [
+            '新馬',
+            '未勝利',
+            '未勝利',
+            '1勝クラス',
+            '2勝クラス',
+            '3勝クラス',
+            'オープン特別',
+            'Listed',
+            'GⅢ',
+            'GⅡ',
+            'GⅠ',
+            '2勝クラス',
+        ].map((grade, index) => {
+            return new JraRaceEntity(
+                null,
+                `テスト${location}${grade}${(index + 1).toString()}レース`,
+                new Date(2024, 6 - 1, 1, 7 + index, 0),
+                location as JraRaceCourse,
+                '芝',
+                1600,
+                grade as JraGradeType,
+                index + 1,
+                1,
+                1,
+            );
+        });
+    },
+);
+
+export const baseJraRaceDataList = baseJraRaceEntityList.map((raceEntity) =>
+    raceEntity.toDomainData(),
+);
+
 export const baseJraRaceData = baseJraRaceEntity.toDomainData();
 
 export const baseJraCalendarData = new CalendarData(

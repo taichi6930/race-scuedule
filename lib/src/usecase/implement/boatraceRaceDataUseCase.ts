@@ -10,6 +10,10 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import {
+    BoatraceGradeType,
+    BoatraceRaceCourse,
+} from '../../utility/data/boatrace';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -18,7 +22,12 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  */
 @injectable()
 export class BoatraceRaceDataUseCase
-    implements IRaceDataUseCase<BoatraceRaceData>
+    implements
+        IRaceDataUseCase<
+            BoatraceRaceData,
+            BoatraceGradeType,
+            BoatraceRaceCourse
+        >
 {
     constructor(
         @inject('BoatracePlaceRepositoryFromStorage')
@@ -42,19 +51,45 @@ export class BoatraceRaceDataUseCase
     async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
+        searchList?: {
+            gradeList?: BoatraceGradeType[];
+            locationList?: BoatraceRaceCourse[];
+        },
     ): Promise<BoatraceRaceData[]> {
-        // 競馬場データを取得する
+        // ボートレース場データを取得する
         const placeList = await this.getPlaceDataList(startDate, finishDate);
 
         // レースデータを取得する
-        return (
-            await this.getRaceDataList(
-                startDate,
-                finishDate,
-                placeList,
-                'storage',
-            )
-        ).map((raceEntity) => raceEntity.raceData);
+        const raceEntityList = await this.getRaceDataList(
+            startDate,
+            finishDate,
+            placeList,
+            'storage',
+        );
+
+        // レースデータをRaceDataに変換する
+        const raceDataList = raceEntityList.map((raceEntity) => {
+            return raceEntity.toDomainData();
+        });
+
+        // フィルタリング処理
+        const filteredRaceDataList = raceDataList
+            // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
+            .filter((raceData) => {
+                if (searchList?.gradeList) {
+                    return searchList.gradeList.includes(raceData.grade);
+                }
+                return true;
+            })
+            // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
+            .filter((raceData) => {
+                if (searchList?.locationList) {
+                    return searchList.locationList.includes(raceData.location);
+                }
+                return true;
+            });
+
+        return filteredRaceDataList;
     }
 
     /**
@@ -83,6 +118,24 @@ export class BoatraceRaceDataUseCase
             console.log('レースデータを登録する');
             // S3にデータを保存する
             await this.registerRaceDataList(raceList);
+        } catch (error) {
+            console.error('レースデータの更新中にエラーが発生しました:', error);
+        }
+    }
+
+    /**
+     * レース開催データを更新する
+     * @param raceList
+     */
+    @Logger
+    async upsertRaceDataList(raceList: BoatraceRaceData[]): Promise<void> {
+        try {
+            // jraRaceDataをJraRaceEntityに変換する
+            const raceEntityList = raceList.map((raceData) => {
+                return new BoatraceRaceEntity(null, raceData, []);
+            });
+            // S3にデータを保存する
+            await this.registerRaceDataList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
