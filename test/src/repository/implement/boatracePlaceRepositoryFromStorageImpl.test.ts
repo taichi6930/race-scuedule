@@ -6,19 +6,20 @@ import { container } from 'tsyringe';
 
 import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
-import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
+import { mockS3GatewayForBoatracePlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('BoatracePlaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<BoatracePlaceEntity>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<BoatracePlaceRecord>>;
     let repository: BoatracePlaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3Gateway<BoatracePlaceEntity>();
+        s3Gateway = mockS3GatewayForBoatracePlace();
 
         // DIコンテナにモックを登録
         container.registerInstance('BoatracePlaceStorageGateway', s3Gateway);

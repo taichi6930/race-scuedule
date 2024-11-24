@@ -4,7 +4,11 @@ import { inject, injectable } from 'tsyringe';
 import { WorldRaceData } from '../domain/worldRaceData';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
-import { WORLD_SPECIFIED_GRADE_LIST } from '../utility/data/world';
+import {
+    WORLD_SPECIFIED_GRADE_LIST,
+    WorldGradeType,
+    WorldRaceCourse,
+} from '../utility/data/world';
 import { Logger } from '../utility/logger';
 
 /**
@@ -18,7 +22,11 @@ export class WorldRaceController {
         @inject('WorldRaceCalendarUseCase')
         private readonly raceCalendarUseCase: IRaceCalendarUseCase,
         @inject('WorldRaceDataUseCase')
-        private readonly worldRaceDataUseCase: IRaceDataUseCase<WorldRaceData>,
+        private readonly worldRaceDataUseCase: IRaceDataUseCase<
+            WorldRaceData,
+            WorldGradeType,
+            WorldRaceCourse
+        >,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -357,14 +365,40 @@ export class WorldRaceController {
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
         try {
-            const { startDate, finishDate } = req.query;
+            // gradeが複数来ることもある
+            const { startDate, finishDate, grade, location } = req.query;
+            // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
+            const gradeList =
+                typeof grade === 'string'
+                    ? [grade as WorldGradeType]
+                    : typeof grade === 'object'
+                      ? Array.isArray(grade)
+                          ? (grade as string[]).map(
+                                (g: string) => g as WorldGradeType,
+                            )
+                          : undefined
+                      : undefined;
+
+            const locationList =
+                typeof location === 'string'
+                    ? [location as WorldRaceCourse]
+                    : typeof location === 'object'
+                      ? Array.isArray(location)
+                          ? (location as string[]).map(
+                                (l: string) => l as WorldRaceCourse,
+                            )
+                          : undefined
+                      : undefined;
 
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
                 isNaN(Date.parse(startDate as string)) ||
                 isNaN(Date.parse(finishDate as string))
             ) {
-                res.status(400).send('startDate、finishDateは必須です');
+                res.status(400).json({
+                    error: 'startDate、finishDateは必須です',
+                    details: 'startDateとfinishDateの両方を指定してください',
+                });
                 return;
             }
 
@@ -372,15 +406,20 @@ export class WorldRaceController {
             const races = await this.worldRaceDataUseCase.fetchRaceDataList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
+                {
+                    gradeList: gradeList,
+                    locationList: locationList,
+                },
             );
             res.json(races);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
+            res.status(500).json({
+                error: 'サーバーエラーが発生しました',
+                details: `レース情報の取得中にエラーが発生しました: ${errorMessage}`,
+            });
         }
     }
 

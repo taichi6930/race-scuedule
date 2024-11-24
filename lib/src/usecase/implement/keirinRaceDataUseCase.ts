@@ -10,6 +10,7 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -17,7 +18,10 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  * 競輪場開催データUseCase
  */
 @injectable()
-export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
+export class KeirinRaceDataUseCase
+    implements
+        IRaceDataUseCase<KeirinRaceData, KeirinGradeType, KeirinRaceCourse>
+{
     constructor(
         @inject('KeirinPlaceRepositoryFromStorage')
         private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceEntity>,
@@ -40,19 +44,45 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
     async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
+        searchList?: {
+            gradeList?: KeirinGradeType[];
+            locationList?: KeirinRaceCourse[];
+        },
     ): Promise<KeirinRaceData[]> {
         // 競馬場データを取得する
         const placeList = await this.getPlaceDataList(startDate, finishDate);
 
         // レースデータを取得する
-        return (
-            await this.getRaceDataList(
-                startDate,
-                finishDate,
-                placeList,
-                'storage',
-            )
-        ).map((raceEntity) => raceEntity.raceData);
+        const raceEntityList = await this.getRaceDataList(
+            startDate,
+            finishDate,
+            placeList,
+            'storage',
+        );
+
+        // レースデータをNarRaceDataに変換する
+        const raceDataList = raceEntityList.map((raceEntity) => {
+            return raceEntity.toDomainData();
+        });
+
+        // フィルタリング処理
+        const filteredRaceDataList = raceDataList
+            // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
+            .filter((raceData) => {
+                if (searchList?.gradeList) {
+                    return searchList.gradeList.includes(raceData.grade);
+                }
+                return true;
+            })
+            // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
+            .filter((raceData) => {
+                if (searchList?.locationList) {
+                    return searchList.locationList.includes(raceData.location);
+                }
+                return true;
+            });
+
+        return filteredRaceDataList;
     }
 
     /**
@@ -81,6 +111,24 @@ export class KeirinRaceDataUseCase implements IRaceDataUseCase<KeirinRaceData> {
             console.log('レースデータを登録する');
             // S3にデータを保存する
             await this.registerRaceDataList(raceList);
+        } catch (error) {
+            console.error('レースデータの更新中にエラーが発生しました:', error);
+        }
+    }
+
+    /**
+     * レース開催データを更新する
+     * @param raceList
+     */
+    @Logger
+    async upsertRaceDataList(raceList: KeirinRaceData[]): Promise<void> {
+        try {
+            // jraRaceDataをJraRaceEntityに変換する
+            const raceEntityList = raceList.map((raceData) => {
+                return new KeirinRaceEntity(null, raceData, []);
+            });
+            // S3にデータを保存する
+            await this.registerRaceDataList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }

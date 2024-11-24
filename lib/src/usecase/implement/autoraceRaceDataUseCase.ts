@@ -10,6 +10,10 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import {
+    AutoraceGradeType,
+    AutoraceRaceCourse,
+} from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -18,7 +22,12 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  */
 @injectable()
 export class AutoraceRaceDataUseCase
-    implements IRaceDataUseCase<AutoraceRaceData>
+    implements
+        IRaceDataUseCase<
+            AutoraceRaceData,
+            AutoraceGradeType,
+            AutoraceRaceCourse
+        >
 {
     constructor(
         @inject('AutoracePlaceRepositoryFromStorage')
@@ -42,28 +51,45 @@ export class AutoraceRaceDataUseCase
     async fetchRaceDataList(
         startDate: Date,
         finishDate: Date,
+        searchList?: {
+            gradeList?: AutoraceGradeType[];
+            locationList?: AutoraceRaceCourse[];
+        },
     ): Promise<AutoraceRaceData[]> {
-        // 競馬場データを取得する
+        // オートレース場データを取得する
         const placeList = await this.getPlaceDataList(startDate, finishDate);
 
         // レースデータを取得する
-        return (
-            await this.getRaceDataList(
-                startDate,
-                finishDate,
-                placeList,
-                'storage',
-            )
-        ).map((raceEntity) => {
-            return new AutoraceRaceData(
-                raceEntity.name,
-                raceEntity.stage,
-                raceEntity.dateTime,
-                raceEntity.location,
-                raceEntity.grade,
-                raceEntity.number,
-            );
+        const raceEntityList = await this.getRaceDataList(
+            startDate,
+            finishDate,
+            placeList,
+            'storage',
+        );
+
+        // レースデータをRaceDataに変換する
+        const raceDataList = raceEntityList.map((raceEntity) => {
+            return raceEntity.toDomainData();
         });
+
+        // フィルタリング処理
+        const filteredRaceDataList = raceDataList
+            // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
+            .filter((raceData) => {
+                if (searchList?.gradeList) {
+                    return searchList.gradeList.includes(raceData.grade);
+                }
+                return true;
+            })
+            // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
+            .filter((raceData) => {
+                if (searchList?.locationList) {
+                    return searchList.locationList.includes(raceData.location);
+                }
+                return true;
+            });
+
+        return filteredRaceDataList;
     }
 
     /**
@@ -92,6 +118,32 @@ export class AutoraceRaceDataUseCase
             console.log('レースデータを登録する');
             // S3にデータを保存する
             await this.registerRaceDataList(raceList);
+        } catch (error) {
+            console.error('レースデータの更新中にエラーが発生しました:', error);
+        }
+    }
+
+    /**
+     * レース開催データを更新する
+     * @param raceList
+     */
+    @Logger
+    async upsertRaceDataList(raceList: AutoraceRaceData[]): Promise<void> {
+        try {
+            // jraRaceDataをJraRaceEntityに変換する
+            const raceEntityList = raceList.map((raceData) => {
+                return new AutoraceRaceEntity(
+                    null,
+                    raceData.name,
+                    raceData.stage,
+                    raceData.dateTime,
+                    raceData.location,
+                    raceData.grade,
+                    raceData.number,
+                );
+            });
+            // S3にデータを保存する
+            await this.registerRaceDataList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
