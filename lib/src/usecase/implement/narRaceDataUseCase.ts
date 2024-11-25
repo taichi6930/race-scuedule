@@ -19,7 +19,8 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  */
 @injectable()
 export class NarRaceDataUseCase
-    implements IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse>
+    implements
+        IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
 {
     constructor(
         @inject('NarPlaceRepositoryFromS3')

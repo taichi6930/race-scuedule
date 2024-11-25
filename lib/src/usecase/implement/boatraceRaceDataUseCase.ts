@@ -13,6 +13,7 @@ import { FetchRaceListResponse } from '../../repository/response/fetchRaceListRe
 import {
     BoatraceGradeType,
     BoatraceRaceCourse,
+    BoatraceRaceStage,
 } from '../../utility/data/boatrace';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
@@ -26,7 +27,8 @@ export class BoatraceRaceDataUseCase
         IRaceDataUseCase<
             BoatraceRaceData,
             BoatraceGradeType,
-            BoatraceRaceCourse
+            BoatraceRaceCourse,
+            BoatraceRaceStage
         >
 {
     constructor(
@@ -54,6 +56,7 @@ export class BoatraceRaceDataUseCase
         searchList?: {
             gradeList?: BoatraceGradeType[];
             locationList?: BoatraceRaceCourse[];
+            stageList?: BoatraceRaceStage[];
         },
     ): Promise<BoatraceRaceData[]> {
         // ボートレース場データを取得する
@@ -85,6 +88,13 @@ export class BoatraceRaceDataUseCase
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
+                }
+                return true;
+            })
+            // stageListが指定されている場合は、指定されたレースステージのレースのみを取得する
+            .filter((raceData) => {
+                if (searchList?.stageList) {
+                    return searchList.stageList.includes(raceData.stage);
                 }
                 return true;
             });

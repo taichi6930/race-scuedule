@@ -1,5 +1,5 @@
 import type { RaceData } from '../../domain/baseData';
-import type { GradeType, RaceCourse } from '../../utility/data/base';
+import type { GradeType, RaceCourse, RaceStage } from '../../utility/data/base';
 
 /**
  * レースデータUseCaseのインターフェース
@@ -8,6 +8,7 @@ export interface IRaceDataUseCase<
     R extends RaceData,
     G extends GradeType,
     C extends RaceCourse,
+    S extends RaceStage,
 > {
     /**
      * レースデータを取得する
@@ -18,7 +19,7 @@ export interface IRaceDataUseCase<
         startDate: Date,
         finishDate: Date,
         // Optional parameters
-        searchList?: { gradeList?: G[]; locationList?: C[] },
+        searchList?: { gradeList?: G[]; locationList?: C[]; stageList?: S[] },
     ) => Promise<R[]>;
 
     /**

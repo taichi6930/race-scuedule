@@ -2,6 +2,7 @@ import type { GaxiosPromise } from 'gaxios';
 import { google } from 'googleapis';
 
 import type { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
+import type { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
@@ -12,6 +13,9 @@ import {
     baseAutoraceCalendarData,
     baseAutoraceCalendarDataFromGoogleCalendar,
     baseAutoraceRaceData,
+    baseBoatraceCalendarData,
+    baseBoatraceCalendarDataFromGoogleCalendar,
+    baseBoatraceRaceData,
     baseJraCalendarData,
     baseJraCalendarDataFromGoogleCalendar,
     baseJraRaceData,
@@ -64,6 +68,10 @@ describe('GoogleCalendarService', () => {
             'autorace',
             'testAutoraceCalendarId',
         ),
+        boatrace: new GoogleCalendarService<BoatraceRaceData>(
+            'boatrace',
+            'testBoatraceCalendarId',
+        ),
     };
 
     const calendarDataListRecord: Record<string, CalendarData[]> = {
@@ -72,6 +80,7 @@ describe('GoogleCalendarService', () => {
         keirin: [baseKeirinCalendarData],
         world: [baseWorldCalendarData],
         autorace: [baseAutoraceCalendarData],
+        boatrace: [baseBoatraceCalendarData],
     };
 
     const calendarDataListFromGoogleCalendarRecord: Record<string, any> = {
@@ -80,6 +89,7 @@ describe('GoogleCalendarService', () => {
         keirin: [baseKeirinCalendarDataFromGoogleCalendar],
         world: [baseWorldCalendarDataFromGoogleCalendar],
         autorace: [baseAutoraceCalendarDataFromGoogleCalendar],
+        boatrace: [baseBoatraceCalendarDataFromGoogleCalendar],
     };
 
     const raceDataRecord: Record<string, any> = {
@@ -88,6 +98,7 @@ describe('GoogleCalendarService', () => {
         keirin: [baseKeirinRaceData],
         world: [baseWorldRaceData],
         autorace: [baseAutoraceRaceData],
+        boatrace: [baseBoatraceRaceData],
     };
 
     beforeEach(() => {
@@ -108,7 +119,7 @@ describe('GoogleCalendarService', () => {
         jest.clearAllMocks();
     });
 
-    (['jra', 'nar', 'world', 'keirin', 'autorace'] as const).forEach((key) => {
+    (['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'] as const).forEach((key) => {
         let googleCalendarService: GoogleCalendarService<any>;
         let raceDataList: any;
         beforeEach(() => {

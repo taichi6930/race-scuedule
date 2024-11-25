@@ -13,6 +13,7 @@ import { FetchRaceListResponse } from '../../repository/response/fetchRaceListRe
 import {
     AutoraceGradeType,
     AutoraceRaceCourse,
+    AutoraceRaceStage,
 } from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
@@ -26,7 +27,8 @@ export class AutoraceRaceDataUseCase
         IRaceDataUseCase<
             AutoraceRaceData,
             AutoraceGradeType,
-            AutoraceRaceCourse
+            AutoraceRaceCourse,
+            AutoraceRaceStage
         >
 {
     constructor(
@@ -54,6 +56,7 @@ export class AutoraceRaceDataUseCase
         searchList?: {
             gradeList?: AutoraceGradeType[];
             locationList?: AutoraceRaceCourse[];
+            stageList?: AutoraceRaceStage[];
         },
     ): Promise<AutoraceRaceData[]> {
         // オートレース場データを取得する
@@ -85,6 +88,13 @@ export class AutoraceRaceDataUseCase
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
+                }
+                return true;
+            })
+            // レースステージが指定されている場合は、指定されたレースステージのレースのみを取得する
+            .filter((raceData) => {
+                if (searchList?.stageList) {
+                    return searchList.stageList.includes(raceData.stage);
                 }
                 return true;
             });

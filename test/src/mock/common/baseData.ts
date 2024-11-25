@@ -7,6 +7,7 @@ import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
+import { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
@@ -21,9 +22,24 @@ import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEnti
 import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type {
+    AutoraceGradeType,
+    AutoraceRaceCourse,
+    AutoraceRaceStage,
+} from '../../../../lib/src/utility/data/autorace';
+import type {
+    BoatraceGradeType,
+    BoatraceRaceCourse,
+    BoatraceRaceStage,
+} from '../../../../lib/src/utility/data/boatrace';
+import type {
     JraGradeType,
     JraRaceCourse,
 } from '../../../../lib/src/utility/data/jra';
+import type {
+    KeirinGradeType,
+    KeirinRaceCourse,
+    KeirinRaceStage,
+} from '../../../../lib/src/utility/data/keirin';
 import type {
     NarGradeType,
     NarRaceCourse,
@@ -40,6 +56,44 @@ export const baseAutoracePlaceEntity = new AutoracePlaceEntity(
     'SG',
 );
 export const baseAutoracePlaceData = baseAutoracePlaceEntity.toDomainData();
+
+export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
+    { location: '飯塚', grade: 'SG' },
+    { location: '川口', grade: 'GⅠ' },
+    { location: '山陽', grade: '特GⅠ' },
+    { location: '伊勢崎', grade: 'GⅡ' },
+    { location: '浜松', grade: '開催' },
+].flatMap((value) => {
+    const { location, grade } = value;
+    return [
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '優勝戦',
+    ].map((stage, index) => {
+        return new AutoraceRaceEntity(
+            null,
+            `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
+            stage as AutoraceRaceStage,
+            new Date(2025, 12 - 1, 31, 7 + index, 0),
+            location as AutoraceRaceCourse,
+            grade as AutoraceGradeType,
+            index + 1,
+        );
+    });
+});
+
+export const baseAutoraceRaceDataList = baseAutoraceRaceEntityList.map(
+    (raceEntity) => raceEntity.toDomainData(),
+);
 
 export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
     null,
@@ -117,6 +171,55 @@ export const baseKeirinRacePlayerDataList = Array.from(
     (_, i) => {
         return new KeirinRacePlayerData(i + 1, i + 1);
     },
+);
+
+export const baseKeirinRacePlayerRecord = new KeirinRacePlayerRecord(
+    'keirin20241231041101',
+    `keirin202412310411`,
+    1,
+    10000,
+);
+
+export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
+    { location: '平塚', grade: 'GP' },
+    { location: '立川', grade: 'GⅠ' },
+    { location: '函館', grade: 'GⅡ' },
+    { location: '小倉', grade: 'GⅢ' },
+    { location: '浜松', grade: 'FⅠ' },
+    { location: '名古屋', grade: 'FⅡ' },
+].flatMap((value) => {
+    const { location, grade } = value;
+    return [
+        '一般',
+        '一般',
+        '一般',
+        '一般',
+        '一般',
+        '一般',
+        '一般',
+        '一般',
+        '一般',
+        '一般',
+        '特別優秀',
+        '決勝',
+    ].map((stage, index) => {
+        const raceData = new KeirinRaceData(
+            `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
+            stage as KeirinRaceStage,
+            new Date(2025, 12 - 1, 30, 7 + index, 0),
+            location as KeirinRaceCourse,
+            grade as KeirinGradeType,
+            index + 1,
+        );
+        const racePlayerDataList = Array.from({ length: 9 }, (_, i) => {
+            return new KeirinRacePlayerData(i + 1, i + 1);
+        });
+        return new KeirinRaceEntity(null, raceData, racePlayerDataList);
+    });
+});
+
+export const baseKeirinRaceDataList = baseKeirinRaceEntityList.map(
+    (raceEntity) => raceEntity.toDomainData(),
 );
 
 export const baseKeirinRaceEntity = new KeirinRaceEntity(
@@ -387,6 +490,47 @@ export const baseBoatracePlaceData = new BoatracePlaceData(
     new Date('2024-12-31'),
     '平和島',
     'SG',
+);
+
+export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
+    { location: '平和島', grade: 'SG' },
+    { location: '戸田', grade: 'GⅠ' },
+    { location: '江戸川', grade: 'GⅡ' },
+    { location: '桐生', grade: 'GⅢ' },
+    { location: '多摩川', grade: '一般' },
+].flatMap((value) => {
+    const { location, grade } = value;
+    return [
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '一般戦',
+        '優勝戦',
+    ].map((stage, index) => {
+        const raceData = new BoatraceRaceData(
+            `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
+            stage as BoatraceRaceStage,
+            new Date(2025, 12 - 1, 30, 7 + index, 0),
+            location as BoatraceRaceCourse,
+            grade as BoatraceGradeType,
+            index + 1,
+        );
+        const racePlayerDataList = Array.from({ length: 6 }, (_, i) => {
+            return new BoatraceRacePlayerData(i + 1, i + 1);
+        });
+        return new BoatraceRaceEntity(null, raceData, racePlayerDataList);
+    });
+});
+
+export const baseBoatraceRaceDataList = baseBoatraceRaceEntityList.map(
+    (raceEntity) => raceEntity.toDomainData(),
 );
 
 export const baseBoatracePlaceEntity = new BoatracePlaceEntity(

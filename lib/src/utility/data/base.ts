@@ -1,7 +1,19 @@
-import type { AutoraceGradeType, AutoraceRaceCourse } from './autorace';
-import type { BoatraceGradeType, BoatraceRaceCourse } from './boatrace';
+import type {
+    AutoraceGradeType,
+    AutoraceRaceCourse,
+    AutoraceRaceStage,
+} from './autorace';
+import type {
+    BoatraceGradeType,
+    BoatraceRaceCourse,
+    BoatraceRaceStage,
+} from './boatrace';
 import type { JraGradeType, JraRaceCourse } from './jra';
-import type { KeirinGradeType, KeirinRaceCourse } from './keirin';
+import type {
+    KeirinGradeType,
+    KeirinRaceCourse,
+    KeirinRaceStage,
+} from './keirin';
 import type { NarGradeType, NarRaceCourse } from './nar';
 import type { WorldGradeType, WorldRaceCourse } from './world';
 
@@ -20,3 +32,9 @@ export type RaceCourse =
     | KeirinRaceCourse
     | AutoraceRaceCourse
     | BoatraceRaceCourse;
+
+export type RaceStage =
+    | KeirinRaceStage
+    | AutoraceRaceStage
+    | BoatraceRaceStage
+    | undefined;

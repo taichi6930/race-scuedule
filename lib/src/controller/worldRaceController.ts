@@ -25,7 +25,8 @@ export class WorldRaceController {
         private readonly worldRaceDataUseCase: IRaceDataUseCase<
             WorldRaceData,
             WorldGradeType,
-            WorldRaceCourse
+            WorldRaceCourse,
+            undefined
         >,
     ) {
         this.router = Router();
