@@ -119,7 +119,9 @@ describe('GoogleCalendarService', () => {
         jest.clearAllMocks();
     });
 
-    (['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'] as const).forEach((key) => {
+    (
+        ['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'] as const
+    ).forEach((key) => {
         let googleCalendarService: GoogleCalendarService<any>;
         let raceDataList: any;
         beforeEach(() => {
