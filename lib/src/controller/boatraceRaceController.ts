@@ -10,6 +10,7 @@ import {
     BOATRACE_SPECIFIED_GRADE_LIST,
     BoatraceGradeType,
     BoatraceRaceCourse,
+    BoatraceRaceStage,
 } from '../utility/data/boatrace';
 import { Logger } from '../utility/logger';
 
@@ -27,7 +28,8 @@ export class BoatraceRaceController {
         private readonly boatraceRaceDataUseCase: IRaceDataUseCase<
             BoatraceRaceData,
             BoatraceGradeType,
-            BoatraceRaceCourse
+            BoatraceRaceCourse,
+            BoatraceRaceStage
         >,
         @inject('BoatracePlaceDataUseCase')
         private readonly boatracePlaceDataUseCase: IPlaceDataUseCase<BoatracePlaceData>,
@@ -375,7 +377,7 @@ export class BoatraceRaceController {
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
         try {
             // gradeが複数来ることもある
-            const { startDate, finishDate, grade, location } = req.query;
+            const { startDate, finishDate, grade, location, stage } = req.query;
             // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const gradeList =
                 typeof grade === 'string'
@@ -399,6 +401,17 @@ export class BoatraceRaceController {
                           : undefined
                       : undefined;
 
+            const stageList =
+                typeof stage === 'string'
+                    ? [stage as BoatraceRaceStage]
+                    : typeof stage === 'object'
+                      ? Array.isArray(stage)
+                          ? (stage as string[]).map(
+                                (s: string) => s as BoatraceRaceStage,
+                            )
+                          : undefined
+                      : undefined;
+
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
                 isNaN(Date.parse(startDate as string)) ||
@@ -418,6 +431,7 @@ export class BoatraceRaceController {
                 {
                     gradeList: gradeList,
                     locationList: locationList,
+                    stageList: stageList,
                 },
             );
             res.json(races);

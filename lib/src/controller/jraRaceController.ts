@@ -28,7 +28,8 @@ export class JraRaceController {
         private readonly jraRaceDataUseCase: IRaceDataUseCase<
             JraRaceData,
             JraGradeType,
-            JraRaceCourse
+            JraRaceCourse,
+            undefined
         >,
         @inject('JraPlaceDataUseCase')
         private readonly jraPlaceDataUseCase: IPlaceDataUseCase<JraPlaceData>,

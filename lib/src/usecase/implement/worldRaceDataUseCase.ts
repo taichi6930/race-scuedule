@@ -16,7 +16,13 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  */
 @injectable()
 export class WorldRaceDataUseCase
-    implements IRaceDataUseCase<WorldRaceData, WorldGradeType, WorldRaceCourse>
+    implements
+        IRaceDataUseCase<
+            WorldRaceData,
+            WorldGradeType,
+            WorldRaceCourse,
+            undefined
+        >
 {
     constructor(
         @inject('WorldRaceRepositoryFromStorage')

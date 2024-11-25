@@ -34,15 +34,18 @@ import type { IRaceDataUseCase } from '../src/usecase/interface/IRaceDataUseCase
 import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
+    AutoraceRaceStage,
 } from '../src/utility/data/autorace';
 import type {
     BoatraceGradeType,
     BoatraceRaceCourse,
+    BoatraceRaceStage,
 } from '../src/utility/data/boatrace';
 import type { JraGradeType, JraRaceCourse } from '../src/utility/data/jra';
 import type {
     KeirinGradeType,
     KeirinRaceCourse,
+    KeirinRaceStage,
 } from '../src/utility/data/keirin';
 import type { NarGradeType, NarRaceCourse } from '../src/utility/data/nar';
 import type {
@@ -60,20 +63,23 @@ container.register<IRaceCalendarUseCase>('JraRaceCalendarUseCase', {
 container.register<IRaceCalendarUseCase>('KeirinRaceCalendarUseCase', {
     useClass: KeirinRaceCalendarUseCase,
 });
-container.register<IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse>>(
-    'NarRaceDataUseCase',
-    {
-        useClass: NarRaceDataUseCase,
-    },
-);
-container.register<IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse>>(
-    'JraRaceDataUseCase',
-    {
-        useClass: JraRaceDataUseCase,
-    },
-);
 container.register<
-    IRaceDataUseCase<KeirinRaceData, KeirinGradeType, KeirinRaceCourse>
+    IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
+>('NarRaceDataUseCase', {
+    useClass: NarRaceDataUseCase,
+});
+container.register<
+    IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
+>('JraRaceDataUseCase', {
+    useClass: JraRaceDataUseCase,
+});
+container.register<
+    IRaceDataUseCase<
+        KeirinRaceData,
+        KeirinGradeType,
+        KeirinRaceCourse,
+        KeirinRaceStage
+    >
 >('KeirinRaceDataUseCase', {
     useClass: KeirinRaceDataUseCase,
 });
@@ -93,7 +99,7 @@ container.register<IRaceCalendarUseCase>('WorldRaceCalendarUseCase', {
     useClass: WorldRaceCalendarUseCase,
 });
 container.register<
-    IRaceDataUseCase<WorldRaceData, WorldGradeType, WorldRaceCourse>
+    IRaceDataUseCase<WorldRaceData, WorldGradeType, WorldRaceCourse, undefined>
 >('WorldRaceDataUseCase', {
     useClass: WorldRaceDataUseCase,
 });
@@ -104,7 +110,12 @@ container.register<IPlaceDataUseCase<AutoracePlaceData>>(
     },
 );
 container.register<
-    IRaceDataUseCase<AutoraceRaceData, AutoraceGradeType, AutoraceRaceCourse>
+    IRaceDataUseCase<
+        AutoraceRaceData,
+        AutoraceGradeType,
+        AutoraceRaceCourse,
+        AutoraceRaceStage
+    >
 >('AutoraceRaceDataUseCase', {
     useClass: AutoraceRaceDataUseCase,
 });
@@ -118,7 +129,12 @@ container.register<IPlaceDataUseCase<BoatracePlaceData>>(
     },
 );
 container.register<
-    IRaceDataUseCase<BoatraceRaceData, BoatraceGradeType, BoatraceRaceCourse>
+    IRaceDataUseCase<
+        BoatraceRaceData,
+        BoatraceGradeType,
+        BoatraceRaceCourse,
+        BoatraceRaceStage
+    >
 >('BoatraceRaceDataUseCase', {
     useClass: BoatraceRaceDataUseCase,
 });

@@ -10,6 +10,7 @@ import {
     KEIRIN_SPECIFIED_GRADE_LIST,
     KeirinGradeType,
     KeirinRaceCourse,
+    KeirinRaceStage,
 } from '../utility/data/keirin';
 import { Logger } from '../utility/logger';
 
@@ -27,7 +28,8 @@ export class KeirinRaceController {
         private readonly keirinRaceDataUseCase: IRaceDataUseCase<
             KeirinRaceData,
             KeirinGradeType,
-            KeirinRaceCourse
+            KeirinRaceCourse,
+            KeirinRaceStage
         >,
         @inject('KeirinPlaceDataUseCase')
         private readonly keirinPlaceDataUseCase: IPlaceDataUseCase<KeirinPlaceData>,
@@ -375,7 +377,7 @@ export class KeirinRaceController {
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
         try {
             // gradeが複数来ることもある
-            const { startDate, finishDate, grade, location } = req.query;
+            const { startDate, finishDate, grade, location, stage } = req.query;
             // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const gradeList =
                 typeof grade === 'string'
@@ -399,6 +401,17 @@ export class KeirinRaceController {
                           : undefined
                       : undefined;
 
+            const stageList =
+                typeof stage === 'string'
+                    ? [stage as KeirinRaceStage]
+                    : typeof stage === 'object'
+                      ? Array.isArray(stage)
+                          ? (stage as string[]).map(
+                                (s: string) => s as KeirinRaceStage,
+                            )
+                          : undefined
+                      : undefined;
+
             // startDateとfinishDateが指定されていない場合はエラーを返す
             if (
                 isNaN(Date.parse(startDate as string)) ||
@@ -418,6 +431,7 @@ export class KeirinRaceController {
                 {
                     gradeList: gradeList,
                     locationList: locationList,
+                    stageList: stageList,
                 },
             );
             res.json(races);

@@ -409,4 +409,5 @@ export const KeirinPlayerList = [
     },
     { playerNumber: '015679', name: '又多風緑', priority: 3 },
     { playerNumber: '015669', name: '河内桜雪', priority: 3 },
+    { playerNumber: '999999', name: 'test', priority: 3 },
 ];

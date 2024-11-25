@@ -10,7 +10,11 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
-import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
+import {
+    KeirinGradeType,
+    KeirinRaceCourse,
+    KeirinRaceStage,
+} from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -20,7 +24,12 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 @injectable()
 export class KeirinRaceDataUseCase
     implements
-        IRaceDataUseCase<KeirinRaceData, KeirinGradeType, KeirinRaceCourse>
+        IRaceDataUseCase<
+            KeirinRaceData,
+            KeirinGradeType,
+            KeirinRaceCourse,
+            KeirinRaceStage
+        >
 {
     constructor(
         @inject('KeirinPlaceRepositoryFromStorage')
@@ -47,6 +56,7 @@ export class KeirinRaceDataUseCase
         searchList?: {
             gradeList?: KeirinGradeType[];
             locationList?: KeirinRaceCourse[];
+            stageList?: KeirinRaceStage[];
         },
     ): Promise<KeirinRaceData[]> {
         // 競馬場データを取得する
@@ -78,6 +88,13 @@ export class KeirinRaceDataUseCase
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
+                }
+                return true;
+            })
+            // レースステージが指定されている場合は、指定されたレースステージのレースのみを取得する
+            .filter((raceData) => {
+                if (searchList?.stageList) {
+                    return searchList.stageList.includes(raceData.stage);
                 }
                 return true;
             });

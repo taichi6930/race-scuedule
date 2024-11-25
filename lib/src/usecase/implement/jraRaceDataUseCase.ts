@@ -19,7 +19,8 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  */
 @injectable()
 export class JraRaceDataUseCase
-    implements IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse>
+    implements
+        IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
 {
     constructor(
         @inject('JraPlaceRepositoryFromS3')

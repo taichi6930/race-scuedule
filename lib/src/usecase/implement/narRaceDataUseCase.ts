@@ -19,7 +19,8 @@ import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
  */
 @injectable()
 export class NarRaceDataUseCase
-    implements IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse>
+    implements
+        IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
 {
     constructor(
         @inject('NarPlaceRepositoryFromS3')
@@ -121,7 +122,7 @@ export class NarRaceDataUseCase
     @Logger
     async upsertRaceDataList(raceList: NarRaceData[]): Promise<void> {
         try {
-            // jraRaceDataをJraRaceEntityに変換する
+            // NarRaceDataをNarRaceEntityに変換する
             const raceEntityList = raceList.map((raceData) => {
                 return new NarRaceEntity(
                     null,
