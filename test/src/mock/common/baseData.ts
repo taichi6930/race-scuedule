@@ -6,6 +6,7 @@ import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
+import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
@@ -399,6 +400,14 @@ export const baseNarCalendarDataFromGoogleCalendar = {
     location: '大井競馬場',
     description: 'テスト',
 };
+
+export const baseJraPlaceRecord = new JraPlaceRecord(
+    `jra2024122205`,
+    new Date('2024-12-22'),
+    '中山',
+    1,
+    1,
+);
 
 export const baseJraPlaceEntity = new JraPlaceEntity(
     null,
