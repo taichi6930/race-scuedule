@@ -79,7 +79,7 @@ describe('JraPlaceRepositoryFromS3Impl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from(
                         { length: 12 },
-                        () => new JraPlaceEntity(null, date, '東京'),
+                        () => new JraPlaceEntity(null, date, '東京', 1, 1),
                     );
                 },
             ).flat();

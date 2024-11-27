@@ -404,6 +404,8 @@ export const baseJraPlaceEntity = new JraPlaceEntity(
     null,
     new Date('2024-12-22'),
     '中山',
+    5,
+    8,
 );
 export const baseJraPlaceData = baseJraPlaceEntity.toDomainData();
 

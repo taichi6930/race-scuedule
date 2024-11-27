@@ -106,6 +106,8 @@ export class JraPlaceRepositoryFromS3Impl
         const idIndex = headers.indexOf('id');
         const raceDateIndex = headers.indexOf('dateTime');
         const placeIndex = headers.indexOf('location');
+        const heldTimesIndex = headers.indexOf('heldTimes');
+        const heldDayTimesIndex = headers.indexOf('heldDayTimes');
 
         // データ行を解析してJraPlaceEntityのリストを生成
         const placeEntityList: JraPlaceEntity[] = lines
@@ -124,6 +126,8 @@ export class JraPlaceRepositoryFromS3Impl
                     idIndex < 0 ? null : columns[idIndex],
                     new Date(columns[raceDateIndex]),
                     columns[placeIndex] as JraRaceCourse,
+                    parseInt(columns[heldTimesIndex]),
+                    parseInt(columns[heldDayTimesIndex]),
                 );
             })
             .filter(

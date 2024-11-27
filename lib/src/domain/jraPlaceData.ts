@@ -12,10 +12,14 @@ export class JraPlaceData {
      * 開催場所の型はJraRaceCourseを使用しているのでValidationは現時点で不要
      * @param dateTime - 開催日時
      * @param location - 開催場所
+     * @param heldTimes - 開催回数
+     * @param heldDayTimes - 開催日数
      */
     constructor(
         public readonly dateTime: Date,
         public readonly location: JraRaceCourse,
+        public readonly heldTimes: number,
+        public readonly heldDayTimes: number,
     ) {}
 
     /**
@@ -27,6 +31,8 @@ export class JraPlaceData {
         return new JraPlaceData(
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
+            partial.heldTimes ?? this.heldTimes,
+            partial.heldDayTimes ?? this.heldDayTimes,
         );
     }
 }

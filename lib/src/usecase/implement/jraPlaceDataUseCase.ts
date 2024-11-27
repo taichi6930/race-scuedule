@@ -40,6 +40,8 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
                 return new JraPlaceData(
                     placeEntity.dateTime,
                     placeEntity.location,
+                    placeEntity.heldTimes,
+                    placeEntity.heldDayTimes,
                 );
             },
         );

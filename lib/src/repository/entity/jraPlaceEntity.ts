@@ -20,11 +20,15 @@ export class JraPlaceEntity {
      * 競輪のレース開催場所データを生成する
      * @param dateTime - 開催日時
      * @param location - 開催場所
+     * @param heldTimes - 開催回数
+     * @param heldDayTimes - 開催日数
      */
     constructor(
         id: string | null,
         public readonly dateTime: Date,
         public readonly location: JraRaceCourse,
+        public readonly heldTimes: number,
+        public readonly heldDayTimes: number,
     ) {
         this.id = id ?? this.generateId(dateTime, location);
     }
@@ -39,6 +43,8 @@ export class JraPlaceEntity {
             partial.id ?? null,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
+            partial.heldTimes ?? this.heldTimes,
+            partial.heldDayTimes ?? this.heldDayTimes,
         );
     }
 
@@ -51,6 +57,8 @@ export class JraPlaceEntity {
         return new JraPlaceData(
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
+            partial.heldTimes ?? this.heldTimes,
+            partial.heldDayTimes ?? this.heldDayTimes,
         );
     }
 
