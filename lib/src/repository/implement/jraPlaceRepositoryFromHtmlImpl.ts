@@ -159,7 +159,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         const place = getPlaceName(placeInitial);
                         if (!place) return;
                         // aタグの中の数字を取得、spanタグの中の文字はいらない
-                        const heldTimesInitial = $(element).find('a').text();
+                        const heldTimesInitial = $(element).text();
                         // 数字のみを取得（3東の形になっているので、placeInitialの分を削除）
                         const heldTimes = parseInt(
                             heldTimesInitial.replace(placeInitial, ''),
@@ -179,7 +179,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                             placeHeldDayTimesCountDict[place][heldTimes];
                         jraPlaceRecordList.push(
                             new JraPlaceRecord(
-                                `jra${format(date, 'yyyyMMdd')}${NETKEIBA_BABACODE[place]}`,
+                                `jra${format(new Date(date.getFullYear(), month - 1, day), 'yyyyMMdd')}${NETKEIBA_BABACODE[place]}`,
                                 new Date(date.getFullYear(), month - 1, day),
                                 getPlaceName(placeInitial),
                                 heldTimes,
