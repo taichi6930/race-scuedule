@@ -74,38 +74,50 @@ export class JraRaceRepositoryFromS3Impl
                             headers.indexOf('heldDayTimes');
 
                         // データ行を解析してJraRaceEntityのリストを生成
-                        return lines
-                            .slice(1)
-                            .map((line: string) => {
-                                const columns = line.split(',');
+                        return (
+                            lines
+                                .slice(1)
+                                .map((line: string) => {
+                                    const columns = line.split(',');
 
-                                // 必要なフィールドが存在しない場合はundefinedを返す
-                                if (
-                                    !columns[raceNameIndex] ||
-                                    isNaN(parseInt(columns[raceNumIndex]))
-                                ) {
-                                    return undefined;
-                                }
+                                    // 必要なフィールドが存在しない場合はundefinedを返す
+                                    if (
+                                        !columns[raceNameIndex] ||
+                                        isNaN(parseInt(columns[raceNumIndex]))
+                                    ) {
+                                        return undefined;
+                                    }
 
-                                return new JraRaceRecord(
-                                    columns[idIndex],
-                                    columns[raceNameIndex],
-                                    new Date(columns[raceDateIndex]),
-                                    columns[placeIndex] as JraRaceCourse,
-                                    columns[
-                                        surfaceTypeIndex
-                                    ] as JraRaceCourseType,
-                                    parseInt(columns[distanceIndex]),
-                                    columns[gradeIndex] as JraGradeType,
-                                    parseInt(columns[raceNumIndex]),
-                                    parseInt(columns[heldTimesIndex]),
-                                    parseInt(columns[heldDayTimesIndex]),
-                                );
-                            })
-                            .filter(
-                                (raceData): raceData is JraRaceRecord =>
-                                    raceData !== undefined,
-                            );
+                                    return new JraRaceRecord(
+                                        columns[idIndex],
+                                        columns[raceNameIndex],
+                                        new Date(columns[raceDateIndex]),
+                                        columns[placeIndex] as JraRaceCourse,
+                                        columns[
+                                            surfaceTypeIndex
+                                        ] as JraRaceCourseType,
+                                        parseInt(columns[distanceIndex]),
+                                        columns[gradeIndex] as JraGradeType,
+                                        parseInt(columns[raceNumIndex]),
+                                        parseInt(columns[heldTimesIndex]),
+                                        parseInt(columns[heldDayTimesIndex]),
+                                    );
+                                })
+                                .filter(
+                                    (raceData): raceData is JraRaceRecord =>
+                                        raceData !== undefined,
+                                )
+                                // IDが重複している場合は1つにまとめる
+                                .reduce<JraRaceRecord[]>((acc, raceData) => {
+                                    const index = acc.findIndex(
+                                        (data) => data.id === raceData.id,
+                                    );
+                                    if (index === -1) {
+                                        acc.push(raceData);
+                                    }
+                                    return acc;
+                                }, [])
+                        );
                     } catch (error) {
                         console.error(
                             `Error processing file ${fileName}:`,
@@ -162,8 +174,18 @@ export class JraRaceRepositoryFromS3Impl
                 race.raceData.heldDayTimes,
             );
             const key = `${format(race.raceData.dateTime, 'yyyyMMdd')}.csv`;
+            // 日付ごとに分割されたレースデータを格納
             if (!(key in raceRecordDict)) {
                 raceRecordDict[key] = [];
+            }
+
+            // 既に存在する場合は追加しない
+            if (
+                raceRecordDict[key].findIndex(
+                    (record) => record.id === raceRecord.id,
+                ) !== -1
+            ) {
+                return;
             }
 
             raceRecordDict[key].push(raceRecord);
