@@ -27,6 +27,7 @@ import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
+import { generateJraRaceId } from '../../utility/raceId';
 import { ICalendarService } from '../interface/ICalendarService';
 
 export type RaceType =
@@ -311,7 +312,11 @@ export class GoogleCalendarService<R extends RaceData>
         switch (this.raceType) {
             case 'jra': {
                 const jraRaceData = raceData as JraRaceData;
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[jraRaceData.location]}${jraRaceData.number.toXDigits(2)}`;
+                return generateJraRaceId(
+                    raceData.dateTime,
+                    jraRaceData.location,
+                    jraRaceData.number,
+                );
             }
             case 'nar': {
                 const narRaceData = raceData as NarRaceData;
@@ -417,7 +422,11 @@ export class GoogleCalendarService<R extends RaceData>
     ): calendar_v3.Schema$Event {
         const data = raceData;
         return {
-            id: this.generateEventId(data),
+            id: generateJraRaceId(
+                raceData.dateTime,
+                raceData.location,
+                raceData.number,
+            ),
             summary: data.name,
             location: `${data.location}競馬場`,
             start: {

@@ -1,13 +1,10 @@
 import '../../utility/format';
 
-import { format } from 'date-fns';
-
 import type { JraRaceData } from '../../domain/jraRaceData';
-import type { JraRaceCourse } from '../../utility/data/jra';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import { generateJraRaceId } from '../../utility/raceId';
 
 /**
- * 海外競馬のレース開催データ
+ * 中央競馬のレース開催データ
  */
 export class JraRaceEntity {
     /**
@@ -19,7 +16,7 @@ export class JraRaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催データを生成する
+     * 中央競馬のレース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
      */
@@ -29,7 +26,7 @@ export class JraRaceEntity {
     ) {
         this.id =
             id ??
-            this.generateId(
+            generateJraRaceId(
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -50,28 +47,9 @@ export class JraRaceEntity {
 
     /**
      * ドメインデータに変換する
-     * @param partial
      * @returns
      */
     toDomainData(): JraRaceData {
         return this.raceData;
-    }
-
-    /**
-     * IDを生成する
-     *
-     * @private
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param number - レース番号
-     * @returns 生成されたID
-     */
-    private generateId(
-        dateTime: Date,
-        location: JraRaceCourse,
-        number: number,
-    ): string {
-        const locationCode = NETKEIBA_BABACODE[location].substring(0, 10);
-        return `jra${format(dateTime, 'yyyyMMdd')}${locationCode}${number.toXDigits(2)}`;
     }
 }

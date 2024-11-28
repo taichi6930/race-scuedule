@@ -1,13 +1,12 @@
 import * as cheerio from 'cheerio';
-import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { IJraPlaceDataHtmlGateway } from '../../gateway/interface/iJraPlaceDataHtmlGateway';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { JraRaceCourse } from '../../utility/data/jra';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { Logger } from '../../utility/logger';
+import { generateJraPlaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -179,7 +178,14 @@ export class JraPlaceRepositoryFromHtmlImpl
                             placeHeldDayTimesCountDict[place][heldTimes];
                         jraPlaceRecordList.push(
                             new JraPlaceRecord(
-                                `jra${format(new Date(date.getFullYear(), month - 1, day), 'yyyyMMdd')}${NETKEIBA_BABACODE[place]}`,
+                                generateJraPlaceId(
+                                    new Date(
+                                        date.getFullYear(),
+                                        month - 1,
+                                        day,
+                                    ),
+                                    place,
+                                ),
                                 new Date(date.getFullYear(), month - 1, day),
                                 getPlaceName(placeInitial),
                                 heldTimes,
