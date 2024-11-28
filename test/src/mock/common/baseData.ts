@@ -2,6 +2,7 @@ import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData'
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../../../lib/src/domain/boatraceRacePlayerData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
@@ -408,13 +409,14 @@ export const baseJraPlaceRecord = new JraPlaceRecord(
     1,
     1,
 );
-
-export const baseJraPlaceEntity = new JraPlaceEntity(
-    null,
+export const baseJraPlaceData = new JraPlaceData(
     new Date('2024-12-22'),
     '中山',
+    1,
+    1,
 );
-export const baseJraPlaceData = baseJraPlaceEntity.toDomainData();
+
+export const baseJraPlaceEntity = new JraPlaceEntity(null, baseJraPlaceData);
 
 export const baseJraRaceEntity = new JraRaceEntity(
     null,
