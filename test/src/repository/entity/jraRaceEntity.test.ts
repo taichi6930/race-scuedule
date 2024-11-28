@@ -10,13 +10,7 @@ describe('JraRaceEntityクラスのテスト', () => {
         const raceEntity = baseRaceEntity;
         // インスタンスのプロパティが正しいか確認
         expect(raceEntity.id).toBe('jra202412220611');
-        expect(raceEntity.name).toBe('有馬記念');
-        expect(raceEntity.dateTime).toEqual(new Date('2024-12-22 15:40'));
-        expect(raceEntity.location).toBe('中山');
-        expect(raceEntity.distance).toBe(2500);
-        expect(raceEntity.surfaceType).toBe('芝');
-        expect(raceEntity.grade).toBe('GⅠ');
-        expect(raceEntity.number).toBe(11);
+        expect(raceEntity.raceData).toBe(baseJraRaceData);
     });
 
     it('何も変更せずJraRaceEntityのインスタンスを作成できることを確認', () => {

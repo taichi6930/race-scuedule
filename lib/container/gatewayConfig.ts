@@ -33,13 +33,13 @@ import { MockWorldRaceDataHtmlGateway } from '../src/gateway/mock/mockWorldRaceD
 import type { BoatracePlaceRecord } from '../src/gateway/record/boatracePlaceRecord';
 import type { BoatraceRacePlayerRecord } from '../src/gateway/record/boatraceRacePlayerRecord';
 import type { BoatraceRaceRecord } from '../src/gateway/record/boatraceRaceRecord';
+import type { JraPlaceRecord } from '../src/gateway/record/jraPlaceRecord';
+import type { JraRaceRecord } from '../src/gateway/record/jraRaceRecord';
 import type { KeirinPlaceRecord } from '../src/gateway/record/keirinPlaceRecord';
 import type { KeirinRacePlayerRecord } from '../src/gateway/record/keirinRacePlayerRecord';
 import type { KeirinRaceRecord } from '../src/gateway/record/keirinRaceRecord';
 import type { AutoracePlaceEntity } from '../src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../src/repository/entity/autoraceRaceEntity';
-import type { JraPlaceEntity } from '../src/repository/entity/jraPlaceEntity';
-import type { JraRaceEntity } from '../src/repository/entity/jraRaceEntity';
 import type { NarPlaceEntity } from '../src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../src/repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../src/repository/entity/worldRaceEntity';
@@ -189,37 +189,37 @@ container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
     },
 });
 
-container.register<IS3Gateway<JraRaceEntity>>('JraRaceS3Gateway', {
+container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<JraRaceEntity>(
+                return new S3Gateway<JraRaceRecord>(
                     'race-schedule-bucket',
                     'jra/race/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<JraRaceEntity>(
+                return new MockS3Gateway<JraRaceRecord>(
                     'race-schedule-bucket',
                     'jra/race/',
                 );
         }
     },
 });
-container.register<IS3Gateway<JraPlaceEntity>>('JraPlaceS3Gateway', {
+container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
-                return new S3Gateway<JraPlaceEntity>(
+                return new S3Gateway<JraPlaceRecord>(
                     'race-schedule-bucket',
                     'jra/place/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<JraPlaceEntity>(
+                return new MockS3Gateway<JraPlaceRecord>(
                     'race-schedule-bucket',
                     'jra/place/',
                 );

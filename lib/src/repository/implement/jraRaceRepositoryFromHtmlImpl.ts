@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { JraRaceData } from '../../domain/jraRaceData';
 import { IJraRaceDataHtmlGateway } from '../../gateway/interface/iJraRaceDataHtmlGateway';
 import { JraGradeType, JraRaceCourse } from '../../utility/data/jra';
 import { Logger } from '../../utility/logger';
@@ -30,20 +31,20 @@ export class JraRaceRepositoryFromHtmlImpl
     async fetchRaceList(
         request: FetchRaceListRequest<JraPlaceEntity>,
     ): Promise<FetchRaceListResponse<JraRaceEntity>> {
-        const jraRaceDataList: JraRaceEntity[] = [];
+        const jraRaceEntityList: JraRaceEntity[] = [];
         const placeList = request.placeDataList;
         // placeListからdateのみをListにする、重複すると思うので重複を削除する
         const dateList = placeList
-            ?.map((place) => place.dateTime)
+            ?.map((place) => place.placeData.dateTime)
             .filter((x, i, self) => self.indexOf(x) === i);
         if (dateList) {
             for (const date of dateList) {
-                jraRaceDataList.push(
+                jraRaceEntityList.push(
                     ...(await this.fetchRaceListFromHtmlWithJraPlace(date)),
                 );
             }
         }
-        return new FetchRaceListResponse(jraRaceDataList);
+        return new FetchRaceListResponse(jraRaceEntityList);
     }
 
     @Logger
@@ -271,15 +272,17 @@ export class JraRaceRepositoryFromHtmlImpl
 
                         const jradata = new JraRaceEntity(
                             null,
-                            newRaceName,
-                            new Date(year, month - 1, day, hour, minute),
-                            place,
-                            surfaceType,
-                            distance,
-                            raceGrade as JraGradeType,
-                            raceNum,
-                            raceHeld,
-                            raceHeldDay,
+                            new JraRaceData(
+                                newRaceName,
+                                new Date(year, month - 1, day, hour, minute),
+                                place,
+                                surfaceType,
+                                distance,
+                                raceGrade as JraGradeType,
+                                raceNum,
+                                raceHeld,
+                                raceHeldDay,
+                            ),
                         );
                         jraRaceDataList.push(jradata);
                     });

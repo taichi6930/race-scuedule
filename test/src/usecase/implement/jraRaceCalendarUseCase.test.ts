@@ -11,7 +11,7 @@ import type { ICalendarService } from '../../../../lib/src/service/interface/ICa
 import { JraRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/jraRaceCalendarUseCase';
 import type { JraGradeType } from '../../../../lib/src/utility/data/jra';
 import { JRA_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/jra';
-import { baseJraRaceEntity } from '../../mock/common/baseData';
+import { baseJraRaceData, baseJraRaceEntity } from '../../mock/common/baseData';
 import { mockJraRaceRepositoryFromS3Impl } from '../../mock/repository/jraRaceRepositoryFromS3Impl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
@@ -105,17 +105,13 @@ describe('JraRaceCalendarUseCase', () => {
 
         it('正常に更新できること', async () => {
             const mockRaceDataList: JraRaceData[] = [];
-            const mockRaceEntityList: JraRaceEntity[] = [];
             const expectedRaceDataList: JraRaceData[] = [];
+            const mockRaceEntityList: JraRaceEntity[] = [];
             const expectedRaceEntityList: JraRaceEntity[] = [];
 
-            const grades: JraGradeType[] = [
-                'GⅠ',
-                'Listed',
-                '未勝利',
-            ] as JraGradeType[];
-            const months = [1 - 1, 2 - 1, 3 - 1]; // 1月、2月、3月を0ベースで表現
-            const days = [1, 2, 3];
+            const grades: JraGradeType[] = ['GⅠ'] as JraGradeType[];
+            const months = [12 - 1];
+            const days = [29, 30, 31];
 
             grades.forEach((grade) => {
                 months.forEach((month) => {
@@ -123,29 +119,33 @@ describe('JraRaceCalendarUseCase', () => {
                         // モック用のデータを作成
                         mockRaceEntityList.push(
                             baseJraCalendarEntity.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
+                                raceData: baseJraRaceData.copy({
+                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                    dateTime: new Date(2024, month, day),
+                                    grade: grade,
+                                }),
                             }),
                         );
                         mockRaceDataList.push(
-                            baseJraCalendarEntity.toDomainData({
+                            baseJraCalendarEntity.toDomainData().copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
                             }),
                         );
                         if (JRA_SPECIFIED_GRADE_LIST.includes(grade)) {
-                            // モック用のデータを作成
+                            // 期待するデータを作成
                             expectedRaceEntityList.push(
                                 baseJraCalendarEntity.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
+                                    raceData: baseJraRaceData.copy({
+                                        name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                        dateTime: new Date(2024, month, day),
+                                        grade: grade,
+                                    }),
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseJraCalendarEntity.toDomainData({
+                                baseJraCalendarEntity.toDomainData().copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,

@@ -3,7 +3,9 @@ import 'reflect-metadata';
 import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import { JraRaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromS3Impl';
@@ -12,7 +14,7 @@ import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/
 import { mockS3GatewayForJraRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('JraRaceRepositoryFromS3Impl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<JraRaceEntity>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<JraRaceRecord>>;
     let repository: JraRaceRepositoryFromS3Impl;
 
     beforeEach(() => {
@@ -109,15 +111,17 @@ describe('JraRaceRepositoryFromS3Impl', () => {
                         (__, j) =>
                             new JraRaceEntity(
                                 null,
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                date,
-                                '東京',
-                                'ダート',
-                                1200,
-                                'GⅠ',
-                                j + 1,
-                                1,
-                                1,
+                                new JraRaceData(
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    date,
+                                    '東京',
+                                    'ダート',
+                                    1200,
+                                    'GⅠ',
+                                    j + 1,
+                                    1,
+                                    1,
+                                ),
                             ),
                     );
                 },

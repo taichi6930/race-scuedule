@@ -68,15 +68,15 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
             const raceEntityList = fetchRaceDataListResponse.raceDataList;
             const raceDataList = raceEntityList.map((raceEntity) => {
                 return new JraRaceData(
-                    raceEntity.name,
-                    raceEntity.dateTime,
-                    raceEntity.location,
-                    raceEntity.surfaceType,
-                    raceEntity.distance,
-                    raceEntity.grade,
-                    raceEntity.number,
-                    raceEntity.heldTimes,
-                    raceEntity.heldDayTimes,
+                    raceEntity.raceData.name,
+                    raceEntity.raceData.dateTime,
+                    raceEntity.raceData.location,
+                    raceEntity.raceData.surfaceType,
+                    raceEntity.raceData.distance,
+                    raceEntity.raceData.grade,
+                    raceEntity.raceData.number,
+                    raceEntity.raceData.heldTimes,
+                    raceEntity.raceData.heldDayTimes,
                 );
             });
 

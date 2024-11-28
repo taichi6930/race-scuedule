@@ -1,9 +1,11 @@
 import 'reflect-metadata';
 
-import { parse } from 'date-fns';
+import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraPlaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromS3Impl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
@@ -11,7 +13,7 @@ import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request
 import { mockS3GatewayForJraPlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('JraPlaceRepositoryFromS3Impl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<JraPlaceEntity>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<JraPlaceRecord>>;
     let repository: JraPlaceRepositoryFromS3Impl;
 
     beforeEach(() => {
@@ -40,13 +42,20 @@ describe('JraPlaceRepositoryFromS3Impl', () => {
                     console.log(date);
 
                     // CSVのヘッダーを定義
-                    const csvHeaderDataText = ['dateTime', 'location'].join(
-                        ',',
-                    );
+                    const csvHeaderDataText = [
+                        'id',
+                        'dateTime',
+                        'location',
+                        'heldTimes',
+                        'heldDayTimes',
+                    ].join(',');
 
                     const csvDataText: string = [
+                        `jra${format(date, 'yyyyMMdd')}05`,
                         date.toISOString(),
                         '東京',
+                        '1',
+                        '1',
                     ].join(',');
                     // ヘッダーとデータ行を結合して完全なCSVデータを生成
                     const csvDatajoinText: string = [
@@ -79,7 +88,11 @@ describe('JraPlaceRepositoryFromS3Impl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from(
                         { length: 12 },
-                        () => new JraPlaceEntity(null, date, '東京'),
+                        () =>
+                            new JraPlaceEntity(
+                                null,
+                                new JraPlaceData(date, '東京', 1, 1),
+                            ),
                     );
                 },
             ).flat();

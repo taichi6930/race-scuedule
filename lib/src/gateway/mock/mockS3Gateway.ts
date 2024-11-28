@@ -294,9 +294,13 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 for (let month = 1; month <= 12; month++) {
                     const startDate = new Date(2024, month - 1, 1);
                     const fileName = `jra/place/${format(startDate, 'yyyyMM')}.csv`;
-                    const mockDataHeader = ['id', 'dateTime', 'location'].join(
-                        ',',
-                    );
+                    const mockDataHeader = [
+                        'id',
+                        'dateTime',
+                        'location',
+                        'heldTimes',
+                        'heldDayTimes',
+                    ].join(',');
                     const mockData = [mockDataHeader];
                     // 1ヶ月分のデータ（28~31日）を作成
                     // 2024年のデータ366日分を作成
@@ -308,6 +312,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 `jra${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['東京']}`,
                                 format(currentDate, 'yyyy-MM-dd'),
                                 '東京',
+                                '1',
+                                '1',
                             ].join(','),
                         );
                         currentDate.setDate(currentDate.getDate() + 1);

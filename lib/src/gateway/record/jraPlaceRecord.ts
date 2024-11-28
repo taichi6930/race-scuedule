@@ -1,21 +1,22 @@
-import type { JraRaceCourse } from '../utility/data/jra';
+import type { JraRaceCourse } from '../../utility/data/jra';
 
 /**
- * JRAのレース開催場所データ
+ * Repository層のRecord 中央競馬のレース開催場所データ
  */
-export class JraPlaceData {
+export class JraPlaceRecord {
     /**
      * コンストラクタ
      *
      * @remarks
-     * JRAのレース開催場所を生成する
-     * 開催場所の型はJraRaceCourseを使用しているのでValidationは現時点で不要
+     * 競輪のレース開催場所データを生成する
+     * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param heldTimes - 開催回数
      * @param heldDayTimes - 開催日数
      */
     constructor(
+        public readonly id: string,
         public readonly dateTime: Date,
         public readonly location: JraRaceCourse,
         public readonly heldTimes: number,
@@ -27,8 +28,9 @@ export class JraPlaceData {
      * @param partial
      * @returns
      */
-    copy(partial: Partial<JraPlaceData> = {}): JraPlaceData {
-        return new JraPlaceData(
+    copy(partial: Partial<JraPlaceRecord> = {}): JraPlaceRecord {
+        return new JraPlaceRecord(
+            partial.id ?? this.id,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
             partial.heldTimes ?? this.heldTimes,
