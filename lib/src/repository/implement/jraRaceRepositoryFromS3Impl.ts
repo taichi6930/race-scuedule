@@ -3,7 +3,9 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { JraRaceData } from '../../domain/jraRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import {
     JraGradeType,
     JraRaceCourse,
@@ -24,7 +26,7 @@ export class JraRaceRepositoryFromS3Impl
 {
     constructor(
         @inject('JraRaceS3Gateway')
-        private s3Gateway: IS3Gateway<JraRaceEntity>,
+        private s3Gateway: IS3Gateway<JraRaceRecord>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -43,10 +45,9 @@ export class JraRaceRepositoryFromS3Impl
             fileNames.push(fileName);
             currentDate.setDate(currentDate.getDate() + 1);
         }
-        console.debug('fileNames:', fileNames);
 
         // ファイル名リストから競馬場開催データを取得する
-        const raceDataList = (
+        const raceRecordList = (
             await Promise.all(
                 fileNames.map(async (fileName) => {
                     try {
@@ -86,8 +87,8 @@ export class JraRaceRepositoryFromS3Impl
                                     return undefined;
                                 }
 
-                                return new JraRaceEntity(
-                                    idIndex < 0 ? null : columns[idIndex],
+                                return new JraRaceRecord(
+                                    columns[idIndex],
                                     columns[raceNameIndex],
                                     new Date(columns[raceDateIndex]),
                                     columns[placeIndex] as JraRaceCourse,
@@ -102,7 +103,7 @@ export class JraRaceRepositoryFromS3Impl
                                 );
                             })
                             .filter(
-                                (raceData): raceData is JraRaceEntity =>
+                                (raceData): raceData is JraRaceRecord =>
                                     raceData !== undefined,
                             );
                     } catch (error) {
@@ -116,7 +117,24 @@ export class JraRaceRepositoryFromS3Impl
             )
         ).flat();
 
-        return new FetchRaceListResponse<JraRaceEntity>(raceDataList);
+        const raceEntityList = raceRecordList.map((raceRecord) => {
+            return new JraRaceEntity(
+                raceRecord.id,
+                new JraRaceData(
+                    raceRecord.name,
+                    raceRecord.dateTime,
+                    raceRecord.location,
+                    raceRecord.surfaceType,
+                    raceRecord.distance,
+                    raceRecord.grade,
+                    raceRecord.number,
+                    raceRecord.heldTimes,
+                    raceRecord.heldDayTimes,
+                ),
+            );
+        });
+
+        return new FetchRaceListResponse<JraRaceEntity>(raceEntityList);
     }
 
     /**
@@ -127,19 +145,32 @@ export class JraRaceRepositoryFromS3Impl
     async registerRaceList(
         request: RegisterRaceListRequest<JraRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceData: JraRaceEntity[] = request.raceDataList;
+        const raceEntity: JraRaceEntity[] = request.raceDataList;
         // レースデータを日付ごとに分割する
-        const raceDataDict: Record<string, JraRaceEntity[]> = {};
-        raceData.forEach((race) => {
-            const key = `${format(race.dateTime, 'yyyyMMdd')}.csv`;
-            if (!(key in raceDataDict)) {
-                raceDataDict[key] = [];
+        const raceRecordDict: Record<string, JraRaceRecord[]> = {};
+        raceEntity.forEach((race) => {
+            const raceRecord = new JraRaceRecord(
+                race.id,
+                race.raceData.name,
+                race.raceData.dateTime,
+                race.raceData.location,
+                race.raceData.surfaceType,
+                race.raceData.distance,
+                race.raceData.grade,
+                race.raceData.number,
+                race.raceData.heldTimes,
+                race.raceData.heldDayTimes,
+            );
+            const key = `${format(race.raceData.dateTime, 'yyyyMMdd')}.csv`;
+            if (!(key in raceRecordDict)) {
+                raceRecordDict[key] = [];
             }
-            raceDataDict[key].push(race);
+
+            raceRecordDict[key].push(raceRecord);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceData] of Object.entries(raceDataDict)) {
+        for (const [fileName, raceData] of Object.entries(raceRecordDict)) {
             await this.s3Gateway.uploadDataToS3(raceData, fileName);
         }
         return new RegisterRaceListResponse(200);

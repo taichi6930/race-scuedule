@@ -8,12 +8,14 @@ import type { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity'
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { BoatracePlaceRecord } from '../record/boatracePlaceRecord';
 import { JraPlaceRecord } from '../record/jraPlaceRecord';
+import { JraRaceRecord } from '../record/jraRaceRecord';
 import type { KeirinPlaceRecord } from '../record/keirinPlaceRecord';
 import type { KeirinRacePlayerRecord } from '../record/keirinRacePlayerRecord';
 import type { KeirinRaceRecord } from '../record/keirinRaceRecord';
 
 export type Record =
     | JraPlaceRecord
+    | JraRaceRecord
     | KeirinPlaceRecord
     | KeirinRaceRecord
     | KeirinRacePlayerRecord
@@ -23,7 +25,6 @@ export type Record =
 export type DeprecatedEntity =
     | AutoracePlaceEntity
     | AutoraceRaceEntity
-    | JraRaceEntity
     | NarPlaceEntity
     | NarRaceEntity
     | WorldPlaceEntity

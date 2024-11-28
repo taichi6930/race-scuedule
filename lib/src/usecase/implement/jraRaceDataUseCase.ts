@@ -127,15 +127,17 @@ export class JraRaceDataUseCase
             const raceEntityList = raceList.map((raceData) => {
                 return new JraRaceEntity(
                     null,
-                    raceData.name,
-                    raceData.dateTime,
-                    raceData.location,
-                    raceData.surfaceType,
-                    raceData.distance,
-                    raceData.grade,
-                    raceData.number,
-                    raceData.heldTimes,
-                    raceData.heldDayTimes,
+                    new JraRaceData(
+                        raceData.name,
+                        raceData.dateTime,
+                        raceData.location,
+                        raceData.surfaceType,
+                        raceData.distance,
+                        raceData.grade,
+                        raceData.number,
+                        raceData.heldTimes,
+                        raceData.heldDayTimes,
+                    ),
                 );
             });
             // S3にデータを保存する

@@ -3,6 +3,7 @@ import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../../../lib/src/domain/boatraceRacePlayerData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
+import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
@@ -435,15 +436,17 @@ export const baseJraPlaceEntity = new JraPlaceEntity(null, baseJraPlaceData);
 
 export const baseJraRaceEntity = new JraRaceEntity(
     null,
-    '有馬記念',
-    new Date('2024-12-22 15:40'),
-    '中山',
-    '芝',
-    2500,
-    'GⅠ',
-    11,
-    1,
-    1,
+    new JraRaceData(
+        '有馬記念',
+        new Date('2024-12-22 15:40'),
+        '中山',
+        '芝',
+        2500,
+        'GⅠ',
+        11,
+        1,
+        1,
+    ),
 );
 
 export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatMap(
@@ -464,15 +467,17 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
         ].map((grade, index) => {
             return new JraRaceEntity(
                 null,
-                `テスト${location}${grade}${(index + 1).toString()}レース`,
-                new Date(2024, 6 - 1, 1, 7 + index, 0),
-                location as JraRaceCourse,
-                '芝',
-                1600,
-                grade as JraGradeType,
-                index + 1,
-                1,
-                1,
+                new JraRaceData(
+                    `テスト${location}${grade}${(index + 1).toString()}レース`,
+                    new Date(2024, 6 - 1, 1, 7 + index, 0),
+                    location as JraRaceCourse,
+                    '芝',
+                    1600,
+                    grade as JraGradeType,
+                    index + 1,
+                    1,
+                    1,
+                ),
             );
         });
     },

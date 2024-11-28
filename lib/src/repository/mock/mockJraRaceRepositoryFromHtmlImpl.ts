@@ -1,3 +1,4 @@
+import { JraRaceData } from '../../domain/jraRaceData';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
@@ -24,20 +25,22 @@ export class MockJraRaceRepositoryFromHtmlImpl
                     raceEntityList.push(
                         new JraRaceEntity(
                             null,
-                            `${placeEntity.placeData.location}第${i.toString()}R`,
-                            new Date(
-                                placeEntity.placeData.dateTime.getFullYear(),
-                                placeEntity.placeData.dateTime.getMonth(),
-                                placeEntity.placeData.dateTime.getDate(),
-                                i + 9,
+                            new JraRaceData(
+                                `${placeEntity.placeData.location}第${i.toString()}R`,
+                                new Date(
+                                    placeEntity.placeData.dateTime.getFullYear(),
+                                    placeEntity.placeData.dateTime.getMonth(),
+                                    placeEntity.placeData.dateTime.getDate(),
+                                    i + 9,
+                                ),
+                                placeEntity.placeData.location,
+                                '芝',
+                                2000,
+                                'GⅠ',
+                                i,
+                                1,
+                                1,
                             ),
-                            placeEntity.placeData.location,
-                            '芝',
-                            2000,
-                            'GⅠ',
-                            i,
-                            1,
-                            1,
                         ),
                     );
                 }
