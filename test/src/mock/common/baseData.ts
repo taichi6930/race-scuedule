@@ -8,6 +8,7 @@ import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
+import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
@@ -409,6 +410,20 @@ export const baseJraPlaceRecord = new JraPlaceRecord(
     1,
     1,
 );
+
+export const baseJraRaceRecord = new JraRaceRecord(
+    'jra202412220511',
+    '有馬記念',
+    new Date('2024-12-22 15:40'),
+    '中山',
+    '芝',
+    2500,
+    'GⅠ',
+    11,
+    1,
+    1,
+);
+
 export const baseJraPlaceData = new JraPlaceData(
     new Date('2024-12-22'),
     '中山',
