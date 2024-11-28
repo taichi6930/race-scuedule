@@ -30,20 +30,20 @@ export class JraRaceRepositoryFromHtmlImpl
     async fetchRaceList(
         request: FetchRaceListRequest<JraPlaceEntity>,
     ): Promise<FetchRaceListResponse<JraRaceEntity>> {
-        const jraRaceDataList: JraRaceEntity[] = [];
+        const jraRaceEntityList: JraRaceEntity[] = [];
         const placeList = request.placeDataList;
         // placeListからdateのみをListにする、重複すると思うので重複を削除する
         const dateList = placeList
-            ?.map((place) => place.dateTime)
+            ?.map((place) => place.placeData.dateTime)
             .filter((x, i, self) => self.indexOf(x) === i);
         if (dateList) {
             for (const date of dateList) {
-                jraRaceDataList.push(
+                jraRaceEntityList.push(
                     ...(await this.fetchRaceListFromHtmlWithJraPlace(date)),
                 );
             }
         }
-        return new FetchRaceListResponse(jraRaceDataList);
+        return new FetchRaceListResponse(jraRaceEntityList);
     }
 
     @Logger

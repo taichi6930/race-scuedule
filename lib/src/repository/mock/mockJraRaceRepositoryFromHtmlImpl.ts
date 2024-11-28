@@ -24,14 +24,14 @@ export class MockJraRaceRepositoryFromHtmlImpl
                     raceEntityList.push(
                         new JraRaceEntity(
                             null,
-                            `${placeEntity.location}第${i.toString()}R`,
+                            `${placeEntity.placeData.location}第${i.toString()}R`,
                             new Date(
-                                placeEntity.dateTime.getFullYear(),
-                                placeEntity.dateTime.getMonth(),
-                                placeEntity.dateTime.getDate(),
+                                placeEntity.placeData.dateTime.getFullYear(),
+                                placeEntity.placeData.dateTime.getMonth(),
+                                placeEntity.placeData.dateTime.getDate(),
                                 i + 9,
                             ),
-                            placeEntity.location,
+                            placeEntity.placeData.location,
                             '芝',
                             2000,
                             'GⅠ',

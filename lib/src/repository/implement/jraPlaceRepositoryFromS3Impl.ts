@@ -2,7 +2,9 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
+import { JraPlaceData } from '../../domain/jraPlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { JraRaceCourse } from '../../utility/data/jra';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
@@ -18,7 +20,7 @@ export class JraPlaceRepositoryFromS3Impl
 {
     constructor(
         @inject('JraPlaceS3Gateway')
-        private s3Gateway: IS3Gateway<JraPlaceEntity>,
+        private s3Gateway: IS3Gateway<JraPlaceRecord>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -36,18 +38,39 @@ export class JraPlaceRepositoryFromS3Impl
             request.startDate,
             request.finishDate,
         );
-        const promises = fileNames.map((fileName) =>
-            this.fetchYearPlaceDataList(fileName).then((childPlaceDataList) =>
-                childPlaceDataList.filter(
-                    (placeData) =>
-                        placeData.dateTime >= request.startDate &&
-                        placeData.dateTime <= request.finishDate,
+
+        // 年ごとの競馬場開催データを取得
+        const placeRecords = (
+            await Promise.all(
+                fileNames.map((fileName) =>
+                    this.fetchYearPlaceRecordList(fileName),
                 ),
-            ),
+            )
+        ).flat();
+
+        // Entityに変換
+        const placeEntityList: JraPlaceEntity[] = placeRecords.map(
+            (placeRecord) => {
+                return new JraPlaceEntity(
+                    placeRecord.id,
+                    new JraPlaceData(
+                        placeRecord.dateTime,
+                        placeRecord.location,
+                        placeRecord.heldTimes,
+                        placeRecord.heldDayTimes,
+                    ),
+                );
+            },
         );
-        const placeDataLists = await Promise.all(promises);
-        const placeDataList = placeDataLists.flat();
-        return new FetchPlaceListResponse(placeDataList);
+
+        // filterで日付の範囲を指定
+        const filteredPlaceEntityList = placeEntityList.filter(
+            (placeEntity) =>
+                placeEntity.placeData.dateTime >= request.startDate &&
+                placeEntity.placeData.dateTime <= request.finishDate,
+        );
+
+        return new FetchPlaceListResponse(filteredPlaceEntityList);
     }
 
     /**
@@ -92,9 +115,9 @@ export class JraPlaceRepositoryFromS3Impl
      * @returns
      */
     @Logger
-    private async fetchYearPlaceDataList(
+    private async fetchYearPlaceRecordList(
         fileName: string,
-    ): Promise<JraPlaceEntity[]> {
+    ): Promise<JraPlaceRecord[]> {
         console.log(`S3から${fileName}を取得します`);
         const csv = await this.s3Gateway.fetchDataFromS3(fileName);
         const lines = csv.split('\n');
@@ -106,52 +129,67 @@ export class JraPlaceRepositoryFromS3Impl
         const idIndex = headers.indexOf('id');
         const raceDateIndex = headers.indexOf('dateTime');
         const placeIndex = headers.indexOf('location');
+        const heldTimesIndex = headers.indexOf('heldTimes');
+        const heldDayTimesIndex = headers.indexOf('heldDayTimes');
 
-        // データ行を解析してJraPlaceEntityのリストを生成
-        const placeEntityList: JraPlaceEntity[] = lines
+        // データ行を解析してJraPlaceRecordのリストを生成
+        const placeRecordList: JraPlaceRecord[] = lines
             .slice(1)
             .map((line: string) => {
                 const columns = line.split(',');
 
                 // 必要なフィールドが存在しない場合はundefinedを返す
-                if (!columns[raceDateIndex] || !columns[placeIndex]) {
+                if (
+                    !columns[idIndex] ||
+                    !columns[raceDateIndex] ||
+                    !columns[placeIndex]
+                ) {
                     return undefined;
                 }
 
                 // idIndexが存在しない場合はundefinedを返す
-                return new JraPlaceEntity(
-                    // TODO: idIndexが存在しない場合はnullを返すようにしているが、どこかのタイミングでエラーを出すように変更する
-                    idIndex < 0 ? null : columns[idIndex],
+                return new JraPlaceRecord(
+                    columns[idIndex],
                     new Date(columns[raceDateIndex]),
                     columns[placeIndex] as JraRaceCourse,
+                    parseInt(columns[heldTimesIndex]),
+                    parseInt(columns[heldDayTimesIndex]),
                 );
             })
             .filter(
-                (placeEntity): placeEntity is JraPlaceEntity =>
-                    placeEntity !== undefined,
+                (placeRecord): placeRecord is JraPlaceRecord =>
+                    placeRecord !== undefined,
             );
 
-        return placeEntityList;
+        return placeRecordList;
     }
 
     @Logger
     async registerPlaceList(
         request: RegisterPlaceListRequest<JraPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeData: JraPlaceEntity[] = request.placeDataList;
+        const placeEntity: JraPlaceEntity[] = request.placeDataList;
         // 得られたplaceを年毎に分ける
-        const placeDataDict: Record<string, JraPlaceEntity[]> = {};
-        placeData.forEach((place) => {
-            const key = `${place.dateTime.getFullYear().toString()}.csv`;
-            if (!(key in placeDataDict)) {
-                placeDataDict[key] = [];
+        const placeRecordDict: Record<string, JraPlaceRecord[]> = {};
+        placeEntity.forEach((place) => {
+            const key = `${place.placeData.dateTime.getFullYear().toString()}.csv`;
+            if (!(key in placeRecordDict)) {
+                placeRecordDict[key] = [];
             }
-            placeDataDict[key].push(place);
+            placeRecordDict[key].push(
+                new JraPlaceRecord(
+                    place.id,
+                    place.placeData.dateTime,
+                    place.placeData.location,
+                    place.placeData.heldTimes,
+                    place.placeData.heldDayTimes,
+                ),
+            );
         });
 
         // 年毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, placeData] of Object.entries(placeDataDict)) {
-            await this.s3Gateway.uploadDataToS3(placeData, fileName);
+        for (const [fileName, placeRecord] of Object.entries(placeRecordDict)) {
+            await this.s3Gateway.uploadDataToS3(placeRecord, fileName);
         }
 
         return new RegisterPlaceListResponse(200);

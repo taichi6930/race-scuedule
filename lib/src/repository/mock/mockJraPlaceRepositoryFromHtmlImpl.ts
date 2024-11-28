@@ -1,3 +1,4 @@
+import { JraPlaceData } from '../../domain/jraPlaceData';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -26,8 +27,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
             // 競輪場データを作成
             const jraPlaceEntity = new JraPlaceEntity(
                 null,
-                new Date(currentDate),
-                '東京',
+                new JraPlaceData(new Date(currentDate), '東京', 1, 1),
             );
             fetchPlaceEntityList.push(jraPlaceEntity);
             // 日付を1日進める
