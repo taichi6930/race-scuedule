@@ -1,4 +1,5 @@
 import type { JraPlaceData } from '../../domain/jraPlaceData';
+import type { JraPlaceId } from '../../utility/raceId';
 import { generateJraPlaceId } from '../../utility/raceId';
 
 /**
@@ -8,7 +9,7 @@ export class JraPlaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: JraPlaceId;
 
     /**
      * コンストラクタ
@@ -18,7 +19,7 @@ export class JraPlaceEntity {
      * @param placeData - レース開催場所データ
      */
     constructor(
-        id: string | null,
+        id: JraPlaceId | null,
         public readonly placeData: JraPlaceData,
     ) {
         this.id =
@@ -39,10 +40,7 @@ export class JraPlaceEntity {
 
     /**
      * データ型に変換する
-     * @param partial
      * @returns
      */
-    toDomainData(): JraPlaceData {
-        return this.placeData;
-    }
+    toDomainData = (): JraPlaceData => this.placeData;
 }

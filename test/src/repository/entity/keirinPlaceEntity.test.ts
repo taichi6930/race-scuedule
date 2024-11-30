@@ -28,7 +28,8 @@ describe('KeirinPlaceEntityクラスのテスト', () => {
         const placeEntity = baseKeirinPlaceEntity;
         const newPlaceEntity = placeEntity.copy();
 
-        expect(newPlaceEntity).toEqual(placeEntity);
+        expect(newPlaceEntity.id).toEqual(placeEntity.id);
+        expect(newPlaceEntity.placeData).toBe(placeEntity.placeData);
     });
 
     it('何も変更せずKeirinPlaceDataのインスタンスを作成できることを確認', () => {

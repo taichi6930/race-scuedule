@@ -14,6 +14,7 @@ import {
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
 import { Logger } from '../../utility/logger';
+import { BoatraceRaceId } from '../../utility/raceId';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -94,7 +95,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
 
                             return new BoatraceRacePlayerRecord(
                                 columns[idIndex],
-                                columns[raceIdIndex],
+                                columns[raceIdIndex] as BoatraceRaceId,
                                 parseInt(columns[positionNumberIndex]),
                                 parseInt(columns[playerNumberIndex]),
                             );
@@ -147,7 +148,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                             }
 
                             return new BoatraceRaceEntity(
-                                columns[idIndex],
+                                columns[idIndex] as BoatraceRaceId,
                                 new BoatraceRaceData(
                                     columns[raceNameIndex],
                                     columns[

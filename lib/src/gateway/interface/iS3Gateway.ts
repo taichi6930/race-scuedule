@@ -5,6 +5,8 @@ import type { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type { BoatracePlaceRecord } from '../record/boatracePlaceRecord';
+import type { BoatraceRacePlayerRecord } from '../record/boatraceRacePlayerRecord';
+import type { BoatraceRaceRecord } from '../record/boatraceRaceRecord';
 import type { JraPlaceRecord } from '../record/jraPlaceRecord';
 import type { JraRaceRecord } from '../record/jraRaceRecord';
 import type { KeirinPlaceRecord } from '../record/keirinPlaceRecord';
@@ -18,6 +20,8 @@ export type Record =
     | KeirinRaceRecord
     | KeirinRacePlayerRecord
     | BoatracePlaceRecord
+    | BoatraceRaceRecord
+    | BoatraceRacePlayerRecord
     | DeprecatedEntity;
 
 export type DeprecatedEntity =

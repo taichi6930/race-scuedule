@@ -9,6 +9,7 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
 import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
+import { KeirinPlaceId } from '../../utility/raceId';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -153,7 +154,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
                 }
 
                 return new KeirinPlaceRecord(
-                    columns[idIndex],
+                    columns[idIndex] as KeirinPlaceId,
                     new Date(columns[raceDateIndex]),
                     columns[placeIndex] as KeirinRaceCourse,
                     columns[gradeIndex] as KeirinGradeType,

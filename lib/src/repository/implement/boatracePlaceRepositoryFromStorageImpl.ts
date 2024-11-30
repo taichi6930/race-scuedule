@@ -12,6 +12,7 @@ import {
     BoatraceRaceCourse,
 } from '../../utility/data/boatrace';
 import { Logger } from '../../utility/logger';
+import { BoatracePlaceId } from '../../utility/raceId';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -156,7 +157,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
                 }
 
                 return new BoatracePlaceRecord(
-                    columns[idIndex],
+                    columns[idIndex] as BoatracePlaceId,
                     new Date(columns[raceDateIndex]),
                     columns[placeIndex] as BoatraceRaceCourse,
                     columns[gradeIndex] as BoatraceGradeType,

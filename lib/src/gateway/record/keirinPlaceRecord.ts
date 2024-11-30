@@ -2,6 +2,7 @@ import type {
     KeirinGradeType,
     KeirinRaceCourse,
 } from '../../utility/data/keirin';
+import type { KeirinPlaceId } from '../../utility/raceId';
 
 /**
  * Repository層のRecord 競輪のレース開催場所データ
@@ -18,7 +19,7 @@ export class KeirinPlaceRecord {
      * @param grade - 競輪のグレード
      */
     constructor(
-        public readonly id: string,
+        public readonly id: KeirinPlaceId,
         public readonly dateTime: Date,
         public readonly location: KeirinRaceCourse,
         public readonly grade: KeirinGradeType,

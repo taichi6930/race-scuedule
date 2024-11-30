@@ -14,8 +14,6 @@ import type { JraRaceData } from '../../domain/jraRaceData';
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { NarRaceData } from '../../domain/narRaceData';
 import { WorldRaceData } from '../../domain/worldRaceData';
-import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
-import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import {
     CHIHO_KEIBA_LIVE_URL,
@@ -24,10 +22,16 @@ import {
 } from '../../utility/data/movie';
 import { NAR_BABACODE } from '../../utility/data/nar';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
-import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
-import { generateJraRaceId } from '../../utility/raceId';
+import {
+    generateAutoraceRaceId,
+    generateBoatraceRaceId,
+    generateJraRaceId,
+    generateKeirinRaceId,
+    generateNarRaceId,
+    generateWorldRaceId,
+} from '../../utility/raceId';
 import { ICalendarService } from '../interface/ICalendarService';
 
 export type RaceType =
@@ -137,7 +141,10 @@ export class GoogleCalendarService<R extends RaceData>
         await Promise.all(
             raceList.map(async (raceData) => {
                 // イベントIDを生成
-                const eventId = this.generateEventId(raceData);
+                const eventId = GoogleCalendarService.generateEventId(
+                    this.raceType,
+                    raceData,
+                );
                 try {
                     // イベントを取得
                     const event = await this.calendar.events.get({
@@ -308,26 +315,33 @@ export class GoogleCalendarService<R extends RaceData>
      * @param raceData
      * @returns
      */
-    private generateEventId(raceData: RaceData): string {
-        switch (this.raceType) {
+    static generateEventId(raceType: RaceType, raceData: RaceData): string {
+        switch (raceType) {
             case 'jra': {
                 const jraRaceData = raceData as JraRaceData;
                 return generateJraRaceId(
-                    raceData.dateTime,
+                    jraRaceData.dateTime,
                     jraRaceData.location,
                     jraRaceData.number,
                 );
             }
             case 'nar': {
                 const narRaceData = raceData as NarRaceData;
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[narRaceData.location]}${narRaceData.number.toXDigits(2)}`;
+                return generateNarRaceId(
+                    narRaceData.dateTime,
+                    narRaceData.location,
+                    narRaceData.number,
+                );
             }
             case 'world': {
                 // w, x, y, zはGoogle Calendar APIのIDで使用できないため、置換
                 // https://developers.google.com/calendar/api/v3/reference/events/insert?hl=ja
                 const worldRaceData = raceData as WorldRaceData;
-                const locationCode = WORLD_PLACE_CODE[worldRaceData.location];
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${locationCode}${worldRaceData.number.toXDigits(2)}`
+                return generateWorldRaceId(
+                    worldRaceData.dateTime,
+                    worldRaceData.location,
+                    worldRaceData.number,
+                )
                     .replace('w', 'vv')
                     .replace('x', 'cs')
                     .replace('y', 'v')
@@ -335,15 +349,27 @@ export class GoogleCalendarService<R extends RaceData>
             }
             case 'keirin': {
                 const keirinRaceData = raceData as KeirinRaceData;
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[keirinRaceData.location]}${keirinRaceData.number.toXDigits(2)}`;
+                return generateKeirinRaceId(
+                    keirinRaceData.dateTime,
+                    keirinRaceData.location,
+                    keirinRaceData.number,
+                );
             }
             case 'autorace': {
                 const autoraceRaceData = raceData as AutoraceRaceData;
-                return `autorace${format(raceData.dateTime, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[autoraceRaceData.location]}${autoraceRaceData.number.toXDigits(2)}`;
+                return generateAutoraceRaceId(
+                    autoraceRaceData.dateTime,
+                    autoraceRaceData.location,
+                    autoraceRaceData.number,
+                );
             }
             case 'boatrace': {
                 const boatraceRaceData = raceData as BoatraceRaceData;
-                return `boatrace${format(raceData.dateTime, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[boatraceRaceData.location]}${boatraceRaceData.number.toXDigits(2)}`;
+                return generateBoatraceRaceId(
+                    boatraceRaceData.dateTime,
+                    boatraceRaceData.location,
+                    boatraceRaceData.number,
+                );
             }
         }
     }
@@ -420,30 +446,30 @@ export class GoogleCalendarService<R extends RaceData>
     private translateToCalendarEventForJra(
         raceData: JraRaceData,
     ): calendar_v3.Schema$Event {
-        const data = raceData;
         return {
             id: generateJraRaceId(
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
             ),
-            summary: data.name,
-            location: `${data.location}競馬場`,
+            summary: raceData.name,
+            location: `${raceData.location}競馬場`,
             start: {
-                dateTime: formatDate(data.dateTime),
+                dateTime: formatDate(raceData.dateTime),
                 timeZone: 'Asia/Tokyo',
             },
             end: {
                 // 終了時刻は発走時刻から10分後とする
                 dateTime: formatDate(
-                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                    new Date(raceData.dateTime.getTime() + 10 * 60 * 1000),
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(data.grade),
-            description: `距離: ${data.surfaceType}${data.distance.toString()}m
-            発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
-            ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${data.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[data.location]}${data.heldTimes.toXDigits(2)}${data.heldDayTimes.toXDigits(2)}${data.number.toXDigits(2)}`)}
+            colorId: this.getColorId(raceData.grade),
+            description:
+                `距離: ${raceData.surfaceType}${raceData.distance.toString()}m
+            発走: ${raceData.dateTime.getXDigitHours(2)}:${raceData.dateTime.getXDigitMinutes(2)}
+            ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceData.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[raceData.location]}${raceData.heldTimes.toXDigits(2)}${raceData.heldDayTimes.toXDigits(2)}${raceData.number.toXDigits(2)}`)}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -456,29 +482,33 @@ export class GoogleCalendarService<R extends RaceData>
     private translateToCalendarEventForNar(
         raceData: NarRaceData,
     ): calendar_v3.Schema$Event {
-        const data = raceData;
         return {
-            id: this.generateEventId(data),
-            summary: data.name,
-            location: `${data.location}競馬場`,
+            id: generateNarRaceId(
+                raceData.dateTime,
+                raceData.location,
+                raceData.number,
+            ),
+            summary: raceData.name,
+            location: `${raceData.location}競馬場`,
             start: {
-                dateTime: formatDate(data.dateTime),
+                dateTime: formatDate(raceData.dateTime),
                 timeZone: 'Asia/Tokyo',
             },
             end: {
                 // 終了時刻は発走時刻から10分後とする
                 dateTime: formatDate(
-                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                    new Date(raceData.dateTime.getTime() + 10 * 60 * 1000),
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(data.grade),
-            description: `距離: ${data.surfaceType}${data.distance.toString()}m
-            発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
+            colorId: this.getColorId(raceData.grade),
+            description:
+                `距離: ${raceData.surfaceType}${raceData.distance.toString()}m
+            発走: ${raceData.dateTime.getXDigitHours(2)}:${raceData.dateTime.getXDigitMinutes(2)}
             ${createAnchorTag('レース映像（地方競馬LIVE）', CHIHO_KEIBA_LIVE_URL)}
-            ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(CHIHO_KEIBA_YOUTUBE_USER_ID[data.location]))}
-            ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${data.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[data.location]}${(raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceData.dateTime.getDate().toXDigits(2)}${raceData.number.toXDigits(2)}`)}
-            ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${data.dateTime.getFullYear().toString()}%2f${raceData.dateTime.getXDigitMonth(2)}%2f${raceData.dateTime.getXDigitDays(2)}&k_raceNo=${data.number.toXDigits(2)}&k_babaCode=${NAR_BABACODE[data.location]}`)}
+            ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(CHIHO_KEIBA_YOUTUBE_USER_ID[raceData.location]))}
+            ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceData.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[raceData.location]}${(raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceData.dateTime.getDate().toXDigits(2)}${raceData.number.toXDigits(2)}`)}
+            ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${raceData.dateTime.getFullYear().toString()}%2f${raceData.dateTime.getXDigitMonth(2)}%2f${raceData.dateTime.getXDigitDays(2)}&k_raceNo=${raceData.number.toXDigits(2)}&k_babaCode=${NAR_BABACODE[raceData.location]}`)}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -491,26 +521,33 @@ export class GoogleCalendarService<R extends RaceData>
     private translateToCalendarEventForWorld(
         raceData: WorldRaceData,
     ): calendar_v3.Schema$Event {
-        const data = raceData;
-        console.log(this.generateEventId(data));
         return {
-            id: this.generateEventId(data),
-            summary: data.name,
-            location: `${data.location}競馬場`,
+            id: generateWorldRaceId(
+                raceData.dateTime,
+                raceData.location,
+                raceData.number,
+            )
+                .replace('w', 'vv')
+                .replace('x', 'cs')
+                .replace('y', 'v')
+                .replace('z', 's'),
+            summary: raceData.name,
+            location: `${raceData.location}競馬場`,
             start: {
-                dateTime: formatDate(data.dateTime),
+                dateTime: formatDate(raceData.dateTime),
                 timeZone: 'Asia/Tokyo',
             },
             end: {
                 // 終了時刻は発走時刻から10分後とする
                 dateTime: formatDate(
-                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                    new Date(raceData.dateTime.getTime() + 10 * 60 * 1000),
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(data.grade),
-            description: `距離: ${data.surfaceType}${data.distance.toString()}m
-            発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
+            colorId: this.getColorId(raceData.grade),
+            description:
+                `距離: ${raceData.surfaceType}${raceData.distance.toString()}m
+            発走: ${raceData.dateTime.getXDigitHours(2)}:${raceData.dateTime.getXDigitMinutes(2)}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -523,26 +560,29 @@ export class GoogleCalendarService<R extends RaceData>
     private translateToCalendarEventForKeirin(
         raceData: KeirinRaceData,
     ): calendar_v3.Schema$Event {
-        const data = raceData;
         return {
-            id: this.generateEventId(data),
-            summary: `${data.stage} ${data.name}`,
-            location: `${data.location}競輪場`,
+            id: generateKeirinRaceId(
+                raceData.dateTime,
+                raceData.location,
+                raceData.number,
+            ),
+            summary: `${raceData.stage} ${raceData.name}`,
+            location: `${raceData.location}競輪場`,
             start: {
-                dateTime: formatDate(data.dateTime),
+                dateTime: formatDate(raceData.dateTime),
                 timeZone: 'Asia/Tokyo',
             },
             end: {
                 // 終了時刻は発走時刻から10分後とする
                 dateTime: formatDate(
-                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                    new Date(raceData.dateTime.getTime() + 10 * 60 * 1000),
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(data.grade),
+            colorId: this.getColorId(raceData.grade),
             description:
-                `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
-            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(data.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[data.location]}${data.number.toXDigits(2)}`)}
+                `発走: ${raceData.dateTime.getXDigitHours(2)}:${raceData.dateTime.getXDigitMinutes(2)}
+            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[raceData.location]}${raceData.number.toXDigits(2)}`)}
             ${
                 ['GP', 'GⅠ', 'GⅡ'].includes(raceData.grade)
                     ? createAnchorTag(
@@ -563,25 +603,28 @@ export class GoogleCalendarService<R extends RaceData>
     private translateToCalendarEventForAutorace(
         raceData: AutoraceRaceData,
     ): calendar_v3.Schema$Event {
-        const data = raceData;
         return {
-            id: this.generateEventId(data),
-            summary: `${data.stage} ${data.name}`,
-            location: `${data.location}オートレース場`,
+            id: generateAutoraceRaceId(
+                raceData.dateTime,
+                raceData.location,
+                raceData.number,
+            ),
+            summary: `${raceData.stage} ${raceData.name}`,
+            location: `${raceData.location}オートレース場`,
             start: {
-                dateTime: formatDate(data.dateTime),
+                dateTime: formatDate(raceData.dateTime),
                 timeZone: 'Asia/Tokyo',
             },
             end: {
                 // 終了時刻は発走時刻から10分後とする
                 dateTime: formatDate(
-                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                    new Date(raceData.dateTime.getTime() + 10 * 60 * 1000),
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(data.grade),
+            colorId: this.getColorId(raceData.grade),
             description:
-                `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
+                `発走: ${raceData.dateTime.getXDigitHours(2)}:${raceData.dateTime.getXDigitMinutes(2)}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -594,25 +637,28 @@ export class GoogleCalendarService<R extends RaceData>
     private translateToCalendarEventForBoatrace(
         raceData: BoatraceRaceData,
     ): calendar_v3.Schema$Event {
-        const data = raceData;
         return {
-            id: this.generateEventId(data),
-            summary: `${data.stage} ${data.name}`,
-            location: `${data.location}ボートレース場`,
+            id: generateBoatraceRaceId(
+                raceData.dateTime,
+                raceData.location,
+                raceData.number,
+            ),
+            summary: `${raceData.stage} ${raceData.name}`,
+            location: `${raceData.location}ボートレース場`,
             start: {
-                dateTime: formatDate(data.dateTime),
+                dateTime: formatDate(raceData.dateTime),
                 timeZone: 'Asia/Tokyo',
             },
             end: {
                 // 終了時刻は発走時刻から10分後とする
                 dateTime: formatDate(
-                    new Date(data.dateTime.getTime() + 10 * 60 * 1000),
+                    new Date(raceData.dateTime.getTime() + 10 * 60 * 1000),
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(data.grade),
+            colorId: this.getColorId(raceData.grade),
             description:
-                `発走: ${data.dateTime.getXDigitHours(2)}:${data.dateTime.getXDigitMinutes(2)}
+                `発走: ${raceData.dateTime.getXDigitHours(2)}:${raceData.dateTime.getXDigitMinutes(2)}
         `.replace(/\n\s+/g, '\n'),
         };
     }

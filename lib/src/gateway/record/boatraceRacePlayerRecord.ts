@@ -1,5 +1,7 @@
 import '../../utility/format';
 
+import type { BoatraceRaceId } from '../../utility/raceId';
+
 /**
  * 競輪のレース選手データ
  */
@@ -18,7 +20,7 @@ export class BoatraceRacePlayerRecord {
      */
     constructor(
         public readonly id: string,
-        public readonly raceId: string,
+        public readonly raceId: BoatraceRaceId,
         public readonly positionNumber: number,
         public readonly playerNumber: number,
     ) {}

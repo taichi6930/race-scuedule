@@ -5,6 +5,7 @@ import type {
     KeirinRaceCourse,
     KeirinRaceStage,
 } from '../../utility/data/keirin';
+import type { KeirinRaceId } from '../../utility/raceId';
 
 /**
  * 競輪のレース開催データ
@@ -25,7 +26,7 @@ export class KeirinRaceRecord {
      *
      */
     constructor(
-        public readonly id: string,
+        public readonly id: KeirinRaceId,
         public readonly name: string, // レース名
         public readonly stage: KeirinRaceStage, // 開催ステージ
         public readonly dateTime: Date, // 開催日時

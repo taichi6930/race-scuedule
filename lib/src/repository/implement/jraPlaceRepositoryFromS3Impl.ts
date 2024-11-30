@@ -7,6 +7,7 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { JraRaceCourse } from '../../utility/data/jra';
 import { Logger } from '../../utility/logger';
+import { JraPlaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -149,7 +150,7 @@ export class JraPlaceRepositoryFromS3Impl
 
                 // idIndexが存在しない場合はundefinedを返す
                 return new JraPlaceRecord(
-                    columns[idIndex],
+                    columns[idIndex] as JraPlaceId,
                     new Date(columns[raceDateIndex]),
                     columns[placeIndex] as JraRaceCourse,
                     parseInt(columns[heldTimesIndex]),

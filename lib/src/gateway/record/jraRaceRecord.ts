@@ -5,6 +5,7 @@ import type {
     JraRaceCourse,
     JraRaceCourseType,
 } from '../../utility/data/jra';
+import type { JraRaceId } from '../../utility/raceId';
 
 /**
  * 中央競馬のレース開催データ
@@ -28,7 +29,7 @@ export class JraRaceRecord {
      *
      */
     constructor(
-        public readonly id: string,
+        public readonly id: JraRaceId,
         public readonly name: string,
         public readonly dateTime: Date,
         public readonly location: JraRaceCourse,

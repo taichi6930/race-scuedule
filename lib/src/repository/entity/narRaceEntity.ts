@@ -1,14 +1,13 @@
 import '../../utility/format';
 
-import { format } from 'date-fns';
-
 import { NarRaceData } from '../../domain/narRaceData';
 import type {
     NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
 } from '../../utility/data/nar';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import type { NarRaceId } from '../../utility/raceId';
+import { generateNarRaceId } from '../../utility/raceId';
 
 /**
  * 地方競馬のレース開催データ
@@ -17,7 +16,7 @@ export class NarRaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: NarRaceId;
 
     /**
      * コンストラクタ
@@ -34,7 +33,7 @@ export class NarRaceEntity {
      * @param number - レース番号
      */
     constructor(
-        id: string | null,
+        id: NarRaceId | null,
         public readonly name: string,
         public readonly dateTime: Date,
         public readonly location: NarRaceCourse,
@@ -43,7 +42,7 @@ export class NarRaceEntity {
         public readonly grade: NarGradeType,
         public readonly number: number,
     ) {
-        this.id = id ?? this.generateId(dateTime, location, number);
+        this.id = id ?? generateNarRaceId(dateTime, location, number);
     }
 
     /**
@@ -79,23 +78,5 @@ export class NarRaceEntity {
             partial.grade ?? this.grade,
             partial.number ?? this.number,
         );
-    }
-
-    /**
-     * IDを生成する
-     *
-     * @private
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param number - レース番号
-     * @returns 生成されたID
-     */
-    private generateId(
-        dateTime: Date,
-        location: NarRaceCourse,
-        number: number,
-    ): string {
-        const locationCode = NETKEIBA_BABACODE[location].substring(0, 10);
-        return `nar${format(dateTime, 'yyyyMMdd')}${locationCode}${number.toXDigits(2)}`;
     }
 }

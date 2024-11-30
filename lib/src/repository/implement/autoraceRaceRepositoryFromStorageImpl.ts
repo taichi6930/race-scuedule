@@ -10,6 +10,7 @@ import {
     AutoraceRaceStage,
 } from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
+import { AutoraceRaceId } from '../../utility/raceId';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -81,7 +82,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                             }
 
                             return new AutoraceRaceEntity(
-                                columns[idIndex],
+                                columns[idIndex] as AutoraceRaceId,
                                 columns[raceNameIndex],
                                 columns[raceStageIndex] as AutoraceRaceStage,
                                 new Date(columns[raceDateIndex]),
