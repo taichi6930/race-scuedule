@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import type { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import type { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
+import type { BoatraceRaceId } from '../../utility/raceId';
 import { generateBoatraceRaceId } from '../../utility/raceId';
 
 /**
@@ -11,7 +12,7 @@ export class BoatraceRaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: BoatraceRaceId;
 
     /**
      * コンストラクタ
@@ -24,7 +25,7 @@ export class BoatraceRaceEntity {
      *
      */
     constructor(
-        id: string | null,
+        id: BoatraceRaceId | null,
         public readonly raceData: BoatraceRaceData,
         public readonly racePlayerDataList: BoatraceRacePlayerData[],
     ) {

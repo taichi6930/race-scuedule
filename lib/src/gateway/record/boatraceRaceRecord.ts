@@ -5,6 +5,7 @@ import type {
     BoatraceRaceCourse,
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
+import type { BoatraceRaceId } from '../../utility/raceId';
 
 /**
  * 競輪のレース開催データ
@@ -25,7 +26,7 @@ export class BoatraceRaceRecord {
      *
      */
     constructor(
-        public readonly id: string,
+        public readonly id: BoatraceRaceId,
         public readonly name: string, // レース名
         public readonly stage: BoatraceRaceStage, // 開催ステージ
         public readonly dateTime: Date, // 開催日時

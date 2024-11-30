@@ -1,4 +1,5 @@
 import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
+import type { KeirinPlaceId } from '../../utility/raceId';
 import { generateKeirinPlaceId } from '../../utility/raceId';
 
 /**
@@ -8,7 +9,7 @@ export class KeirinPlaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: KeirinPlaceId;
 
     /**
      * コンストラクタ
@@ -19,7 +20,7 @@ export class KeirinPlaceEntity {
      * @param placeData - レース開催場所データ
      */
     constructor(
-        id: string | null,
+        id: KeirinPlaceId | null,
         public readonly placeData: KeirinPlaceData,
     ) {
         this.id =

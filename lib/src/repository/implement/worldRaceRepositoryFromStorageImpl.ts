@@ -12,6 +12,7 @@ import {
     WorldRaceCourseType,
 } from '../../utility/data/world';
 import { Logger } from '../../utility/logger';
+import { WorldRaceId } from '../../utility/raceId';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -82,7 +83,7 @@ export class WorldRaceRepositoryFromStorageImpl
                             }
 
                             return new WorldRaceEntity(
-                                columns[idIndex],
+                                columns[idIndex] as WorldRaceId,
                                 columns[raceNameIndex],
                                 new Date(columns[raceDateIndex]),
                                 columns[placeIndex] as WorldRaceCourse,

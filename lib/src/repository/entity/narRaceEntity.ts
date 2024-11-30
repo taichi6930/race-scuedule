@@ -6,6 +6,7 @@ import type {
     NarRaceCourse,
     NarRaceCourseType,
 } from '../../utility/data/nar';
+import type { NarRaceId } from '../../utility/raceId';
 import { generateNarRaceId } from '../../utility/raceId';
 
 /**
@@ -15,7 +16,7 @@ export class NarRaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: NarRaceId;
 
     /**
      * コンストラクタ
@@ -32,7 +33,7 @@ export class NarRaceEntity {
      * @param number - レース番号
      */
     constructor(
-        id: string | null,
+        id: NarRaceId | null,
         public readonly name: string,
         public readonly dateTime: Date,
         public readonly location: NarRaceCourse,

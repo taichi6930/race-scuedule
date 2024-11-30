@@ -10,6 +10,7 @@ import {
     NarRaceCourseType,
 } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
+import { NarRaceId } from '../../utility/raceId';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -83,7 +84,7 @@ export class NarRaceRepositoryFromS3Impl
                                 }
 
                                 return new NarRaceEntity(
-                                    idIndex < 0 ? null : columns[idIndex],
+                                    columns[idIndex] as NarRaceId,
                                     columns[raceNameIndex],
                                     new Date(columns[raceDateIndex]),
                                     columns[placeIndex] as NarRaceCourse,

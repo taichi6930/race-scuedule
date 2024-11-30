@@ -1,4 +1,5 @@
 import type { BoatracePlaceData } from '../../domain/boatracePlaceData';
+import type { BoatracePlaceId } from '../../utility/raceId';
 import { generateBoatracePlaceId } from '../../utility/raceId';
 
 /**
@@ -8,7 +9,7 @@ export class BoatracePlaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: BoatracePlaceId;
 
     /**
      * コンストラクタ
@@ -20,7 +21,7 @@ export class BoatracePlaceEntity {
      * @param grade - ボートレースのグレード
      */
     constructor(
-        id: string | null,
+        id: BoatracePlaceId | null,
         public readonly placeData: BoatracePlaceData,
     ) {
         this.id =

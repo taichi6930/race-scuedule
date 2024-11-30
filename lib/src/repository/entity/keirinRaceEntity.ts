@@ -2,6 +2,7 @@ import '../../utility/format';
 
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
+import type { KeirinRaceId } from '../../utility/raceId';
 import { generateKeirinRaceId } from '../../utility/raceId';
 
 /**
@@ -11,7 +12,7 @@ export class KeirinRaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: KeirinRaceId;
 
     /**
      * コンストラクタ
@@ -24,7 +25,7 @@ export class KeirinRaceEntity {
      *
      */
     constructor(
-        id: string | null,
+        id: KeirinRaceId | null,
         public readonly raceData: KeirinRaceData,
         public readonly racePlayerDataList: KeirinRacePlayerData[],
     ) {

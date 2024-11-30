@@ -10,6 +10,7 @@ import {
     AutoraceRaceCourse,
 } from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
+import { AutoracePlaceId } from '../../utility/raceId';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -137,7 +138,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
                 }
 
                 return new AutoracePlaceEntity(
-                    columns[idIndex],
+                    columns[idIndex] as AutoracePlaceId,
                     new Date(columns[raceDateIndex]),
                     columns[placeIndex] as AutoraceRaceCourse,
                     columns[gradeIndex] as AutoraceGradeType,

@@ -1,5 +1,6 @@
 import { WorldPlaceData } from '../../domain/worldPlaceData';
 import type { WorldRaceCourse } from '../../utility/data/world';
+import type { WorldPlaceId } from '../../utility/raceId';
 import { generateWorldPlaceId } from '../../utility/raceId';
 
 /**
@@ -9,7 +10,7 @@ export class WorldPlaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: WorldPlaceId;
 
     /**
      * コンストラクタ
@@ -20,7 +21,7 @@ export class WorldPlaceEntity {
      * @param location - 開催場所
      */
     constructor(
-        id: string | null,
+        id: WorldPlaceId | null,
         public readonly dateTime: Date,
         public readonly location: WorldRaceCourse,
     ) {

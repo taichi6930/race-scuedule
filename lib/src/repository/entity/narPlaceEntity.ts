@@ -1,5 +1,6 @@
 import { NarPlaceData } from '../../domain/narPlaceData';
 import type { NarRaceCourse } from '../../utility/data/nar';
+import type { NarPlaceId } from '../../utility/raceId';
 import { generateNarPlaceId } from '../../utility/raceId';
 
 /**
@@ -9,7 +10,7 @@ export class NarPlaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: NarPlaceId;
 
     /**
      * コンストラクタ
@@ -20,7 +21,7 @@ export class NarPlaceEntity {
      * @param location - 開催場所
      */
     constructor(
-        id: string | null,
+        id: NarPlaceId | null,
         public readonly dateTime: Date,
         public readonly location: NarRaceCourse,
     ) {

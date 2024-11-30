@@ -2,6 +2,7 @@ import type {
     BoatraceGradeType,
     BoatraceRaceCourse,
 } from '../../utility/data/boatrace';
+import type { BoatracePlaceId } from '../../utility/raceId';
 
 /**
  * Repository層のRecord ボートレースのレース開催場所データ
@@ -18,7 +19,7 @@ export class BoatracePlaceRecord {
      * @param grade - ボートレースのグレード
      */
     constructor(
-        public readonly id: string,
+        public readonly id: BoatracePlaceId,
         public readonly dateTime: Date,
         public readonly location: BoatraceRaceCourse,
         public readonly grade: BoatraceGradeType,

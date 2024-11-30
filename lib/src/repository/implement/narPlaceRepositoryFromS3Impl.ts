@@ -7,6 +7,7 @@ import { inject, injectable } from 'tsyringe';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarRaceCourse } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
+import { NarPlaceId } from '../../utility/raceId';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -129,7 +130,7 @@ export class NarPlaceRepositoryFromS3Impl
                 // idIndexが存在しない場合はundefinedを返す
                 return new NarPlaceEntity(
                     // TODO: idIndexが存在しない場合はnullを返すようにしているが、どこかのタイミングでエラーを出すように変更する
-                    idIndex < 0 ? null : columns[idIndex],
+                    columns[idIndex] as NarPlaceId,
                     new Date(columns[raceDateIndex]),
                     columns[placeIndex] as NarRaceCourse,
                 );

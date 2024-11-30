@@ -6,6 +6,7 @@ import type {
     AutoraceRaceCourse,
     AutoraceRaceStage,
 } from '../../utility/data/autorace';
+import type { AutoraceRaceId } from '../../utility/raceId';
 import { generateAutoraceRaceId } from '../../utility/raceId';
 
 /**
@@ -15,7 +16,7 @@ export class AutoraceRaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: AutoraceRaceId;
 
     /**
      * コンストラクタ
@@ -30,7 +31,7 @@ export class AutoraceRaceEntity {
      * @param number - レース番号
      */
     constructor(
-        id: string | null,
+        id: AutoraceRaceId | null,
         public readonly name: string, // レース名
         public readonly stage: AutoraceRaceStage, // 開催ステージ
         public readonly dateTime: Date, // 開催日時

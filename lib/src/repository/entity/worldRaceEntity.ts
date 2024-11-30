@@ -6,6 +6,7 @@ import type {
     WorldRaceCourse,
     WorldRaceCourseType,
 } from '../../utility/data/world';
+import type { WorldRaceId } from '../../utility/raceId';
 import { generateWorldRaceId } from '../../utility/raceId';
 
 /**
@@ -15,7 +16,7 @@ export class WorldRaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: WorldRaceId;
 
     /**
      * コンストラクタ
@@ -32,7 +33,7 @@ export class WorldRaceEntity {
      * @param number - レース番号
      */
     constructor(
-        id: string | null,
+        id: WorldRaceId | null,
         public readonly name: string,
         public readonly dateTime: Date,
         public readonly location: WorldRaceCourse,

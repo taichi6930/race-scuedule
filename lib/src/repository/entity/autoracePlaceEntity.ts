@@ -3,6 +3,7 @@ import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
 } from '../../utility/data/autorace';
+import type { AutoracePlaceId } from '../../utility/raceId';
 import { generateAutoracePlaceId } from '../../utility/raceId';
 
 /**
@@ -12,7 +13,7 @@ export class AutoracePlaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: AutoracePlaceId;
 
     /**
      * コンストラクタ
@@ -24,7 +25,7 @@ export class AutoracePlaceEntity {
      * @param grade - オートレースのグレード
      */
     constructor(
-        id: string | null,
+        id: AutoracePlaceId | null,
         public readonly dateTime: Date,
         public readonly location: AutoraceRaceCourse,
         public readonly grade: AutoraceGradeType,
