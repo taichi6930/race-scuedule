@@ -1,3 +1,4 @@
+import { JraRaceData } from '../../domain/jraRaceData';
 import type { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
@@ -18,15 +19,17 @@ export class MockJraRaceRepositoryFromS3Impl
             new FetchRaceListResponse([
                 new JraRaceEntity(
                     null,
-                    '有馬記念',
-                    new Date('2024-12-28 15:45'),
-                    '中山',
-                    '芝',
-                    2500,
-                    'GⅠ',
-                    11,
-                    5,
-                    8,
+                    new JraRaceData(
+                        '有馬記念',
+                        new Date('2024-12-28 15:45'),
+                        '中山',
+                        '芝',
+                        2500,
+                        'GⅠ',
+                        11,
+                        5,
+                        8,
+                    ),
                 ),
             ]),
         );

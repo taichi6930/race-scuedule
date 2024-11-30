@@ -24,6 +24,15 @@ jobs:
       - name: Run ESLint Check
         uses: ./.github/actions/linter/eslint
 
+  # TypeScriptの型チェック
+  call-type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Run Type Check
+        uses: ./.github/actions/linter/type-check
+
   # 単体テストの実行
   call-unit-test:
     runs-on: ubuntu-latest
