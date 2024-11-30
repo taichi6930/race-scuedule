@@ -9,6 +9,7 @@ import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
+import { generateAutoracePlaceId, generateAutoraceRaceId, generateBoatracePlaceId, generateBoatraceRaceId, generateJraPlaceId, generateJraRaceId, generateKeirinPlaceId, generateKeirinRaceId, generateNarPlaceId, generateNarRaceId, generateWorldRaceId } from '../../utility/raceId';
 
 /**
  * MockS3Gateway
@@ -63,6 +64,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
         this.setAutoracePlaceMockData();
         this.setBoatraceRaceMockData();
         this.setBoatracePlaceMockData();
+        this.setWorldRaceMockData();
     }
 
     @Logger
@@ -98,7 +100,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 '2400',
                                 'GⅠ',
                                 raceNumber,
-                                `world${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['大井']}${raceNumber.toXDigits(2)}`,
+                                generateWorldRaceId(currentDate, 'パリロンシャン', raceNumber),
                             ].join(','),
                         );
                     }
@@ -107,43 +109,6 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                         mockData.join('\n'),
                     );
                     currentDate.setDate(currentDate.getDate() + 1);
-                }
-                break;
-        }
-    }
-
-    @Logger
-    private setWorldPlaceMockData() {
-        switch (ENV) {
-            case 'ITa':
-                break;
-            default:
-                // 2024年のデータ12ヶ月分を作成
-                for (let month = 1; month <= 12; month++) {
-                    const startDate = new Date(2024, month - 1, 1);
-                    const fileName = `world/place/${format(startDate, 'yyyyMM')}.csv`;
-                    const mockDataHeader = ['id', 'dateTime', 'location'].join(
-                        ',',
-                    );
-                    const mockData = [mockDataHeader];
-                    // 1ヶ月分のデータ（28~31日）を作成
-                    // 2024年のデータ366日分を作成
-                    const currentDate = new Date(startDate);
-                    // whileで回していって、最初の日付の年数と異なったら終了
-                    while (currentDate.getMonth() === startDate.getMonth()) {
-                        mockData.push(
-                            [
-                                `world${format(currentDate, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}`,
-                                format(currentDate, 'yyyy-MM-dd'),
-                                'パリロンシャン',
-                            ].join(','),
-                        );
-                        currentDate.setDate(currentDate.getDate() + 1);
-                    }
-                    MockS3Gateway.mockStorage.set(
-                        fileName,
-                        mockData.join('\n'),
-                    );
                 }
                 break;
         }
@@ -182,7 +147,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 '2000',
                                 'GⅠ',
                                 raceNumber,
-                                `nar${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['大井']}${raceNumber.toXDigits(2)}`,
+                                generateNarRaceId(currentDate, '大井', raceNumber),
                             ].join(','),
                         );
                     }
@@ -217,7 +182,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                     while (currentDate.getMonth() === startDate.getMonth()) {
                         mockData.push(
                             [
-                                `nar${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['東京']}`,
+                                generateNarPlaceId(currentDate, '大井'),
                                 format(currentDate, 'yyyy-MM-dd'),
                                 '大井',
                             ].join(','),
@@ -270,7 +235,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 raceNumber,
                                 '1',
                                 '1',
-                                `jra${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['東京']}${raceNumber.toXDigits(2)}`,
+                                generateJraRaceId(currentDate, '東京', raceNumber),
                             ].join(','),
                         );
                     }
@@ -309,7 +274,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                     while (currentDate.getMonth() === startDate.getMonth()) {
                         mockData.push(
                             [
-                                `jra${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE['東京']}`,
+                                generateJraPlaceId(currentDate, '東京'),
                                 format(currentDate, 'yyyy-MM-dd'),
                                 '東京',
                                 '1',
@@ -358,7 +323,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 '川崎',
                                 'GP',
                                 raceNumber,
-                                `keirin${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']}${raceNumber.toXDigits(2)}`,
+                                generateKeirinRaceId(currentDate, '川崎', raceNumber),
                             ].join(','),
                         );
                     }
@@ -396,7 +361,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                     while (currentDate.getMonth() === startDate.getMonth()) {
                         mockData.push(
                             [
-                                `keirin${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['川崎']}`,
+                                generateKeirinPlaceId(currentDate, '川崎'),
                                 format(currentDate, 'yyyy-MM-dd'),
                                 '川崎',
                                 'GP',
@@ -444,7 +409,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 '飯塚',
                                 'SG',
                                 raceNumber,
-                                `autorace${format(currentDate, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['飯塚']}${raceNumber.toXDigits(2)}`,
+                                generateAutoraceRaceId(currentDate, '飯塚', raceNumber),
                             ].join(','),
                         );
                     }
@@ -482,7 +447,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                     while (currentDate.getMonth() === startDate.getMonth()) {
                         mockData.push(
                             [
-                                `autorace${format(currentDate, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['飯塚']}`,
+                                generateAutoracePlaceId(currentDate, '飯塚'),
                                 format(currentDate, 'yyyy-MM-dd'),
                                 '飯塚',
                                 'SG',
@@ -530,7 +495,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 '平和島',
                                 'SG',
                                 raceNumber,
-                                `boatrace${format(currentDate, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平和島']}${raceNumber.toXDigits(2)}`,
+                                generateBoatraceRaceId(currentDate, '平和島', raceNumber),
                             ].join(','),
                         );
                     }
@@ -568,7 +533,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                     while (currentDate.getMonth() === startDate.getMonth()) {
                         mockData.push(
                             [
-                                `boatrace${format(currentDate, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平和島']}`,
+                                generateBoatracePlaceId(currentDate, '平和島'),
                                 format(currentDate, 'yyyy-MM-dd'),
                                 '平和島',
                                 'SG',

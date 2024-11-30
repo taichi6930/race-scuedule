@@ -50,7 +50,5 @@ export class JraRaceEntity {
      * ドメインデータに変換する
      * @returns
      */
-    toDomainData(): JraRaceData {
-        return this.raceData;
-    }
+    toDomainData = (): JraRaceData => this.raceData;
 }

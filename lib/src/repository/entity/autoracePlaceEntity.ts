@@ -1,11 +1,9 @@
-import { format } from 'date-fns';
-
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
 } from '../../utility/data/autorace';
-import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
+import { generateAutoracePlaceId } from '../../utility/raceId';
 
 /**
  * Repository層のEntity オートレースのレース開催場所データ
@@ -31,7 +29,7 @@ export class AutoracePlaceEntity {
         public readonly location: AutoraceRaceCourse,
         public readonly grade: AutoraceGradeType,
     ) {
-        this.id = id ?? this.generateId(dateTime, location);
+        this.id = id ?? generateAutoracePlaceId(dateTime, location);
     }
 
     /**
@@ -61,17 +59,5 @@ export class AutoracePlaceEntity {
             partial.location ?? this.location,
             partial.grade ?? this.grade,
         );
-    }
-
-    /**
-     * IDを生成する
-     *
-     * @private
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @returns 生成されたID
-     */
-    private generateId(dateTime: Date, location: AutoraceRaceCourse): string {
-        return `autorace${format(dateTime, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[location]}`;
     }
 }

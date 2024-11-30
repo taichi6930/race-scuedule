@@ -4,10 +4,7 @@ import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { RaceData } from '../../domain/baseData';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { CalendarData } from '../../domain/calendarData';
-import { JraRaceData } from '../../domain/jraRaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
-import { NarRaceData } from '../../domain/narRaceData';
-import { WorldRaceData } from '../../domain/worldRaceData';
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
 import { JraRaceCourse } from '../../utility/data/jra';
@@ -18,7 +15,10 @@ import { WORLD_PLACE_CODE, WorldRaceCourse } from '../../utility/data/world';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { generateJraRaceId } from '../../utility/raceId';
-import { RaceType } from '../implement/googleCalendarService';
+import {
+    GoogleCalendarService,
+    RaceType,
+} from '../implement/googleCalendarService';
 import type { ICalendarService } from '../interface/ICalendarService';
 
 /**
@@ -134,7 +134,10 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
     @Logger
     async upsertEvents(raceList: RaceData[]): Promise<void> {
         for (const raceData of raceList) {
-            const eventId = this.generateEventId(raceData);
+            const eventId = GoogleCalendarService.generateEventId(
+                this.raceType,
+                raceData,
+            );
             const existingEventIndex =
                 MockGoogleCalendarService.mockCalendarData[
                     this.raceType
@@ -162,54 +165,9 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
         // モックの動作を記述
     }
 
-    /**
-     * イベントIDを生成する
-     * netkeiba、netkeirinのレースIDを元に生成
-     * @param raceData
-     * @returns
-     */
-    private generateEventId(raceData: RaceData): string {
-        switch (this.raceType) {
-            case 'jra': {
-                const jraRaceData = raceData as JraRaceData;
-                return generateJraRaceId(
-                    jraRaceData.dateTime,
-                    jraRaceData.location,
-                    jraRaceData.number,
-                );
-            }
-            case 'nar': {
-                const narRaceData = raceData as NarRaceData;
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[narRaceData.location]}${narRaceData.number.toXDigits(2)}`;
-            }
-            case 'world': {
-                // w, x, y, zはGoogle Calendar APIのIDで使用できないため、置換
-                // https://developers.google.com/calendar/api/v3/reference/events/insert?hl=ja
-                const worldRaceData = raceData as WorldRaceData;
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${WORLD_PLACE_CODE[worldRaceData.location]}${worldRaceData.number.toXDigits(2)}`
-                    .replace('w', 'vv')
-                    .replace('x', 'cs')
-                    .replace('y', 'v')
-                    .replace('z', 's');
-            }
-            case 'keirin': {
-                const keirinRaceData = raceData as KeirinRaceData;
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[keirinRaceData.location]}${keirinRaceData.number.toXDigits(2)}`;
-            }
-            case 'autorace': {
-                const autoraceRaceData = raceData as AutoraceRaceData;
-                return `autorace${format(raceData.dateTime, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[autoraceRaceData.location]}${autoraceRaceData.number.toXDigits(2)}`;
-            }
-            case 'boatrace': {
-                const boatraceRaceData = raceData as BoatraceRaceData;
-                return `boatrace${format(raceData.dateTime, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[boatraceRaceData.location]}${boatraceRaceData.number.toXDigits(2)}`;
-            }
-        }
-    }
-
     private translateToCalendarEvent(raceData: RaceData): CalendarData {
         return new CalendarData(
-            this.generateEventId(raceData),
+            GoogleCalendarService.generateEventId(this.raceType, raceData),
             raceData instanceof KeirinRaceData ||
             raceData instanceof AutoraceRaceData ||
             raceData instanceof BoatraceRaceData

@@ -1,14 +1,12 @@
 import '../../utility/format';
 
-import { format } from 'date-fns';
-
 import { WorldRaceData } from '../../domain/worldRaceData';
 import type {
     WorldGradeType,
     WorldRaceCourse,
     WorldRaceCourseType,
 } from '../../utility/data/world';
-import { WORLD_PLACE_CODE } from '../../utility/data/world';
+import { generateWorldRaceId } from '../../utility/raceId';
 
 /**
  * 海外競馬のレース開催データ
@@ -43,7 +41,7 @@ export class WorldRaceEntity {
         public readonly grade: WorldGradeType,
         public readonly number: number,
     ) {
-        this.id = id ?? this.generateId(dateTime, location, number);
+        this.id = id ?? generateWorldRaceId(dateTime, location, number);
     }
 
     /**
@@ -79,23 +77,5 @@ export class WorldRaceEntity {
             partial.grade ?? this.grade,
             partial.number ?? this.number,
         );
-    }
-
-    /**
-     * IDを生成する
-     *
-     * @private
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param number - レース番号
-     * @returns 生成されたID
-     */
-    private generateId(
-        dateTime: Date,
-        location: WorldRaceCourse,
-        number: number,
-    ): string {
-        const locationCode = WORLD_PLACE_CODE[location].substring(0, 10);
-        return `world${format(dateTime, 'yyyyMMdd')}${locationCode}${number.toXDigits(2)}`;
     }
 }

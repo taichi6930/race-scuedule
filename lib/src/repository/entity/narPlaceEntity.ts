@@ -1,8 +1,6 @@
-import { format } from 'date-fns';
-
 import { NarPlaceData } from '../../domain/narPlaceData';
 import type { NarRaceCourse } from '../../utility/data/nar';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import { generateNarPlaceId } from '../../utility/raceId';
 
 /**
  * Repository層のEntity 地方競馬のレース開催場所データ
@@ -26,7 +24,7 @@ export class NarPlaceEntity {
         public readonly dateTime: Date,
         public readonly location: NarRaceCourse,
     ) {
-        this.id = id ?? this.generateId(dateTime, location);
+        this.id = id ?? generateNarPlaceId(dateTime, location);
     }
 
     /**
@@ -52,17 +50,5 @@ export class NarPlaceEntity {
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
         );
-    }
-
-    /**
-     * IDを生成する
-     *
-     * @private
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @returns 生成されたID
-     */
-    private generateId(dateTime: Date, location: NarRaceCourse): string {
-        return `nar${format(dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}`;
     }
 }

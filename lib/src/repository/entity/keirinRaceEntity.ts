@@ -1,11 +1,8 @@
 import '../../utility/format';
 
-import { format } from 'date-fns';
-
 import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
-import type { KeirinRaceCourse } from '../../utility/data/keirin';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
+import { generateKeirinRaceId } from '../../utility/raceId';
 
 /**
  * 競輪のレース開催データ
@@ -33,7 +30,7 @@ export class KeirinRaceEntity {
     ) {
         this.id =
             id ??
-            this.generateId(
+            generateKeirinRaceId(
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
@@ -58,21 +55,4 @@ export class KeirinRaceEntity {
      * @returns
      */
     toDomainData = (): KeirinRaceData => this.raceData;
-
-    /**
-     * IDを生成する
-     *
-     * @private
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param number - レース番号
-     * @returns 生成されたID
-     */
-    private generateId(
-        dateTime: Date,
-        location: KeirinRaceCourse,
-        number: number,
-    ): string {
-        return `keirin${format(dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[location]}${number.toXDigits(2)}`;
-    }
 }

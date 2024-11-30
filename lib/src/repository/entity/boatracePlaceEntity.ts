@@ -1,8 +1,5 @@
-import { format } from 'date-fns';
-
 import type { BoatracePlaceData } from '../../domain/boatracePlaceData';
-import type { BoatraceRaceCourse } from '../../utility/data/boatrace';
-import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
+import { generateBoatracePlaceId } from '../../utility/raceId';
 
 /**
  * Repository層のEntity ボートレースのレース開催場所データ
@@ -26,7 +23,9 @@ export class BoatracePlaceEntity {
         id: string | null,
         public readonly placeData: BoatracePlaceData,
     ) {
-        this.id = id ?? this.generateId(placeData.dateTime, placeData.location);
+        this.id =
+            id ??
+            generateBoatracePlaceId(placeData.dateTime, placeData.location);
     }
 
     /**
@@ -48,17 +47,5 @@ export class BoatracePlaceEntity {
      */
     toDomainData(): BoatracePlaceData {
         return this.placeData;
-    }
-
-    /**
-     * IDを生成する
-     *
-     * @private
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @returns 生成されたID
-     */
-    private generateId(dateTime: Date, location: BoatraceRaceCourse): string {
-        return `boatrace${format(dateTime, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[location]}`;
     }
 }
