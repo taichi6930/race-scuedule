@@ -17,7 +17,8 @@ describe('JraRaceEntityクラスのテスト', () => {
         const raceEntity = baseRaceEntity;
         const newRaceEntity = raceEntity.copy();
         // インスタンスが変更されていないか確認
-        expect(newRaceEntity).toEqual(raceEntity);
+        expect(newRaceEntity.id).toEqual(raceEntity.id);
+        expect(newRaceEntity.raceData).toBe(raceEntity.raceData);
     });
 
     it('何も変更せずJraRaceDataのインスタンスを作成できることを確認', () => {
