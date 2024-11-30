@@ -117,6 +117,25 @@ export const generateWorldPlaceId = (
 export type WorldPlaceId = `world${string}`;
 
 /**
+ * 競輪のracePlayerIdを作成する
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ * @param number - レース番号
+ * @param frameNumber - 枠番
+ */
+export const generateKeirinRacePlayerId = (
+    dateTime: Date,
+    location: KeirinRaceCourse,
+    number: number,
+    frameNumber: number,
+): KeirinRacePlayerId => {
+    const frameNumberCode = frameNumber.toXDigits(2);
+    return `${generateKeirinRaceId(dateTime, location, number)}${frameNumberCode}`;
+};
+
+export type KeirinRacePlayerId = `keirin${string}`;
+
+/**
  * 競輪のraceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
@@ -150,6 +169,25 @@ export const generateKeirinPlaceId = (
 export type KeirinPlaceId = `keirin${string}`;
 
 /**
+ * 競艇のracePlayerIdを作成する
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ * @param number - レース番号
+ * @param frameNumber - 枠番
+ */
+export const generateBoatraceRacePlayerId = (
+    dateTime: Date,
+    location: BoatraceRaceCourse,
+    number: number,
+    frameNumber: number,
+): BoatraceRacePlayerId => {
+    const frameNumberCode = frameNumber.toXDigits(2);
+    return `${generateBoatraceRaceId(dateTime, location, number)}${frameNumberCode}`;
+};
+
+export type BoatraceRacePlayerId = `boatrace${string}`;
+
+/**
  * 競艇のraceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
@@ -181,6 +219,25 @@ export const generateBoatracePlaceId = (
 };
 
 export type BoatracePlaceId = `boatrace${string}`;
+
+/**
+ * オートレースのracePlayerIdを作成する
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ * @param number - レース番号
+ * @param frameNumber - 枠番
+ */
+export const generateAutoraceRacePlayerId = (
+    dateTime: Date,
+    location: AutoraceRaceCourse,
+    number: number,
+    frameNumber: number,
+): AutoraceRacePlayerId => {
+    const frameNumberCode = frameNumber.toXDigits(2);
+    return `${generateAutoraceRaceId(dateTime, location, number)}${frameNumberCode}`;
+};
+
+export type AutoraceRacePlayerId = `autorace${string}`;
 
 /**
  * オートレースのraceIdを作成する
