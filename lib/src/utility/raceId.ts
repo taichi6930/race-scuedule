@@ -22,10 +22,8 @@ export const generateJraRaceId = (
     location: JraRaceCourse,
     number: number,
 ): JraRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = NETKEIBA_BABACODE[location];
     const numberCode = number.toXDigits(2);
-    return `jra${dateCode}${locationCode}${numberCode}`;
+    return `${generateJraPlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type JraRaceId = `jra${string}`;
@@ -60,10 +58,8 @@ export const generateNarRaceId = (
     location: NarRaceCourse,
     number: number,
 ): NarRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = NETKEIBA_BABACODE[location];
     const numberCode = number.toXDigits(2);
-    return `nar${dateCode}${locationCode}${numberCode}`;
+    return `${generateNarPlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type NarRaceId = `nar${string}`;
@@ -98,10 +94,8 @@ export const generateWorldRaceId = (
     location: WorldRaceCourse,
     number: number,
 ): WorldRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = WORLD_PLACE_CODE[location];
     const numberCode = number.toXDigits(2);
-    return `world${dateCode}${locationCode}${numberCode}`;
+    return `${generateWorldPlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type WorldRaceId = `world${string}`;
@@ -123,6 +117,25 @@ export const generateWorldPlaceId = (
 export type WorldPlaceId = `world${string}`;
 
 /**
+ * 競輪のracePlayerIdを作成する
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ * @param number - レース番号
+ * @param frameNumber - 枠番
+ */
+export const generateKeirinRacePlayerId = (
+    dateTime: Date,
+    location: KeirinRaceCourse,
+    number: number,
+    frameNumber: number,
+): KeirinRacePlayerId => {
+    const frameNumberCode = frameNumber.toXDigits(2);
+    return `${generateKeirinRaceId(dateTime, location, number)}${frameNumberCode}`;
+};
+
+export type KeirinRacePlayerId = `keirin${string}`;
+
+/**
  * 競輪のraceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
@@ -133,10 +146,8 @@ export const generateKeirinRaceId = (
     location: KeirinRaceCourse,
     number: number,
 ): KeirinRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = KEIRIN_PLACE_CODE[location];
     const numberCode = number.toXDigits(2);
-    return `keirin${dateCode}${locationCode}${numberCode}`;
+    return `${generateKeirinPlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type KeirinRaceId = `keirin${string}`;
@@ -158,6 +169,25 @@ export const generateKeirinPlaceId = (
 export type KeirinPlaceId = `keirin${string}`;
 
 /**
+ * 競艇のracePlayerIdを作成する
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ * @param number - レース番号
+ * @param frameNumber - 枠番
+ */
+export const generateBoatraceRacePlayerId = (
+    dateTime: Date,
+    location: BoatraceRaceCourse,
+    number: number,
+    frameNumber: number,
+): BoatraceRacePlayerId => {
+    const frameNumberCode = frameNumber.toXDigits(2);
+    return `${generateBoatraceRaceId(dateTime, location, number)}${frameNumberCode}`;
+};
+
+export type BoatraceRacePlayerId = `boatrace${string}`;
+
+/**
  * 競艇のraceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
@@ -168,10 +198,8 @@ export const generateBoatraceRaceId = (
     location: BoatraceRaceCourse,
     number: number,
 ): BoatraceRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = BOATRACE_PLACE_CODE[location];
     const numberCode = number.toXDigits(2);
-    return `boatrace${dateCode}${locationCode}${numberCode}`;
+    return `${generateBoatracePlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type BoatraceRaceId = `boatrace${string}`;
@@ -193,6 +221,25 @@ export const generateBoatracePlaceId = (
 export type BoatracePlaceId = `boatrace${string}`;
 
 /**
+ * オートレースのracePlayerIdを作成する
+ * @param dateTime - 開催日時
+ * @param location - 開催場所
+ * @param number - レース番号
+ * @param frameNumber - 枠番
+ */
+export const generateAutoraceRacePlayerId = (
+    dateTime: Date,
+    location: AutoraceRaceCourse,
+    number: number,
+    frameNumber: number,
+): AutoraceRacePlayerId => {
+    const frameNumberCode = frameNumber.toXDigits(2);
+    return `${generateAutoraceRaceId(dateTime, location, number)}${frameNumberCode}`;
+};
+
+export type AutoraceRacePlayerId = `autorace${string}`;
+
+/**
  * オートレースのraceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
@@ -203,10 +250,8 @@ export const generateAutoraceRaceId = (
     location: AutoraceRaceCourse,
     number: number,
 ): AutoraceRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = AUTORACE_PLACE_CODE[location];
     const numberCode = number.toXDigits(2);
-    return `autorace${dateCode}${locationCode}${numberCode}`;
+    return `${generateAutoracePlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type AutoraceRaceId = `autorace${string}`;

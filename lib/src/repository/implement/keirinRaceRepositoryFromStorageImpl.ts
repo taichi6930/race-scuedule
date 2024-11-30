@@ -14,7 +14,11 @@ import {
     KeirinRaceStage,
 } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
-import { KeirinRaceId } from '../../utility/raceId';
+import {
+    generateKeirinRacePlayerId,
+    KeirinRaceId,
+    KeirinRacePlayerId,
+} from '../../utility/raceId';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -94,7 +98,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                             }
 
                             return new KeirinRacePlayerRecord(
-                                columns[idIndex],
+                                columns[idIndex] as KeirinRacePlayerId,
                                 columns[raceIdIndex] as KeirinRaceId,
                                 parseInt(columns[positionNumberIndex]),
                                 parseInt(columns[playerNumberIndex]),
@@ -240,7 +244,12 @@ export class KeirinRaceRepositoryFromStorageImpl
             const racePlayerRecordList = raceEntity.racePlayerDataList.map(
                 (racePlayerData) => {
                     return new KeirinRacePlayerRecord(
-                        `${raceEntity.id}${racePlayerData.positionNumber.toXDigits(2)}`,
+                        generateKeirinRacePlayerId(
+                            raceEntity.raceData.dateTime,
+                            raceEntity.raceData.location,
+                            raceEntity.raceData.number,
+                            racePlayerData.positionNumber,
+                        ),
                         raceEntity.id,
                         racePlayerData.positionNumber,
                         racePlayerData.playerNumber,

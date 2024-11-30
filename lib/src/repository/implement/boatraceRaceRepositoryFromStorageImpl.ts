@@ -14,7 +14,10 @@ import {
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
 import { Logger } from '../../utility/logger';
-import { BoatraceRaceId } from '../../utility/raceId';
+import {
+    BoatraceRaceId,
+    generateBoatraceRacePlayerId,
+} from '../../utility/raceId';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -242,7 +245,12 @@ export class BoatraceRaceRepositoryFromStorageImpl
             const racePlayerRecordList = raceEntity.racePlayerDataList.map(
                 (racePlayerData) => {
                     return new BoatraceRacePlayerRecord(
-                        `${raceEntity.id}${racePlayerData.positionNumber.toXDigits(2)}`,
+                        generateBoatraceRacePlayerId(
+                            raceEntity.raceData.dateTime,
+                            raceEntity.raceData.location,
+                            raceEntity.raceData.number,
+                            racePlayerData.positionNumber,
+                        ),
                         raceEntity.id,
                         racePlayerData.positionNumber,
                         racePlayerData.playerNumber,
