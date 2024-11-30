@@ -20,7 +20,8 @@
         "lint": "eslint '**/*.{ts,tsx}'",
         "lint:fix": "eslint --fix '**/*.{ts,tsx}' && prettier --write .",
         "lint:check": "eslint --quiet '**/*.{ts,tsx}'",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "type-check": "tsc --noEmit"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.654.0",
