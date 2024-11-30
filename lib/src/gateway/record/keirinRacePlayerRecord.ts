@@ -1,5 +1,7 @@
 import '../../utility/format';
 
+import type { KeirinRaceId } from '../../utility/raceId';
+
 /**
  * 競輪のレース選手データ
  */
@@ -18,7 +20,7 @@ export class KeirinRacePlayerRecord {
      */
     constructor(
         public readonly id: string,
-        public readonly raceId: string,
+        public readonly raceId: KeirinRaceId,
         public readonly positionNumber: number,
         public readonly playerNumber: number,
     ) {}

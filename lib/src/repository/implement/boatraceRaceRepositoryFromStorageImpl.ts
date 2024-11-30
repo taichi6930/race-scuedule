@@ -95,7 +95,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
 
                             return new BoatraceRacePlayerRecord(
                                 columns[idIndex],
-                                columns[raceIdIndex],
+                                columns[raceIdIndex] as BoatraceRaceId,
                                 parseInt(columns[positionNumberIndex]),
                                 parseInt(columns[playerNumberIndex]),
                             );

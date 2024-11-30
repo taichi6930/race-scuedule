@@ -95,7 +95,7 @@ export class KeirinRaceRepositoryFromStorageImpl
 
                             return new KeirinRacePlayerRecord(
                                 columns[idIndex],
-                                columns[raceIdIndex],
+                                columns[raceIdIndex] as KeirinRaceId,
                                 parseInt(columns[positionNumberIndex]),
                                 parseInt(columns[playerNumberIndex]),
                             );
