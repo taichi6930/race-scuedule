@@ -22,7 +22,7 @@ export class MockKeirinRaceRepositoryFromStorageImpl
                     null,
                     new KeirinRaceData(
                         '競輪祭',
-                        '決勝',
+                        'S級決勝',
                         new Date('2024-09-01'),
                         '川崎',
                         'GⅠ',
