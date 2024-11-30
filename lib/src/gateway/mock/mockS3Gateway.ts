@@ -9,7 +9,19 @@ import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
-import { generateAutoracePlaceId, generateAutoraceRaceId, generateBoatracePlaceId, generateBoatraceRaceId, generateJraPlaceId, generateJraRaceId, generateKeirinPlaceId, generateKeirinRaceId, generateNarPlaceId, generateNarRaceId, generateWorldRaceId } from '../../utility/raceId';
+import {
+    generateAutoracePlaceId,
+    generateAutoraceRaceId,
+    generateBoatracePlaceId,
+    generateBoatraceRaceId,
+    generateJraPlaceId,
+    generateJraRaceId,
+    generateKeirinPlaceId,
+    generateKeirinRaceId,
+    generateNarPlaceId,
+    generateNarRaceId,
+    generateWorldRaceId,
+} from '../../utility/raceId';
 
 /**
  * MockS3Gateway
@@ -100,7 +112,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 '2400',
                                 'GⅠ',
                                 raceNumber,
-                                generateWorldRaceId(currentDate, 'パリロンシャン', raceNumber),
+                                generateWorldRaceId(
+                                    currentDate,
+                                    'パリロンシャン',
+                                    raceNumber,
+                                ),
                             ].join(','),
                         );
                     }
@@ -147,7 +163,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 '2000',
                                 'GⅠ',
                                 raceNumber,
-                                generateNarRaceId(currentDate, '大井', raceNumber),
+                                generateNarRaceId(
+                                    currentDate,
+                                    '大井',
+                                    raceNumber,
+                                ),
                             ].join(','),
                         );
                     }
@@ -235,7 +255,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 raceNumber,
                                 '1',
                                 '1',
-                                generateJraRaceId(currentDate, '東京', raceNumber),
+                                generateJraRaceId(
+                                    currentDate,
+                                    '東京',
+                                    raceNumber,
+                                ),
                             ].join(','),
                         );
                     }
@@ -323,7 +347,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 '川崎',
                                 'GP',
                                 raceNumber,
-                                generateKeirinRaceId(currentDate, '川崎', raceNumber),
+                                generateKeirinRaceId(
+                                    currentDate,
+                                    '川崎',
+                                    raceNumber,
+                                ),
                             ].join(','),
                         );
                     }
@@ -409,7 +437,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 '飯塚',
                                 'SG',
                                 raceNumber,
-                                generateAutoraceRaceId(currentDate, '飯塚', raceNumber),
+                                generateAutoraceRaceId(
+                                    currentDate,
+                                    '飯塚',
+                                    raceNumber,
+                                ),
                             ].join(','),
                         );
                     }
@@ -495,7 +527,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                                 '平和島',
                                 'SG',
                                 raceNumber,
-                                generateBoatraceRaceId(currentDate, '平和島', raceNumber),
+                                generateBoatraceRaceId(
+                                    currentDate,
+                                    '平和島',
+                                    raceNumber,
+                                ),
                             ].join(','),
                         );
                     }
