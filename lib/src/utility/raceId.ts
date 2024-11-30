@@ -22,10 +22,8 @@ export const generateJraRaceId = (
     location: JraRaceCourse,
     number: number,
 ): JraRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = NETKEIBA_BABACODE[location];
     const numberCode = number.toXDigits(2);
-    return `jra${dateCode}${locationCode}${numberCode}`;
+    return `${generateJraPlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type JraRaceId = `jra${string}`;
@@ -60,10 +58,8 @@ export const generateNarRaceId = (
     location: NarRaceCourse,
     number: number,
 ): NarRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = NETKEIBA_BABACODE[location];
     const numberCode = number.toXDigits(2);
-    return `nar${dateCode}${locationCode}${numberCode}`;
+    return `${generateNarPlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type NarRaceId = `nar${string}`;
@@ -98,10 +94,8 @@ export const generateWorldRaceId = (
     location: WorldRaceCourse,
     number: number,
 ): WorldRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = WORLD_PLACE_CODE[location];
     const numberCode = number.toXDigits(2);
-    return `world${dateCode}${locationCode}${numberCode}`;
+    return `${generateWorldPlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type WorldRaceId = `world${string}`;
@@ -133,10 +127,8 @@ export const generateKeirinRaceId = (
     location: KeirinRaceCourse,
     number: number,
 ): KeirinRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = KEIRIN_PLACE_CODE[location];
     const numberCode = number.toXDigits(2);
-    return `keirin${dateCode}${locationCode}${numberCode}`;
+    return `${generateKeirinPlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type KeirinRaceId = `keirin${string}`;
@@ -168,10 +160,8 @@ export const generateBoatraceRaceId = (
     location: BoatraceRaceCourse,
     number: number,
 ): BoatraceRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = BOATRACE_PLACE_CODE[location];
     const numberCode = number.toXDigits(2);
-    return `boatrace${dateCode}${locationCode}${numberCode}`;
+    return `${generateBoatracePlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type BoatraceRaceId = `boatrace${string}`;
@@ -203,10 +193,8 @@ export const generateAutoraceRaceId = (
     location: AutoraceRaceCourse,
     number: number,
 ): AutoraceRaceId => {
-    const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = AUTORACE_PLACE_CODE[location];
     const numberCode = number.toXDigits(2);
-    return `autorace${dateCode}${locationCode}${numberCode}`;
+    return `${generateAutoracePlaceId(dateTime, location)}${numberCode}`;
 };
 
 export type AutoraceRaceId = `autorace${string}`;
