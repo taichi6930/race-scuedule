@@ -14,7 +14,11 @@ import {
     KeirinRaceStage,
 } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
-import { generateKeirinRacePlayerId, KeirinRaceId } from '../../utility/raceId';
+import {
+    generateKeirinRacePlayerId,
+    KeirinRaceId,
+    KeirinRacePlayerId,
+} from '../../utility/raceId';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -94,7 +98,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                             }
 
                             return new KeirinRacePlayerRecord(
-                                columns[idIndex],
+                                columns[idIndex] as KeirinRacePlayerId,
                                 columns[raceIdIndex] as KeirinRaceId,
                                 parseInt(columns[positionNumberIndex]),
                                 parseInt(columns[playerNumberIndex]),
