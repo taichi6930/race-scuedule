@@ -12,6 +12,7 @@ import {
     JraRaceCourseType,
 } from '../../utility/data/jra';
 import { Logger } from '../../utility/logger';
+import { JraRaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -89,7 +90,7 @@ export class JraRaceRepositoryFromS3Impl
                                     }
 
                                     return new JraRaceRecord(
-                                        columns[idIndex],
+                                        columns[idIndex] as JraRaceId,
                                         columns[raceNameIndex],
                                         new Date(columns[raceDateIndex]),
                                         columns[placeIndex] as JraRaceCourse,

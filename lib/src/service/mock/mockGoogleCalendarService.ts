@@ -17,6 +17,7 @@ import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { WORLD_PLACE_CODE, WorldRaceCourse } from '../../utility/data/world';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
+import { generateJraRaceId } from '../../utility/raceId';
 import { RaceType } from '../implement/googleCalendarService';
 import type { ICalendarService } from '../interface/ICalendarService';
 
@@ -52,7 +53,11 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
                             switch (this.raceType) {
                                 case 'jra':
                                     location = '東京';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location as JraRaceCourse]}${i.toXDigits(2)}`;
+                                    raceId = generateJraRaceId(
+                                        currentDate,
+                                        location as JraRaceCourse,
+                                        i,
+                                    );
                                     break;
                                 case 'nar':
                                     location = '大井';
@@ -167,7 +172,11 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
         switch (this.raceType) {
             case 'jra': {
                 const jraRaceData = raceData as JraRaceData;
-                return `${this.raceType}${format(raceData.dateTime, 'yyyyMMdd')}${NETKEIBA_BABACODE[jraRaceData.location]}${jraRaceData.number.toXDigits(2)}`;
+                return generateJraRaceId(
+                    jraRaceData.dateTime,
+                    jraRaceData.location,
+                    jraRaceData.number,
+                );
             }
             case 'nar': {
                 const narRaceData = raceData as NarRaceData;

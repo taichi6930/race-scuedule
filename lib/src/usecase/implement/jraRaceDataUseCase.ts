@@ -125,20 +125,7 @@ export class JraRaceDataUseCase
         try {
             // jraRaceDataをJraRaceEntityに変換する
             const raceEntityList = raceList.map((raceData) => {
-                return new JraRaceEntity(
-                    null,
-                    new JraRaceData(
-                        raceData.name,
-                        raceData.dateTime,
-                        raceData.location,
-                        raceData.surfaceType,
-                        raceData.distance,
-                        raceData.grade,
-                        raceData.number,
-                        raceData.heldTimes,
-                        raceData.heldDayTimes,
-                    ),
-                );
+                return new JraRaceEntity(null, raceData);
             });
             // S3にデータを保存する
             await this.registerRaceDataList(raceEntityList);

@@ -1,6 +1,7 @@
 import '../../utility/format';
 
 import type { JraRaceData } from '../../domain/jraRaceData';
+import type { JraRaceId } from '../../utility/raceId';
 import { generateJraRaceId } from '../../utility/raceId';
 
 /**
@@ -10,7 +11,7 @@ export class JraRaceEntity {
     /**
      * ID
      */
-    public readonly id: string;
+    public readonly id: JraRaceId;
 
     /**
      * コンストラクタ
@@ -21,7 +22,7 @@ export class JraRaceEntity {
      * @param raceData - レースデータ
      */
     constructor(
-        id: string | null,
+        id: JraRaceId | null,
         public readonly raceData: JraRaceData,
     ) {
         this.id =

@@ -1,4 +1,5 @@
 import type { JraRaceCourse } from '../../utility/data/jra';
+import type { JraPlaceId } from '../../utility/raceId';
 
 /**
  * Repository層のRecord 中央競馬のレース開催場所データ
@@ -16,7 +17,7 @@ export class JraPlaceRecord {
      * @param heldDayTimes - 開催日数
      */
     constructor(
-        public readonly id: string,
+        public readonly id: JraPlaceId,
         public readonly dateTime: Date,
         public readonly location: JraRaceCourse,
         public readonly heldTimes: number,

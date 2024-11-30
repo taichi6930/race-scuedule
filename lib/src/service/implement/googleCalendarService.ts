@@ -313,7 +313,7 @@ export class GoogleCalendarService<R extends RaceData>
             case 'jra': {
                 const jraRaceData = raceData as JraRaceData;
                 return generateJraRaceId(
-                    raceData.dateTime,
+                    jraRaceData.dateTime,
                     jraRaceData.location,
                     jraRaceData.number,
                 );
