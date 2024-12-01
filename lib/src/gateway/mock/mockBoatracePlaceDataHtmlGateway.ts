@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -13,13 +12,13 @@ export class MockBoatracePlaceDataHtmlGateway
     /**
      * ボートレース開催データのHTMLを取得する
      *
-     * @param date - 取得する年月
+     * @param quarter - 取得するクォーター
      * @returns Promise<string> - 競馬場開催データのHTML
      */
     @Logger
-    getPlaceDataHtml(date: Date): Promise<string> {
+    getPlaceDataHtml(quarter: string): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/boatrace/place/${format(date, 'yyyyMM')}.html`;
+        const testHtmlUrl = `../mockData/boatrace/place/${quarter}.html`;
         // lib/src/gateway/mockData/boatrace/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 

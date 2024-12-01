@@ -2,43 +2,43 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import type { IAutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iAutoracePlaceDataHtmlGateway';
-import { MockAutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockAutoracePlaceDataHtmlGateway';
-import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
-import { AutoracePlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
+import type { IBoatracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iBoatracePlaceDataHtmlGateway';
+import { MockBoatracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockBoatracePlaceDataHtmlGateway';
+import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
+import { BoatracePlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== 'GITHUB_ACTIONS_CI') {
-    describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
-        let autoracePlaceDataHtmlgateway: IAutoracePlaceDataHtmlGateway;
-        let repository: AutoracePlaceRepositoryFromHtmlImpl;
+    describe('BoatracePlaceRepositoryFromHtmlImpl', () => {
+        let boatracePlaceDataHtmlgateway: IBoatracePlaceDataHtmlGateway;
+        let repository: BoatracePlaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            autoracePlaceDataHtmlgateway =
-                new MockAutoracePlaceDataHtmlGateway();
+            boatracePlaceDataHtmlgateway =
+                new MockBoatracePlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
             container.registerInstance(
-                'AutoracePlaceDataHtmlGateway',
-                autoracePlaceDataHtmlgateway,
+                'BoatracePlaceDataHtmlGateway',
+                boatracePlaceDataHtmlgateway,
             );
 
             // テスト対象のリポジトリを生成
-            repository = container.resolve(AutoracePlaceRepositoryFromHtmlImpl);
+            repository = container.resolve(BoatracePlaceRepositoryFromHtmlImpl);
         });
 
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
                 const response = await repository.fetchPlaceList(
                     new FetchPlaceListRequest(
-                        new Date('2024-11-01'),
-                        new Date('2024-11-30'),
+                        new Date('2024-10-01'),
+                        new Date('2024-12-31'),
                     ),
                 );
-                expect(response.placeDataList).toHaveLength(60);
+                expect(response.placeDataList).toHaveLength(98);
             });
         });
 
@@ -46,7 +46,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
             test('htmlなので登録できない', async () => {
                 // リクエストの作成
                 const request =
-                    new RegisterPlaceListRequest<AutoracePlaceEntity>([]);
+                    new RegisterPlaceListRequest<BoatracePlaceEntity>([]);
                 // テスト実行
                 await expect(
                     repository.registerPlaceList(request),
@@ -55,7 +55,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
         });
     });
 } else {
-    describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
+    describe('BoatracePlaceRepositoryFromHtmlImpl', () => {
         test('CI環境でテストをスキップ', () => {
             expect(true).toBe(true);
         });
