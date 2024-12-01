@@ -1,5 +1,4 @@
 import { format } from 'date-fns';
-import puppeteer from 'puppeteer';
 
 import {
     BOATRACE_PLACE_CODE,
@@ -7,7 +6,6 @@ import {
 } from '../../utility/data/boatrace';
 import { Logger } from '../../utility/logger';
 import { IBoatraceRaceDataHtmlGateway } from '../interface/iBoatraceRaceDataHtmlGateway';
-
 /**
  * レースデータのHTMLを取得するGateway
  */
@@ -18,38 +16,28 @@ export class BoatraceRaceDataHtmlGateway
      * レースデータのHTMLを取得する
      *
      * @param date - 取得する年月
-     * @param place - ボートレース場
+     * @param place - 競馬場
+     * @param number - レース番号
      * @returns Promise<string> - レースデータのHTML
      */
     @Logger
     async getRaceDataHtml(
         date: Date,
         place: BoatraceRaceCourse,
+        number: number,
     ): Promise<string> {
         const raceDate = format(date, 'yyyyMMdd');
         const babacode = BOATRACE_PLACE_CODE[place];
-        const url = `https://www.boatrace.jp/owsp/sp/race/raceindex?hd=${raceDate}&jcd=${babacode}`;
+        const url = `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number.toString()}&?hd=${raceDate}&jcd=${babacode}`;
 
-        let browser;
+        // gokeibaのURLからHTMLを取得する
         try {
-            // Puppeteerでブラウザを起動
-            browser = await puppeteer.launch({ headless: true });
-            const page = await browser.newPage();
-
-            // ページを開く
-            await page.goto(url, { waitUntil: 'networkidle2' });
-
-            // JavaScript実行後のHTMLを取得
-            const html = await page.content();
-            return html;
+            const html = await fetch(url);
+            const htmlText = await html.text();
+            return htmlText;
         } catch (error) {
-            console.debug('HTMLを取得できませんでした', error);
-            throw new Error('HTMLを取得できませんでした');
-        } finally {
-            // ブラウザを閉じる
-            if (browser) {
-                await browser.close();
-            }
+            console.debug('htmlを取得できませんでした', error);
+            throw new Error('htmlを取得できませんでした');
         }
     }
 }

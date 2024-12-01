@@ -22,9 +22,10 @@ export class MockBoatraceRaceDataHtmlGateway
     async getRaceDataHtml(
         date: Date,
         place: BoatraceRaceCourse,
+        number: number,
     ): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/boatrace/race/${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[place]}.html`;
+        const testHtmlUrl = `../mockData/boatrace/race/${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[place]}${number.toString()}.html`;
         // lib/src/gateway/mockData/boatrace/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 

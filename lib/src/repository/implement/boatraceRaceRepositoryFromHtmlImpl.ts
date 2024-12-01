@@ -68,92 +68,63 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                 placeData.dateTime.getMonth() + 1,
                 placeData.dateTime.getDate(),
             ];
+            // TODO: 全レースを取りたいが、12レースのみ取得するので、後で修正する
+            const raceNumber = 12;
             const htmlText =
                 await this.boatraceRaceDataHtmlGateway.getRaceDataHtml(
                     placeData.dateTime,
                     placeData.location,
+                    raceNumber,
                 );
             const boatraceRaceEntityList: BoatraceRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
-            // id="comheader"を取得
-            const comHeader = $('#comheader');
-            // class="raceDesc__titleText"を取得
-            const raceDescTitleText = comHeader.find('.raceDesc__titleText');
 
-            // id="racelisttable"を取得
-            const raceListTable = $('#racelisttable');
-            // id="r1"からid="r12"までを取得
-            for (let i = 1; i <= 12; i++) {
-                const raceSummaryInfo = $(raceListTable).find(
-                    `#r${i.toString()}`,
-                );
-                // レースが存在しない場合は処理を終了
-                if (raceSummaryInfo.length === 0) {
-                    console.debug('レースが存在しません');
-                    break;
-                }
-                // raceStageはclass="raceType__subTitle"のtext
-                const raceStageString = raceSummaryInfo
-                    .find('.raceType__subTitle')
-                    .text();
-                const raceStage = raceStageString as BoatraceRaceStage;
+            // raceNameを取得 class="heading2_titleName"のtext
+            const raceNameText = $('.heading2_titleName').text();
 
-                const raceName = this.extractRaceName(
-                    raceDescTitleText.text(),
-                    raceStage,
-                    i,
-                );
-
-                const raceGrade = this.extractRaceGrade(
-                    raceName,
-                    placeData.grade,
-                );
-
-                // <p id="deadLine" class="txt_disable">締切予定時刻 20:40</p>から締切予定時刻を取得
-                const deadLine = raceSummaryInfo.find('#deadLine').text();
-                // 「締切予定時刻 20:40」の20:40をhourとminuteを取得
-                const [hourString, minuteString] = deadLine
-                    .split(' ')[1]
-                    .split(':');
-                const hour = parseInt(hourString);
-                const minute = parseInt(minuteString);
-
-                const racePlayerDataList: BoatraceRacePlayerData[] = [];
-                for (let j = 1; j <= 6; j++) {
-                    const playerNumberElement = $(raceSummaryInfo)
-                        .find(`#racername${j.toString()}`)
-                        .find('a');
-
-                    const playerNumber = parseInt(
-                        playerNumberElement.attr('href')?.split('=')[1] ?? '',
-                    );
-
-                    if (!playerNumber) {
-                        console.error('選手番号が取得できませんでした');
-                        continue;
-                    }
-
-                    racePlayerDataList.push(
-                        new BoatraceRacePlayerData(j, playerNumber),
-                    );
-                }
-
-                boatraceRaceEntityList.push(
-                    new BoatraceRaceEntity(
-                        null,
-                        new BoatraceRaceData(
-                            raceName,
-                            raceStage,
-                            new Date(year, month - 1, day, hour, minute),
-                            placeData.location,
-                            raceGrade,
-                            i,
-                        ),
-                        racePlayerDataList,
-                    ),
-                );
+            const raceStageString = $('.title16_titleDetail__add2020').text();
+            const raceStage = this.extractRaceStage(raceStageString);
+            if (raceStage === null) {
+                console.error('レースステージが取得できませんでした');
+                return [];
             }
 
+            const raceName = this.extractRaceName(raceNameText, raceStage, 12);
+
+            const raceGrade = this.extractRaceGrade(raceName, placeData.grade);
+
+            // contentsFrame1_innerのクラスを持つ要素を取得
+            const raceSummaryInfo = $('.contentsFrame1_inner');
+            // その中からtable1 h-mt10のクラスを持つ要素を取得
+            const raceSummaryInfoChild = raceSummaryInfo.find('.table1');
+
+            // tableの中のtbodyの中のtdを全て取得
+            const raceSummaryInfoChildTd =
+                raceSummaryInfoChild.find('tbody td');
+            // 12番目のtdを取得
+            const raceTime = raceSummaryInfoChildTd.eq(raceNumber).text();
+
+            const [hourString, minuteString] = raceTime.split(':');
+            const hour = parseInt(hourString);
+            const minute = parseInt(minuteString);
+
+            // TODO: 選手情報を取得する
+            const racePlayerDataList: BoatraceRacePlayerData[] = [];
+
+            boatraceRaceEntityList.push(
+                new BoatraceRaceEntity(
+                    null,
+                    new BoatraceRaceData(
+                        raceName,
+                        raceStage,
+                        new Date(year, month - 1, day, hour, minute),
+                        placeData.location,
+                        raceGrade,
+                        raceNumber,
+                    ),
+                    racePlayerDataList,
+                ),
+            );
             return boatraceRaceEntityList;
         } catch (e) {
             console.error('htmlを取得できませんでした', e);
