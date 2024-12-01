@@ -637,6 +637,7 @@ export class GoogleCalendarService<R extends RaceData>
     private translateToCalendarEventForBoatrace(
         raceData: BoatraceRaceData,
     ): calendar_v3.Schema$Event {
+        console.log(raceData);
         return {
             id: generateBoatraceRaceId(
                 raceData.dateTime,

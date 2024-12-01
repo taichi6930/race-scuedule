@@ -16,7 +16,9 @@ import { AutoracePlaceRepositoryFromHtmlImpl } from '../src/repository/implement
 import { AutoracePlaceRepositoryFromStorageImpl } from '../src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
 import { AutoraceRaceRepositoryFromStorageImpl } from '../src/repository/implement/autoraceRaceRepositoryFromStorageImpl';
+import { BoatracePlaceRepositoryFromHtmlImpl } from '../src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
 import { BoatracePlaceRepositoryFromStorageImpl } from '../src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
+import { BoatraceRaceRepositoryFromHtmlImpl } from '../src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
 import { BoatraceRaceRepositoryFromStorageImpl } from '../src/repository/implement/boatraceRaceRepositoryFromStorageImpl';
 import { JraPlaceRepositoryFromHtmlImpl } from '../src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromS3Impl } from '../src/repository/implement/jraPlaceRepositoryFromS3Impl';
@@ -153,12 +155,12 @@ switch (ENV) {
         });
         container.register<IPlaceRepository<BoatracePlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
-            { useClass: MockBoatracePlaceRepositoryFromHtmlImpl },
+            { useClass: BoatracePlaceRepositoryFromHtmlImpl },
         );
         container.register<
             IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
         >('BoatraceRaceRepositoryFromHtml', {
-            useClass: MockBoatraceRaceRepositoryFromHtmlImpl,
+            useClass: BoatraceRaceRepositoryFromHtmlImpl,
         });
         break;
     case 'ITa':

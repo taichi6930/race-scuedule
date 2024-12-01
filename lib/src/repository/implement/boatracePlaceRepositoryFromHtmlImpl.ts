@@ -7,6 +7,8 @@ import { inject, injectable } from 'tsyringe';
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatracePlaceDataHtmlGateway';
 import {
+    BOATRACE_PLACE_CODE,
+    BOATRACE_SPECIFIED_GRADE_LIST,
     BoatraceGradeType,
     BoatraceRaceCourse,
 } from '../../utility/data/boatrace';
@@ -42,22 +44,29 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     async fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
-        const months: Date[] = await this.generateMonths(
+        const quarters: Record<string, Date> = await this.generateQuarters(
             request.startDate,
             request.finishDate,
         );
-        const promises = months.map(async (month) =>
-            this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
-                childPlaceEntityList.filter(
-                    (PlaceEntity) =>
-                        PlaceEntity.placeData.dateTime >= request.startDate &&
-                        PlaceEntity.placeData.dateTime <= request.finishDate,
+
+        const placeEntityList = (
+            await Promise.all(
+                Object.entries(quarters).map(async ([quarter, quarterDate]) =>
+                    this.fetchMonthPlaceEntityList(quarter, quarterDate).then(
+                        (childPlaceEntityList) =>
+                            childPlaceEntityList.filter(
+                                (PlaceEntity) =>
+                                    PlaceEntity.placeData.dateTime >=
+                                        request.startDate &&
+                                    PlaceEntity.placeData.dateTime <=
+                                        request.finishDate,
+                            ),
+                    ),
                 ),
-            ),
-        );
-        const PlaceEntityLists = await Promise.all(promises);
-        const PlaceEntityList = PlaceEntityLists.flat();
-        return new FetchPlaceListResponse(PlaceEntityList);
+            )
+        ).flat();
+        console.log(placeEntityList);
+        return new FetchPlaceListResponse(placeEntityList);
     }
 
     /**
@@ -70,31 +79,38 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private generateMonths(startDate: Date, finishDate: Date): Promise<Date[]> {
-        console.log('startDate', startDate);
-        console.log('finishDate', finishDate);
-        const months: Date[] = [];
-        let currentDate = new Date(startDate);
+    private generateQuarters(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<Record<string, Date>> {
+        // 20241: 2024/1/1のようなdictを生成する
+        const quarters: Record<string, Date> = {};
 
-        while (currentDate <= finishDate) {
-            const date = new Date(
-                currentDate.getFullYear(),
-                currentDate.getMonth(),
-                1,
-            );
-            months.push(date);
-
-            // 次の月の1日を取得
-            currentDate = new Date(
-                currentDate.getFullYear(),
-                currentDate.getMonth() + 1,
-                1,
-            );
-        }
-        console.log(
-            `月リストを生成しました: ${months.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
+        // qStartDateは、そのクオーターの月初めの日付にする
+        const qStartDate = new Date(
+            startDate.getFullYear(),
+            Math.floor(startDate.getMonth() / 3) * 3,
+            1,
         );
-        return Promise.resolve(months);
+
+        // qFinishDateは、そのクオーターの月初めの日付にする
+        const qFinishDate = new Date(
+            finishDate.getFullYear(),
+            Math.floor(finishDate.getMonth() / 3) * 3,
+            1,
+        );
+
+        // qStartDateからqFinishDateまでのクオーターのリストを生成する
+        const currentDate = new Date(qStartDate);
+        while (currentDate <= qFinishDate) {
+            const quarter = `${currentDate.getFullYear().toString()}${(
+                Math.floor(currentDate.getMonth() / 3) + 1
+            ).toString()}`;
+            quarters[quarter] = new Date(currentDate);
+            currentDate.setMonth(currentDate.getMonth() + 3);
+        }
+
+        return Promise.resolve(quarters);
     }
 
     /**
@@ -108,76 +124,97 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     private async fetchMonthPlaceEntityList(
+        quarterString: string,
         date: Date,
     ): Promise<BoatracePlaceEntity[]> {
         const boatracePlaceEntityList: BoatracePlaceEntity[] = [];
-        console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
+        console.log(
+            `HTMLから${quarterString} ${formatDate(date, 'yyyy-MM')}を取得します`,
+        );
         // レース情報を取得
         const htmlText: string =
-            await this.boatracePlaceDataHtmlGateway.getPlaceDataHtml(date);
+            await this.boatracePlaceDataHtmlGateway.getPlaceDataHtml(
+                quarterString,
+            );
 
         const $ = cheerio.load(htmlText);
 
-        const chartWrapprer = $('#content');
+        // id="r_list"を取得
+        const rList = $('#r_list');
 
-        // tableタグが複数あるので、全て取得
-        const tables = chartWrapprer.find('table');
+        // rListの中の、tr class="br-tableSchedule__row"を取得（複数ある）
+        const trs = rList.find('tr.br-tableSchedule__row');
+        trs.each((index: number, element: cheerio.Element) => {
+            // 日付を取得
+            const dateText = $(element)
+                .find('td.br-tableSchedule__data')
+                .eq(0)
+                .text()
+                .trim();
+            // 9 / 27(金)～10 / 2(水)から、最初の日と最後の日を取得
+            const startDateString: string = dateText.split('～')[0];
+            const finishDateString = dateText.split('～')[1];
+            const startDate = new Date(
+                date.getFullYear(),
+                parseInt(startDateString.split('/')[0]) - 1,
+                parseInt(startDateString.split('/')[1].split('(')[0]),
+            );
 
-        tables.each((index: number, element: cheerio.Element) => {
-            // その中のtbodyを取得
-            const tbody = $(element).find('tbody');
-            // tr class="ref_sche"を取得
-            const trs = tbody.find('tr');
-            trs.each((index: number, element: cheerio.Element) => {
-                // thを取得
-                const th = $(element).find('th');
+            const finishDate = new Date(
+                date.getFullYear(),
+                parseInt(finishDateString.split('/')[0]) - 1,
+                parseInt(finishDateString.split('/')[1].split('(')[0]),
+            );
 
-                // thのテキストが BoatraceRaceCourseに含まれているか
-                if (!(th.text() as BoatraceRaceCourse)) {
-                    return;
-                }
-                const place: BoatraceRaceCourse =
-                    th.text() as BoatraceRaceCourse;
+            // class="br-label"を取得
+            const grade = $(element).find('.br-label').text().trim();
 
-                const tds = $(element).find('td');
-                tds.each((index: number, element: cheerio.Element) => {
-                    const imgs = $(element).find('img');
-                    let grade: BoatraceGradeType | undefined;
-                    imgs.each((_, img) => {
-                        const alt = $(img).attr('alt');
-                        if (
-                            alt !== null &&
-                            alt !== undefined &&
-                            alt.trim() !== ''
-                        ) {
-                            grade = alt
-                                .replace('1', 'Ⅰ')
-                                .replace('2', 'Ⅱ')
-                                .replace('3', 'Ⅲ') as BoatraceGradeType;
-                        }
-                    });
+            // 競艇場の名前を取得
+            const place = $(element)
+                .find('td.br-tableSchedule__data')
+                .eq(2)
+                .text()
+                .trim()
+                // eslint-disable-next-line no-irregular-whitespace
+                .replace(/[\s　]+/g, '');
 
-                    // alt属性を出力
-                    if (grade) {
-                        boatracePlaceEntityList.push(
-                            new BoatracePlaceEntity(
-                                null,
-                                new BoatracePlaceData(
-                                    new Date(
-                                        date.getFullYear(),
-                                        date.getMonth(),
-                                        index + 1,
-                                    ),
-                                    place,
-                                    grade,
-                                ),
-                            ),
-                        );
-                    }
-                });
-            });
+            //placeがBoatraceRaceCourseに含まれているか確認
+            if (
+                !Object.keys(BOATRACE_PLACE_CODE).includes(
+                    place as BoatraceRaceCourse,
+                )
+            ) {
+                console.log('競艇場が見つかりませんでした');
+                return;
+            }
+            // gradeがBoatraceGradeTypeに含まれているか確認
+            if (
+                !BOATRACE_SPECIFIED_GRADE_LIST.includes(
+                    grade as BoatraceGradeType,
+                )
+            ) {
+                console.log(`グレードが見つかりませんでした:"${grade}"`);
+                return;
+            }
+
+            // startDateからfinishDateまでfor文で回す
+            // finishDateの1日後まで回す
+            for (
+                let currentDate = new Date(startDate);
+                currentDate <= finishDate;
+                currentDate.setDate(currentDate.getDate() + 1)
+            ) {
+                const boatracePlaceEntity = new BoatracePlaceEntity(
+                    null,
+                    new BoatracePlaceData(
+                        new Date(currentDate),
+                        place as BoatraceRaceCourse,
+                        grade as BoatraceGradeType,
+                    ),
+                );
+                boatracePlaceEntityList.push(boatracePlaceEntity);
+            }
         });
-        console.log('boatracePlaceEntityList:', boatracePlaceEntityList);
         return boatracePlaceEntityList;
     }
 

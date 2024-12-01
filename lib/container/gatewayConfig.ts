@@ -2,6 +2,8 @@ import { container } from 'tsyringe';
 
 import { AutoracePlaceDataHtmlGateway } from '../src/gateway/implement/autoracePlaceDataHtmlGateway';
 import { AutoraceRaceDataHtmlGateway } from '../src/gateway/implement/autoraceRaceDataHtmlGateway';
+import { BoatracePlaceDataHtmlGateway } from '../src/gateway/implement/boatracePlaceDataHtmlGateway';
+import { BoatraceRaceDataHtmlGateway } from '../src/gateway/implement/boatraceRaceDataHtmlGateway';
 import { JraPlaceDataHtmlGateway } from '../src/gateway/implement/jraPlaceDataHtmlGateway';
 import { JraRaceDataHtmlGateway } from '../src/gateway/implement/jraRaceDataHtmlGateway';
 import { KeirinPlaceDataHtmlGateway } from '../src/gateway/implement/keirinPlaceDataHtmlGateway';
@@ -12,6 +14,8 @@ import { S3Gateway } from '../src/gateway/implement/s3Gateway';
 import { WorldRaceDataHtmlGateway } from '../src/gateway/implement/worldRaceDataHtmlGateway';
 import type { IAutoracePlaceDataHtmlGateway } from '../src/gateway/interface/iAutoracePlaceDataHtmlGateway';
 import type { IAutoraceRaceDataHtmlGateway } from '../src/gateway/interface/iAutoraceRaceDataHtmlGateway';
+import type { IBoatracePlaceDataHtmlGateway } from '../src/gateway/interface/iBoatracePlaceDataHtmlGateway';
+import type { IBoatraceRaceDataHtmlGateway } from '../src/gateway/interface/iBoatraceRaceDataHtmlGateway';
 import type { IJraPlaceDataHtmlGateway } from '../src/gateway/interface/iJraPlaceDataHtmlGateway';
 import type { IJraRaceDataHtmlGateway } from '../src/gateway/interface/iJraRaceDataHtmlGateway';
 import type { IKeirinPlaceDataHtmlGateway } from '../src/gateway/interface/iKeirinPlaceDataHtmlGateway';
@@ -22,6 +26,8 @@ import type { IS3Gateway } from '../src/gateway/interface/iS3Gateway';
 import type { IWorldRaceDataHtmlGateway } from '../src/gateway/interface/iWorldRaceDataHtmlGateway';
 import { MockAutoracePlaceDataHtmlGateway } from '../src/gateway/mock/mockAutoracePlaceDataHtmlGateway';
 import { MockAutoraceRaceDataHtmlGateway } from '../src/gateway/mock/mockAutoraceRaceDataHtmlGateway';
+import { MockBoatracePlaceDataHtmlGateway } from '../src/gateway/mock/mockBoatracePlaceDataHtmlGateway';
+import { MockBoatraceRaceDataHtmlGateway } from '../src/gateway/mock/mockBoatraceRaceDataHtmlGateway';
 import { MockJraPlaceDataHtmlGateway } from '../src/gateway/mock/mockJraPlaceDataHtmlGateway';
 import { MockJraRaceDataHtmlGateway } from '../src/gateway/mock/mockJraRaceDataHtmlGateway';
 import { MockKeirinPlaceDataHtmlGateway } from '../src/gateway/mock/mockKeirinPlaceDataHtmlGateway';
@@ -414,29 +420,29 @@ container.register<IS3Gateway<BoatraceRacePlayerRecord>>(
         },
     },
 );
-// container.register<IBoatracePlaceDataHtmlGateway>(
-//     'BoatracePlaceDataHtmlGateway',
-//     {
-//         useFactory: () => {
-//             switch (ENV) {
-//                 case 'PRODUCTION':
-//                     return new BoatracePlaceDataHtmlGateway();
-//                 default:
-//                     return new MockBoatracePlaceDataHtmlGateway();
-//             }
-//         },
-//     },
-// );
-// container.register<IBoatraceRaceDataHtmlGateway>(
-//     'BoatraceRaceDataHtmlGateway',
-//     {
-//         useFactory: () => {
-//             switch (ENV) {
-//                 case 'PRODUCTION':
-//                     return new BoatraceRaceDataHtmlGateway();
-//                 default:
-//                     return new MockBoatraceRaceDataHtmlGateway();
-//             }
-//         },
-//     },
-// );
+container.register<IBoatracePlaceDataHtmlGateway>(
+    'BoatracePlaceDataHtmlGateway',
+    {
+        useFactory: () => {
+            switch (ENV) {
+                case 'PRODUCTION':
+                    return new BoatracePlaceDataHtmlGateway();
+                default:
+                    return new MockBoatracePlaceDataHtmlGateway();
+            }
+        },
+    },
+);
+container.register<IBoatraceRaceDataHtmlGateway>(
+    'BoatraceRaceDataHtmlGateway',
+    {
+        useFactory: () => {
+            switch (ENV) {
+                case 'PRODUCTION':
+                    return new BoatraceRaceDataHtmlGateway();
+                default:
+                    return new MockBoatraceRaceDataHtmlGateway();
+            }
+        },
+    },
+);

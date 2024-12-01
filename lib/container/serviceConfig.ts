@@ -113,7 +113,7 @@ container.register<ICalendarService<BoatraceRaceData>>(
                 case 'PRODUCTION':
                     // ENV が production の場合、GoogleCalendarService を使用
                     return new GoogleCalendarService<BoatraceRaceData>(
-                        'autorace',
+                        'boatrace',
                         process.env.BOATRACE_CALENDAR_ID ?? '',
                     );
                 case 'ITa':
