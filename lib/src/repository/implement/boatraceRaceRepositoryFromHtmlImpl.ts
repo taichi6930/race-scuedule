@@ -8,7 +8,6 @@ import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
 import { IBoatraceRaceDataHtmlGateway } from '../../gateway/interface/iBoatraceRaceDataHtmlGateway';
 import {
-    BOATRACE_STAGE_MAP,
     BoatraceGradeType,
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
@@ -82,7 +81,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             // raceNameを取得 class="heading2_titleName"のtext
             const raceNameText = $('.heading2_titleName').text();
 
-            const raceStageString = $('.title16_titleDetail__add2020').text();
+            const raceStageString = $('h3').text();
             const raceStage = this.extractRaceStage(raceStageString);
             if (raceStage === null) {
                 console.error('レースステージが取得できませんでした');
@@ -99,8 +98,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             const raceSummaryInfoChild = raceSummaryInfo.find('.table1');
 
             // tableの中のtbodyの中のtdを全て取得
-            const raceSummaryInfoChildTd =
-                raceSummaryInfoChild.find('tbody td');
+            const raceSummaryInfoChildTd = raceSummaryInfoChild.find('td');
             // 12番目のtdを取得
             const raceTime = raceSummaryInfoChildTd.eq(raceNumber).text();
 
@@ -134,10 +132,10 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     private extractRaceStage(
         raceSummaryInfoChild: string,
     ): BoatraceRaceStage | null {
-        for (const [pattern, stage] of Object.entries(BOATRACE_STAGE_MAP)) {
-            if (new RegExp(pattern).exec(raceSummaryInfoChild)) {
-                return stage;
-            }
+        // TODO: 後でステージは直す
+        console.log('extractRaceStage:', raceSummaryInfoChild);
+        if (raceSummaryInfoChild.includes('優勝戦')) {
+            return '優勝戦';
         }
         return null;
     }
