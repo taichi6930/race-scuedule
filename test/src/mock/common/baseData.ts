@@ -18,6 +18,8 @@ import { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autorace
 import { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
+import { BoatraceRacePlayerRecord } from '../../../../lib/src/gateway/record/boatraceRacePlayerRecord';
+import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
 import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
@@ -600,6 +602,12 @@ export const baseBoatracePlaceData = new BoatracePlaceData(
     '平和島',
     'SG',
 );
+export const baseBoatraceRacePlayerRecord = new BoatraceRacePlayerRecord(
+    'boatrace20241231051101',
+    'boatrace202412310511',
+    1,
+    10000,
+);
 
 export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
     { location: '平和島', grade: 'SG' },
@@ -655,6 +663,8 @@ export const baseBoatraceRaceData = new BoatraceRaceData(
     'SG',
     11,
 );
+export const baseBoatraceRaceRecord =
+    BoatraceRaceRecord.fromDomainData(baseBoatraceRaceData);
 
 export const baseBoatraceRacePlayerData = new BoatraceRacePlayerData(1, 10000);
 

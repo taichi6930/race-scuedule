@@ -16,6 +16,7 @@ import {
 import { Logger } from '../../utility/logger';
 import {
     BoatraceRaceId,
+    BoatraceRacePlayerId,
     generateBoatraceRacePlayerId,
 } from '../../utility/raceId';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
@@ -97,7 +98,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                             }
 
                             return new BoatraceRacePlayerRecord(
-                                columns[idIndex],
+                                columns[idIndex] as BoatraceRacePlayerId,
                                 columns[raceIdIndex] as BoatraceRaceId,
                                 parseInt(columns[positionNumberIndex]),
                                 parseInt(columns[playerNumberIndex]),

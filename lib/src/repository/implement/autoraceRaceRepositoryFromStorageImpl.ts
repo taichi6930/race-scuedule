@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
+import { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
@@ -15,6 +16,7 @@ import {
 import { Logger } from '../../utility/logger';
 import {
     AutoraceRaceId,
+    AutoraceRacePlayerId,
     generateAutoraceRacePlayerId,
 } from '../../utility/raceId';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
@@ -35,7 +37,6 @@ export class AutoraceRaceRepositoryFromStorageImpl
     constructor(
         @inject('AutoraceRaceS3Gateway')
         private readonly raceS3Gateway: IS3Gateway<AutoraceRaceRecord>,
-
         @inject('AutoraceRacePlayerS3Gateway')
         private readonly racePlayerS3Gateway: IS3Gateway<AutoraceRacePlayerRecord>,
     ) {}
@@ -54,7 +55,66 @@ export class AutoraceRaceRepositoryFromStorageImpl
             request.finishDate,
         );
 
-        // ファイル名リストからオートレース場開催データを取得する
+        // ファイル名リストからオートレースレース選手データを取得する
+        const racePlayerRecordList: AutoraceRacePlayerRecord[] = (
+            await Promise.all(
+                fileNames.map(async (fileName) => {
+                    // S3からデータを取得する
+                    const csv =
+                        await this.racePlayerS3Gateway.fetchDataFromS3(
+                            fileName,
+                        );
+
+                    // CSVを行ごとに分割
+                    const lines = csv.split('\n');
+
+                    // ヘッダー行を解析
+                    const headers = lines[0].split(',');
+
+                    //      * @param id - ID
+                    //  * @param raceId - レースID
+                    //                     * @param positionNumber - 枠番
+                    //                         * @param playerNumber - 選手番号
+                    // ヘッダーに基づいてインデックスを取得
+                    const idIndex = headers.indexOf('id');
+                    const raceIdIndex = headers.indexOf('raceId');
+                    const positionNumberIndex =
+                        headers.indexOf('positionNumber');
+                    const playerNumberIndex = headers.indexOf('playerNumber');
+
+                    // データ行を解析してAutoraceRaceDataのリストを生成
+                    return lines
+                        .slice(1)
+                        .map((line: string) => {
+                            const columns = line.split(',');
+
+                            // 必要なフィールドが存在しない場合はundefinedを返す
+                            if (
+                                !columns[raceIdIndex] ||
+                                isNaN(parseInt(columns[positionNumberIndex])) ||
+                                isNaN(parseInt(columns[playerNumberIndex]))
+                            ) {
+                                return undefined;
+                            }
+
+                            return new AutoraceRacePlayerRecord(
+                                columns[idIndex] as AutoraceRacePlayerId,
+                                columns[raceIdIndex] as AutoraceRaceId,
+                                parseInt(columns[positionNumberIndex]),
+                                parseInt(columns[playerNumberIndex]),
+                            );
+                        })
+                        .filter(
+                            (
+                                racePlayerRecord,
+                            ): racePlayerRecord is AutoraceRacePlayerRecord =>
+                                racePlayerRecord !== undefined,
+                        );
+                }),
+            )
+        ).flat();
+
+        // ファイル名リストからオートレースレースデータを取得する
         const raceDataList = (
             await Promise.all(
                 fileNames.map(async (fileName) => {
@@ -103,7 +163,20 @@ export class AutoraceRaceRepositoryFromStorageImpl
                                     columns[gradeIndex] as AutoraceGradeType,
                                     parseInt(columns[raceNumIndex]),
                                 ),
-                                [],
+                                // racePlayerRecordList のraceIdが columns[idIndex] と一致するものを取得
+                                racePlayerRecordList
+                                    .filter((racePlayerRecord) => {
+                                        return (
+                                            racePlayerRecord.raceId ===
+                                            columns[idIndex]
+                                        );
+                                    })
+                                    .map((racePlayerRecord) => {
+                                        return new AutoraceRacePlayerData(
+                                            racePlayerRecord.positionNumber,
+                                            racePlayerRecord.playerNumber,
+                                        );
+                                    }),
                             );
                         })
                         .filter(
