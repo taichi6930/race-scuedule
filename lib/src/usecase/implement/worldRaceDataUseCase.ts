@@ -57,9 +57,9 @@ export class WorldRaceDataUseCase
         );
 
         // レースデータをWorldRaceDataに変換する
-        const raceDataList = raceEntityList.map((raceEntity) => {
-            return raceEntity.toDomainData();
-        });
+        const raceDataList = raceEntityList.map((raceEntity) =>
+            raceEntity.toDomainData(),
+        );
 
         // フィルタリング処理
         const filteredRaceDataList = raceDataList
@@ -113,18 +113,9 @@ export class WorldRaceDataUseCase
     async upsertRaceDataList(raceList: WorldRaceData[]): Promise<void> {
         try {
             // worldRaceDataをworldRaceEntityに変換する
-            const raceEntityList = raceList.map((raceData) => {
-                return new WorldRaceEntity(
-                    null,
-                    raceData.name,
-                    raceData.dateTime,
-                    raceData.location,
-                    raceData.surfaceType,
-                    raceData.distance,
-                    raceData.grade,
-                    raceData.number,
-                );
-            });
+            const raceEntityList = raceList.map(
+                (raceData) => new WorldRaceEntity(null, raceData),
+            );
             // S3にデータを保存する
             await this.registerRaceDataList(raceEntityList);
         } catch (error) {

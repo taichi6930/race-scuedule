@@ -12,6 +12,8 @@ import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
 import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import { WorldPlaceData } from '../../../../lib/src/domain/worldPlaceData';
+import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
@@ -275,12 +277,14 @@ export const baseKeirinCalendarDataFromGoogleCalendar = {
     description: 'テスト',
 };
 
-export const baseWorldPlaceEntity = new WorldPlaceEntity(
-    null,
+export const baseWorldPlaceData = new WorldPlaceData(
     new Date('2024-10-01'),
     'パリロンシャン',
 );
-export const baseWorldPlaceData = baseWorldPlaceEntity.toDomainData();
+export const baseWorldPlaceEntity = new WorldPlaceEntity(
+    null,
+    baseWorldPlaceData,
+);
 
 export const baseWorldRaceEntityList: WorldRaceEntity[] = [
     'パリロンシャン',
@@ -302,13 +306,15 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
     ].map((grade, index) => {
         return new WorldRaceEntity(
             null,
-            `テスト${location}${grade}${(index + 1).toString()}レース`,
-            new Date(2024, 10 - 1, 1, 7 + index, 0),
-            location as WorldRaceCourse,
-            '芝',
-            1600,
-            grade as WorldGradeType,
-            index + 1,
+            new WorldRaceData(
+                `テスト${location}${grade}${(index + 1).toString()}レース`,
+                new Date(2024, 10 - 1, 1, 7 + index, 0),
+                location as WorldRaceCourse,
+                '芝',
+                1600,
+                grade as WorldGradeType,
+                index + 1,
+            ),
         );
     });
 });
@@ -317,8 +323,7 @@ export const baseWorldRaceDataList = baseWorldRaceEntityList.map((raceEntity) =>
     raceEntity.toDomainData(),
 );
 
-export const baseWorldRaceEntity = new WorldRaceEntity(
-    null,
+export const baseWorldRaceData = new WorldRaceData(
     '凱旋門賞',
     new Date('2024-10-01 16:30'),
     'パリロンシャン',
@@ -327,7 +332,7 @@ export const baseWorldRaceEntity = new WorldRaceEntity(
     'GⅠ',
     11,
 );
-export const baseWorldRaceData = baseWorldRaceEntity.toDomainData();
+export const baseWorldRaceEntity = new WorldRaceEntity(null, baseWorldRaceData);
 
 export const baseWorldCalendarData = new CalendarData(
     'test20241001longchamp01',

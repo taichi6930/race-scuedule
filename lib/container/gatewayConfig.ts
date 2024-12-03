@@ -48,7 +48,7 @@ import type { KeirinRacePlayerRecord } from '../src/gateway/record/keirinRacePla
 import type { KeirinRaceRecord } from '../src/gateway/record/keirinRaceRecord';
 import type { NarPlaceRecord } from '../src/gateway/record/narPlaceRecord';
 import type { NarRaceRecord } from '../src/gateway/record/narRaceRecord';
-import type { WorldRaceEntity } from '../src/repository/entity/worldRaceEntity';
+import type { WorldRaceRecord } from '../src/gateway/record/worldRaceRecord';
 import { ENV } from '../src/utility/env';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
@@ -258,19 +258,19 @@ container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
     },
 });
 
-container.register<IS3Gateway<WorldRaceEntity>>('WorldRaceS3Gateway', {
+container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<WorldRaceEntity>(
+                return new S3Gateway<WorldRaceRecord>(
                     'race-schedule-bucket',
                     'world/race/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<WorldRaceEntity>(
+                return new MockS3Gateway<WorldRaceRecord>(
                     'race-schedule-bucket',
                     'world/race/',
                 );

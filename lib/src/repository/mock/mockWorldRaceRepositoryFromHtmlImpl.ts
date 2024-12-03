@@ -1,3 +1,4 @@
+import { WorldRaceData } from '../../domain/worldRaceData';
 import { Logger } from '../../utility/logger';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
@@ -21,18 +22,20 @@ export class MockWorldRaceRepositoryFromHtmlImpl
             raceEntityList.push(
                 new WorldRaceEntity(
                     null,
-                    `第${i.toString()}R`,
-                    new Date(
-                        request.startDate.getFullYear(),
-                        request.startDate.getMonth(),
-                        request.startDate.getDate(),
-                        i + 9,
+                    new WorldRaceData(
+                        `第${i.toString()}R`,
+                        new Date(
+                            request.startDate.getFullYear(),
+                            request.startDate.getMonth(),
+                            request.startDate.getDate(),
+                            i + 9,
+                        ),
+                        'ロンシャン',
+                        '芝',
+                        2400,
+                        'GⅠ',
+                        12,
                     ),
-                    'ロンシャン',
-                    '芝',
-                    2400,
-                    'GⅠ',
-                    12,
                 ),
             );
         }

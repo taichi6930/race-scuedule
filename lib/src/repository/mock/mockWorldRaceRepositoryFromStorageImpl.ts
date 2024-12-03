@@ -1,3 +1,4 @@
+import { WorldRaceData } from '../../domain/worldRaceData';
 import type { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
@@ -18,13 +19,15 @@ export class MockWorldRaceRepositoryFromStorageImpl
             new FetchRaceListResponse([
                 new WorldRaceEntity(
                     null,
-                    '凱旋門賞',
-                    new Date('2024-10-02 16:30'),
-                    'パリロンシャン',
-                    '芝',
-                    2400,
-                    'GⅠ',
-                    11,
+                    new WorldRaceData(
+                        '凱旋門賞',
+                        new Date('2024-10-02 16:30'),
+                        'パリロンシャン',
+                        '芝',
+                        2400,
+                        'GⅠ',
+                        11,
+                    ),
                 ),
             ]),
         );
