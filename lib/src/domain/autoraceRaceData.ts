@@ -24,7 +24,7 @@ export class AutoraceRaceData {
         public readonly name: string, // レース名
         public readonly stage: AutoraceRaceStage, // 開催ステージ
         public readonly dateTime: Date, // 開催日時
-        public readonly location: AutoraceRaceCourse, // 競馬場名
+        public readonly location: AutoraceRaceCourse, // オートレース場名
         public readonly grade: AutoraceGradeType, // グレード
         public readonly number: number, // レース番号
     ) {

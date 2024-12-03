@@ -19,7 +19,7 @@ import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
- * 競馬場開催データリポジトリの実装
+ * 競輪場開催データリポジトリの実装
  */
 @injectable()
 export class KeirinRaceRepositoryFromHtmlImpl
@@ -30,7 +30,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         private readonly keirinRaceDataHtmlGateway: IKeirinRaceDataHtmlGateway,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 競輪場開催データを取得する
      * @param request
      * @returns
      */

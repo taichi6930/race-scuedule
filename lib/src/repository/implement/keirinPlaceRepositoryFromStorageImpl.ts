@@ -18,7 +18,7 @@ import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
- * オートレースデータリポジトリの実装
+ * 競輪データリポジトリの実装
  */
 @injectable()
 export class KeirinPlaceRepositoryFromStorageImpl
@@ -29,9 +29,9 @@ export class KeirinPlaceRepositoryFromStorageImpl
         private readonly s3Gateway: IS3Gateway<KeirinPlaceRecord>,
     ) {}
     /**
-     * オートレース開催データを取得する
+     * 競輪開催データを取得する
      *
-     * このメソッドで日付の範囲を指定してオートレース開催データを取得する
+     * このメソッドで日付の範囲を指定して競輪開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<FetchPlaceListResponse<KeirinPlaceEntity>> - 開催データ取得レスポンス
@@ -45,7 +45,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
             request.finishDate,
         );
 
-        // ファイル名リストからオートレース開催データを取得する
+        // ファイル名リストから競輪開催データを取得する
         const placeRecordList: KeirinPlaceRecord[] = (
             await Promise.all(
                 fileNames.map(async (fileName) =>
@@ -112,9 +112,9 @@ export class KeirinPlaceRepositoryFromStorageImpl
     }
 
     /**
-     * S3からオートレース開催データを取得する
+     * S3から競輪開催データを取得する
      *
-     * ファイル名を利用してS3からオートレース開催データを取得する
+     * ファイル名を利用してS3から競輪開催データを取得する
      * placeRecordが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param fileName

@@ -74,7 +74,7 @@ describe('AutoracePlaceDataUseCase', () => {
     });
 
     describe('updatePlaceDataList', () => {
-        it('正常に競馬場データが更新されること', async () => {
+        it('正常にオートレース場データが更新されること', async () => {
             const mockPlaceEntity: AutoracePlaceEntity[] = [
                 baseAutoracePlaceEntity,
             ];

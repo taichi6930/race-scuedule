@@ -72,7 +72,7 @@ describe('KeirinPlaceDataUseCase', () => {
     });
 
     describe('updatePlaceDataList', () => {
-        it('正常に競馬場データが更新されること', async () => {
+        it('正常に競輪場データが更新されること', async () => {
             const mockPlaceEntity: KeirinPlaceEntity[] = [
                 baseKeirinPlaceEntity,
             ];

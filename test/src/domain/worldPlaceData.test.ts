@@ -8,7 +8,7 @@ describe('WorldPlaceDataクラスのテスト', () => {
         expect(placeData.location).toBe('パリロンシャン');
     });
 
-    it('日付を変更したNarPlaceDataのインスタンスを作成できることを確認', () => {
+    it('日付を変更したWorldPlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseWorldPlaceData;
         const newPlaceData = placeData.copy({
             dateTime: new Date('2022-12-30'),

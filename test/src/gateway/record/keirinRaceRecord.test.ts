@@ -13,7 +13,7 @@ describe('KeirinRaceRecordクラスのテスト', () => {
         expect(raceRecord.number).toBe(11);
     });
 
-    it('日付を変更したNarRaceRecordのインスタンスを作成できることを確認', () => {
+    it('日付を変更したKeirinRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseKeirinRaceRecord;
         const newRaceRecord = raceRecord.copy({
             dateTime: new Date('2022-12-30'),

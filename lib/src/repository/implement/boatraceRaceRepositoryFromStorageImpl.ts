@@ -27,7 +27,7 @@ import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
- * 競輪場開催データリポジトリの実装
+ * ボートレース場開催データリポジトリの実装
  */
 @injectable()
 export class BoatraceRaceRepositoryFromStorageImpl
@@ -40,7 +40,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
         private readonly racePlayerS3Gateway: IS3Gateway<BoatraceRacePlayerRecord>,
     ) {}
     /**
-     * 競輪場開催データを取得する
+     * ボートレース場開催データを取得する
      * @param request
      * @returns
      */
@@ -54,7 +54,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
             request.finishDate,
         );
 
-        // ファイル名リストから競輪レース選手データを取得する
+        // ファイル名リストからボートレースレース選手データを取得する
         const racePlayerRecordList: BoatraceRacePlayerRecord[] = (
             await Promise.all(
                 fileNames.map(async (fileName) => {
@@ -113,7 +113,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
             )
         ).flat();
 
-        // ファイル名リストから競輪レースデータを取得する
+        // ファイル名リストからボートレースレースデータを取得する
         const raceDataList = (
             await Promise.all(
                 fileNames.map(async (fileName) => {

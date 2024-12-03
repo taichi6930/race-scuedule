@@ -12,19 +12,19 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<BoatracePlaceEntity>
 {
     /**
-     * 競輪場データを取得する
+     * ボートレース場データを取得する
      * @param request
      */
     @Logger
     fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
-        // request.startDateからrequest.finishDateまでの競輪場データを取得する
+        // request.startDateからrequest.finishDateまでのボートレース場データを取得する
         const fetchPlaceEntityList = [];
         const currentDate = new Date(request.startDate);
 
         while (currentDate <= request.finishDate) {
-            // 競輪場データを作成
+            // ボートレース場データを作成
             const boatracePlaceEntity = new BoatracePlaceEntity(
                 null,
                 new BoatracePlaceData(new Date(currentDate), '平和島', 'SG'),
@@ -40,7 +40,7 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * 競馬場開催データを登録する
+     * ボートレース場開催データを登録する
      * HTMLにはデータを登録しない
      * @param request
      */

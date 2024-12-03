@@ -40,7 +40,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * 競馬場開催データを登録する
+     * 競輪場開催データを登録する
      * HTMLにはデータを登録しない
      * @param request
      */

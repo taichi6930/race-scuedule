@@ -9,7 +9,7 @@ describe('KeirinPlaceDataクラスのテスト', () => {
         expect(placeData.location).toBe('平塚');
     });
 
-    it('日付を変更したNarPlaceDataのインスタンスを作成できることを確認', () => {
+    it('日付を変更したKeirinPlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = new KeirinPlaceData(
             new Date('2025-12-30'),
             '平塚',

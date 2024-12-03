@@ -74,7 +74,7 @@ describe('BoatracePlaceDataUseCase', () => {
     });
 
     describe('updatePlaceDataList', () => {
-        it('正常に競馬場データが更新されること', async () => {
+        it('正常にボートレース場データが更新されること', async () => {
             const mockPlaceEntity: BoatracePlaceEntity[] = [
                 baseBoatracePlaceEntity,
             ];

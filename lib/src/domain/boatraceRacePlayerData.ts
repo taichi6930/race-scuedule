@@ -1,12 +1,12 @@
 /**
- * 競輪のレースの選手データ
+ * ボートレースのレースの選手データ
  */
 export class BoatraceRacePlayerData {
     /**
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレースの選手データを生成する
+     * ボートレースのレースの選手データを生成する
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
      */

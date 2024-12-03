@@ -45,7 +45,7 @@ export class WorldRaceRepositoryFromStorageImpl
             request.finishDate,
         );
 
-        // ファイル名リストから競輪場開催データを取得する
+        // ファイル名リストから海外競馬場開催データを取得する
         const raceDataList = (
             await Promise.all(
                 fileNames.map(async (fileName) => {

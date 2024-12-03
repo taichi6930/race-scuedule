@@ -8,7 +8,7 @@ describe('AutoracePlaceDataクラスのテスト', () => {
         expect(placeData.location).toBe('飯塚');
     });
 
-    it('日付を変更したNarPlaceDataのインスタンスを作成できることを確認', () => {
+    it('日付を変更したAutoracePlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseAutoracePlaceData;
         const newPlaceData = placeData.copy({
             dateTime: new Date('2022-12-30'),

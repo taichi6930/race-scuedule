@@ -3,14 +3,14 @@ import '../../utility/format';
 import type { BoatraceRaceId } from '../../utility/raceId';
 
 /**
- * 競輪のレース選手データ
+ * ボートレースのレース選手データ
  */
 export class BoatraceRacePlayerRecord {
     /**
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催データを生成する
+     * ボートレースのレース開催データを生成する
      * @param id - ID
      * @param raceId - レースID
      * @param positionNumber - 枠番

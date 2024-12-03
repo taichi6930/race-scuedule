@@ -21,7 +21,7 @@ import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
- * 競馬場開催データリポジトリの実装
+ * ボートレース場開催データリポジトリの実装
  */
 @injectable()
 export class BoatraceRaceRepositoryFromHtmlImpl
@@ -32,7 +32,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         private readonly boatraceRaceDataHtmlGateway: IBoatraceRaceDataHtmlGateway,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * ボートレース場開催データを取得する
      * @param request
      * @returns
      */
