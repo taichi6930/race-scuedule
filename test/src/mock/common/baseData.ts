@@ -14,6 +14,9 @@ import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import { WorldPlaceData } from '../../../../lib/src/domain/worldPlaceData';
 import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
+import { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
+import { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/autoraceRacePlayerRecord';
+import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
@@ -74,6 +77,9 @@ export const baseAutoracePlaceData = new AutoracePlaceData(
 );
 export const baseAutoracePlaceEntity = new AutoracePlaceEntity(
     null,
+    baseAutoracePlaceData,
+);
+export const baseAutoracePlaceRecord = AutoracePlaceRecord.fromDomainData(
     baseAutoracePlaceData,
 );
 
@@ -140,6 +146,17 @@ export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
     baseAutoraceRaceData,
     baseAutoraceRacePlayerDataList,
 );
+
+export const baseAutoraceRaceRecord =
+    AutoraceRaceRecord.fromDomainData(baseAutoraceRaceData);
+
+export const baseAutoraceRacePlayerRecord = new AutoraceRacePlayerRecord(
+    'autorace20241231051101',
+    'autorace202412310511',
+    1,
+    10000,
+);
+
 export const baseAutoraceCalendarData = new CalendarData(
     'test202412310511',
     'スーパースター王座決定戦',
