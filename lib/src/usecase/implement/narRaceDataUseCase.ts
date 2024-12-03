@@ -61,9 +61,9 @@ export class NarRaceDataUseCase
         );
 
         // レースデータをNarRaceDataに変換する
-        const raceDataList = raceEntityList.map((raceEntity) => {
-            return raceEntity.toDomainData();
-        });
+        const raceDataList = raceEntityList.map((raceEntity) =>
+            raceEntity.toDomainData(),
+        );
 
         // フィルタリング処理
         const filteredRaceDataList = raceDataList
@@ -123,9 +123,9 @@ export class NarRaceDataUseCase
     async upsertRaceDataList(raceList: NarRaceData[]): Promise<void> {
         try {
             // NarRaceDataをNarRaceEntityに変換する
-            const raceEntityList = raceList.map((raceData) => {
-                return new NarRaceEntity(null, raceData);
-            });
+            const raceEntityList = raceList.map(
+                (raceData) => new NarRaceEntity(null, raceData),
+            );
             // S3にデータを保存する
             await this.registerRaceDataList(raceEntityList);
         } catch (error) {
