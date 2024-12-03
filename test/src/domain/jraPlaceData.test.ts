@@ -8,7 +8,7 @@ describe('JraPlaceDataクラスのテスト', () => {
         expect(placeData.location).toBe('中山');
     });
 
-    it('日付を変更したNarPlaceDataのインスタンスを作成できることを確認', () => {
+    it('日付を変更したJraPlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseJraPlaceData;
         const newPlaceData = placeData.copy({
             dateTime: new Date('2024-06-04'),

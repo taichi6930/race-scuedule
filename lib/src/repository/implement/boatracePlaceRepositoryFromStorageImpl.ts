@@ -21,7 +21,7 @@ import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
- * オートレースデータリポジトリの実装
+ * ボートレースデータリポジトリの実装
  */
 @injectable()
 export class BoatracePlaceRepositoryFromStorageImpl
@@ -32,9 +32,9 @@ export class BoatracePlaceRepositoryFromStorageImpl
         private readonly s3Gateway: IS3Gateway<BoatracePlaceRecord>,
     ) {}
     /**
-     * オートレース開催データを取得する
+     * ボートレース開催データを取得する
      *
-     * このメソッドで日付の範囲を指定してオートレース開催データを取得する
+     * このメソッドで日付の範囲を指定してボートレース開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<FetchPlaceListResponse<BoatracePlaceEntity>> - 開催データ取得レスポンス
@@ -48,7 +48,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
             request.finishDate,
         );
 
-        // ファイル名リストからオートレース開催データを取得する
+        // ファイル名リストからボートレース開催データを取得する
         const placeRecordList: BoatracePlaceRecord[] = (
             await Promise.all(
                 fileNames.map(async (fileName) =>
@@ -115,9 +115,9 @@ export class BoatracePlaceRepositoryFromStorageImpl
     }
 
     /**
-     * S3からオートレース開催データを取得する
+     * S3からボートレース開催データを取得する
      *
-     * ファイル名を利用してS3からオートレース開催データを取得する
+     * ファイル名を利用してS3からボートレース開催データを取得する
      * placeRecordが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param fileName

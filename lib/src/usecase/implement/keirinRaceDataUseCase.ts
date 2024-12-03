@@ -59,7 +59,7 @@ export class KeirinRaceDataUseCase
             stageList?: KeirinRaceStage[];
         },
     ): Promise<KeirinRaceData[]> {
-        // 競馬場データを取得する
+        // 競輪場データを取得する
         const placeList = await this.getPlaceDataList(startDate, finishDate);
 
         // レースデータを取得する
@@ -70,7 +70,7 @@ export class KeirinRaceDataUseCase
             'storage',
         );
 
-        // レースデータをNarRaceDataに変換する
+        // レースデータをKeirinRaceDataに変換する
         const raceDataList = raceEntityList.map((raceEntity) => {
             return raceEntity.toDomainData();
         });
@@ -84,7 +84,7 @@ export class KeirinRaceDataUseCase
                 }
                 return true;
             })
-            // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
+            // 競輪場が指定されている場合は、指定された競輪場のレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
@@ -111,7 +111,7 @@ export class KeirinRaceDataUseCase
     @Logger
     async updateRaceDataList(startDate: Date, finishDate: Date): Promise<void> {
         try {
-            // 競馬場データを取得する
+            // 競輪場データを取得する
             const placeList = await this.getPlaceDataList(
                 startDate,
                 finishDate,
@@ -152,7 +152,7 @@ export class KeirinRaceDataUseCase
     }
 
     /**
-     * 競馬場データの取得
+     * 競輪場データの取得
      *
      * @param startDate
      * @param finishDate

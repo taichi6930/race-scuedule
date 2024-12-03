@@ -24,7 +24,7 @@ export class BoatraceRaceData {
         public readonly name: string, // レース名
         public readonly stage: BoatraceRaceStage, // 開催ステージ
         public readonly dateTime: Date, // 開催日時
-        public readonly location: BoatraceRaceCourse, // 競馬場名
+        public readonly location: BoatraceRaceCourse, // ボートレース場名
         public readonly grade: BoatraceGradeType, // グレード
         public readonly number: number, // レース番号
     ) {

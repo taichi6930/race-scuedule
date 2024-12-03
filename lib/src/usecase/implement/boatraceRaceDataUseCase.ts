@@ -19,7 +19,7 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 競輪場開催データUseCase
+ * ボートレース場開催データUseCase
  */
 @injectable()
 export class BoatraceRaceDataUseCase
@@ -84,7 +84,7 @@ export class BoatraceRaceDataUseCase
                 }
                 return true;
             })
-            // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
+            // ボートレース場が指定されている場合は、指定されたボートレース場のレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
@@ -111,7 +111,7 @@ export class BoatraceRaceDataUseCase
     @Logger
     async updateRaceDataList(startDate: Date, finishDate: Date): Promise<void> {
         try {
-            // 競馬場データを取得する
+            // ボートレース場データを取得する
             const placeList = await this.getPlaceDataList(
                 startDate,
                 finishDate,
@@ -152,7 +152,7 @@ export class BoatraceRaceDataUseCase
     }
 
     /**
-     * 競馬場データの取得
+     * ボートレース場データの取得
      *
      * @param startDate
      * @param finishDate

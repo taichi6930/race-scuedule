@@ -10,7 +10,7 @@ describe('KeirinPlaceRecordクラスのテスト', () => {
         expect(placeRecord.grade).toBe('GP');
     });
 
-    it('日付を変更したNarPlaceRecordのインスタンスを作成できることを確認', () => {
+    it('日付を変更したKeirinPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseKeirinPlaceRecord;
         const newPlaceRecord = placeRecord.copy({
             dateTime: new Date('2022-12-30'),

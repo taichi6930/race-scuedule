@@ -12,7 +12,7 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 競輪場開催データUseCase
+ * 海外競馬場開催データUseCase
  */
 @injectable()
 export class WorldRaceDataUseCase
@@ -112,7 +112,7 @@ export class WorldRaceDataUseCase
     @Logger
     async upsertRaceDataList(raceList: WorldRaceData[]): Promise<void> {
         try {
-            // jraRaceDataをJraRaceEntityに変換する
+            // worldRaceDataをworldRaceEntityに変換する
             const raceEntityList = raceList.map((raceData) => {
                 return new WorldRaceEntity(
                     null,

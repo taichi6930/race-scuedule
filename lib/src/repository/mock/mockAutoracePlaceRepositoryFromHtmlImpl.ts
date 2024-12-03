@@ -11,19 +11,19 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<AutoracePlaceEntity>
 {
     /**
-     * 競輪場データを取得する
+     * オートレース場データを取得する
      * @param request
      */
     @Logger
     fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<AutoracePlaceEntity>> {
-        // request.startDateからrequest.finishDateまでの競輪場データを取得する
+        // request.startDateからrequest.finishDateまでのオートレース場データを取得する
         const fetchPlaceEntityList = [];
         const currentDate = new Date(request.startDate);
 
         while (currentDate <= request.finishDate) {
-            // 競輪場データを作成
+            // オートレース場データを作成
             const autoracePlaceEntity = new AutoracePlaceEntity(
                 null,
                 new Date(currentDate),
@@ -41,7 +41,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * 競馬場開催データを登録する
+     * オートレース場開催データを登録する
      * HTMLにはデータを登録しない
      * @param request
      */

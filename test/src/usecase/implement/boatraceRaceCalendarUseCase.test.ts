@@ -53,7 +53,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
         'BOATRACEグランプリ2025',
         new Date('2025-12-30T10:00:00Z'),
         new Date('2025-12-30T10:10:00Z'),
-        '平塚競輪場',
+        '平塚ボートレース場',
         'テスト',
     );
 

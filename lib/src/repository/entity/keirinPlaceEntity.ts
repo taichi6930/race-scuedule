@@ -3,7 +3,7 @@ import type { KeirinPlaceId } from '../../utility/raceId';
 import { generateKeirinPlaceId } from '../../utility/raceId';
 
 /**
- * Repository層のEntity ボートレースのレース開催場所データ
+ * Repository層のEntity 競輪のレース開催場所データ
  */
 export class KeirinPlaceEntity {
     /**
@@ -15,7 +15,7 @@ export class KeirinPlaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * ボートレースのレース開催場所データを生成する
+     * 競輪のレース開催場所データを生成する
      * @param id - ID
      * @param placeData - レース開催場所データ
      */

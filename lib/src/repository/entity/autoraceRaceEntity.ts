@@ -10,7 +10,7 @@ import type { AutoraceRaceId } from '../../utility/raceId';
 import { generateAutoraceRaceId } from '../../utility/raceId';
 
 /**
- * 競輪のレース開催データ
+ * オートレースのレース開催データ
  */
 export class AutoraceRaceEntity {
     /**
@@ -22,7 +22,7 @@ export class AutoraceRaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催データを生成する
+     * オートレースのレース開催データを生成する
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時
@@ -35,7 +35,7 @@ export class AutoraceRaceEntity {
         public readonly name: string, // レース名
         public readonly stage: AutoraceRaceStage, // 開催ステージ
         public readonly dateTime: Date, // 開催日時
-        public readonly location: AutoraceRaceCourse, // 競馬場名
+        public readonly location: AutoraceRaceCourse, // オートレース場名
         public readonly grade: AutoraceGradeType, // グレード
         public readonly number: number, // レース番号
     ) {

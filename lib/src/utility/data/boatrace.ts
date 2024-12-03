@@ -83,7 +83,7 @@ export const BOATRACE_STAGE_MAP: Record<string, BoatraceRaceStage> = {
 };
 
 /**
- * 競輪の指定グレード・ステージリスト
+ * ボートレースの指定グレード・ステージリスト
  */
 export const BOATRACE_SPECIFIED_GRADE_AND_STAGE_LIST: {
     grade: BoatraceGradeType;

@@ -21,7 +21,7 @@ import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
- * 競馬場データリポジトリの実装
+ * ボートレース場データリポジトリの実装
  */
 @injectable()
 export class BoatracePlaceRepositoryFromHtmlImpl
@@ -33,9 +33,9 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     ) {}
 
     /**
-     * 競馬場開催データを取得する
+     * ボートレース場開催データを取得する
      *
-     * このメソッドで日付の範囲を指定して競馬場開催データを取得する
+     * このメソッドで日付の範囲を指定してボートレース場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<FetchPlaceListResponse<BoatracePlaceEntity>> - 開催データ取得レスポンス
@@ -114,9 +114,9 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * S3から競馬場開催データを取得する
+     * S3からボートレース場開催データを取得する
      *
-     * ファイル名を利用してS3から競馬場開催データを取得する
+     * ファイル名を利用してS3からボートレース場開催データを取得する
      * PlaceEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
@@ -169,7 +169,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             // class="br-label"を取得
             const grade = $(element).find('.br-label').text().trim();
 
-            // 競艇場の名前を取得
+            // ボートレース場の名前を取得
             const place = $(element)
                 .find('td.br-tableSchedule__data')
                 .eq(2)
@@ -184,7 +184,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                     place as BoatraceRaceCourse,
                 )
             ) {
-                console.log('競艇場が見つかりませんでした');
+                console.log('ボートレース場が見つかりませんでした');
                 return;
             }
             // gradeがBoatraceGradeTypeに含まれているか確認
@@ -219,7 +219,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * 競馬場開催データを登録する
+     * ボートレース場開催データを登録する
      * HTMLにはデータを登録しない
      * @param request
      */

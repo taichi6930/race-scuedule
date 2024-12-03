@@ -27,11 +27,11 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
     });
 
     describe('fetchPlaceList', () => {
-        test('正しい競馬場データを取得できる', async () => {
+        test('正しいオートレース場データを取得できる', async () => {
             // モックの戻り値を設定
             s3Gateway.fetchDataFromS3.mockImplementation(
                 async (filename: string) => {
-                    // filenameから日付を取得 16時からの競馬場にしたい
+                    // filenameから日付を取得 16時からのオートレース場にしたい
                     const date = parse(
                         filename.slice(0, 6),
                         'yyyyMM',
@@ -86,8 +86,8 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
     });
 
     describe('registerPlaceList', () => {
-        test('正しい競馬場データを登録できる', async () => {
-            // 1年間の競馬場データを登録する
+        test('正しいオートレース場データを登録できる', async () => {
+            // 1年間のオートレース場データを登録する
             const placeDataList: AutoracePlaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {

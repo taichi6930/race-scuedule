@@ -10,7 +10,7 @@ describe('KeirinPlaceEntityクラスのテスト', () => {
         expect(placeEntity.placeData).toEqual(baseKeirinPlaceData);
     });
 
-    it('日付を変更したNarPlaceEntityのインスタンスを作成できることを確認', () => {
+    it('日付を変更したKeirinPlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseKeirinPlaceEntity;
         const newPlaceEntity = placeEntity.copy({
             placeData: baseKeirinPlaceData.copy({

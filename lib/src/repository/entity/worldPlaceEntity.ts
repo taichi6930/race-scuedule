@@ -16,7 +16,7 @@ export class WorldPlaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催場所データを生成する
+     * 海外競馬のレース開催場所データを生成する
      * @param dateTime - 開催日時
      * @param location - 開催場所
      */

@@ -16,7 +16,7 @@ export class BoatraceRaceDataHtmlGateway
      * レースデータのHTMLを取得する
      *
      * @param date - 取得する年月
-     * @param place - 競馬場
+     * @param place - ボートレース場
      * @param number - レース番号
      * @returns Promise<string> - レースデータのHTML
      */
