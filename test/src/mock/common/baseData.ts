@@ -20,6 +20,9 @@ import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord'
 import { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
+import { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
+import { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
+import { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
@@ -59,6 +62,10 @@ import type {
     WorldGradeType,
     WorldRaceCourse,
 } from '../../../../lib/src/utility/data/world';
+import {
+    generateNarPlaceId,
+    generateWorldRaceId,
+} from '../../../../lib/src/utility/raceId';
 
 export const baseAutoracePlaceData = new AutoracePlaceData(
     new Date('2024-12-31'),
@@ -333,7 +340,16 @@ export const baseWorldRaceData = new WorldRaceData(
     11,
 );
 export const baseWorldRaceEntity = new WorldRaceEntity(null, baseWorldRaceData);
-
+export const baseWorldRaceRecord = new WorldRaceRecord(
+    generateWorldRaceId(new Date('2024-10-01'), 'パリロンシャン', 11),
+    '凱旋門賞',
+    new Date('2024-10-01 16:30'),
+    'パリロンシャン',
+    '芝',
+    2400,
+    'GⅠ',
+    11,
+);
 export const baseWorldCalendarData = new CalendarData(
     'test20241001longchamp01',
     '凱旋門賞',
@@ -410,6 +426,17 @@ export const baseNarRaceData = new NarRaceData(
 );
 export const baseNarRaceEntity = new NarRaceEntity(null, baseNarRaceData);
 
+export const baseNarRaceRecord = new NarRaceRecord(
+    'nar202406034411',
+    '東京ダービー',
+    new Date('2024-06-03 20:10'),
+    '大井',
+    'ダート',
+    2000,
+    'JpnⅠ',
+    11,
+);
+
 export const baseNarCalendarData = new CalendarData(
     'test202406032011',
     '東京ダービー',
@@ -458,6 +485,12 @@ export const baseJraPlaceData = new JraPlaceData(
     '中山',
     1,
     1,
+);
+
+export const baseNarPlaceRecord = new NarPlaceRecord(
+    generateNarPlaceId(new Date('2024-12-31'), '大井'),
+    new Date('2024-12-31'),
+    '大井',
 );
 
 export const baseJraPlaceEntity = new JraPlaceEntity(null, baseJraPlaceData);
