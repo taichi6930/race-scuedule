@@ -1,11 +1,7 @@
 import '../../utility/format';
 
-import { AutoraceRaceData } from '../../domain/autoraceRaceData';
-import type {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-    AutoraceRaceStage,
-} from '../../utility/data/autorace';
+import type { AutoraceRaceData } from '../../domain/autoraceRaceData';
+import type { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData';
 import type { AutoraceRaceId } from '../../utility/raceId';
 import { generateAutoraceRaceId } from '../../utility/raceId';
 
@@ -23,23 +19,23 @@ export class AutoraceRaceEntity {
      *
      * @remarks
      * オートレースのレース開催データを生成する
-     * @param name - レース名
-     * @param stage - 開催ステージ
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - グレード
-     * @param number - レース番号
+     * @param id - ID
+     * @param raceData - レースデータ
+     * @param racePlayerDataList - レースの選手データ
+     *
      */
     constructor(
         id: AutoraceRaceId | null,
-        public readonly name: string, // レース名
-        public readonly stage: AutoraceRaceStage, // 開催ステージ
-        public readonly dateTime: Date, // 開催日時
-        public readonly location: AutoraceRaceCourse, // オートレース場名
-        public readonly grade: AutoraceGradeType, // グレード
-        public readonly number: number, // レース番号
+        public readonly raceData: AutoraceRaceData,
+        public readonly racePlayerDataList: AutoraceRacePlayerData[],
     ) {
-        this.id = id ?? generateAutoraceRaceId(dateTime, location, number);
+        this.id =
+            id ??
+            generateAutoraceRaceId(
+                raceData.dateTime,
+                raceData.location,
+                raceData.number,
+            );
     }
 
     /**
@@ -50,28 +46,14 @@ export class AutoraceRaceEntity {
     copy(partial: Partial<AutoraceRaceEntity> = {}): AutoraceRaceEntity {
         return new AutoraceRaceEntity(
             partial.id ?? this.id,
-            partial.name ?? this.name,
-            partial.stage ?? this.stage,
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
-            partial.grade ?? this.grade,
-            partial.number ?? this.number,
+            partial.raceData ?? this.raceData,
+            partial.racePlayerDataList ?? this.racePlayerDataList,
         );
     }
 
     /**
      * ドメインデータに変換する
-     * @param partial
      * @returns
      */
-    toDomainData(partial: Partial<AutoraceRaceEntity> = {}): AutoraceRaceData {
-        return new AutoraceRaceData(
-            partial.name ?? this.name,
-            partial.stage ?? this.stage,
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
-            partial.grade ?? this.grade,
-            partial.number ?? this.number,
-        );
-    }
+    toDomainData = (): AutoraceRaceData => this.raceData;
 }

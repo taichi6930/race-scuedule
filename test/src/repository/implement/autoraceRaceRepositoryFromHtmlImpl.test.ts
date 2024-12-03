@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
 import type { IAutoraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iAutoraceRaceDataHtmlGateway';
 import { MockAutoraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockAutoraceRaceDataHtmlGateway';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
@@ -39,9 +40,11 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         [
                             new AutoracePlaceEntity(
                                 null,
-                                new Date('2024-11-04'),
-                                '川口',
-                                'SG',
+                                new AutoracePlaceData(
+                                    new Date('2024-11-04'),
+                                    '川口',
+                                    'SG',
+                                ),
                             ),
                         ],
                     ),

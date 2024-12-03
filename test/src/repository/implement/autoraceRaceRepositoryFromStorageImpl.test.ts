@@ -3,25 +3,38 @@ import 'reflect-metadata';
 import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/autoraceRacePlayerRecord';
+import type { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import { AutoraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { AUTORACE_PLACE_CODE } from '../../../../lib/src/utility/data/autorace';
-import { mockS3GatewayForAutoraceRace } from '../../mock/gateway/s3GatewayMock';
+import { baseAutoraceRacePlayerDataList } from '../../mock/common/baseData';
+import {
+    mockS3GatewayForAutoraceRace,
+    mockS3GatewayForAutoraceRacePlayer,
+} from '../../mock/gateway/s3GatewayMock';
 
 describe('AutoraceRaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<AutoraceRaceEntity>>;
+    let raceS3Gateway: jest.Mocked<IS3Gateway<AutoraceRaceRecord>>;
+    let racePlayerS3Gateway: jest.Mocked<IS3Gateway<AutoraceRacePlayerRecord>>;
     let repository: AutoraceRaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3GatewayForAutoraceRace();
+        raceS3Gateway = mockS3GatewayForAutoraceRace();
+        racePlayerS3Gateway = mockS3GatewayForAutoraceRacePlayer();
 
         // DIコンテナにモックを登録
-        container.registerInstance('AutoraceRaceS3Gateway', s3Gateway);
+        container.registerInstance('AutoraceRaceS3Gateway', raceS3Gateway);
+        container.registerInstance(
+            'AutoraceRacePlayerS3Gateway',
+            racePlayerS3Gateway,
+        );
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(AutoraceRaceRepositoryFromStorageImpl);
@@ -30,7 +43,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('正しいレースデータを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(
+            raceS3Gateway.fetchDataFromS3.mockImplementation(
                 async (filename: string) => {
                     // filenameから日付を取得 16時からのレースにしたい
                     const date = parse(
@@ -50,30 +63,72 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                     ].join(',');
                     const csvDataText: string = [
                         `raceName${filename.slice(0, 8)}`,
-                        `優勝戦`,
+                        `決勝`,
                         date.toISOString(),
-                        '飯塚',
-                        'SG',
+                        '平塚',
+                        'GⅠ',
                         '1',
                         `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `優勝戦`,
+                        `決勝`,
                         date.toISOString(),
-                        '飯塚',
-                        'SG',
+                        '平塚',
+                        'GⅠ',
                         '1',
                         `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
-                        `優勝戦`,
+                        `決勝`,
                         date.toISOString(),
-                        '飯塚',
-                        'SG',
+                        '平塚',
+                        'GⅠ',
                         undefined,
                         `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
+                    ].join(',');
+                    const csvDatajoinText: string = [
+                        csvHeaderDataText,
+                        csvDataText,
+                        csvDataRameNameUndefinedText,
+                        csvDataNumUndefinedText,
+                    ].join('\n');
+                    return Promise.resolve(csvDatajoinText);
+                },
+            );
+            racePlayerS3Gateway.fetchDataFromS3.mockImplementation(
+                async (filename: string) => {
+                    // filenameから日付を取得 16時からのレースにしたい
+                    const date = parse(
+                        filename.slice(0, 8),
+                        'yyyyMMdd',
+                        new Date(),
+                    );
+                    date.setHours(16);
+                    const csvHeaderDataText: string = [
+                        'id',
+                        'playerId',
+                        'positionNumber',
+                        'playerNumber',
+                    ].join(',');
+                    const csvDataText: string = [
+                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}0101`,
+                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
+                        '1',
+                        '1',
+                    ].join(',');
+                    const csvDataRameNameUndefinedText: string = [
+                        undefined,
+                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
+                        '1',
+                        '1',
+                    ].join(',');
+                    const csvDataNumUndefinedText: string = [
+                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}0101`,
+                        `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['平塚']}01`,
+                        null,
+                        '1',
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
@@ -110,12 +165,15 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         (__, j) =>
                             new AutoraceRaceEntity(
                                 null,
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                `優勝戦`,
-                                date,
-                                '飯塚',
-                                'SG',
-                                j + 1,
+                                new AutoraceRaceData(
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    `優勝戦`,
+                                    date,
+                                    '飯塚',
+                                    'SG',
+                                    j + 1,
+                                ),
+                                baseAutoraceRacePlayerDataList,
                             ),
                     );
                 },
@@ -129,7 +187,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
             await repository.registerRaceList(request);
 
             // uploadDataToS3が366回呼ばれることを検証
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
+            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
         });
     });
 });

@@ -1,7 +1,8 @@
-import type { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
-import type { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import type { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
+import type { AutoracePlaceRecord } from '../record/autoracePlaceRecord';
+import type { AutoraceRacePlayerRecord } from '../record/autoraceRacePlayerRecord';
+import type { AutoraceRaceRecord } from '../record/autoraceRaceRecord';
 import type { BoatracePlaceRecord } from '../record/boatracePlaceRecord';
 import type { BoatraceRacePlayerRecord } from '../record/boatraceRacePlayerRecord';
 import type { BoatraceRaceRecord } from '../record/boatraceRaceRecord';
@@ -24,13 +25,12 @@ export type Record =
     | BoatracePlaceRecord
     | BoatraceRaceRecord
     | BoatraceRacePlayerRecord
+    | AutoracePlaceRecord
+    | AutoraceRaceRecord
+    | AutoraceRacePlayerRecord
     | DeprecatedEntity;
 
-export type DeprecatedEntity =
-    | AutoracePlaceEntity
-    | AutoraceRaceEntity
-    | WorldPlaceEntity
-    | WorldRaceEntity;
+export type DeprecatedEntity = WorldPlaceEntity | WorldRaceEntity;
 
 /**
  * Interface for S3Gateway

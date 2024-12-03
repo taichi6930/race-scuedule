@@ -4,7 +4,9 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
 import {
     AutoraceGradeType,
     AutoraceRaceCourse,
@@ -19,7 +21,7 @@ import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
- * オートレースデータリポジトリの実装
+ * ボートレースデータリポジトリの実装
  */
 @injectable()
 export class AutoracePlaceRepositoryFromStorageImpl
@@ -27,12 +29,12 @@ export class AutoracePlaceRepositoryFromStorageImpl
 {
     constructor(
         @inject('AutoracePlaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<AutoracePlaceEntity>,
+        private readonly s3Gateway: IS3Gateway<AutoracePlaceRecord>,
     ) {}
     /**
-     * オートレース開催データを取得する
+     * ボートレース開催データを取得する
      *
-     * このメソッドで日付の範囲を指定してオートレース開催データを取得する
+     * このメソッドで日付の範囲を指定してボートレース開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<FetchPlaceListResponse<AutoracePlaceEntity>> - 開催データ取得レスポンス
@@ -45,18 +47,35 @@ export class AutoracePlaceRepositoryFromStorageImpl
             request.startDate,
             request.finishDate,
         );
-        const promises = fileNames.map(async (fileName) =>
-            this.fetchMonthPlaceEntityList(fileName).then(
-                (childPlaceEntityList) =>
-                    childPlaceEntityList.filter(
-                        (placeEntity) =>
-                            placeEntity.dateTime >= request.startDate &&
-                            placeEntity.dateTime <= request.finishDate,
+
+        // ファイル名リストからボートレース開催データを取得する
+        const placeRecordList: AutoracePlaceRecord[] = (
+            await Promise.all(
+                fileNames.map(async (fileName) =>
+                    this.fetchMonthPlaceRecordList(fileName),
+                ),
+            )
+        ).flat();
+
+        // AutoracePlaceRecordをAutoracePlaceEntityに変換
+        const placeEntityList: AutoracePlaceEntity[] = placeRecordList
+            .map(
+                (placeRecord) =>
+                    new AutoracePlaceEntity(
+                        placeRecord.id,
+                        new AutoracePlaceData(
+                            placeRecord.dateTime,
+                            placeRecord.location,
+                            placeRecord.grade,
+                        ),
                     ),
-            ),
-        );
-        const placeEntityLists = await Promise.all(promises);
-        const placeEntityList = placeEntityLists.flat();
+            )
+            // 日付の範囲でフィルタリング
+            .filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= request.startDate &&
+                    placeEntity.placeData.dateTime <= request.finishDate,
+            );
         return new FetchPlaceListResponse(placeEntityList);
     }
 
@@ -96,18 +115,18 @@ export class AutoracePlaceRepositoryFromStorageImpl
     }
 
     /**
-     * S3からオートレース開催データを取得する
+     * S3からボートレース開催データを取得する
      *
-     * ファイル名を利用してS3からオートレース開催データを取得する
-     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * ファイル名を利用してS3からボートレース開催データを取得する
+     * placeRecordが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param fileName
      * @returns
      */
     @Logger
-    private async fetchMonthPlaceEntityList(
+    private async fetchMonthPlaceRecordList(
         fileName: string,
-    ): Promise<AutoracePlaceEntity[]> {
+    ): Promise<AutoracePlaceRecord[]> {
         console.log(`S3から${fileName}を取得します`);
         const csv = await this.s3Gateway.fetchDataFromS3(fileName);
         const lines = csv.split('\n');
@@ -121,8 +140,8 @@ export class AutoracePlaceRepositoryFromStorageImpl
         const placeIndex = headers.indexOf('location');
         const gradeIndex = headers.indexOf('grade');
 
-        // データ行を解析してAutoracePlaceEntityのリストを生成
-        const placeEntityList: AutoracePlaceEntity[] = lines
+        // データ行を解析してAutoracePlaceRecordのリストを生成
+        const placeRecordList: AutoracePlaceRecord[] = lines
             .slice(1)
             .map((line: string) => {
                 const columns = line.split(',');
@@ -137,7 +156,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
-                return new AutoracePlaceEntity(
+                return new AutoracePlaceRecord(
                     columns[idIndex] as AutoracePlaceId,
                     new Date(columns[raceDateIndex]),
                     columns[placeIndex] as AutoraceRaceCourse,
@@ -145,11 +164,11 @@ export class AutoracePlaceRepositoryFromStorageImpl
                 );
             })
             .filter(
-                (placeEntity): placeEntity is AutoracePlaceEntity =>
-                    placeEntity !== undefined,
+                (placeRecord): placeRecord is AutoracePlaceRecord =>
+                    placeRecord !== undefined,
             );
 
-        return placeEntityList;
+        return placeRecordList;
     }
 
     @Logger
@@ -158,18 +177,24 @@ export class AutoracePlaceRepositoryFromStorageImpl
     ): Promise<RegisterPlaceListResponse> {
         const placeEntityList: AutoracePlaceEntity[] = request.placeDataList;
         // 得られたplaceを月毎に分ける
-        const placeDataDict: Record<string, AutoracePlaceEntity[]> = {};
-        placeEntityList.forEach((placeData) => {
-            const key = `${format(placeData.dateTime, 'yyyyMM')}.csv`;
-            if (!(key in placeDataDict)) {
-                placeDataDict[key] = [];
+        const placeRecordDict: Record<string, AutoracePlaceRecord[]> = {};
+        placeEntityList.forEach((placeEntity) => {
+            const placeRecord = new AutoracePlaceRecord(
+                placeEntity.id,
+                placeEntity.placeData.dateTime,
+                placeEntity.placeData.location,
+                placeEntity.placeData.grade,
+            );
+            const key = `${format(placeRecord.dateTime, 'yyyyMM')}.csv`;
+            if (!(key in placeRecordDict)) {
+                placeRecordDict[key] = [];
             }
-            placeDataDict[key].push(placeData);
+            placeRecordDict[key].push(placeRecord);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, placeData] of Object.entries(placeDataDict)) {
-            await this.s3Gateway.uploadDataToS3(placeData, fileName);
+        for (const [fileName, placeRecord] of Object.entries(placeRecordDict)) {
+            await this.s3Gateway.uploadDataToS3(placeRecord, fileName);
         }
 
         return new RegisterPlaceListResponse(200);

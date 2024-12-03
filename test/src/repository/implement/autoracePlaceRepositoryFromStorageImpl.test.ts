@@ -4,7 +4,9 @@ import { parse } from 'date-fns';
 import { format } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
@@ -12,7 +14,7 @@ import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request
 import { mockS3GatewayForAutoracePlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('AutoracePlaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<AutoracePlaceEntity>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<AutoracePlaceRecord>>;
     let repository: AutoracePlaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
@@ -95,7 +97,11 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from(
                         { length: 12 },
-                        () => new AutoracePlaceEntity(null, date, '飯塚', 'SG'),
+                        () =>
+                            new AutoracePlaceEntity(
+                                null,
+                                new AutoracePlaceData(date, '飯塚', 'SG'),
+                            ),
                     );
                 },
             ).flat();

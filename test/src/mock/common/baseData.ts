@@ -1,3 +1,6 @@
+import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
+import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
+import { AutoraceRacePlayerData } from '../../../../lib/src/domain/autoraceRacePlayerData';
 import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../../../lib/src/domain/boatraceRacePlayerData';
@@ -55,13 +58,15 @@ import type {
     WorldRaceCourse,
 } from '../../../../lib/src/utility/data/world';
 
-export const baseAutoracePlaceEntity = new AutoracePlaceEntity(
-    null,
+export const baseAutoracePlaceData = new AutoracePlaceData(
     new Date('2024-12-31'),
     '飯塚',
     'SG',
 );
-export const baseAutoracePlaceData = baseAutoracePlaceEntity.toDomainData();
+export const baseAutoracePlaceEntity = new AutoracePlaceEntity(
+    null,
+    baseAutoracePlaceData,
+);
 
 export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
     { location: '飯塚', grade: 'SG' },
@@ -87,12 +92,15 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
     ].map((stage, index) => {
         return new AutoraceRaceEntity(
             null,
-            `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
-            stage as AutoraceRaceStage,
-            new Date(2025, 12 - 1, 31, 7 + index, 0),
-            location as AutoraceRaceCourse,
-            grade as AutoraceGradeType,
-            index + 1,
+            new AutoraceRaceData(
+                `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
+                stage as AutoraceRaceStage,
+                new Date(2025, 12 - 1, 31, 7 + index, 0),
+                location as AutoraceRaceCourse,
+                grade as AutoraceGradeType,
+                index + 1,
+            ),
+            [],
         );
     });
 });
@@ -101,8 +109,16 @@ export const baseAutoraceRaceDataList = baseAutoraceRaceEntityList.map(
     (raceEntity) => raceEntity.toDomainData(),
 );
 
-export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
-    null,
+export const baseAutoraceRacePlayerData = new AutoraceRacePlayerData(1, 10000);
+
+export const baseAutoraceRacePlayerDataList = Array.from(
+    { length: 8 },
+    (_, i) => {
+        return new AutoraceRacePlayerData(i + 1, i + 1);
+    },
+);
+
+export const baseAutoraceRaceData = new AutoraceRaceData(
     'スーパースター王座決定戦',
     '優勝戦',
     new Date('2024-12-31 16:30'),
@@ -110,7 +126,11 @@ export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
     'SG',
     11,
 );
-export const baseAutoraceRaceData = baseAutoraceRaceEntity.toDomainData();
+export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
+    null,
+    baseAutoraceRaceData,
+    baseAutoraceRacePlayerDataList,
+);
 export const baseAutoraceCalendarData = new CalendarData(
     'test202412310511',
     'スーパースター王座決定戦',

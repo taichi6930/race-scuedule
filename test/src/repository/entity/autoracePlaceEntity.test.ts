@@ -1,31 +1,35 @@
 import {
     baseAutoracePlaceData,
     baseAutoracePlaceEntity,
-} from '../../../src/mock/common/baseData';
+} from '../../mock/common/baseData';
 
 describe('AutoracePlaceEntityクラスのテスト', () => {
     it('正しい入力でAutoracePlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseAutoracePlaceEntity;
 
-        expect(placeEntity.dateTime).toEqual(new Date('2024-12-31'));
-        expect(placeEntity.location).toBe('飯塚');
+        expect(placeEntity.placeData).toEqual(baseAutoracePlaceData);
     });
 
     it('日付を変更したNarPlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseAutoracePlaceEntity;
         const newPlaceEntity = placeEntity.copy({
-            dateTime: new Date('2022-12-30'),
+            placeData: baseAutoracePlaceData.copy({
+                dateTime: new Date('2022-12-30'),
+            }),
         });
 
-        expect(newPlaceEntity.dateTime).toEqual(new Date('2022-12-30'));
-        expect(newPlaceEntity.location).toBe('飯塚');
+        expect(newPlaceEntity.placeData.dateTime).toEqual(
+            new Date('2022-12-30'),
+        );
+        expect(newPlaceEntity.placeData.location).toBe('飯塚');
     });
 
     it('何も変更せずAutoracePlaceEntityのインスタンスを作成できることを確認', () => {
         const placeEntity = baseAutoracePlaceEntity;
         const newPlaceEntity = placeEntity.copy();
 
-        expect(newPlaceEntity).toEqual(placeEntity);
+        expect(newPlaceEntity.id).toEqual(placeEntity.id);
+        expect(newPlaceEntity.placeData).toBe(placeEntity.placeData);
     });
 
     it('何も変更せずAutoracePlaceDataのインスタンスを作成できることを確認', () => {

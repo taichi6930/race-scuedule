@@ -72,12 +72,12 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
             const raceEntityList = fetchRaceDataListResponse.raceDataList;
             const raceDataList = raceEntityList.map((raceEntity) => {
                 return new AutoraceRaceData(
-                    raceEntity.name,
-                    raceEntity.stage,
-                    raceEntity.dateTime,
-                    raceEntity.location,
-                    raceEntity.grade,
-                    raceEntity.number,
+                    raceEntity.raceData.name,
+                    raceEntity.raceData.stage,
+                    raceEntity.raceData.dateTime,
+                    raceEntity.raceData.location,
+                    raceEntity.raceData.grade,
+                    raceEntity.raceData.number,
                 );
             });
             const filteredRaceDataList: AutoraceRaceData[] =

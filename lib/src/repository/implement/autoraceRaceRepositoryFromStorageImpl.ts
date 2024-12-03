@@ -3,14 +3,20 @@ import 'reflect-metadata';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlayerRecord';
+import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
 import {
     AutoraceGradeType,
     AutoraceRaceCourse,
     AutoraceRaceStage,
 } from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
-import { AutoraceRaceId } from '../../utility/raceId';
+import {
+    AutoraceRaceId,
+    generateAutoraceRacePlayerId,
+} from '../../utility/raceId';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -28,7 +34,10 @@ export class AutoraceRaceRepositoryFromStorageImpl
 {
     constructor(
         @inject('AutoraceRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<AutoraceRaceEntity>,
+        private readonly raceS3Gateway: IS3Gateway<AutoraceRaceRecord>,
+
+        @inject('AutoraceRacePlayerS3Gateway')
+        private readonly racePlayerS3Gateway: IS3Gateway<AutoraceRacePlayerRecord>,
     ) {}
     /**
      * オートレース場開催データを取得する
@@ -50,7 +59,8 @@ export class AutoraceRaceRepositoryFromStorageImpl
             await Promise.all(
                 fileNames.map(async (fileName) => {
                     // S3からデータを取得する
-                    const csv = await this.s3Gateway.fetchDataFromS3(fileName);
+                    const csv =
+                        await this.raceS3Gateway.fetchDataFromS3(fileName);
 
                     // CSVを行ごとに分割
                     const lines = csv.split('\n');
@@ -83,12 +93,17 @@ export class AutoraceRaceRepositoryFromStorageImpl
 
                             return new AutoraceRaceEntity(
                                 columns[idIndex] as AutoraceRaceId,
-                                columns[raceNameIndex],
-                                columns[raceStageIndex] as AutoraceRaceStage,
-                                new Date(columns[raceDateIndex]),
-                                columns[placeIndex] as AutoraceRaceCourse,
-                                columns[gradeIndex] as AutoraceGradeType,
-                                parseInt(columns[raceNumIndex]),
+                                new AutoraceRaceData(
+                                    columns[raceNameIndex],
+                                    columns[
+                                        raceStageIndex
+                                    ] as AutoraceRaceStage,
+                                    new Date(columns[raceDateIndex]),
+                                    columns[placeIndex] as AutoraceRaceCourse,
+                                    columns[gradeIndex] as AutoraceGradeType,
+                                    parseInt(columns[raceNumIndex]),
+                                ),
+                                [],
                             );
                         })
                         .filter(
@@ -127,20 +142,65 @@ export class AutoraceRaceRepositoryFromStorageImpl
     async registerRaceList(
         request: RegisterRaceListRequest<AutoraceRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceDataList: AutoraceRaceEntity[] = request.raceDataList;
+        const raceEntityList: AutoraceRaceEntity[] = request.raceDataList;
         // レースデータを日付ごとに分割する
-        const raceDataDict: Record<string, AutoraceRaceEntity[]> = {};
-        raceDataList.forEach((raceData) => {
-            const key = `${format(raceData.dateTime, 'yyyyMMdd')}.csv`;
-            if (!(key in raceDataDict)) {
-                raceDataDict[key] = [];
+        const raceRecordDict: Record<string, AutoraceRaceRecord[]> = {};
+        raceEntityList.forEach((raceEntity) => {
+            const raceRecord = new AutoraceRaceRecord(
+                raceEntity.id,
+                raceEntity.raceData.name,
+                raceEntity.raceData.stage,
+                raceEntity.raceData.dateTime,
+                raceEntity.raceData.location,
+                raceEntity.raceData.grade,
+                raceEntity.raceData.number,
+            );
+            const key = `${format(raceRecord.dateTime, 'yyyyMMdd')}.csv`;
+            if (!(key in raceRecordDict)) {
+                raceRecordDict[key] = [];
             }
-            raceDataDict[key].push(raceData);
+            raceRecordDict[key].push(raceRecord);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceData] of Object.entries(raceDataDict)) {
-            await this.s3Gateway.uploadDataToS3(raceData, fileName);
+        for (const [fileName, raceRecord] of Object.entries(raceRecordDict)) {
+            await this.raceS3Gateway.uploadDataToS3(raceRecord, fileName);
+        }
+
+        const racePlayerRecordDict: Record<string, AutoraceRacePlayerRecord[]> =
+            {};
+        raceEntityList.forEach((raceEntity) => {
+            const racePlayerRecordList = raceEntity.racePlayerDataList.map(
+                (racePlayerData) => {
+                    return new AutoraceRacePlayerRecord(
+                        generateAutoraceRacePlayerId(
+                            raceEntity.raceData.dateTime,
+                            raceEntity.raceData.location,
+                            raceEntity.raceData.number,
+                            racePlayerData.positionNumber,
+                        ),
+                        raceEntity.id,
+                        racePlayerData.positionNumber,
+                        racePlayerData.playerNumber,
+                    );
+                },
+            );
+            const key = `${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}.csv`;
+            if (!(key in racePlayerRecordDict)) {
+                racePlayerRecordDict[key] = [];
+            }
+            racePlayerRecordList.forEach((racePlayerRecord) => {
+                racePlayerRecordDict[key].push(racePlayerRecord);
+            });
+        });
+        // 月毎に分けられたplaceをS3にアップロードする
+        for (const [fileName, racePlayerRecord] of Object.entries(
+            racePlayerRecordDict,
+        )) {
+            await this.racePlayerS3Gateway.uploadDataToS3(
+                racePlayerRecord,
+                fileName,
+            );
         }
         return new RegisterRaceListResponse(200);
     }

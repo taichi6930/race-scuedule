@@ -43,9 +43,9 @@ export class AutoracePlaceDataUseCase
         const placeDataList: AutoracePlaceData[] = response.placeDataList.map(
             (placeEntity) => {
                 return new AutoracePlaceData(
-                    placeEntity.dateTime,
-                    placeEntity.location,
-                    placeEntity.grade,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
+                    placeEntity.placeData.grade,
                 );
             },
         );
