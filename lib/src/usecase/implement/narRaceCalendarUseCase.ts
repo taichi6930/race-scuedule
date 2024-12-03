@@ -66,17 +66,9 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
                     fetchRaceDataListRequest,
                 );
             const raceEntityList = fetchRaceDataListResponse.raceDataList;
-            const raceDataList = raceEntityList.map((raceEntity) => {
-                return new NarRaceData(
-                    raceEntity.name,
-                    raceEntity.dateTime,
-                    raceEntity.location,
-                    raceEntity.surfaceType,
-                    raceEntity.distance,
-                    raceEntity.grade,
-                    raceEntity.number,
-                );
-            });
+            const raceDataList = raceEntityList.map(
+                (raceEntity) => raceEntity.raceData,
+            );
             // displayGradeListに含まれるレース情報のみを抽出
             const filteredRaceDataList: NarRaceData[] = raceDataList.filter(
                 (raceData) => displayGradeList.includes(raceData.grade),

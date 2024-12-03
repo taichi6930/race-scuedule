@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { NarRaceData } from '../../domain/narRaceData';
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
 import { NarGradeType, NarRaceCourseType } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
@@ -47,17 +48,17 @@ export class NarRaceRepositoryFromHtmlImpl
 
     @Logger
     async fetchRaceListFromHtmlWithNarPlace(
-        placeData: NarPlaceEntity,
+        placeEntity: NarPlaceEntity,
     ): Promise<NarRaceEntity[]> {
         try {
             const [year, month, day] = [
-                placeData.dateTime.getFullYear(),
-                placeData.dateTime.getMonth() + 1,
-                placeData.dateTime.getDate(),
+                placeEntity.placeData.dateTime.getFullYear(),
+                placeEntity.placeData.dateTime.getMonth() + 1,
+                placeEntity.placeData.dateTime.getDate(),
             ];
             const htmlText = await this.narRaceDataHtmlGateway.getRaceDataHtml(
-                placeData.dateTime,
-                placeData.location,
+                placeEntity.placeData.dateTime,
+                placeEntity.placeData.location,
             );
             const narRaceDataList: NarRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
@@ -86,7 +87,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 );
                 const newRaceName = processNarRaceName({
                     name: raceName,
-                    place: placeData.location,
+                    place: placeEntity.placeData.location,
                     date: new Date(year, month - 1, day),
                     surfaceType: surfaceType,
                     distance: distance,
@@ -95,15 +96,17 @@ export class NarRaceRepositoryFromHtmlImpl
                 narRaceDataList.push(
                     new NarRaceEntity(
                         null,
-                        newRaceName,
-                        new Date(year, month - 1, day, hour, minute),
-                        placeData.location,
-                        surfaceType,
-                        distance,
-                        grade,
-                        this.extractRaceNumber(
-                            Array.from(tds).map((td: cheerio.Element) =>
-                                $(td).text(),
+                        new NarRaceData(
+                            newRaceName,
+                            new Date(year, month - 1, day, hour, minute),
+                            placeEntity.placeData.location,
+                            surfaceType,
+                            distance,
+                            grade,
+                            this.extractRaceNumber(
+                                Array.from(tds).map((td: cheerio.Element) =>
+                                    $(td).text(),
+                                ),
                             ),
                         ),
                     ),

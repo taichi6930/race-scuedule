@@ -7,6 +7,8 @@ import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
+import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
@@ -329,12 +331,12 @@ export const baseWorldCalendarDataFromGoogleCalendar = {
     description: 'テスト',
 };
 
-export const baseNarPlaceEntity = new NarPlaceEntity(
-    null,
+export const baseNarPlaceData = new NarPlaceData(
     new Date('2024-06-03'),
     '大井',
 );
-export const baseNarPlaceData = baseNarPlaceEntity.toDomainData();
+
+export const baseNarPlaceEntity = new NarPlaceEntity(null, baseNarPlaceData);
 
 export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatMap(
     (location) => {
@@ -354,13 +356,15 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
         ].map((grade, index) => {
             return new NarRaceEntity(
                 null,
-                `テスト${location}${grade}${(index + 1).toString()}レース`,
-                new Date(2024, 6 - 1, 1, 7 + index, 0),
-                location as NarRaceCourse,
-                'ダート',
-                1600,
-                grade as NarGradeType,
-                index + 1,
+                new NarRaceData(
+                    `テスト${location}${grade}${(index + 1).toString()}レース`,
+                    new Date(2024, 6 - 1, 1, 7 + index, 0),
+                    location as NarRaceCourse,
+                    'ダート',
+                    1600,
+                    grade as NarGradeType,
+                    index + 1,
+                ),
             );
         });
     },
@@ -370,8 +374,7 @@ export const baseNarRaceDataList = baseNarRaceEntityList.map((raceEntity) =>
     raceEntity.toDomainData(),
 );
 
-export const baseNarRaceEntity = new NarRaceEntity(
-    null,
+export const baseNarRaceData = new NarRaceData(
     '東京ダービー',
     new Date('2024-06-03 20:10'),
     '大井',
@@ -380,7 +383,7 @@ export const baseNarRaceEntity = new NarRaceEntity(
     'JpnⅠ',
     11,
 );
-export const baseNarRaceData = baseNarRaceEntity.toDomainData();
+export const baseNarRaceEntity = new NarRaceEntity(null, baseNarRaceData);
 
 export const baseNarCalendarData = new CalendarData(
     'test202406032011',

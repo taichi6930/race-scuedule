@@ -11,7 +11,7 @@ import type { ICalendarService } from '../../../../lib/src/service/interface/ICa
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
 import type { NarGradeType } from '../../../../lib/src/utility/data/nar';
 import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/nar';
-import { baseNarRaceEntity } from '../../mock/common/baseData';
+import { baseNarRaceData, baseNarRaceEntity } from '../../mock/common/baseData';
 import { mockNarRaceRepositoryFromS3Impl } from '../../mock/repository/narRaceRepositoryFromS3Impl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
@@ -105,31 +105,29 @@ describe('NarRaceCalendarUseCase', () => {
 
         it('正常に更新できること', async () => {
             const mockRaceDataList: NarRaceData[] = [];
-            const mockRaceEntityList: NarRaceEntity[] = [];
             const expectedRaceDataList: NarRaceData[] = [];
+            const mockRaceEntityList: NarRaceEntity[] = [];
             const expectedRaceEntityList: NarRaceEntity[] = [];
 
-            const grades: NarGradeType[] = [
-                'GⅠ',
-                'Listed',
-                '未勝利',
-            ] as NarGradeType[];
-            const months = [1 - 1, 2 - 1, 3 - 1]; // 1月、2月、3月を0ベースで表現
-            const days = [1, 2, 3];
+            const grades: NarGradeType[] = ['GⅠ', 'オープン'] as NarGradeType[];
+            const months = [12 - 1];
+            const days = [29, 30, 31];
 
             grades.forEach((grade) => {
                 months.forEach((month) => {
                     days.forEach((day) => {
                         // モック用のデータを作成
-                        mockRaceDataList.push(
-                            baseNarCalendarEntity.toDomainData({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
-                            }),
-                        );
                         mockRaceEntityList.push(
                             baseNarCalendarEntity.copy({
+                                raceData: baseNarRaceData.copy({
+                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                    dateTime: new Date(2024, month, day),
+                                    grade: grade,
+                                }),
+                            }),
+                        );
+                        mockRaceDataList.push(
+                            baseNarCalendarEntity.toDomainData().copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -137,15 +135,17 @@ describe('NarRaceCalendarUseCase', () => {
                         );
                         if (NAR_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
-                            expectedRaceDataList.push(
-                                baseNarCalendarEntity.toDomainData({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
-                                }),
-                            );
                             expectedRaceEntityList.push(
                                 baseNarCalendarEntity.copy({
+                                    raceData: baseNarRaceData.copy({
+                                        name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                        dateTime: new Date(2024, month, day),
+                                        grade: grade,
+                                    }),
+                                }),
+                            );
+                            expectedRaceDataList.push(
+                                baseNarCalendarEntity.toDomainData().copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,

@@ -10,10 +10,10 @@ import type { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRe
 import type { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import type { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
+import type { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
+import type { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 
@@ -25,7 +25,7 @@ export const mockS3Gateway = (): jest.Mocked<IS3Gateway<Record>> => {
 };
 
 export const mockS3GatewayForNarRace = (): jest.Mocked<
-    IS3Gateway<NarRaceEntity>
+    IS3Gateway<NarRaceRecord>
 > => {
     return {
         uploadDataToS3: jest.fn(),
@@ -34,7 +34,7 @@ export const mockS3GatewayForNarRace = (): jest.Mocked<
 };
 
 export const mockS3GatewayForNarPlace = (): jest.Mocked<
-    IS3Gateway<NarPlaceEntity>
+    IS3Gateway<NarPlaceRecord>
 > => {
     return {
         uploadDataToS3: jest.fn(),

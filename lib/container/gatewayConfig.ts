@@ -44,10 +44,10 @@ import type { JraRaceRecord } from '../src/gateway/record/jraRaceRecord';
 import type { KeirinPlaceRecord } from '../src/gateway/record/keirinPlaceRecord';
 import type { KeirinRacePlayerRecord } from '../src/gateway/record/keirinRacePlayerRecord';
 import type { KeirinRaceRecord } from '../src/gateway/record/keirinRaceRecord';
+import type { NarPlaceRecord } from '../src/gateway/record/narPlaceRecord';
+import type { NarRaceRecord } from '../src/gateway/record/narRaceRecord';
 import type { AutoracePlaceEntity } from '../src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../src/repository/entity/autoraceRaceEntity';
-import type { NarPlaceEntity } from '../src/repository/entity/narPlaceEntity';
-import type { NarRaceEntity } from '../src/repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../src/repository/entity/worldRaceEntity';
 import { ENV } from '../src/utility/env';
 
@@ -132,37 +132,37 @@ container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
     },
 });
 
-container.register<IS3Gateway<NarRaceEntity>>('NarRaceS3Gateway', {
+container.register<IS3Gateway<NarRaceRecord>>('NarRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<NarRaceEntity>(
+                return new S3Gateway<NarRaceRecord>(
                     'race-schedule-bucket',
                     'nar/race/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<NarRaceEntity>(
+                return new MockS3Gateway<NarRaceRecord>(
                     'race-schedule-bucket',
                     'nar/race/',
                 );
         }
     },
 });
-container.register<IS3Gateway<NarPlaceEntity>>('NarPlaceS3Gateway', {
+container.register<IS3Gateway<NarPlaceRecord>>('NarPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
-                return new S3Gateway<NarPlaceEntity>(
+                return new S3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
                     'nar/place/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<NarPlaceEntity>(
+                return new MockS3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
                     'nar/place/',
                 );

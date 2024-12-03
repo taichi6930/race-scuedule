@@ -124,16 +124,7 @@ export class NarRaceDataUseCase
         try {
             // NarRaceDataをNarRaceEntityに変換する
             const raceEntityList = raceList.map((raceData) => {
-                return new NarRaceEntity(
-                    null,
-                    raceData.name,
-                    raceData.dateTime,
-                    raceData.location,
-                    raceData.surfaceType,
-                    raceData.distance,
-                    raceData.grade,
-                    raceData.number,
-                );
+                return new NarRaceEntity(null, raceData);
             });
             // S3にデータを保存する
             await this.registerRaceDataList(raceEntityList);

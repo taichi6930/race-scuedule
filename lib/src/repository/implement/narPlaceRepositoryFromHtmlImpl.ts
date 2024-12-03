@@ -4,6 +4,7 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { NarPlaceData } from '../../domain/narPlaceData';
 import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataHtmlGateway';
 import { NarRaceCourse } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
@@ -43,11 +44,11 @@ export class NarPlaceRepositoryFromHtmlImpl
             request.finishDate,
         );
         const promises = months.map(async (month) =>
-            this.fetchMonthPlaceDataList(month).then((childPlaceDataList) =>
-                childPlaceDataList.filter(
-                    (placeData) =>
-                        placeData.dateTime >= request.startDate &&
-                        placeData.dateTime <= request.finishDate,
+            this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
+                childPlaceEntityList.filter(
+                    (placeEntity) =>
+                        placeEntity.placeData.dateTime >= request.startDate &&
+                        placeEntity.placeData.dateTime <= request.finishDate,
                 ),
             ),
         );
@@ -101,7 +102,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private async fetchMonthPlaceDataList(
+    private async fetchMonthPlaceEntityList(
         date: Date,
     ): Promise<NarPlaceEntity[]> {
         console.log(`S3から${formatDate(date, 'yyyy-MM')}を取得します`);
@@ -152,8 +153,14 @@ export class NarPlaceRepositoryFromHtmlImpl
                 narPlaceDataList.push(
                     new NarPlaceEntity(
                         null,
-                        new Date(date.getFullYear(), date.getMonth(), raceDay),
-                        place as NarRaceCourse,
+                        new NarPlaceData(
+                            new Date(
+                                date.getFullYear(),
+                                date.getMonth(),
+                                raceDay,
+                            ),
+                            place as NarRaceCourse,
+                        ),
                     ),
                 );
             });

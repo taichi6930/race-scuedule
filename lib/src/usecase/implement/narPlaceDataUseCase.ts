@@ -38,8 +38,8 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
         const placeDataList: NarPlaceData[] = response.placeDataList.map(
             (placeEntity) => {
                 return new NarPlaceData(
-                    placeEntity.dateTime,
-                    placeEntity.location,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
                 );
             },
         );
