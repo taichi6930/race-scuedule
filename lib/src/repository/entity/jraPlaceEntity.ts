@@ -15,7 +15,7 @@ export class JraPlaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催場所データを生成する
+     * 中央競馬のレース開催場所データを生成する
      * @param placeData - レース開催場所データ
      */
     constructor(

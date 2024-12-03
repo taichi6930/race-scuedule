@@ -22,7 +22,7 @@ export class WorldRaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催データを生成する
+     * 海外競馬のレース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param dateTime - 開催日時

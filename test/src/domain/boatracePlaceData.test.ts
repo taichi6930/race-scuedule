@@ -8,7 +8,7 @@ describe('BoatracePlaceDataクラスのテスト', () => {
         expect(placeData.location).toBe('平和島');
     });
 
-    it('日付を変更したNarPlaceDataのインスタンスを作成できることを確認', () => {
+    it('日付を変更したBoatracePlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseBoatracePlaceData;
         const newPlaceData = placeData.copy({
             dateTime: new Date('2022-12-30'),

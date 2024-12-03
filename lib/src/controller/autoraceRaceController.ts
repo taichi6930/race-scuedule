@@ -15,7 +15,7 @@ import {
 import { Logger } from '../utility/logger';
 
 /**
- * 競輪のレース情報コントローラー
+ * オートレースのレース情報コントローラー
  */
 @injectable()
 export class AutoraceRaceController {
@@ -61,7 +61,7 @@ export class AutoraceRaceController {
     }
 
     /**
-     * 競輪カレンダーからレース情報を取得する
+     * オートレースカレンダーからレース情報を取得する
      * @param req リクエスト
      * @param res レスポンス
      * @returns
@@ -110,7 +110,7 @@ export class AutoraceRaceController {
      *                     description: レース終了時刻
      *                   location:
      *                     type: string
-     *                     description: 競輪場の名称
+     *                     description: オートレース場の名称
      *                   description:
      *                     type: string
      *                     description: レースの説明
@@ -336,7 +336,7 @@ export class AutoraceRaceController {
      *                     description: レース開始時刻
      *                   location:
      *                     type: string
-     *                     description: 競輪場の名称
+     *                     description: オートレース場の名称
      *                   distance:
      *                     type: number
      *                     description: 距離
@@ -510,14 +510,14 @@ export class AutoraceRaceController {
     }
 
     /**
-     * 競輪場情報を取得する
+     * オートレース場情報を取得する
      * @param req
      * @param res
      * @returns
      * @swagger
      * /api/races/autorace/place:
      *   get:
-     *     description: 競輪場情報を取得する
+     *     description: オートレース場情報を取得する
      *     parameters:
      *       - name: startDate
      *         in: query
@@ -549,7 +549,7 @@ export class AutoraceRaceController {
      *                     description: レース開始時刻
      *                   location:
      *                     type: string
-     *                     description: 競輪場の名称
+     *                     description: オートレース場の名称
      *       400:
      *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
      *         content:
@@ -591,7 +591,7 @@ export class AutoraceRaceController {
                 return;
             }
 
-            // 競輪場情報を取得する
+            // オートレース場情報を取得する
             const placeList =
                 await this.autoracePlaceDataUseCase.fetchPlaceDataList(
                     new Date(startDate as string),
@@ -599,7 +599,10 @@ export class AutoraceRaceController {
                 );
             res.json(placeList);
         } catch (error) {
-            console.error('競輪場情報の取得中にエラーが発生しました:', error);
+            console.error(
+                'オートレース場情報の取得中にエラーが発生しました:',
+                error,
+            );
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
             res.status(500).send(
@@ -609,14 +612,14 @@ export class AutoraceRaceController {
     }
 
     /**
-     * 競輪場情報を更新する
+     * オートレース場情報を更新する
      * @param req
      * @param res
      * @returns
      * @swagger
      * /api/races/autorace/place:
      *   post:
-     *     description: 競輪場情報を更新する
+     *     description: オートレース場情報を更新する
      *     requestBody:
      *       required: true
      *       content:
@@ -634,7 +637,7 @@ export class AutoraceRaceController {
      *                 description: レース情報の終了日
      *     responses:
      *       200:
-     *         description: 競輪場情報を更新
+     *         description: オートレース場情報を更新
      *       400:
      *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
      *       500:
@@ -657,14 +660,17 @@ export class AutoraceRaceController {
                 return;
             }
 
-            // 競輪場情報を取得する
+            // オートレース場情報を取得する
             await this.autoracePlaceDataUseCase.updatePlaceDataList(
                 new Date(startDate),
                 new Date(finishDate),
             );
             res.status(200).send();
         } catch (error) {
-            console.error('競輪場情報の更新中にエラーが発生しました:', error);
+            console.error(
+                'オートレース場情報の更新中にエラーが発生しました:',
+                error,
+            );
             const errorMessage =
                 error instanceof Error ? error.message : String(error);
             res.status(500).send(

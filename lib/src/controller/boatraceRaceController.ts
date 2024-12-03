@@ -61,7 +61,7 @@ export class BoatraceRaceController {
     }
 
     /**
-     * オートレースカレンダーからレース情報を取得する
+     * ボートレースカレンダーからレース情報を取得する
      * @param req リクエスト
      * @param res レスポンス
      * @returns

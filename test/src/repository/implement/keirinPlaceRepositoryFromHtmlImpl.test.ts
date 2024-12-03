@@ -30,7 +30,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
         });
 
         describe('fetchPlaceList', () => {
-            test('正しい競馬場データを取得できる', async () => {
+            test('正しい競輪場データを取得できる', async () => {
                 const response = await repository.fetchPlaceList(
                     new FetchPlaceListRequest(
                         new Date('2024-10-01'),

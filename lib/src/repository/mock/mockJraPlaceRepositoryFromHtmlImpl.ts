@@ -12,19 +12,19 @@ export class MockJraPlaceRepositoryFromHtmlImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
     /**
-     * 競輪場データを取得する
+     * 中央競馬場データを取得する
      * @param request
      */
     @Logger
     fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
-        // request.startDateからrequest.finishDateまでの競輪場データを取得する
+        // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
         const fetchPlaceEntityList = [];
         const currentDate = new Date(request.startDate);
 
         while (currentDate <= request.finishDate) {
-            // 競輪場データを作成
+            // 中央競馬場データを作成
             const jraPlaceEntity = new JraPlaceEntity(
                 null,
                 new JraPlaceData(new Date(currentDate), '東京', 1, 1),

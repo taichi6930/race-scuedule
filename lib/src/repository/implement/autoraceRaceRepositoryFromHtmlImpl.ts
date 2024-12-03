@@ -16,7 +16,7 @@ import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
- * 競馬場開催データリポジトリの実装
+ * オートレース場開催データリポジトリの実装
  */
 @injectable()
 export class AutoraceRaceRepositoryFromHtmlImpl
@@ -27,7 +27,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         private readonly autoraceRaceDataHtmlGateway: IAutoraceRaceDataHtmlGateway,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * オートレース場開催データを取得する
      * @param request
      * @returns
      */

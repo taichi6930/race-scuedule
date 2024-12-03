@@ -8,14 +8,14 @@ import type {
 import type { BoatraceRaceId } from '../../utility/raceId';
 
 /**
- * 競輪のレース開催データ
+ * ボートレースのレース開催データ
  */
 export class BoatraceRaceRecord {
     /**
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催データを生成する
+     * ボートレースのレース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param stage - 開催ステージ
@@ -30,7 +30,7 @@ export class BoatraceRaceRecord {
         public readonly name: string, // レース名
         public readonly stage: BoatraceRaceStage, // 開催ステージ
         public readonly dateTime: Date, // 開催日時
-        public readonly location: BoatraceRaceCourse, // 競馬場名
+        public readonly location: BoatraceRaceCourse, // ボートレース場名
         public readonly grade: BoatraceGradeType, // グレード
         public readonly number: number, // レース番号
     ) {}

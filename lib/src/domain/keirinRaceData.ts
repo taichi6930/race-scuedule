@@ -24,7 +24,7 @@ export class KeirinRaceData {
         public readonly name: string, // レース名
         public readonly stage: KeirinRaceStage, // 開催ステージ
         public readonly dateTime: Date, // 開催日時
-        public readonly location: KeirinRaceCourse, // 競馬場名
+        public readonly location: KeirinRaceCourse, // 競輪場名
         public readonly grade: KeirinGradeType, // グレード
         public readonly number: number, // レース番号
     ) {

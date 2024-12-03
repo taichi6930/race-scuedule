@@ -10,7 +10,7 @@ describe('KeirinRacePlayerRecordクラスのテスト', () => {
         expect(racePlayerRecord.playerNumber).toBe(10000);
     });
 
-    it('日付を変更したNarRacePlayerRecordのインスタンスを作成できることを確認', () => {
+    it('日付を変更したKeirinRacePlayerRecordのインスタンスを作成できることを確認', () => {
         const racePlayerRecord = baseKeirinRacePlayerRecord;
         const newRacePlayerRecord = racePlayerRecord.copy({
             positionNumber: 2,

@@ -29,11 +29,11 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
     });
 
     describe('fetchPlaceList', () => {
-        test('正しい競馬場データを取得できる', async () => {
+        test('正しい競輪場データを取得できる', async () => {
             // モックの戻り値を設定
             s3Gateway.fetchDataFromS3.mockImplementation(
                 async (filename: string) => {
-                    // filenameから日付を取得 16時からの競馬場にしたい
+                    // filenameから日付を取得 16時からの競輪場にしたい
                     const date = parse(
                         filename.slice(0, 6),
                         'yyyyMM',
@@ -88,8 +88,8 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
     });
 
     describe('registerPlaceList', () => {
-        test('正しい競馬場データを登録できる', async () => {
-            // 1年間の競馬場データを登録する
+        test('正しい競輪場データを登録できる', async () => {
+            // 1年間の競輪場データを登録する
             const placeDataList: KeirinPlaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {

@@ -13,7 +13,7 @@ export class MockBoatracePlaceDataHtmlGateway
      * ボートレース開催データのHTMLを取得する
      *
      * @param quarter - 取得するクォーター
-     * @returns Promise<string> - 競馬場開催データのHTML
+     * @returns Promise<string> - ボートレース場開催データのHTML
      */
     @Logger
     getPlaceDataHtml(quarter: string): Promise<string> {

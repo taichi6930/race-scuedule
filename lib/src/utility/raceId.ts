@@ -169,7 +169,7 @@ export const generateKeirinPlaceId = (
 export type KeirinPlaceId = `keirin${string}`;
 
 /**
- * 競艇のracePlayerIdを作成する
+ * ボートレースのracePlayerIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
@@ -188,7 +188,7 @@ export const generateBoatraceRacePlayerId = (
 export type BoatraceRacePlayerId = `boatrace${string}`;
 
 /**
- * 競艇のraceIdを作成する
+ * ボートレースのraceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
@@ -205,7 +205,7 @@ export const generateBoatraceRaceId = (
 export type BoatraceRaceId = `boatrace${string}`;
 
 /**
- * 競艇のplaceIdを作成する
+ * ボートレースのplaceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
  */
