@@ -3,12 +3,7 @@ import { injectable } from 'tsyringe';
 import { IS3Gateway, Record } from '../interface/iS3Gateway';
 import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import { ENV } from '../../utility/env';
-import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
-import { WORLD_PLACE_CODE } from '../../utility/data/world';
-import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
 import {
     generateAutoracePlaceId,
     generateAutoraceRaceId,

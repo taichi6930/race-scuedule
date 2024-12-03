@@ -1,3 +1,4 @@
+import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -26,9 +27,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
             // オートレース場データを作成
             const autoracePlaceEntity = new AutoracePlaceEntity(
                 null,
-                new Date(currentDate),
-                '伊勢崎',
-                'SG',
+                new AutoracePlaceData(new Date(currentDate), '伊勢崎', 'SG'),
             );
             fetchPlaceEntityList.push(autoracePlaceEntity);
             // 日付を1日進める

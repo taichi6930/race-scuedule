@@ -66,19 +66,9 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
                     fetchRaceDataListRequest,
                 );
             const raceEntityList = fetchRaceDataListResponse.raceDataList;
-            const raceDataList = raceEntityList.map((raceEntity) => {
-                return new JraRaceData(
-                    raceEntity.raceData.name,
-                    raceEntity.raceData.dateTime,
-                    raceEntity.raceData.location,
-                    raceEntity.raceData.surfaceType,
-                    raceEntity.raceData.distance,
-                    raceEntity.raceData.grade,
-                    raceEntity.raceData.number,
-                    raceEntity.raceData.heldTimes,
-                    raceEntity.raceData.heldDayTimes,
-                );
-            });
+            const raceDataList = raceEntityList.map((raceEntity) =>
+                raceEntity.toDomainData(),
+            );
 
             // displayGradeListに含まれるレース情報のみを抽出
             const filteredRaceDataList: JraRaceData[] = raceDataList.filter(

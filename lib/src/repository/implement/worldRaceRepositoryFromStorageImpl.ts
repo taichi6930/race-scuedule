@@ -3,7 +3,9 @@ import 'reflect-metadata';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { WorldRaceData } from '../../domain/worldRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import {
@@ -28,7 +30,7 @@ export class WorldRaceRepositoryFromStorageImpl
 {
     constructor(
         @inject('WorldRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<WorldRaceEntity>,
+        private readonly s3Gateway: IS3Gateway<WorldRaceRecord>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -84,15 +86,17 @@ export class WorldRaceRepositoryFromStorageImpl
 
                             return new WorldRaceEntity(
                                 columns[idIndex] as WorldRaceId,
-                                columns[raceNameIndex],
-                                new Date(columns[raceDateIndex]),
-                                columns[placeIndex] as WorldRaceCourse,
-                                columns[
-                                    surfaceTypeIndex
-                                ] as WorldRaceCourseType,
-                                parseInt(columns[distanceIndex]),
-                                columns[gradeIndex] as WorldGradeType,
-                                parseInt(columns[raceNumIndex]),
+                                new WorldRaceData(
+                                    columns[raceNameIndex],
+                                    new Date(columns[raceDateIndex]),
+                                    columns[placeIndex] as WorldRaceCourse,
+                                    columns[
+                                        surfaceTypeIndex
+                                    ] as WorldRaceCourseType,
+                                    parseInt(columns[distanceIndex]),
+                                    columns[gradeIndex] as WorldGradeType,
+                                    parseInt(columns[raceNumIndex]),
+                                ),
                             );
                         })
                         .filter(
@@ -131,19 +135,40 @@ export class WorldRaceRepositoryFromStorageImpl
     async registerRaceList(
         request: RegisterRaceListRequest<WorldRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceDataList: WorldRaceEntity[] = request.raceDataList;
+        const raceEntity: WorldRaceEntity[] = request.raceDataList;
         // レースデータを日付ごとに分割する
-        const raceDataDict: Record<string, WorldRaceEntity[]> = {};
-        raceDataList.forEach((raceData) => {
-            const key = `${format(raceData.dateTime, 'yyyyMMdd')}.csv`;
-            if (!(key in raceDataDict)) {
-                raceDataDict[key] = [];
+        const raceRecordDict: Record<string, WorldRaceRecord[]> = {};
+        raceEntity.forEach((race) => {
+            const raceRecord = new WorldRaceRecord(
+                race.id,
+                race.raceData.name,
+                race.raceData.dateTime,
+                race.raceData.location,
+                race.raceData.surfaceType,
+                race.raceData.distance,
+                race.raceData.grade,
+                race.raceData.number,
+            );
+            const key = `${format(race.raceData.dateTime, 'yyyyMMdd')}.csv`;
+            // 日付ごとに分割されたレースデータを格納
+            if (!(key in raceRecordDict)) {
+                raceRecordDict[key] = [];
             }
-            raceDataDict[key].push(raceData);
+
+            // 既に存在する場合は追加しない
+            if (
+                raceRecordDict[key].findIndex(
+                    (record) => record.id === raceRecord.id,
+                ) !== -1
+            ) {
+                return;
+            }
+
+            raceRecordDict[key].push(raceRecord);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceData] of Object.entries(raceDataDict)) {
+        for (const [fileName, raceData] of Object.entries(raceRecordDict)) {
             await this.s3Gateway.uploadDataToS3(raceData, fileName);
         }
         return new RegisterRaceListResponse(200);

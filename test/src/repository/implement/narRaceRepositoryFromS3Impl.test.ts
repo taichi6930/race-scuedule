@@ -3,7 +3,9 @@ import 'reflect-metadata';
 import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import { NarRaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromS3Impl';
@@ -12,7 +14,7 @@ import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/
 import { mockS3GatewayForNarRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('NarRaceRepositoryFromS3Impl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<NarRaceEntity>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<NarRaceRecord>>;
     let repository: NarRaceRepositoryFromS3Impl;
 
     beforeEach(() => {
@@ -111,13 +113,15 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                         (__, j) =>
                             new NarRaceEntity(
                                 null,
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                date,
-                                '大井',
-                                'ダート',
-                                1200,
-                                'GⅠ',
-                                j + 1,
+                                new NarRaceData(
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    date,
+                                    '大井',
+                                    'ダート',
+                                    1200,
+                                    'GⅠ',
+                                    j + 1,
+                                ),
                             ),
                     );
                 },

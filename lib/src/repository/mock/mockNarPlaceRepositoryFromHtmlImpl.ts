@@ -1,3 +1,4 @@
+import { NarPlaceData } from '../../domain/narPlaceData';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -26,8 +27,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
             // 地方競馬場データを作成
             const narPlaceEntity = new NarPlaceEntity(
                 null,
-                new Date(currentDate),
-                '大井',
+                new NarPlaceData(new Date(currentDate), '大井'),
             );
             fetchPlaceEntityList.push(narPlaceEntity);
             // 日付を1日進める

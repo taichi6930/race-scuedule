@@ -144,12 +144,15 @@ export class AutoraceRaceDataUseCase
             const raceEntityList = raceList.map((raceData) => {
                 return new AutoraceRaceEntity(
                     null,
-                    raceData.name,
-                    raceData.stage,
-                    raceData.dateTime,
-                    raceData.location,
-                    raceData.grade,
-                    raceData.number,
+                    new AutoraceRaceData(
+                        raceData.name,
+                        raceData.stage,
+                        raceData.dateTime,
+                        raceData.location,
+                        raceData.grade,
+                        raceData.number,
+                    ),
+                    [],
                 );
             });
             // S3にデータを保存する

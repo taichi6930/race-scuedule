@@ -62,9 +62,9 @@ export class JraRaceDataUseCase
         );
 
         // レースデータをJraRaceDataに変換する
-        const raceDataList = raceEntityList.map((raceEntity) => {
-            return raceEntity.toDomainData();
-        });
+        const raceDataList = raceEntityList.map((raceEntity) =>
+            raceEntity.toDomainData(),
+        );
 
         // フィルタリング処理
         const filteredRaceDataList = raceDataList
@@ -124,9 +124,9 @@ export class JraRaceDataUseCase
     async upsertRaceDataList(raceList: JraRaceData[]): Promise<void> {
         try {
             // jraRaceDataをJraRaceEntityに変換する
-            const raceEntityList = raceList.map((raceData) => {
-                return new JraRaceEntity(null, raceData);
-            });
+            const raceEntityList = raceList.map(
+                (raceData) => new JraRaceEntity(null, raceData),
+            );
             // S3にデータを保存する
             await this.registerRaceDataList(raceEntityList);
         } catch (error) {

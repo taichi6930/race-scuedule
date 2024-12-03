@@ -2,6 +2,9 @@ import type {
     IS3Gateway,
     Record,
 } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
+import type { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/autoraceRacePlayerRecord';
+import type { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import type { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import type { BoatraceRacePlayerRecord } from '../../../../lib/src/gateway/record/boatraceRacePlayerRecord';
 import type { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
@@ -10,12 +13,9 @@ import type { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRe
 import type { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import type { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
-import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
-import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
-import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
-import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
+import type { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
+import type { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
+import type { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
 
 export const mockS3Gateway = (): jest.Mocked<IS3Gateway<Record>> => {
     return {
@@ -25,7 +25,7 @@ export const mockS3Gateway = (): jest.Mocked<IS3Gateway<Record>> => {
 };
 
 export const mockS3GatewayForNarRace = (): jest.Mocked<
-    IS3Gateway<NarRaceEntity>
+    IS3Gateway<NarRaceRecord>
 > => {
     return {
         uploadDataToS3: jest.fn(),
@@ -34,7 +34,7 @@ export const mockS3GatewayForNarRace = (): jest.Mocked<
 };
 
 export const mockS3GatewayForNarPlace = (): jest.Mocked<
-    IS3Gateway<NarPlaceEntity>
+    IS3Gateway<NarPlaceRecord>
 > => {
     return {
         uploadDataToS3: jest.fn(),
@@ -88,7 +88,7 @@ export const mockS3GatewayForKeirinPlace = (): jest.Mocked<
 };
 
 export const mockS3GatewayForWorldRace = (): jest.Mocked<
-    IS3Gateway<WorldRaceEntity>
+    IS3Gateway<WorldRaceRecord>
 > => {
     return {
         uploadDataToS3: jest.fn(),
@@ -97,7 +97,7 @@ export const mockS3GatewayForWorldRace = (): jest.Mocked<
 };
 
 export const mockS3GatewayForWorldPlace = (): jest.Mocked<
-    IS3Gateway<WorldPlaceEntity>
+    IS3Gateway<WorldRaceRecord>
 > => {
     return {
         uploadDataToS3: jest.fn(),
@@ -106,7 +106,7 @@ export const mockS3GatewayForWorldPlace = (): jest.Mocked<
 };
 
 export const mockS3GatewayForAutoraceRace = (): jest.Mocked<
-    IS3Gateway<AutoraceRaceEntity>
+    IS3Gateway<AutoraceRaceRecord>
 > => {
     return {
         uploadDataToS3: jest.fn(),
@@ -115,7 +115,16 @@ export const mockS3GatewayForAutoraceRace = (): jest.Mocked<
 };
 
 export const mockS3GatewayForAutoracePlace = (): jest.Mocked<
-    IS3Gateway<AutoracePlaceEntity>
+    IS3Gateway<AutoracePlaceRecord>
+> => {
+    return {
+        uploadDataToS3: jest.fn(),
+        fetchDataFromS3: jest.fn(),
+    };
+};
+
+export const mockS3GatewayForAutoraceRacePlayer = (): jest.Mocked<
+    IS3Gateway<AutoraceRacePlayerRecord>
 > => {
     return {
         uploadDataToS3: jest.fn(),

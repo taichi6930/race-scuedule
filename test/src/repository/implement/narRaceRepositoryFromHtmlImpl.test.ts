@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { INarRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarRaceDataHtmlGateway';
 import { MockNarRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarRaceDataHtmlGateway';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
@@ -39,8 +40,10 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         [
                             new NarPlaceEntity(
                                 null,
-                                new Date('2024-10-02'),
-                                '大井',
+                                new NarPlaceData(
+                                    new Date('2024-10-02'),
+                                    '大井',
+                                ),
                             ),
                         ],
                     ),

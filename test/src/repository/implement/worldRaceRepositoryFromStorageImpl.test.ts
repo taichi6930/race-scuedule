@@ -3,7 +3,9 @@ import 'reflect-metadata';
 import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
@@ -13,7 +15,7 @@ import { WORLD_PLACE_CODE } from '../../../../lib/src/utility/data/world';
 import { mockS3GatewayForWorldRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('WorldRaceRepositoryFromStorageImpl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<WorldRaceEntity>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<WorldRaceRecord>>;
     let repository: WorldRaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
@@ -114,13 +116,15 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                         (__, j) =>
                             new WorldRaceEntity(
                                 null,
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                date,
-                                'パリロンシャン',
-                                '芝',
-                                2400,
-                                'GⅠ',
-                                j + 1,
+                                new WorldRaceData(
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    date,
+                                    'パリロンシャン',
+                                    '芝',
+                                    2400,
+                                    'GⅠ',
+                                    j + 1,
+                                ),
                             ),
                     );
                 },

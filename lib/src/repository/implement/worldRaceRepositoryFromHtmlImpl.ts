@@ -4,6 +4,7 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { WorldRaceData } from '../../domain/worldRaceData';
 import { IWorldRaceDataHtmlGateway } from '../../gateway/interface/iWorldRaceDataHtmlGateway';
 import {
     WorldGradeType,
@@ -240,13 +241,15 @@ export class WorldRaceRepositoryFromHtmlImpl
                         worldRaceDataList.push(
                             new WorldRaceEntity(
                                 null,
-                                raceName,
-                                date,
-                                location,
-                                surfaceType,
-                                distance,
-                                grade,
-                                number,
+                                new WorldRaceData(
+                                    raceName,
+                                    date,
+                                    location,
+                                    surfaceType,
+                                    distance,
+                                    grade,
+                                    number,
+                                ),
                             ),
                         );
                     });

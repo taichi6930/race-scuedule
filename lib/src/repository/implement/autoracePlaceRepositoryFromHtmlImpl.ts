@@ -4,6 +4,7 @@ import * as cheerio from 'cheerio';
 import { formatDate } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { IAutoracePlaceDataHtmlGateway } from '../../gateway/interface/iAutoracePlaceDataHtmlGateway';
 import {
     AutoraceGradeType,
@@ -48,9 +49,9 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         const promises = months.map(async (month) =>
             this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
                 childPlaceEntityList.filter(
-                    (PlaceEntity) =>
-                        PlaceEntity.dateTime >= request.startDate &&
-                        PlaceEntity.dateTime <= request.finishDate,
+                    (placeEntity) =>
+                        placeEntity.placeData.dateTime >= request.startDate &&
+                        placeEntity.placeData.dateTime <= request.finishDate,
                 ),
             ),
         );
@@ -164,13 +165,15 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                         autoracePlaceEntityList.push(
                             new AutoracePlaceEntity(
                                 null,
-                                new Date(
-                                    date.getFullYear(),
-                                    date.getMonth(),
-                                    index + 1,
+                                new AutoracePlaceData(
+                                    new Date(
+                                        date.getFullYear(),
+                                        date.getMonth(),
+                                        index + 1,
+                                    ),
+                                    place,
+                                    grade,
                                 ),
-                                place,
-                                grade,
                             ),
                         );
                     }

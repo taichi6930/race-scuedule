@@ -1,5 +1,4 @@
-import { NarPlaceData } from '../../domain/narPlaceData';
-import type { NarRaceCourse } from '../../utility/data/nar';
+import type { NarPlaceData } from '../../domain/narPlaceData';
 import type { NarPlaceId } from '../../utility/raceId';
 import { generateNarPlaceId } from '../../utility/raceId';
 
@@ -16,16 +15,15 @@ export class NarPlaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催場所データを生成する
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
+     * 地方競馬のレース開催場所データを生成する
+     * @param placeData - レース開催場所データ
      */
     constructor(
         id: NarPlaceId | null,
-        public readonly dateTime: Date,
-        public readonly location: NarRaceCourse,
+        public readonly placeData: NarPlaceData,
     ) {
-        this.id = id ?? generateNarPlaceId(dateTime, location);
+        this.id =
+            id ?? generateNarPlaceId(placeData.dateTime, placeData.location);
     }
 
     /**
@@ -36,20 +34,13 @@ export class NarPlaceEntity {
     copy(partial: Partial<NarPlaceEntity> = {}): NarPlaceEntity {
         return new NarPlaceEntity(
             partial.id ?? null,
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
+            partial.placeData ?? this.placeData,
         );
     }
 
     /**
      * データ型に変換する
-     * @param partial
      * @returns
      */
-    toDomainData(partial: Partial<NarPlaceEntity> = {}): NarPlaceData {
-        return new NarPlaceData(
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
-        );
-    }
+    toDomainData = (): NarPlaceData => this.placeData;
 }

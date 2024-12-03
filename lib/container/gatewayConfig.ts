@@ -36,6 +36,9 @@ import { MockNarPlaceDataHtmlGateway } from '../src/gateway/mock/mockNarPlaceDat
 import { MockNarRaceDataHtmlGateway } from '../src/gateway/mock/mockNarRaceDataHtmlGateway';
 import { MockS3Gateway } from '../src/gateway/mock/mockS3Gateway';
 import { MockWorldRaceDataHtmlGateway } from '../src/gateway/mock/mockWorldRaceDataHtmlGateway';
+import type { AutoracePlaceRecord } from '../src/gateway/record/autoracePlaceRecord';
+import type { AutoraceRacePlayerRecord } from '../src/gateway/record/autoraceRacePlayerRecord';
+import type { AutoraceRaceRecord } from '../src/gateway/record/autoraceRaceRecord';
 import type { BoatracePlaceRecord } from '../src/gateway/record/boatracePlaceRecord';
 import type { BoatraceRacePlayerRecord } from '../src/gateway/record/boatraceRacePlayerRecord';
 import type { BoatraceRaceRecord } from '../src/gateway/record/boatraceRaceRecord';
@@ -44,11 +47,9 @@ import type { JraRaceRecord } from '../src/gateway/record/jraRaceRecord';
 import type { KeirinPlaceRecord } from '../src/gateway/record/keirinPlaceRecord';
 import type { KeirinRacePlayerRecord } from '../src/gateway/record/keirinRacePlayerRecord';
 import type { KeirinRaceRecord } from '../src/gateway/record/keirinRaceRecord';
-import type { AutoracePlaceEntity } from '../src/repository/entity/autoracePlaceEntity';
-import type { AutoraceRaceEntity } from '../src/repository/entity/autoraceRaceEntity';
-import type { NarPlaceEntity } from '../src/repository/entity/narPlaceEntity';
-import type { NarRaceEntity } from '../src/repository/entity/narRaceEntity';
-import type { WorldRaceEntity } from '../src/repository/entity/worldRaceEntity';
+import type { NarPlaceRecord } from '../src/gateway/record/narPlaceRecord';
+import type { NarRaceRecord } from '../src/gateway/record/narRaceRecord';
+import type { WorldRaceRecord } from '../src/gateway/record/worldRaceRecord';
 import { ENV } from '../src/utility/env';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
@@ -132,37 +133,37 @@ container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
     },
 });
 
-container.register<IS3Gateway<NarRaceEntity>>('NarRaceS3Gateway', {
+container.register<IS3Gateway<NarRaceRecord>>('NarRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<NarRaceEntity>(
+                return new S3Gateway<NarRaceRecord>(
                     'race-schedule-bucket',
                     'nar/race/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<NarRaceEntity>(
+                return new MockS3Gateway<NarRaceRecord>(
                     'race-schedule-bucket',
                     'nar/race/',
                 );
         }
     },
 });
-container.register<IS3Gateway<NarPlaceEntity>>('NarPlaceS3Gateway', {
+container.register<IS3Gateway<NarPlaceRecord>>('NarPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
-                return new S3Gateway<NarPlaceEntity>(
+                return new S3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
                     'nar/place/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<NarPlaceEntity>(
+                return new MockS3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
                     'nar/place/',
                 );
@@ -173,7 +174,6 @@ container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
-                console.log('NarRaceDataHtmlGateway');
                 return new NarRaceDataHtmlGateway();
             case 'ITa':
             case 'LOCAL':
@@ -236,7 +236,6 @@ container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
-                console.log('JraRaceDataHtmlGateway');
                 return new JraRaceDataHtmlGateway();
             case 'ITa':
             case 'LOCAL':
@@ -258,19 +257,19 @@ container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
     },
 });
 
-container.register<IS3Gateway<WorldRaceEntity>>('WorldRaceS3Gateway', {
+container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<WorldRaceEntity>(
+                return new S3Gateway<WorldRaceRecord>(
                     'race-schedule-bucket',
                     'world/race/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<WorldRaceEntity>(
+                return new MockS3Gateway<WorldRaceRecord>(
                     'race-schedule-bucket',
                     'world/race/',
                 );
@@ -281,7 +280,6 @@ container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
-                console.log('WorldRaceDataHtmlGateway');
                 return new WorldRaceDataHtmlGateway();
             case 'ITa':
             case 'LOCAL':
@@ -291,50 +289,71 @@ container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
     },
 });
 
-container.register<IS3Gateway<AutoraceRaceEntity>>('AutoraceRaceS3Gateway', {
+container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
                 // ENV が production の場合、S3Gateway を使用
-                return new S3Gateway<AutoraceRaceEntity>(
+                return new S3Gateway<AutoraceRaceRecord>(
                     'race-schedule-bucket',
                     'autorace/race/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<AutoraceRaceEntity>(
+                return new MockS3Gateway<AutoraceRaceRecord>(
                     'race-schedule-bucket',
                     'autorace/race/',
                 );
         }
     },
 });
-container.register<IS3Gateway<AutoracePlaceEntity>>('AutoracePlaceS3Gateway', {
+container.register<IS3Gateway<AutoracePlaceRecord>>('AutoracePlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
-                return new S3Gateway<AutoracePlaceEntity>(
+                return new S3Gateway<AutoracePlaceRecord>(
                     'race-schedule-bucket',
                     'autorace/place/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
-                return new MockS3Gateway<AutoracePlaceEntity>(
+                return new MockS3Gateway<AutoracePlaceRecord>(
                     'race-schedule-bucket',
                     'autorace/place/',
                 );
         }
     },
 });
+container.register<IS3Gateway<AutoraceRacePlayerRecord>>(
+    'AutoraceRacePlayerS3Gateway',
+    {
+        useFactory: () => {
+            switch (ENV) {
+                case 'PRODUCTION':
+                    // ENV が production の場合、S3Gateway を使用
+                    return new S3Gateway<AutoraceRacePlayerRecord>(
+                        'race-schedule-bucket',
+                        'autorace/raceplayer/',
+                    );
+                case 'ITa':
+                case 'LOCAL':
+                default:
+                    return new MockS3Gateway<AutoraceRacePlayerRecord>(
+                        'race-schedule-bucket',
+                        'autorace/raceplayer/',
+                    );
+            }
+        },
+    },
+);
 container.register<IAutoracePlaceDataHtmlGateway>(
     'AutoracePlaceDataHtmlGateway',
     {
         useFactory: () => {
             switch (ENV) {
                 case 'PRODUCTION':
-                    console.log('AutoracePlaceDataHtmlGateway');
                     return new AutoracePlaceDataHtmlGateway();
                 case 'ITa':
                 case 'LOCAL':
@@ -350,7 +369,6 @@ container.register<IAutoraceRaceDataHtmlGateway>(
         useFactory: () => {
             switch (ENV) {
                 case 'PRODUCTION':
-                    console.log('AutoraceRaceDataHtmlGateway');
                     return new AutoraceRaceDataHtmlGateway();
                 case 'ITa':
                 case 'LOCAL':

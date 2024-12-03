@@ -1,13 +1,9 @@
-import { AutoracePlaceData } from '../../domain/autoracePlaceData';
-import type {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-} from '../../utility/data/autorace';
+import type { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import type { AutoracePlaceId } from '../../utility/raceId';
 import { generateAutoracePlaceId } from '../../utility/raceId';
 
 /**
- * Repository層のEntity オートレースのレース開催場所データ
+ * Repository層のEntity オートレース場のレース開催場所データ
  */
 export class AutoracePlaceEntity {
     /**
@@ -19,18 +15,17 @@ export class AutoracePlaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * オートレースのレース開催場所データを生成する
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - オートレースのグレード
+     * オートレース場のレース開催場所データを生成する
+     * @param id - ID
+     * @param placeData - レース開催場所データ
      */
     constructor(
         id: AutoracePlaceId | null,
-        public readonly dateTime: Date,
-        public readonly location: AutoraceRaceCourse,
-        public readonly grade: AutoraceGradeType,
+        public readonly placeData: AutoracePlaceData,
     ) {
-        this.id = id ?? generateAutoracePlaceId(dateTime, location);
+        this.id =
+            id ??
+            generateAutoracePlaceId(placeData.dateTime, placeData.location);
     }
 
     /**
@@ -41,24 +36,13 @@ export class AutoracePlaceEntity {
     copy(partial: Partial<AutoracePlaceEntity> = {}): AutoracePlaceEntity {
         return new AutoracePlaceEntity(
             partial.id ?? null,
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
-            partial.grade ?? this.grade,
+            partial.placeData ?? this.placeData,
         );
     }
 
     /**
      * データ型に変換する
-     * @param partial
      * @returns
      */
-    toDomainData(
-        partial: Partial<AutoracePlaceEntity> = {},
-    ): AutoracePlaceData {
-        return new AutoracePlaceData(
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
-            partial.grade ?? this.grade,
-        );
-    }
+    toDomainData = (): AutoracePlaceData => this.placeData;
 }

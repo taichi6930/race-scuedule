@@ -3,6 +3,8 @@ import 'reflect-metadata';
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
+import { AutoracePlaceData } from '../../domain/autoracePlaceData';
+import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { IAutoraceRaceDataHtmlGateway } from '../../gateway/interface/iAutoraceRaceDataHtmlGateway';
 import { AUTORACE_STAGE_MAP } from '../../utility/data/autorace';
 import { AutoraceRaceStage } from '../../utility/data/autorace';
@@ -54,18 +56,18 @@ export class AutoraceRaceRepositoryFromHtmlImpl
 
     @Logger
     async fetchRaceListFromHtmlWithAutoracePlace(
-        placeData: AutoracePlaceEntity,
+        placeEntity: AutoracePlaceEntity,
     ): Promise<AutoraceRaceEntity[]> {
         try {
             const [year, month, day] = [
-                placeData.dateTime.getFullYear(),
-                placeData.dateTime.getMonth() + 1,
-                placeData.dateTime.getDate(),
+                placeEntity.placeData.dateTime.getFullYear(),
+                placeEntity.placeData.dateTime.getMonth() + 1,
+                placeEntity.placeData.dateTime.getDate(),
             ];
             const htmlText =
                 await this.autoraceRaceDataHtmlGateway.getRaceDataHtml(
-                    placeData.dateTime,
-                    placeData.location,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
                 );
             const autoraceRaceDataList: AutoraceRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
@@ -73,13 +75,13 @@ export class AutoraceRaceRepositoryFromHtmlImpl
             const content = $('#content');
             const raceName = this.extractRaceName(
                 content.find('h3').text(),
-                placeData,
+                placeEntity.placeData,
             );
             console.log(`raceName: ${raceName}`);
             // <div div class="section clearfix">を取得
             const section = content.find('.section');
             console.log(
-                `raceInfo: ${year.toString()}/${month.toXDigits(2)}/${day.toXDigits(2)} ${placeData.location} ${placeData.grade} ${raceName}`,
+                `raceInfo: ${year.toString()}/${month.toXDigits(2)}/${day.toXDigits(2)} ${placeEntity.placeData.location} ${placeEntity.placeData.grade} ${raceName}`,
             );
             section.each((index, element) => {
                 $(element)
@@ -115,7 +117,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                             console.log(`notRaceStage: ${rowRaceStage}`);
                         }
 
-                        const raceGrade = placeData.grade;
+                        const raceGrade = placeEntity.placeData.grade;
                         if (
                             raceStage !== null &&
                             raceStage !== undefined &&
@@ -124,12 +126,15 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                             autoraceRaceDataList.push(
                                 new AutoraceRaceEntity(
                                     null,
-                                    raceName,
-                                    raceStage,
-                                    raceDate,
-                                    placeData.location,
-                                    raceGrade,
-                                    Number(raceNumber),
+                                    new AutoraceRaceData(
+                                        raceName,
+                                        raceStage,
+                                        raceDate,
+                                        placeEntity.placeData.location,
+                                        raceGrade,
+                                        Number(raceNumber),
+                                    ),
+                                    [],
                                 ),
                             );
                         }
@@ -155,7 +160,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
 
     private extractRaceName(
         raceSummaryInfoChild: string,
-        placeData: AutoracePlaceEntity,
+        placeData: AutoracePlaceData,
     ): string {
         const raceConditions = [
             {

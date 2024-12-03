@@ -1,9 +1,11 @@
-import 'reflect-metadata';
+import '../../utility/format';
 
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { NarRaceData } from '../../domain/narRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
+import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
 import {
     NarGradeType,
     NarRaceCourse,
@@ -19,16 +21,13 @@ import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
-/**
- * 競馬場開催データリポジトリの実装
- */
 @injectable()
 export class NarRaceRepositoryFromS3Impl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
     constructor(
         @inject('NarRaceS3Gateway')
-        private readonly s3Gateway: IS3Gateway<NarRaceEntity>,
+        private s3Gateway: IS3Gateway<NarRaceRecord>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -40,13 +39,16 @@ export class NarRaceRepositoryFromS3Impl
         request: FetchRaceListRequest<NarPlaceEntity>,
     ): Promise<FetchRaceListResponse<NarRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
-        const fileNames: string[] = this.generateFilenameList(
-            request.startDate,
-            request.finishDate,
-        );
+        const fileNames: string[] = [];
+        const currentDate = new Date(request.startDate);
+        while (currentDate <= request.finishDate) {
+            const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
+            fileNames.push(fileName);
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
 
         // ファイル名リストから競馬場開催データを取得する
-        const raceDataList = (
+        const raceRecordList = (
             await Promise.all(
                 fileNames.map(async (fileName) => {
                     try {
@@ -69,37 +71,49 @@ export class NarRaceRepositoryFromS3Impl
                         const gradeIndex = headers.indexOf('grade');
                         const raceNumIndex = headers.indexOf('number');
 
-                        // データ行を解析してJraRaceEntityのリストを生成
-                        return lines
-                            .slice(1)
-                            .map((line: string) => {
-                                const columns = line.split(',');
+                        // データ行を解析してNarRaceEntityのリストを生成
+                        return (
+                            lines
+                                .slice(1)
+                                .map((line: string) => {
+                                    const columns = line.split(',');
 
-                                // 必要なフィールドが存在しない場合はundefinedを返す
-                                if (
-                                    !columns[raceNameIndex] ||
-                                    isNaN(parseInt(columns[raceNumIndex]))
-                                ) {
-                                    return undefined;
-                                }
+                                    // 必要なフィールドが存在しない場合はundefinedを返す
+                                    if (
+                                        !columns[raceNameIndex] ||
+                                        isNaN(parseInt(columns[raceNumIndex]))
+                                    ) {
+                                        return undefined;
+                                    }
 
-                                return new NarRaceEntity(
-                                    columns[idIndex] as NarRaceId,
-                                    columns[raceNameIndex],
-                                    new Date(columns[raceDateIndex]),
-                                    columns[placeIndex] as NarRaceCourse,
-                                    columns[
-                                        surfaceTypeIndex
-                                    ] as NarRaceCourseType,
-                                    parseInt(columns[distanceIndex]),
-                                    columns[gradeIndex] as NarGradeType,
-                                    parseInt(columns[raceNumIndex]),
-                                );
-                            })
-                            .filter(
-                                (raceData): raceData is NarRaceEntity =>
-                                    raceData !== undefined,
-                            );
+                                    return new NarRaceRecord(
+                                        columns[idIndex] as NarRaceId,
+                                        columns[raceNameIndex],
+                                        new Date(columns[raceDateIndex]),
+                                        columns[placeIndex] as NarRaceCourse,
+                                        columns[
+                                            surfaceTypeIndex
+                                        ] as NarRaceCourseType,
+                                        parseInt(columns[distanceIndex]),
+                                        columns[gradeIndex] as NarGradeType,
+                                        parseInt(columns[raceNumIndex]),
+                                    );
+                                })
+                                .filter(
+                                    (raceData): raceData is NarRaceRecord =>
+                                        raceData !== undefined,
+                                )
+                                // IDが重複している場合は1つにまとめる
+                                .reduce<NarRaceRecord[]>((acc, raceData) => {
+                                    const index = acc.findIndex(
+                                        (data) => data.id === raceData.id,
+                                    );
+                                    if (index === -1) {
+                                        acc.push(raceData);
+                                    }
+                                    return acc;
+                                }, [])
+                        );
                     } catch (error) {
                         console.error(
                             `Error processing file ${fileName}:`,
@@ -111,24 +125,22 @@ export class NarRaceRepositoryFromS3Impl
             )
         ).flat();
 
-        return new FetchRaceListResponse<NarRaceEntity>(raceDataList);
-    }
+        const raceEntityList = raceRecordList.map((raceRecord) => {
+            return new NarRaceEntity(
+                raceRecord.id,
+                new NarRaceData(
+                    raceRecord.name,
+                    raceRecord.dateTime,
+                    raceRecord.location,
+                    raceRecord.surfaceType,
+                    raceRecord.distance,
+                    raceRecord.grade,
+                    raceRecord.number,
+                ),
+            );
+        });
 
-    /**
-     * startDateからfinishDateまでの日付ごとのファイル名リストを生成する
-     * @param startDate
-     * @param finishDate
-     * @returns
-     */
-    private generateFilenameList(startDate: Date, finishDate: Date): string[] {
-        const fileNames: string[] = [];
-        const currentDate = new Date(startDate);
-        while (currentDate <= finishDate) {
-            const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
-            fileNames.push(fileName);
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-        return fileNames;
+        return new FetchRaceListResponse<NarRaceEntity>(raceEntityList);
     }
 
     /**
@@ -139,19 +151,40 @@ export class NarRaceRepositoryFromS3Impl
     async registerRaceList(
         request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceDataList: NarRaceEntity[] = request.raceDataList;
+        const raceEntity: NarRaceEntity[] = request.raceDataList;
         // レースデータを日付ごとに分割する
-        const raceDataDict: Record<string, NarRaceEntity[]> = {};
-        raceDataList.forEach((raceData) => {
-            const key = `${format(raceData.dateTime, 'yyyyMMdd')}.csv`;
-            if (!(key in raceDataDict)) {
-                raceDataDict[key] = [];
+        const raceRecordDict: Record<string, NarRaceRecord[]> = {};
+        raceEntity.forEach((race) => {
+            const raceRecord = new NarRaceRecord(
+                race.id,
+                race.raceData.name,
+                race.raceData.dateTime,
+                race.raceData.location,
+                race.raceData.surfaceType,
+                race.raceData.distance,
+                race.raceData.grade,
+                race.raceData.number,
+            );
+            const key = `${format(race.raceData.dateTime, 'yyyyMMdd')}.csv`;
+            // 日付ごとに分割されたレースデータを格納
+            if (!(key in raceRecordDict)) {
+                raceRecordDict[key] = [];
             }
-            raceDataDict[key].push(raceData);
+
+            // 既に存在する場合は追加しない
+            if (
+                raceRecordDict[key].findIndex(
+                    (record) => record.id === raceRecord.id,
+                ) !== -1
+            ) {
+                return;
+            }
+
+            raceRecordDict[key].push(raceRecord);
         });
 
         // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceData] of Object.entries(raceDataDict)) {
+        for (const [fileName, raceData] of Object.entries(raceRecordDict)) {
             await this.s3Gateway.uploadDataToS3(raceData, fileName);
         }
         return new RegisterRaceListResponse(200);

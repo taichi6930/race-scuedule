@@ -3,7 +3,7 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
-import type { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
@@ -12,7 +12,7 @@ import { AutoraceRaceCalendarUseCase } from '../../../../lib/src/usecase/impleme
 import type { AutoraceGradeType } from '../../../../lib/src/utility/data/autorace';
 import { AUTORACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/autorace';
 import {
-    baseAutoraceCalendarData,
+    baseAutoraceRaceData,
     baseAutoraceRaceEntity,
 } from '../../mock/common/baseData';
 import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';
@@ -48,7 +48,14 @@ describe('AutoraceRaceCalendarUseCase', () => {
         useCase = container.resolve(AutoraceRaceCalendarUseCase);
     });
 
-    const baseCalendarData = baseAutoraceCalendarData;
+    const baseCalendarData = new CalendarData(
+        'test202512303511',
+        'AUTORACEグランプリ2025',
+        new Date('2025-12-30T10:00:00Z'),
+        new Date('2025-12-30T10:10:00Z'),
+        '平塚オートレース場',
+        'テスト',
+    );
 
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
@@ -57,8 +64,8 @@ describe('AutoraceRaceCalendarUseCase', () => {
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);
 
-            const startDate = new Date('2024-12-01');
-            const finishDate = new Date('2024-12-31');
+            const startDate = new Date('2025-12-01');
+            const finishDate = new Date('2025-12-31');
 
             const result = await useCase.getRacesFromCalendar(
                 startDate,
@@ -115,13 +122,15 @@ describe('AutoraceRaceCalendarUseCase', () => {
                         // モック用のデータを作成
                         mockRaceEntityList.push(
                             baseAutoraceCalendarEntity.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
+                                raceData: baseAutoraceRaceData.copy({
+                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                    dateTime: new Date(2024, month, day),
+                                    grade: grade,
+                                }),
                             }),
                         );
                         mockRaceDataList.push(
-                            baseAutoraceCalendarEntity.toDomainData({
+                            baseAutoraceCalendarEntity.toDomainData().copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -131,13 +140,15 @@ describe('AutoraceRaceCalendarUseCase', () => {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
                                 baseAutoraceCalendarEntity.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
+                                    raceData: baseAutoraceRaceData.copy({
+                                        name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                        dateTime: new Date(2024, month, day),
+                                        grade: grade,
+                                    }),
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseAutoraceCalendarEntity.toDomainData({
+                                baseAutoraceCalendarEntity.toDomainData().copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,

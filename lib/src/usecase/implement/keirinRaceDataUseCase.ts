@@ -71,9 +71,9 @@ export class KeirinRaceDataUseCase
         );
 
         // レースデータをKeirinRaceDataに変換する
-        const raceDataList = raceEntityList.map((raceEntity) => {
-            return raceEntity.toDomainData();
-        });
+        const raceDataList = raceEntityList.map((raceEntity) =>
+            raceEntity.toDomainData(),
+        );
 
         // フィルタリング処理
         const filteredRaceDataList = raceDataList
@@ -141,9 +141,9 @@ export class KeirinRaceDataUseCase
     async upsertRaceDataList(raceList: KeirinRaceData[]): Promise<void> {
         try {
             // jraRaceDataをJraRaceEntityに変換する
-            const raceEntityList = raceList.map((raceData) => {
-                return new KeirinRaceEntity(null, raceData, []);
-            });
+            const raceEntityList = raceList.map(
+                (raceData) => new KeirinRaceEntity(null, raceData, []),
+            );
             // S3にデータを保存する
             await this.registerRaceDataList(raceEntityList);
         } catch (error) {

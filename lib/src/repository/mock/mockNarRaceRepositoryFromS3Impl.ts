@@ -1,3 +1,4 @@
+import { NarRaceData } from '../../domain/narRaceData';
 import type { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
@@ -18,13 +19,15 @@ export class MockNarRaceRepositoryFromS3Impl
             new FetchRaceListResponse([
                 new NarRaceEntity(
                     null,
-                    '東京ダービー',
-                    new Date('2024-06-01'),
-                    '大井',
-                    'ダート',
-                    2000,
-                    'GⅠ',
-                    1,
+                    new NarRaceData(
+                        '東京ダービー',
+                        new Date('2024-06-01'),
+                        '大井',
+                        'ダート',
+                        2000,
+                        'GⅠ',
+                        1,
+                    ),
                 ),
             ]),
         );

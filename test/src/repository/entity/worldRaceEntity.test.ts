@@ -13,20 +13,15 @@ describe('WorldRaceEntityクラスのテスト', () => {
         const raceEntity = baseRaceEntity;
         // インスタンスのプロパティが正しいか確認
         expect(raceEntity.id).toBe('world20241001longchamp11');
-        expect(raceEntity.name).toBe('凱旋門賞');
-        expect(raceEntity.dateTime).toEqual(new Date('2024-10-01 16:30'));
-        expect(raceEntity.location).toBe('パリロンシャン');
-        expect(raceEntity.distance).toBe(2400);
-        expect(raceEntity.surfaceType).toBe('芝');
-        expect(raceEntity.grade).toBe('GⅠ');
-        expect(raceEntity.number).toBe(11);
+        expect(raceEntity.raceData).toBe(baseWorldRaceData);
     });
 
     it('何も変更せずWorldRaceEntityのインスタンスを作成できることを確認', () => {
         const raceEntity = baseRaceEntity;
         const newRaceEntity = raceEntity.copy();
         // インスタンスが変更されていないか確認
-        expect(newRaceEntity).toEqual(raceEntity);
+        expect(newRaceEntity.id).toEqual(raceEntity.id);
+        expect(newRaceEntity.raceData).toBe(raceEntity.raceData);
     });
 
     it('何も変更せずWorldRaceDataのインスタンスを作成できることを確認', () => {

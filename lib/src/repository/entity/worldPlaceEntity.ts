@@ -1,5 +1,4 @@
-import { WorldPlaceData } from '../../domain/worldPlaceData';
-import type { WorldRaceCourse } from '../../utility/data/world';
+import type { WorldPlaceData } from '../../domain/worldPlaceData';
 import type { WorldPlaceId } from '../../utility/raceId';
 import { generateWorldPlaceId } from '../../utility/raceId';
 
@@ -17,15 +16,14 @@ export class WorldPlaceEntity {
      *
      * @remarks
      * 海外競馬のレース開催場所データを生成する
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
+     * @param placeData - レース開催場所データ
      */
     constructor(
         id: WorldPlaceId | null,
-        public readonly dateTime: Date,
-        public readonly location: WorldRaceCourse,
+        public readonly placeData: WorldPlaceData,
     ) {
-        this.id = id ?? generateWorldPlaceId(dateTime, location);
+        this.id =
+            id ?? generateWorldPlaceId(placeData.dateTime, placeData.location);
     }
 
     /**
@@ -36,20 +34,13 @@ export class WorldPlaceEntity {
     copy(partial: Partial<WorldPlaceEntity> = {}): WorldPlaceEntity {
         return new WorldPlaceEntity(
             partial.id ?? null,
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
+            partial.placeData ?? this.placeData,
         );
     }
 
     /**
      * データ型に変換する
-     * @param partial
      * @returns
      */
-    toDomainData(partial: Partial<WorldPlaceEntity> = {}): WorldPlaceData {
-        return new WorldPlaceData(
-            partial.dateTime ?? this.dateTime,
-            partial.location ?? this.location,
-        );
-    }
+    toDomainData = (): WorldPlaceData => this.placeData;
 }

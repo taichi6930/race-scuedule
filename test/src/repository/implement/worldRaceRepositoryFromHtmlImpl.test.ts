@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
+import { WorldPlaceData } from '../../../../lib/src/domain/worldPlaceData';
 import type { IWorldRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iWorldRaceDataHtmlGateway';
 import { MockWorldRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockWorldRaceDataHtmlGateway';
 import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
@@ -39,8 +40,10 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         [
                             new WorldPlaceEntity(
                                 null,
-                                new Date('2024-11-04'),
-                                'パリロンシャン',
+                                new WorldPlaceData(
+                                    new Date('2024-11-04'),
+                                    'パリロンシャン',
+                                ),
                             ),
                         ],
                     ),

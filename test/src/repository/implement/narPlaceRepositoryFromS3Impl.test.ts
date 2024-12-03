@@ -1,9 +1,11 @@
 import 'reflect-metadata';
 
-import { parse } from 'date-fns';
+import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
+import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import { NarPlaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromS3Impl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
@@ -11,7 +13,7 @@ import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request
 import { mockS3GatewayForNarPlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('NarPlaceRepositoryFromS3Impl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<NarPlaceEntity>>;
+    let s3Gateway: jest.Mocked<IS3Gateway<NarPlaceRecord>>;
     let repository: NarPlaceRepositoryFromS3Impl;
 
     beforeEach(() => {
@@ -32,18 +34,22 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
                 async (filename: string) => {
                     // filenameから日付を取得 16時からの競馬場にしたい
                     const date = parse(
-                        filename.slice(0, 6),
-                        'yyyyMM',
+                        filename.slice(0, 4),
+                        'yyyy',
                         new Date(),
                     );
                     date.setHours(16);
                     console.log(date);
 
                     // CSVのヘッダーを定義
-                    const csvHeaderDataText = ['dateTime', 'location'].join(
-                        ',',
-                    );
+                    const csvHeaderDataText = [
+                        'id',
+                        'dateTime',
+                        'location',
+                    ].join(',');
+
                     const csvDataText: string = [
+                        `nar${format(date, 'yyyyMMdd')}05`,
                         date.toISOString(),
                         '大井',
                     ].join(',');
@@ -78,7 +84,11 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
                     date.setDate(date.getDate() + day);
                     return Array.from(
                         { length: 12 },
-                        () => new NarPlaceEntity(null, date, '大井'),
+                        () =>
+                            new NarPlaceEntity(
+                                null,
+                                new NarPlaceData(date, '大井'),
+                            ),
                     );
                 },
             ).flat();
@@ -91,7 +101,7 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
             await repository.registerPlaceList(request);
 
             // uploadDataToS3が12回呼ばれることを検証
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(12);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 });

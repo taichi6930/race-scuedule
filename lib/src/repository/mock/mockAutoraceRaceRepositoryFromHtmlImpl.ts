@@ -1,3 +1,4 @@
+import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
@@ -25,17 +26,20 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                     raceEntityList.push(
                         new AutoraceRaceEntity(
                             null,
-                            `${placeEntity.location}第${i.toString()}R`,
-                            raceStage,
-                            new Date(
-                                placeEntity.dateTime.getFullYear(),
-                                placeEntity.dateTime.getMonth(),
-                                placeEntity.dateTime.getDate(),
-                                i + 9,
+                            new AutoraceRaceData(
+                                `${placeEntity.placeData.location}第${i.toString()}R`,
+                                raceStage,
+                                new Date(
+                                    placeEntity.placeData.dateTime.getFullYear(),
+                                    placeEntity.placeData.dateTime.getMonth(),
+                                    placeEntity.placeData.dateTime.getDate(),
+                                    i + 9,
+                                ),
+                                placeEntity.placeData.location,
+                                placeEntity.placeData.grade,
+                                i,
                             ),
-                            placeEntity.location,
-                            placeEntity.grade,
-                            i,
+                            [],
                         ),
                     );
                 }

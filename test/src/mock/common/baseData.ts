@@ -1,3 +1,6 @@
+import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
+import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
+import { AutoraceRacePlayerData } from '../../../../lib/src/domain/autoraceRacePlayerData';
 import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../../../lib/src/domain/boatraceRacePlayerData';
@@ -7,6 +10,10 @@ import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
+import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import { WorldPlaceData } from '../../../../lib/src/domain/worldPlaceData';
+import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
@@ -53,13 +60,15 @@ import type {
     WorldRaceCourse,
 } from '../../../../lib/src/utility/data/world';
 
-export const baseAutoracePlaceEntity = new AutoracePlaceEntity(
-    null,
+export const baseAutoracePlaceData = new AutoracePlaceData(
     new Date('2024-12-31'),
     '飯塚',
     'SG',
 );
-export const baseAutoracePlaceData = baseAutoracePlaceEntity.toDomainData();
+export const baseAutoracePlaceEntity = new AutoracePlaceEntity(
+    null,
+    baseAutoracePlaceData,
+);
 
 export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
     { location: '飯塚', grade: 'SG' },
@@ -85,12 +94,15 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
     ].map((stage, index) => {
         return new AutoraceRaceEntity(
             null,
-            `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
-            stage as AutoraceRaceStage,
-            new Date(2025, 12 - 1, 31, 7 + index, 0),
-            location as AutoraceRaceCourse,
-            grade as AutoraceGradeType,
-            index + 1,
+            new AutoraceRaceData(
+                `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
+                stage as AutoraceRaceStage,
+                new Date(2025, 12 - 1, 31, 7 + index, 0),
+                location as AutoraceRaceCourse,
+                grade as AutoraceGradeType,
+                index + 1,
+            ),
+            [],
         );
     });
 });
@@ -99,8 +111,16 @@ export const baseAutoraceRaceDataList = baseAutoraceRaceEntityList.map(
     (raceEntity) => raceEntity.toDomainData(),
 );
 
-export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
-    null,
+export const baseAutoraceRacePlayerData = new AutoraceRacePlayerData(1, 10000);
+
+export const baseAutoraceRacePlayerDataList = Array.from(
+    { length: 8 },
+    (_, i) => {
+        return new AutoraceRacePlayerData(i + 1, i + 1);
+    },
+);
+
+export const baseAutoraceRaceData = new AutoraceRaceData(
     'スーパースター王座決定戦',
     '優勝戦',
     new Date('2024-12-31 16:30'),
@@ -108,7 +128,11 @@ export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
     'SG',
     11,
 );
-export const baseAutoraceRaceData = baseAutoraceRaceEntity.toDomainData();
+export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
+    null,
+    baseAutoraceRaceData,
+    baseAutoraceRacePlayerDataList,
+);
 export const baseAutoraceCalendarData = new CalendarData(
     'test202412310511',
     'スーパースター王座決定戦',
@@ -253,12 +277,14 @@ export const baseKeirinCalendarDataFromGoogleCalendar = {
     description: 'テスト',
 };
 
-export const baseWorldPlaceEntity = new WorldPlaceEntity(
-    null,
+export const baseWorldPlaceData = new WorldPlaceData(
     new Date('2024-10-01'),
     'パリロンシャン',
 );
-export const baseWorldPlaceData = baseWorldPlaceEntity.toDomainData();
+export const baseWorldPlaceEntity = new WorldPlaceEntity(
+    null,
+    baseWorldPlaceData,
+);
 
 export const baseWorldRaceEntityList: WorldRaceEntity[] = [
     'パリロンシャン',
@@ -280,13 +306,15 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
     ].map((grade, index) => {
         return new WorldRaceEntity(
             null,
-            `テスト${location}${grade}${(index + 1).toString()}レース`,
-            new Date(2024, 10 - 1, 1, 7 + index, 0),
-            location as WorldRaceCourse,
-            '芝',
-            1600,
-            grade as WorldGradeType,
-            index + 1,
+            new WorldRaceData(
+                `テスト${location}${grade}${(index + 1).toString()}レース`,
+                new Date(2024, 10 - 1, 1, 7 + index, 0),
+                location as WorldRaceCourse,
+                '芝',
+                1600,
+                grade as WorldGradeType,
+                index + 1,
+            ),
         );
     });
 });
@@ -295,8 +323,7 @@ export const baseWorldRaceDataList = baseWorldRaceEntityList.map((raceEntity) =>
     raceEntity.toDomainData(),
 );
 
-export const baseWorldRaceEntity = new WorldRaceEntity(
-    null,
+export const baseWorldRaceData = new WorldRaceData(
     '凱旋門賞',
     new Date('2024-10-01 16:30'),
     'パリロンシャン',
@@ -305,7 +332,7 @@ export const baseWorldRaceEntity = new WorldRaceEntity(
     'GⅠ',
     11,
 );
-export const baseWorldRaceData = baseWorldRaceEntity.toDomainData();
+export const baseWorldRaceEntity = new WorldRaceEntity(null, baseWorldRaceData);
 
 export const baseWorldCalendarData = new CalendarData(
     'test20241001longchamp01',
@@ -329,12 +356,12 @@ export const baseWorldCalendarDataFromGoogleCalendar = {
     description: 'テスト',
 };
 
-export const baseNarPlaceEntity = new NarPlaceEntity(
-    null,
+export const baseNarPlaceData = new NarPlaceData(
     new Date('2024-06-03'),
     '大井',
 );
-export const baseNarPlaceData = baseNarPlaceEntity.toDomainData();
+
+export const baseNarPlaceEntity = new NarPlaceEntity(null, baseNarPlaceData);
 
 export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatMap(
     (location) => {
@@ -354,13 +381,15 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
         ].map((grade, index) => {
             return new NarRaceEntity(
                 null,
-                `テスト${location}${grade}${(index + 1).toString()}レース`,
-                new Date(2024, 6 - 1, 1, 7 + index, 0),
-                location as NarRaceCourse,
-                'ダート',
-                1600,
-                grade as NarGradeType,
-                index + 1,
+                new NarRaceData(
+                    `テスト${location}${grade}${(index + 1).toString()}レース`,
+                    new Date(2024, 6 - 1, 1, 7 + index, 0),
+                    location as NarRaceCourse,
+                    'ダート',
+                    1600,
+                    grade as NarGradeType,
+                    index + 1,
+                ),
             );
         });
     },
@@ -370,8 +399,7 @@ export const baseNarRaceDataList = baseNarRaceEntityList.map((raceEntity) =>
     raceEntity.toDomainData(),
 );
 
-export const baseNarRaceEntity = new NarRaceEntity(
-    null,
+export const baseNarRaceData = new NarRaceData(
     '東京ダービー',
     new Date('2024-06-03 20:10'),
     '大井',
@@ -380,7 +408,7 @@ export const baseNarRaceEntity = new NarRaceEntity(
     'JpnⅠ',
     11,
 );
-export const baseNarRaceData = baseNarRaceEntity.toDomainData();
+export const baseNarRaceEntity = new NarRaceEntity(null, baseNarRaceData);
 
 export const baseNarCalendarData = new CalendarData(
     'test202406032011',
