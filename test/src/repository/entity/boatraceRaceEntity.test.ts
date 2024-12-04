@@ -1,7 +1,7 @@
 import {
     baseBoatraceRaceData,
     baseBoatraceRaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseBoatraceData';
 
 describe('BoatraceRaceEntityクラスのテスト', () => {
     it('正しい入力でBoatraceRaceEntityのインスタンスを作成できることを確認', () => {

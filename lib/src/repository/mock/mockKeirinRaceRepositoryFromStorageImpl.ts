@@ -1,4 +1,4 @@
-import { baseKeirinRacePlayerDataList } from '../../../../test/src/mock/common/baseData';
+import { baseKeirinRacePlayerDataList } from '../../../../test/src/mock/common/baseBoatraceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';

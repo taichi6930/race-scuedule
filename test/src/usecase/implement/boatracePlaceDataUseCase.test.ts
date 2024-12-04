@@ -10,7 +10,7 @@ import { BoatracePlaceDataUseCase } from '../../../../lib/src/usecase/implement/
 import {
     baseBoatracePlaceData,
     baseBoatracePlaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseBoatraceData';
 import { mockBoatracePlaceRepositoryFromHtmlImpl } from '../../mock/repository/boatracePlaceRepositoryFromHtmlImpl';
 import { mockBoatracePlaceRepositoryFromStorageImpl } from '../../mock/repository/boatracePlaceRepositoryFromStorageImpl';
 

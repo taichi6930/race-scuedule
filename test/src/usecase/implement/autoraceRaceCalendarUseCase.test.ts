@@ -14,7 +14,7 @@ import { AUTORACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/
 import {
     baseAutoraceRaceData,
     baseAutoraceRaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseAutoraceData';
 import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 

@@ -13,7 +13,7 @@ import { AutoraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repos
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { AUTORACE_PLACE_CODE } from '../../../../lib/src/utility/data/autorace';
-import { baseAutoraceRacePlayerDataList } from '../../mock/common/baseData';
+import { baseAutoraceRacePlayerDataList } from '../../mock/common/baseAutoraceData';
 import {
     mockS3GatewayForAutoraceRace,
     mockS3GatewayForAutoraceRacePlayer,

@@ -13,10 +13,12 @@ import {
     baseAutoraceCalendarData,
     baseAutoraceCalendarDataFromGoogleCalendar,
     baseAutoraceRaceData,
+} from '../../mock/common/baseAutoraceData';
+import {
     baseBoatraceCalendarData,
     baseBoatraceCalendarDataFromGoogleCalendar,
     baseBoatraceRaceData,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseBoatraceData';
 import {
     baseJraCalendarData,
     baseJraCalendarDataFromGoogleCalendar,

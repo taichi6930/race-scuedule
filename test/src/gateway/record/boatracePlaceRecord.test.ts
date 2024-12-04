@@ -1,4 +1,4 @@
-import { baseBoatracePlaceRecord } from '../../mock/common/baseData';
+import { baseBoatracePlaceRecord } from '../../mock/common/baseBoatraceData';
 
 describe('BoatracePlaceRecordクラスのテスト', () => {
     it('正しい入力でBoatracePlaceRecordのインスタンスを作成できることを確認', () => {

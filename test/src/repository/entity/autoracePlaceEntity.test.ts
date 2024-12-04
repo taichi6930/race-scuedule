@@ -1,7 +1,7 @@
 import {
     baseAutoracePlaceData,
     baseAutoracePlaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseAutoraceData';
 
 describe('AutoracePlaceEntityクラスのテスト', () => {
     it('正しい入力でAutoracePlaceEntityのインスタンスを作成できることを確認', () => {

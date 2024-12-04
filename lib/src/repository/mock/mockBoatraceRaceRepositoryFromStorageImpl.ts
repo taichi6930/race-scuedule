@@ -1,4 +1,4 @@
-import { baseBoatraceRacePlayerDataList } from '../../../../test/src/mock/common/baseData';
+import { baseBoatraceRacePlayerDataList } from '../../../../test/src/mock/common/baseBoatraceData';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import type { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';

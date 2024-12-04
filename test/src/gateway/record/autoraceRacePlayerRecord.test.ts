@@ -1,4 +1,4 @@
-import { baseAutoraceRacePlayerRecord } from '../../mock/common/baseData';
+import { baseAutoraceRacePlayerRecord } from '../../mock/common/baseAutoraceData';
 
 describe('AutoraceRacePlayerRecordクラスのテスト', () => {
     it('正しい入力でAutoraceRacePlayerRecordのインスタンスを作成できることを確認', () => {

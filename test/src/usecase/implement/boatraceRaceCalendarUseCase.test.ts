@@ -14,7 +14,7 @@ import { BOATRACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/
 import {
     baseBoatraceRaceData,
     baseBoatraceRaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseBoatraceData';
 import { mockBoatraceRaceRepositoryFromStorageImpl } from '../../mock/repository/boatraceRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
