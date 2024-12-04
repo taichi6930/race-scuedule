@@ -16,9 +16,8 @@ export class BoatracePlaceEntity {
      *
      * @remarks
      * ボートレースのレース開催場所データを生成する
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - ボートレースのグレード
+     * @param id - ID
+     * @param placeData - レース開催場所データ
      */
     constructor(
         id: BoatracePlaceId | null,
