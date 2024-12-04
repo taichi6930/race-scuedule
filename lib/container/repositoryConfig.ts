@@ -23,13 +23,13 @@ import { BoatraceRaceRepositoryFromStorageImpl } from '../src/repository/impleme
 import { JraPlaceRepositoryFromHtmlImpl } from '../src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromStorageImpl } from '../src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { JraRaceRepositoryFromHtmlImpl } from '../src/repository/implement/jraRaceRepositoryFromHtmlImpl';
-import { JraRaceRepositoryFromStorageImpl } from '../src/repository/implement/JraRaceRepositoryFromStorageImpl';
+import { JraRaceRepositoryFromStorageImpl } from '../src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import { KeirinPlaceRepositoryFromHtmlImpl } from '../src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
 import { KeirinRaceRepositoryFromStorageImpl } from '../src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { NarPlaceRepositoryFromHtmlImpl } from '../src/repository/implement/narPlaceRepositoryFromHtmlImpl';
-import { NarPlaceRepositoryFromS3Impl } from '../src/repository/implement/narPlaceRepositoryFromS3Impl';
+import { NarPlaceRepositoryFromStorageImpl } from '../src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import { NarRaceRepositoryFromHtmlImpl } from '../src/repository/implement/narRaceRepositoryFromHtmlImpl';
 import { NarRaceRepositoryFromS3Impl } from '../src/repository/implement/narRaceRepositoryFromS3Impl';
 import { WorldRaceRepositoryFromHtmlImpl } from '../src/repository/implement/worldRaceRepositoryFromHtmlImpl';
@@ -56,8 +56,8 @@ container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
     { useClass: NarRaceRepositoryFromS3Impl },
 );
 container.register<IPlaceRepository<NarPlaceEntity>>(
-    'NarPlaceRepositoryFromS3',
-    { useClass: NarPlaceRepositoryFromS3Impl },
+    'NarPlaceRepositoryFromStorage',
+    { useClass: NarPlaceRepositoryFromStorageImpl },
 );
 
 // Jraリポジトリの登録

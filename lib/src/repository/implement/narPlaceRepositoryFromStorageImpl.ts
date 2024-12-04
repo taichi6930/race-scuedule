@@ -16,7 +16,7 @@ import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
-export class NarPlaceRepositoryFromS3Impl
+export class NarPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<NarPlaceEntity>
 {
     constructor(

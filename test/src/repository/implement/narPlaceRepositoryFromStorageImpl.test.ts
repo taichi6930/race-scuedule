@@ -7,14 +7,14 @@ import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import { NarPlaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromS3Impl';
+import { NarPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { mockS3GatewayForNarPlace } from '../../mock/gateway/s3GatewayMock';
 
-describe('NarPlaceRepositoryFromS3Impl', () => {
+describe('NarPlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<NarPlaceRecord>>;
-    let repository: NarPlaceRepositoryFromS3Impl;
+    let repository: NarPlaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
@@ -24,7 +24,7 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
         container.registerInstance('NarPlaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
-        repository = container.resolve(NarPlaceRepositoryFromS3Impl);
+        repository = container.resolve(NarPlaceRepositoryFromStorageImpl);
     });
 
     describe('fetchPlaceList', () => {
