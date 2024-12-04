@@ -1,10 +1,10 @@
-import { baseKeirinPlaceRecord } from '../../mock/common/baseData';
+import { baseKeirinPlaceRecord } from '../../mock/common/baseKeirinData';
 
 describe('KeirinPlaceRecordクラスのテスト', () => {
     it('正しい入力でKeirinPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseKeirinPlaceRecord;
 
-        expect(placeRecord.id).toEqual('keirin2024123104');
+        expect(placeRecord.id).toEqual('keirin2025123035');
         expect(placeRecord.dateTime).toEqual(new Date('2025-12-30'));
         expect(placeRecord.location).toBe('平塚');
         expect(placeRecord.grade).toBe('GP');
@@ -16,7 +16,7 @@ describe('KeirinPlaceRecordクラスのテスト', () => {
             dateTime: new Date('2022-12-30'),
         });
 
-        expect(newPlaceRecord.id).toEqual('keirin2024123104');
+        expect(newPlaceRecord.id).toEqual('keirin2025123035');
         expect(newPlaceRecord.dateTime).toEqual(new Date('2022-12-30'));
         expect(newPlaceRecord.location).toBe('平塚');
         expect(newPlaceRecord.grade).toBe('GP');

@@ -1,7 +1,7 @@
 import {
     baseKeirinRaceData,
     baseKeirinRaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseKeirinData';
 
 describe('KeirinRaceEntityクラスのテスト', () => {
     it('正しい入力でKeirinRaceEntityのインスタンスを作成できることを確認', () => {

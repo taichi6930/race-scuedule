@@ -10,7 +10,7 @@ import { KeirinPlaceDataUseCase } from '../../../../lib/src/usecase/implement/ke
 import {
     baseKeirinPlaceData,
     baseKeirinPlaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseKeirinData';
 import { mockKeirinPlaceRepositoryFromHtmlImpl } from '../../mock/repository/keirinPlaceRepositoryFromHtmlImpl';
 import { mockKeirinPlaceRepositoryFromStorageImpl } from '../../mock/repository/keirinPlaceRepositoryFromStorageImpl';
 

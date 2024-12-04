@@ -1,4 +1,4 @@
-import { baseKeirinRacePlayerData } from '../mock/common/baseData';
+import { baseKeirinRacePlayerData } from '../mock/common/baseKeirinData';
 
 describe('KeirinRacePlayerDataクラスのテスト', () => {
     /**

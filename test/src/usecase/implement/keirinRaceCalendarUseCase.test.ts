@@ -14,7 +14,7 @@ import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/ke
 import {
     baseKeirinRaceData,
     baseKeirinRaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseKeirinData';
 import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 

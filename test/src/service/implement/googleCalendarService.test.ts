@@ -16,15 +16,17 @@ import {
     baseBoatraceCalendarData,
     baseBoatraceCalendarDataFromGoogleCalendar,
     baseBoatraceRaceData,
-    baseKeirinCalendarData,
-    baseKeirinCalendarDataFromGoogleCalendar,
-    baseKeirinRaceData,
 } from '../../mock/common/baseData';
 import {
     baseJraCalendarData,
     baseJraCalendarDataFromGoogleCalendar,
     baseJraRaceData,
 } from '../../mock/common/baseJraData';
+import {
+    baseKeirinCalendarData,
+    baseKeirinCalendarDataFromGoogleCalendar,
+    baseKeirinRaceData,
+} from '../../mock/common/baseKeirinData';
 import {
     baseNarCalendarData,
     baseNarCalendarDataFromGoogleCalendar,

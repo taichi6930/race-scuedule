@@ -1,10 +1,10 @@
-import { baseKeirinRaceRecord } from '../../mock/common/baseData';
+import { baseKeirinRaceRecord } from '../../mock/common/baseKeirinData';
 
 describe('KeirinRaceRecordクラスのテスト', () => {
     it('正しい入力でKeirinRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseKeirinRaceRecord;
 
-        expect(raceRecord.id).toEqual('keirin202412310411');
+        expect(raceRecord.id).toEqual('keirin202512303511');
         expect(raceRecord.name).toBe('KEIRINグランプリ');
         expect(raceRecord.dateTime).toEqual(new Date('2025-12-30 16:30'));
         expect(raceRecord.stage).toBe('S級グランプリ');
@@ -18,7 +18,7 @@ describe('KeirinRaceRecordクラスのテスト', () => {
         const newRaceRecord = raceRecord.copy({
             dateTime: new Date('2022-12-30'),
         });
-        expect(newRaceRecord.id).toEqual('keirin202412310411');
+        expect(newRaceRecord.id).toEqual('keirin202512303511');
         expect(newRaceRecord.name).toBe('KEIRINグランプリ');
         expect(newRaceRecord.dateTime).toEqual(new Date('2022-12-30'));
         expect(newRaceRecord.stage).toBe('S級グランプリ');
