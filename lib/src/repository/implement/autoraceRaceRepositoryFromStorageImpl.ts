@@ -55,7 +55,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
             request.finishDate,
         );
 
-        // ファイル名リストからオートレースレース選手データを取得する
+        // ファイル名リストからオートレース選手データを取得する
         const racePlayerRecordList: AutoraceRacePlayerRecord[] = (
             await Promise.all(
                 fileNames.map(async (fileName) => {
@@ -114,7 +114,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
             )
         ).flat();
 
-        // ファイル名リストからオートレースレースデータを取得する
+        // ファイル名リストからオートレースデータを取得する
         const raceDataList = (
             await Promise.all(
                 fileNames.map(async (fileName) => {

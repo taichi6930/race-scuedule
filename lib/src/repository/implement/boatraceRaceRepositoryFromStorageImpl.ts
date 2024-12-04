@@ -55,7 +55,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
             request.finishDate,
         );
 
-        // ファイル名リストからボートレースレース選手データを取得する
+        // ファイル名リストからボートレース選手データを取得する
         const racePlayerRecordList: BoatraceRacePlayerRecord[] = (
             await Promise.all(
                 fileNames.map(async (fileName) => {
@@ -114,7 +114,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
             )
         ).flat();
 
-        // ファイル名リストからボートレースレースデータを取得する
+        // ファイル名リストからボートレースデータを取得する
         const raceDataList = (
             await Promise.all(
                 fileNames.map(async (fileName) => {
