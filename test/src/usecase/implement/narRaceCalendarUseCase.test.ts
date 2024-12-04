@@ -102,8 +102,6 @@ describe('NarRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseNarCalendarEntity = baseNarRaceEntity;
-
         it('正常に更新できること', async () => {
             const mockRaceDataList: NarRaceData[] = [];
             const expectedRaceDataList: NarRaceData[] = [];
@@ -119,7 +117,7 @@ describe('NarRaceCalendarUseCase', () => {
                     days.forEach((day) => {
                         // モック用のデータを作成
                         mockRaceEntityList.push(
-                            baseNarCalendarEntity.copy({
+                            baseNarRaceEntity.copy({
                                 raceData: baseNarRaceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
@@ -128,7 +126,7 @@ describe('NarRaceCalendarUseCase', () => {
                             }),
                         );
                         mockRaceDataList.push(
-                            baseNarCalendarEntity.raceData.copy({
+                            baseNarRaceEntity.raceData.copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -137,7 +135,7 @@ describe('NarRaceCalendarUseCase', () => {
                         if (NAR_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
-                                baseNarCalendarEntity.copy({
+                                baseNarRaceEntity.copy({
                                     raceData: baseNarRaceData.copy({
                                         name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                         dateTime: new Date(2024, month, day),
@@ -146,7 +144,7 @@ describe('NarRaceCalendarUseCase', () => {
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseNarCalendarEntity.raceData.copy({
+                                baseNarRaceEntity.raceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,
@@ -218,7 +216,7 @@ describe('NarRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListは正常に動作するように設定
-            const mockRaceEntityList: NarRaceEntity[] = [baseNarCalendarEntity];
+            const mockRaceEntityList: NarRaceEntity[] = [baseNarRaceEntity];
             narRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
                 raceEntityList: mockRaceEntityList,
             });

@@ -104,8 +104,6 @@ describe('KeirinRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseKeirinCalendarEntity = baseKeirinRaceEntity;
-
         it('正常に更新できること', async () => {
             const mockRaceDataList: KeirinRaceData[] = [];
             const expectedRaceDataList: KeirinRaceData[] = [];
@@ -121,7 +119,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                     days.forEach((day) => {
                         // モック用のデータを作成
                         mockRaceEntityList.push(
-                            baseKeirinCalendarEntity.copy({
+                            baseKeirinRaceEntity.copy({
                                 raceData: baseKeirinRaceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
@@ -130,7 +128,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                             }),
                         );
                         mockRaceDataList.push(
-                            baseKeirinCalendarEntity.raceData.copy({
+                            baseKeirinRaceEntity.raceData.copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -139,7 +137,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                         if (KEIRIN_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
-                                baseKeirinCalendarEntity.copy({
+                                baseKeirinRaceEntity.copy({
                                     raceData: baseKeirinRaceData.copy({
                                         name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                         dateTime: new Date(2024, month, day),
@@ -148,7 +146,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseKeirinCalendarEntity.raceData.copy({
+                                baseKeirinRaceEntity.raceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,
@@ -223,7 +221,7 @@ describe('KeirinRaceCalendarUseCase', () => {
 
             // fetchRaceListは正常に動作するように設定
             const mockRaceEntityList: KeirinRaceEntity[] = [
-                baseKeirinCalendarEntity,
+                baseKeirinRaceEntity,
             ];
             keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 {

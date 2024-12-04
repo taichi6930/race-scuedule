@@ -3,15 +3,18 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
+import type { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
-import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
+import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/worldRaceCalendarUseCase';
 import type { WorldGradeType } from '../../../../lib/src/utility/data/world';
 import { WORLD_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/world';
-import { baseWorldRaceData } from '../../mock/common/baseData';
+import {
+    baseWorldRaceData,
+    baseWorldRaceEntity,
+} from '../../mock/common/baseData';
 import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/worldRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
@@ -102,19 +105,6 @@ describe('WorldRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseWorldCalendarEntity = new WorldRaceEntity(
-            null,
-            new WorldRaceData(
-                '凱旋門賞',
-                new Date('2024-10-02 16:30'),
-                'パリロンシャン',
-                '芝',
-                2400,
-                'GⅠ',
-                11,
-            ),
-        );
-
         it('正常に更新できること', async () => {
             const mockRaceDataList: WorldRaceData[] = [];
             const expectedRaceDataList: WorldRaceData[] = [];
@@ -133,7 +123,7 @@ describe('WorldRaceCalendarUseCase', () => {
                     days.forEach((day) => {
                         // モック用のデータを作成
                         mockRaceEntityList.push(
-                            baseWorldCalendarEntity.copy({
+                            baseWorldRaceEntity.copy({
                                 raceData: baseWorldRaceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
@@ -142,7 +132,7 @@ describe('WorldRaceCalendarUseCase', () => {
                             }),
                         );
                         mockRaceDataList.push(
-                            baseWorldCalendarEntity.raceData.copy({
+                            baseWorldRaceEntity.raceData.copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -151,7 +141,7 @@ describe('WorldRaceCalendarUseCase', () => {
                         if (WORLD_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
-                                baseWorldCalendarEntity.copy({
+                                baseWorldRaceEntity.copy({
                                     raceData: baseWorldRaceData.copy({
                                         name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                         dateTime: new Date(2024, month, day),
@@ -160,7 +150,7 @@ describe('WorldRaceCalendarUseCase', () => {
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseWorldCalendarEntity.raceData.copy({
+                                baseWorldRaceEntity.raceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,
@@ -232,9 +222,7 @@ describe('WorldRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListは正常に動作するように設定
-            const mockRaceEntityList: WorldRaceEntity[] = [
-                baseWorldCalendarEntity,
-            ];
+            const mockRaceEntityList: WorldRaceEntity[] = [baseWorldRaceEntity];
             worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
                 raceEntityList: mockRaceEntityList,
             });

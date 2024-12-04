@@ -102,8 +102,6 @@ describe('JraRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseJraCalendarEntity = baseJraRaceEntity;
-
         it('正常に更新できること', async () => {
             const mockRaceDataList: JraRaceData[] = [];
             const expectedRaceDataList: JraRaceData[] = [];
@@ -119,7 +117,7 @@ describe('JraRaceCalendarUseCase', () => {
                     days.forEach((day) => {
                         // モック用のデータを作成
                         mockRaceEntityList.push(
-                            baseJraCalendarEntity.copy({
+                            baseJraRaceEntity.copy({
                                 raceData: baseJraRaceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
@@ -128,7 +126,7 @@ describe('JraRaceCalendarUseCase', () => {
                             }),
                         );
                         mockRaceDataList.push(
-                            baseJraCalendarEntity.raceData.copy({
+                            baseJraRaceEntity.raceData.copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -137,7 +135,7 @@ describe('JraRaceCalendarUseCase', () => {
                         if (JRA_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
-                                baseJraCalendarEntity.copy({
+                                baseJraRaceEntity.copy({
                                     raceData: baseJraRaceData.copy({
                                         name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                         dateTime: new Date(2024, month, day),
@@ -146,7 +144,7 @@ describe('JraRaceCalendarUseCase', () => {
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseJraCalendarEntity.raceData.copy({
+                                baseJraRaceEntity.raceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,
@@ -218,7 +216,7 @@ describe('JraRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListは正常に動作するように設定
-            const mockRaceEntityList: JraRaceEntity[] = [baseJraCalendarEntity];
+            const mockRaceEntityList: JraRaceEntity[] = [baseJraRaceEntity];
             JraRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
                 raceEntityList: mockRaceEntityList,
             });

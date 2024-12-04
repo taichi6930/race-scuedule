@@ -104,8 +104,6 @@ describe('BoatraceRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        const baseBoatraceCalendarEntity = baseBoatraceRaceEntity;
-
         it('正常に更新できること', async () => {
             const mockRaceDataList: BoatraceRaceData[] = [];
             const expectedRaceDataList: BoatraceRaceData[] = [];
@@ -121,7 +119,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
                     days.forEach((day) => {
                         // モック用のデータを作成
                         mockRaceEntityList.push(
-                            baseBoatraceCalendarEntity.copy({
+                            baseBoatraceRaceEntity.copy({
                                 raceData: baseBoatraceRaceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
@@ -130,7 +128,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
                             }),
                         );
                         mockRaceDataList.push(
-                            baseBoatraceCalendarEntity.raceData.copy({
+                            baseBoatraceRaceEntity.raceData.copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -139,7 +137,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
                         if (BOATRACE_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
-                                baseBoatraceCalendarEntity.copy({
+                                baseBoatraceRaceEntity.copy({
                                     raceData: baseBoatraceRaceData.copy({
                                         name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                         dateTime: new Date(2024, month, day),
@@ -148,7 +146,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseBoatraceCalendarEntity.raceData.copy({
+                                baseBoatraceRaceEntity.raceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,
@@ -223,7 +221,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
 
             // fetchRaceListは正常に動作するように設定
             const mockRaceEntityList: BoatraceRaceEntity[] = [
-                baseBoatraceCalendarEntity,
+                baseBoatraceRaceEntity,
             ];
             boatraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 {
