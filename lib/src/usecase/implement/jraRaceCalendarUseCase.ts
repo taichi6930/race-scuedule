@@ -66,8 +66,8 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
                     fetchRaceDataListRequest,
                 );
             const raceEntityList = fetchRaceDataListResponse.raceDataList;
-            const raceDataList = raceEntityList.map((raceEntity) =>
-                raceEntity.toDomainData(),
+            const raceDataList = raceEntityList.map(
+                (raceEntity) => raceEntity.raceData,
             );
 
             // displayGradeListに含まれるレース情報のみを抽出

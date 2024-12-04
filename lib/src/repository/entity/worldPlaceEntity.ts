@@ -37,10 +37,4 @@ export class WorldPlaceEntity {
             partial.placeData ?? this.placeData,
         );
     }
-
-    /**
-     * データ型に変換する
-     * @returns
-     */
-    toDomainData = (): WorldPlaceData => this.placeData;
 }

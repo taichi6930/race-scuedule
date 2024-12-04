@@ -37,10 +37,4 @@ export class JraPlaceEntity {
             partial.placeData ?? this.placeData,
         );
     }
-
-    /**
-     * データ型に変換する
-     * @returns
-     */
-    toDomainData = (): JraPlaceData => this.placeData;
 }

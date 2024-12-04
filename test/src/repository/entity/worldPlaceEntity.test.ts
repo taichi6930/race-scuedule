@@ -20,7 +20,7 @@ describe('WorldPlaceEntityクラスのテスト', () => {
 
     it('何も変更せずWorldPlaceDataのインスタンスを作成できることを確認', () => {
         const placeEntity = baseWorldPlaceEntity;
-        const placeData = placeEntity.toDomainData();
+        const placeData = placeEntity.placeData;
 
         expect(placeData).toEqual(baseWorldPlaceData);
     });

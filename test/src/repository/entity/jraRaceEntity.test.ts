@@ -23,7 +23,7 @@ describe('JraRaceEntityクラスのテスト', () => {
 
     it('何も変更せずJraRaceDataのインスタンスを作成できることを確認', () => {
         const raceEntity = baseRaceEntity;
-        const raceData = raceEntity.toDomainData();
+        const raceData = raceEntity.raceData;
         // インスタンスが変更されていないか確認
         expect(raceData).toEqual(baseJraRaceData);
     });

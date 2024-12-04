@@ -69,8 +69,8 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
                     fetchRaceDataListRequest,
                 );
             const raceEntityList = fetchRaceDataListResponse.raceDataList;
-            const raceDataList = raceEntityList.map((raceEntity) =>
-                raceEntity.toDomainData(),
+            const raceDataList = raceEntityList.map(
+                (raceEntity) => raceEntity.raceData,
             );
             const filteredRaceDataList: WorldRaceData[] = raceDataList.filter(
                 (raceData) => displayGradeList.includes(raceData.grade),

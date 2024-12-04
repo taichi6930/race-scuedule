@@ -50,10 +50,4 @@ export class BoatraceRaceEntity {
             partial.racePlayerDataList ?? this.racePlayerDataList,
         );
     }
-
-    /**
-     * ドメインデータに変換する
-     * @returns
-     */
-    toDomainData = (): BoatraceRaceData => this.raceData;
 }

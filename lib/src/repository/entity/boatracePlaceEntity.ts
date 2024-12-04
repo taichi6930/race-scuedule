@@ -40,13 +40,4 @@ export class BoatracePlaceEntity {
             partial.placeData ?? this.placeData,
         );
     }
-
-    /**
-     * データ型に変換する
-     * @param partial
-     * @returns
-     */
-    toDomainData(): BoatracePlaceData {
-        return this.placeData;
-    }
 }

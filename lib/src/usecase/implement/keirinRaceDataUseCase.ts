@@ -71,8 +71,8 @@ export class KeirinRaceDataUseCase
         );
 
         // レースデータをKeirinRaceDataに変換する
-        const raceDataList = raceEntityList.map((raceEntity) =>
-            raceEntity.toDomainData(),
+        const raceDataList = raceEntityList.map(
+            (raceEntity) => raceEntity.raceData,
         );
 
         // フィルタリング処理

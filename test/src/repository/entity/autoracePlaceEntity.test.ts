@@ -34,7 +34,7 @@ describe('AutoracePlaceEntityクラスのテスト', () => {
 
     it('何も変更せずAutoracePlaceDataのインスタンスを作成できることを確認', () => {
         const placeEntity = baseAutoracePlaceEntity;
-        const placeData = placeEntity.toDomainData();
+        const placeData = placeEntity.placeData;
 
         expect(placeData).toEqual(baseAutoracePlaceData);
     });

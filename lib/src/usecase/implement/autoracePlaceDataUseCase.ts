@@ -41,13 +41,7 @@ export class AutoracePlaceDataUseCase
             );
         // placeEntityListをplaceDataListに変換する
         const placeDataList: AutoracePlaceData[] = response.placeDataList.map(
-            (placeEntity) => {
-                return new AutoracePlaceData(
-                    placeEntity.placeData.dateTime,
-                    placeEntity.placeData.location,
-                    placeEntity.placeData.grade,
-                );
-            },
+            (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
     }

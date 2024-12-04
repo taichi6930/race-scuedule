@@ -45,10 +45,4 @@ export class NarRaceEntity {
             partial.raceData ?? this.raceData,
         );
     }
-
-    /**
-     * ドメインデータに変換する
-     * @returns
-     */
-    toDomainData = (): NarRaceData => this.raceData;
 }

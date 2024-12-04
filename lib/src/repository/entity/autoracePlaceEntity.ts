@@ -39,10 +39,4 @@ export class AutoracePlaceEntity {
             partial.placeData ?? this.placeData,
         );
     }
-
-    /**
-     * データ型に変換する
-     * @returns
-     */
-    toDomainData = (): AutoracePlaceData => this.placeData;
 }
