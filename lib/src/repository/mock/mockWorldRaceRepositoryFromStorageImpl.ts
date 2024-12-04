@@ -7,7 +7,7 @@ import type { RegisterRaceListRequest } from '../request/registerRaceListRequest
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
-// WorldRaceRepositoryFromS3Implのモックを作成
+// WorldRaceRepositoryFromStorageImplのモックを作成
 export class MockWorldRaceRepositoryFromStorageImpl
     implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
 {
