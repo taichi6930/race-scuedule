@@ -130,7 +130,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
                             }),
                         );
                         mockRaceDataList.push(
-                            baseAutoraceCalendarEntity.toDomainData().copy({
+                            baseAutoraceCalendarEntity.raceData.copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -148,7 +148,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseAutoraceCalendarEntity.toDomainData().copy({
+                                baseAutoraceCalendarEntity.raceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,

@@ -142,7 +142,7 @@ describe('WorldRaceCalendarUseCase', () => {
                             }),
                         );
                         mockRaceDataList.push(
-                            baseWorldCalendarEntity.toDomainData().copy({
+                            baseWorldCalendarEntity.raceData.copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -160,7 +160,7 @@ describe('WorldRaceCalendarUseCase', () => {
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseWorldCalendarEntity.toDomainData().copy({
+                                baseWorldCalendarEntity.raceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,

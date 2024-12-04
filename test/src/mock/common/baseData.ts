@@ -123,7 +123,7 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
 });
 
 export const baseAutoraceRaceDataList = baseAutoraceRaceEntityList.map(
-    (raceEntity) => raceEntity.toDomainData(),
+    (raceEntity) => raceEntity.raceData,
 );
 
 export const baseAutoraceRacePlayerData = new AutoraceRacePlayerData(1, 10000);
@@ -273,7 +273,7 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
 });
 
 export const baseKeirinRaceDataList = baseKeirinRaceEntityList.map(
-    (raceEntity) => raceEntity.toDomainData(),
+    (raceEntity) => raceEntity.raceData,
 );
 
 export const baseKeirinRaceEntity = new KeirinRaceEntity(
@@ -345,8 +345,8 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
     });
 });
 
-export const baseWorldRaceDataList = baseWorldRaceEntityList.map((raceEntity) =>
-    raceEntity.toDomainData(),
+export const baseWorldRaceDataList = baseWorldRaceEntityList.map(
+    (raceEntity) => raceEntity.raceData,
 );
 
 export const baseWorldRaceData = new WorldRaceData(
@@ -430,8 +430,8 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
     },
 );
 
-export const baseNarRaceDataList = baseNarRaceEntityList.map((raceEntity) =>
-    raceEntity.toDomainData(),
+export const baseNarRaceDataList = baseNarRaceEntityList.map(
+    (raceEntity) => raceEntity.raceData,
 );
 
 export const baseNarRaceData = new NarRaceData(
@@ -563,11 +563,11 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
     },
 );
 
-export const baseJraRaceDataList = baseJraRaceEntityList.map((raceEntity) =>
-    raceEntity.toDomainData(),
+export const baseJraRaceDataList = baseJraRaceEntityList.map(
+    (raceEntity) => raceEntity.raceData,
 );
 
-export const baseJraRaceData = baseJraRaceEntity.toDomainData();
+export const baseJraRaceData = baseJraRaceEntity.raceData;
 
 export const baseJraCalendarData = new CalendarData(
     'test202412220611',
@@ -647,7 +647,7 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
 });
 
 export const baseBoatraceRaceDataList = baseBoatraceRaceEntityList.map(
-    (raceEntity) => raceEntity.toDomainData(),
+    (raceEntity) => raceEntity.raceData,
 );
 
 export const baseBoatracePlaceEntity = new BoatracePlaceEntity(

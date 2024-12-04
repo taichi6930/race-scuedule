@@ -41,7 +41,7 @@ export class AutoracePlaceDataUseCase
             );
         // placeEntityListをplaceDataListに変換する
         const placeDataList: AutoracePlaceData[] = response.placeDataList.map(
-            (placeEntity) => placeEntity.toDomainData(),
+            (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
     }

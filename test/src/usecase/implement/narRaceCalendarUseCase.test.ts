@@ -127,7 +127,7 @@ describe('NarRaceCalendarUseCase', () => {
                             }),
                         );
                         mockRaceDataList.push(
-                            baseNarCalendarEntity.toDomainData().copy({
+                            baseNarCalendarEntity.raceData.copy({
                                 name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                 dateTime: new Date(2024, month, day),
                                 grade: grade,
@@ -145,7 +145,7 @@ describe('NarRaceCalendarUseCase', () => {
                                 }),
                             );
                             expectedRaceDataList.push(
-                                baseNarCalendarEntity.toDomainData().copy({
+                                baseNarCalendarEntity.raceData.copy({
                                     name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
                                     dateTime: new Date(2024, month, day),
                                     grade: grade,

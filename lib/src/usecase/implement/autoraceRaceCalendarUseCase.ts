@@ -113,9 +113,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                 });
 
             const filteredRaceDataList: AutoraceRaceData[] =
-                filteredRaceEntityList.map((raceEntity) =>
-                    raceEntity.toDomainData(),
-                );
+                filteredRaceEntityList.map((raceEntity) => raceEntity.raceData);
             // レース情報をカレンダーに登録
             await this.calendarService.upsertEvents(filteredRaceDataList);
         } catch (error) {

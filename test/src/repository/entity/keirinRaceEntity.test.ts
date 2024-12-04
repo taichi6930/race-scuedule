@@ -18,7 +18,7 @@ describe('KeirinRaceEntityクラスのテスト', () => {
     });
 
     it('何も変更せずKeirinRaceDataのインスタンスを作成できることを確認', () => {
-        const raceData = baseKeirinRaceEntity.toDomainData();
+        const raceData = baseKeirinRaceEntity.raceData;
         // インスタンスが変更されていないか確認
         expect(raceData).toEqual(baseKeirinRaceData);
     });
