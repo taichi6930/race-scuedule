@@ -35,13 +35,14 @@ export class JraPlaceRepositoryFromStorageImpl
     async fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
+        // startDateからfinishDateまでのファイル名リストを生成する
         const fileNames: string[] = await this.generateFileNames(
             request.startDate,
             request.finishDate,
         );
 
         // 年ごとの競馬場開催データを取得
-        const placeRecords = (
+        const placeRecords: JraPlaceRecord[] = (
             await Promise.all(
                 fileNames.map((fileName) =>
                     this.fetchYearPlaceRecordList(fileName),
@@ -51,8 +52,8 @@ export class JraPlaceRepositoryFromStorageImpl
 
         // Entityに変換
         const placeEntityList: JraPlaceEntity[] = placeRecords.map(
-            (placeRecord) => {
-                return new JraPlaceEntity(
+            (placeRecord) =>
+                new JraPlaceEntity(
                     placeRecord.id,
                     new JraPlaceData(
                         placeRecord.dateTime,
@@ -60,8 +61,7 @@ export class JraPlaceRepositoryFromStorageImpl
                         placeRecord.heldTimes,
                         placeRecord.heldDayTimes,
                     ),
-                );
-            },
+                ),
         );
 
         // filterで日付の範囲を指定
