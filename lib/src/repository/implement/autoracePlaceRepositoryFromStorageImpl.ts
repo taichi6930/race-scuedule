@@ -175,7 +175,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
     async registerPlaceList(
         request: RegisterPlaceListRequest<AutoracePlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeEntityList: AutoracePlaceEntity[] = request.placeDataList;
+        const placeEntityList: AutoracePlaceEntity[] = request.placeEntityList;
         // 得られたplaceを月毎に分ける
         const placeRecordDict: Record<string, AutoracePlaceRecord[]> = {};
         placeEntityList.forEach((placeEntity) => {

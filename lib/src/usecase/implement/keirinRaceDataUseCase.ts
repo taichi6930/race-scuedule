@@ -169,7 +169,7 @@ export class KeirinRaceDataUseCase
                 fetchPlaceListRequest,
             );
         // KeirinPlaceEntityをKeirinPlaceDataに変換する
-        return fetchPlaceListResponse.placeDataList;
+        return fetchPlaceListResponse.placeEntityList;
     }
 
     /**
@@ -202,7 +202,7 @@ export class KeirinRaceDataUseCase
                 : await this.keirinRaceRepositoryFromHtml.fetchRaceList(
                       fetchRaceListRequest,
                   );
-        return fetchRaceListResponse.raceDataList;
+        return fetchRaceListResponse.raceEntityList;
     }
 
     /**

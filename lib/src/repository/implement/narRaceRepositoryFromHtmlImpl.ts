@@ -35,7 +35,7 @@ export class NarRaceRepositoryFromHtmlImpl
         request: FetchRaceListRequest<NarPlaceEntity>,
     ): Promise<FetchRaceListResponse<NarRaceEntity>> {
         const narRaceDataList: NarRaceEntity[] = [];
-        const placeList = request.placeDataList;
+        const placeList = request.placeEntityList;
         if (placeList) {
             for (const place of placeList) {
                 narRaceDataList.push(

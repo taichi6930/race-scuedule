@@ -18,7 +18,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
     fetchRaceList(
         request: FetchRaceListRequest<KeirinPlaceEntity>,
     ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
-        const placeEntityList = request.placeDataList;
+        const placeEntityList = request.placeEntityList;
         const raceEntityList: KeirinRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {

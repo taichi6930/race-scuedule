@@ -96,7 +96,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
             const response = await repository.fetchRaceList(request);
 
             // レスポンスの検証
-            expect(response.raceDataList).toHaveLength(32);
+            expect(response.raceEntityList).toHaveLength(32);
         });
     });
 

@@ -169,7 +169,7 @@ export class BoatraceRaceDataUseCase
                 fetchPlaceListRequest,
             );
         // BoatracePlaceEntityをBoatracePlaceDataに変換する
-        return fetchPlaceListResponse.placeDataList;
+        return fetchPlaceListResponse.placeEntityList;
     }
 
     /**
@@ -202,7 +202,7 @@ export class BoatraceRaceDataUseCase
                 : await this.boatraceRaceRepositoryFromHtml.fetchRaceList(
                       fetchRaceListRequest,
                   );
-        return fetchRaceListResponse.raceDataList;
+        return fetchRaceListResponse.raceEntityList;
     }
 
     /**

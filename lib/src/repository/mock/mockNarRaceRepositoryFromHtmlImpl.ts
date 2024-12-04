@@ -16,7 +16,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
     fetchRaceList(
         request: FetchRaceListRequest<NarPlaceEntity>,
     ): Promise<FetchRaceListResponse<NarRaceEntity>> {
-        const placeEntityList = request.placeDataList;
+        const placeEntityList = request.placeEntityList;
         const raceEntityList: NarRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {

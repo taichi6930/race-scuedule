@@ -6,6 +6,6 @@ import type { PlaceEntity } from '../entity/baseEntity';
 export class RegisterPlaceListRequest<P extends PlaceEntity> {
     constructor(
         // レースデータ
-        public readonly placeDataList: P[],
+        public readonly placeEntityList: P[],
     ) {}
 }

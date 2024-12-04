@@ -159,7 +159,7 @@ describe('NarRaceCalendarUseCase', () => {
 
             // モックが値を返すよう設定
             narRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
-                raceDataList: mockRaceEntityList,
+                raceEntityList: mockRaceEntityList,
             });
 
             const startDate = new Date('2024-01-01');
@@ -220,7 +220,7 @@ describe('NarRaceCalendarUseCase', () => {
             // fetchRaceListは正常に動作するように設定
             const mockRaceEntityList: NarRaceEntity[] = [baseNarCalendarEntity];
             narRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
-                raceDataList: mockRaceEntityList,
+                raceEntityList: mockRaceEntityList,
             });
 
             // updateEventsがエラーをスローするようにモック

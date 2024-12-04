@@ -7,6 +7,6 @@ export class FetchRaceListRequest<P extends PlaceEntity> {
     constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,
-        public readonly placeDataList?: P[],
+        public readonly placeEntityList?: P[],
     ) {}
 }

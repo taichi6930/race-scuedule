@@ -38,7 +38,7 @@ export class KeirinPlaceDataUseCase
         const response: FetchPlaceListResponse<KeirinPlaceEntity> =
             await this.keirinPlaceRepositoryFromStorage.fetchPlaceList(request);
         // placeEntityListをplaceDataListに変換する
-        const placeDataList: KeirinPlaceData[] = response.placeDataList.map(
+        const placeDataList: KeirinPlaceData[] = response.placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
@@ -77,7 +77,7 @@ export class KeirinPlaceDataUseCase
         // S3にデータを保存する
         const registerPlaceListRequest =
             new RegisterPlaceListRequest<KeirinPlaceEntity>(
-                fetchPlaceListResponse.placeDataList,
+                fetchPlaceListResponse.placeEntityList,
             );
         await this.keirinPlaceRepositoryFromStorage.registerPlaceList(
             registerPlaceListRequest,

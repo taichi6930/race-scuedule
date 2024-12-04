@@ -213,7 +213,7 @@ export class KeirinRaceRepositoryFromStorageImpl
     async registerRaceList(
         request: RegisterRaceListRequest<KeirinRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntityList: KeirinRaceEntity[] = request.raceDataList;
+        const raceEntityList: KeirinRaceEntity[] = request.raceEntityList;
         // レースデータを日付ごとに分割する
         const raceRecordDict: Record<string, KeirinRaceRecord[]> = {};
         raceEntityList.forEach((raceEntity) => {

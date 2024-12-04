@@ -35,7 +35,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
         );
         const response: FetchPlaceListResponse<NarPlaceEntity> =
             await this.narPlaceRepositoryFromStorage.fetchPlaceList(request);
-        const placeDataList: NarPlaceData[] = response.placeDataList.map(
+        const placeDataList: NarPlaceData[] = response.placeEntityList.map(
             (placeEntity) => {
                 return new NarPlaceData(
                     placeEntity.placeData.dateTime,
@@ -79,7 +79,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
         // S3にデータを保存する
         const registerPlaceListRequest =
             new RegisterPlaceListRequest<NarPlaceEntity>(
-                fetchPlaceListResponse.placeDataList,
+                fetchPlaceListResponse.placeEntityList,
             );
         await this.narPlaceRepositoryFromStorage.registerPlaceList(
             registerPlaceListRequest,

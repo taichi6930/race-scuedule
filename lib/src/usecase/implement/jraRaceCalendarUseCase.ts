@@ -65,7 +65,7 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
                 await this.JraRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const raceEntityList = fetchRaceDataListResponse.raceDataList;
+            const raceEntityList = fetchRaceDataListResponse.raceEntityList;
             const raceDataList = raceEntityList.map(
                 (raceEntity) => raceEntity.raceData,
             );

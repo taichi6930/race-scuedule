@@ -40,7 +40,7 @@ export class AutoracePlaceDataUseCase
                 request,
             );
         // placeEntityListをplaceDataListに変換する
-        const placeDataList: AutoracePlaceData[] = response.placeDataList.map(
+        const placeDataList: AutoracePlaceData[] = response.placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
@@ -79,7 +79,7 @@ export class AutoracePlaceDataUseCase
         // S3にデータを保存する
         const registerPlaceListRequest =
             new RegisterPlaceListRequest<AutoracePlaceEntity>(
-                fetchPlaceListResponse.placeDataList,
+                fetchPlaceListResponse.placeEntityList,
             );
         await this.autoracePlaceRepositoryFromStorage.registerPlaceList(
             registerPlaceListRequest,

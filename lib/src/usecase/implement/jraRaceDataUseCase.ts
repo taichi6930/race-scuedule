@@ -151,7 +151,7 @@ export class JraRaceDataUseCase
             await this.JraPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
-        return fetchPlaceListResponse.placeDataList;
+        return fetchPlaceListResponse.placeEntityList;
     }
 
     /**
@@ -181,7 +181,7 @@ export class JraRaceDataUseCase
                 : await this.jraRaceRepositoryFromHtml.fetchRaceList(
                       fetchRaceListRequest,
                   );
-        return fetchRaceListResponse.raceDataList;
+        return fetchRaceListResponse.raceEntityList;
     }
 
     /**

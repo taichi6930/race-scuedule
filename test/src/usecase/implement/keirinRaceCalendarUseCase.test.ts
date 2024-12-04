@@ -162,7 +162,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             // モックが値を返すよう設定
             keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 {
-                    raceDataList: mockRaceEntityList,
+                    raceEntityList: mockRaceEntityList,
                 },
             );
 
@@ -227,7 +227,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             ];
             keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 {
-                    raceDataList: mockRaceEntityList,
+                    raceEntityList: mockRaceEntityList,
                 },
             );
 

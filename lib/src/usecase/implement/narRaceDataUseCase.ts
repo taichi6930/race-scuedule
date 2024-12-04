@@ -150,7 +150,7 @@ export class NarRaceDataUseCase
             await this.narPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
-        return fetchPlaceListResponse.placeDataList;
+        return fetchPlaceListResponse.placeEntityList;
     }
 
     /**
@@ -182,7 +182,7 @@ export class NarRaceDataUseCase
                 : await this.narRaceRepositoryFromHtml.fetchRaceList(
                       fetchRaceListRequest,
                   );
-        return fetchRaceListResponse.raceDataList;
+        return fetchRaceListResponse.raceEntityList;
     }
 
     /**

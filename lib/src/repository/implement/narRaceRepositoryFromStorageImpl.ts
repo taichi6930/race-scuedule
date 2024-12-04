@@ -151,7 +151,7 @@ export class NarRaceRepositoryFromStorageImpl
     async registerRaceList(
         request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntity: NarRaceEntity[] = request.raceDataList;
+        const raceEntity: NarRaceEntity[] = request.raceEntityList;
         // レースデータを日付ごとに分割する
         const raceRecordDict: Record<string, NarRaceRecord[]> = {};
         raceEntity.forEach((race) => {

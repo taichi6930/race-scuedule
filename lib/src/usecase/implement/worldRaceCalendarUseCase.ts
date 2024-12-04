@@ -68,7 +68,7 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
                 await this.worldRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const raceEntityList = fetchRaceDataListResponse.raceDataList;
+            const raceEntityList = fetchRaceDataListResponse.raceEntityList;
             const raceDataList = raceEntityList.map(
                 (raceEntity) => raceEntity.raceData,
             );

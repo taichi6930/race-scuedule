@@ -3,18 +3,18 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { JraRaceData } from '../../domain/jraRaceData';
+import { NarRaceData } from '../../domain/narRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
+import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
 import {
-    JraGradeType,
-    JraRaceCourse,
-    JraRaceCourseType,
-} from '../../utility/data/jra';
+    NarGradeType,
+    NarRaceCourse,
+    NarRaceCourseType,
+} from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
-import { JraRaceId } from '../../utility/raceId';
-import { JraPlaceEntity } from '../entity/jraPlaceEntity';
-import { JraRaceEntity } from '../entity/jraRaceEntity';
+import { NarRaceId } from '../../utility/raceId';
+import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -22,12 +22,12 @@ import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
-export class JraRaceRepositoryFromStorageImpl
-    implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
+export class NarRaceRepositoryFromS3Impl
+    implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
     constructor(
-        @inject('JraRaceS3Gateway')
-        private s3Gateway: IS3Gateway<JraRaceRecord>,
+        @inject('NarRaceS3Gateway')
+        private s3Gateway: IS3Gateway<NarRaceRecord>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -36,8 +36,8 @@ export class JraRaceRepositoryFromStorageImpl
      */
     @Logger
     async fetchRaceList(
-        request: FetchRaceListRequest<JraPlaceEntity>,
-    ): Promise<FetchRaceListResponse<JraRaceEntity>> {
+        request: FetchRaceListRequest<NarPlaceEntity>,
+    ): Promise<FetchRaceListResponse<NarRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
         const fileNames: string[] = [];
         const currentDate = new Date(request.startDate);
@@ -70,11 +70,8 @@ export class JraRaceRepositoryFromStorageImpl
                         const distanceIndex = headers.indexOf('distance');
                         const gradeIndex = headers.indexOf('grade');
                         const raceNumIndex = headers.indexOf('number');
-                        const heldTimesIndex = headers.indexOf('heldTimes');
-                        const heldDayTimesIndex =
-                            headers.indexOf('heldDayTimes');
 
-                        // データ行を解析してJraRaceEntityのリストを生成
+                        // データ行を解析してNarRaceEntityのリストを生成
                         return (
                             lines
                                 .slice(1)
@@ -89,27 +86,25 @@ export class JraRaceRepositoryFromStorageImpl
                                         return undefined;
                                     }
 
-                                    return new JraRaceRecord(
-                                        columns[idIndex] as JraRaceId,
+                                    return new NarRaceRecord(
+                                        columns[idIndex] as NarRaceId,
                                         columns[raceNameIndex],
                                         new Date(columns[raceDateIndex]),
-                                        columns[placeIndex] as JraRaceCourse,
+                                        columns[placeIndex] as NarRaceCourse,
                                         columns[
                                             surfaceTypeIndex
-                                        ] as JraRaceCourseType,
+                                        ] as NarRaceCourseType,
                                         parseInt(columns[distanceIndex]),
-                                        columns[gradeIndex] as JraGradeType,
+                                        columns[gradeIndex] as NarGradeType,
                                         parseInt(columns[raceNumIndex]),
-                                        parseInt(columns[heldTimesIndex]),
-                                        parseInt(columns[heldDayTimesIndex]),
                                     );
                                 })
                                 .filter(
-                                    (raceData): raceData is JraRaceRecord =>
+                                    (raceData): raceData is NarRaceRecord =>
                                         raceData !== undefined,
                                 )
                                 // IDが重複している場合は1つにまとめる
-                                .reduce<JraRaceRecord[]>((acc, raceData) => {
+                                .reduce<NarRaceRecord[]>((acc, raceData) => {
                                     const index = acc.findIndex(
                                         (data) => data.id === raceData.id,
                                     );
@@ -131,9 +126,9 @@ export class JraRaceRepositoryFromStorageImpl
         ).flat();
 
         const raceEntityList = raceRecordList.map((raceRecord) => {
-            return new JraRaceEntity(
+            return new NarRaceEntity(
                 raceRecord.id,
-                new JraRaceData(
+                new NarRaceData(
                     raceRecord.name,
                     raceRecord.dateTime,
                     raceRecord.location,
@@ -141,13 +136,11 @@ export class JraRaceRepositoryFromStorageImpl
                     raceRecord.distance,
                     raceRecord.grade,
                     raceRecord.number,
-                    raceRecord.heldTimes,
-                    raceRecord.heldDayTimes,
                 ),
             );
         });
 
-        return new FetchRaceListResponse<JraRaceEntity>(raceEntityList);
+        return new FetchRaceListResponse<NarRaceEntity>(raceEntityList);
     }
 
     /**
@@ -156,13 +149,13 @@ export class JraRaceRepositoryFromStorageImpl
      */
     @Logger
     async registerRaceList(
-        request: RegisterRaceListRequest<JraRaceEntity>,
+        request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntity: JraRaceEntity[] = request.raceEntityList;
+        const raceEntity: NarRaceEntity[] = request.raceEntityList;
         // レースデータを日付ごとに分割する
-        const raceRecordDict: Record<string, JraRaceRecord[]> = {};
+        const raceRecordDict: Record<string, NarRaceRecord[]> = {};
         raceEntity.forEach((race) => {
-            const raceRecord = new JraRaceRecord(
+            const raceRecord = new NarRaceRecord(
                 race.id,
                 race.raceData.name,
                 race.raceData.dateTime,
@@ -171,8 +164,6 @@ export class JraRaceRepositoryFromStorageImpl
                 race.raceData.distance,
                 race.raceData.grade,
                 race.raceData.number,
-                race.raceData.heldTimes,
-                race.raceData.heldDayTimes,
             );
             const key = `${format(race.raceData.dateTime, 'yyyyMMdd')}.csv`;
             // 日付ごとに分割されたレースデータを格納

@@ -175,7 +175,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
     async registerPlaceList(
         request: RegisterPlaceListRequest<BoatracePlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeEntityList: BoatracePlaceEntity[] = request.placeDataList;
+        const placeEntityList: BoatracePlaceEntity[] = request.placeEntityList;
         // 得られたplaceを月毎に分ける
         const placeRecordDict: Record<string, BoatracePlaceRecord[]> = {};
         placeEntityList.forEach((placeEntity) => {

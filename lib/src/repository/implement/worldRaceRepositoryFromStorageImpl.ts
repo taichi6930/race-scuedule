@@ -135,7 +135,7 @@ export class WorldRaceRepositoryFromStorageImpl
     async registerRaceList(
         request: RegisterRaceListRequest<WorldRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntity: WorldRaceEntity[] = request.raceDataList;
+        const raceEntity: WorldRaceEntity[] = request.raceEntityList;
         // レースデータを日付ごとに分割する
         const raceRecordDict: Record<string, WorldRaceRecord[]> = {};
         raceEntity.forEach((race) => {

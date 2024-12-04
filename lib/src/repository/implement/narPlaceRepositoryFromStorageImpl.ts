@@ -163,7 +163,7 @@ export class NarPlaceRepositoryFromStorageImpl
     async registerPlaceList(
         request: RegisterPlaceListRequest<NarPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeEntity: NarPlaceEntity[] = request.placeDataList;
+        const placeEntity: NarPlaceEntity[] = request.placeEntityList;
         // 得られたplaceを年毎に分ける
         const placeRecordDict: Record<string, NarPlaceRecord[]> = {};
         placeEntity.forEach((place) => {

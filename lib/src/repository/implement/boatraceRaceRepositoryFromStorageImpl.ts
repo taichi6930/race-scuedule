@@ -215,7 +215,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
     async registerRaceList(
         request: RegisterRaceListRequest<BoatraceRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntityList: BoatraceRaceEntity[] = request.raceDataList;
+        const raceEntityList: BoatraceRaceEntity[] = request.raceEntityList;
         // レースデータを日付ごとに分割する
         const raceRecordDict: Record<string, BoatraceRaceRecord[]> = {};
         raceEntityList.forEach((raceEntity) => {

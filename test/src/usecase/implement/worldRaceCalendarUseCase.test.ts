@@ -173,7 +173,7 @@ describe('WorldRaceCalendarUseCase', () => {
 
             // モックが値を返すよう設定
             worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
-                raceDataList: mockRaceEntityList,
+                raceEntityList: mockRaceEntityList,
             });
 
             const startDate = new Date('2025-12-01');
@@ -236,7 +236,7 @@ describe('WorldRaceCalendarUseCase', () => {
                 baseWorldCalendarEntity,
             ];
             worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
-                raceDataList: mockRaceEntityList,
+                raceEntityList: mockRaceEntityList,
             });
 
             // updateEventsがエラーをスローするようにモック

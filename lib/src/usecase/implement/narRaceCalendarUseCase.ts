@@ -65,7 +65,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
                 await this.narRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const raceEntityList = fetchRaceDataListResponse.raceDataList;
+            const raceEntityList = fetchRaceDataListResponse.raceEntityList;
             const raceDataList = raceEntityList.map(
                 (raceEntity) => raceEntity.raceData,
             );

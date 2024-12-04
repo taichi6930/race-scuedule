@@ -37,7 +37,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         new Date('2024-12-31'),
                     ),
                 );
-                expect(response.placeDataList).toHaveLength(288);
+                expect(response.placeEntityList).toHaveLength(288);
             });
         });
 
