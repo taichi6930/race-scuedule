@@ -16,7 +16,7 @@ import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
-export class JraPlaceRepositoryFromS3Impl
+export class JraPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<JraPlaceEntity>
 {
     constructor(

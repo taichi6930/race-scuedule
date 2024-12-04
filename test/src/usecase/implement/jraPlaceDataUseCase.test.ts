@@ -12,10 +12,10 @@ import {
     baseJraPlaceEntity,
 } from '../../mock/common/baseData';
 import { mockJraPlaceRepositoryFromHtmlImpl } from '../../mock/repository/jraPlaceRepositoryFromHtmlImpl';
-import { mockJraPlaceRepositoryFromS3Impl } from '../../mock/repository/jraPlaceRepositoryFromS3Impl';
+import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/JraPlaceRepositoryFromStorageImpl';
 
 describe('JraPlaceDataUseCase', () => {
-    let jraPlaceRepositoryFromS3Impl: jest.Mocked<
+    let JraPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<JraPlaceEntity>
     >;
     let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -24,12 +24,13 @@ describe('JraPlaceDataUseCase', () => {
     let useCase: JraPlaceDataUseCase;
 
     beforeEach(() => {
-        // jraPlaceRepositoryFromS3Implをコンテナに登録
-        jraPlaceRepositoryFromS3Impl = mockJraPlaceRepositoryFromS3Impl();
+        // JraPlaceRepositoryFromStorageImplをコンテナに登録
+        JraPlaceRepositoryFromStorageImpl =
+            mockJraPlaceRepositoryFromStorageImpl();
         container.register<IPlaceRepository<JraPlaceEntity>>(
-            'JraPlaceRepositoryFromS3',
+            'JraPlaceRepositoryFromStorage',
             {
-                useValue: jraPlaceRepositoryFromS3Impl,
+                useValue: JraPlaceRepositoryFromStorageImpl,
             },
         );
 
@@ -51,7 +52,7 @@ describe('JraPlaceDataUseCase', () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
-            jraPlaceRepositoryFromS3Impl.fetchPlaceList.mockResolvedValue(
+            JraPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
                 new FetchPlaceListResponse<JraPlaceEntity>(mockPlaceEntity),
             );
 
@@ -75,7 +76,7 @@ describe('JraPlaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            jraPlaceRepositoryFromS3Impl.fetchPlaceList.mockResolvedValue(
+            JraPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
                 new FetchPlaceListResponse<JraPlaceEntity>(mockPlaceEntity),
             );
 
@@ -85,7 +86,7 @@ describe('JraPlaceDataUseCase', () => {
                 jraPlaceRepositoryFromHtmlImpl.fetchPlaceList,
             ).toHaveBeenCalled();
             expect(
-                jraPlaceRepositoryFromS3Impl.registerPlaceList,
+                JraPlaceRepositoryFromStorageImpl.registerPlaceList,
             ).toHaveBeenCalled();
         });
     });

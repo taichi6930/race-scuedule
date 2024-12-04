@@ -23,8 +23,8 @@ export class JraRaceDataUseCase
         IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
 {
     constructor(
-        @inject('JraPlaceRepositoryFromS3')
-        private readonly jraPlaceRepositoryFromS3: IPlaceRepository<JraPlaceEntity>,
+        @inject('JraPlaceRepositoryFromStorage')
+        private readonly JraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
         @inject('JraRaceRepositoryFromS3')
         private readonly jraRaceRepositoryFromS3: IRaceRepository<
             JraRaceEntity,
@@ -148,7 +148,7 @@ export class JraRaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.jraPlaceRepositoryFromS3.fetchPlaceList(
+            await this.JraPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
         return fetchPlaceListResponse.placeDataList;

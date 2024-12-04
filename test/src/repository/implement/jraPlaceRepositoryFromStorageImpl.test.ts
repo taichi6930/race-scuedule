@@ -7,14 +7,14 @@ import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
-import { JraPlaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromS3Impl';
+import { JraPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { mockS3GatewayForJraPlace } from '../../mock/gateway/s3GatewayMock';
 
-describe('JraPlaceRepositoryFromS3Impl', () => {
+describe('JraPlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<JraPlaceRecord>>;
-    let repository: JraPlaceRepositoryFromS3Impl;
+    let repository: JraPlaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
@@ -24,7 +24,7 @@ describe('JraPlaceRepositoryFromS3Impl', () => {
         container.registerInstance('JraPlaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
-        repository = container.resolve(JraPlaceRepositoryFromS3Impl);
+        repository = container.resolve(JraPlaceRepositoryFromStorageImpl);
     });
 
     describe('fetchPlaceList', () => {
