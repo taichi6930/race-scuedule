@@ -16,6 +16,7 @@ export class NarPlaceEntity {
      *
      * @remarks
      * 地方競馬のレース開催場所データを生成する
+     * @param id - ID
      * @param placeData - レース開催場所データ
      */
     constructor(

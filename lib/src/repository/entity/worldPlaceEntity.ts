@@ -16,6 +16,7 @@ export class WorldPlaceEntity {
      *
      * @remarks
      * 海外競馬のレース開催場所データを生成する
+     * @param id - ID
      * @param placeData - レース開催場所データ
      */
     constructor(
