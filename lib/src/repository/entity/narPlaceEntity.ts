@@ -37,10 +37,4 @@ export class NarPlaceEntity {
             partial.placeData ?? this.placeData,
         );
     }
-
-    /**
-     * データ型に変換する
-     * @returns
-     */
-    toDomainData = (): NarPlaceData => this.placeData;
 }

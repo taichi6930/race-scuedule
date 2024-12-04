@@ -45,10 +45,4 @@ export class WorldRaceEntity {
             partial.raceData ?? this.raceData,
         );
     }
-
-    /**
-     * ドメインデータに変換する
-     * @returns
-     */
-    toDomainData = (): WorldRaceData => this.raceData;
 }

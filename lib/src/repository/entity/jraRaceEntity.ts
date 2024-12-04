@@ -45,10 +45,4 @@ export class JraRaceEntity {
             partial.raceData ?? this.raceData,
         );
     }
-
-    /**
-     * ドメインデータに変換する
-     * @returns
-     */
-    toDomainData = (): JraRaceData => this.raceData;
 }

@@ -38,10 +38,4 @@ export class KeirinPlaceEntity {
             partial.placeData ?? this.placeData,
         );
     }
-
-    /**
-     * データ型に変換する
-     * @returns
-     */
-    toDomainData = (): KeirinPlaceData => this.placeData;
 }
