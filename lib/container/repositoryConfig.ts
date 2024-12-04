@@ -31,7 +31,7 @@ import { KeirinRaceRepositoryFromStorageImpl } from '../src/repository/implement
 import { NarPlaceRepositoryFromHtmlImpl } from '../src/repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { NarPlaceRepositoryFromStorageImpl } from '../src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import { NarRaceRepositoryFromHtmlImpl } from '../src/repository/implement/narRaceRepositoryFromHtmlImpl';
-import { NarRaceRepositoryFromS3Impl } from '../src/repository/implement/narRaceRepositoryFromS3Impl';
+import { NarRaceRepositoryFromStorageImpl } from '../src/repository/implement/narRaceRepositoryFromStorageImpl';
 import { WorldRaceRepositoryFromHtmlImpl } from '../src/repository/implement/worldRaceRepositoryFromHtmlImpl';
 import { WorldRaceRepositoryFromStorageImpl } from '../src/repository/implement/worldRaceRepositoryFromStorageImpl';
 import type { IPlaceRepository } from '../src/repository/interface/IPlaceRepository';
@@ -52,8 +52,8 @@ import { ENV } from '../src/utility/env';
 
 // Narリポジトリの登録
 container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
-    'NarRaceRepositoryFromS3',
-    { useClass: NarRaceRepositoryFromS3Impl },
+    'NarRaceRepositoryFromStorage',
+    { useClass: NarRaceRepositoryFromStorageImpl },
 );
 container.register<IPlaceRepository<NarPlaceEntity>>(
     'NarPlaceRepositoryFromStorage',
