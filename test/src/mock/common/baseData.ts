@@ -5,8 +5,6 @@ import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData'
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../../../lib/src/domain/boatraceRacePlayerData';
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
-import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
-import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
@@ -20,8 +18,6 @@ import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceR
 import { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { BoatraceRacePlayerRecord } from '../../../../lib/src/gateway/record/boatraceRacePlayerRecord';
 import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
-import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
-import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
@@ -32,8 +28,6 @@ import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autor
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
-import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
-import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
@@ -50,10 +44,6 @@ import type {
     BoatraceRaceCourse,
     BoatraceRaceStage,
 } from '../../../../lib/src/utility/data/boatrace';
-import type {
-    JraGradeType,
-    JraRaceCourse,
-} from '../../../../lib/src/utility/data/jra';
 import type {
     KeirinGradeType,
     KeirinRaceCourse,
@@ -478,118 +468,11 @@ export const baseNarCalendarDataFromGoogleCalendar = {
     description: 'テスト',
 };
 
-export const baseJraPlaceRecord = new JraPlaceRecord(
-    `jra2024122205`,
-    new Date('2024-12-22'),
-    '中山',
-    1,
-    1,
-);
-
-export const baseJraRaceRecord = new JraRaceRecord(
-    'jra202412220511',
-    '有馬記念',
-    new Date('2024-12-22 15:40'),
-    '中山',
-    '芝',
-    2500,
-    'GⅠ',
-    11,
-    1,
-    1,
-);
-
-export const baseJraPlaceData = new JraPlaceData(
-    new Date('2024-12-22'),
-    '中山',
-    1,
-    1,
-);
-
 export const baseNarPlaceRecord = new NarPlaceRecord(
     generateNarPlaceId(new Date('2024-12-31'), '大井'),
     new Date('2024-12-31'),
     '大井',
 );
-
-export const baseJraPlaceEntity = new JraPlaceEntity(null, baseJraPlaceData);
-
-export const baseJraRaceEntity = new JraRaceEntity(
-    null,
-    new JraRaceData(
-        '有馬記念',
-        new Date('2024-12-22 15:40'),
-        '中山',
-        '芝',
-        2500,
-        'GⅠ',
-        11,
-        1,
-        1,
-    ),
-);
-
-export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatMap(
-    (location) => {
-        return [
-            '新馬',
-            '未勝利',
-            '未勝利',
-            '1勝クラス',
-            '2勝クラス',
-            '3勝クラス',
-            'オープン特別',
-            'Listed',
-            'GⅢ',
-            'GⅡ',
-            'GⅠ',
-            '2勝クラス',
-        ].map((grade, index) => {
-            return new JraRaceEntity(
-                null,
-                new JraRaceData(
-                    `テスト${location}${grade}${(index + 1).toString()}レース`,
-                    new Date(2024, 6 - 1, 1, 7 + index, 0),
-                    location as JraRaceCourse,
-                    '芝',
-                    1600,
-                    grade as JraGradeType,
-                    index + 1,
-                    1,
-                    1,
-                ),
-            );
-        });
-    },
-);
-
-export const baseJraRaceDataList = baseJraRaceEntityList.map(
-    (raceEntity) => raceEntity.raceData,
-);
-
-export const baseJraRaceData = baseJraRaceEntity.raceData;
-
-export const baseJraCalendarData = new CalendarData(
-    'test202412220611',
-    '有馬記念',
-    new Date('2024-12-22T15:40:00Z'),
-    new Date('2024-12-22T15:50:00Z'),
-    '中山競馬場',
-    'テスト',
-);
-
-export const baseJraCalendarDataFromGoogleCalendar = {
-    id: 'test202412220611',
-    summary: '有馬記念',
-    start: {
-        dateTime: '2024-12-22T15:40:00Z',
-    },
-    end: {
-        dateTime: '2024-12-22T15:50:00Z',
-    },
-    location: '中山競馬場',
-    description: 'テスト',
-};
 
 export const baseBoatracePlaceRecord = new BoatracePlaceRecord(
     `boatrace2024123104`,

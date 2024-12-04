@@ -1,7 +1,7 @@
 import {
     baseJraPlaceData,
     baseJraPlaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseJraData';
 
 describe('JraPlaceEntityクラスのテスト', () => {
     it('正しい入力でJraPlaceEntityのインスタンスを作成できることを確認', () => {

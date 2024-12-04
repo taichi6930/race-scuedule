@@ -1,4 +1,7 @@
-import { baseJraRaceData, baseJraRaceEntity } from '../../mock/common/baseData';
+import {
+    baseJraRaceData,
+    baseJraRaceEntity,
+} from '../../mock/common/baseJraData';
 
 describe('JraRaceEntityクラスのテスト', () => {
     /**

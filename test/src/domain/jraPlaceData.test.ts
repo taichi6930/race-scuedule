@@ -1,4 +1,4 @@
-import { baseJraPlaceData } from '../mock/common/baseData';
+import { baseJraPlaceData } from '../mock/common/baseJraData';
 
 describe('JraPlaceDataクラスのテスト', () => {
     it('正しい入力でJraPlaceDataのインスタンスを作成できることを確認', () => {

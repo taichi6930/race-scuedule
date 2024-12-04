@@ -10,7 +10,7 @@ import { JraPlaceDataUseCase } from '../../../../lib/src/usecase/implement/jraPl
 import {
     baseJraPlaceData,
     baseJraPlaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseJraData';
 import { mockJraPlaceRepositoryFromHtmlImpl } from '../../mock/repository/jraPlaceRepositoryFromHtmlImpl';
 import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/jraPlaceRepositoryFromStorageImpl';
 

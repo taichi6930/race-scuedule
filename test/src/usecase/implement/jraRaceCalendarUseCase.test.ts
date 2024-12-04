@@ -11,7 +11,10 @@ import type { ICalendarService } from '../../../../lib/src/service/interface/ICa
 import { JraRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/jraRaceCalendarUseCase';
 import type { JraGradeType } from '../../../../lib/src/utility/data/jra';
 import { JRA_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/jra';
-import { baseJraRaceData, baseJraRaceEntity } from '../../mock/common/baseData';
+import {
+    baseJraRaceData,
+    baseJraRaceEntity,
+} from '../../mock/common/baseJraData';
 import { mockJraRaceRepositoryFromStorageImpl } from '../../mock/repository/jraRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
