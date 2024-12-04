@@ -83,21 +83,12 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                     const maxPlayerPriority =
                         raceEntity.racePlayerDataList.reduce(
                             (maxPriority, playerData) => {
-                                const playerPriority = KeirinPlayerList.reduce(
-                                    (priority, keirinPlayer) => {
-                                        if (
+                                const playerPriority =
+                                    KeirinPlayerList.find(
+                                        (keirinPlayer) =>
                                             playerData.playerNumber ===
-                                            Number(keirinPlayer.playerNumber)
-                                        ) {
-                                            return Math.max(
-                                                priority,
-                                                keirinPlayer.priority,
-                                            );
-                                        }
-                                        return priority;
-                                    },
-                                    0,
-                                );
+                                            Number(keirinPlayer.playerNumber),
+                                    )?.priority ?? 0;
                                 return Math.max(maxPriority, playerPriority);
                             },
                             0,

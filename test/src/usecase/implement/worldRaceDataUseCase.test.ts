@@ -187,7 +187,7 @@ describe('WorldRaceDataUseCase', () => {
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             const mockRaceData: WorldRaceData[] = baseWorldRaceDataList;
             // モックの戻り値を設定（エラーが発生するように設定）
-            worldRaceRepositoryFromHtmlImpl.registerRaceList.mockRejectedValue(
+            worldRaceRepositoryFromStorageImpl.registerRaceList.mockRejectedValue(
                 new Error('レースデータの登録に失敗しました'),
             );
 

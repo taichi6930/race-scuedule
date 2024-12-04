@@ -73,3 +73,14 @@ export const AUTORACE_STAGE_MAP: Record<string, AutoraceRaceStage> = {
     特別一般戦Ａ: '特別一般戦',
     特別一般戦Ｂ: '特別一般戦',
 };
+
+/**
+ * オートレースの選手リスト
+ */
+export const AutoracePlayerList = [
+    {
+        playerNumber: 5954,
+        name: '青山周平',
+        priority: 6,
+    },
+];

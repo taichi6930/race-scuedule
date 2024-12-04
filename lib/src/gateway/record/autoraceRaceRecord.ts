@@ -1,11 +1,15 @@
 import '../../utility/format';
 
+import type { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
     AutoraceRaceStage,
 } from '../../utility/data/autorace';
-import type { AutoraceRaceId } from '../../utility/raceId';
+import {
+    type AutoraceRaceId,
+    generateAutoraceRaceId,
+} from '../../utility/raceId';
 
 /**
  * オートレースのレース開催データ
@@ -49,6 +53,27 @@ export class AutoraceRaceRecord {
             partial.location ?? this.location,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
+        );
+    }
+
+    /**
+     * DomainDataからRecordへの変換
+     * @param domainData
+     * @returns
+     */
+    static fromDomainData(domainData: AutoraceRaceData): AutoraceRaceRecord {
+        return new AutoraceRaceRecord(
+            generateAutoraceRaceId(
+                domainData.dateTime,
+                domainData.location,
+                domainData.number,
+            ),
+            domainData.name,
+            domainData.stage,
+            domainData.dateTime,
+            domainData.location,
+            domainData.grade,
+            domainData.number,
         );
     }
 }

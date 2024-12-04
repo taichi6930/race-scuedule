@@ -9,7 +9,10 @@ import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/autorace';
+import {
+    AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST,
+    AutoracePlayerList,
+} from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -70,30 +73,49 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                     fetchRaceDataListRequest,
                 );
             const raceEntityList = fetchRaceDataListResponse.raceDataList;
-            const raceDataList = raceEntityList.map((raceEntity) => {
-                return new AutoraceRaceData(
-                    raceEntity.raceData.name,
-                    raceEntity.raceData.stage,
-                    raceEntity.raceData.dateTime,
-                    raceEntity.raceData.location,
-                    raceEntity.raceData.grade,
-                    raceEntity.raceData.number,
-                );
-            });
-            const filteredRaceDataList: AutoraceRaceData[] =
-                raceDataList.filter((raceData) => {
-                    return AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST.some(
-                        (raceGradeList) => {
-                            return (
-                                displayGradeList.includes(raceData.grade) &&
-                                raceGradeList.grade === raceData.grade &&
-                                raceGradeList.stage === raceData.stage &&
-                                raceGradeList.priority >= 6
-                            );
-                        },
-                    );
+            /**
+             * 表示対象のレースデータのみに絞り込む
+             * - 6以上の優先度を持つレースデータを表示対象とする
+             * - raceEntityList.racePlayerDataListの中に選手データ（AutoracePlayerDict）が存在するかを確認する
+             */
+            const filteredRaceEntityList: AutoraceRaceEntity[] =
+                raceEntityList.filter((raceEntity) => {
+                    const maxPlayerPriority =
+                        raceEntity.racePlayerDataList.reduce(
+                            (maxPriority, playerData) => {
+                                const playerPriority =
+                                    AutoracePlayerList.find(
+                                        (autoracePlayer) =>
+                                            playerData.playerNumber ===
+                                            Number(autoracePlayer.playerNumber),
+                                    )?.priority ?? 0;
+                                return Math.max(maxPriority, playerPriority);
+                            },
+                            0,
+                        );
+
+                    const racePriority: number =
+                        AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST.find(
+                            (raceGradeList) => {
+                                return (
+                                    displayGradeList.includes(
+                                        raceEntity.raceData.grade,
+                                    ) &&
+                                    raceGradeList.grade ===
+                                        raceEntity.raceData.grade &&
+                                    raceGradeList.stage ===
+                                        raceEntity.raceData.stage
+                                );
+                            },
+                        )?.priority ?? 0;
+
+                    return racePriority + maxPlayerPriority >= 6;
                 });
 
+            const filteredRaceDataList: AutoraceRaceData[] =
+                filteredRaceEntityList.map((raceEntity) => {
+                    return raceEntity.raceData;
+                });
             // レース情報をカレンダーに登録
             await this.calendarService.upsertEvents(filteredRaceDataList);
         } catch (error) {

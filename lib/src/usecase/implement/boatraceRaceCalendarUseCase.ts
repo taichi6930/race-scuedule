@@ -80,29 +80,18 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
              */
             const filteredRaceEntityList: BoatraceRaceEntity[] =
                 raceEntityList.filter((raceEntity) => {
-                    const maxPlayerPriority =
-                        raceEntity.racePlayerDataList.reduce(
-                            (maxPriority, playerData) => {
-                                const playerPriority =
-                                    BoatracePlayerList.reduce(
-                                        (priority, boatracePlayer) => {
-                                            if (
-                                                playerData.playerNumber ===
-                                                Number(
-                                                    boatracePlayer.playerNumber,
-                                                )
-                                            ) {
-                                                return Math.max(
-                                                    priority,
-                                                    boatracePlayer.priority,
-                                                );
-                                            }
-                                            return priority;
-                                        },
-                                        0,
-                                    );
-                                return Math.max(maxPriority, playerPriority);
-                            },
+                    const maxPlayerPriority = raceEntity.racePlayerDataList
+                        .map((playerData) => {
+                            const player = BoatracePlayerList.find(
+                                (boatracePlayer) =>
+                                    playerData.playerNumber ===
+                                    Number(boatracePlayer.playerNumber),
+                            );
+                            return player ? player.priority : 0;
+                        })
+                        .reduce(
+                            (maxPriority, playerPriority) =>
+                                Math.max(maxPriority, playerPriority),
                             0,
                         );
 

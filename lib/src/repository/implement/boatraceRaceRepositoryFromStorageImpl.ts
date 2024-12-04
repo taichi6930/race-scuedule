@@ -16,6 +16,7 @@ import {
 import { Logger } from '../../utility/logger';
 import {
     BoatraceRaceId,
+    BoatraceRacePlayerId,
     generateBoatraceRacePlayerId,
 } from '../../utility/raceId';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
@@ -54,7 +55,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
             request.finishDate,
         );
 
-        // ファイル名リストからボートレースレース選手データを取得する
+        // ファイル名リストからボートレース選手データを取得する
         const racePlayerRecordList: BoatraceRacePlayerRecord[] = (
             await Promise.all(
                 fileNames.map(async (fileName) => {
@@ -97,7 +98,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                             }
 
                             return new BoatraceRacePlayerRecord(
-                                columns[idIndex],
+                                columns[idIndex] as BoatraceRacePlayerId,
                                 columns[raceIdIndex] as BoatraceRaceId,
                                 parseInt(columns[positionNumberIndex]),
                                 parseInt(columns[playerNumberIndex]),
@@ -113,7 +114,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
             )
         ).flat();
 
-        // ファイル名リストからボートレースレースデータを取得する
+        // ファイル名リストからボートレースデータを取得する
         const raceDataList = (
             await Promise.all(
                 fileNames.map(async (fileName) => {

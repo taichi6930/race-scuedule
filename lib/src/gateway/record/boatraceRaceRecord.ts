@@ -1,11 +1,15 @@
 import '../../utility/format';
 
+import type { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import type {
     BoatraceGradeType,
     BoatraceRaceCourse,
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
-import type { BoatraceRaceId } from '../../utility/raceId';
+import {
+    type BoatraceRaceId,
+    generateBoatraceRaceId,
+} from '../../utility/raceId';
 
 /**
  * ボートレースのレース開催データ
@@ -49,6 +53,27 @@ export class BoatraceRaceRecord {
             partial.location ?? this.location,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
+        );
+    }
+
+    /**
+     * DomainDataからRecordへの変換
+     * @param domainData
+     * @returns
+     */
+    static fromDomainData(domainData: BoatraceRaceData): BoatraceRaceRecord {
+        return new BoatraceRaceRecord(
+            generateBoatraceRaceId(
+                domainData.dateTime,
+                domainData.location,
+                domainData.number,
+            ),
+            domainData.name,
+            domainData.stage,
+            domainData.dateTime,
+            domainData.location,
+            domainData.grade,
+            domainData.number,
         );
     }
 }
