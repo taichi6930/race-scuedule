@@ -21,7 +21,15 @@
         "lint:fix": "eslint --fix '**/*.{ts,tsx}' && prettier --write .",
         "lint:check": "eslint --quiet '**/*.{ts,tsx}'",
         "prepare": "husky install",
-        "type-check": "tsc --noEmit"
+        "type-check": "tsc --noEmit",
+        "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check"
+    },
+    "lint-staged": {
+        "*.{ts,tsx}": [
+            "tsc --noEmit",
+            "eslint --fix",
+            "prettier --write"
+        ]
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.654.0",
@@ -67,7 +75,7 @@
         "eslint": "^9.10.0",
         "eslint-plugin-unused-imports": "^4.1.4",
         "globals": "^15.9.0",
-        "husky": "^8.0.0",
+        "husky": "^8.0.3",
         "jest": "^29.7.0",
         "lint-staged": "^15.2.10",
         "nodemon": "^3.1.7",
