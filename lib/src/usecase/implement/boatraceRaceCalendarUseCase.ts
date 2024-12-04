@@ -114,9 +114,9 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                 });
 
             const filteredRaceDataList: BoatraceRaceData[] =
-                filteredRaceEntityList.map((raceEntity) => {
-                    return raceEntity.raceData;
-                });
+                filteredRaceEntityList.map((raceEntity) =>
+                    raceEntity.toDomainData(),
+                );
             // レース情報をカレンダーに登録
             await this.calendarService.upsertEvents(filteredRaceDataList);
         } catch (error) {

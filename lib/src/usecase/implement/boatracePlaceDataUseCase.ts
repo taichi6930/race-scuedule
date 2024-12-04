@@ -41,9 +41,7 @@ export class BoatracePlaceDataUseCase
             );
         // placeEntityListをplaceDataListに変換する
         const placeDataList: BoatracePlaceData[] = response.placeDataList.map(
-            (placeEntity) => {
-                return placeEntity.placeData;
-            },
+            (placeEntity) => placeEntity.toDomainData(),
         );
         return placeDataList;
     }
