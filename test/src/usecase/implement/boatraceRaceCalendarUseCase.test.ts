@@ -3,7 +3,7 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
-import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
@@ -12,6 +12,7 @@ import { BoatraceRaceCalendarUseCase } from '../../../../lib/src/usecase/impleme
 import type { BoatraceGradeType } from '../../../../lib/src/utility/data/boatrace';
 import { BOATRACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/boatrace';
 import {
+    baseBoatraceCalendarData,
     baseBoatraceRaceData,
     baseBoatraceRaceEntity,
 } from '../../mock/common/baseBoatraceData';
@@ -48,18 +49,9 @@ describe('BoatraceRaceCalendarUseCase', () => {
         useCase = container.resolve(BoatraceRaceCalendarUseCase);
     });
 
-    const baseCalendarData = new CalendarData(
-        'test202512303511',
-        'BOATRACEグランプリ2025',
-        new Date('2025-12-30T10:00:00Z'),
-        new Date('2025-12-30T10:10:00Z'),
-        '平塚ボートレース場',
-        'テスト',
-    );
-
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
-            const mockCalendarData: CalendarData[] = [baseCalendarData];
+            const mockCalendarData: CalendarData[] = [baseBoatraceCalendarData];
 
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);

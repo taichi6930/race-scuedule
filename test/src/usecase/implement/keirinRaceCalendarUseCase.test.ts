@@ -2,7 +2,7 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
@@ -12,6 +12,7 @@ import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement
 import type { KeirinGradeType } from '../../../../lib/src/utility/data/keirin';
 import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/keirin';
 import {
+    baseKeirinCalendarData,
     baseKeirinRaceData,
     baseKeirinRaceEntity,
 } from '../../mock/common/baseKeirinData';
@@ -48,18 +49,9 @@ describe('KeirinRaceCalendarUseCase', () => {
         useCase = container.resolve(KeirinRaceCalendarUseCase);
     });
 
-    const baseCalendarData = new CalendarData(
-        'test202512303511',
-        'KEIRINグランプリ2025',
-        new Date('2025-12-30T10:00:00Z'),
-        new Date('2025-12-30T10:10:00Z'),
-        '平塚競輪場',
-        'テスト',
-    );
-
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
-            const mockCalendarData: CalendarData[] = [baseCalendarData];
+            const mockCalendarData: CalendarData[] = [baseKeirinCalendarData];
 
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);

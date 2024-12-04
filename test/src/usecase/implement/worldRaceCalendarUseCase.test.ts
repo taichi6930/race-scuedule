@@ -2,7 +2,7 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
@@ -12,6 +12,7 @@ import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/
 import type { WorldGradeType } from '../../../../lib/src/utility/data/world';
 import { WORLD_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/world';
 import {
+    baseWorldCalendarData,
     baseWorldRaceData,
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
@@ -49,18 +50,9 @@ describe('WorldRaceCalendarUseCase', () => {
         useCase = container.resolve(WorldRaceCalendarUseCase);
     });
 
-    const baseCalendarData = new CalendarData(
-        'test20241002',
-        '凱旋門賞',
-        new Date('2024-10-02T16:30:00Z'),
-        new Date('2024-10-02T16:40:00Z'),
-        'パリロンシャン競馬場',
-        'テスト',
-    );
-
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
-            const mockCalendarData: CalendarData[] = [baseCalendarData];
+            const mockCalendarData: CalendarData[] = [baseWorldCalendarData];
 
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);

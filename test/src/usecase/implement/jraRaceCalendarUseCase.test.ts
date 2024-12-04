@@ -2,7 +2,7 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
@@ -15,6 +15,7 @@ import {
     baseJraRaceData,
     baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
+import { baseNarCalendarData } from '../../mock/common/baseNarData';
 import { mockJraRaceRepositoryFromStorageImpl } from '../../mock/repository/jraRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
@@ -49,18 +50,9 @@ describe('JraRaceCalendarUseCase', () => {
         useCase = container.resolve(JraRaceCalendarUseCase);
     });
 
-    const baseCalendarData = new CalendarData(
-        'test202408014411',
-        '東京大賞典',
-        new Date('2023-08-01T10:00:00Z'),
-        new Date('2023-08-01T10:10:00Z'),
-        '大井競馬場',
-        'テスト',
-    );
-
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
-            const mockCalendarData: CalendarData[] = [baseCalendarData];
+            const mockCalendarData: CalendarData[] = [baseNarCalendarData];
 
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);

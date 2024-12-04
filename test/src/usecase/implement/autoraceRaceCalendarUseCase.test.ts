@@ -3,7 +3,7 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
-import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
@@ -12,6 +12,7 @@ import { AutoraceRaceCalendarUseCase } from '../../../../lib/src/usecase/impleme
 import type { AutoraceGradeType } from '../../../../lib/src/utility/data/autorace';
 import { AUTORACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/autorace';
 import {
+    baseAutoraceCalendarData,
     baseAutoraceRaceData,
     baseAutoraceRaceEntity,
 } from '../../mock/common/baseAutoraceData';
@@ -48,18 +49,9 @@ describe('AutoraceRaceCalendarUseCase', () => {
         useCase = container.resolve(AutoraceRaceCalendarUseCase);
     });
 
-    const baseCalendarData = new CalendarData(
-        'test202512303511',
-        'AUTORACEグランプリ2025',
-        new Date('2025-12-30T10:00:00Z'),
-        new Date('2025-12-30T10:10:00Z'),
-        '平塚オートレース場',
-        'テスト',
-    );
-
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
-            const mockCalendarData: CalendarData[] = [baseCalendarData];
+            const mockCalendarData: CalendarData[] = [baseAutoraceCalendarData];
 
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);

@@ -2,7 +2,7 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import { CalendarData } from '../../../../lib/src/domain/calendarData';
+import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
@@ -12,6 +12,7 @@ import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/na
 import type { NarGradeType } from '../../../../lib/src/utility/data/nar';
 import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/nar';
 import {
+    baseNarCalendarData,
     baseNarRaceData,
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
@@ -49,18 +50,9 @@ describe('NarRaceCalendarUseCase', () => {
         useCase = container.resolve(NarRaceCalendarUseCase);
     });
 
-    const baseCalendarData = new CalendarData(
-        'test202408014411',
-        '東京大賞典',
-        new Date('2023-08-01T10:00:00Z'),
-        new Date('2023-08-01T10:10:00Z'),
-        '大井競馬場',
-        'テスト',
-    );
-
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
-            const mockCalendarData: CalendarData[] = [baseCalendarData];
+            const mockCalendarData: CalendarData[] = [baseNarCalendarData];
 
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);
