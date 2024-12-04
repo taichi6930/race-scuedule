@@ -18,7 +18,7 @@ import {
     baseAutoraceRaceDataList,
     baseAutoraceRaceEntity,
     baseAutoraceRaceEntityList,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseAutoraceData';
 import { mockAutoracePlaceRepositoryFromStorageImpl } from '../../mock/repository/autoracePlaceRepositoryFromStorageImpl';
 import { mockAutoraceRaceRepositoryFromHtmlImpl } from '../../mock/repository/autoraceRaceRepositoryFromHtmlImpl';
 import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';

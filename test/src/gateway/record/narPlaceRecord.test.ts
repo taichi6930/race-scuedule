@@ -1,11 +1,11 @@
-import { baseNarPlaceRecord } from '../../mock/common/baseData';
+import { baseNarPlaceRecord } from '../../mock/common/baseNarData';
 
 describe('NarPlaceRecordクラスのテスト', () => {
     it('正しい入力でNarPlaceRecordのインスタンスを作成できることを確認', () => {
         const placeRecord = baseNarPlaceRecord;
 
-        expect(placeRecord.id).toEqual('nar2024123144');
-        expect(placeRecord.dateTime).toEqual(new Date('2024-12-31'));
+        expect(placeRecord.id).toEqual('nar2024122944');
+        expect(placeRecord.dateTime).toEqual(new Date('2024-12-29'));
         expect(placeRecord.location).toBe('大井');
     });
 
@@ -15,8 +15,8 @@ describe('NarPlaceRecordクラスのテスト', () => {
             location: '川崎',
         });
 
-        expect(newPlaceRecord.id).toEqual('nar2024123144');
-        expect(newPlaceRecord.dateTime).toEqual(new Date('2024-12-31'));
+        expect(newPlaceRecord.id).toEqual('nar2024122944');
+        expect(newPlaceRecord.dateTime).toEqual(new Date('2024-12-29'));
         expect(newPlaceRecord.location).toBe('川崎');
     });
 

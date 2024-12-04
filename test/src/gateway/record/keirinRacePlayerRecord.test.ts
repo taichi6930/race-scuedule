@@ -1,11 +1,11 @@
-import { baseKeirinRacePlayerRecord } from '../../mock/common/baseData';
+import { baseKeirinRacePlayerRecord } from '../../mock/common/baseKeirinData';
 
 describe('KeirinRacePlayerRecordクラスのテスト', () => {
     it('正しい入力でKeirinRacePlayerRecordのインスタンスを作成できることを確認', () => {
         const racePlayerRecord = baseKeirinRacePlayerRecord;
 
-        expect(racePlayerRecord.id).toBe(`keirin20241231041101`);
-        expect(racePlayerRecord.raceId).toBe(`keirin202412310411`);
+        expect(racePlayerRecord.id).toBe('keirin20251230351101');
+        expect(racePlayerRecord.raceId).toBe('keirin202512303511');
         expect(racePlayerRecord.positionNumber).toBe(1);
         expect(racePlayerRecord.playerNumber).toBe(10000);
     });
@@ -16,8 +16,8 @@ describe('KeirinRacePlayerRecordクラスのテスト', () => {
             positionNumber: 2,
             playerNumber: 10001,
         });
-        expect(racePlayerRecord.id).toBe(`keirin20241231041101`);
-        expect(racePlayerRecord.raceId).toBe(`keirin202412310411`);
+        expect(racePlayerRecord.id).toBe('keirin20251230351101');
+        expect(racePlayerRecord.raceId).toBe('keirin202512303511');
         expect(newRacePlayerRecord.positionNumber).toBe(2);
         expect(newRacePlayerRecord.playerNumber).toBe(10001);
     });

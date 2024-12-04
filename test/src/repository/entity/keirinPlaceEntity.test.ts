@@ -1,7 +1,7 @@
 import {
     baseKeirinPlaceData,
     baseKeirinPlaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseKeirinData';
 
 describe('KeirinPlaceEntityクラスのテスト', () => {
     it('正しい入力でKeirinPlaceEntityのインスタンスを作成できることを確認', () => {

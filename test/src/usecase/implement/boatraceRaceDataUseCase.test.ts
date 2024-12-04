@@ -18,7 +18,7 @@ import {
     baseBoatraceRaceDataList,
     baseBoatraceRaceEntity,
     baseBoatraceRaceEntityList,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseBoatraceData';
 import { mockBoatracePlaceRepositoryFromStorageImpl } from '../../mock/repository/boatracePlaceRepositoryFromStorageImpl';
 import { mockBoatraceRaceRepositoryFromHtmlImpl } from '../../mock/repository/boatraceRaceRepositoryFromHtmlImpl';
 import { mockBoatraceRaceRepositoryFromStorageImpl } from '../../mock/repository/boatraceRaceRepositoryFromStorageImpl';

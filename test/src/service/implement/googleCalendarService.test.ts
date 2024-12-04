@@ -13,22 +13,32 @@ import {
     baseAutoraceCalendarData,
     baseAutoraceCalendarDataFromGoogleCalendar,
     baseAutoraceRaceData,
+} from '../../mock/common/baseAutoraceData';
+import {
     baseBoatraceCalendarData,
     baseBoatraceCalendarDataFromGoogleCalendar,
     baseBoatraceRaceData,
+} from '../../mock/common/baseBoatraceData';
+import {
     baseJraCalendarData,
     baseJraCalendarDataFromGoogleCalendar,
     baseJraRaceData,
+} from '../../mock/common/baseJraData';
+import {
     baseKeirinCalendarData,
     baseKeirinCalendarDataFromGoogleCalendar,
     baseKeirinRaceData,
+} from '../../mock/common/baseKeirinData';
+import {
     baseNarCalendarData,
     baseNarCalendarDataFromGoogleCalendar,
     baseNarRaceData,
+} from '../../mock/common/baseNarData';
+import {
     baseWorldCalendarData,
     baseWorldCalendarDataFromGoogleCalendar,
     baseWorldRaceData,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseWorldData';
 
 // googleapis のモック設定
 jest.mock('googleapis', () => {
@@ -329,7 +339,7 @@ describe('GoogleCalendarService', () => {
         describe(`${key} cleansingEvents`, () => {
             it(`${key} 該当イベントが存在する場合、削除処理が行われること`, async () => {
                 const startDate = new Date('2024-01-01T00:00:00');
-                const finishDate = new Date('2024-02-01T00:00:00');
+                const finishDate = new Date('2026-02-01T00:00:00');
                 const calendarList =
                     calendarDataListFromGoogleCalendarRecord[key];
 

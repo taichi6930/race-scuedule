@@ -1,10 +1,10 @@
-import { baseJraRaceRecord } from '../../mock/common/baseData';
+import { baseJraRaceRecord } from '../../mock/common/baseJraData';
 
 describe('JraRaceRecordクラスのテスト', () => {
     it('正しい入力でJraRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseJraRaceRecord;
 
-        expect(raceRecord.id).toEqual('jra202412220511');
+        expect(raceRecord.id).toEqual('jra202412220611');
         expect(raceRecord.name).toBe('有馬記念');
         expect(raceRecord.dateTime).toEqual(new Date('2024-12-22 15:40'));
         expect(raceRecord.location).toBe('中山');
@@ -12,8 +12,8 @@ describe('JraRaceRecordクラスのテスト', () => {
         expect(raceRecord.distance).toBe(2500);
         expect(raceRecord.grade).toBe('GⅠ');
         expect(raceRecord.number).toBe(11);
-        expect(raceRecord.heldTimes).toBe(1);
-        expect(raceRecord.heldDayTimes).toBe(1);
+        expect(raceRecord.heldTimes).toBe(5);
+        expect(raceRecord.heldDayTimes).toBe(8);
     });
 
     it('日付を変更したJraRaceRecordのインスタンスを作成できることを確認', () => {
@@ -21,7 +21,7 @@ describe('JraRaceRecordクラスのテスト', () => {
         const newRaceRecord = raceRecord.copy({
             location: '東京',
         });
-        expect(newRaceRecord.id).toEqual('jra202412220511');
+        expect(newRaceRecord.id).toEqual('jra202412220611');
         expect(newRaceRecord.name).toBe('有馬記念');
         expect(newRaceRecord.dateTime).toEqual(new Date('2024-12-22 15:40'));
         expect(newRaceRecord.location).toBe('東京');
@@ -29,8 +29,8 @@ describe('JraRaceRecordクラスのテスト', () => {
         expect(newRaceRecord.distance).toBe(2500);
         expect(newRaceRecord.grade).toBe('GⅠ');
         expect(newRaceRecord.number).toBe(11);
-        expect(newRaceRecord.heldTimes).toBe(1);
-        expect(newRaceRecord.heldDayTimes).toBe(1);
+        expect(newRaceRecord.heldTimes).toBe(5);
+        expect(newRaceRecord.heldDayTimes).toBe(8);
     });
 
     it('何も変更せずJraRaceRecordのインスタンスを作成できることを確認', () => {

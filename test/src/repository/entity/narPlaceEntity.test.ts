@@ -1,7 +1,7 @@
 import {
     baseNarPlaceData,
     baseNarPlaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseNarData';
 
 describe('NarPlaceEntityクラスのテスト', () => {
     it('正しい入力でNarPlaceEntityのインスタンスを作成できることを確認', () => {

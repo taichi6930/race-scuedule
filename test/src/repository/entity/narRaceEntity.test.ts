@@ -1,4 +1,7 @@
-import { baseNarRaceData, baseNarRaceEntity } from '../../mock/common/baseData';
+import {
+    baseNarRaceData,
+    baseNarRaceEntity,
+} from '../../mock/common/baseNarData';
 
 describe('NarRaceEntityクラスのテスト', () => {
     /**
@@ -9,7 +12,7 @@ describe('NarRaceEntityクラスのテスト', () => {
     it('正しい入力でNarRaceEntityのインスタンスを作成できることを確認', () => {
         const raceEntity = baseRaceEntity;
         // インスタンスのプロパティが正しいか確認
-        expect(raceEntity.id).toBe('nar202406034411');
+        expect(raceEntity.id).toBe('nar202412294411');
         expect(raceEntity.raceData).toBe(baseNarRaceData);
     });
 

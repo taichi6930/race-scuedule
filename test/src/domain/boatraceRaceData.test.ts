@@ -1,4 +1,4 @@
-import { baseBoatraceRaceData } from '../mock/common/baseData';
+import { baseBoatraceRaceData } from '../mock/common/baseBoatraceData';
 
 describe('BoatraceRaceDataクラスのテスト', () => {
     /**

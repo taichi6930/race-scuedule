@@ -1,16 +1,16 @@
-import { baseNarRaceRecord } from '../../mock/common/baseData';
+import { baseNarRaceRecord } from '../../mock/common/baseNarData';
 
 describe('NarRaceRecordクラスのテスト', () => {
     it('正しい入力でNarRaceRecordのインスタンスを作成できることを確認', () => {
         const raceRecord = baseNarRaceRecord;
 
-        expect(raceRecord.id).toEqual('nar202406034411');
-        expect(raceRecord.name).toBe('東京ダービー');
-        expect(raceRecord.dateTime).toEqual(new Date('2024-06-03 20:10'));
+        expect(raceRecord.id).toEqual('nar202412294411');
+        expect(raceRecord.name).toBe('東京大賞典');
+        expect(raceRecord.dateTime).toEqual(new Date('2024-12-29 15:40'));
         expect(raceRecord.location).toBe('大井');
         expect(raceRecord.surfaceType).toBe('ダート');
         expect(raceRecord.distance).toBe(2000);
-        expect(raceRecord.grade).toBe('JpnⅠ');
+        expect(raceRecord.grade).toBe('GⅠ');
         expect(raceRecord.number).toBe(11);
     });
 
@@ -20,13 +20,13 @@ describe('NarRaceRecordクラスのテスト', () => {
             location: '川崎',
         });
 
-        expect(newRaceRecord.id).toEqual('nar202406034411');
-        expect(newRaceRecord.name).toBe('東京ダービー');
-        expect(newRaceRecord.dateTime).toEqual(new Date('2024-06-03 20:10'));
+        expect(newRaceRecord.id).toEqual('nar202412294411');
+        expect(newRaceRecord.name).toBe('東京大賞典');
+        expect(newRaceRecord.dateTime).toEqual(new Date('2024-12-29 15:40'));
         expect(newRaceRecord.location).toBe('川崎');
         expect(newRaceRecord.surfaceType).toBe('ダート');
         expect(newRaceRecord.distance).toBe(2000);
-        expect(newRaceRecord.grade).toBe('JpnⅠ');
+        expect(newRaceRecord.grade).toBe('GⅠ');
         expect(newRaceRecord.number).toBe(11);
     });
 

@@ -1,5 +1,5 @@
 import { KeirinPlaceData } from '../../../lib/src/domain/keirinPlaceData';
-import { baseKeirinPlaceData } from '../mock/common/baseData';
+import { baseKeirinPlaceData } from '../mock/common/baseKeirinData';
 
 describe('KeirinPlaceDataクラスのテスト', () => {
     it('正しい入力でKeirinPlaceDataのインスタンスを作成できることを確認', () => {

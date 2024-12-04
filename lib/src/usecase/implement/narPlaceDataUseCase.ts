@@ -36,12 +36,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
         const response: FetchPlaceListResponse<NarPlaceEntity> =
             await this.narPlaceRepositoryFromStorage.fetchPlaceList(request);
         const placeDataList: NarPlaceData[] = response.placeEntityList.map(
-            (placeEntity) => {
-                return new NarPlaceData(
-                    placeEntity.placeData.dateTime,
-                    placeEntity.placeData.location,
-                );
-            },
+            (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
     }

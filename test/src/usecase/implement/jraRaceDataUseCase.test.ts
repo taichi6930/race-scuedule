@@ -13,7 +13,7 @@ import {
     baseJraRaceDataList,
     baseJraRaceEntity,
     baseJraRaceEntityList,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseJraData';
 import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/jraPlaceRepositoryFromStorageImpl';
 import { mockJraRaceRepositoryFromHtmlImpl } from '../../mock/repository/jraRaceRepositoryFromHtmlImpl';
 import { mockJraRaceRepositoryFromStorageImpl } from '../../mock/repository/jraRaceRepositoryFromStorageImpl';

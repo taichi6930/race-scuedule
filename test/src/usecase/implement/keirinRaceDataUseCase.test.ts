@@ -18,7 +18,7 @@ import {
     baseKeirinRaceDataList,
     baseKeirinRaceEntity,
     baseKeirinRaceEntityList,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseKeirinData';
 import { mockKeirinPlaceRepositoryFromStorageImpl } from '../../mock/repository/keirinPlaceRepositoryFromStorageImpl';
 import { mockKeirinRaceRepositoryFromHtmlImpl } from '../../mock/repository/keirinRaceRepositoryFromHtmlImpl';
 import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';

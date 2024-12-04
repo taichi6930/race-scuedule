@@ -1,4 +1,4 @@
-import { baseAutoraceRacePlayerData } from '../mock/common/baseData';
+import { baseAutoraceRacePlayerData } from '../mock/common/baseAutoraceData';
 
 describe('AutoraceRacePlayerDataクラスのテスト', () => {
     /**

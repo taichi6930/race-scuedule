@@ -10,7 +10,7 @@ import { AutoracePlaceDataUseCase } from '../../../../lib/src/usecase/implement/
 import {
     baseAutoracePlaceData,
     baseAutoracePlaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseAutoraceData';
 import { mockAutoracePlaceRepositoryFromHtmlImpl } from '../../mock/repository/autoracePlaceRepositoryFromHtmlImpl';
 import { mockAutoracePlaceRepositoryFromStorageImpl } from '../../mock/repository/autoracePlaceRepositoryFromStorageImpl';
 

@@ -1,4 +1,4 @@
-import { baseWorldRaceRecord } from '../../mock/common/baseData';
+import { baseWorldRaceRecord } from '../../mock/common/baseWorldData';
 
 describe('WorldRaceRecordクラスのテスト', () => {
     it('正しい入力でWorldRaceRecordのインスタンスを作成できることを確認', () => {
