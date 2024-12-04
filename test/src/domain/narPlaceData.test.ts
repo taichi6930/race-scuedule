@@ -1,11 +1,11 @@
 import { NarPlaceData } from '../../../lib/src/domain/narPlaceData';
-import { baseNarPlaceData } from '../mock/common/baseData';
+import { baseNarPlaceData } from '../mock/common/baseNarData';
 
 describe('NarPlaceDataクラスのテスト', () => {
     it('正しい入力でNarPlaceDataのインスタンスを作成できることを確認', () => {
         const placeData = baseNarPlaceData;
 
-        expect(placeData.dateTime).toEqual(new Date('2024-06-03'));
+        expect(placeData.dateTime).toEqual(new Date('2024-12-29'));
         expect(placeData.location).toBe('大井');
     });
 

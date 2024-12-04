@@ -11,7 +11,10 @@ import type { ICalendarService } from '../../../../lib/src/service/interface/ICa
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
 import type { NarGradeType } from '../../../../lib/src/utility/data/nar';
 import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/nar';
-import { baseNarRaceData, baseNarRaceEntity } from '../../mock/common/baseData';
+import {
+    baseNarRaceData,
+    baseNarRaceEntity,
+} from '../../mock/common/baseNarData';
 import { mockNarRaceRepositoryFromStorageImpl } from '../../mock/repository/narRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 

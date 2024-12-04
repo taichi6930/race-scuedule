@@ -13,7 +13,7 @@ import {
     baseNarRaceDataList,
     baseNarRaceEntity,
     baseNarRaceEntityList,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseNarData';
 import { mockNarPlaceRepositoryFromStorageImpl } from '../../mock/repository/narPlaceRepositoryFromStorageImpl';
 import { mockNarRaceRepositoryFromHtmlImpl } from '../../mock/repository/narRaceRepositoryFromHtmlImpl';
 import { mockNarRaceRepositoryFromStorageImpl } from '../../mock/repository/narRaceRepositoryFromStorageImpl';

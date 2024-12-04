@@ -10,7 +10,7 @@ import { NarPlaceDataUseCase } from '../../../../lib/src/usecase/implement/narPl
 import {
     baseNarPlaceData,
     baseNarPlaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseNarData';
 import { mockNarPlaceRepositoryFromHtmlImpl } from '../../mock/repository/narPlaceRepositoryFromHtmlImpl';
 import { mockNarPlaceRepositoryFromStorageImpl } from '../../mock/repository/narPlaceRepositoryFromStorageImpl';
 

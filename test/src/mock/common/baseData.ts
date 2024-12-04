@@ -8,8 +8,6 @@ import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
-import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import { WorldPlaceData } from '../../../../lib/src/domain/worldPlaceData';
 import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
@@ -21,8 +19,6 @@ import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceR
 import { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
-import { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
-import { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
@@ -30,8 +26,6 @@ import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatr
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
-import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type {
@@ -50,17 +44,10 @@ import type {
     KeirinRaceStage,
 } from '../../../../lib/src/utility/data/keirin';
 import type {
-    NarGradeType,
-    NarRaceCourse,
-} from '../../../../lib/src/utility/data/nar';
-import type {
     WorldGradeType,
     WorldRaceCourse,
 } from '../../../../lib/src/utility/data/world';
-import {
-    generateNarPlaceId,
-    generateWorldRaceId,
-} from '../../../../lib/src/utility/raceId';
+import { generateWorldRaceId } from '../../../../lib/src/utility/raceId';
 
 export const baseAutoracePlaceData = new AutoracePlaceData(
     new Date('2024-12-31'),
@@ -380,99 +367,6 @@ export const baseWorldCalendarDataFromGoogleCalendar = {
     location: 'パリロンシャン競馬場',
     description: 'テスト',
 };
-
-export const baseNarPlaceData = new NarPlaceData(
-    new Date('2024-06-03'),
-    '大井',
-);
-
-export const baseNarPlaceEntity = new NarPlaceEntity(null, baseNarPlaceData);
-
-export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatMap(
-    (location) => {
-        return [
-            '一般',
-            '一般',
-            '一般',
-            'オープン特別',
-            'Listed',
-            'JpnⅢ',
-            'JpnⅡ',
-            'JpnⅠ',
-            'GⅢ',
-            'GⅡ',
-            'GⅠ',
-            '地方重賞',
-        ].map((grade, index) => {
-            return new NarRaceEntity(
-                null,
-                new NarRaceData(
-                    `テスト${location}${grade}${(index + 1).toString()}レース`,
-                    new Date(2024, 6 - 1, 1, 7 + index, 0),
-                    location as NarRaceCourse,
-                    'ダート',
-                    1600,
-                    grade as NarGradeType,
-                    index + 1,
-                ),
-            );
-        });
-    },
-);
-
-export const baseNarRaceDataList = baseNarRaceEntityList.map(
-    (raceEntity) => raceEntity.raceData,
-);
-
-export const baseNarRaceData = new NarRaceData(
-    '東京ダービー',
-    new Date('2024-06-03 20:10'),
-    '大井',
-    'ダート',
-    2000,
-    'JpnⅠ',
-    11,
-);
-export const baseNarRaceEntity = new NarRaceEntity(null, baseNarRaceData);
-
-export const baseNarRaceRecord = new NarRaceRecord(
-    'nar202406034411',
-    '東京ダービー',
-    new Date('2024-06-03 20:10'),
-    '大井',
-    'ダート',
-    2000,
-    'JpnⅠ',
-    11,
-);
-
-export const baseNarCalendarData = new CalendarData(
-    'test202406032011',
-    '東京ダービー',
-    new Date('2024-06-03T20:10:00Z'),
-    new Date('2024-06-03T20:20:00Z'),
-    '大井競馬場',
-    'テスト',
-);
-
-export const baseNarCalendarDataFromGoogleCalendar = {
-    id: 'test202406032011',
-    summary: '東京ダービー',
-    start: {
-        dateTime: '2024-06-03T20:10:00Z',
-    },
-    end: {
-        dateTime: '2024-06-03T20:20:00Z',
-    },
-    location: '大井競馬場',
-    description: 'テスト',
-};
-
-export const baseNarPlaceRecord = new NarPlaceRecord(
-    generateNarPlaceId(new Date('2024-12-31'), '大井'),
-    new Date('2024-12-31'),
-    '大井',
-);
 
 export const baseBoatracePlaceRecord = new BoatracePlaceRecord(
     `boatrace2024123104`,
