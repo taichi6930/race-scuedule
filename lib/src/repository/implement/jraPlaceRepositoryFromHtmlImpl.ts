@@ -35,13 +35,14 @@ export class JraPlaceRepositoryFromHtmlImpl
     async fetchPlaceList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
+        // startDateからfinishDateまでの年のリストを生成する
         const years: Date[] = await this.generateYears(
             request.startDate,
             request.finishDate,
         );
 
         // 年ごとの競馬場開催データを取得
-        const placeRecords = (
+        const placeRecords: JraPlaceRecord[] = (
             await Promise.all(
                 years.map((year) => this.fetchYearPlaceRecordList(year)),
             )
@@ -49,8 +50,8 @@ export class JraPlaceRepositoryFromHtmlImpl
 
         // Entityに変換
         const placeEntityList: JraPlaceEntity[] = placeRecords.map(
-            (placeRecord) => {
-                return new JraPlaceEntity(
+            (placeRecord) =>
+                new JraPlaceEntity(
                     placeRecord.id,
                     new JraPlaceData(
                         placeRecord.dateTime,
@@ -58,8 +59,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                         placeRecord.heldTimes,
                         placeRecord.heldDayTimes,
                     ),
-                );
-            },
+                ),
         );
 
         // filterで日付の範囲を指定
@@ -113,13 +113,11 @@ export class JraPlaceRepositoryFromHtmlImpl
     private async fetchYearPlaceRecordList(
         date: Date,
     ): Promise<JraPlaceRecord[]> {
-        console.log(`S3から${date.toISOString().split('T')[0]}を取得します`);
-        // レース情報を取得
+        // レースHTMLを取得
         const htmlText: string =
             await this.jraPlaceDataHtmlGateway.getPlaceDataHtml(date);
 
-        const $ = cheerio.load(htmlText);
-
+        // 競馬場開催レコードはここに追加
         const jraPlaceRecordList: JraPlaceRecord[] = [];
 
         // 競馬場のイニシャルと名前のマッピング
@@ -136,6 +134,10 @@ export class JraPlaceRepositoryFromHtmlImpl
             小: '小倉',
         };
 
+        // 競馬場名を取得する関数
+        const getPlaceName = (placeInitial: string): JraRaceCourse =>
+            placeMap[placeInitial] || null;
+
         // 開催日数を計算するためのdict
         // keyは競馬場、valueは「key: 開催回数、value: 開催日数」のdict
         const placeHeldDayTimesCountDict: Record<
@@ -143,9 +145,8 @@ export class JraPlaceRepositoryFromHtmlImpl
             Record<string, number>
         > = {};
 
-        // 競馬場名を取得する関数
-        const getPlaceName = (placeInitial: string): JraRaceCourse =>
-            placeMap[placeInitial] || null;
+        // cheerioでHTMLを解析
+        const $ = cheerio.load(htmlText);
 
         Array.from({ length: 12 }, (_, k) => k + 1).forEach((month) => {
             const monthData = $(`#mon_${month.toString()}`);
