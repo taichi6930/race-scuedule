@@ -12,7 +12,7 @@ import {
     baseJraPlaceEntity,
 } from '../../mock/common/baseData';
 import { mockJraPlaceRepositoryFromHtmlImpl } from '../../mock/repository/jraPlaceRepositoryFromHtmlImpl';
-import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/JraPlaceRepositoryFromStorageImpl';
+import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/jraPlaceRepositoryFromStorageImpl';
 
 describe('JraPlaceDataUseCase', () => {
     let JraPlaceRepositoryFromStorageImpl: jest.Mocked<

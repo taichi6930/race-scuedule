@@ -23,7 +23,7 @@ import { BoatraceRaceRepositoryFromStorageImpl } from '../src/repository/impleme
 import { JraPlaceRepositoryFromHtmlImpl } from '../src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { JraPlaceRepositoryFromStorageImpl } from '../src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { JraRaceRepositoryFromHtmlImpl } from '../src/repository/implement/jraRaceRepositoryFromHtmlImpl';
-import { JraRaceRepositoryFromS3Impl } from '../src/repository/implement/jraRaceRepositoryFromS3Impl';
+import { JraRaceRepositoryFromStorageImpl } from '../src/repository/implement/JraRaceRepositoryFromStorageImpl';
 import { KeirinPlaceRepositoryFromHtmlImpl } from '../src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
@@ -62,8 +62,8 @@ container.register<IPlaceRepository<NarPlaceEntity>>(
 
 // Jraリポジトリの登録
 container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
-    'JraRaceRepositoryFromS3',
-    { useClass: JraRaceRepositoryFromS3Impl },
+    'JraRaceRepositoryFromStorage',
+    { useClass: JraRaceRepositoryFromStorageImpl },
 );
 container.register<IPlaceRepository<JraPlaceEntity>>(
     'JraPlaceRepositoryFromStorage',

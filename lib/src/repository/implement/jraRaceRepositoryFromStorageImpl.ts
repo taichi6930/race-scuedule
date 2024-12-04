@@ -22,7 +22,7 @@ import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
-export class JraRaceRepositoryFromS3Impl
+export class JraRaceRepositoryFromStorageImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
     constructor(

@@ -12,12 +12,12 @@ import { JraRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/jr
 import type { JraGradeType } from '../../../../lib/src/utility/data/jra';
 import { JRA_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/jra';
 import { baseJraRaceData, baseJraRaceEntity } from '../../mock/common/baseData';
-import { mockJraRaceRepositoryFromS3Impl } from '../../mock/repository/jraRaceRepositoryFromS3Impl';
+import { mockJraRaceRepositoryFromStorageImpl } from '../../mock/repository/jraRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('JraRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<JraRaceData>>;
-    let jraRaceRepositoryFromS3Impl: jest.Mocked<
+    let JraRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<JraRaceEntity, JraPlaceEntity>
     >;
     let useCase: JraRaceCalendarUseCase;
@@ -33,11 +33,12 @@ describe('JraRaceCalendarUseCase', () => {
         );
 
         // IRaceRepositoryインターフェースの依存関係を登録
-        jraRaceRepositoryFromS3Impl = mockJraRaceRepositoryFromS3Impl();
+        JraRaceRepositoryFromStorageImpl =
+            mockJraRaceRepositoryFromStorageImpl();
         container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
-            'JraRaceRepositoryFromS3',
+            'JraRaceRepositoryFromStorage',
             {
-                useValue: jraRaceRepositoryFromS3Impl,
+                useValue: JraRaceRepositoryFromStorageImpl,
             },
         );
 
@@ -157,7 +158,7 @@ describe('JraRaceCalendarUseCase', () => {
             });
 
             // モックが値を返すよう設定
-            jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue({
+            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
                 raceDataList: mockRaceEntityList,
             });
 
@@ -172,7 +173,7 @@ describe('JraRaceCalendarUseCase', () => {
 
             // モックが呼び出されたことを確認
             expect(
-                jraRaceRepositoryFromS3Impl.fetchRaceList,
+                JraRaceRepositoryFromStorageImpl.fetchRaceList,
             ).toHaveBeenCalled();
 
             // updateEventsが呼び出された回数を確認
@@ -188,7 +189,7 @@ describe('JraRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListがエラーをスローするようにモック
-            jraRaceRepositoryFromS3Impl.fetchRaceList.mockRejectedValue(
+            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
                 new Error('Fetch Error'),
             );
 
@@ -218,7 +219,7 @@ describe('JraRaceCalendarUseCase', () => {
 
             // fetchRaceListは正常に動作するように設定
             const mockRaceEntityList: JraRaceEntity[] = [baseJraCalendarEntity];
-            jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue({
+            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
                 raceDataList: mockRaceEntityList,
             });
 

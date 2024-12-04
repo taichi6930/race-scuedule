@@ -8,14 +8,14 @@ import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gatewa
 import type { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import { JraRaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromS3Impl';
+import { JraRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { mockS3GatewayForJraRace } from '../../mock/gateway/s3GatewayMock';
 
-describe('JraRaceRepositoryFromS3Impl', () => {
+describe('JraRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<JraRaceRecord>>;
-    let repository: JraRaceRepositoryFromS3Impl;
+    let repository: JraRaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
@@ -25,7 +25,7 @@ describe('JraRaceRepositoryFromS3Impl', () => {
         container.registerInstance('JraRaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
-        repository = container.resolve(JraRaceRepositoryFromS3Impl);
+        repository = container.resolve(JraRaceRepositoryFromStorageImpl);
     });
 
     describe('fetchRaceList', () => {

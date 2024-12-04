@@ -25,8 +25,8 @@ export class JraRaceDataUseCase
     constructor(
         @inject('JraPlaceRepositoryFromStorage')
         private readonly JraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
-        @inject('JraRaceRepositoryFromS3')
-        private readonly jraRaceRepositoryFromS3: IRaceRepository<
+        @inject('JraRaceRepositoryFromStorage')
+        private readonly JraRaceRepositoryFromStorage: IRaceRepository<
             JraRaceEntity,
             JraPlaceEntity
         >,
@@ -175,7 +175,7 @@ export class JraRaceDataUseCase
         );
         const fetchRaceListResponse: FetchRaceListResponse<JraRaceEntity> =
             type === 'storage'
-                ? await this.jraRaceRepositoryFromS3.fetchRaceList(
+                ? await this.JraRaceRepositoryFromStorage.fetchRaceList(
                       fetchRaceListRequest,
                   )
                 : await this.jraRaceRepositoryFromHtml.fetchRaceList(
@@ -195,7 +195,7 @@ export class JraRaceDataUseCase
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<JraRaceEntity>(raceList);
-        await this.jraRaceRepositoryFromS3.registerRaceList(
+        await this.JraRaceRepositoryFromStorage.registerRaceList(
             registerRaceListRequest,
         );
     }

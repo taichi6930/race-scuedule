@@ -17,8 +17,8 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('JraCalendarService')
         private readonly calendarService: ICalendarService<JraRaceData>,
-        @inject('JraRaceRepositoryFromS3')
-        private readonly jraRaceRepositoryFromS3: IRaceRepository<
+        @inject('JraRaceRepositoryFromStorage')
+        private readonly JraRaceRepositoryFromStorage: IRaceRepository<
             JraRaceEntity,
             JraPlaceEntity
         >,
@@ -62,7 +62,7 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
             const fetchRaceDataListRequest =
                 new FetchRaceListRequest<JraPlaceEntity>(startDate, finishDate);
             const fetchRaceDataListResponse =
-                await this.jraRaceRepositoryFromS3.fetchRaceList(
+                await this.JraRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
             const raceEntityList = fetchRaceDataListResponse.raceDataList;

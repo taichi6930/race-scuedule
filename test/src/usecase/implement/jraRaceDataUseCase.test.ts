@@ -14,12 +14,12 @@ import {
     baseJraRaceEntity,
     baseJraRaceEntityList,
 } from '../../mock/common/baseData';
-import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/JraPlaceRepositoryFromStorageImpl';
+import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/jraPlaceRepositoryFromStorageImpl';
 import { mockJraRaceRepositoryFromHtmlImpl } from '../../mock/repository/jraRaceRepositoryFromHtmlImpl';
-import { mockJraRaceRepositoryFromS3Impl } from '../../mock/repository/jraRaceRepositoryFromS3Impl';
+import { mockJraRaceRepositoryFromStorageImpl } from '../../mock/repository/jraRaceRepositoryFromStorageImpl';
 
 describe('JraRaceDataUseCase', () => {
-    let jraRaceRepositoryFromS3Impl: jest.Mocked<
+    let JraRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<JraRaceEntity, JraPlaceEntity>
     >;
     let jraRaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -32,11 +32,12 @@ describe('JraRaceDataUseCase', () => {
 
     beforeEach(() => {
         // IRaceRepositoryインターフェースの依存関係を登録
-        jraRaceRepositoryFromS3Impl = mockJraRaceRepositoryFromS3Impl();
+        JraRaceRepositoryFromStorageImpl =
+            mockJraRaceRepositoryFromStorageImpl();
         container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
-            'JraRaceRepositoryFromS3',
+            'JraRaceRepositoryFromStorage',
             {
-                useValue: jraRaceRepositoryFromS3Impl,
+                useValue: JraRaceRepositoryFromStorageImpl,
             },
         );
         jraRaceRepositoryFromHtmlImpl = mockJraRaceRepositoryFromHtmlImpl();
@@ -67,7 +68,7 @@ describe('JraRaceDataUseCase', () => {
             const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
 
             // モックの戻り値を設定
-            jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
+            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
             );
 
@@ -86,7 +87,7 @@ describe('JraRaceDataUseCase', () => {
             const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
 
             // モックの戻り値を設定
-            jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
+            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
             );
 
@@ -107,7 +108,7 @@ describe('JraRaceDataUseCase', () => {
             const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
 
             // モックの戻り値を設定
-            jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
+            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
             );
 
@@ -128,7 +129,7 @@ describe('JraRaceDataUseCase', () => {
             const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
 
             // モックの戻り値を設定
-            jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
+            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
             );
 
@@ -154,7 +155,7 @@ describe('JraRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            jraRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue(
+            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
             );
 
@@ -167,7 +168,7 @@ describe('JraRaceDataUseCase', () => {
                 jraRaceRepositoryFromHtmlImpl.fetchRaceList,
             ).toHaveBeenCalled();
             expect(
-                jraRaceRepositoryFromS3Impl.registerRaceList,
+                JraRaceRepositoryFromStorageImpl.registerRaceList,
             ).toHaveBeenCalled();
         });
 
@@ -197,14 +198,14 @@ describe('JraRaceDataUseCase', () => {
             await useCase.upsertRaceDataList(mockRaceData);
 
             expect(
-                jraRaceRepositoryFromS3Impl.registerRaceList,
+                JraRaceRepositoryFromStorageImpl.registerRaceList,
             ).toHaveBeenCalled();
         });
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             const mockRaceData: JraRaceData[] = baseJraRaceDataList;
             // モックの戻り値を設定（エラーが発生するように設定）
-            jraRaceRepositoryFromS3Impl.registerRaceList.mockRejectedValue(
+            JraRaceRepositoryFromStorageImpl.registerRaceList.mockRejectedValue(
                 new Error('レースデータの登録に失敗しました'),
             );
 

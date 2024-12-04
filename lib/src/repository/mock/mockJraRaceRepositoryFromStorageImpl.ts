@@ -7,8 +7,8 @@ import type { RegisterRaceListRequest } from '../request/registerRaceListRequest
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
-// JraRaceRepositoryFromS3Implのモックを作成
-export class MockJraRaceRepositoryFromS3Impl
+// JraRaceRepositoryFromStorageImplのモックを作成
+export class MockJraRaceRepositoryFromStorageImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
     fetchRaceList(
