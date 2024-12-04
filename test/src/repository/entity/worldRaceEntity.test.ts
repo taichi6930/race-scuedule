@@ -1,7 +1,7 @@
 import {
     baseWorldRaceData,
     baseWorldRaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseWorldData';
 
 describe('WorldRaceEntityクラスのテスト', () => {
     /**

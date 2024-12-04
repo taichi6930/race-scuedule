@@ -12,7 +12,7 @@ import {
     baseWorldRaceDataList,
     baseWorldRaceEntity,
     baseWorldRaceEntityList,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseWorldData';
 import { mockWorldRaceRepositoryFromHtmlImpl } from '../../mock/repository/worldRaceRepositoryFromHtmlImpl';
 import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/worldRaceRepositoryFromStorageImpl';
 

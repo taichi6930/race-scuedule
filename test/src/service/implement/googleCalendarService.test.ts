@@ -19,9 +19,6 @@ import {
     baseKeirinCalendarData,
     baseKeirinCalendarDataFromGoogleCalendar,
     baseKeirinRaceData,
-    baseWorldCalendarData,
-    baseWorldCalendarDataFromGoogleCalendar,
-    baseWorldRaceData,
 } from '../../mock/common/baseData';
 import {
     baseJraCalendarData,
@@ -33,6 +30,11 @@ import {
     baseNarCalendarDataFromGoogleCalendar,
     baseNarRaceData,
 } from '../../mock/common/baseNarData';
+import {
+    baseWorldCalendarData,
+    baseWorldCalendarDataFromGoogleCalendar,
+    baseWorldRaceData,
+} from '../../mock/common/baseWorldData';
 
 // googleapis のモック設定
 jest.mock('googleapis', () => {

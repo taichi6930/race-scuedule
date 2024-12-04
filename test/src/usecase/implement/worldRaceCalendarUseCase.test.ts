@@ -14,7 +14,7 @@ import { WORLD_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/wor
 import {
     baseWorldRaceData,
     baseWorldRaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseWorldData';
 import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/worldRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 

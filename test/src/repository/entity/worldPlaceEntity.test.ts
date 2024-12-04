@@ -1,7 +1,7 @@
 import {
     baseWorldPlaceData,
     baseWorldPlaceEntity,
-} from '../../mock/common/baseData';
+} from '../../mock/common/baseWorldData';
 
 describe('WorldPlaceEntityクラスのテスト', () => {
     it('正しい入力でWorldPlaceEntityのインスタンスを作成できることを確認', () => {

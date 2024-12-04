@@ -1,4 +1,4 @@
-import { baseWorldPlaceData } from '../mock/common/baseData';
+import { baseWorldPlaceData } from '../mock/common/baseWorldData';
 
 describe('WorldPlaceDataクラスのテスト', () => {
     it('正しい入力でWorldPlaceDataのインスタンスを作成できることを確認', () => {

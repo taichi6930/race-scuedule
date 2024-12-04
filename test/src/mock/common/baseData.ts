@@ -8,8 +8,6 @@ import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../../../lib/src/domain/keirinRacePlayerData';
-import { WorldPlaceData } from '../../../../lib/src/domain/worldPlaceData';
-import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
 import { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
@@ -19,15 +17,12 @@ import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceR
 import { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
-import { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
-import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
-import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
@@ -43,11 +38,6 @@ import type {
     KeirinRaceCourse,
     KeirinRaceStage,
 } from '../../../../lib/src/utility/data/keirin';
-import type {
-    WorldGradeType,
-    WorldRaceCourse,
-} from '../../../../lib/src/utility/data/world';
-import { generateWorldRaceId } from '../../../../lib/src/utility/raceId';
 
 export const baseAutoracePlaceData = new AutoracePlaceData(
     new Date('2024-12-31'),
@@ -277,94 +267,6 @@ export const baseKeirinCalendarDataFromGoogleCalendar = {
         dateTime: '2024-12-31T16:40:00Z',
     },
     location: '平塚競輪場',
-    description: 'テスト',
-};
-
-export const baseWorldPlaceData = new WorldPlaceData(
-    new Date('2024-10-01'),
-    'パリロンシャン',
-);
-export const baseWorldPlaceEntity = new WorldPlaceEntity(
-    null,
-    baseWorldPlaceData,
-);
-
-export const baseWorldRaceEntityList: WorldRaceEntity[] = [
-    'パリロンシャン',
-    'シャティン',
-].flatMap((location) => {
-    return [
-        '格付けなし',
-        '格付けなし',
-        '格付けなし',
-        '格付けなし',
-        '格付けなし',
-        '格付けなし',
-        '格付けなし',
-        'Listed',
-        'GⅢ',
-        'GⅡ',
-        'GⅠ',
-        '格付けなし',
-    ].map((grade, index) => {
-        return new WorldRaceEntity(
-            null,
-            new WorldRaceData(
-                `テスト${location}${grade}${(index + 1).toString()}レース`,
-                new Date(2024, 10 - 1, 1, 7 + index, 0),
-                location as WorldRaceCourse,
-                '芝',
-                1600,
-                grade as WorldGradeType,
-                index + 1,
-            ),
-        );
-    });
-});
-
-export const baseWorldRaceDataList = baseWorldRaceEntityList.map(
-    (raceEntity) => raceEntity.raceData,
-);
-
-export const baseWorldRaceData = new WorldRaceData(
-    '凱旋門賞',
-    new Date('2024-10-01 16:30'),
-    'パリロンシャン',
-    '芝',
-    2400,
-    'GⅠ',
-    11,
-);
-export const baseWorldRaceEntity = new WorldRaceEntity(null, baseWorldRaceData);
-export const baseWorldRaceRecord = new WorldRaceRecord(
-    generateWorldRaceId(new Date('2024-10-01'), 'パリロンシャン', 11),
-    '凱旋門賞',
-    new Date('2024-10-01 16:30'),
-    'パリロンシャン',
-    '芝',
-    2400,
-    'GⅠ',
-    11,
-);
-export const baseWorldCalendarData = new CalendarData(
-    'test20241001longchamp01',
-    '凱旋門賞',
-    new Date('2024-10-01T16:30:00Z'),
-    new Date('2024-10-01T16:40:00Z'),
-    'パリロンシャン競馬場',
-    'テスト',
-);
-
-export const baseWorldCalendarDataFromGoogleCalendar = {
-    id: 'test20241001longchamp01',
-    summary: '凱旋門賞',
-    start: {
-        dateTime: '2024-10-01T16:30:00Z',
-    },
-    end: {
-        dateTime: '2024-10-01T16:40:00Z',
-    },
-    location: 'パリロンシャン競馬場',
     description: 'テスト',
 };
 
