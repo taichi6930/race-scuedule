@@ -3,29 +3,29 @@ import 'reflect-metadata';
 import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { NarRaceData } from '../../../../lib/src/domain/narRaceData';
+import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
-import type { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
-import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
-import { NarRaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromS3Impl';
+import type { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
+import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
+import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
+import { JraRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { mockS3GatewayForNarRace } from '../../mock/gateway/s3GatewayMock';
+import { mockS3GatewayForJraRace } from '../../mock/gateway/s3GatewayMock';
 
-describe('NarRaceRepositoryFromS3Impl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<NarRaceRecord>>;
-    let repository: NarRaceRepositoryFromS3Impl;
+describe('JraRaceRepositoryFromStorageImpl', () => {
+    let s3Gateway: jest.Mocked<IS3Gateway<JraRaceRecord>>;
+    let repository: JraRaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3GatewayForNarRace();
+        s3Gateway = mockS3GatewayForJraRace();
 
         // DIコンテナにモックを登録
-        container.registerInstance('NarRaceS3Gateway', s3Gateway);
+        container.registerInstance('JraRaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
-        repository = container.resolve(NarRaceRepositoryFromS3Impl);
+        repository = container.resolve(JraRaceRepositoryFromStorageImpl);
     });
 
     describe('fetchRaceList', () => {
@@ -48,8 +48,6 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                         'distance',
                         'grade',
                         'number',
-                        'heldTimes',
-                        'heldDayTimes',
                     ].join(',');
                     const csvDataText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -88,7 +86,7 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                 },
             );
             // リクエストの作成
-            const request = new FetchRaceListRequest<NarPlaceEntity>(
+            const request = new FetchRaceListRequest<JraPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );
@@ -96,14 +94,14 @@ describe('NarRaceRepositoryFromS3Impl', () => {
             const response = await repository.fetchRaceList(request);
 
             // レスポンスの検証
-            expect(response.raceDataList).toHaveLength(32);
+            expect(response.raceEntityList).toHaveLength(32);
         });
     });
 
     describe('registerRaceList', () => {
         test('正しいレースデータを登録できる', async () => {
             // 1年間のレースデータを登録する
-            const raceDataList: NarRaceEntity[] = Array.from(
+            const raceDataList: JraRaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -111,16 +109,18 @@ describe('NarRaceRepositoryFromS3Impl', () => {
                     return Array.from(
                         { length: 12 },
                         (__, j) =>
-                            new NarRaceEntity(
+                            new JraRaceEntity(
                                 null,
-                                new NarRaceData(
+                                new JraRaceData(
                                     `raceName${format(date, 'yyyyMMdd')}`,
                                     date,
-                                    '大井',
+                                    '東京',
                                     'ダート',
                                     1200,
                                     'GⅠ',
                                     j + 1,
+                                    1,
+                                    1,
                                 ),
                             ),
                     );
@@ -128,7 +128,7 @@ describe('NarRaceRepositoryFromS3Impl', () => {
             ).flat();
 
             // リクエストの作成
-            const request = new RegisterRaceListRequest<NarRaceEntity>(
+            const request = new RegisterRaceListRequest<JraRaceEntity>(
                 raceDataList,
             );
             // テスト実行

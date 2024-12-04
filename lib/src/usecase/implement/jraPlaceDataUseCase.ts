@@ -12,8 +12,8 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 @injectable()
 export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
     constructor(
-        @inject('JraPlaceRepositoryFromS3')
-        private readonly jraPlaceRepositoryFromS3: IPlaceRepository<JraPlaceEntity>,
+        @inject('JraPlaceRepositoryFromStorage')
+        private readonly JraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
         @inject('JraPlaceRepositoryFromHtml')
         private readonly jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
     ) {}
@@ -34,8 +34,8 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
             finishDate,
         );
         const response: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.jraPlaceRepositoryFromS3.fetchPlaceList(request);
-        const placeDataList: JraPlaceData[] = response.placeDataList.map(
+            await this.JraPlaceRepositoryFromStorage.fetchPlaceList(request);
+        const placeDataList: JraPlaceData[] = response.placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
@@ -66,9 +66,9 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         // S3にデータを保存する
         const registerPlaceListRequest =
             new RegisterPlaceListRequest<JraPlaceEntity>(
-                fetchPlaceListResponse.placeDataList,
+                fetchPlaceListResponse.placeEntityList,
             );
-        await this.jraPlaceRepositoryFromS3.registerPlaceList(
+        await this.JraPlaceRepositoryFromStorage.registerPlaceList(
             registerPlaceListRequest,
         );
     }

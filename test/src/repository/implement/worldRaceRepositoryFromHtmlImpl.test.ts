@@ -48,7 +48,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         ],
                     ),
                 );
-                expect(response.raceDataList).toHaveLength(16);
+                expect(response.raceEntityList).toHaveLength(16);
             });
         });
 

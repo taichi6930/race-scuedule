@@ -2,13 +2,13 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../../domain/narPlaceData';
+import { JraPlaceData } from '../../domain/jraPlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
-import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
-import { NarRaceCourse } from '../../utility/data/nar';
+import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
+import { JraRaceCourse } from '../../utility/data/jra';
 import { Logger } from '../../utility/logger';
-import { NarPlaceId } from '../../utility/raceId';
-import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { JraPlaceId } from '../../utility/raceId';
+import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
@@ -16,12 +16,12 @@ import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
-export class NarPlaceRepositoryFromS3Impl
-    implements IPlaceRepository<NarPlaceEntity>
+export class JraPlaceRepositoryFromStorageImpl
+    implements IPlaceRepository<JraPlaceEntity>
 {
     constructor(
-        @inject('NarPlaceS3Gateway')
-        private s3Gateway: IS3Gateway<NarPlaceRecord>,
+        @inject('JraPlaceS3Gateway')
+        private s3Gateway: IS3Gateway<JraPlaceRecord>,
     ) {}
     /**
      * 競馬場開催データを取得する
@@ -29,19 +29,20 @@ export class NarPlaceRepositoryFromS3Impl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<FetchPlaceListResponse<JraPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
+    ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
+        // startDateからfinishDateまでのファイル名リストを生成する
         const fileNames: string[] = await this.generateFileNames(
             request.startDate,
             request.finishDate,
         );
 
         // 年ごとの競馬場開催データを取得
-        const placeRecords = (
+        const placeRecords: JraPlaceRecord[] = (
             await Promise.all(
                 fileNames.map((fileName) =>
                     this.fetchYearPlaceRecordList(fileName),
@@ -50,16 +51,17 @@ export class NarPlaceRepositoryFromS3Impl
         ).flat();
 
         // Entityに変換
-        const placeEntityList: NarPlaceEntity[] = placeRecords.map(
-            (placeRecord) => {
-                return new NarPlaceEntity(
+        const placeEntityList: JraPlaceEntity[] = placeRecords.map(
+            (placeRecord) =>
+                new JraPlaceEntity(
                     placeRecord.id,
-                    new NarPlaceData(
+                    new JraPlaceData(
                         placeRecord.dateTime,
                         placeRecord.location,
+                        placeRecord.heldTimes,
+                        placeRecord.heldDayTimes,
                     ),
-                );
-            },
+                ),
         );
 
         // filterで日付の範囲を指定
@@ -116,7 +118,7 @@ export class NarPlaceRepositoryFromS3Impl
     @Logger
     private async fetchYearPlaceRecordList(
         fileName: string,
-    ): Promise<NarPlaceRecord[]> {
+    ): Promise<JraPlaceRecord[]> {
         console.log(`S3から${fileName}を取得します`);
         const csv = await this.s3Gateway.fetchDataFromS3(fileName);
         const lines = csv.split('\n');
@@ -128,9 +130,11 @@ export class NarPlaceRepositoryFromS3Impl
         const idIndex = headers.indexOf('id');
         const raceDateIndex = headers.indexOf('dateTime');
         const placeIndex = headers.indexOf('location');
+        const heldTimesIndex = headers.indexOf('heldTimes');
+        const heldDayTimesIndex = headers.indexOf('heldDayTimes');
 
-        // データ行を解析してNarPlaceRecordのリストを生成
-        const placeRecordList: NarPlaceRecord[] = lines
+        // データ行を解析してJraPlaceRecordのリストを生成
+        const placeRecordList: JraPlaceRecord[] = lines
             .slice(1)
             .map((line: string) => {
                 const columns = line.split(',');
@@ -145,14 +149,16 @@ export class NarPlaceRepositoryFromS3Impl
                 }
 
                 // idIndexが存在しない場合はundefinedを返す
-                return new NarPlaceRecord(
-                    columns[idIndex] as NarPlaceId,
+                return new JraPlaceRecord(
+                    columns[idIndex] as JraPlaceId,
                     new Date(columns[raceDateIndex]),
-                    columns[placeIndex] as NarRaceCourse,
+                    columns[placeIndex] as JraRaceCourse,
+                    parseInt(columns[heldTimesIndex]),
+                    parseInt(columns[heldDayTimesIndex]),
                 );
             })
             .filter(
-                (placeRecord): placeRecord is NarPlaceRecord =>
+                (placeRecord): placeRecord is JraPlaceRecord =>
                     placeRecord !== undefined,
             );
 
@@ -161,21 +167,23 @@ export class NarPlaceRepositoryFromS3Impl
 
     @Logger
     async registerPlaceList(
-        request: RegisterPlaceListRequest<NarPlaceEntity>,
+        request: RegisterPlaceListRequest<JraPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeEntity: NarPlaceEntity[] = request.placeDataList;
+        const placeEntity: JraPlaceEntity[] = request.placeEntityList;
         // 得られたplaceを年毎に分ける
-        const placeRecordDict: Record<string, NarPlaceRecord[]> = {};
+        const placeRecordDict: Record<string, JraPlaceRecord[]> = {};
         placeEntity.forEach((place) => {
             const key = `${place.placeData.dateTime.getFullYear().toString()}.csv`;
             if (!(key in placeRecordDict)) {
                 placeRecordDict[key] = [];
             }
             placeRecordDict[key].push(
-                new NarPlaceRecord(
+                new JraPlaceRecord(
                     place.id,
                     place.placeData.dateTime,
                     place.placeData.location,
+                    place.placeData.heldTimes,
+                    place.placeData.heldDayTimes,
                 ),
             );
         });

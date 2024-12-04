@@ -150,7 +150,7 @@ export class WorldRaceDataUseCase
                 : await this.worldRaceRepositoryFromHtml.fetchRaceList(
                       fetchRaceListRequest,
                   );
-        return fetchRaceListResponse.raceDataList;
+        return fetchRaceListResponse.raceEntityList;
     }
 
     /**

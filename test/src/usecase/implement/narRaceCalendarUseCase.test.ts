@@ -12,12 +12,12 @@ import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/na
 import type { NarGradeType } from '../../../../lib/src/utility/data/nar';
 import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/nar';
 import { baseNarRaceData, baseNarRaceEntity } from '../../mock/common/baseData';
-import { mockNarRaceRepositoryFromS3Impl } from '../../mock/repository/narRaceRepositoryFromS3Impl';
+import { mockNarRaceRepositoryFromStorageImpl } from '../../mock/repository/narRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceData>>;
-    let narRaceRepositoryFromS3Impl: jest.Mocked<
+    let narRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<NarRaceEntity, NarPlaceEntity>
     >;
     let useCase: NarRaceCalendarUseCase;
@@ -33,11 +33,12 @@ describe('NarRaceCalendarUseCase', () => {
         );
 
         // IRaceRepositoryインターフェースの依存関係を登録
-        narRaceRepositoryFromS3Impl = mockNarRaceRepositoryFromS3Impl();
+        narRaceRepositoryFromStorageImpl =
+            mockNarRaceRepositoryFromStorageImpl();
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
-            'NarRaceRepositoryFromS3',
+            'NarRaceRepositoryFromStorage',
             {
-                useValue: narRaceRepositoryFromS3Impl,
+                useValue: narRaceRepositoryFromStorageImpl,
             },
         );
 
@@ -157,8 +158,8 @@ describe('NarRaceCalendarUseCase', () => {
             });
 
             // モックが値を返すよう設定
-            narRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue({
-                raceDataList: mockRaceEntityList,
+            narRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
+                raceEntityList: mockRaceEntityList,
             });
 
             const startDate = new Date('2024-01-01');
@@ -172,7 +173,7 @@ describe('NarRaceCalendarUseCase', () => {
 
             // モックが呼び出されたことを確認
             expect(
-                narRaceRepositoryFromS3Impl.fetchRaceList,
+                narRaceRepositoryFromStorageImpl.fetchRaceList,
             ).toHaveBeenCalled();
 
             // updateEventsが呼び出された回数を確認
@@ -188,7 +189,7 @@ describe('NarRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListがエラーをスローするようにモック
-            narRaceRepositoryFromS3Impl.fetchRaceList.mockRejectedValue(
+            narRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
                 new Error('Fetch Error'),
             );
 
@@ -218,8 +219,8 @@ describe('NarRaceCalendarUseCase', () => {
 
             // fetchRaceListは正常に動作するように設定
             const mockRaceEntityList: NarRaceEntity[] = [baseNarCalendarEntity];
-            narRaceRepositoryFromS3Impl.fetchRaceList.mockResolvedValue({
-                raceDataList: mockRaceEntityList,
+            narRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
+                raceEntityList: mockRaceEntityList,
             });
 
             // updateEventsがエラーをスローするようにモック

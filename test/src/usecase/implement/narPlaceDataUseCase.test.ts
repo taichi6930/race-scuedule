@@ -12,10 +12,10 @@ import {
     baseNarPlaceEntity,
 } from '../../mock/common/baseData';
 import { mockNarPlaceRepositoryFromHtmlImpl } from '../../mock/repository/narPlaceRepositoryFromHtmlImpl';
-import { mockNarPlaceRepositoryFromS3Impl } from '../../mock/repository/narPlaceRepositoryFromS3Impl';
+import { mockNarPlaceRepositoryFromStorageImpl } from '../../mock/repository/narPlaceRepositoryFromStorageImpl';
 
 describe('NarPlaceDataUseCase', () => {
-    let narPlaceRepositoryFromS3Impl: jest.Mocked<
+    let narPlaceRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<NarPlaceEntity>
     >;
     let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
@@ -24,12 +24,13 @@ describe('NarPlaceDataUseCase', () => {
     let useCase: NarPlaceDataUseCase;
 
     beforeEach(() => {
-        // narPlaceRepositoryFromS3Implをコンテナに登録
-        narPlaceRepositoryFromS3Impl = mockNarPlaceRepositoryFromS3Impl();
+        // narPlaceRepositoryFromStorageImplをコンテナに登録
+        narPlaceRepositoryFromStorageImpl =
+            mockNarPlaceRepositoryFromStorageImpl();
         container.register<IPlaceRepository<NarPlaceEntity>>(
-            'NarPlaceRepositoryFromS3',
+            'NarPlaceRepositoryFromStorage',
             {
-                useValue: narPlaceRepositoryFromS3Impl,
+                useValue: narPlaceRepositoryFromStorageImpl,
             },
         );
 
@@ -51,7 +52,7 @@ describe('NarPlaceDataUseCase', () => {
             const mockPlaceEntity: NarPlaceEntity[] = [baseNarPlaceEntity];
 
             // モックの戻り値を設定
-            narPlaceRepositoryFromS3Impl.fetchPlaceList.mockResolvedValue(
+            narPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
                 new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceEntity),
             );
 
@@ -75,7 +76,7 @@ describe('NarPlaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            narPlaceRepositoryFromS3Impl.fetchPlaceList.mockResolvedValue(
+            narPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
                 new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceEntity),
             );
 
@@ -85,7 +86,7 @@ describe('NarPlaceDataUseCase', () => {
                 narPlaceRepositoryFromHtmlImpl.fetchPlaceList,
             ).toHaveBeenCalled();
             expect(
-                narPlaceRepositoryFromS3Impl.registerPlaceList,
+                narPlaceRepositoryFromStorageImpl.registerPlaceList,
             ).toHaveBeenCalled();
         });
     });

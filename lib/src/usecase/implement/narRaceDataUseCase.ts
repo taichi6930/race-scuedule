@@ -23,10 +23,10 @@ export class NarRaceDataUseCase
         IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
 {
     constructor(
-        @inject('NarPlaceRepositoryFromS3')
-        private readonly narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceEntity>,
-        @inject('NarRaceRepositoryFromS3')
-        private readonly narRaceRepositoryFromS3: IRaceRepository<
+        @inject('NarPlaceRepositoryFromStorage')
+        private readonly narPlaceRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,
+        @inject('NarRaceRepositoryFromStorage')
+        private readonly narRaceRepositoryFromStorage: IRaceRepository<
             NarRaceEntity,
             NarPlaceEntity
         >,
@@ -147,10 +147,10 @@ export class NarRaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<NarPlaceEntity> =
-            await this.narPlaceRepositoryFromS3.fetchPlaceList(
+            await this.narPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
-        return fetchPlaceListResponse.placeDataList;
+        return fetchPlaceListResponse.placeEntityList;
     }
 
     /**
@@ -176,13 +176,13 @@ export class NarRaceDataUseCase
         );
         const fetchRaceListResponse: FetchRaceListResponse<NarRaceEntity> =
             type === 'storage'
-                ? await this.narRaceRepositoryFromS3.fetchRaceList(
+                ? await this.narRaceRepositoryFromStorage.fetchRaceList(
                       fetchRaceListRequest,
                   )
                 : await this.narRaceRepositoryFromHtml.fetchRaceList(
                       fetchRaceListRequest,
                   );
-        return fetchRaceListResponse.raceDataList;
+        return fetchRaceListResponse.raceEntityList;
     }
 
     /**
@@ -196,7 +196,7 @@ export class NarRaceDataUseCase
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<NarRaceEntity>(raceList);
-        await this.narRaceRepositoryFromS3.registerRaceList(
+        await this.narRaceRepositoryFromStorage.registerRaceList(
             registerRaceListRequest,
         );
     }

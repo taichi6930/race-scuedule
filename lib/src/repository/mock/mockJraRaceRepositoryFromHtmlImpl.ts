@@ -16,7 +16,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
     fetchRaceList(
         request: FetchRaceListRequest<JraPlaceEntity>,
     ): Promise<FetchRaceListResponse<JraRaceEntity>> {
-        const placeEntityList = request.placeDataList;
+        const placeEntityList = request.placeEntityList;
         const raceEntityList: JraRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {

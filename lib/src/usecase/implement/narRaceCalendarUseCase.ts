@@ -17,8 +17,8 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('NarCalendarService')
         private readonly calendarService: ICalendarService<NarRaceData>,
-        @inject('NarRaceRepositoryFromS3')
-        private readonly narRaceRepositoryFromS3: IRaceRepository<
+        @inject('NarRaceRepositoryFromStorage')
+        private readonly narRaceRepositoryFromStorage: IRaceRepository<
             NarRaceEntity,
             NarPlaceEntity
         >,
@@ -62,10 +62,10 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
             const fetchRaceDataListRequest =
                 new FetchRaceListRequest<NarPlaceEntity>(startDate, finishDate);
             const fetchRaceDataListResponse =
-                await this.narRaceRepositoryFromS3.fetchRaceList(
+                await this.narRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const raceEntityList = fetchRaceDataListResponse.raceDataList;
+            const raceEntityList = fetchRaceDataListResponse.raceEntityList;
             const raceDataList = raceEntityList.map(
                 (raceEntity) => raceEntity.raceData,
             );

@@ -39,7 +39,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         request: FetchRaceListRequest<KeirinPlaceEntity>,
     ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
         const keirinRaceDataList: KeirinRaceEntity[] = [];
-        const placeList = request.placeDataList;
+        const placeList = request.placeEntityList;
         if (placeList) {
             for (const place of placeList) {
                 keirinRaceDataList.push(

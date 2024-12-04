@@ -162,7 +162,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             // モックが値を返すよう設定
             boatraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 {
-                    raceDataList: mockRaceEntityList,
+                    raceEntityList: mockRaceEntityList,
                 },
             );
 
@@ -227,7 +227,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             ];
             boatraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
                 {
-                    raceDataList: mockRaceEntityList,
+                    raceEntityList: mockRaceEntityList,
                 },
             );
 

@@ -172,7 +172,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
     async registerPlaceList(
         request: RegisterPlaceListRequest<KeirinPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeEntityList: KeirinPlaceEntity[] = request.placeDataList;
+        const placeEntityList: KeirinPlaceEntity[] = request.placeEntityList;
         // 得られたplaceを月毎に分ける
         const placeRecordDict: Record<string, KeirinPlaceRecord[]> = {};
         placeEntityList.forEach((placeEntity) => {

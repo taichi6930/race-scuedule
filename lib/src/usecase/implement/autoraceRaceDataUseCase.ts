@@ -180,7 +180,7 @@ export class AutoraceRaceDataUseCase
                 fetchPlaceListRequest,
             );
         // AutoracePlaceEntityをAutoracePlaceDataに変換する
-        return fetchPlaceListResponse.placeDataList;
+        return fetchPlaceListResponse.placeEntityList;
     }
 
     /**
@@ -213,7 +213,7 @@ export class AutoraceRaceDataUseCase
                 : await this.autoraceRaceRepositoryFromHtml.fetchRaceList(
                       fetchRaceListRequest,
                   );
-        return fetchRaceListResponse.raceDataList;
+        return fetchRaceListResponse.raceEntityList;
     }
 
     /**

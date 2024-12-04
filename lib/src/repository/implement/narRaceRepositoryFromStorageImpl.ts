@@ -22,7 +22,7 @@ import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
-export class NarRaceRepositoryFromS3Impl
+export class NarRaceRepositoryFromStorageImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
     constructor(

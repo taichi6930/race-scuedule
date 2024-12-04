@@ -12,8 +12,8 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 @injectable()
 export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
     constructor(
-        @inject('NarPlaceRepositoryFromS3')
-        private readonly narPlaceRepositoryFromS3: IPlaceRepository<NarPlaceEntity>,
+        @inject('NarPlaceRepositoryFromStorage')
+        private readonly narPlaceRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,
         @inject('NarPlaceRepositoryFromHtml')
         private readonly narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceEntity>,
     ) {}
@@ -34,8 +34,8 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
             finishDate,
         );
         const response: FetchPlaceListResponse<NarPlaceEntity> =
-            await this.narPlaceRepositoryFromS3.fetchPlaceList(request);
-        const placeDataList: NarPlaceData[] = response.placeDataList.map(
+            await this.narPlaceRepositoryFromStorage.fetchPlaceList(request);
+        const placeDataList: NarPlaceData[] = response.placeEntityList.map(
             (placeEntity) => {
                 return new NarPlaceData(
                     placeEntity.placeData.dateTime,
@@ -79,9 +79,9 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
         // S3にデータを保存する
         const registerPlaceListRequest =
             new RegisterPlaceListRequest<NarPlaceEntity>(
-                fetchPlaceListResponse.placeDataList,
+                fetchPlaceListResponse.placeEntityList,
             );
-        await this.narPlaceRepositoryFromS3.registerPlaceList(
+        await this.narPlaceRepositoryFromStorage.registerPlaceList(
             registerPlaceListRequest,
         );
     }

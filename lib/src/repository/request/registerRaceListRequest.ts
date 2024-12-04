@@ -6,6 +6,6 @@ import type { RaceEntity } from '../entity/baseEntity';
 export class RegisterRaceListRequest<R extends RaceEntity> {
     constructor(
         // レースデータ
-        public readonly raceDataList: R[],
+        public readonly raceEntityList: R[],
     ) {}
 }

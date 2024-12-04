@@ -40,7 +40,7 @@ export class BoatracePlaceDataUseCase
                 request,
             );
         // placeEntityListをplaceDataListに変換する
-        const placeDataList: BoatracePlaceData[] = response.placeDataList.map(
+        const placeDataList: BoatracePlaceData[] = response.placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
@@ -79,7 +79,7 @@ export class BoatracePlaceDataUseCase
         // S3にデータを保存する
         const registerPlaceListRequest =
             new RegisterPlaceListRequest<BoatracePlaceEntity>(
-                fetchPlaceListResponse.placeDataList,
+                fetchPlaceListResponse.placeEntityList,
             );
         await this.boatracePlaceRepositoryFromStorage.registerPlaceList(
             registerPlaceListRequest,

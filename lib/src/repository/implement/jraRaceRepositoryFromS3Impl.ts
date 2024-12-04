@@ -158,7 +158,7 @@ export class JraRaceRepositoryFromS3Impl
     async registerRaceList(
         request: RegisterRaceListRequest<JraRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntity: JraRaceEntity[] = request.raceDataList;
+        const raceEntity: JraRaceEntity[] = request.raceEntityList;
         // レースデータを日付ごとに分割する
         const raceRecordDict: Record<string, JraRaceRecord[]> = {};
         raceEntity.forEach((race) => {

@@ -49,7 +49,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         ],
                     ),
                 );
-                expect(response.raceDataList).toHaveLength(1);
+                expect(response.raceEntityList).toHaveLength(1);
             });
         });
 

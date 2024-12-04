@@ -3,28 +3,28 @@ import 'reflect-metadata';
 import { format, parse } from 'date-fns';
 import { container } from 'tsyringe';
 
-import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
+import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
-import type { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
-import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import { NarPlaceRepositoryFromS3Impl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromS3Impl';
+import type { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
+import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
+import { JraPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
-import { mockS3GatewayForNarPlace } from '../../mock/gateway/s3GatewayMock';
+import { mockS3GatewayForJraPlace } from '../../mock/gateway/s3GatewayMock';
 
-describe('NarPlaceRepositoryFromS3Impl', () => {
-    let s3Gateway: jest.Mocked<IS3Gateway<NarPlaceRecord>>;
-    let repository: NarPlaceRepositoryFromS3Impl;
+describe('JraPlaceRepositoryFromStorageImpl', () => {
+    let s3Gateway: jest.Mocked<IS3Gateway<JraPlaceRecord>>;
+    let repository: JraPlaceRepositoryFromStorageImpl;
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3GatewayForNarPlace();
+        s3Gateway = mockS3GatewayForJraPlace();
 
         // DIコンテナにモックを登録
-        container.registerInstance('NarPlaceS3Gateway', s3Gateway);
+        container.registerInstance('JraPlaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
-        repository = container.resolve(NarPlaceRepositoryFromS3Impl);
+        repository = container.resolve(JraPlaceRepositoryFromStorageImpl);
     });
 
     describe('fetchPlaceList', () => {
@@ -46,12 +46,16 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
                         'id',
                         'dateTime',
                         'location',
+                        'heldTimes',
+                        'heldDayTimes',
                     ].join(',');
 
                     const csvDataText: string = [
-                        `nar${format(date, 'yyyyMMdd')}05`,
+                        `jra${format(date, 'yyyyMMdd')}05`,
                         date.toISOString(),
-                        '大井',
+                        '東京',
+                        '1',
+                        '1',
                     ].join(',');
                     // ヘッダーとデータ行を結合して完全なCSVデータを生成
                     const csvDatajoinText: string = [
@@ -70,14 +74,14 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
             const response = await repository.fetchPlaceList(request);
 
             // レスポンスの検証
-            expect(response.placeDataList).toHaveLength(1);
+            expect(response.placeEntityList).toHaveLength(1);
         });
     });
 
     describe('registerPlaceList', () => {
         test('正しい競馬場データを登録できる', async () => {
             // 1年間の競馬場データを登録する
-            const placeDataList: NarPlaceEntity[] = Array.from(
+            const placeDataList: JraPlaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -85,16 +89,16 @@ describe('NarPlaceRepositoryFromS3Impl', () => {
                     return Array.from(
                         { length: 12 },
                         () =>
-                            new NarPlaceEntity(
+                            new JraPlaceEntity(
                                 null,
-                                new NarPlaceData(date, '大井'),
+                                new JraPlaceData(date, '東京', 1, 1),
                             ),
                     );
                 },
             ).flat();
 
             // リクエストの作成
-            const request = new RegisterPlaceListRequest<NarPlaceEntity>(
+            const request = new RegisterPlaceListRequest<JraPlaceEntity>(
                 placeDataList,
             );
             // テスト実行

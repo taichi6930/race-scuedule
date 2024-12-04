@@ -83,7 +83,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
             const response = await repository.fetchPlaceList(request);
 
             // レスポンスの検証
-            expect(response.placeDataList).toHaveLength(1);
+            expect(response.placeEntityList).toHaveLength(1);
         });
     });
 

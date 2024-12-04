@@ -23,10 +23,10 @@ export class JraRaceDataUseCase
         IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
 {
     constructor(
-        @inject('JraPlaceRepositoryFromS3')
-        private readonly jraPlaceRepositoryFromS3: IPlaceRepository<JraPlaceEntity>,
-        @inject('JraRaceRepositoryFromS3')
-        private readonly jraRaceRepositoryFromS3: IRaceRepository<
+        @inject('JraPlaceRepositoryFromStorage')
+        private readonly JraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
+        @inject('JraRaceRepositoryFromStorage')
+        private readonly JraRaceRepositoryFromStorage: IRaceRepository<
             JraRaceEntity,
             JraPlaceEntity
         >,
@@ -148,10 +148,10 @@ export class JraRaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.jraPlaceRepositoryFromS3.fetchPlaceList(
+            await this.JraPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
-        return fetchPlaceListResponse.placeDataList;
+        return fetchPlaceListResponse.placeEntityList;
     }
 
     /**
@@ -175,13 +175,13 @@ export class JraRaceDataUseCase
         );
         const fetchRaceListResponse: FetchRaceListResponse<JraRaceEntity> =
             type === 'storage'
-                ? await this.jraRaceRepositoryFromS3.fetchRaceList(
+                ? await this.JraRaceRepositoryFromStorage.fetchRaceList(
                       fetchRaceListRequest,
                   )
                 : await this.jraRaceRepositoryFromHtml.fetchRaceList(
                       fetchRaceListRequest,
                   );
-        return fetchRaceListResponse.raceDataList;
+        return fetchRaceListResponse.raceEntityList;
     }
 
     /**
@@ -195,7 +195,7 @@ export class JraRaceDataUseCase
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<JraRaceEntity>(raceList);
-        await this.jraRaceRepositoryFromS3.registerRaceList(
+        await this.JraRaceRepositoryFromStorage.registerRaceList(
             registerRaceListRequest,
         );
     }

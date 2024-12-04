@@ -16,7 +16,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
     fetchRaceList(
         request: FetchRaceListRequest<AutoracePlaceEntity>,
     ): Promise<FetchRaceListResponse<AutoraceRaceEntity>> {
-        const placeEntityList = request.placeDataList;
+        const placeEntityList = request.placeEntityList;
         const raceEntityList: AutoraceRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {

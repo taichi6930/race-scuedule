@@ -41,7 +41,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         request: FetchRaceListRequest<BoatracePlaceEntity>,
     ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
         const boatraceRaceDataList: BoatraceRaceEntity[] = [];
-        const placeList = request.placeDataList;
+        const placeList = request.placeEntityList;
         if (placeList) {
             for (const place of placeList) {
                 boatraceRaceDataList.push(

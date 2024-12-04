@@ -2,8 +2,8 @@ import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPl
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 
-// NarRaceRepositoryFromS3Implのmockを作成
-export const mockNarRaceRepositoryFromS3Impl = (): jest.Mocked<
+// NarRaceRepositoryFromStorageImplのmockを作成
+export const mockNarRaceRepositoryFromStorageImpl = (): jest.Mocked<
     IRaceRepository<NarRaceEntity, NarPlaceEntity>
 > => {
     return {
