@@ -80,18 +80,17 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
              */
             const filteredRaceEntityList: BoatraceRaceEntity[] =
                 raceEntityList.filter((raceEntity) => {
-                    const maxPlayerPriority = raceEntity.racePlayerDataList
-                        .map((playerData) => {
-                            const player = BoatracePlayerList.find(
-                                (boatracePlayer) =>
-                                    playerData.playerNumber ===
-                                    Number(boatracePlayer.playerNumber),
-                            );
-                            return player ? player.priority : 0;
-                        })
-                        .reduce(
-                            (maxPriority, playerPriority) =>
-                                Math.max(maxPriority, playerPriority),
+                    const maxPlayerPriority =
+                        raceEntity.racePlayerDataList.reduce(
+                            (maxPriority, playerData) => {
+                                const playerPriority =
+                                    BoatracePlayerList.find(
+                                        (boatracePlayer) =>
+                                            playerData.playerNumber ===
+                                            Number(boatracePlayer.playerNumber),
+                                    )?.priority ?? 0;
+                                return Math.max(maxPriority, playerPriority);
+                            },
                             0,
                         );
 
