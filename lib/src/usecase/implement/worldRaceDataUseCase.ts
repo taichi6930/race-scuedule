@@ -50,19 +50,19 @@ export class WorldRaceDataUseCase
         },
     ): Promise<WorldRaceData[]> {
         // レースデータを取得する
-        const raceEntityList = await this.getRaceDataList(
+        const raceEntityList: WorldRaceEntity[] = await this.getRaceDataList(
             startDate,
             finishDate,
             'storage',
         );
 
         // レースデータをWorldRaceDataに変換する
-        const raceDataList = raceEntityList.map(
+        const raceDataList: WorldRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
 
         // フィルタリング処理
-        const filteredRaceDataList = raceDataList
+        const filteredRaceDataList: WorldRaceData[] = raceDataList
             // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.gradeList) {
@@ -88,18 +88,18 @@ export class WorldRaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updateRaceDataList(startDate: Date, finishDate: Date): Promise<void> {
+    async updateRaceEntityList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<void> {
         try {
             // レースデータを取得する
-            const raceList = await this.getRaceDataList(
-                startDate,
-                finishDate,
-                'web',
-            );
+            const raceEntityList: WorldRaceEntity[] =
+                await this.getRaceDataList(startDate, finishDate, 'web');
 
             console.log('レースデータを登録する');
             // S3にデータを保存する
-            await this.registerRaceDataList(raceList);
+            await this.registerRaceDataList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
@@ -113,7 +113,7 @@ export class WorldRaceDataUseCase
     async upsertRaceDataList(raceList: WorldRaceData[]): Promise<void> {
         try {
             // worldRaceDataをworldRaceEntityに変換する
-            const raceEntityList = raceList.map(
+            const raceEntityList: WorldRaceEntity[] = raceList.map(
                 (raceData) => new WorldRaceEntity(null, raceData),
             );
             // S3にデータを保存する

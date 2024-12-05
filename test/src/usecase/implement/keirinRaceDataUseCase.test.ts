@@ -189,7 +189,7 @@ describe('KeirinRaceDataUseCase', () => {
                 new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
             );
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(
                 keirinPlaceRepositoryFromStorageImpl.fetchPlaceList,
@@ -215,7 +215,7 @@ describe('KeirinRaceDataUseCase', () => {
                 .spyOn(console, 'error')
                 .mockImplementation();
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(consoleSpy).toHaveBeenCalled();
         });

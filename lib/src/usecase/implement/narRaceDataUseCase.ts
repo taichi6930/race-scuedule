@@ -50,23 +50,26 @@ export class NarRaceDataUseCase
         },
     ): Promise<NarRaceData[]> {
         // 競馬場データを取得する
-        const placeList = await this.getPlaceDataList(startDate, finishDate);
-
-        // レースデータを取得する
-        const raceEntityList = await this.getRaceDataList(
+        const placeEntityList: NarPlaceEntity[] = await this.getPlaceEntityList(
             startDate,
             finishDate,
-            placeList,
+        );
+
+        // レースデータを取得する
+        const raceEntityList: NarRaceEntity[] = await this.getRaceEntityList(
+            startDate,
+            finishDate,
+            placeEntityList,
             'storage',
         );
 
         // レースデータをNarRaceDataに変換する
-        const raceDataList = raceEntityList.map(
+        const raceDataList: NarRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
 
         // フィルタリング処理
-        const filteredRaceDataList = raceDataList
+        const filteredRaceDataList: NarRaceData[] = raceDataList
             // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.gradeList) {
@@ -92,24 +95,26 @@ export class NarRaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updateRaceDataList(startDate: Date, finishDate: Date): Promise<void> {
+    async updateRaceEntityList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<void> {
         try {
             // 競馬場データを取得する
-            const placeList = await this.getPlaceDataList(
-                startDate,
-                finishDate,
-            );
+            const placeEntityList: NarPlaceEntity[] =
+                await this.getPlaceEntityList(startDate, finishDate);
 
             // レースデータを取得する
-            const raceList = await this.getRaceDataList(
-                startDate,
-                finishDate,
-                placeList,
-                'web',
-            );
+            const raceEntityList: NarRaceEntity[] =
+                await this.getRaceEntityList(
+                    startDate,
+                    finishDate,
+                    placeEntityList,
+                    'web',
+                );
 
             // S3にデータを保存する
-            await this.registerRaceDataList(raceList);
+            await this.registerRaceEntityList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
@@ -123,11 +128,11 @@ export class NarRaceDataUseCase
     async upsertRaceDataList(raceList: NarRaceData[]): Promise<void> {
         try {
             // NarRaceDataをNarRaceEntityに変換する
-            const raceEntityList = raceList.map(
+            const raceEntityList: NarRaceEntity[] = raceList.map(
                 (raceData) => new NarRaceEntity(null, raceData),
             );
             // S3にデータを保存する
-            await this.registerRaceDataList(raceEntityList);
+            await this.registerRaceEntityList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
@@ -140,7 +145,7 @@ export class NarRaceDataUseCase
      * @param finishDate
      */
     @Logger
-    private async getPlaceDataList(
+    private async getPlaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<NarPlaceEntity[]> {
@@ -163,7 +168,7 @@ export class NarRaceDataUseCase
      * @param type
      */
     @Logger
-    private async getRaceDataList(
+    private async getRaceEntityList(
         startDate: Date,
         finishDate: Date,
         placeList: NarPlaceEntity[],
@@ -191,7 +196,7 @@ export class NarRaceDataUseCase
      * @param raceList
      */
     @Logger
-    private async registerRaceDataList(
+    private async registerRaceEntityList(
         raceList: NarRaceEntity[],
     ): Promise<void> {
         const registerRaceListRequest =

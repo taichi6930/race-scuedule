@@ -159,7 +159,7 @@ describe('JraRaceDataUseCase', () => {
                 new FetchRaceListResponse<JraRaceEntity>(mockRaceEntity),
             );
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(
                 JraPlaceRepositoryFromStorageImpl.fetchPlaceList,
@@ -185,7 +185,7 @@ describe('JraRaceDataUseCase', () => {
                 .spyOn(console, 'error')
                 .mockImplementation();
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(consoleSpy).toHaveBeenCalled();
         });

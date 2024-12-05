@@ -159,7 +159,7 @@ describe('NarRaceDataUseCase', () => {
                 new FetchRaceListResponse<NarRaceEntity>(mockRaceEntity),
             );
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(
                 narPlaceRepositoryFromStorageImpl.fetchPlaceList,
@@ -185,7 +185,7 @@ describe('NarRaceDataUseCase', () => {
                 .spyOn(console, 'error')
                 .mockImplementation();
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(consoleSpy).toHaveBeenCalled();
         });

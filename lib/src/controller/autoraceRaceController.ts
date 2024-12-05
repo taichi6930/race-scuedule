@@ -494,7 +494,7 @@ export class AutoraceRaceController {
 
             console.log('test: updateRaceDataList');
             // レース情報を取得する
-            await this.autoraceRaceDataUseCase.updateRaceDataList(
+            await this.autoraceRaceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
             );

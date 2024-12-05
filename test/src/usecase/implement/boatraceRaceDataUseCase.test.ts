@@ -194,7 +194,7 @@ describe('BoatraceRaceDataUseCase', () => {
                 new FetchRaceListResponse<BoatraceRaceEntity>(mockRaceEntity),
             );
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(
                 boatracePlaceRepositoryFromStorageImpl.fetchPlaceList,
@@ -220,7 +220,7 @@ describe('BoatraceRaceDataUseCase', () => {
                 .spyOn(console, 'error')
                 .mockImplementation();
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(consoleSpy).toHaveBeenCalled();
         });

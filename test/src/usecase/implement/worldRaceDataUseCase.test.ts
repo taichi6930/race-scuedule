@@ -144,7 +144,7 @@ describe('WorldRaceDataUseCase', () => {
                 new FetchRaceListResponse<WorldRaceEntity>(mockRaceEntity),
             );
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(
                 worldRaceRepositoryFromHtmlImpl.fetchRaceList,
@@ -167,7 +167,7 @@ describe('WorldRaceDataUseCase', () => {
                 .spyOn(console, 'error')
                 .mockImplementation();
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(consoleSpy).toHaveBeenCalled();
         });

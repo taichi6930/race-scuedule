@@ -494,7 +494,7 @@ export class KeirinRaceController {
 
             console.log('test: updateRaceDataList');
             // レース情報を取得する
-            await this.keirinRaceDataUseCase.updateRaceDataList(
+            await this.keirinRaceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
             );

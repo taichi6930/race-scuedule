@@ -60,23 +60,24 @@ export class KeirinRaceDataUseCase
         },
     ): Promise<KeirinRaceData[]> {
         // 競輪場データを取得する
-        const placeList = await this.getPlaceDataList(startDate, finishDate);
+        const placeEntityList: KeirinPlaceEntity[] =
+            await this.getPlaceEntityList(startDate, finishDate);
 
         // レースデータを取得する
-        const raceEntityList = await this.getRaceDataList(
+        const raceEntityList: KeirinRaceEntity[] = await this.getRaceEntityList(
             startDate,
             finishDate,
-            placeList,
+            placeEntityList,
             'storage',
         );
 
-        // レースデータをKeirinRaceDataに変換する
-        const raceDataList = raceEntityList.map(
+        // レースデータをRaceDataに変換する
+        const raceDataList: KeirinRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
 
         // フィルタリング処理
-        const filteredRaceDataList = raceDataList
+        const filteredRaceDataList: KeirinRaceData[] = raceDataList
             // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.gradeList) {
@@ -109,25 +110,27 @@ export class KeirinRaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updateRaceDataList(startDate: Date, finishDate: Date): Promise<void> {
+    async updateRaceEntityList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<void> {
         try {
             // 競輪場データを取得する
-            const placeList = await this.getPlaceDataList(
-                startDate,
-                finishDate,
-            );
+            const placeEntityList: KeirinPlaceEntity[] =
+                await this.getPlaceEntityList(startDate, finishDate);
 
             // レースデータを取得する
-            const raceList = await this.getRaceDataList(
-                startDate,
-                finishDate,
-                placeList,
-                'web',
-            );
+            const raceEntityList: KeirinRaceEntity[] =
+                await this.getRaceEntityList(
+                    startDate,
+                    finishDate,
+                    placeEntityList,
+                    'web',
+                );
 
             console.log('レースデータを登録する');
             // S3にデータを保存する
-            await this.registerRaceDataList(raceList);
+            await this.registerRaceEntityList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
@@ -140,12 +143,12 @@ export class KeirinRaceDataUseCase
     @Logger
     async upsertRaceDataList(raceList: KeirinRaceData[]): Promise<void> {
         try {
-            // jraRaceDataをJraRaceEntityに変換する
-            const raceEntityList = raceList.map(
+            // KeirinRaceDataをKeirinRaceEntityに変換する
+            const raceEntityList: KeirinRaceEntity[] = raceList.map(
                 (raceData) => new KeirinRaceEntity(null, raceData, []),
             );
             // S3にデータを保存する
-            await this.registerRaceDataList(raceEntityList);
+            await this.registerRaceEntityList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
@@ -158,7 +161,7 @@ export class KeirinRaceDataUseCase
      * @param finishDate
      */
     @Logger
-    private async getPlaceDataList(
+    private async getPlaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<KeirinPlaceEntity[]> {
@@ -168,7 +171,6 @@ export class KeirinRaceDataUseCase
             await this.keirinPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
-        // KeirinPlaceEntityをKeirinPlaceDataに変換する
         return fetchPlaceListResponse.placeEntityList;
     }
 
@@ -182,7 +184,7 @@ export class KeirinRaceDataUseCase
      * @param type
      */
     @Logger
-    private async getRaceDataList(
+    private async getRaceEntityList(
         startDate: Date,
         finishDate: Date,
         placeList: KeirinPlaceEntity[],
@@ -211,7 +213,7 @@ export class KeirinRaceDataUseCase
      * @param raceList
      */
     @Logger
-    private async registerRaceDataList(
+    private async registerRaceEntityList(
         raceList: KeirinRaceEntity[],
     ): Promise<void> {
         const registerRaceListRequest =

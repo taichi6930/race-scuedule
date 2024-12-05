@@ -520,7 +520,7 @@ export class JraRaceController {
                 }
 
                 // レース情報を取得する
-                await this.jraRaceDataUseCase.updateRaceDataList(
+                await this.jraRaceDataUseCase.updateRaceEntityList(
                     parsedStartDate,
                     parsedFinishDate,
                 );
