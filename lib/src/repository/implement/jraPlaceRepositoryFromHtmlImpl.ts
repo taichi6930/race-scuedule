@@ -32,7 +32,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @returns Promise<FetchPlaceListResponse<JraPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
         // startDateからfinishDateまでの年のリストを生成する
@@ -205,7 +205,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<JraPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

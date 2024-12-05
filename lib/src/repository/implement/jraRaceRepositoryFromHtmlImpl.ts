@@ -28,7 +28,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<JraPlaceEntity>,
     ): Promise<FetchRaceListResponse<JraRaceEntity>> {
         const jraRaceEntityList: JraRaceEntity[] = [];
@@ -300,7 +300,7 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<JraRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

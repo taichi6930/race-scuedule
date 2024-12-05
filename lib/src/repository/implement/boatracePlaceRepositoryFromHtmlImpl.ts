@@ -41,7 +41,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @returns Promise<FetchPlaceListResponse<BoatracePlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
         const quarters: Record<string, Date> = await this.generateQuarters(
@@ -224,7 +224,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<BoatracePlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

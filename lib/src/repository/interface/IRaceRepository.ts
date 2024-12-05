@@ -15,14 +15,14 @@ export interface IRaceRepository<R extends RaceEntity, P extends PlaceEntity> {
      * @param request
      * @returns レースデータ
      */
-    fetchRaceList: (
+    fetchRaceEntityList: (
         request: FetchRaceListRequest<P>,
     ) => Promise<FetchRaceListResponse<R>>;
     /**
      * レースデータを登録する
      * @param request
      */
-    registerRaceList: (
+    registerRaceEntityList: (
         request: RegisterRaceListRequest<R>,
     ) => Promise<RegisterRaceListResponse>;
 }

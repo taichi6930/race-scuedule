@@ -40,7 +40,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
      * @returns Promise<FetchPlaceListResponse<BoatracePlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
         const fileNames: string[] = await this.generateFileNames(
@@ -172,7 +172,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceList(
+    async registerPlaceEntityList(
         request: RegisterPlaceListRequest<BoatracePlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         const placeEntityList: BoatracePlaceEntity[] = request.placeEntityList;

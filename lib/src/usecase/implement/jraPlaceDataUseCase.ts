@@ -34,7 +34,9 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
             finishDate,
         );
         const response: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.jraPlaceRepositoryFromStorage.fetchPlaceList(request);
+            await this.jraPlaceRepositoryFromStorage.fetchPlaceEntityList(
+                request,
+            );
         const placeDataList: JraPlaceData[] = response.placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
@@ -60,7 +62,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.jraPlaceRepositoryFromHtml.fetchPlaceList(
+            await this.jraPlaceRepositoryFromHtml.fetchPlaceEntityList(
                 fetchPlaceListRequest,
             );
         // S3にデータを保存する
@@ -68,7 +70,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
             new RegisterPlaceListRequest<JraPlaceEntity>(
                 fetchPlaceListResponse.placeEntityList,
             );
-        await this.jraPlaceRepositoryFromStorage.registerPlaceList(
+        await this.jraPlaceRepositoryFromStorage.registerPlaceEntityList(
             registerPlaceListRequest,
         );
     }

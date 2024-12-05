@@ -13,7 +13,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
     implements IRaceRepository<JraRaceEntity, JraPlaceEntity>
 {
     @Logger
-    fetchRaceList(
+    fetchRaceEntityList(
         request: FetchRaceListRequest<JraPlaceEntity>,
     ): Promise<FetchRaceListResponse<JraRaceEntity>> {
         const placeEntityList = request.placeEntityList;
@@ -50,7 +50,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<JraRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

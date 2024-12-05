@@ -39,7 +39,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * @returns Promise<FetchPlaceListResponse<AutoracePlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<AutoracePlaceEntity>> {
         const months: Date[] = await this.generateMonths(
@@ -190,7 +190,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<AutoracePlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

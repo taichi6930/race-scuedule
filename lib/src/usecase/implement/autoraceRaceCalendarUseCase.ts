@@ -69,7 +69,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                     finishDate,
                 );
             const fetchRaceDataListResponse =
-                await this.autoraceRaceRepositoryFromStorage.fetchRaceList(
+                await this.autoraceRaceRepositoryFromStorage.fetchRaceEntityList(
                     fetchRaceDataListRequest,
                 );
             const raceEntityList: AutoraceRaceEntity[] =

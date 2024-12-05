@@ -32,7 +32,7 @@ export class JraPlaceRepositoryFromStorageImpl
      * @returns Promise<FetchPlaceListResponse<JraPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
         // startDateからfinishDateまでのファイル名リストを生成する
@@ -166,7 +166,7 @@ export class JraPlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceList(
+    async registerPlaceEntityList(
         request: RegisterPlaceListRequest<JraPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         const placeEntity: JraPlaceEntity[] = request.placeEntityList;

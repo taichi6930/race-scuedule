@@ -154,9 +154,11 @@ describe('WorldRaceCalendarUseCase', () => {
             });
 
             // モックが値を返すよう設定
-            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
-                raceEntityList: mockRaceEntityList,
-            });
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
 
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
@@ -169,7 +171,7 @@ describe('WorldRaceCalendarUseCase', () => {
 
             // モックが呼び出されたことを確認
             expect(
-                worldRaceRepositoryFromStorageImpl.fetchRaceList,
+                worldRaceRepositoryFromStorageImpl.fetchRaceEntityList,
             ).toHaveBeenCalled();
 
             // updateEventsが呼び出された回数を確認
@@ -185,7 +187,7 @@ describe('WorldRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListがエラーをスローするようにモック
-            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('Fetch Error'),
             );
 
@@ -215,9 +217,11 @@ describe('WorldRaceCalendarUseCase', () => {
 
             // fetchRaceListは正常に動作するように設定
             const mockRaceEntityList: WorldRaceEntity[] = [baseWorldRaceEntity];
-            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
-                raceEntityList: mockRaceEntityList,
-            });
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
 
             // updateEventsがエラーをスローするようにモック
             calendarServiceMock.upsertEvents.mockRejectedValue(

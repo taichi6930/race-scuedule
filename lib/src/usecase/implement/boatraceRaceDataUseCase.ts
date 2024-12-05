@@ -169,7 +169,7 @@ export class BoatraceRaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<BoatracePlaceEntity> =
-            await this.boatracePlaceRepositoryFromStorage.fetchPlaceList(
+            await this.boatracePlaceRepositoryFromStorage.fetchPlaceEntityList(
                 fetchPlaceListRequest,
             );
         return fetchPlaceListResponse.placeEntityList;
@@ -199,10 +199,10 @@ export class BoatraceRaceDataUseCase
             );
         const fetchRaceListResponse: FetchRaceListResponse<BoatraceRaceEntity> =
             type === 'storage'
-                ? await this.boatraceRaceRepositoryFromStorage.fetchRaceList(
+                ? await this.boatraceRaceRepositoryFromStorage.fetchRaceEntityList(
                       fetchRaceListRequest,
                   )
-                : await this.boatraceRaceRepositoryFromHtml.fetchRaceList(
+                : await this.boatraceRaceRepositoryFromHtml.fetchRaceEntityList(
                       fetchRaceListRequest,
                   );
         return fetchRaceListResponse.raceEntityList;
@@ -219,7 +219,7 @@ export class BoatraceRaceDataUseCase
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<BoatraceRaceEntity>(raceList);
-        await this.boatraceRaceRepositoryFromStorage.registerRaceList(
+        await this.boatraceRaceRepositoryFromStorage.registerRaceEntityList(
             registerRaceListRequest,
         );
     }

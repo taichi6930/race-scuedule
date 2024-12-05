@@ -31,7 +31,7 @@ export class NarRaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<NarPlaceEntity>,
     ): Promise<FetchRaceListResponse<NarRaceEntity>> {
         const narRaceDataList: NarRaceEntity[] = [];
@@ -213,7 +213,7 @@ export class NarRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

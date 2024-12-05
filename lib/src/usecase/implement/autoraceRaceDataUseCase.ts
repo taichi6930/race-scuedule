@@ -169,7 +169,7 @@ export class AutoraceRaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<AutoracePlaceEntity> =
-            await this.autoracePlaceRepositoryFromStorage.fetchPlaceList(
+            await this.autoracePlaceRepositoryFromStorage.fetchPlaceEntityList(
                 fetchPlaceListRequest,
             );
         return fetchPlaceListResponse.placeEntityList;
@@ -199,10 +199,10 @@ export class AutoraceRaceDataUseCase
             );
         const fetchRaceListResponse: FetchRaceListResponse<AutoraceRaceEntity> =
             type === 'storage'
-                ? await this.autoraceRaceRepositoryFromStorage.fetchRaceList(
+                ? await this.autoraceRaceRepositoryFromStorage.fetchRaceEntityList(
                       fetchRaceListRequest,
                   )
-                : await this.autoraceRaceRepositoryFromHtml.fetchRaceList(
+                : await this.autoraceRaceRepositoryFromHtml.fetchRaceEntityList(
                       fetchRaceListRequest,
                   );
         return fetchRaceListResponse.raceEntityList;
@@ -219,7 +219,7 @@ export class AutoraceRaceDataUseCase
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<AutoraceRaceEntity>(raceList);
-        await this.autoraceRaceRepositoryFromStorage.registerRaceList(
+        await this.autoraceRaceRepositoryFromStorage.registerRaceEntityList(
             registerRaceListRequest,
         );
     }

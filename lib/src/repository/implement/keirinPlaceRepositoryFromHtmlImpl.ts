@@ -36,7 +36,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * @returns Promise<FetchPlaceListResponse<KeirinPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
         const months: Date[] = await this.generateMonths(
@@ -183,7 +183,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<KeirinPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

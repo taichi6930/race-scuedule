@@ -6,10 +6,10 @@ export const mockAutoracePlaceRepositoryFromStorageImpl = (): jest.Mocked<
     IPlaceRepository<AutoracePlaceEntity>
 > => {
     return {
-        fetchPlaceList: jest
+        fetchPlaceEntityList: jest
             .fn()
             .mockResolvedValue([] as AutoracePlaceEntity[]),
-        registerPlaceList: jest
+        registerPlaceEntityList: jest
             .fn()
             .mockResolvedValue({} as AutoracePlaceEntity),
     };

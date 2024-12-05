@@ -153,7 +153,7 @@ export class JraRaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.jraPlaceRepositoryFromStorage.fetchPlaceList(
+            await this.jraPlaceRepositoryFromStorage.fetchPlaceEntityList(
                 fetchPlaceListRequest,
             );
         return fetchPlaceListResponse.placeEntityList;
@@ -180,10 +180,10 @@ export class JraRaceDataUseCase
         );
         const fetchRaceListResponse: FetchRaceListResponse<JraRaceEntity> =
             type === 'storage'
-                ? await this.jraRaceRepositoryFromStorage.fetchRaceList(
+                ? await this.jraRaceRepositoryFromStorage.fetchRaceEntityList(
                       fetchRaceListRequest,
                   )
-                : await this.jraRaceRepositoryFromHtml.fetchRaceList(
+                : await this.jraRaceRepositoryFromHtml.fetchRaceEntityList(
                       fetchRaceListRequest,
                   );
         return fetchRaceListResponse.raceEntityList;
@@ -200,7 +200,7 @@ export class JraRaceDataUseCase
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<JraRaceEntity>(raceList);
-        await this.jraRaceRepositoryFromStorage.registerRaceList(
+        await this.jraRaceRepositoryFromStorage.registerRaceEntityList(
             registerRaceListRequest,
         );
     }

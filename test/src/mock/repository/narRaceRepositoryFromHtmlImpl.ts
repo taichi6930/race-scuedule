@@ -7,7 +7,9 @@ export const mockNarRaceRepositoryFromHtmlImpl = (): jest.Mocked<
     IRaceRepository<NarRaceEntity, NarPlaceEntity>
 > => {
     return {
-        fetchRaceList: jest.fn().mockResolvedValue([] as NarRaceEntity[]),
-        registerRaceList: jest.fn().mockResolvedValue({} as NarRaceEntity),
+        fetchRaceEntityList: jest.fn().mockResolvedValue([] as NarRaceEntity[]),
+        registerRaceEntityList: jest
+            .fn()
+            .mockResolvedValue({} as NarRaceEntity),
     };
 };

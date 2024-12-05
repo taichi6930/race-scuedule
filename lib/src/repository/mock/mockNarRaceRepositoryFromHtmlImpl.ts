@@ -13,7 +13,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
     @Logger
-    fetchRaceList(
+    fetchRaceEntityList(
         request: FetchRaceListRequest<NarPlaceEntity>,
     ): Promise<FetchRaceListResponse<NarRaceEntity>> {
         const placeEntityList = request.placeEntityList;
@@ -48,7 +48,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

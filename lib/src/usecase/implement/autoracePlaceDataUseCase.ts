@@ -36,7 +36,7 @@ export class AutoracePlaceDataUseCase
             finishDate,
         );
         const response: FetchPlaceListResponse<AutoracePlaceEntity> =
-            await this.autoracePlaceRepositoryFromStorage.fetchPlaceList(
+            await this.autoracePlaceRepositoryFromStorage.fetchPlaceEntityList(
                 request,
             );
         // placeEntityListをplaceDataListに変換する
@@ -73,7 +73,7 @@ export class AutoracePlaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<AutoracePlaceEntity> =
-            await this.autoracePlaceRepositoryFromHtml.fetchPlaceList(
+            await this.autoracePlaceRepositoryFromHtml.fetchPlaceEntityList(
                 fetchPlaceListRequest,
             );
         // S3にデータを保存する
@@ -81,7 +81,7 @@ export class AutoracePlaceDataUseCase
             new RegisterPlaceListRequest<AutoracePlaceEntity>(
                 fetchPlaceListResponse.placeEntityList,
             );
-        await this.autoracePlaceRepositoryFromStorage.registerPlaceList(
+        await this.autoracePlaceRepositoryFromStorage.registerPlaceEntityList(
             registerPlaceListRequest,
         );
     }

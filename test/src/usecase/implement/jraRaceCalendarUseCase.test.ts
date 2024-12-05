@@ -151,9 +151,11 @@ describe('JraRaceCalendarUseCase', () => {
             });
 
             // モックが値を返すよう設定
-            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
-                raceEntityList: mockRaceEntityList,
-            });
+            JraRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
 
             const startDate = new Date('2024-01-01');
             const finishDate = new Date('2024-03-31');
@@ -166,7 +168,7 @@ describe('JraRaceCalendarUseCase', () => {
 
             // モックが呼び出されたことを確認
             expect(
-                JraRaceRepositoryFromStorageImpl.fetchRaceList,
+                JraRaceRepositoryFromStorageImpl.fetchRaceEntityList,
             ).toHaveBeenCalled();
 
             // updateEventsが呼び出された回数を確認
@@ -182,7 +184,7 @@ describe('JraRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListがエラーをスローするようにモック
-            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
+            JraRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('Fetch Error'),
             );
 
@@ -212,9 +214,11 @@ describe('JraRaceCalendarUseCase', () => {
 
             // fetchRaceListは正常に動作するように設定
             const mockRaceEntityList: JraRaceEntity[] = [baseJraRaceEntity];
-            JraRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue({
-                raceEntityList: mockRaceEntityList,
-            });
+            JraRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
 
             // updateEventsがエラーをスローするようにモック
             calendarServiceMock.upsertEvents.mockRejectedValue(

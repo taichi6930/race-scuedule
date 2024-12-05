@@ -37,7 +37,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
      * @returns Promise<FetchPlaceListResponse<KeirinPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
         const fileNames: string[] = await this.generateFileNames(
@@ -169,7 +169,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceList(
+    async registerPlaceEntityList(
         request: RegisterPlaceListRequest<KeirinPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         const placeEntityList: KeirinPlaceEntity[] = request.placeEntityList;

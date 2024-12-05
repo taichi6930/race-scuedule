@@ -7,7 +7,11 @@ export const mockKeirinRaceRepositoryFromHtmlImpl = (): jest.Mocked<
     IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 > => {
     return {
-        fetchRaceList: jest.fn().mockResolvedValue([] as KeirinRaceEntity[]),
-        registerRaceList: jest.fn().mockResolvedValue({} as KeirinRaceEntity),
+        fetchRaceEntityList: jest
+            .fn()
+            .mockResolvedValue([] as KeirinRaceEntity[]),
+        registerRaceEntityList: jest
+            .fn()
+            .mockResolvedValue({} as KeirinRaceEntity),
     };
 };

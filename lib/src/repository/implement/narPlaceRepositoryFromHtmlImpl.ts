@@ -36,7 +36,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
         const months: Date[] = await this.generateMonths(
@@ -174,7 +174,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<NarPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

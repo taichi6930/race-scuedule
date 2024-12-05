@@ -32,7 +32,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
 
         describe('fetchPlaceList', () => {
             test('正しいボートレース場データを取得できる', async () => {
-                const response = await repository.fetchPlaceList(
+                const response = await repository.fetchPlaceEntityList(
                     new FetchPlaceListRequest(
                         new Date('2024-10-01'),
                         new Date('2024-12-31'),
@@ -49,7 +49,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                     new RegisterPlaceListRequest<BoatracePlaceEntity>([]);
                 // テスト実行
                 await expect(
-                    repository.registerPlaceList(request),
+                    repository.registerPlaceEntityList(request),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
         });

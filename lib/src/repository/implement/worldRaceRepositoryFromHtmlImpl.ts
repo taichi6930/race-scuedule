@@ -39,7 +39,7 @@ export class WorldRaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<WorldPlaceEntity>,
     ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
         const months: Date[] = await this.generateMonths(
@@ -266,7 +266,7 @@ export class WorldRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<WorldRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

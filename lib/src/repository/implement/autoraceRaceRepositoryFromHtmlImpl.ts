@@ -34,7 +34,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<AutoracePlaceEntity>,
     ): Promise<FetchRaceListResponse<AutoraceRaceEntity>> {
         const autoraceRaceDataList: AutoraceRaceEntity[] = [];
@@ -213,7 +213,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<AutoraceRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

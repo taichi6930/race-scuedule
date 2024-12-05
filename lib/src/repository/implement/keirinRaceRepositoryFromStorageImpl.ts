@@ -46,7 +46,7 @@ export class KeirinRaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<KeirinPlaceEntity>,
     ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
@@ -210,7 +210,7 @@ export class KeirinRaceRepositoryFromStorageImpl
      * @param request
      */
     @Logger
-    async registerRaceList(
+    async registerRaceEntityList(
         request: RegisterRaceListRequest<KeirinRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         const raceEntityList: KeirinRaceEntity[] = request.raceEntityList;

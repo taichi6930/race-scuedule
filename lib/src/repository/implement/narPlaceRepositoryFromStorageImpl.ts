@@ -32,7 +32,7 @@ export class NarPlaceRepositoryFromStorageImpl
      * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
         const fileNames: string[] = await this.generateFileNames(
@@ -160,7 +160,7 @@ export class NarPlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceList(
+    async registerPlaceEntityList(
         request: RegisterPlaceListRequest<NarPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         const placeEntity: NarPlaceEntity[] = request.placeEntityList;

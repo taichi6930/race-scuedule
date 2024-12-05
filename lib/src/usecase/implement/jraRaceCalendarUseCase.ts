@@ -62,7 +62,7 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
             const fetchRaceDataListRequest =
                 new FetchRaceListRequest<JraPlaceEntity>(startDate, finishDate);
             const fetchRaceDataListResponse =
-                await this.jraRaceRepositoryFromStorage.fetchRaceList(
+                await this.jraRaceRepositoryFromStorage.fetchRaceEntityList(
                     fetchRaceDataListRequest,
                 );
             // レース情報を取得

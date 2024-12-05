@@ -150,7 +150,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             });
 
             // モックが値を返すよう設定
-            boatraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 {
                     raceEntityList: mockRaceEntityList,
                 },
@@ -167,7 +167,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
 
             // モックが呼び出されたことを確認
             expect(
-                boatraceRaceRepositoryFromStorageImpl.fetchRaceList,
+                boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList,
             ).toHaveBeenCalled();
 
             // updateEventsが呼び出された回数を確認
@@ -183,7 +183,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListがエラーをスローするようにモック
-            boatraceRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('Fetch Error'),
             );
 
@@ -215,7 +215,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             const mockRaceEntityList: BoatraceRaceEntity[] = [
                 baseBoatraceRaceEntity,
             ];
-            boatraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 {
                     raceEntityList: mockRaceEntityList,
                 },

@@ -15,7 +15,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
 {
     @Logger
-    fetchRaceList(
+    fetchRaceEntityList(
         request: FetchRaceListRequest<BoatracePlaceEntity>,
     ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
         const placeEntityList = request.placeEntityList;
@@ -52,7 +52,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<BoatraceRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

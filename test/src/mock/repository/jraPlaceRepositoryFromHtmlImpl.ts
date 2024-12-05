@@ -6,7 +6,11 @@ export const mockJraPlaceRepositoryFromHtmlImpl = (): jest.Mocked<
     IPlaceRepository<JraPlaceEntity>
 > => {
     return {
-        fetchPlaceList: jest.fn().mockResolvedValue([] as JraPlaceEntity[]),
-        registerPlaceList: jest.fn().mockResolvedValue({} as JraPlaceEntity),
+        fetchPlaceEntityList: jest
+            .fn()
+            .mockResolvedValue([] as JraPlaceEntity[]),
+        registerPlaceEntityList: jest
+            .fn()
+            .mockResolvedValue({} as JraPlaceEntity),
     };
 };

@@ -40,7 +40,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
      * @returns Promise<FetchPlaceListResponse<AutoracePlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<AutoracePlaceEntity>> {
         const fileNames: string[] = await this.generateFileNames(
@@ -172,7 +172,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceList(
+    async registerPlaceEntityList(
         request: RegisterPlaceListRequest<AutoracePlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         const placeEntityList: AutoracePlaceEntity[] = request.placeEntityList;

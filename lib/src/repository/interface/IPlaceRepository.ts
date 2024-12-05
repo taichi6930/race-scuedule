@@ -14,7 +14,7 @@ export interface IPlaceRepository<P extends PlaceEntity> {
      * @param request
      * @returns 開催データ
      */
-    fetchPlaceList: (
+    fetchPlaceEntityList: (
         request: FetchPlaceListRequest,
     ) => Promise<FetchPlaceListResponse<P>>;
 
@@ -22,7 +22,7 @@ export interface IPlaceRepository<P extends PlaceEntity> {
      * 開催データを登録する
      * @param request
      */
-    registerPlaceList: (
+    registerPlaceEntityList: (
         request: RegisterPlaceListRequest<P>,
     ) => Promise<RegisterPlaceListResponse>;
 }

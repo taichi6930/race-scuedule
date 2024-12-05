@@ -71,7 +71,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                 new Date('2024-02-01'),
             );
             // テスト実行
-            const response = await repository.fetchPlaceList(request);
+            const response = await repository.fetchPlaceEntityList(request);
 
             // レスポンスの検証
             expect(response.placeEntityList).toHaveLength(1);
@@ -102,7 +102,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                 placeDataList,
             );
             // テスト実行
-            await repository.registerPlaceList(request);
+            await repository.registerPlaceEntityList(request);
 
             // uploadDataToS3が12回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

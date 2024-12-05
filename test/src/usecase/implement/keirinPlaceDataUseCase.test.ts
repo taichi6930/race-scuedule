@@ -55,7 +55,7 @@ describe('KeirinPlaceDataUseCase', () => {
             ];
 
             // モックの戻り値を設定
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
+            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
             );
 
@@ -81,17 +81,17 @@ describe('KeirinPlaceDataUseCase', () => {
             const finishDate = new Date('2025-12-31');
 
             // モックの戻り値を設定
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
+            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
             expect(
-                keirinPlaceRepositoryFromHtmlImpl.fetchPlaceList,
+                keirinPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                keirinPlaceRepositoryFromStorageImpl.registerPlaceList,
+                keirinPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

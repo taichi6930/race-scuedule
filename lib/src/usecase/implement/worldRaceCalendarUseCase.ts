@@ -65,7 +65,7 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
                     finishDate,
                 );
             const fetchRaceDataListResponse =
-                await this.worldRaceRepositoryFromStorage.fetchRaceList(
+                await this.worldRaceRepositoryFromStorage.fetchRaceEntityList(
                     fetchRaceDataListRequest,
                 );
             // レース情報を取得

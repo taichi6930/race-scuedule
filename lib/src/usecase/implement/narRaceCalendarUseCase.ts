@@ -62,7 +62,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
             const fetchRaceDataListRequest =
                 new FetchRaceListRequest<NarPlaceEntity>(startDate, finishDate);
             const fetchRaceDataListResponse =
-                await this.narRaceRepositoryFromStorage.fetchRaceList(
+                await this.narRaceRepositoryFromStorage.fetchRaceEntityList(
                     fetchRaceDataListRequest,
                 );
             // レース情報を取得

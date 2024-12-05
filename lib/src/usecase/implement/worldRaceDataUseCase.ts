@@ -144,10 +144,10 @@ export class WorldRaceDataUseCase
         );
         const fetchRaceListResponse: FetchRaceListResponse<WorldRaceEntity> =
             type === 'storage'
-                ? await this.worldRaceRepositoryFromStorage.fetchRaceList(
+                ? await this.worldRaceRepositoryFromStorage.fetchRaceEntityList(
                       fetchRaceListRequest,
                   )
-                : await this.worldRaceRepositoryFromHtml.fetchRaceList(
+                : await this.worldRaceRepositoryFromHtml.fetchRaceEntityList(
                       fetchRaceListRequest,
                   );
         return fetchRaceListResponse.raceEntityList;
@@ -164,7 +164,7 @@ export class WorldRaceDataUseCase
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<WorldRaceEntity>(raceList);
-        await this.worldRaceRepositoryFromStorage.registerRaceList(
+        await this.worldRaceRepositoryFromStorage.registerRaceEntityList(
             registerRaceListRequest,
         );
     }

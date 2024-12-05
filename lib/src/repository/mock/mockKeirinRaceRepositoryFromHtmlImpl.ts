@@ -15,7 +15,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
     implements IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
 {
     @Logger
-    fetchRaceList(
+    fetchRaceEntityList(
         request: FetchRaceListRequest<KeirinPlaceEntity>,
     ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
         const placeEntityList = request.placeEntityList;
@@ -52,7 +52,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<KeirinRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

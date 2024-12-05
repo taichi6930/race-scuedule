@@ -35,7 +35,7 @@ export class JraRaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<JraPlaceEntity>,
     ): Promise<FetchRaceListResponse<JraRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
@@ -155,7 +155,7 @@ export class JraRaceRepositoryFromStorageImpl
      * @param request
      */
     @Logger
-    async registerRaceList(
+    async registerRaceEntityList(
         request: RegisterRaceListRequest<JraRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         const raceEntity: JraRaceEntity[] = request.raceEntityList;

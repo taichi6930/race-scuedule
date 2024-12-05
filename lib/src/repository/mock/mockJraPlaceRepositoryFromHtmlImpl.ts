@@ -16,7 +16,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    fetchPlaceList(
+    fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
         // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
@@ -45,7 +45,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<JraPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

@@ -53,7 +53,7 @@ describe('WorldRaceDataUseCase', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<WorldRaceEntity>(mockRaceEntity),
             );
 
@@ -72,7 +72,7 @@ describe('WorldRaceDataUseCase', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<WorldRaceEntity>(mockRaceEntity),
             );
 
@@ -93,7 +93,7 @@ describe('WorldRaceDataUseCase', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<WorldRaceEntity>(mockRaceEntity),
             );
 
@@ -114,7 +114,7 @@ describe('WorldRaceDataUseCase', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<WorldRaceEntity>(mockRaceEntity),
             );
 
@@ -140,17 +140,17 @@ describe('WorldRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            worldRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<WorldRaceEntity>(mockRaceEntity),
             );
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(
-                worldRaceRepositoryFromHtmlImpl.fetchRaceList,
+                worldRaceRepositoryFromHtmlImpl.fetchRaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                worldRaceRepositoryFromStorageImpl.registerRaceList,
+                worldRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -159,7 +159,7 @@ describe('WorldRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定（エラーが発生するように設定）
-            worldRaceRepositoryFromHtmlImpl.fetchRaceList.mockRejectedValue(
+            worldRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -180,14 +180,14 @@ describe('WorldRaceDataUseCase', () => {
             await useCase.upsertRaceDataList(mockRaceData);
 
             expect(
-                worldRaceRepositoryFromStorageImpl.registerRaceList,
+                worldRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             const mockRaceData: WorldRaceData[] = baseWorldRaceDataList;
             // モックの戻り値を設定（エラーが発生するように設定）
-            worldRaceRepositoryFromStorageImpl.registerRaceList.mockRejectedValue(
+            worldRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
                 new Error('レースデータの登録に失敗しました'),
             );
 

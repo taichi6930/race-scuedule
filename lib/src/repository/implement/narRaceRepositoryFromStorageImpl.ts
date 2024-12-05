@@ -35,7 +35,7 @@ export class NarRaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<NarPlaceEntity>,
     ): Promise<FetchRaceListResponse<NarRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
@@ -148,7 +148,7 @@ export class NarRaceRepositoryFromStorageImpl
      * @param request
      */
     @Logger
-    async registerRaceList(
+    async registerRaceEntityList(
         request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         const raceEntity: NarRaceEntity[] = request.raceEntityList;

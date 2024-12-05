@@ -55,7 +55,7 @@ describe('AutoracePlaceDataUseCase', () => {
             ];
 
             // モックの戻り値を設定
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
+            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 new FetchPlaceListResponse<AutoracePlaceEntity>(
                     mockPlaceEntity,
                 ),
@@ -83,7 +83,7 @@ describe('AutoracePlaceDataUseCase', () => {
             const finishDate = new Date('2025-12-31');
 
             // モックの戻り値を設定
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
+            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 new FetchPlaceListResponse<AutoracePlaceEntity>(
                     mockPlaceEntity,
                 ),
@@ -92,10 +92,10 @@ describe('AutoracePlaceDataUseCase', () => {
             await useCase.updatePlaceDataList(startDate, finishDate);
 
             expect(
-                autoracePlaceRepositoryFromHtmlImpl.fetchPlaceList,
+                autoracePlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                autoracePlaceRepositoryFromStorageImpl.registerPlaceList,
+                autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

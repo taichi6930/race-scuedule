@@ -46,7 +46,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<BoatracePlaceEntity>,
     ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
@@ -212,7 +212,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
      * @param request
      */
     @Logger
-    async registerRaceList(
+    async registerRaceEntityList(
         request: RegisterRaceListRequest<BoatraceRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         const raceEntityList: BoatraceRaceEntity[] = request.raceEntityList;

@@ -37,7 +37,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<BoatracePlaceEntity>,
     ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
         const boatraceRaceDataList: BoatraceRaceEntity[] = [];
@@ -182,7 +182,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<BoatraceRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);
