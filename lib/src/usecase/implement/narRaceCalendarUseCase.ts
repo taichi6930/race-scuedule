@@ -66,7 +66,8 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
                     fetchRaceDataListRequest,
                 );
             // レース情報を取得
-            const raceEntityList = fetchRaceDataListResponse.raceEntityList;
+            const raceEntityList: NarRaceEntity[] =
+                fetchRaceDataListResponse.raceEntityList;
             // レース情報をJraRaceDataに変換する
             const raceDataList = raceEntityList.map(
                 (raceEntity) => raceEntity.raceData,
