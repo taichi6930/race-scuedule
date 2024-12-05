@@ -24,9 +24,9 @@ export class JraRaceDataUseCase
 {
     constructor(
         @inject('JraPlaceRepositoryFromStorage')
-        private readonly JraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
+        private readonly jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
         @inject('JraRaceRepositoryFromStorage')
-        private readonly JraRaceRepositoryFromStorage: IRaceRepository<
+        private readonly jraRaceRepositoryFromStorage: IRaceRepository<
             JraRaceEntity,
             JraPlaceEntity
         >,
@@ -153,7 +153,7 @@ export class JraRaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.JraPlaceRepositoryFromStorage.fetchPlaceList(
+            await this.jraPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
         return fetchPlaceListResponse.placeEntityList;
@@ -180,7 +180,7 @@ export class JraRaceDataUseCase
         );
         const fetchRaceListResponse: FetchRaceListResponse<JraRaceEntity> =
             type === 'storage'
-                ? await this.JraRaceRepositoryFromStorage.fetchRaceList(
+                ? await this.jraRaceRepositoryFromStorage.fetchRaceList(
                       fetchRaceListRequest,
                   )
                 : await this.jraRaceRepositoryFromHtml.fetchRaceList(
@@ -200,7 +200,7 @@ export class JraRaceDataUseCase
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<JraRaceEntity>(raceList);
-        await this.JraRaceRepositoryFromStorage.registerRaceList(
+        await this.jraRaceRepositoryFromStorage.registerRaceList(
             registerRaceListRequest,
         );
     }

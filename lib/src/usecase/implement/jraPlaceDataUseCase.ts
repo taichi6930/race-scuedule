@@ -13,7 +13,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
     constructor(
         @inject('JraPlaceRepositoryFromStorage')
-        private readonly JraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
+        private readonly jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
         @inject('JraPlaceRepositoryFromHtml')
         private readonly jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
     ) {}
@@ -34,7 +34,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
             finishDate,
         );
         const response: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.JraPlaceRepositoryFromStorage.fetchPlaceList(request);
+            await this.jraPlaceRepositoryFromStorage.fetchPlaceList(request);
         const placeDataList: JraPlaceData[] = response.placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
@@ -68,7 +68,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
             new RegisterPlaceListRequest<JraPlaceEntity>(
                 fetchPlaceListResponse.placeEntityList,
             );
-        await this.JraPlaceRepositoryFromStorage.registerPlaceList(
+        await this.jraPlaceRepositoryFromStorage.registerPlaceList(
             registerPlaceListRequest,
         );
     }
