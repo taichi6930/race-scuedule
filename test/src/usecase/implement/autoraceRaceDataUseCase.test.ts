@@ -194,7 +194,7 @@ describe('AutoraceRaceDataUseCase', () => {
                 new FetchRaceListResponse<AutoraceRaceEntity>(mockRaceEntity),
             );
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(
                 autoracePlaceRepositoryFromStorageImpl.fetchPlaceList,
@@ -220,7 +220,7 @@ describe('AutoraceRaceDataUseCase', () => {
                 .spyOn(console, 'error')
                 .mockImplementation();
 
-            await useCase.updateRaceDataList(startDate, finishDate);
+            await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(consoleSpy).toHaveBeenCalled();
         });

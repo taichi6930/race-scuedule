@@ -473,7 +473,7 @@ export class WorldRaceController {
             }
 
             // レース情報を取得する
-            await this.worldRaceDataUseCase.updateRaceDataList(
+            await this.worldRaceDataUseCase.updateRaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
             );

@@ -72,7 +72,8 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                 await this.autoraceRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const raceEntityList = fetchRaceDataListResponse.raceEntityList;
+            const raceEntityList: AutoraceRaceEntity[] =
+                fetchRaceDataListResponse.raceEntityList;
             /**
              * 表示対象のレースデータのみに絞り込む
              * - 6以上の優先度を持つレースデータを表示対象とする

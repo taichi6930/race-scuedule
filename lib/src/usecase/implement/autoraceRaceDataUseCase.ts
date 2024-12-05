@@ -60,23 +60,25 @@ export class AutoraceRaceDataUseCase
         },
     ): Promise<AutoraceRaceData[]> {
         // オートレース場データを取得する
-        const placeList = await this.getPlaceDataList(startDate, finishDate);
+        const placeEntityList: AutoracePlaceEntity[] =
+            await this.getPlaceEntityList(startDate, finishDate);
 
         // レースデータを取得する
-        const raceEntityList = await this.getRaceDataList(
-            startDate,
-            finishDate,
-            placeList,
-            'storage',
-        );
+        const raceEntityList: AutoraceRaceEntity[] =
+            await this.getRaceEntityList(
+                startDate,
+                finishDate,
+                placeEntityList,
+                'storage',
+            );
 
         // レースデータをRaceDataに変換する
-        const raceDataList = raceEntityList.map(
+        const raceDataList: AutoraceRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
 
         // フィルタリング処理
-        const filteredRaceDataList = raceDataList
+        const filteredRaceDataList: AutoraceRaceData[] = raceDataList
             // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.gradeList) {
@@ -109,25 +111,27 @@ export class AutoraceRaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updateRaceDataList(startDate: Date, finishDate: Date): Promise<void> {
+    async updateRaceEntityList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<void> {
         try {
             // オートレース場データを取得する
-            const placeList = await this.getPlaceDataList(
-                startDate,
-                finishDate,
-            );
+            const placeEntityList: AutoracePlaceEntity[] =
+                await this.getPlaceEntityList(startDate, finishDate);
 
             // レースデータを取得する
-            const raceList = await this.getRaceDataList(
-                startDate,
-                finishDate,
-                placeList,
-                'web',
-            );
+            const raceEntityList: AutoraceRaceEntity[] =
+                await this.getRaceEntityList(
+                    startDate,
+                    finishDate,
+                    placeEntityList,
+                    'web',
+                );
 
             console.log('レースデータを登録する');
             // S3にデータを保存する
-            await this.registerRaceDataList(raceList);
+            await this.registerRaceEntityList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
@@ -140,23 +144,12 @@ export class AutoraceRaceDataUseCase
     @Logger
     async upsertRaceDataList(raceList: AutoraceRaceData[]): Promise<void> {
         try {
-            // jraRaceDataをJraRaceEntityに変換する
-            const raceEntityList = raceList.map((raceData) => {
-                return new AutoraceRaceEntity(
-                    null,
-                    new AutoraceRaceData(
-                        raceData.name,
-                        raceData.stage,
-                        raceData.dateTime,
-                        raceData.location,
-                        raceData.grade,
-                        raceData.number,
-                    ),
-                    [],
-                );
-            });
+            // AutoraceRaceDataをAutoraceRaceEntityに変換する
+            const raceEntityList: AutoraceRaceEntity[] = raceList.map(
+                (raceData) => new AutoraceRaceEntity(null, raceData, []),
+            );
             // S3にデータを保存する
-            await this.registerRaceDataList(raceEntityList);
+            await this.registerRaceEntityList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
@@ -169,7 +162,7 @@ export class AutoraceRaceDataUseCase
      * @param finishDate
      */
     @Logger
-    private async getPlaceDataList(
+    private async getPlaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<AutoracePlaceEntity[]> {
@@ -179,7 +172,6 @@ export class AutoraceRaceDataUseCase
             await this.autoracePlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
-        // AutoracePlaceEntityをAutoracePlaceDataに変換する
         return fetchPlaceListResponse.placeEntityList;
     }
 
@@ -193,7 +185,7 @@ export class AutoraceRaceDataUseCase
      * @param type
      */
     @Logger
-    private async getRaceDataList(
+    private async getRaceEntityList(
         startDate: Date,
         finishDate: Date,
         placeList: AutoracePlaceEntity[],
@@ -222,7 +214,7 @@ export class AutoraceRaceDataUseCase
      * @param raceList
      */
     @Logger
-    private async registerRaceDataList(
+    private async registerRaceEntityList(
         raceList: AutoraceRaceEntity[],
     ): Promise<void> {
         const registerRaceListRequest =

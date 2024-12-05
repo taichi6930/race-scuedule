@@ -72,7 +72,8 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 await this.keirinRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const raceEntityList = fetchRaceDataListResponse.raceEntityList;
+            const raceEntityList: KeirinRaceEntity[] =
+                fetchRaceDataListResponse.raceEntityList;
             /**
              * 表示対象のレースデータのみに絞り込む
              * - 6以上の優先度を持つレースデータを表示対象とする

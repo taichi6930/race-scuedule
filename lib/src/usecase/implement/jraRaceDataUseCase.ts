@@ -24,9 +24,9 @@ export class JraRaceDataUseCase
 {
     constructor(
         @inject('JraPlaceRepositoryFromStorage')
-        private readonly JraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
+        private readonly jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
         @inject('JraRaceRepositoryFromStorage')
-        private readonly JraRaceRepositoryFromStorage: IRaceRepository<
+        private readonly jraRaceRepositoryFromStorage: IRaceRepository<
             JraRaceEntity,
             JraPlaceEntity
         >,
@@ -51,23 +51,26 @@ export class JraRaceDataUseCase
         },
     ): Promise<JraRaceData[]> {
         // 競馬場データを取得する
-        const placeList = await this.getPlaceDataList(startDate, finishDate);
-
-        // レースデータを取得する
-        const raceEntityList = await this.getRaceDataList(
+        const placeEntityList: JraPlaceEntity[] = await this.getPlaceEntityList(
             startDate,
             finishDate,
-            placeList,
+        );
+
+        // レースデータを取得する
+        const raceEntityList: JraRaceEntity[] = await this.getRaceEntityList(
+            startDate,
+            finishDate,
+            placeEntityList,
             'storage',
         );
 
         // レースデータをJraRaceDataに変換する
-        const raceDataList = raceEntityList.map(
+        const raceDataList: JraRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
 
         // フィルタリング処理
-        const filteredRaceDataList = raceDataList
+        const filteredRaceDataList: JraRaceData[] = raceDataList
             // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.gradeList) {
@@ -93,24 +96,26 @@ export class JraRaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updateRaceDataList(startDate: Date, finishDate: Date): Promise<void> {
+    async updateRaceEntityList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<void> {
         try {
             // 競馬場データを取得する
-            const placeList = await this.getPlaceDataList(
-                startDate,
-                finishDate,
-            );
+            const placeEntityList: JraPlaceEntity[] =
+                await this.getPlaceEntityList(startDate, finishDate);
 
             // レースデータを取得する
-            const raceList = await this.getRaceDataList(
-                startDate,
-                finishDate,
-                placeList,
-                'web',
-            );
+            const raceEntityList: JraRaceEntity[] =
+                await this.getRaceEntityList(
+                    startDate,
+                    finishDate,
+                    placeEntityList,
+                    'web',
+                );
 
             // S3にデータを保存する
-            await this.registerRaceDataList(raceList);
+            await this.registerRaceEntityList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
@@ -124,11 +129,11 @@ export class JraRaceDataUseCase
     async upsertRaceDataList(raceList: JraRaceData[]): Promise<void> {
         try {
             // jraRaceDataをJraRaceEntityに変換する
-            const raceEntityList = raceList.map(
+            const raceEntityList: JraRaceEntity[] = raceList.map(
                 (raceData) => new JraRaceEntity(null, raceData),
             );
             // S3にデータを保存する
-            await this.registerRaceDataList(raceEntityList);
+            await this.registerRaceEntityList(raceEntityList);
         } catch (error) {
             console.error('レースデータの更新中にエラーが発生しました:', error);
         }
@@ -141,14 +146,14 @@ export class JraRaceDataUseCase
      * @param finishDate
      */
     @Logger
-    private async getPlaceDataList(
+    private async getPlaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<JraPlaceEntity[]> {
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.JraPlaceRepositoryFromStorage.fetchPlaceList(
+            await this.jraPlaceRepositoryFromStorage.fetchPlaceList(
                 fetchPlaceListRequest,
             );
         return fetchPlaceListResponse.placeEntityList;
@@ -162,7 +167,7 @@ export class JraRaceDataUseCase
      * @param finishDate
      */
     @Logger
-    private async getRaceDataList(
+    private async getRaceEntityList(
         startDate: Date,
         finishDate: Date,
         placeList: JraPlaceEntity[],
@@ -175,7 +180,7 @@ export class JraRaceDataUseCase
         );
         const fetchRaceListResponse: FetchRaceListResponse<JraRaceEntity> =
             type === 'storage'
-                ? await this.JraRaceRepositoryFromStorage.fetchRaceList(
+                ? await this.jraRaceRepositoryFromStorage.fetchRaceList(
                       fetchRaceListRequest,
                   )
                 : await this.jraRaceRepositoryFromHtml.fetchRaceList(
@@ -190,12 +195,12 @@ export class JraRaceDataUseCase
      * @param raceList
      */
     @Logger
-    private async registerRaceDataList(
+    private async registerRaceEntityList(
         raceList: JraRaceEntity[],
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<JraRaceEntity>(raceList);
-        await this.JraRaceRepositoryFromStorage.registerRaceList(
+        await this.jraRaceRepositoryFromStorage.registerRaceList(
             registerRaceListRequest,
         );
     }

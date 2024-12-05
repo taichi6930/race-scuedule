@@ -72,7 +72,8 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                 await this.boatraceRaceRepositoryFromStorage.fetchRaceList(
                     fetchRaceDataListRequest,
                 );
-            const raceEntityList = fetchRaceDataListResponse.raceEntityList;
+            const raceEntityList: BoatraceRaceEntity[] =
+                fetchRaceDataListResponse.raceEntityList;
             /**
              * 表示対象のレースデータのみに絞り込む
              * - 6以上の優先度を持つレースデータを表示対象とする
@@ -80,18 +81,17 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
              */
             const filteredRaceEntityList: BoatraceRaceEntity[] =
                 raceEntityList.filter((raceEntity) => {
-                    const maxPlayerPriority = raceEntity.racePlayerDataList
-                        .map((playerData) => {
-                            const player = BoatracePlayerList.find(
-                                (boatracePlayer) =>
-                                    playerData.playerNumber ===
-                                    Number(boatracePlayer.playerNumber),
-                            );
-                            return player ? player.priority : 0;
-                        })
-                        .reduce(
-                            (maxPriority, playerPriority) =>
-                                Math.max(maxPriority, playerPriority),
+                    const maxPlayerPriority =
+                        raceEntity.racePlayerDataList.reduce(
+                            (maxPriority, playerData) => {
+                                const playerPriority =
+                                    BoatracePlayerList.find(
+                                        (boatracePlayer) =>
+                                            playerData.playerNumber ===
+                                            Number(boatracePlayer.playerNumber),
+                                    )?.priority ?? 0;
+                                return Math.max(maxPriority, playerPriority);
+                            },
                             0,
                         );
 

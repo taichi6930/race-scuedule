@@ -504,7 +504,7 @@ export class NarRaceController {
                 }
 
                 // レース情報を取得する
-                await this.narRaceDataUseCase.updateRaceDataList(
+                await this.narRaceDataUseCase.updateRaceEntityList(
                     parsedStartDate,
                     parsedFinishDate,
                 );
