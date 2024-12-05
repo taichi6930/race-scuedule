@@ -5,22 +5,22 @@ import type { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import type { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
- * 競馬場開催データリポジトリ
- * @param <R> 競馬場開催データ
- * @param <P> 競馬場データ
+ * レースデータリポジトリ
+ * @param <R> レースデータ
+ * @param <P> 開催データ
  */
 export interface IRaceRepository<R extends RaceEntity, P extends PlaceEntity> {
     /**
-     * 競馬場開催データを取得する
-     * @param request リクエスト
-     * @returns 競馬場開催データ
+     * 開催データを取得する
+     * @param request
+     * @returns レースデータ
      */
     fetchRaceList: (
         request: FetchRaceListRequest<P>,
     ) => Promise<FetchRaceListResponse<R>>;
     /**
      * レースデータを登録する
-     * @param request リクエスト
+     * @param request
      */
     registerRaceList: (
         request: RegisterRaceListRequest<R>,
