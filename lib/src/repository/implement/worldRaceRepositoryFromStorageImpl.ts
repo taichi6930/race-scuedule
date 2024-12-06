@@ -102,14 +102,14 @@ export class WorldRaceRepositoryFromStorageImpl
      * @returns
      */
     private generateFilenameList(startDate: Date, finishDate: Date): string[] {
-        const fileNames: string[] = [];
+        const fileNameList: string[] = [];
         const currentDate = new Date(startDate);
         while (currentDate <= finishDate) {
             const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
-            fileNames.push(fileName);
+            fileNameList.push(fileName);
             currentDate.setDate(currentDate.getDate() + 1);
         }
-        return fileNames;
+        return fileNameList;
     }
 
     /**
@@ -124,14 +124,14 @@ export class WorldRaceRepositoryFromStorageImpl
         finishDate: Date,
     ): Promise<WorldRaceRecord[]> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
-        const fileNames: string[] = this.generateFilenameList(
+        const fileNameList: string[] = this.generateFilenameList(
             startDate,
             finishDate,
         );
 
         return (
             await Promise.all(
-                fileNames.map(async (fileName) => {
+                fileNameList.map(async (fileName) => {
                     const csv = await this.s3Gateway.fetchDataFromS3(fileName);
                     const [headerLine, ...lines] = csv.split('\n');
                     const headers = headerLine.split(',');
@@ -214,17 +214,17 @@ export class WorldRaceRepositoryFromStorageImpl
         raceRecordList: WorldRaceRecord[],
     ): WorldRaceEntity[] {
         return raceRecordList.map(
-            (record) =>
+            (raceRecord) =>
                 new WorldRaceEntity(
-                    record.id,
+                    raceRecord.id,
                     new WorldRaceData(
-                        record.name,
-                        record.dateTime,
-                        record.location,
-                        record.surfaceType,
-                        record.distance,
-                        record.grade,
-                        record.number,
+                        raceRecord.name,
+                        raceRecord.dateTime,
+                        raceRecord.location,
+                        raceRecord.surfaceType,
+                        raceRecord.distance,
+                        raceRecord.grade,
+                        raceRecord.number,
                     ),
                 ),
         );
@@ -238,17 +238,16 @@ export class WorldRaceRepositoryFromStorageImpl
     private translateRaceEntityListToRaceRecordList(
         raceEntityList: WorldRaceEntity[],
     ): WorldRaceRecord[] {
-        return raceEntityList.map((entity) => {
-            const raceData = entity.raceData;
+        return raceEntityList.map((raceEntity) => {
             return new WorldRaceRecord(
-                entity.id,
-                raceData.name,
-                raceData.dateTime,
-                raceData.location,
-                raceData.surfaceType,
-                raceData.distance,
-                raceData.grade,
-                raceData.number,
+                raceEntity.id,
+                raceEntity.raceData.name,
+                raceEntity.raceData.dateTime,
+                raceEntity.raceData.location,
+                raceEntity.raceData.surfaceType,
+                raceEntity.raceData.distance,
+                raceEntity.raceData.grade,
+                raceEntity.raceData.number,
             );
         });
     }

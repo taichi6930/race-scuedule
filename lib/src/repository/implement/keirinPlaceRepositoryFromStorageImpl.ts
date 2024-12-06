@@ -40,7 +40,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
-        const fileNames: string[] = await this.generateFileNames(
+        const fileNameList: string[] = await this.generatefileNameList(
             request.startDate,
             request.finishDate,
         );
@@ -48,7 +48,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
         // ファイル名リストから競輪開催データを取得する
         const placeRecordList: KeirinPlaceRecord[] = (
             await Promise.all(
-                fileNames.map(async (fileName) =>
+                fileNameList.map(async (fileName) =>
                     this.fetchMonthPlaceRecordList(fileName),
                 ),
             )
@@ -87,16 +87,16 @@ export class KeirinPlaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    private async generateFileNames(
+    private async generatefileNameList(
         startDate: Date,
         finishDate: Date,
     ): Promise<string[]> {
-        const fileNames: string[] = [];
+        const fileNameList: string[] = [];
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
             const fileName = `${format(currentDate, 'yyyyMM')}.csv`;
-            fileNames.push(fileName);
+            fileNameList.push(fileName);
 
             // 次の月の1日を取得
             currentDate = new Date(
@@ -106,9 +106,9 @@ export class KeirinPlaceRepositoryFromStorageImpl
             );
         }
         console.debug(
-            `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
+            `ファイル名リストを生成しました: ${fileNameList.join(', ')}`,
         );
-        return Promise.resolve(fileNames);
+        return Promise.resolve(fileNameList);
     }
 
     /**

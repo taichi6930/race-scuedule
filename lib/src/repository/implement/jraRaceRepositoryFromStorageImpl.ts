@@ -39,18 +39,18 @@ export class JraRaceRepositoryFromStorageImpl
         request: FetchRaceListRequest<JraPlaceEntity>,
     ): Promise<FetchRaceListResponse<JraRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
-        const fileNames: string[] = [];
+        const fileNameList: string[] = [];
         const currentDate = new Date(request.startDate);
         while (currentDate <= request.finishDate) {
             const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
-            fileNames.push(fileName);
+            fileNameList.push(fileName);
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
         // ファイル名リストから競馬場開催データを取得する
         const raceRecordList = (
             await Promise.all(
-                fileNames.map(async (fileName) => {
+                fileNameList.map(async (fileName) => {
                     try {
                         const csv =
                             await this.s3Gateway.fetchDataFromS3(fileName);

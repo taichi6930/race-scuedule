@@ -36,7 +36,7 @@ export class JraPlaceRepositoryFromStorageImpl
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
         // startDateからfinishDateまでのファイル名リストを生成する
-        const fileNames: string[] = await this.generateFileNames(
+        const fileNameList: string[] = await this.generatefileNameList(
             request.startDate,
             request.finishDate,
         );
@@ -44,7 +44,7 @@ export class JraPlaceRepositoryFromStorageImpl
         // 年ごとの競馬場開催データを取得
         const placeRecords: JraPlaceRecord[] = (
             await Promise.all(
-                fileNames.map((fileName) =>
+                fileNameList.map((fileName) =>
                     this.fetchYearPlaceRecordList(fileName),
                 ),
             )
@@ -85,25 +85,25 @@ export class JraPlaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    private async generateFileNames(
+    private async generatefileNameList(
         startDate: Date,
         finishDate: Date,
     ): Promise<string[]> {
-        const fileNames: string[] = [];
+        const fileNameList: string[] = [];
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
             const year = currentDate.getFullYear();
             const fileName = `${year.toString()}.csv`;
-            fileNames.push(fileName);
+            fileNameList.push(fileName);
 
             // 次の月の1日を取得
             currentDate = new Date(year + 1, 0, 1);
         }
         console.debug(
-            `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
+            `ファイル名リストを生成しました: ${fileNameList.join(', ')}`,
         );
-        return Promise.resolve(fileNames);
+        return Promise.resolve(fileNameList);
     }
 
     /**

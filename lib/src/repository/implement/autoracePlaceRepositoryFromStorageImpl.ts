@@ -43,7 +43,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<AutoracePlaceEntity>> {
-        const fileNames: string[] = await this.generateFileNames(
+        const fileNameList: string[] = await this.generatefileNameList(
             request.startDate,
             request.finishDate,
         );
@@ -51,7 +51,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
         // ファイル名リストからボートレース開催データを取得する
         const placeRecordList: AutoracePlaceRecord[] = (
             await Promise.all(
-                fileNames.map(async (fileName) =>
+                fileNameList.map(async (fileName) =>
                     this.fetchMonthPlaceRecordList(fileName),
                 ),
             )
@@ -90,16 +90,16 @@ export class AutoracePlaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    private async generateFileNames(
+    private async generatefileNameList(
         startDate: Date,
         finishDate: Date,
     ): Promise<string[]> {
-        const fileNames: string[] = [];
+        const fileNameList: string[] = [];
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
             const fileName = `${format(currentDate, 'yyyyMM')}.csv`;
-            fileNames.push(fileName);
+            fileNameList.push(fileName);
 
             // 次の月の1日を取得
             currentDate = new Date(
@@ -109,9 +109,9 @@ export class AutoracePlaceRepositoryFromStorageImpl
             );
         }
         console.debug(
-            `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
+            `ファイル名リストを生成しました: ${fileNameList.join(', ')}`,
         );
-        return Promise.resolve(fileNames);
+        return Promise.resolve(fileNameList);
     }
 
     /**
