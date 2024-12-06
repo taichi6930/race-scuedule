@@ -90,7 +90,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
     describe('registerPlaceList', () => {
         test('正しいオートレース場データを登録できる', async () => {
             // 1年間のオートレース場データを登録する
-            const placeDataList: AutoracePlaceEntity[] = Array.from(
+            const placeEntityList: AutoracePlaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -108,7 +108,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
 
             // リクエストの作成
             const request = new RegisterPlaceListRequest<AutoracePlaceEntity>(
-                placeDataList,
+                placeEntityList,
             );
             // テスト実行
             await repository.registerPlaceEntityList(request);

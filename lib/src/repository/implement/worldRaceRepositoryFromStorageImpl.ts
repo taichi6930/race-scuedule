@@ -48,7 +48,7 @@ export class WorldRaceRepositoryFromStorageImpl
         );
 
         // ファイル名リストから海外競馬場開催データを取得する
-        const raceDataList: WorldRaceEntity[] = (
+        const raceEntityList: WorldRaceEntity[] = (
             await Promise.all(
                 fileNameList.map(async (fileName) => {
                     // S3からデータを取得する
@@ -107,7 +107,7 @@ export class WorldRaceRepositoryFromStorageImpl
             )
         ).flat();
 
-        return new FetchRaceListResponse(raceDataList);
+        return new FetchRaceListResponse(raceEntityList);
     }
 
     /**

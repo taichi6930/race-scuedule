@@ -90,7 +90,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
     describe('registerPlaceList', () => {
         test('正しい競輪場データを登録できる', async () => {
             // 1年間の競輪場データを登録する
-            const placeDataList: KeirinPlaceEntity[] = Array.from(
+            const placeEntityList: KeirinPlaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -108,7 +108,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
 
             // リクエストの作成
             const request = new RegisterPlaceListRequest<KeirinPlaceEntity>(
-                placeDataList,
+                placeEntityList,
             );
             // テスト実行
             await repository.registerPlaceEntityList(request);

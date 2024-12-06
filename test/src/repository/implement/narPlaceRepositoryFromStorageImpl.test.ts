@@ -77,7 +77,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
     describe('registerPlaceList', () => {
         test('正しい競馬場データを登録できる', async () => {
             // 1年間の競馬場データを登録する
-            const placeDataList: NarPlaceEntity[] = Array.from(
+            const placeEntityList: NarPlaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -95,7 +95,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
 
             // リクエストの作成
             const request = new RegisterPlaceListRequest<NarPlaceEntity>(
-                placeDataList,
+                placeEntityList,
             );
             // テスト実行
             await repository.registerPlaceEntityList(request);

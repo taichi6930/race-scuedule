@@ -43,23 +43,23 @@ export class NarPlaceRepositoryFromHtmlImpl
             request.startDate,
             request.finishDate,
         );
-        const placeDataList: NarPlaceEntity[] = (
+        const placeEntityList: NarPlaceEntity[] = (
             await Promise.all(
                 monthList.map(async (month) =>
-                    this.fetchMonthPlaceEntityList(month).then(
-                        (childPlaceEntityList) =>
-                            childPlaceEntityList.filter(
-                                (placeEntity) =>
-                                    placeEntity.placeData.dateTime >=
-                                        request.startDate &&
-                                    placeEntity.placeData.dateTime <=
-                                        request.finishDate,
-                            ),
-                    ),
+                    this.fetchMonthPlaceEntityList(month),
                 ),
             )
         ).flat();
-        return new FetchPlaceListResponse(placeDataList);
+
+        // startDateからfinishDateまでの中でのデータを取得
+        const filteredPlaceEntityList: NarPlaceEntity[] =
+            placeEntityList.filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= request.startDate &&
+                    placeEntity.placeData.dateTime <= request.finishDate,
+            );
+
+        return new FetchPlaceListResponse(filteredPlaceEntityList);
     }
 
     /**

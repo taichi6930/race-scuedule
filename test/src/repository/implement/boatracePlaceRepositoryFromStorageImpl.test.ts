@@ -90,7 +90,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
     describe('registerPlaceList', () => {
         test('正しいボートレース場データを登録できる', async () => {
             // 1年間のボートレース場データを登録する
-            const placeDataList: BoatracePlaceEntity[] = Array.from(
+            const placeEntityList: BoatracePlaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -108,7 +108,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
 
             // リクエストの作成
             const request = new RegisterPlaceListRequest<BoatracePlaceEntity>(
-                placeDataList,
+                placeEntityList,
             );
             // テスト実行
             await repository.registerPlaceEntityList(request);

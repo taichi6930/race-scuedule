@@ -72,7 +72,7 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
             const raceEntityList: WorldRaceEntity[] =
                 fetchRaceDataListResponse.raceEntityList;
             // レース情報をJraRaceDataに変換する
-            const raceDataList = raceEntityList.map(
+            const raceDataList: WorldRaceData[] = raceEntityList.map(
                 (raceEntity) => raceEntity.raceData,
             );
             const filteredRaceDataList: WorldRaceData[] = raceDataList.filter(

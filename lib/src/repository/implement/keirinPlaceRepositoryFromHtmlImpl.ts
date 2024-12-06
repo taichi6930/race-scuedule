@@ -46,20 +46,20 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         const placeEntityList: KeirinPlaceEntity[] = (
             await Promise.all(
                 monthList.map(async (month) =>
-                    this.fetchMonthPlaceEntityList(month).then(
-                        (childPlaceEntityList) =>
-                            childPlaceEntityList.filter(
-                                (placeEntity) =>
-                                    placeEntity.placeData.dateTime >=
-                                        request.startDate &&
-                                    placeEntity.placeData.dateTime <=
-                                        request.finishDate,
-                            ),
-                    ),
+                    this.fetchMonthPlaceEntityList(month),
                 ),
             )
         ).flat();
-        return new FetchPlaceListResponse(placeEntityList);
+
+        // startDateからfinishDateまでの中でのデータを取得
+        const filteredPlaceEntityList: KeirinPlaceEntity[] =
+            placeEntityList.filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= request.startDate &&
+                    placeEntity.placeData.dateTime <= request.finishDate,
+            );
+
+        return new FetchPlaceListResponse(filteredPlaceEntityList);
     }
 
     /**
