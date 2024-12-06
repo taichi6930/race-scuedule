@@ -158,23 +158,23 @@ export class JraRaceRepositoryFromStorageImpl
     async registerRaceEntityList(
         request: RegisterRaceListRequest<JraRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntity: JraRaceEntity[] = request.raceEntityList;
+        const raceEntityList: JraRaceEntity[] = request.raceEntityList;
         // レースデータを日付ごとに分割する
         const raceRecordDict: Record<string, JraRaceRecord[]> = {};
-        raceEntity.forEach((race) => {
+        raceEntityList.forEach((raceEntity) => {
             const raceRecord = new JraRaceRecord(
-                race.id,
-                race.raceData.name,
-                race.raceData.dateTime,
-                race.raceData.location,
-                race.raceData.surfaceType,
-                race.raceData.distance,
-                race.raceData.grade,
-                race.raceData.number,
-                race.raceData.heldTimes,
-                race.raceData.heldDayTimes,
+                raceEntity.id,
+                raceEntity.raceData.name,
+                raceEntity.raceData.dateTime,
+                raceEntity.raceData.location,
+                raceEntity.raceData.surfaceType,
+                raceEntity.raceData.distance,
+                raceEntity.raceData.grade,
+                raceEntity.raceData.number,
+                raceEntity.raceData.heldTimes,
+                raceEntity.raceData.heldDayTimes,
             );
-            const key = `${format(race.raceData.dateTime, 'yyyyMMdd')}.csv`;
+            const key = `${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}.csv`;
             // 日付ごとに分割されたレースデータを格納
             if (!(key in raceRecordDict)) {
                 raceRecordDict[key] = [];

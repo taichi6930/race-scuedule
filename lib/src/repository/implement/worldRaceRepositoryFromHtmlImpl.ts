@@ -42,12 +42,12 @@ export class WorldRaceRepositoryFromHtmlImpl
     async fetchRaceEntityList(
         request: FetchRaceListRequest<WorldPlaceEntity>,
     ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
-        const months: Date[] = await this.generateMonths(
+        const monthList: Date[] = await this.generateMonthList(
             request.startDate,
             request.finishDate,
         );
         const worldRaceDataList: WorldRaceEntity[] = [];
-        for (const month of months) {
+        for (const month of monthList) {
             worldRaceDataList.push(
                 ...(await this.fetchRaceListFromHtml(month)),
             );
@@ -68,8 +68,11 @@ export class WorldRaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private generateMonths(startDate: Date, finishDate: Date): Promise<Date[]> {
-        const months: Date[] = [];
+    private generateMonthList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<Date[]> {
+        const monthList: Date[] = [];
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
@@ -78,7 +81,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                 currentDate.getMonth(),
                 1,
             );
-            months.push(date);
+            monthList.push(date);
 
             // 次の月の1日を取得
             currentDate = new Date(
@@ -88,9 +91,9 @@ export class WorldRaceRepositoryFromHtmlImpl
             );
         }
         console.debug(
-            `月リストを生成しました: ${months.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
+            `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
         );
-        return Promise.resolve(months);
+        return Promise.resolve(monthList);
     }
 
     @Logger

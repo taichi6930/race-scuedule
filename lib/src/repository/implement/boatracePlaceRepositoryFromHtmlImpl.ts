@@ -44,7 +44,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
-        const quarters: Record<string, Date> = await this.generateQuarters(
+        const quarters: Record<string, Date> = await this.generateQuarterList(
             request.startDate,
             request.finishDate,
         );
@@ -79,12 +79,12 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private generateQuarters(
+    private generateQuarterList(
         startDate: Date,
         finishDate: Date,
     ): Promise<Record<string, Date>> {
         // 20241: 2024/1/1のようなdictを生成する
-        const quarters: Record<string, Date> = {};
+        const quarterList: Record<string, Date> = {};
 
         // qStartDateは、そのクオーターの月初めの日付にする
         const qStartDate = new Date(
@@ -106,11 +106,11 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             const quarter = `${currentDate.getFullYear().toString()}${(
                 Math.floor(currentDate.getMonth() / 3) + 1
             ).toString()}`;
-            quarters[quarter] = new Date(currentDate);
+            quarterList[quarter] = new Date(currentDate);
             currentDate.setMonth(currentDate.getMonth() + 3);
         }
 
-        return Promise.resolve(quarters);
+        return Promise.resolve(quarterList);
     }
 
     /**

@@ -169,21 +169,21 @@ export class JraPlaceRepositoryFromStorageImpl
     async registerPlaceEntityList(
         request: RegisterPlaceListRequest<JraPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeEntity: JraPlaceEntity[] = request.placeEntityList;
+        const placeEntityList: JraPlaceEntity[] = request.placeEntityList;
         // 得られたplaceを年毎に分ける
         const placeRecordDict: Record<string, JraPlaceRecord[]> = {};
-        placeEntity.forEach((place) => {
-            const key = `${place.placeData.dateTime.getFullYear().toString()}.csv`;
+        placeEntityList.forEach((placeEntity) => {
+            const key = `${placeEntity.placeData.dateTime.getFullYear().toString()}.csv`;
             if (!(key in placeRecordDict)) {
                 placeRecordDict[key] = [];
             }
             placeRecordDict[key].push(
                 new JraPlaceRecord(
-                    place.id,
-                    place.placeData.dateTime,
-                    place.placeData.location,
-                    place.placeData.heldTimes,
-                    place.placeData.heldDayTimes,
+                    placeEntity.id,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
+                    placeEntity.placeData.heldTimes,
+                    placeEntity.placeData.heldDayTimes,
                 ),
             );
         });

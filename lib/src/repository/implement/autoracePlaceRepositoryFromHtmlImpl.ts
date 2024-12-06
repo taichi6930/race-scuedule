@@ -42,11 +42,11 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<AutoracePlaceEntity>> {
-        const months: Date[] = await this.generateMonths(
+        const monthList: Date[] = await this.generateMonthList(
             request.startDate,
             request.finishDate,
         );
-        const promises = months.map(async (month) =>
+        const promises = monthList.map(async (month) =>
             this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
                 childPlaceEntityList.filter(
                     (placeEntity) =>
@@ -70,8 +70,11 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private generateMonths(startDate: Date, finishDate: Date): Promise<Date[]> {
-        const months: Date[] = [];
+    private generateMonthList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<Date[]> {
+        const monthList: Date[] = [];
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
@@ -80,7 +83,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 currentDate.getMonth(),
                 1,
             );
-            months.push(date);
+            monthList.push(date);
 
             // 次の月の1日を取得
             currentDate = new Date(
@@ -90,9 +93,9 @@ export class AutoracePlaceRepositoryFromHtmlImpl
             );
         }
         console.log(
-            `月リストを生成しました: ${months.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
+            `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
         );
-        return Promise.resolve(months);
+        return Promise.resolve(monthList);
     }
 
     /**

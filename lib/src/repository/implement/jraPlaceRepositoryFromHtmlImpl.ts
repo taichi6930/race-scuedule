@@ -36,7 +36,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
         // startDateからfinishDateまでの年のリストを生成する
-        const years: Date[] = await this.generateYears(
+        const yearList: Date[] = await this.generateYearList(
             request.startDate,
             request.finishDate,
         );
@@ -44,7 +44,7 @@ export class JraPlaceRepositoryFromHtmlImpl
         // 年ごとの競馬場開催データを取得
         const placeRecords: JraPlaceRecord[] = (
             await Promise.all(
-                years.map((year) => this.fetchYearPlaceRecordList(year)),
+                yearList.map((year) => this.fetchYearPlaceRecordList(year)),
             )
         ).flat();
 
@@ -82,22 +82,25 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private generateYears(startDate: Date, finishDate: Date): Promise<Date[]> {
-        const years: Date[] = [];
+    private generateYearList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<Date[]> {
+        const yearList: Date[] = [];
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
             const year = currentDate.getFullYear();
             const date = new Date(year, 0, 1);
-            years.push(date);
+            yearList.push(date);
 
             // 次の年の1日を取得
             currentDate = new Date(year + 1, 0, 1);
         }
         console.debug(
-            `年リストを生成しました: ${years.map((year) => year.toISOString().split('T')[0]).join(', ')}`,
+            `年リストを生成しました: ${yearList.map((year) => year.toISOString().split('T')[0]).join(', ')}`,
         );
-        return Promise.resolve(years);
+        return Promise.resolve(yearList);
     }
 
     /**

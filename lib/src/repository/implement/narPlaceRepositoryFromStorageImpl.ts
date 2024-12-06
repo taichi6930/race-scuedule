@@ -163,19 +163,19 @@ export class NarPlaceRepositoryFromStorageImpl
     async registerPlaceEntityList(
         request: RegisterPlaceListRequest<NarPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeEntity: NarPlaceEntity[] = request.placeEntityList;
+        const placeEntityList: NarPlaceEntity[] = request.placeEntityList;
         // 得られたplaceを年毎に分ける
         const placeRecordDict: Record<string, NarPlaceRecord[]> = {};
-        placeEntity.forEach((place) => {
-            const key = `${place.placeData.dateTime.getFullYear().toString()}.csv`;
+        placeEntityList.forEach((placeEntity) => {
+            const key = `${placeEntity.placeData.dateTime.getFullYear().toString()}.csv`;
             if (!(key in placeRecordDict)) {
                 placeRecordDict[key] = [];
             }
             placeRecordDict[key].push(
                 new NarPlaceRecord(
-                    place.id,
-                    place.placeData.dateTime,
-                    place.placeData.location,
+                    placeEntity.id,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
                 ),
             );
         });
