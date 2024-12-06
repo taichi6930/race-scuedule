@@ -16,7 +16,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    fetchPlaceList(
+    fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<AutoracePlaceEntity>> {
         // request.startDateからrequest.finishDateまでのオートレース場データを取得する
@@ -45,7 +45,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<AutoracePlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

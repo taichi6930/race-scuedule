@@ -75,7 +75,7 @@ describe('AutoraceRaceDataUseCase', () => {
                 baseAutoraceRaceEntityList;
 
             // モックの戻り値を設定
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<AutoraceRaceEntity>(mockRaceEntity),
             );
 
@@ -162,7 +162,7 @@ describe('AutoraceRaceDataUseCase', () => {
                     baseAutoraceRaceEntityList;
 
                 // モックの戻り値を設定
-                autoraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+                autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                     new FetchRaceListResponse<AutoraceRaceEntity>(
                         mockRaceEntity,
                     ),
@@ -190,20 +190,20 @@ describe('AutoraceRaceDataUseCase', () => {
             const finishDate = new Date('2025-12-31');
 
             // モックの戻り値を設定
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<AutoraceRaceEntity>(mockRaceEntity),
             );
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(
-                autoracePlaceRepositoryFromStorageImpl.fetchPlaceList,
+                autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                autoraceRaceRepositoryFromHtmlImpl.fetchRaceList,
+                autoraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                autoraceRaceRepositoryFromStorageImpl.registerRaceList,
+                autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -212,7 +212,7 @@ describe('AutoraceRaceDataUseCase', () => {
             const finishDate = new Date('2025-12-31');
 
             // モックの戻り値を設定（エラーが発生するように設定）
-            autoraceRaceRepositoryFromHtmlImpl.fetchRaceList.mockRejectedValue(
+            autoraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -233,14 +233,14 @@ describe('AutoraceRaceDataUseCase', () => {
             await useCase.upsertRaceDataList(mockRaceData);
 
             expect(
-                autoraceRaceRepositoryFromStorageImpl.registerRaceList,
+                autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             const mockRaceData: AutoraceRaceData[] = baseAutoraceRaceDataList;
             // モックの戻り値を設定（エラーが発生するように設定）
-            autoraceRaceRepositoryFromStorageImpl.registerRaceList.mockRejectedValue(
+            autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
                 new Error('レースデータの登録に失敗しました'),
             );
 

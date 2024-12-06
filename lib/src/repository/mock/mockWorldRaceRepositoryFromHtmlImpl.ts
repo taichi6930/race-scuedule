@@ -13,7 +13,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
     implements IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
 {
     @Logger
-    fetchRaceList(
+    fetchRaceEntityList(
         request: FetchRaceListRequest<WorldPlaceEntity>,
     ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
         const raceEntityList: WorldRaceEntity[] = [];
@@ -43,7 +43,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<WorldRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

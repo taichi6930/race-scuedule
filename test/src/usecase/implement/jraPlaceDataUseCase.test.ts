@@ -52,7 +52,7 @@ describe('JraPlaceDataUseCase', () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
-            JraPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
+            JraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 new FetchPlaceListResponse<JraPlaceEntity>(mockPlaceEntity),
             );
 
@@ -76,17 +76,17 @@ describe('JraPlaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            JraPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
+            JraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 new FetchPlaceListResponse<JraPlaceEntity>(mockPlaceEntity),
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
             expect(
-                jraPlaceRepositoryFromHtmlImpl.fetchPlaceList,
+                jraPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                JraPlaceRepositoryFromStorageImpl.registerPlaceList,
+                JraPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

@@ -16,7 +16,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    fetchPlaceList(
+    fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
         // request.startDateからrequest.finishDateまでの地方競馬場データを取得する
@@ -45,7 +45,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<NarPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

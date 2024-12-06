@@ -52,7 +52,7 @@ describe('NarPlaceDataUseCase', () => {
             const mockPlaceEntity: NarPlaceEntity[] = [baseNarPlaceEntity];
 
             // モックの戻り値を設定
-            narPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
+            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceEntity),
             );
 
@@ -76,17 +76,17 @@ describe('NarPlaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            narPlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
+            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceEntity),
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
             expect(
-                narPlaceRepositoryFromHtmlImpl.fetchPlaceList,
+                narPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                narPlaceRepositoryFromStorageImpl.registerPlaceList,
+                narPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

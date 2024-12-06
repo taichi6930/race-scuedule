@@ -5,24 +5,24 @@ import type { FetchPlaceListResponse } from '../response/fetchPlaceListResponse'
 import type { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
- * 競馬場データリポジトリ
- * @param <P> 競馬場データ
+ * 開催データリポジトリ
+ * @param <P> 開催データ
  */
 export interface IPlaceRepository<P extends PlaceEntity> {
     /**
-     * 競馬場データを取得する
-     * @param request リクエスト
-     * @returns 競馬場データ
+     * 開催データを取得する
+     * @param request
+     * @returns 開催データ
      */
-    fetchPlaceList: (
+    fetchPlaceEntityList: (
         request: FetchPlaceListRequest,
     ) => Promise<FetchPlaceListResponse<P>>;
 
     /**
-     * 競馬場データを登録する
-     * @param request リクエスト
+     * 開催データを登録する
+     * @param request
      */
-    registerPlaceList: (
+    registerPlaceEntityList: (
         request: RegisterPlaceListRequest<P>,
     ) => Promise<RegisterPlaceListResponse>;
 }

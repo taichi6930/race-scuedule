@@ -6,7 +6,11 @@ export const mockKeirinPlaceRepositoryFromStorageImpl = (): jest.Mocked<
     IPlaceRepository<KeirinPlaceEntity>
 > => {
     return {
-        fetchPlaceList: jest.fn().mockResolvedValue([] as KeirinPlaceEntity[]),
-        registerPlaceList: jest.fn().mockResolvedValue({} as KeirinPlaceEntity),
+        fetchPlaceEntityList: jest
+            .fn()
+            .mockResolvedValue([] as KeirinPlaceEntity[]),
+        registerPlaceEntityList: jest
+            .fn()
+            .mockResolvedValue({} as KeirinPlaceEntity),
     };
 };

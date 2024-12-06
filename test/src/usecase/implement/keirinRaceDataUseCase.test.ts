@@ -74,7 +74,7 @@ describe('KeirinRaceDataUseCase', () => {
             const mockRaceEntity: KeirinRaceEntity[] = baseKeirinRaceEntityList;
 
             // モックの戻り値を設定
-            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
             );
 
@@ -159,7 +159,7 @@ describe('KeirinRaceDataUseCase', () => {
                     baseKeirinRaceEntityList;
 
                 // モックの戻り値を設定
-                keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+                keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                     new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
                 );
 
@@ -185,20 +185,20 @@ describe('KeirinRaceDataUseCase', () => {
             const finishDate = new Date('2025-12-31');
 
             // モックの戻り値を設定
-            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
             );
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(
-                keirinPlaceRepositoryFromStorageImpl.fetchPlaceList,
+                keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                keirinRaceRepositoryFromHtmlImpl.fetchRaceList,
+                keirinRaceRepositoryFromHtmlImpl.fetchRaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                keirinRaceRepositoryFromStorageImpl.registerRaceList,
+                keirinRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -207,7 +207,7 @@ describe('KeirinRaceDataUseCase', () => {
             const finishDate = new Date('2025-12-31');
 
             // モックの戻り値を設定（エラーが発生するように設定）
-            keirinRaceRepositoryFromHtmlImpl.fetchRaceList.mockRejectedValue(
+            keirinRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -228,14 +228,14 @@ describe('KeirinRaceDataUseCase', () => {
             await useCase.upsertRaceDataList(mockRaceData);
 
             expect(
-                keirinRaceRepositoryFromStorageImpl.registerRaceList,
+                keirinRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             const mockRaceData: KeirinRaceData[] = baseKeirinRaceDataList;
             // モックの戻り値を設定（エラーが発生するように設定）
-            keirinRaceRepositoryFromStorageImpl.registerRaceList.mockRejectedValue(
+            keirinRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
                 new Error('レースデータの登録に失敗しました'),
             );
 

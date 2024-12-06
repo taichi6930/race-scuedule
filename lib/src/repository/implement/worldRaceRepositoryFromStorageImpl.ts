@@ -38,7 +38,7 @@ export class WorldRaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<WorldPlaceEntity>,
     ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
@@ -70,7 +70,7 @@ export class WorldRaceRepositoryFromStorageImpl
                     const gradeIndex = headers.indexOf('grade');
                     const raceNumIndex = headers.indexOf('number');
 
-                    // データ行を解析してKeirinRaceDataのリストを生成
+                    // データ行を解析してRaceDataのリストを生成
                     return lines
                         .slice(1)
                         .map((line: string) => {
@@ -132,7 +132,7 @@ export class WorldRaceRepositoryFromStorageImpl
      * @param request
      */
     @Logger
-    async registerRaceList(
+    async registerRaceEntityList(
         request: RegisterRaceListRequest<WorldRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         const raceEntity: WorldRaceEntity[] = request.raceEntityList;

@@ -68,7 +68,7 @@ describe('NarRaceDataUseCase', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<NarRaceEntity>(mockRaceEntity),
             );
 
@@ -87,7 +87,7 @@ describe('NarRaceDataUseCase', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<NarRaceEntity>(mockRaceEntity),
             );
 
@@ -108,7 +108,7 @@ describe('NarRaceDataUseCase', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<NarRaceEntity>(mockRaceEntity),
             );
 
@@ -129,7 +129,7 @@ describe('NarRaceDataUseCase', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<NarRaceEntity>(mockRaceEntity),
             );
 
@@ -155,20 +155,20 @@ describe('NarRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            narRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<NarRaceEntity>(mockRaceEntity),
             );
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 
             expect(
-                narPlaceRepositoryFromStorageImpl.fetchPlaceList,
+                narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                narRaceRepositoryFromHtmlImpl.fetchRaceList,
+                narRaceRepositoryFromHtmlImpl.fetchRaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                narRaceRepositoryFromStorageImpl.registerRaceList,
+                narRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -177,7 +177,7 @@ describe('NarRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定（エラーが発生するように設定）
-            narRaceRepositoryFromHtmlImpl.fetchRaceList.mockRejectedValue(
+            narRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -198,14 +198,14 @@ describe('NarRaceDataUseCase', () => {
             await useCase.upsertRaceDataList(mockRaceData);
 
             expect(
-                narRaceRepositoryFromStorageImpl.registerRaceList,
+                narRaceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             const mockRaceData: NarRaceData[] = baseNarRaceDataList;
             // モックの戻り値を設定（エラーが発生するように設定）
-            narRaceRepositoryFromStorageImpl.registerRaceList.mockRejectedValue(
+            narRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
                 new Error('レースデータの登録に失敗しました'),
             );
 

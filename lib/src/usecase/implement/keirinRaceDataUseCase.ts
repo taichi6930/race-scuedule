@@ -168,7 +168,7 @@ export class KeirinRaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<KeirinPlaceEntity> =
-            await this.keirinPlaceRepositoryFromStorage.fetchPlaceList(
+            await this.keirinPlaceRepositoryFromStorage.fetchPlaceEntityList(
                 fetchPlaceListRequest,
             );
         return fetchPlaceListResponse.placeEntityList;
@@ -198,10 +198,10 @@ export class KeirinRaceDataUseCase
             );
         const fetchRaceListResponse: FetchRaceListResponse<KeirinRaceEntity> =
             type === 'storage'
-                ? await this.keirinRaceRepositoryFromStorage.fetchRaceList(
+                ? await this.keirinRaceRepositoryFromStorage.fetchRaceEntityList(
                       fetchRaceListRequest,
                   )
-                : await this.keirinRaceRepositoryFromHtml.fetchRaceList(
+                : await this.keirinRaceRepositoryFromHtml.fetchRaceEntityList(
                       fetchRaceListRequest,
                   );
         return fetchRaceListResponse.raceEntityList;
@@ -218,7 +218,7 @@ export class KeirinRaceDataUseCase
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<KeirinRaceEntity>(raceList);
-        await this.keirinRaceRepositoryFromStorage.registerRaceList(
+        await this.keirinRaceRepositoryFromStorage.registerRaceEntityList(
             registerRaceListRequest,
         );
     }

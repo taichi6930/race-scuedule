@@ -46,11 +46,11 @@ export class BoatraceRaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<BoatracePlaceEntity>,
     ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
-        const fileNames: string[] = this.generateFilenameList(
+        const fileNameList: string[] = this.generateFilenameList(
             request.startDate,
             request.finishDate,
         );
@@ -58,7 +58,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
         // ファイル名リストからボートレース選手データを取得する
         const racePlayerRecordList: BoatraceRacePlayerRecord[] = (
             await Promise.all(
-                fileNames.map(async (fileName) => {
+                fileNameList.map(async (fileName) => {
                     // S3からデータを取得する
                     const csv =
                         await this.racePlayerS3Gateway.fetchDataFromS3(
@@ -117,7 +117,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
         // ファイル名リストからボートレースデータを取得する
         const raceDataList = (
             await Promise.all(
-                fileNames.map(async (fileName) => {
+                fileNameList.map(async (fileName) => {
                     // S3からデータを取得する
                     const csv =
                         await this.raceS3Gateway.fetchDataFromS3(fileName);
@@ -197,14 +197,14 @@ export class BoatraceRaceRepositoryFromStorageImpl
      * @returns
      */
     private generateFilenameList(startDate: Date, finishDate: Date): string[] {
-        const fileNames: string[] = [];
+        const fileNameList: string[] = [];
         const currentDate = new Date(startDate);
         while (currentDate <= finishDate) {
             const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
-            fileNames.push(fileName);
+            fileNameList.push(fileName);
             currentDate.setDate(currentDate.getDate() + 1);
         }
-        return fileNames;
+        return fileNameList;
     }
 
     /**
@@ -212,7 +212,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
      * @param request
      */
     @Logger
-    async registerRaceList(
+    async registerRaceEntityList(
         request: RegisterRaceListRequest<BoatraceRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         const raceEntityList: BoatraceRaceEntity[] = request.raceEntityList;

@@ -16,7 +16,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    fetchPlaceList(
+    fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
         // request.startDateからrequest.finishDateまでの競輪場データを取得する
@@ -45,7 +45,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<KeirinPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

@@ -69,7 +69,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                     finishDate,
                 );
             const fetchRaceDataListResponse =
-                await this.keirinRaceRepositoryFromStorage.fetchRaceList(
+                await this.keirinRaceRepositoryFromStorage.fetchRaceEntityList(
                     fetchRaceDataListRequest,
                 );
             const raceEntityList: KeirinRaceEntity[] =

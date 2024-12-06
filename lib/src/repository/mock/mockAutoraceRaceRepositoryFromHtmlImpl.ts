@@ -13,7 +13,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
     implements IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
 {
     @Logger
-    fetchRaceList(
+    fetchRaceEntityList(
         request: FetchRaceListRequest<AutoracePlaceEntity>,
     ): Promise<FetchRaceListResponse<AutoraceRaceEntity>> {
         const placeEntityList = request.placeEntityList;
@@ -49,7 +49,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    registerRaceList(
+    registerRaceEntityList(
         request: RegisterRaceListRequest<AutoraceRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
         console.debug(request);

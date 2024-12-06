@@ -152,7 +152,7 @@ export class NarRaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(startDate, finishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<NarPlaceEntity> =
-            await this.narPlaceRepositoryFromStorage.fetchPlaceList(
+            await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
                 fetchPlaceListRequest,
             );
         return fetchPlaceListResponse.placeEntityList;
@@ -181,10 +181,10 @@ export class NarRaceDataUseCase
         );
         const fetchRaceListResponse: FetchRaceListResponse<NarRaceEntity> =
             type === 'storage'
-                ? await this.narRaceRepositoryFromStorage.fetchRaceList(
+                ? await this.narRaceRepositoryFromStorage.fetchRaceEntityList(
                       fetchRaceListRequest,
                   )
-                : await this.narRaceRepositoryFromHtml.fetchRaceList(
+                : await this.narRaceRepositoryFromHtml.fetchRaceEntityList(
                       fetchRaceListRequest,
                   );
         return fetchRaceListResponse.raceEntityList;
@@ -201,7 +201,7 @@ export class NarRaceDataUseCase
     ): Promise<void> {
         const registerRaceListRequest =
             new RegisterRaceListRequest<NarRaceEntity>(raceList);
-        await this.narRaceRepositoryFromStorage.registerRaceList(
+        await this.narRaceRepositoryFromStorage.registerRaceEntityList(
             registerRaceListRequest,
         );
     }

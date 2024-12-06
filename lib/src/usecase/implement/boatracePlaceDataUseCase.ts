@@ -36,7 +36,7 @@ export class BoatracePlaceDataUseCase
             finishDate,
         );
         const response: FetchPlaceListResponse<BoatracePlaceEntity> =
-            await this.boatracePlaceRepositoryFromStorage.fetchPlaceList(
+            await this.boatracePlaceRepositoryFromStorage.fetchPlaceEntityList(
                 request,
             );
         // placeEntityListをplaceDataListに変換する
@@ -73,7 +73,7 @@ export class BoatracePlaceDataUseCase
         const fetchPlaceListRequest: FetchPlaceListRequest =
             new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
         const fetchPlaceListResponse: FetchPlaceListResponse<BoatracePlaceEntity> =
-            await this.boatracePlaceRepositoryFromHtml.fetchPlaceList(
+            await this.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList(
                 fetchPlaceListRequest,
             );
         // S3にデータを保存する
@@ -81,7 +81,7 @@ export class BoatracePlaceDataUseCase
             new RegisterPlaceListRequest<BoatracePlaceEntity>(
                 fetchPlaceListResponse.placeEntityList,
             );
-        await this.boatracePlaceRepositoryFromStorage.registerPlaceList(
+        await this.boatracePlaceRepositoryFromStorage.registerPlaceEntityList(
             registerPlaceListRequest,
         );
     }

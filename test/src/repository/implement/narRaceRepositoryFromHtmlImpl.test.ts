@@ -33,7 +33,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
 
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
-                const response = await repository.fetchRaceList(
+                const response = await repository.fetchRaceEntityList(
                     new FetchRaceListRequest<NarPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
@@ -58,7 +58,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                 const request = new RegisterRaceListRequest<NarRaceEntity>([]);
                 // テスト実行
                 await expect(
-                    repository.registerRaceList(request),
+                    repository.registerRaceEntityList(request),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
         });

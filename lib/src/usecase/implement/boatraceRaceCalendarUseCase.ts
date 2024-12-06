@@ -69,7 +69,7 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                     finishDate,
                 );
             const fetchRaceDataListResponse =
-                await this.boatraceRaceRepositoryFromStorage.fetchRaceList(
+                await this.boatraceRaceRepositoryFromStorage.fetchRaceEntityList(
                     fetchRaceDataListRequest,
                 );
             const raceEntityList: BoatraceRaceEntity[] =

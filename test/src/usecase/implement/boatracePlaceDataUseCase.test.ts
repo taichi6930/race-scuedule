@@ -55,7 +55,7 @@ describe('BoatracePlaceDataUseCase', () => {
             ];
 
             // モックの戻り値を設定
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
+            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 new FetchPlaceListResponse<BoatracePlaceEntity>(
                     mockPlaceEntity,
                 ),
@@ -83,7 +83,7 @@ describe('BoatracePlaceDataUseCase', () => {
             const finishDate = new Date('2025-12-31');
 
             // モックの戻り値を設定
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceList.mockResolvedValue(
+            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 new FetchPlaceListResponse<BoatracePlaceEntity>(
                     mockPlaceEntity,
                 ),
@@ -92,10 +92,10 @@ describe('BoatracePlaceDataUseCase', () => {
             await useCase.updatePlaceDataList(startDate, finishDate);
 
             expect(
-                boatracePlaceRepositoryFromHtmlImpl.fetchPlaceList,
+                boatracePlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                boatracePlaceRepositoryFromStorageImpl.registerPlaceList,
+                boatracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

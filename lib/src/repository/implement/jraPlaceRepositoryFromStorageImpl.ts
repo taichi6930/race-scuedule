@@ -32,26 +32,26 @@ export class JraPlaceRepositoryFromStorageImpl
      * @returns Promise<FetchPlaceListResponse<JraPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
         // startDateからfinishDateまでのファイル名リストを生成する
-        const fileNames: string[] = await this.generateFileNames(
+        const fileNameList: string[] = await this.generatefileNameList(
             request.startDate,
             request.finishDate,
         );
 
         // 年ごとの競馬場開催データを取得
-        const placeRecords: JraPlaceRecord[] = (
+        const placeRecordList: JraPlaceRecord[] = (
             await Promise.all(
-                fileNames.map((fileName) =>
+                fileNameList.map((fileName) =>
                     this.fetchYearPlaceRecordList(fileName),
                 ),
             )
         ).flat();
 
         // Entityに変換
-        const placeEntityList: JraPlaceEntity[] = placeRecords.map(
+        const placeEntityList: JraPlaceEntity[] = placeRecordList.map(
             (placeRecord) =>
                 new JraPlaceEntity(
                     placeRecord.id,
@@ -85,25 +85,25 @@ export class JraPlaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    private async generateFileNames(
+    private async generatefileNameList(
         startDate: Date,
         finishDate: Date,
     ): Promise<string[]> {
-        const fileNames: string[] = [];
+        const fileNameList: string[] = [];
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
             const year = currentDate.getFullYear();
             const fileName = `${year.toString()}.csv`;
-            fileNames.push(fileName);
+            fileNameList.push(fileName);
 
             // 次の月の1日を取得
             currentDate = new Date(year + 1, 0, 1);
         }
         console.debug(
-            `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
+            `ファイル名リストを生成しました: ${fileNameList.join(', ')}`,
         );
-        return Promise.resolve(fileNames);
+        return Promise.resolve(fileNameList);
     }
 
     /**
@@ -166,24 +166,24 @@ export class JraPlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceList(
+    async registerPlaceEntityList(
         request: RegisterPlaceListRequest<JraPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeEntity: JraPlaceEntity[] = request.placeEntityList;
+        const placeEntityList: JraPlaceEntity[] = request.placeEntityList;
         // 得られたplaceを年毎に分ける
         const placeRecordDict: Record<string, JraPlaceRecord[]> = {};
-        placeEntity.forEach((place) => {
-            const key = `${place.placeData.dateTime.getFullYear().toString()}.csv`;
+        placeEntityList.forEach((placeEntity) => {
+            const key = `${placeEntity.placeData.dateTime.getFullYear().toString()}.csv`;
             if (!(key in placeRecordDict)) {
                 placeRecordDict[key] = [];
             }
             placeRecordDict[key].push(
                 new JraPlaceRecord(
-                    place.id,
-                    place.placeData.dateTime,
-                    place.placeData.location,
-                    place.placeData.heldTimes,
-                    place.placeData.heldDayTimes,
+                    placeEntity.id,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
+                    placeEntity.placeData.heldTimes,
+                    placeEntity.placeData.heldDayTimes,
                 ),
             );
         });

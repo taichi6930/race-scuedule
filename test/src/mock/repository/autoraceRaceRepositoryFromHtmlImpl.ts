@@ -7,7 +7,11 @@ export const mockAutoraceRaceRepositoryFromHtmlImpl = (): jest.Mocked<
     IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
 > => {
     return {
-        fetchRaceList: jest.fn().mockResolvedValue([] as AutoraceRaceEntity[]),
-        registerRaceList: jest.fn().mockResolvedValue({} as AutoraceRaceEntity),
+        fetchRaceEntityList: jest
+            .fn()
+            .mockResolvedValue([] as AutoraceRaceEntity[]),
+        registerRaceEntityList: jest
+            .fn()
+            .mockResolvedValue({} as AutoraceRaceEntity),
     };
 };

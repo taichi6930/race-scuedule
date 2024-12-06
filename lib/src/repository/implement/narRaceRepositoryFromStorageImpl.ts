@@ -35,22 +35,22 @@ export class NarRaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    async fetchRaceList(
+    async fetchRaceEntityList(
         request: FetchRaceListRequest<NarPlaceEntity>,
     ): Promise<FetchRaceListResponse<NarRaceEntity>> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
-        const fileNames: string[] = [];
+        const fileNameList: string[] = [];
         const currentDate = new Date(request.startDate);
         while (currentDate <= request.finishDate) {
             const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
-            fileNames.push(fileName);
+            fileNameList.push(fileName);
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
         // ファイル名リストから競馬場開催データを取得する
         const raceRecordList = (
             await Promise.all(
-                fileNames.map(async (fileName) => {
+                fileNameList.map(async (fileName) => {
                     try {
                         const csv =
                             await this.s3Gateway.fetchDataFromS3(fileName);
@@ -148,24 +148,24 @@ export class NarRaceRepositoryFromStorageImpl
      * @param request
      */
     @Logger
-    async registerRaceList(
+    async registerRaceEntityList(
         request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntity: NarRaceEntity[] = request.raceEntityList;
+        const raceEntityList: NarRaceEntity[] = request.raceEntityList;
         // レースデータを日付ごとに分割する
         const raceRecordDict: Record<string, NarRaceRecord[]> = {};
-        raceEntity.forEach((race) => {
+        raceEntityList.forEach((raceEntity) => {
             const raceRecord = new NarRaceRecord(
-                race.id,
-                race.raceData.name,
-                race.raceData.dateTime,
-                race.raceData.location,
-                race.raceData.surfaceType,
-                race.raceData.distance,
-                race.raceData.grade,
-                race.raceData.number,
+                raceEntity.id,
+                raceEntity.raceData.name,
+                raceEntity.raceData.dateTime,
+                raceEntity.raceData.location,
+                raceEntity.raceData.surfaceType,
+                raceEntity.raceData.distance,
+                raceEntity.raceData.grade,
+                raceEntity.raceData.number,
             );
-            const key = `${format(race.raceData.dateTime, 'yyyyMMdd')}.csv`;
+            const key = `${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}.csv`;
             // 日付ごとに分割されたレースデータを格納
             if (!(key in raceRecordDict)) {
                 raceRecordDict[key] = [];

@@ -150,7 +150,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
             });
 
             // モックが値を返すよう設定
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 {
                     raceEntityList: mockRaceEntityList,
                 },
@@ -167,7 +167,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
 
             // モックが呼び出されたことを確認
             expect(
-                autoraceRaceRepositoryFromStorageImpl.fetchRaceList,
+                autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList,
             ).toHaveBeenCalled();
 
             // updateEventsが呼び出された回数を確認
@@ -183,7 +183,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListがエラーをスローするようにモック
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
+            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('Fetch Error'),
             );
 
@@ -215,7 +215,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
             const mockRaceEntityList: AutoraceRaceEntity[] = [
                 baseAutoraceRaceEntity,
             ];
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 {
                     raceEntityList: mockRaceEntityList,
                 },

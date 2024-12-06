@@ -36,14 +36,14 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
-        const months: Date[] = await this.generateMonths(
+        const monthList: Date[] = await this.generateMonthList(
             request.startDate,
             request.finishDate,
         );
-        const promises = months.map(async (month) =>
+        const promises = monthList.map(async (month) =>
             this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
                 childPlaceEntityList.filter(
                     (placeEntity) =>
@@ -52,8 +52,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                 ),
             ),
         );
-        const placeDataLists = await Promise.all(promises);
-        const placeDataList = placeDataLists.flat();
+        const placeDataList = (await Promise.all(promises)).flat();
         return new FetchPlaceListResponse(placeDataList);
     }
 
@@ -67,8 +66,11 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @returns
      */
     @Logger
-    private generateMonths(startDate: Date, finishDate: Date): Promise<Date[]> {
-        const months: Date[] = [];
+    private generateMonthList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<Date[]> {
+        const monthList: Date[] = [];
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
@@ -77,7 +79,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                 currentDate.getMonth(),
                 1,
             );
-            months.push(date);
+            monthList.push(date);
 
             // 次の月の1日を取得
             currentDate = new Date(
@@ -87,9 +89,9 @@ export class NarPlaceRepositoryFromHtmlImpl
             );
         }
         console.debug(
-            `月リストを生成しました: ${months.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
+            `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
         );
-        return Promise.resolve(months);
+        return Promise.resolve(monthList);
     }
 
     /**
@@ -174,7 +176,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<NarPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

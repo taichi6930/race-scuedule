@@ -96,7 +96,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                 new Date('2024-02-01'),
             );
             // テスト実行
-            const response = await repository.fetchRaceList(request);
+            const response = await repository.fetchRaceEntityList(request);
 
             // レスポンスの検証
             expect(response.raceEntityList).toHaveLength(32);
@@ -135,7 +135,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                 raceDataList,
             );
             // テスト実行
-            await repository.registerRaceList(request);
+            await repository.registerRaceEntityList(request);
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);

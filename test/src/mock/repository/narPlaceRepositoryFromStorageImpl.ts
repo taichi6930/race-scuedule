@@ -6,7 +6,11 @@ export const mockNarPlaceRepositoryFromStorageImpl = (): jest.Mocked<
     IPlaceRepository<NarPlaceEntity>
 > => {
     return {
-        fetchPlaceList: jest.fn().mockResolvedValue([] as NarPlaceEntity[]),
-        registerPlaceList: jest.fn().mockResolvedValue({} as NarPlaceEntity),
+        fetchPlaceEntityList: jest
+            .fn()
+            .mockResolvedValue([] as NarPlaceEntity[]),
+        registerPlaceEntityList: jest
+            .fn()
+            .mockResolvedValue({} as NarPlaceEntity),
     };
 };

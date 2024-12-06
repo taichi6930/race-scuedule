@@ -150,7 +150,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             });
 
             // モックが値を返すよう設定
-            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 {
                     raceEntityList: mockRaceEntityList,
                 },
@@ -167,7 +167,7 @@ describe('KeirinRaceCalendarUseCase', () => {
 
             // モックが呼び出されたことを確認
             expect(
-                keirinRaceRepositoryFromStorageImpl.fetchRaceList,
+                keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList,
             ).toHaveBeenCalled();
 
             // updateEventsが呼び出された回数を確認
@@ -183,7 +183,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                 .mockImplementation(() => {});
 
             // fetchRaceListがエラーをスローするようにモック
-            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockRejectedValue(
+            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('Fetch Error'),
             );
 
@@ -215,7 +215,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             const mockRaceEntityList: KeirinRaceEntity[] = [
                 baseKeirinRaceEntity,
             ];
-            keirinRaceRepositoryFromStorageImpl.fetchRaceList.mockResolvedValue(
+            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 {
                     raceEntityList: mockRaceEntityList,
                 },

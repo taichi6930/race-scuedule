@@ -16,7 +16,7 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    fetchPlaceList(
+    fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
         // request.startDateからrequest.finishDateまでのボートレース場データを取得する
@@ -45,7 +45,7 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceList(
+    registerPlaceEntityList(
         request: RegisterPlaceListRequest<BoatracePlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
         console.debug(request);

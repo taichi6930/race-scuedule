@@ -32,10 +32,10 @@ export class NarPlaceRepositoryFromStorageImpl
      * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
      */
     @Logger
-    async fetchPlaceList(
+    async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
-        const fileNames: string[] = await this.generateFileNames(
+        const fileNameList: string[] = await this.generatefileNameList(
             request.startDate,
             request.finishDate,
         );
@@ -43,7 +43,7 @@ export class NarPlaceRepositoryFromStorageImpl
         // 年ごとの競馬場開催データを取得
         const placeRecords = (
             await Promise.all(
-                fileNames.map((fileName) =>
+                fileNameList.map((fileName) =>
                     this.fetchYearPlaceRecordList(fileName),
                 ),
             )
@@ -83,25 +83,25 @@ export class NarPlaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    private async generateFileNames(
+    private async generatefileNameList(
         startDate: Date,
         finishDate: Date,
     ): Promise<string[]> {
-        const fileNames: string[] = [];
+        const fileNameList: string[] = [];
         let currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
             const year = currentDate.getFullYear();
             const fileName = `${year.toString()}.csv`;
-            fileNames.push(fileName);
+            fileNameList.push(fileName);
 
             // 次の月の1日を取得
             currentDate = new Date(year + 1, 0, 1);
         }
         console.debug(
-            `ファイル名リストを生成しました: ${fileNames.join(', ')}`,
+            `ファイル名リストを生成しました: ${fileNameList.join(', ')}`,
         );
-        return Promise.resolve(fileNames);
+        return Promise.resolve(fileNameList);
     }
 
     /**
@@ -160,22 +160,22 @@ export class NarPlaceRepositoryFromStorageImpl
     }
 
     @Logger
-    async registerPlaceList(
+    async registerPlaceEntityList(
         request: RegisterPlaceListRequest<NarPlaceEntity>,
     ): Promise<RegisterPlaceListResponse> {
-        const placeEntity: NarPlaceEntity[] = request.placeEntityList;
+        const placeEntityList: NarPlaceEntity[] = request.placeEntityList;
         // 得られたplaceを年毎に分ける
         const placeRecordDict: Record<string, NarPlaceRecord[]> = {};
-        placeEntity.forEach((place) => {
-            const key = `${place.placeData.dateTime.getFullYear().toString()}.csv`;
+        placeEntityList.forEach((placeEntity) => {
+            const key = `${placeEntity.placeData.dateTime.getFullYear().toString()}.csv`;
             if (!(key in placeRecordDict)) {
                 placeRecordDict[key] = [];
             }
             placeRecordDict[key].push(
                 new NarPlaceRecord(
-                    place.id,
-                    place.placeData.dateTime,
-                    place.placeData.location,
+                    placeEntity.id,
+                    placeEntity.placeData.dateTime,
+                    placeEntity.placeData.location,
                 ),
             );
         });
