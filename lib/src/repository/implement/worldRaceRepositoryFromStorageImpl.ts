@@ -41,18 +41,90 @@ export class WorldRaceRepositoryFromStorageImpl
     async fetchRaceEntityList(
         request: FetchRaceListRequest<WorldPlaceEntity>,
     ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
-        // ファイル名リストから競馬場開催データを取得する
-        const raceRecordList: WorldRaceRecord[] =
-            await this.fetchRaceRecordList(
-                request.startDate,
-                request.finishDate,
-            );
+        // startDateからfinishDateまでの日ごとのファイル名リストを生成する
+        const fileNames: string[] = this.generateFilenameList(
+            request.startDate,
+            request.finishDate,
+        );
 
-        // レースデータをEntityに変換
-        const raceEntityList: WorldRaceEntity[] =
-            this.translateRaceRecordListToRaceEntityList(raceRecordList);
+        // ファイル名リストから海外競馬場開催データを取得する
+        const raceDataList = (
+            await Promise.all(
+                fileNames.map(async (fileName) => {
+                    // S3からデータを取得する
+                    const csv = await this.s3Gateway.fetchDataFromS3(fileName);
 
-        return new FetchRaceListResponse(raceEntityList);
+                    // CSVを行ごとに分割
+                    const lines = csv.split('\n');
+
+                    // ヘッダー行を解析
+                    const headers = lines[0].split(',');
+
+                    // ヘッダーに基づいてインデックスを取得
+                    const idIndex = headers.indexOf('id');
+                    const raceNameIndex = headers.indexOf('name');
+                    const raceDateIndex = headers.indexOf('dateTime');
+                    const placeIndex = headers.indexOf('location');
+                    const surfaceTypeIndex = headers.indexOf('surfaceType');
+                    const distanceIndex = headers.indexOf('distance');
+                    const gradeIndex = headers.indexOf('grade');
+                    const raceNumIndex = headers.indexOf('number');
+
+                    // データ行を解析してRaceDataのリストを生成
+                    return lines
+                        .slice(1)
+                        .map((line: string) => {
+                            const columns = line.split(',');
+
+                            // 必要なフィールドが存在しない場合はundefinedを返す
+                            if (
+                                !columns[raceNameIndex] ||
+                                isNaN(parseInt(columns[raceNumIndex]))
+                            ) {
+                                return undefined;
+                            }
+
+                            return new WorldRaceEntity(
+                                columns[idIndex] as WorldRaceId,
+                                new WorldRaceData(
+                                    columns[raceNameIndex],
+                                    new Date(columns[raceDateIndex]),
+                                    columns[placeIndex] as WorldRaceCourse,
+                                    columns[
+                                        surfaceTypeIndex
+                                    ] as WorldRaceCourseType,
+                                    parseInt(columns[distanceIndex]),
+                                    columns[gradeIndex] as WorldGradeType,
+                                    parseInt(columns[raceNumIndex]),
+                                ),
+                            );
+                        })
+                        .filter(
+                            (raceData): raceData is WorldRaceEntity =>
+                                raceData !== undefined,
+                        );
+                }),
+            )
+        ).flat();
+
+        return new FetchRaceListResponse(raceDataList);
+    }
+
+    /**
+     * startDateからfinishDateまでの日付ごとのファイル名リストを生成する
+     * @param startDate
+     * @param finishDate
+     * @returns
+     */
+    private generateFilenameList(startDate: Date, finishDate: Date): string[] {
+        const fileNames: string[] = [];
+        const currentDate = new Date(startDate);
+        while (currentDate <= finishDate) {
+            const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
+            fileNames.push(fileName);
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return fileNames;
     }
 
     /**
@@ -63,185 +135,21 @@ export class WorldRaceRepositoryFromStorageImpl
     async registerRaceEntityList(
         request: RegisterRaceListRequest<WorldRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntityList: WorldRaceEntity[] = request.raceEntityList;
-        // レースデータをRecordの形式に変換
-        const raceRecordList: WorldRaceRecord[] =
-            this.translateRaceEntityListToRaceRecordList(raceEntityList);
+        const raceEntity: WorldRaceEntity[] = request.raceEntityList;
         // レースデータを日付ごとに分割する
-        await this.uploadRaceRecordList(raceRecordList);
-
-        return new RegisterRaceListResponse(200);
-    }
-
-    /**
-     * startDateからfinishDateまでの日付ごとのファイル名リストを生成する
-     * @param startDate
-     * @param finishDate
-     * @returns
-     */
-    private generateFilenameList(startDate: Date, finishDate: Date): string[] {
-        const fileNameList: string[] = [];
-        const currentDate = new Date(startDate);
-        while (currentDate <= finishDate) {
-            const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
-            fileNameList.push(fileName);
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-        return fileNameList;
-    }
-
-    /**
-     * レースデータをRecordの形式で取得する
-     * @param startDate
-     * @param finishDate
-     * @returns
-     */
-    @Logger
-    private async fetchRaceRecordList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<WorldRaceRecord[]> {
-        // startDateからfinishDateまでの日ごとのファイル名リストを生成する
-        const fileNameList: string[] = this.generateFilenameList(
-            startDate,
-            finishDate,
-        );
-
-        return (
-            await Promise.all(
-                fileNameList.map(async (fileName) => {
-                    const csv = await this.s3Gateway.fetchDataFromS3(fileName);
-                    const [headerLine, ...lines] = csv.split('\n');
-                    const headers = headerLine.split(',');
-
-                    const indices = {
-                        id: headers.indexOf('id'),
-                        name: headers.indexOf('name'),
-                        dateTime: headers.indexOf('dateTime'),
-                        location: headers.indexOf('location'),
-                        surfaceType: headers.indexOf('surfaceType'),
-                        distance: headers.indexOf('distance'),
-                        grade: headers.indexOf('grade'),
-                        number: headers.indexOf('number'),
-                    };
-
-                    return lines
-                        .map((line) => {
-                            const columns = line.split(',');
-                            const raceId = columns[indices.id] as WorldRaceId;
-                            const raceName = columns[indices.name];
-                            const raceDate = new Date(
-                                columns[indices.dateTime],
-                            );
-                            const raceLocation = columns[
-                                indices.location
-                            ] as WorldRaceCourse;
-                            const raceSurfaceType = columns[
-                                indices.surfaceType
-                            ] as WorldRaceCourseType;
-                            const raceDistance = parseInt(
-                                columns[indices.distance],
-                            );
-                            const raceGrade = columns[
-                                indices.grade
-                            ] as WorldGradeType;
-                            const raceNumber = parseInt(
-                                columns[indices.number],
-                            );
-
-                            if (
-                                !raceId ||
-                                !raceName ||
-                                isNaN(raceDate.getTime()) ||
-                                !raceLocation ||
-                                !raceSurfaceType ||
-                                isNaN(raceDistance) ||
-                                !raceGrade ||
-                                isNaN(raceNumber)
-                            ) {
-                                return undefined;
-                            }
-
-                            return new WorldRaceRecord(
-                                raceId,
-                                raceName,
-                                raceDate,
-                                raceLocation,
-                                raceSurfaceType,
-                                raceDistance,
-                                raceGrade,
-                                raceNumber,
-                            );
-                        })
-                        .filter(
-                            (raceData): raceData is WorldRaceRecord =>
-                                raceData !== undefined,
-                        );
-                }),
-            )
-        ).flat();
-    }
-
-    /**
-     * raceRecordListをraceEntityListに変換する
-     * @param raceRecordList
-     * @returns
-     */
-    @Logger
-    private translateRaceRecordListToRaceEntityList(
-        raceRecordList: WorldRaceRecord[],
-    ): WorldRaceEntity[] {
-        return raceRecordList.map(
-            (raceRecord) =>
-                new WorldRaceEntity(
-                    raceRecord.id,
-                    new WorldRaceData(
-                        raceRecord.name,
-                        raceRecord.dateTime,
-                        raceRecord.location,
-                        raceRecord.surfaceType,
-                        raceRecord.distance,
-                        raceRecord.grade,
-                        raceRecord.number,
-                    ),
-                ),
-        );
-    }
-
-    /**
-     * raceEntityListをraceRecordListに変換する
-     * @param request
-     */
-    @Logger
-    private translateRaceEntityListToRaceRecordList(
-        raceEntityList: WorldRaceEntity[],
-    ): WorldRaceRecord[] {
-        return raceEntityList.map((raceEntity) => {
-            return new WorldRaceRecord(
-                raceEntity.id,
-                raceEntity.raceData.name,
-                raceEntity.raceData.dateTime,
-                raceEntity.raceData.location,
-                raceEntity.raceData.surfaceType,
-                raceEntity.raceData.distance,
-                raceEntity.raceData.grade,
-                raceEntity.raceData.number,
-            );
-        });
-    }
-
-    /**
-     * レースデータを日付ごとに分割する
-     * @param raceRecordList
-     * @returns
-     */
-    @Logger
-    private translateRaceRecordListToRaceRecordDict(
-        raceRecordList: WorldRaceRecord[],
-    ): Record<string, WorldRaceRecord[]> {
         const raceRecordDict: Record<string, WorldRaceRecord[]> = {};
-        raceRecordList.forEach((raceRecord) => {
-            const key = `${format(raceRecord.dateTime, 'yyyyMMdd')}.csv`;
+        raceEntity.forEach((race) => {
+            const raceRecord = new WorldRaceRecord(
+                race.id,
+                race.raceData.name,
+                race.raceData.dateTime,
+                race.raceData.location,
+                race.raceData.surfaceType,
+                race.raceData.distance,
+                race.raceData.grade,
+                race.raceData.number,
+            );
+            const key = `${format(race.raceData.dateTime, 'yyyyMMdd')}.csv`;
             // 日付ごとに分割されたレースデータを格納
             if (!(key in raceRecordDict)) {
                 raceRecordDict[key] = [];
@@ -258,24 +166,11 @@ export class WorldRaceRepositoryFromStorageImpl
 
             raceRecordDict[key].push(raceRecord);
         });
-        return raceRecordDict;
-    }
 
-    /**
-     * レースデータをuploadする
-     * @param raceRecordList
-     * @returns
-     */
-    @Logger
-    private async uploadRaceRecordList(
-        raceRecordList: WorldRaceRecord[],
-    ): Promise<void> {
-        // レースデータを日付ごとに分割する
-        const raceRecordDict: Record<string, WorldRaceRecord[]> =
-            this.translateRaceRecordListToRaceRecordDict(raceRecordList);
-
+        // 月毎に分けられたplaceをS3にアップロードする
         for (const [fileName, raceData] of Object.entries(raceRecordDict)) {
             await this.s3Gateway.uploadDataToS3(raceData, fileName);
         }
+        return new RegisterRaceListResponse(200);
     }
 }
