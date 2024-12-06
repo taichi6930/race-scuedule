@@ -106,7 +106,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * S3から競輪場開催データを取得する
      *
      * ファイル名を利用してS3から競輪場開催データを取得する
-     * PlaceEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
      * @returns
