@@ -49,7 +49,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             request.finishDate,
         );
 
-        const placeEntityList = (
+        const placeEntityList: BoatracePlaceEntity[] = (
             await Promise.all(
                 Object.entries(quarters).map(async ([quarter, quarterDate]) =>
                     this.fetchMonthPlaceEntityList(quarter, quarterDate).then(
@@ -65,7 +65,6 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 ),
             )
         ).flat();
-        console.log(placeEntityList);
         return new FetchPlaceListResponse(placeEntityList);
     }
 

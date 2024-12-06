@@ -184,8 +184,8 @@ export class NarRaceRepositoryFromStorageImpl
         });
 
         // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceData] of Object.entries(raceRecordDict)) {
-            await this.s3Gateway.uploadDataToS3(raceData, fileName);
+        for (const [fileName, raceRecord] of Object.entries(raceRecordDict)) {
+            await this.s3Gateway.uploadDataToS3(raceRecord, fileName);
         }
         return new RegisterRaceListResponse(200);
     }

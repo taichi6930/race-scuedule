@@ -38,12 +38,12 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         request: FetchRaceListRequest<AutoracePlaceEntity>,
     ): Promise<FetchRaceListResponse<AutoraceRaceEntity>> {
         const autoraceRaceDataList: AutoraceRaceEntity[] = [];
-        const placeList = request.placeEntityList;
-        if (placeList) {
-            for (const place of placeList) {
+        const placeEntityList = request.placeEntityList;
+        if (placeEntityList) {
+            for (const placeEntity of placeEntityList) {
                 autoraceRaceDataList.push(
                     ...(await this.fetchRaceListFromHtmlWithAutoracePlace(
-                        place,
+                        placeEntity,
                     )),
                 );
                 console.debug('0.8秒待ちます');

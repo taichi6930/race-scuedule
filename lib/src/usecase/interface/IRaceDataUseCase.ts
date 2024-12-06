@@ -31,7 +31,7 @@ export interface IRaceDataUseCase<
 
     /**
      * レースデータのリストを更新する
-     * @param raceList
+     * @param raceDataList
      */
-    upsertRaceDataList: (raceList: R[]) => Promise<void>;
+    upsertRaceDataList: (raceDataList: R[]) => Promise<void>;
 }

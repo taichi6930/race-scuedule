@@ -32,9 +32,9 @@ export class JraRaceRepositoryFromHtmlImpl
         request: FetchRaceListRequest<JraPlaceEntity>,
     ): Promise<FetchRaceListResponse<JraRaceEntity>> {
         const jraRaceEntityList: JraRaceEntity[] = [];
-        const placeList = request.placeEntityList;
-        // placeListからdateのみをListにする、重複すると思うので重複を削除する
-        const dateList = placeList
+        const placeEntityList = request.placeEntityList;
+        // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
+        const dateList = placeEntityList
             ?.map((place) => place.placeData.dateTime)
             .filter((x, i, self) => self.indexOf(x) === i);
         if (dateList) {

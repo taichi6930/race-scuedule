@@ -123,13 +123,13 @@ export class JraRaceDataUseCase
 
     /**
      * レース開催データを更新する
-     * @param raceList
+     * @param raceDataList
      */
     @Logger
-    async upsertRaceDataList(raceList: JraRaceData[]): Promise<void> {
+    async upsertRaceDataList(raceDataList: JraRaceData[]): Promise<void> {
         try {
             // jraRaceDataをJraRaceEntityに変換する
-            const raceEntityList: JraRaceEntity[] = raceList.map(
+            const raceEntityList: JraRaceEntity[] = raceDataList.map(
                 (raceData) => new JraRaceEntity(null, raceData),
             );
             // S3にデータを保存する
@@ -170,13 +170,13 @@ export class JraRaceDataUseCase
     private async getRaceEntityList(
         startDate: Date,
         finishDate: Date,
-        placeList: JraPlaceEntity[],
+        placeEntityList: JraPlaceEntity[],
         type: 'storage' | 'web',
     ): Promise<JraRaceEntity[]> {
         const fetchRaceListRequest = new FetchRaceListRequest<JraPlaceEntity>(
             startDate,
             finishDate,
-            placeList,
+            placeEntityList,
         );
         const fetchRaceListResponse: FetchRaceListResponse<JraRaceEntity> =
             type === 'storage'
@@ -196,10 +196,10 @@ export class JraRaceDataUseCase
      */
     @Logger
     private async registerRaceEntityList(
-        raceList: JraRaceEntity[],
+        raceEntityList: JraRaceEntity[],
     ): Promise<void> {
         const registerRaceListRequest =
-            new RegisterRaceListRequest<JraRaceEntity>(raceList);
+            new RegisterRaceListRequest<JraRaceEntity>(raceEntityList);
         await this.jraRaceRepositoryFromStorage.registerRaceEntityList(
             registerRaceListRequest,
         );

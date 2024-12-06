@@ -46,16 +46,22 @@ export class AutoracePlaceRepositoryFromHtmlImpl
             request.startDate,
             request.finishDate,
         );
-        const promises = monthList.map(async (month) =>
-            this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
-                childPlaceEntityList.filter(
-                    (placeEntity) =>
-                        placeEntity.placeData.dateTime >= request.startDate &&
-                        placeEntity.placeData.dateTime <= request.finishDate,
+        const placeEntityList: AutoracePlaceEntity[] = (
+            await Promise.all(
+                monthList.map(async (month) =>
+                    this.fetchMonthPlaceEntityList(month).then(
+                        (childPlaceEntityList) =>
+                            childPlaceEntityList.filter(
+                                (placeEntity) =>
+                                    placeEntity.placeData.dateTime >=
+                                        request.startDate &&
+                                    placeEntity.placeData.dateTime <=
+                                        request.finishDate,
+                            ),
+                    ),
                 ),
-            ),
-        );
-        const placeEntityList = (await Promise.all(promises)).flat();
+            )
+        ).flat();
         return new FetchPlaceListResponse(placeEntityList);
     }
 

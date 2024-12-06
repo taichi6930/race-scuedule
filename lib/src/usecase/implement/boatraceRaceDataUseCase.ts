@@ -139,13 +139,13 @@ export class BoatraceRaceDataUseCase
 
     /**
      * レース開催データを更新する
-     * @param raceList
+     * @param raceDataList
      */
     @Logger
-    async upsertRaceDataList(raceList: BoatraceRaceData[]): Promise<void> {
+    async upsertRaceDataList(raceDataList: BoatraceRaceData[]): Promise<void> {
         try {
             // BoatraceRaceDataをBoatraceRaceEntityに変換する
-            const raceEntityList: BoatraceRaceEntity[] = raceList.map(
+            const raceEntityList: BoatraceRaceEntity[] = raceDataList.map(
                 (raceData) => new BoatraceRaceEntity(null, raceData, []),
             );
             // S3にデータを保存する
@@ -181,21 +181,21 @@ export class BoatraceRaceDataUseCase
      *
      * @param startDate
      * @param finishDate
-     * @param placeList
+     * @param placeEntityList
      * @param type
      */
     @Logger
     private async getRaceEntityList(
         startDate: Date,
         finishDate: Date,
-        placeList: BoatracePlaceEntity[],
+        placeEntityList: BoatracePlaceEntity[],
         type: 'storage' | 'web',
     ): Promise<BoatraceRaceEntity[]> {
         const fetchRaceListRequest =
             new FetchRaceListRequest<BoatracePlaceEntity>(
                 startDate,
                 finishDate,
-                placeList,
+                placeEntityList,
             );
         const fetchRaceListResponse: FetchRaceListResponse<BoatraceRaceEntity> =
             type === 'storage'
@@ -215,10 +215,10 @@ export class BoatraceRaceDataUseCase
      */
     @Logger
     private async registerRaceEntityList(
-        raceList: BoatraceRaceEntity[],
+        raceEntityList: BoatraceRaceEntity[],
     ): Promise<void> {
         const registerRaceListRequest =
-            new RegisterRaceListRequest<BoatraceRaceEntity>(raceList);
+            new RegisterRaceListRequest<BoatraceRaceEntity>(raceEntityList);
         await this.boatraceRaceRepositoryFromStorage.registerRaceEntityList(
             registerRaceListRequest,
         );
