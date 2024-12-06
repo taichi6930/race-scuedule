@@ -42,14 +42,14 @@ export class JraPlaceRepositoryFromHtmlImpl
         );
 
         // 年ごとの競馬場開催データを取得
-        const placeRecords: JraPlaceRecord[] = (
+        const placeRecordList: JraPlaceRecord[] = (
             await Promise.all(
                 yearList.map((year) => this.fetchYearPlaceRecordList(year)),
             )
         ).flat();
 
         // Entityに変換
-        const placeEntityList: JraPlaceEntity[] = placeRecords.map(
+        const placeEntityList: JraPlaceEntity[] = placeRecordList.map(
             (placeRecord) =>
                 new JraPlaceEntity(
                     placeRecord.id,
