@@ -115,7 +115,7 @@ export class KeirinRaceRepositoryFromStorageImpl
         ).flat();
 
         // ファイル名リストから競輪レースデータを取得する
-        const raceDataList = (
+        const raceEntityList = (
             await Promise.all(
                 fileNameList.map(async (fileName) => {
                     // S3からデータを取得する
@@ -185,7 +185,7 @@ export class KeirinRaceRepositoryFromStorageImpl
             )
         ).flat();
 
-        return new FetchRaceListResponse(raceDataList);
+        return new FetchRaceListResponse(raceEntityList);
     }
 
     /**

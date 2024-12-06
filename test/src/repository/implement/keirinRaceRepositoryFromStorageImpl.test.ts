@@ -155,7 +155,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
     describe('registerRaceList', () => {
         test('正しいレースデータを登録できる', async () => {
             // 1年間のレースデータを登録する
-            const raceDataList: KeirinRaceEntity[] = Array.from(
+            const raceEntityList: KeirinRaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -181,7 +181,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
 
             // リクエストの作成
             const request = new RegisterRaceListRequest<KeirinRaceEntity>(
-                raceDataList,
+                raceEntityList,
             );
             // テスト実行
             await repository.registerRaceEntityList(request);

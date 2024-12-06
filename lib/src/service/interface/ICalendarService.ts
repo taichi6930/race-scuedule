@@ -14,9 +14,9 @@ export interface ICalendarService<R extends RaceData> {
     getEvents: (startDate: Date, finishDate: Date) => Promise<CalendarData[]>;
     /**
      * カレンダーのイベントの更新を行う
-     * @param raceList
+     * @param raceDataList
      */
-    upsertEvents: (raceList: R[]) => Promise<void>;
+    upsertEvents: (raceDataList: R[]) => Promise<void>;
     /**
      * カレンダーのクレンジングを行う
      * @param startDate

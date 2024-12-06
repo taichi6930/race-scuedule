@@ -115,7 +115,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
         ).flat();
 
         // ファイル名リストからボートレースデータを取得する
-        const raceDataList = (
+        const raceEntityList: BoatraceRaceEntity[] = (
             await Promise.all(
                 fileNameList.map(async (fileName) => {
                     // S3からデータを取得する
@@ -187,7 +187,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
             )
         ).flat();
 
-        return new FetchRaceListResponse(raceDataList);
+        return new FetchRaceListResponse(raceEntityList);
     }
 
     /**

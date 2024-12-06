@@ -63,11 +63,12 @@ export class JraPlaceRepositoryFromHtmlImpl
         );
 
         // filterで日付の範囲を指定
-        const filteredPlaceEntityList = placeEntityList.filter(
-            (placeEntity) =>
-                placeEntity.placeData.dateTime >= request.startDate &&
-                placeEntity.placeData.dateTime <= request.finishDate,
-        );
+        const filteredPlaceEntityList: JraPlaceEntity[] =
+            placeEntityList.filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= request.startDate &&
+                    placeEntity.placeData.dateTime <= request.finishDate,
+            );
 
         return new FetchPlaceListResponse(filteredPlaceEntityList);
     }

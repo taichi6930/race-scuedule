@@ -49,24 +49,24 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             request.finishDate,
         );
 
-        const placeEntityList = (
+        // quartersの月リストを取得
+        const placeEntityList: BoatracePlaceEntity[] = (
             await Promise.all(
                 Object.entries(quarters).map(async ([quarter, quarterDate]) =>
-                    this.fetchMonthPlaceEntityList(quarter, quarterDate).then(
-                        (childPlaceEntityList) =>
-                            childPlaceEntityList.filter(
-                                (placeEntity) =>
-                                    placeEntity.placeData.dateTime >=
-                                        request.startDate &&
-                                    placeEntity.placeData.dateTime <=
-                                        request.finishDate,
-                            ),
-                    ),
+                    this.fetchMonthPlaceEntityList(quarter, quarterDate),
                 ),
             )
         ).flat();
-        console.log(placeEntityList);
-        return new FetchPlaceListResponse(placeEntityList);
+
+        // startDateからfinishDateまでの中でのデータを取得
+        const filteredPlaceEntityList: BoatracePlaceEntity[] =
+            placeEntityList.filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= request.startDate &&
+                    placeEntity.placeData.dateTime <= request.finishDate,
+            );
+
+        return new FetchPlaceListResponse(filteredPlaceEntityList);
     }
 
     /**
@@ -117,7 +117,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * S3からボートレース場開催データを取得する
      *
      * ファイル名を利用してS3からボートレース場開催データを取得する
-     * PlaceEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
      * @returns

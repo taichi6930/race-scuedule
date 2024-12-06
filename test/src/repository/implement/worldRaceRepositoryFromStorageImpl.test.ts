@@ -106,7 +106,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
     describe('registerRaceList', () => {
         test('正しいレースデータを登録できる', async () => {
             // 1年間のレースデータを登録する
-            const raceDataList: WorldRaceEntity[] = Array.from(
+            const raceEntityList: WorldRaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -132,7 +132,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
 
             // リクエストの作成
             const request = new RegisterRaceListRequest<WorldRaceEntity>(
-                raceDataList,
+                raceEntityList,
             );
             // テスト実行
             await repository.registerRaceEntityList(request);

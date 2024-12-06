@@ -155,7 +155,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
     describe('registerRaceList', () => {
         test('正しいレースデータを登録できる', async () => {
             // 1年間のレースデータを登録する
-            const raceDataList: BoatraceRaceEntity[] = Array.from(
+            const raceEntityList: BoatraceRaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
@@ -181,7 +181,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
 
             // リクエストの作成
             const request = new RegisterRaceListRequest<BoatraceRaceEntity>(
-                raceDataList,
+                raceEntityList,
             );
             // テスト実行
             await repository.registerRaceEntityList(request);

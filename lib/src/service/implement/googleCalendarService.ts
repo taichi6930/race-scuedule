@@ -134,12 +134,12 @@ export class GoogleCalendarService<R extends RaceData>
 
     /**
      * カレンダーのイベントの更新を行う
-     * @param raceList
+     * @param raceDataList
      */
     @Logger
-    async upsertEvents(raceList: RaceData[]): Promise<void> {
+    async upsertEvents(raceDataList: RaceData[]): Promise<void> {
         await Promise.all(
-            raceList.map(async (raceData) => {
+            raceDataList.map(async (raceData) => {
                 // イベントIDを生成
                 const eventId = GoogleCalendarService.generateEventId(
                     this.raceType,

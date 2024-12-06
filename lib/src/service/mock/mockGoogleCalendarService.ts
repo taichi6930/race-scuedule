@@ -132,8 +132,8 @@ export class MockGoogleCalendarService implements ICalendarService<RaceData> {
     }
 
     @Logger
-    async upsertEvents(raceList: RaceData[]): Promise<void> {
-        for (const raceData of raceList) {
+    async upsertEvents(raceDataList: RaceData[]): Promise<void> {
+        for (const raceData of raceDataList) {
             const eventId = GoogleCalendarService.generateEventId(
                 this.raceType,
                 raceData,

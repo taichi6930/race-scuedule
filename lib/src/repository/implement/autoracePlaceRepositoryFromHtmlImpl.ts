@@ -46,17 +46,22 @@ export class AutoracePlaceRepositoryFromHtmlImpl
             request.startDate,
             request.finishDate,
         );
-        const promises = monthList.map(async (month) =>
-            this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
-                childPlaceEntityList.filter(
-                    (placeEntity) =>
-                        placeEntity.placeData.dateTime >= request.startDate &&
-                        placeEntity.placeData.dateTime <= request.finishDate,
+        const placeEntityList: AutoracePlaceEntity[] = (
+            await Promise.all(
+                monthList.map(async (month) =>
+                    this.fetchMonthPlaceEntityList(month),
                 ),
-            ),
-        );
-        const placeEntityList = (await Promise.all(promises)).flat();
-        return new FetchPlaceListResponse(placeEntityList);
+            )
+        ).flat();
+
+        // startDateからfinishDateまでの中でのデータを取得
+        const filteredPlaceEntityList: AutoracePlaceEntity[] =
+            placeEntityList.filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= request.startDate &&
+                    placeEntity.placeData.dateTime <= request.finishDate,
+            );
+        return new FetchPlaceListResponse(filteredPlaceEntityList);
     }
 
     /**
@@ -101,7 +106,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * S3からオートレース開催データを取得する
      *
      * ファイル名を利用してS3からオートレース開催データを取得する
-     * PlaceEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
      * @returns

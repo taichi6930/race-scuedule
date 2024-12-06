@@ -43,17 +43,23 @@ export class KeirinPlaceRepositoryFromHtmlImpl
             request.startDate,
             request.finishDate,
         );
-        const promises = monthList.map(async (month) =>
-            this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
-                childPlaceEntityList.filter(
-                    (placeEntity) =>
-                        placeEntity.placeData.dateTime >= request.startDate &&
-                        placeEntity.placeData.dateTime <= request.finishDate,
+        const placeEntityList: KeirinPlaceEntity[] = (
+            await Promise.all(
+                monthList.map(async (month) =>
+                    this.fetchMonthPlaceEntityList(month),
                 ),
-            ),
-        );
-        const placeEntityList = (await Promise.all(promises)).flat();
-        return new FetchPlaceListResponse(placeEntityList);
+            )
+        ).flat();
+
+        // startDateからfinishDateまでの中でのデータを取得
+        const filteredPlaceEntityList: KeirinPlaceEntity[] =
+            placeEntityList.filter(
+                (placeEntity) =>
+                    placeEntity.placeData.dateTime >= request.startDate &&
+                    placeEntity.placeData.dateTime <= request.finishDate,
+            );
+
+        return new FetchPlaceListResponse(filteredPlaceEntityList);
     }
 
     /**
@@ -100,7 +106,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * S3から競輪場開催データを取得する
      *
      * ファイル名を利用してS3から競輪場開催データを取得する
-     * PlaceEntityが存在しない場合はundefinedを返すので、filterで除外する
+     * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
      * @returns

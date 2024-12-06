@@ -107,13 +107,13 @@ export class WorldRaceDataUseCase
 
     /**
      * レース開催データを更新する
-     * @param raceList
+     * @param raceDataList
      */
     @Logger
-    async upsertRaceDataList(raceList: WorldRaceData[]): Promise<void> {
+    async upsertRaceDataList(raceDataList: WorldRaceData[]): Promise<void> {
         try {
             // worldRaceDataをworldRaceEntityに変換する
-            const raceEntityList: WorldRaceEntity[] = raceList.map(
+            const raceEntityList: WorldRaceEntity[] = raceDataList.map(
                 (raceData) => new WorldRaceEntity(null, raceData),
             );
             // S3にデータを保存する
@@ -129,7 +129,6 @@ export class WorldRaceDataUseCase
      *
      * @param startDate
      * @param finishDate
-     * @param placeList
      * @param type
      */
     @Logger
@@ -156,14 +155,14 @@ export class WorldRaceDataUseCase
     /**
      * レースデータを登録する
      *
-     * @param raceList
+     * @param raceEntityList
      */
     @Logger
     private async registerRaceDataList(
-        raceList: WorldRaceEntity[],
+        raceEntityList: WorldRaceEntity[],
     ): Promise<void> {
         const registerRaceListRequest =
-            new RegisterRaceListRequest<WorldRaceEntity>(raceList);
+            new RegisterRaceListRequest<WorldRaceEntity>(raceEntityList);
         await this.worldRaceRepositoryFromStorage.registerRaceEntityList(
             registerRaceListRequest,
         );

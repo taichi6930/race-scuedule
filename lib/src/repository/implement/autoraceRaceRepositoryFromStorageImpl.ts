@@ -71,10 +71,6 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     // ヘッダー行を解析
                     const headers = lines[0].split(',');
 
-                    //      * @param id - ID
-                    //  * @param raceId - レースID
-                    //                     * @param positionNumber - 枠番
-                    //                         * @param playerNumber - 選手番号
                     // ヘッダーに基づいてインデックスを取得
                     const idIndex = headers.indexOf('id');
                     const raceIdIndex = headers.indexOf('raceId');
@@ -115,7 +111,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
         ).flat();
 
         // ファイル名リストからオートレースデータを取得する
-        const raceDataList = (
+        const raceEntityList: AutoraceRaceEntity[] = (
             await Promise.all(
                 fileNameList.map(async (fileName) => {
                     // S3からデータを取得する
@@ -187,7 +183,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
             )
         ).flat();
 
-        return new FetchRaceListResponse(raceDataList);
+        return new FetchRaceListResponse(raceEntityList);
     }
 
     /**
