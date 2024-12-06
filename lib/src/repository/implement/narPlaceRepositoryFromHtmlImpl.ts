@@ -52,8 +52,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                 ),
             ),
         );
-        const placeDataLists = await Promise.all(promises);
-        const placeDataList = placeDataLists.flat();
+        const placeDataList = (await Promise.all(promises)).flat();
         return new FetchPlaceListResponse(placeDataList);
     }
 
