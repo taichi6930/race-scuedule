@@ -55,10 +55,10 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                     this.fetchMonthPlaceEntityList(quarter, quarterDate).then(
                         (childPlaceEntityList) =>
                             childPlaceEntityList.filter(
-                                (PlaceEntity) =>
-                                    PlaceEntity.placeData.dateTime >=
+                                (placeEntity) =>
+                                    placeEntity.placeData.dateTime >=
                                         request.startDate &&
-                                    PlaceEntity.placeData.dateTime <=
+                                    placeEntity.placeData.dateTime <=
                                         request.finishDate,
                             ),
                     ),

@@ -55,9 +55,8 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 ),
             ),
         );
-        const PlaceEntityLists = await Promise.all(promises);
-        const PlaceEntityList = PlaceEntityLists.flat();
-        return new FetchPlaceListResponse(PlaceEntityList);
+        const placeEntityList = (await Promise.all(promises)).flat();
+        return new FetchPlaceListResponse(placeEntityList);
     }
 
     /**

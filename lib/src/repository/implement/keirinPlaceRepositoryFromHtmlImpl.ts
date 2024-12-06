@@ -46,15 +46,14 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         const promises = monthList.map(async (month) =>
             this.fetchMonthPlaceEntityList(month).then((childPlaceEntityList) =>
                 childPlaceEntityList.filter(
-                    (PlaceEntity) =>
-                        PlaceEntity.placeData.dateTime >= request.startDate &&
-                        PlaceEntity.placeData.dateTime <= request.finishDate,
+                    (placeEntity) =>
+                        placeEntity.placeData.dateTime >= request.startDate &&
+                        placeEntity.placeData.dateTime <= request.finishDate,
                 ),
             ),
         );
-        const PlaceEntityLists = await Promise.all(promises);
-        const PlaceEntityList = PlaceEntityLists.flat();
-        return new FetchPlaceListResponse(PlaceEntityList);
+        const placeEntityList = (await Promise.all(promises)).flat();
+        return new FetchPlaceListResponse(placeEntityList);
     }
 
     /**
