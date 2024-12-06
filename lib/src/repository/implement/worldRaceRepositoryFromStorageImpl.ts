@@ -68,30 +68,8 @@ export class WorldRaceRepositoryFromStorageImpl
         const raceRecordList: WorldRaceRecord[] =
             this.translateRaceEntityListToRaceRecordList(raceEntityList);
         // レースデータを日付ごとに分割する
-        const raceRecordDict: Record<string, WorldRaceRecord[]> = {};
-        raceRecordList.forEach((raceRecord) => {
-            const key = `${format(raceRecord.dateTime, 'yyyyMMdd')}.csv`;
-            // 日付ごとに分割されたレースデータを格納
-            if (!(key in raceRecordDict)) {
-                raceRecordDict[key] = [];
-            }
+        await this.uploadRaceRecordList(raceRecordList);
 
-            // 既に存在する場合は追加しない
-            if (
-                raceRecordDict[key].findIndex(
-                    (record) => record.id === raceRecord.id,
-                ) !== -1
-            ) {
-                return;
-            }
-
-            raceRecordDict[key].push(raceRecord);
-        });
-
-        // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceData] of Object.entries(raceRecordDict)) {
-            await this.s3Gateway.uploadDataToS3(raceData, fileName);
-        }
         return new RegisterRaceListResponse(200);
     }
 
@@ -250,5 +228,54 @@ export class WorldRaceRepositoryFromStorageImpl
                 raceEntity.raceData.number,
             );
         });
+    }
+
+    /**
+     * レースデータを日付ごとに分割する
+     * @param raceRecordList
+     * @returns
+     */
+    @Logger
+    private translateRaceRecordListToRaceRecordDict(
+        raceRecordList: WorldRaceRecord[],
+    ): Record<string, WorldRaceRecord[]> {
+        const raceRecordDict: Record<string, WorldRaceRecord[]> = {};
+        raceRecordList.forEach((raceRecord) => {
+            const key = `${format(raceRecord.dateTime, 'yyyyMMdd')}.csv`;
+            // 日付ごとに分割されたレースデータを格納
+            if (!(key in raceRecordDict)) {
+                raceRecordDict[key] = [];
+            }
+
+            // 既に存在する場合は追加しない
+            if (
+                raceRecordDict[key].findIndex(
+                    (record) => record.id === raceRecord.id,
+                ) !== -1
+            ) {
+                return;
+            }
+
+            raceRecordDict[key].push(raceRecord);
+        });
+        return raceRecordDict;
+    }
+
+    /**
+     * レースデータをuploadする
+     * @param raceRecordList
+     * @returns
+     */
+    @Logger
+    private async uploadRaceRecordList(
+        raceRecordList: WorldRaceRecord[],
+    ): Promise<void> {
+        // レースデータを日付ごとに分割する
+        const raceRecordDict: Record<string, WorldRaceRecord[]> =
+            this.translateRaceRecordListToRaceRecordDict(raceRecordList);
+
+        for (const [fileName, raceData] of Object.entries(raceRecordDict)) {
+            await this.s3Gateway.uploadDataToS3(raceData, fileName);
+        }
     }
 }
