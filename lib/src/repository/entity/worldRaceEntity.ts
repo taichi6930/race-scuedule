@@ -1,6 +1,7 @@
 import '../../utility/format';
 
 import type { WorldRaceData } from '../../domain/worldRaceData';
+import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import type { WorldRaceId } from '../../utility/raceId';
 import { generateWorldRaceId } from '../../utility/raceId';
 
@@ -43,6 +44,23 @@ export class WorldRaceEntity {
         return new WorldRaceEntity(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+        );
+    }
+
+    /**
+     * WorldRaceRecordに変換する
+     * @returns
+     */
+    toRecord(): WorldRaceRecord {
+        return new WorldRaceRecord(
+            this.id,
+            this.raceData.name,
+            this.raceData.dateTime,
+            this.raceData.location,
+            this.raceData.surfaceType,
+            this.raceData.distance,
+            this.raceData.grade,
+            this.raceData.number,
         );
     }
 }
