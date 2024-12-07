@@ -335,8 +335,9 @@ export const processWorldRaceName = (
         .replace(/ステークス/, 'S')
         .replace(/カップ/, 'C')
         .replace(/サラ系/, '')
-        .replace(/（L）/, '')
-        .replace(/(L)/, '')
+        .replace('（L）', '')
+        .replace('(L)', '')
+        .replace('()', '')
         .replace(/ブリーダーズC/, 'BC')
         .replace(/ハンデキャップ/, 'H');
 };
