@@ -107,6 +107,11 @@ export class WorldRaceRepositoryFromStorageImpl
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
 
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
         // CSVを行ごとに分割
         const lines = csv.split('\n');
 

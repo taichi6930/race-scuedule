@@ -32,64 +32,58 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('正しいレースデータを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse(
-                        filename.slice(0, 8),
-                        'yyyyMMdd',
-                        new Date(),
-                    );
-                    date.setHours(16);
-                    const csvHeaderDataText: string = [
-                        'name',
-                        'dateTime',
-                        'location',
-                        'surfaceType',
-                        'distance',
-                        'grade',
-                        'number',
-                        'id',
-                    ].join(',');
-                    const csvDataText: string = [
-                        `raceName${filename.slice(0, 8)}`,
-                        date.toISOString(),
-                        'パリロンシャン',
-                        '芝',
-                        '2400',
-                        'GⅠ',
-                        '1',
-                        `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
-                    ].join(',');
-                    const csvDataRameNameUndefinedText: string = [
-                        undefined,
-                        date.toISOString(),
-                        'パリロンシャン',
-                        '芝',
-                        '2400',
-                        'GⅠ',
-                        '1',
-                        `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
-                    ].join(',');
-                    const csvDataNumUndefinedText: string = [
-                        `raceName${filename.slice(0, 8)}`,
-                        date.toISOString(),
-                        'パリロンシャン',
-                        '芝',
-                        '2400',
-                        'GⅠ',
-                        undefined,
-                        `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
-                    ].join(',');
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                        csvDataRameNameUndefinedText,
-                        csvDataNumUndefinedText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
-            );
+            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
+                // filenameから日付を取得 16時からのレースにしたい
+                const date = parse('20240101', 'yyyyMMdd', new Date());
+                date.setHours(16);
+                const csvHeaderDataText: string = [
+                    'name',
+                    'dateTime',
+                    'location',
+                    'surfaceType',
+                    'distance',
+                    'grade',
+                    'number',
+                    'id',
+                ].join(',');
+                const csvDataText: string = [
+                    `raceName20240101`,
+                    date.toISOString(),
+                    'パリロンシャン',
+                    '芝',
+                    '2400',
+                    'GⅠ',
+                    '1',
+                    `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                ].join(',');
+                const csvDataRameNameUndefinedText: string = [
+                    undefined,
+                    date.toISOString(),
+                    'パリロンシャン',
+                    '芝',
+                    '2400',
+                    'GⅠ',
+                    '1',
+                    `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                ].join(',');
+                const csvDataNumUndefinedText: string = [
+                    `raceName20240101`,
+                    date.toISOString(),
+                    'パリロンシャン',
+                    '芝',
+                    '2400',
+                    'GⅠ',
+                    undefined,
+                    `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                ].join(',');
+                const csvDatajoinText: string = [
+                    csvHeaderDataText,
+                    csvDataText,
+                    csvDataRameNameUndefinedText,
+                    csvDataNumUndefinedText,
+                ].join('\n');
+                return Promise.resolve(csvDatajoinText);
+            });
             // リクエストの作成
             const request = new FetchRaceListRequest<WorldPlaceEntity>(
                 new Date('2024-01-01'),
@@ -99,7 +93,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             const response = await repository.fetchRaceEntityList(request);
 
             // レスポンスの検証
-            expect(response.raceEntityList).toHaveLength(32);
+            expect(response.raceEntityList).toHaveLength(1);
         });
     });
 
@@ -138,7 +132,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             await repository.registerRaceEntityList(request);
 
             // uploadDataToS3が366回呼ばれることを検証
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 });
