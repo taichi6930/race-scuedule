@@ -23,6 +23,7 @@ jobs:
       start-date: ${{ steps.set-dates.outputs.start-date }}
       finish-date: ${{ steps.set-dates.outputs.finish-date }}
       # 競輪・オートレースは1日毎に出走表が更新されるため、finish-dateを1日後に設定
+      start-date-for-keirin: ${{ steps.set-dates.outputs.start-date-for-keirin }}
       finish-date-for-keirin: ${{ steps.set-dates.outputs.finish-date-for-keirin }}
       finish-date-for-autorace: ${{ steps.set-dates.outputs.finish-date-for-autorace }}
       finish-date-for-boatrace: ${{ steps.set-dates.outputs.finish-date-for-boatrace }}
@@ -33,6 +34,7 @@ jobs:
           # 日付を計算、デフォルトは昨日から2日後
           startDate="${{ github.event.inputs.start-date }}"
           finishDate="${{ github.event.inputs.finish-date }}"
+          startDateForKeirin="${{ github.event.inputs.start-date }}"
           finishDateForKeirin="${{ github.event.inputs.finish-date }}"
           finishDateForAutorace="${{ github.event.inputs.finish-date }}"
           finishDateForBoatrace="${{ github.event.inputs.finish-date }}"
@@ -40,10 +42,11 @@ jobs:
           # 入力がない場合のデフォルト設定
           if [ -z "$startDate" ]; then
             startDate=$(date -d "yesterday" +"%Y-%m-%d")
+            startDateForKeirin=$(date -d "today" +"%Y-%m-%d")
           fi
           if [ -z "$finishDate" ]; then
             finishDate=$(date -d "+2 days" +"%Y-%m-%d")
-            finishDateForKeirin=$(date -d "+1 days" +"%Y-%m-%d")
+            finishDateForKeirin=$(date -d "+1 day" +"%Y-%m-%d")
             finishDateForAutorace=$(date -d "+1 day" +"%Y-%m-%d")
             finishDateForBoatrace=$(date -d "+1 day" +"%Y-%m-%d")
           fi
@@ -309,7 +312,7 @@ jobs:
       - name: Send curl request to API
         run: |
           # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date }}"
+          startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
           finishDate="${{ needs.set-dates.outputs.finish-date-for-keirin }}"
 
           currentDate="$startDate"
@@ -344,8 +347,8 @@ jobs:
 
       - name: Send curl request to API
         run: |
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date-for-autorace }}"
+          startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date-for-keirin }}"
 
           # カレンダーの更新
           update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
