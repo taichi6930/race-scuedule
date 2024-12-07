@@ -312,7 +312,7 @@ jobs:
       - name: Send curl request to API
         run: |
           # 日付はset-datesで設定済み
-          startDate="${{ needs.set-dates.outputs.start-date }}"
+          startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
           finishDate="${{ needs.set-dates.outputs.finish-date-for-keirin }}"
 
           currentDate="$startDate"
@@ -347,8 +347,8 @@ jobs:
 
       - name: Send curl request to API
         run: |
-          startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date-for-autorace }}"
+          startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date-for-keirin }}"
 
           # カレンダーの更新
           update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
