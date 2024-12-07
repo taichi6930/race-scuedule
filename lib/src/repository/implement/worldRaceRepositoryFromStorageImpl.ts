@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
-import { WorldRaceData } from '../../domain/worldRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
@@ -48,20 +47,7 @@ export class WorldRaceRepositoryFromStorageImpl
 
         // RaceRecordをRaceEntityに変換
         const raceEntityList: WorldRaceEntity[] = raceRecordList.map(
-            (raceRecord) => {
-                return new WorldRaceEntity(
-                    raceRecord.id,
-                    new WorldRaceData(
-                        raceRecord.name,
-                        raceRecord.dateTime,
-                        raceRecord.location,
-                        raceRecord.surfaceType,
-                        raceRecord.distance,
-                        raceRecord.grade,
-                        raceRecord.number,
-                    ),
-                );
-            },
+            (raceRecord) => raceRecord.toEntity(),
         );
 
         // フィルタリング処理（日付の範囲指定）
@@ -86,19 +72,9 @@ export class WorldRaceRepositoryFromStorageImpl
         const existFetchRaceRecordList: WorldRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
+        // RaceEntityをRaceRecordに変換する
         const raceRecordList: WorldRaceRecord[] = request.raceEntityList.map(
-            (raceEntity) => {
-                return new WorldRaceRecord(
-                    raceEntity.id,
-                    raceEntity.raceData.name,
-                    raceEntity.raceData.dateTime,
-                    raceEntity.raceData.location,
-                    raceEntity.raceData.surfaceType,
-                    raceEntity.raceData.distance,
-                    raceEntity.raceData.grade,
-                    raceEntity.raceData.number,
-                );
-            },
+            (raceEntity) => raceEntity.toRecord(),
         );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
