@@ -1,3 +1,5 @@
+import { KeirinPlaceData } from '../../domain/keirinPlaceData';
+import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import type {
     KeirinGradeType,
     KeirinRaceCourse,
@@ -36,6 +38,17 @@ export class KeirinPlaceRecord {
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
             partial.grade ?? this.grade,
+        );
+    }
+
+    /**
+     * KeirinPlaceEntityに変換する
+     * @returns
+     */
+    toEntity(): KeirinPlaceEntity {
+        return new KeirinPlaceEntity(
+            this.id,
+            new KeirinPlaceData(this.dateTime, this.location, this.grade),
         );
     }
 }
