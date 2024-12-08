@@ -1,4 +1,5 @@
 import type { AutoracePlaceData } from '../../domain/autoracePlaceData';
+import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
 import type { AutoracePlaceId } from '../../utility/raceId';
 import { generateAutoracePlaceId } from '../../utility/raceId';
 
@@ -37,6 +38,19 @@ export class AutoracePlaceEntity {
         return new AutoracePlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,
+        );
+    }
+
+    /**
+     * AutoracePlaceRecordに変換する
+     * @returns
+     */
+    toRecord(): AutoracePlaceRecord {
+        return new AutoracePlaceRecord(
+            this.id,
+            this.placeData.dateTime,
+            this.placeData.location,
+            this.placeData.grade,
         );
     }
 }
