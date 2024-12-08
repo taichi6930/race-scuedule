@@ -91,7 +91,7 @@ export class WorldRaceRepositoryFromStorageImpl
         });
 
         // 日付の最新順にソート
-        raceRecordList.sort(
+        existFetchRaceRecordList.sort(
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 
