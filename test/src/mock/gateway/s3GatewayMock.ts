@@ -1,7 +1,4 @@
-import type {
-    IS3Gateway,
-    Record,
-} from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
 import type { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/autoraceRacePlayerRecord';
 import type { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
@@ -16,13 +13,6 @@ import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirin
 import type { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
 import type { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import type { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
-
-export const mockS3Gateway = (): jest.Mocked<IS3Gateway<Record>> => {
-    return {
-        uploadDataToS3: jest.fn(),
-        fetchDataFromS3: jest.fn(),
-    };
-};
 
 export const mockS3GatewayForNarRace = (): jest.Mocked<
     IS3Gateway<NarRaceRecord>
@@ -88,15 +78,6 @@ export const mockS3GatewayForKeirinPlace = (): jest.Mocked<
 };
 
 export const mockS3GatewayForWorldRace = (): jest.Mocked<
-    IS3Gateway<WorldRaceRecord>
-> => {
-    return {
-        uploadDataToS3: jest.fn(),
-        fetchDataFromS3: jest.fn(),
-    };
-};
-
-export const mockS3GatewayForWorldPlace = (): jest.Mocked<
     IS3Gateway<WorldRaceRecord>
 > => {
     return {
