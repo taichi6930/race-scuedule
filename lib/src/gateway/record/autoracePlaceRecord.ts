@@ -1,3 +1,5 @@
+import { AutoracePlaceData } from '../../domain/autoracePlaceData';
+import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
@@ -36,6 +38,17 @@ export class AutoracePlaceRecord {
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
             partial.grade ?? this.grade,
+        );
+    }
+
+    /**
+     * AutoracePlaceEntityに変換する
+     * @returns
+     */
+    toEntity(): AutoracePlaceEntity {
+        return new AutoracePlaceEntity(
+            this.id,
+            new AutoracePlaceData(this.dateTime, this.location, this.grade),
         );
     }
 }

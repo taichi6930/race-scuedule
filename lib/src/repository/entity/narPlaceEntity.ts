@@ -1,4 +1,5 @@
 import type { NarPlaceData } from '../../domain/narPlaceData';
+import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
 import type { NarPlaceId } from '../../utility/raceId';
 import { generateNarPlaceId } from '../../utility/raceId';
 
@@ -35,6 +36,18 @@ export class NarPlaceEntity {
         return new NarPlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,
+        );
+    }
+
+    /**
+     * NarPlaceRecordに変換する
+     * @returns
+     */
+    toRecord(): NarPlaceRecord {
+        return new NarPlaceRecord(
+            this.id,
+            this.placeData.dateTime,
+            this.placeData.location,
         );
     }
 }

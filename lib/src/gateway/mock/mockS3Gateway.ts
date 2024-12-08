@@ -179,14 +179,12 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             case 'ITa':
                 break;
             default:
+                const fileName = `nar/place/placeList.csv`;
+                const mockDataHeader = ['id', 'dateTime', 'location'].join(',');
+                const mockData = [mockDataHeader];
                 // 2024年のデータ12ヶ月分を作成
                 for (let month = 1; month <= 12; month++) {
                     const startDate = new Date(2024, month - 1, 1);
-                    const fileName = `nar/place/${format(startDate, 'yyyyMM')}.csv`;
-                    const mockDataHeader = ['id', 'dateTime', 'location'].join(
-                        ',',
-                    );
-                    const mockData = [mockDataHeader];
                     // 1ヶ月分のデータ（28~31日）を作成
                     // 2024年のデータ366日分を作成
                     const currentDate = new Date(startDate);
@@ -201,11 +199,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                         );
                         currentDate.setDate(currentDate.getDate() + 1);
                     }
-                    MockS3Gateway.mockStorage.set(
-                        fileName,
-                        mockData.join('\n'),
-                    );
                 }
+                MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
                 break;
         }
     }
@@ -271,18 +266,18 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             case 'ITa':
                 break;
             default:
+                const fileName = `jra/place/placeList.csv`;
+                const mockDataHeader = [
+                    'id',
+                    'dateTime',
+                    'location',
+                    'heldTimes',
+                    'heldDayTimes',
+                ].join(',');
+                const mockData = [mockDataHeader];
                 // 2024年のデータ12ヶ月分を作成
                 for (let month = 1; month <= 12; month++) {
                     const startDate = new Date(2024, month - 1, 1);
-                    const fileName = `jra/place/${format(startDate, 'yyyyMM')}.csv`;
-                    const mockDataHeader = [
-                        'id',
-                        'dateTime',
-                        'location',
-                        'heldTimes',
-                        'heldDayTimes',
-                    ].join(',');
-                    const mockData = [mockDataHeader];
                     // 1ヶ月分のデータ（28~31日）を作成
                     // 2024年のデータ366日分を作成
                     const currentDate = new Date(startDate);
@@ -299,11 +294,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                         );
                         currentDate.setDate(currentDate.getDate() + 1);
                     }
-                    MockS3Gateway.mockStorage.set(
-                        fileName,
-                        mockData.join('\n'),
-                    );
                 }
+                MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
                 break;
         }
     }
@@ -363,17 +355,17 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             case 'ITa':
                 break;
             default:
+                const fileName = `keirin/place/placeList.csv`;
+                const mockDataHeader = [
+                    'id',
+                    'dateTime',
+                    'location',
+                    'grade',
+                ].join(',');
+                const mockData = [mockDataHeader];
                 // 2024年のデータ12ヶ月分を作成
                 for (let month = 1; month <= 12; month++) {
                     const startDate = new Date(2024, month - 1, 1);
-                    const fileName = `keirin/place/${format(startDate, 'yyyyMM')}.csv`;
-                    const mockDataHeader = [
-                        'id',
-                        'dateTime',
-                        'location',
-                        'grade',
-                    ].join(',');
-                    const mockData = [mockDataHeader];
                     // 1ヶ月分のデータ（28~31日）を作成
                     // 2024年のデータ366日分を作成
                     const currentDate = new Date(startDate);
@@ -389,11 +381,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                         );
                         currentDate.setDate(currentDate.getDate() + 1);
                     }
-                    MockS3Gateway.mockStorage.set(
-                        fileName,
-                        mockData.join('\n'),
-                    );
                 }
+                MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
                 break;
         }
     }
@@ -453,17 +442,17 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             case 'ITa':
                 break;
             default:
+                const fileName = `autorace/place/placeList.csv`;
+                const mockDataHeader = [
+                    'id',
+                    'dateTime',
+                    'location',
+                    'grade',
+                ].join(',');
+                const mockData = [mockDataHeader];
                 // 2024年のデータ12ヶ月分を作成
                 for (let month = 1; month <= 12; month++) {
                     const startDate = new Date(2024, month - 1, 1);
-                    const fileName = `autorace/place/${format(startDate, 'yyyyMM')}.csv`;
-                    const mockDataHeader = [
-                        'id',
-                        'dateTime',
-                        'location',
-                        'grade',
-                    ].join(',');
-                    const mockData = [mockDataHeader];
                     // 1ヶ月分のデータ（28~31日）を作成
                     // 2024年のデータ366日分を作成
                     const currentDate = new Date(startDate);
@@ -479,11 +468,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                         );
                         currentDate.setDate(currentDate.getDate() + 1);
                     }
-                    MockS3Gateway.mockStorage.set(
-                        fileName,
-                        mockData.join('\n'),
-                    );
                 }
+                MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
                 break;
         }
     }
@@ -543,17 +529,17 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             case 'ITa':
                 break;
             default:
+                const fileName = `boatrace/place/placeList.csv`;
+                const mockDataHeader = [
+                    'id',
+                    'dateTime',
+                    'location',
+                    'grade',
+                ].join(',');
+                const mockData = [mockDataHeader];
                 // 2024年のデータ12ヶ月分を作成
                 for (let month = 1; month <= 12; month++) {
                     const startDate = new Date(2024, month - 1, 1);
-                    const fileName = `boatrace/place/${format(startDate, 'yyyyMM')}.csv`;
-                    const mockDataHeader = [
-                        'id',
-                        'dateTime',
-                        'location',
-                        'grade',
-                    ].join(',');
-                    const mockData = [mockDataHeader];
                     // 1ヶ月分のデータ（28~31日）を作成
                     // 2024年のデータ366日分を作成
                     const currentDate = new Date(startDate);
@@ -569,11 +555,8 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                         );
                         currentDate.setDate(currentDate.getDate() + 1);
                     }
-                    MockS3Gateway.mockStorage.set(
-                        fileName,
-                        mockData.join('\n'),
-                    );
                 }
+                MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
                 break;
         }
     }

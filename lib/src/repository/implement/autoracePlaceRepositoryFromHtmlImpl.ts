@@ -141,8 +141,12 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 if (!(th.text() as AutoraceRaceCourse)) {
                     return;
                 }
-                const place: AutoraceRaceCourse =
-                    th.text() as AutoraceRaceCourse;
+
+                // 川口２を川口に変換して、placeに代入
+                // TODO: どこかのタイミングで処理をリファクタリングする
+                const place: AutoraceRaceCourse = th
+                    .text()
+                    .replace('２', '') as AutoraceRaceCourse;
 
                 const tds = $(element).find('td');
                 // <td valign="top" class="bg-4-lt">

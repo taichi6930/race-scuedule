@@ -1,10 +1,8 @@
 import 'reflect-metadata';
 import '../../utility/format';
 
-import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
 import {
@@ -27,6 +25,9 @@ import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse
 export class BoatracePlaceRepositoryFromStorageImpl
     implements IPlaceRepository<BoatracePlaceEntity>
 {
+    // S3にアップロードするファイル名
+    private readonly fileName = 'placeList.csv';
+
     constructor(
         @inject('BoatracePlaceS3Gateway')
         private readonly s3Gateway: IS3Gateway<BoatracePlaceRecord>,
@@ -43,104 +44,96 @@ export class BoatracePlaceRepositoryFromStorageImpl
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
-        const fileNameList: string[] = await this.generatefileNameList(
-            request.startDate,
-            request.finishDate,
-        );
-
         // ファイル名リストからボートレース開催データを取得する
-        const placeRecordList: BoatracePlaceRecord[] = (
-            await Promise.all(
-                fileNameList.map(async (fileName) =>
-                    this.fetchMonthPlaceRecordList(fileName),
-                ),
-            )
-        ).flat();
+        const placeRecordList: BoatracePlaceRecord[] =
+            await this.getPlaceRecordListFromS3();
 
         // BoatracePlaceRecordをBoatracePlaceEntityに変換
-        const placeEntityList: BoatracePlaceEntity[] = placeRecordList
-            .map(
-                (placeRecord) =>
-                    new BoatracePlaceEntity(
-                        placeRecord.id,
-                        new BoatracePlaceData(
-                            placeRecord.dateTime,
-                            placeRecord.location,
-                            placeRecord.grade,
-                        ),
-                    ),
-            )
-            // 日付の範囲でフィルタリング
-            .filter(
+        const placeEntityList: BoatracePlaceEntity[] = placeRecordList.map(
+            (placeRecord) => placeRecord.toEntity(),
+        );
+
+        // 日付の範囲でフィルタリング
+        const filteredPlaceEntityList: BoatracePlaceEntity[] =
+            placeEntityList.filter(
                 (placeEntity) =>
                     placeEntity.placeData.dateTime >= request.startDate &&
                     placeEntity.placeData.dateTime <= request.finishDate,
             );
-        return new FetchPlaceListResponse(placeEntityList);
+
+        return new FetchPlaceListResponse(filteredPlaceEntityList);
     }
 
-    /**
-     * csvのファイル名リストを生成する
-     *
-     * startDateからfinishDateまでの月ごとのファイル名リストを生成する
-     * 月毎のファイル名が欲しいので、複数のファイル名を返す
-     *
-     * @param startDate
-     * @param finishDate
-     * @returns
-     */
     @Logger
-    private async generatefileNameList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<string[]> {
-        const fileNameList: string[] = [];
-        let currentDate = new Date(startDate);
+    async registerPlaceEntityList(
+        request: RegisterPlaceListRequest<BoatracePlaceEntity>,
+    ): Promise<RegisterPlaceListResponse> {
+        // 既に登録されているデータを取得する
+        const existFetchPlaceRecordList: BoatracePlaceRecord[] =
+            await this.getPlaceRecordListFromS3();
 
-        while (currentDate <= finishDate) {
-            const fileName = `${format(currentDate, 'yyyyMM')}.csv`;
-            fileNameList.push(fileName);
-
-            // 次の月の1日を取得
-            currentDate = new Date(
-                currentDate.getFullYear(),
-                currentDate.getMonth() + 1,
-                1,
+        // PlaceEntityをPlaceRecordに変換する
+        const placeRecordList: BoatracePlaceRecord[] =
+            request.placeEntityList.map((placeEntity) =>
+                placeEntity.toRecord(),
             );
-        }
-        console.debug(
-            `ファイル名リストを生成しました: ${fileNameList.join(', ')}`,
+
+        // idが重複しているデータは上書きをし、新規のデータは追加する
+        placeRecordList.forEach((placeRecord) => {
+            // 既に登録されているデータがある場合は上書きする
+            const index = existFetchPlaceRecordList.findIndex(
+                (record) => record.id === placeRecord.id,
+            );
+            if (index !== -1) {
+                existFetchPlaceRecordList[index] = placeRecord;
+            } else {
+                existFetchPlaceRecordList.push(placeRecord);
+            }
+        });
+
+        // 日付の最新順にソート
+        existFetchPlaceRecordList.sort(
+            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
-        return Promise.resolve(fileNameList);
+
+        // placeをS3にアップロードする
+        await this.s3Gateway.uploadDataToS3(
+            existFetchPlaceRecordList,
+            this.fileName,
+        );
+
+        return new RegisterPlaceListResponse(200);
     }
 
     /**
-     * S3からボートレース開催データを取得する
-     *
-     * ファイル名を利用してS3からボートレース開催データを取得する
-     * placeRecordが存在しない場合はundefinedを返すので、filterで除外する
-     *
-     * @param fileName
-     * @returns
+     * レースデータをS3から取得する
+     * @param request
      */
     @Logger
-    private async fetchMonthPlaceRecordList(
-        fileName: string,
-    ): Promise<BoatracePlaceRecord[]> {
-        console.log(`S3から${fileName}を取得します`);
-        const csv = await this.s3Gateway.fetchDataFromS3(fileName);
+    private async getPlaceRecordListFromS3(): Promise<BoatracePlaceRecord[]> {
+        // S3からデータを取得する
+        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
         const lines = csv.split('\n');
 
         // ヘッダー行を解析
         const headers = lines[0].split(',');
 
         // ヘッダーに基づいてインデックスを取得
-        const idIndex = headers.indexOf('id');
-        const raceDateIndex = headers.indexOf('dateTime');
-        const placeIndex = headers.indexOf('location');
-        const gradeIndex = headers.indexOf('grade');
+        const indices = {
+            id: headers.indexOf('id'),
+            dateTime: headers.indexOf('dateTime'),
+            location: headers.indexOf('location'),
+            grade: headers.indexOf('grade'),
+        };
 
-        // データ行を解析してBoatracePlaceRecordのリストを生成
+        // データ行を解析してPlaceDataのリストを生成
         const placeRecordList: BoatracePlaceRecord[] = lines
             .slice(1)
             .map((line: string) => {
@@ -148,55 +141,30 @@ export class BoatracePlaceRepositoryFromStorageImpl
 
                 // 必要なフィールドが存在しない場合はundefinedを返す
                 if (
-                    !columns[idIndex] ||
-                    !columns[raceDateIndex] ||
-                    !columns[placeIndex] ||
-                    !columns[gradeIndex]
+                    !columns[indices.id] ||
+                    !columns[indices.dateTime] ||
+                    !columns[indices.location]
                 ) {
                     return undefined;
                 }
 
                 return new BoatracePlaceRecord(
-                    columns[idIndex] as BoatracePlaceId,
-                    new Date(columns[raceDateIndex]),
-                    columns[placeIndex] as BoatraceRaceCourse,
-                    columns[gradeIndex] as BoatraceGradeType,
+                    columns[indices.id] as BoatracePlaceId,
+                    new Date(columns[indices.dateTime]),
+                    columns[indices.location] as BoatraceRaceCourse,
+                    columns[indices.grade] as BoatraceGradeType,
                 );
             })
             .filter(
-                (placeRecord): placeRecord is BoatracePlaceRecord =>
-                    placeRecord !== undefined,
+                (placeData): placeData is BoatracePlaceRecord =>
+                    placeData !== undefined,
+            )
+            .filter(
+                (placeData, index, self): placeData is BoatracePlaceRecord =>
+                    self.findIndex((data) => data.id === placeData.id) ===
+                    index,
             );
 
         return placeRecordList;
-    }
-
-    @Logger
-    async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<BoatracePlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
-        const placeEntityList: BoatracePlaceEntity[] = request.placeEntityList;
-        // 得られたplaceを月毎に分ける
-        const placeRecordDict: Record<string, BoatracePlaceRecord[]> = {};
-        placeEntityList.forEach((placeEntity) => {
-            const placeRecord = new BoatracePlaceRecord(
-                placeEntity.id,
-                placeEntity.placeData.dateTime,
-                placeEntity.placeData.location,
-                placeEntity.placeData.grade,
-            );
-            const key = `${format(placeRecord.dateTime, 'yyyyMM')}.csv`;
-            if (!(key in placeRecordDict)) {
-                placeRecordDict[key] = [];
-            }
-            placeRecordDict[key].push(placeRecord);
-        });
-
-        // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, placeRecord] of Object.entries(placeRecordDict)) {
-            await this.s3Gateway.uploadDataToS3(placeRecord, fileName);
-        }
-
-        return new RegisterPlaceListResponse(200);
     }
 }

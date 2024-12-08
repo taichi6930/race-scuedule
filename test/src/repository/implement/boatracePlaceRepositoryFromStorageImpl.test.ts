@@ -31,49 +31,43 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しいボートレース場データを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からのボートレース場にしたい
-                    const date = parse(
-                        filename.slice(0, 6),
-                        'yyyyMM',
-                        new Date(),
-                    );
-                    date.setHours(16);
-                    console.log(date);
+            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
+                // filenameから日付を取得 16時からのボートレース場にしたい
+                const date = parse('202401', 'yyyyMM', new Date());
+                date.setHours(16);
+                console.log(date);
 
-                    // CSVのヘッダーを定義
-                    const csvHeaderDataText = [
-                        'dateTime',
-                        'location',
-                        'grade',
-                        'id',
-                    ].join(',');
+                // CSVのヘッダーを定義
+                const csvHeaderDataText = [
+                    'dateTime',
+                    'location',
+                    'grade',
+                    'id',
+                ].join(',');
 
-                    // データ行を生成
-                    const csvDataText: string = [
-                        format(date, 'yyyy-MM-dd HH:mm:ss'),
-                        '平塚',
-                        'GP',
-                        `boatrace${format(date, 'yyyyMM')}`,
-                    ].join(',');
-                    // データ行を生成
-                    const csvUndefinedDataText: string = [
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                    ].join(',');
+                // データ行を生成
+                const csvDataText: string = [
+                    format(date, 'yyyy-MM-dd HH:mm:ss'),
+                    '平和島',
+                    'SG',
+                    `boatrace${format(date, 'yyyyMM')}`,
+                ].join(',');
+                // データ行を生成
+                const csvUndefinedDataText: string = [
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                ].join(',');
 
-                    // ヘッダーとデータ行を結合して完全なCSVデータを生成
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                        csvUndefinedDataText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
-            );
+                // ヘッダーとデータ行を結合して完全なCSVデータを生成
+                const csvDatajoinText: string = [
+                    csvHeaderDataText,
+                    csvDataText,
+                    csvUndefinedDataText,
+                ].join('\n');
+                return Promise.resolve(csvDatajoinText);
+            });
             // リクエストの作成
             const request = new FetchPlaceListRequest(
                 new Date('2024-01-01'),
@@ -113,8 +107,8 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
             // テスト実行
             await repository.registerPlaceEntityList(request);
 
-            // uploadDataToS3が12回呼ばれることを検証
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(12);
+            // uploadDataToS3が1回呼ばれることを検証
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 });
