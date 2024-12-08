@@ -1,5 +1,7 @@
 import '../../utility/format';
 
+import { WorldRaceData } from '../../domain/worldRaceData';
+import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import type {
     WorldGradeType,
     WorldRaceCourse,
@@ -52,6 +54,25 @@ export class WorldRaceRecord {
             partial.distance ?? this.distance,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
+        );
+    }
+
+    /**
+     * WorldRaceEntityに変換する
+     * @returns
+     */
+    toEntity(): WorldRaceEntity {
+        return new WorldRaceEntity(
+            this.id,
+            new WorldRaceData(
+                this.name,
+                this.dateTime,
+                this.location,
+                this.surfaceType,
+                this.distance,
+                this.grade,
+                this.number,
+            ),
         );
     }
 }
