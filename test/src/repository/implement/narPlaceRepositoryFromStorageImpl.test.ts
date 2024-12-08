@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { format, parse } from 'date-fns';
+import { parse } from 'date-fns';
 import { container } from 'tsyringe';
 
 import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
@@ -30,37 +30,29 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しい競馬場データを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からの競馬場にしたい
-                    const date = parse(
-                        filename.slice(0, 4),
-                        'yyyy',
-                        new Date(),
-                    );
-                    date.setHours(16);
-                    console.log(date);
+            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
+                // filenameから日付を取得 16時からの競馬場にしたい
+                const date = parse('2024', 'yyyy', new Date());
+                date.setHours(16);
+                console.log(date);
 
-                    // CSVのヘッダーを定義
-                    const csvHeaderDataText = [
-                        'id',
-                        'dateTime',
-                        'location',
-                    ].join(',');
+                // CSVのヘッダーを定義
+                const csvHeaderDataText = ['id', 'dateTime', 'location'].join(
+                    ',',
+                );
 
-                    const csvDataText: string = [
-                        `nar${format(date, 'yyyyMMdd')}05`,
-                        date.toISOString(),
-                        '大井',
-                    ].join(',');
-                    // ヘッダーとデータ行を結合して完全なCSVデータを生成
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
-            );
+                const csvDataText: string = [
+                    `nar2024010105`,
+                    date.toISOString(),
+                    '大井',
+                ].join(',');
+                // ヘッダーとデータ行を結合して完全なCSVデータを生成
+                const csvDatajoinText: string = [
+                    csvHeaderDataText,
+                    csvDataText,
+                ].join('\n');
+                return Promise.resolve(csvDatajoinText);
+            });
             // リクエストの作成
             const request = new FetchPlaceListRequest(
                 new Date('2024-01-01'),

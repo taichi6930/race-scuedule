@@ -1,3 +1,5 @@
+import { JraPlaceData } from '../../domain/jraPlaceData';
+import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { JraRaceCourse } from '../../utility/data/jra';
 import type { JraPlaceId } from '../../utility/raceId';
 
@@ -36,6 +38,22 @@ export class JraPlaceRecord {
             partial.location ?? this.location,
             partial.heldTimes ?? this.heldTimes,
             partial.heldDayTimes ?? this.heldDayTimes,
+        );
+    }
+
+    /**
+     * JraPlaceEntityに変換する
+     * @returns
+     */
+    toEntity(): JraPlaceEntity {
+        return new JraPlaceEntity(
+            this.id,
+            new JraPlaceData(
+                this.dateTime,
+                this.location,
+                this.heldTimes,
+                this.heldDayTimes,
+            ),
         );
     }
 }

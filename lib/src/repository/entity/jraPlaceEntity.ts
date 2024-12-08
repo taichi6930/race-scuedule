@@ -1,9 +1,10 @@
 import type { JraPlaceData } from '../../domain/jraPlaceData';
+import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import type { JraPlaceId } from '../../utility/raceId';
 import { generateJraPlaceId } from '../../utility/raceId';
 
 /**
- * Repository層のEntity 海外競馬のレース開催場所データ
+ * Repository層のEntity 中央競馬のレース開催場所データ
  */
 export class JraPlaceEntity {
     /**
@@ -35,6 +36,20 @@ export class JraPlaceEntity {
         return new JraPlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,
+        );
+    }
+
+    /**
+     * JraPlaceRecordに変換する
+     * @returns
+     */
+    toRecord(): JraPlaceRecord {
+        return new JraPlaceRecord(
+            this.id,
+            this.placeData.dateTime,
+            this.placeData.location,
+            this.placeData.heldTimes,
+            this.placeData.heldDayTimes,
         );
     }
 }

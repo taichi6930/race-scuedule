@@ -1,4 +1,5 @@
 import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
+import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
 import type { KeirinPlaceId } from '../../utility/raceId';
 import { generateKeirinPlaceId } from '../../utility/raceId';
 
@@ -36,6 +37,19 @@ export class KeirinPlaceEntity {
         return new KeirinPlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,
+        );
+    }
+
+    /**
+     * KeirinPlaceRecordに変換する
+     * @returns
+     */
+    toRecord(): KeirinPlaceRecord {
+        return new KeirinPlaceRecord(
+            this.id,
+            this.placeData.dateTime,
+            this.placeData.location,
+            this.placeData.grade,
         );
     }
 }

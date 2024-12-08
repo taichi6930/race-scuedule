@@ -2,7 +2,6 @@ import '../../utility/format';
 
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../../domain/narPlaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
 import { NarRaceCourse } from '../../utility/data/nar';
@@ -19,6 +18,9 @@ import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse
 export class NarPlaceRepositoryFromStorageImpl
     implements IPlaceRepository<NarPlaceEntity>
 {
+    // S3にアップロードするファイル名
+    private readonly fileName = 'placeList.csv';
+
     constructor(
         @inject('NarPlaceS3Gateway')
         private s3Gateway: IS3Gateway<NarPlaceRecord>,
@@ -35,31 +37,13 @@ export class NarPlaceRepositoryFromStorageImpl
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
     ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
-        const fileNameList: string[] = await this.generatefileNameList(
-            request.startDate,
-            request.finishDate,
-        );
-
         // 年ごとの競馬場開催データを取得
-        const placeRecords = (
-            await Promise.all(
-                fileNameList.map((fileName) =>
-                    this.fetchYearPlaceRecordList(fileName),
-                ),
-            )
-        ).flat();
+        const placeRecordList: NarPlaceRecord[] =
+            await this.getPlaceRecordListFromS3();
 
         // Entityに変換
-        const placeEntityList: NarPlaceEntity[] = placeRecords.map(
-            (placeRecord) => {
-                return new NarPlaceEntity(
-                    placeRecord.id,
-                    new NarPlaceData(
-                        placeRecord.dateTime,
-                        placeRecord.location,
-                    ),
-                );
-            },
+        const placeEntityList: NarPlaceEntity[] = placeRecordList.map(
+            (placeRecord) => placeRecord.toEntity(),
         );
 
         // filterで日付の範囲を指定
@@ -72,64 +56,74 @@ export class NarPlaceRepositoryFromStorageImpl
         return new FetchPlaceListResponse(filteredPlaceEntityList);
     }
 
-    /**
-     * csvのファイル名リストを生成する
-     *
-     * startDateからfinishDateまでの月ごとのファイル名リストを生成する
-     * 月毎のファイル名が欲しいので、複数のファイル名を返す
-     *
-     * @param startDate
-     * @param finishDate
-     * @returns
-     */
     @Logger
-    private async generatefileNameList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<string[]> {
-        const fileNameList: string[] = [];
-        let currentDate = new Date(startDate);
+    async registerPlaceEntityList(
+        request: RegisterPlaceListRequest<NarPlaceEntity>,
+    ): Promise<RegisterPlaceListResponse> {
+        // 既に登録されているデータを取得する
+        const existFetchPlaceRecordList: NarPlaceRecord[] =
+            await this.getPlaceRecordListFromS3();
 
-        while (currentDate <= finishDate) {
-            const year = currentDate.getFullYear();
-            const fileName = `${year.toString()}.csv`;
-            fileNameList.push(fileName);
-
-            // 次の月の1日を取得
-            currentDate = new Date(year + 1, 0, 1);
-        }
-        console.debug(
-            `ファイル名リストを生成しました: ${fileNameList.join(', ')}`,
+        // PlaceEntityをPlaceRecordに変換する
+        const placeRecordList: NarPlaceRecord[] = request.placeEntityList.map(
+            (placeEntity) => placeEntity.toRecord(),
         );
-        return Promise.resolve(fileNameList);
+
+        // idが重複しているデータは上書きをし、新規のデータは追加する
+        placeRecordList.forEach((placeRecord) => {
+            // 既に登録されているデータがある場合は上書きする
+            const index = existFetchPlaceRecordList.findIndex(
+                (record) => record.id === placeRecord.id,
+            );
+            if (index !== -1) {
+                existFetchPlaceRecordList[index] = placeRecord;
+            } else {
+                existFetchPlaceRecordList.push(placeRecord);
+            }
+        });
+
+        // 日付の最新順にソート
+        existFetchPlaceRecordList.sort(
+            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
+        );
+
+        // placeをS3にアップロードする
+        await this.s3Gateway.uploadDataToS3(
+            existFetchPlaceRecordList,
+            this.fileName,
+        );
+
+        return new RegisterPlaceListResponse(200);
     }
 
     /**
-     * S3から競馬場開催データを取得する
-     *
-     * ファイル名を利用してS3から競馬場開催データを取得する
-     * placeDataが存在しない場合はundefinedを返すので、filterで除外する
-     *
-     * @param fileName
-     * @returns
+     * レースデータをS3から取得する
+     * @param request
      */
     @Logger
-    private async fetchYearPlaceRecordList(
-        fileName: string,
-    ): Promise<NarPlaceRecord[]> {
-        console.log(`S3から${fileName}を取得します`);
-        const csv = await this.s3Gateway.fetchDataFromS3(fileName);
+    private async getPlaceRecordListFromS3(): Promise<NarPlaceRecord[]> {
+        // S3からデータを取得する
+        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
         const lines = csv.split('\n');
 
         // ヘッダー行を解析
         const headers = lines[0].split(',');
 
         // ヘッダーに基づいてインデックスを取得
-        const idIndex = headers.indexOf('id');
-        const raceDateIndex = headers.indexOf('dateTime');
-        const placeIndex = headers.indexOf('location');
+        const indices = {
+            id: headers.indexOf('id'),
+            dateTime: headers.indexOf('dateTime'),
+            location: headers.indexOf('location'),
+        };
 
-        // データ行を解析してNarPlaceRecordのリストを生成
+        // データ行を解析してPlaceDataのリストを生成
         const placeRecordList: NarPlaceRecord[] = lines
             .slice(1)
             .map((line: string) => {
@@ -137,54 +131,29 @@ export class NarPlaceRepositoryFromStorageImpl
 
                 // 必要なフィールドが存在しない場合はundefinedを返す
                 if (
-                    !columns[idIndex] ||
-                    !columns[raceDateIndex] ||
-                    !columns[placeIndex]
+                    !columns[indices.id] ||
+                    !columns[indices.dateTime] ||
+                    !columns[indices.location]
                 ) {
                     return undefined;
                 }
 
-                // idIndexが存在しない場合はundefinedを返す
                 return new NarPlaceRecord(
-                    columns[idIndex] as NarPlaceId,
-                    new Date(columns[raceDateIndex]),
-                    columns[placeIndex] as NarRaceCourse,
+                    columns[indices.id] as NarPlaceId,
+                    new Date(columns[indices.dateTime]),
+                    columns[indices.location] as NarRaceCourse,
                 );
             })
             .filter(
-                (placeRecord): placeRecord is NarPlaceRecord =>
-                    placeRecord !== undefined,
+                (placeData): placeData is NarPlaceRecord =>
+                    placeData !== undefined,
+            )
+            .filter(
+                (placeData, index, self): placeData is NarPlaceRecord =>
+                    self.findIndex((data) => data.id === placeData.id) ===
+                    index,
             );
 
         return placeRecordList;
-    }
-
-    @Logger
-    async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<NarPlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
-        const placeEntityList: NarPlaceEntity[] = request.placeEntityList;
-        // 得られたplaceを年毎に分ける
-        const placeRecordDict: Record<string, NarPlaceRecord[]> = {};
-        placeEntityList.forEach((placeEntity) => {
-            const key = `${placeEntity.placeData.dateTime.getFullYear().toString()}.csv`;
-            if (!(key in placeRecordDict)) {
-                placeRecordDict[key] = [];
-            }
-            placeRecordDict[key].push(
-                new NarPlaceRecord(
-                    placeEntity.id,
-                    placeEntity.placeData.dateTime,
-                    placeEntity.placeData.location,
-                ),
-            );
-        });
-
-        // 年毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, placeRecord] of Object.entries(placeRecordDict)) {
-            await this.s3Gateway.uploadDataToS3(placeRecord, fileName);
-        }
-
-        return new RegisterPlaceListResponse(200);
     }
 }
