@@ -64,7 +64,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         '平塚',
                         'GⅠ',
                         '1',
-                        `boatrace${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
@@ -73,7 +73,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         '平塚',
                         'GⅠ',
                         '1',
-                        `boatrace${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -82,7 +82,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         '平塚',
                         'GⅠ',
                         undefined,
-                        `boatrace${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
@@ -109,20 +109,20 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         'playerNumber',
                     ].join(',');
                     const csvDataText: string = [
-                        `boatrace${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平塚']}0101`,
-                        `boatrace${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}0101`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
                         '1',
                         '1',
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `boatrace${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
                         '1',
                         '1',
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
-                        `boatrace${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平塚']}0101`,
-                        `boatrace${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}0101`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
                         null,
                         '1',
                     ].join(',');
