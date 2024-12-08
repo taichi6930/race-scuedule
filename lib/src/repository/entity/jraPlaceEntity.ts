@@ -4,7 +4,7 @@ import type { JraPlaceId } from '../../utility/raceId';
 import { generateJraPlaceId } from '../../utility/raceId';
 
 /**
- * Repository層のEntity 海外競馬のレース開催場所データ
+ * Repository層のEntity 中央競馬のレース開催場所データ
  */
 export class JraPlaceEntity {
     /**
