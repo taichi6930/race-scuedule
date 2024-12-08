@@ -1,4 +1,7 @@
-import { baseWorldRaceRecord } from '../../mock/common/baseWorldData';
+import {
+    baseWorldRaceEntity,
+    baseWorldRaceRecord,
+} from '../../mock/common/baseWorldData';
 
 describe('WorldRaceRecordクラスのテスト', () => {
     it('正しい入力でWorldRaceRecordのインスタンスを作成できることを確認', () => {
@@ -34,5 +37,12 @@ describe('WorldRaceRecordクラスのテスト', () => {
         const newRaceRecord = raceRecord.copy();
 
         expect(newRaceRecord).toEqual(raceRecord);
+    });
+
+    it('WorldRaceEntityに変換できることを確認', () => {
+        const raceRecord = baseWorldRaceRecord;
+        const raceEntity = raceRecord.toEntity();
+
+        expect(raceEntity).toEqual(baseWorldRaceEntity);
     });
 });
