@@ -90,6 +90,11 @@ export class WorldRaceRepositoryFromStorageImpl
             }
         });
 
+        // 日付の最新順にソート
+        raceRecordList.sort(
+            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
+        );
+
         // 月毎に分けられたplaceをS3にアップロードする
         await this.s3Gateway.uploadDataToS3(
             existFetchRaceRecordList,
@@ -158,6 +163,10 @@ export class WorldRaceRepositoryFromStorageImpl
             .filter(
                 (raceData): raceData is WorldRaceRecord =>
                     raceData !== undefined,
+            )
+            .filter(
+                (raceData, index, self): raceData is WorldRaceRecord =>
+                    self.findIndex((data) => data.id === raceData.id) === index,
             );
     }
 }
