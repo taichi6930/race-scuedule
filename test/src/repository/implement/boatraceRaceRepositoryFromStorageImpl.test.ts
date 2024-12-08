@@ -46,11 +46,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
             raceS3Gateway.fetchDataFromS3.mockImplementation(
                 async (filename: string) => {
                     // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse(
-                        filename.slice(0, 8),
-                        'yyyyMMdd',
-                        new Date(),
-                    );
+                    const date = parse('20240101', 'yyyyMMdd', new Date());
                     date.setHours(16);
                     const csvHeaderDataText: string = [
                         'name',
@@ -62,7 +58,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         'id',
                     ].join(',');
                     const csvDataText: string = [
-                        `raceName${filename.slice(0, 8)}`,
+                        `raceName20240101`,
                         `決勝`,
                         date.toISOString(),
                         '平塚',
@@ -148,7 +144,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
             const response = await repository.fetchRaceEntityList(request);
 
             // レスポンスの検証
-            expect(response.raceEntityList).toHaveLength(32);
+            expect(response.raceEntityList).toHaveLength(1);
         });
     });
 
@@ -186,8 +182,8 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
             // テスト実行
             await repository.registerRaceEntityList(request);
 
-            // uploadDataToS3が366回呼ばれることを検証
-            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
+            // uploadDataToS3が1回呼ばれることを検証
+            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 });
