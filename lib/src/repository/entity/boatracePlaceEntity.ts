@@ -1,4 +1,5 @@
 import type { BoatracePlaceData } from '../../domain/boatracePlaceData';
+import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
 import type { BoatracePlaceId } from '../../utility/raceId';
 import { generateBoatracePlaceId } from '../../utility/raceId';
 
@@ -38,6 +39,19 @@ export class BoatracePlaceEntity {
         return new BoatracePlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,
+        );
+    }
+
+    /**
+     * BoatracePlaceRecordに変換する
+     * @returns
+     */
+    toRecord(): BoatracePlaceRecord {
+        return new BoatracePlaceRecord(
+            this.id,
+            this.placeData.dateTime,
+            this.placeData.location,
+            this.placeData.grade,
         );
     }
 }
