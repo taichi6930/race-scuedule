@@ -131,7 +131,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             // テスト実行
             await repository.registerRaceEntityList(request);
 
-            // uploadDataToS3が366回呼ばれることを検証
+            // uploadDataToS3が1回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
