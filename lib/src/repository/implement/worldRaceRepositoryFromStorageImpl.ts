@@ -119,14 +119,16 @@ export class WorldRaceRepositoryFromStorageImpl
         const headers = lines[0].split(',');
 
         // ヘッダーに基づいてインデックスを取得
-        const idIndex = headers.indexOf('id');
-        const raceNameIndex = headers.indexOf('name');
-        const raceDateIndex = headers.indexOf('dateTime');
-        const placeIndex = headers.indexOf('location');
-        const surfaceTypeIndex = headers.indexOf('surfaceType');
-        const distanceIndex = headers.indexOf('distance');
-        const gradeIndex = headers.indexOf('grade');
-        const raceNumIndex = headers.indexOf('number');
+        const indices = {
+            id: headers.indexOf('id'),
+            name: headers.indexOf('name'),
+            dateTime: headers.indexOf('dateTime'),
+            location: headers.indexOf('location'),
+            surfaceType: headers.indexOf('surfaceType'),
+            distance: headers.indexOf('distance'),
+            grade: headers.indexOf('grade'),
+            number: headers.indexOf('number'),
+        };
 
         // データ行を解析してRaceDataのリストを生成
         return lines
@@ -136,21 +138,21 @@ export class WorldRaceRepositoryFromStorageImpl
 
                 // 必要なフィールドが存在しない場合はundefinedを返す
                 if (
-                    !columns[raceNameIndex] ||
-                    isNaN(parseInt(columns[raceNumIndex]))
+                    !columns[indices.name] ||
+                    isNaN(parseInt(columns[indices.number]))
                 ) {
                     return undefined;
                 }
 
                 return new WorldRaceRecord(
-                    columns[idIndex] as WorldRaceId,
-                    columns[raceNameIndex],
-                    new Date(columns[raceDateIndex]),
-                    columns[placeIndex] as WorldRaceCourse,
-                    columns[surfaceTypeIndex] as WorldRaceCourseType,
-                    parseInt(columns[distanceIndex]),
-                    columns[gradeIndex] as WorldGradeType,
-                    parseInt(columns[raceNumIndex]),
+                    columns[indices.id] as WorldRaceId,
+                    columns[indices.name],
+                    new Date(columns[indices.dateTime]),
+                    columns[indices.location] as WorldRaceCourse,
+                    columns[indices.surfaceType] as WorldRaceCourseType,
+                    parseInt(columns[indices.distance]),
+                    columns[indices.grade] as WorldGradeType,
+                    parseInt(columns[indices.number]),
                 );
             })
             .filter(
