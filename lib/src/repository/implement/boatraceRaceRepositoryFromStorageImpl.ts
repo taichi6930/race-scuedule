@@ -14,11 +14,7 @@ import {
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
 import { Logger } from '../../utility/logger';
-import {
-    BoatraceRaceId,
-    BoatraceRacePlayerId,
-    generateBoatraceRacePlayerId,
-} from '../../utility/raceId';
+import { BoatraceRaceId, BoatraceRacePlayerId } from '../../utility/raceId';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -34,6 +30,9 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 export class BoatraceRaceRepositoryFromStorageImpl
     implements IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
 {
+    private readonly raceListFileName = 'raceList.csv';
+    private readonly racePlayerListFileName = 'racePlayerList.csv';
+
     constructor(
         @inject('BoatraceRaceS3Gateway')
         private readonly raceS3Gateway: IS3Gateway<BoatraceRaceRecord>,
@@ -49,145 +48,55 @@ export class BoatraceRaceRepositoryFromStorageImpl
     async fetchRaceEntityList(
         request: FetchRaceListRequest<BoatracePlaceEntity>,
     ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
-        // startDateからfinishDateまでの日ごとのファイル名リストを生成する
-        const fileNameList: string[] = this.generateFilenameList(
-            request.startDate,
-            request.finishDate,
-        );
-
         // ファイル名リストからボートレース選手データを取得する
-        const racePlayerRecordList: BoatraceRacePlayerRecord[] = (
-            await Promise.all(
-                fileNameList.map(async (fileName) => {
-                    // S3からデータを取得する
-                    const csv =
-                        await this.racePlayerS3Gateway.fetchDataFromS3(
-                            fileName,
+        const racePlayerRecordList: BoatraceRacePlayerRecord[] =
+            await this.getRacePlayerRecordListFromS3();
+
+        // ボートレースデータを取得する
+        const raceRaceRecordList: BoatraceRaceRecord[] =
+            await this.getRaceRecordListFromS3();
+
+        // ボートレースデータをBoatraceRaceEntityに変換
+        const raceEntityList: BoatraceRaceEntity[] = raceRaceRecordList.map(
+            (raceRecord) => {
+                // raceIdに対応したracePlayerRecordListを取得
+                const filteredRacePlayerRecordList: BoatraceRacePlayerRecord[] =
+                    racePlayerRecordList.filter((racePlayerRecord) => {
+                        return racePlayerRecord.raceId === raceRecord.id;
+                    });
+                // BoatraceRacePlayerDataのリストを生成
+                const racePlayerDataList: BoatraceRacePlayerData[] =
+                    filteredRacePlayerRecordList.map((racePlayerRecord) => {
+                        return new BoatraceRacePlayerData(
+                            racePlayerRecord.positionNumber,
+                            racePlayerRecord.playerNumber,
                         );
+                    });
+                // BoatraceRaceDataを生成
+                const raceData = new BoatraceRaceData(
+                    raceRecord.name,
+                    raceRecord.stage,
+                    raceRecord.dateTime,
+                    raceRecord.location,
+                    raceRecord.grade,
+                    raceRecord.number,
+                );
+                return new BoatraceRaceEntity(
+                    raceRecord.id,
+                    raceData,
+                    racePlayerDataList,
+                );
+            },
+        );
+        // フィルタリング処理（日付の範囲指定）
+        const filteredRaceEntityList: BoatraceRaceEntity[] =
+            raceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.dateTime >= request.startDate &&
+                    raceEntity.raceData.dateTime <= request.finishDate,
+            );
 
-                    // CSVを行ごとに分割
-                    const lines = csv.split('\n');
-
-                    // ヘッダー行を解析
-                    const headers = lines[0].split(',');
-
-                    //      * @param id - ID
-                    //  * @param raceId - レースID
-                    //                     * @param positionNumber - 枠番
-                    //                         * @param playerNumber - 選手番号
-                    // ヘッダーに基づいてインデックスを取得
-                    const idIndex = headers.indexOf('id');
-                    const raceIdIndex = headers.indexOf('raceId');
-                    const positionNumberIndex =
-                        headers.indexOf('positionNumber');
-                    const playerNumberIndex = headers.indexOf('playerNumber');
-
-                    // データ行を解析してBoatraceRaceDataのリストを生成
-                    return lines
-                        .slice(1)
-                        .map((line: string) => {
-                            const columns = line.split(',');
-
-                            // 必要なフィールドが存在しない場合はundefinedを返す
-                            if (
-                                !columns[raceIdIndex] ||
-                                isNaN(parseInt(columns[positionNumberIndex])) ||
-                                isNaN(parseInt(columns[playerNumberIndex]))
-                            ) {
-                                return undefined;
-                            }
-
-                            return new BoatraceRacePlayerRecord(
-                                columns[idIndex] as BoatraceRacePlayerId,
-                                columns[raceIdIndex] as BoatraceRaceId,
-                                parseInt(columns[positionNumberIndex]),
-                                parseInt(columns[playerNumberIndex]),
-                            );
-                        })
-                        .filter(
-                            (
-                                racePlayerRecord,
-                            ): racePlayerRecord is BoatraceRacePlayerRecord =>
-                                racePlayerRecord !== undefined,
-                        );
-                }),
-            )
-        ).flat();
-
-        // ファイル名リストからボートレースデータを取得する
-        const raceEntityList: BoatraceRaceEntity[] = (
-            await Promise.all(
-                fileNameList.map(async (fileName) => {
-                    // S3からデータを取得する
-                    const csv =
-                        await this.raceS3Gateway.fetchDataFromS3(fileName);
-
-                    // CSVを行ごとに分割
-                    const lines = csv.split('\n');
-
-                    // ヘッダー行を解析
-                    const headers = lines[0].split(',');
-
-                    // ヘッダーに基づいてインデックスを取得
-                    const idIndex = headers.indexOf('id');
-                    const raceNameIndex = headers.indexOf('name');
-                    const raceStageIndex = headers.indexOf('stage');
-                    const raceDateIndex = headers.indexOf('dateTime');
-                    const placeIndex = headers.indexOf('location');
-                    const gradeIndex = headers.indexOf('grade');
-                    const raceNumIndex = headers.indexOf('number');
-
-                    // データ行を解析してBoatraceRaceDataのリストを生成
-                    return lines
-                        .slice(1)
-                        .map((line: string) => {
-                            const columns = line.split(',');
-
-                            // 必要なフィールドが存在しない場合はundefinedを返す
-                            if (
-                                !columns[raceNameIndex] ||
-                                isNaN(parseInt(columns[raceNumIndex]))
-                            ) {
-                                return undefined;
-                            }
-
-                            return new BoatraceRaceEntity(
-                                columns[idIndex] as BoatraceRaceId,
-                                new BoatraceRaceData(
-                                    columns[raceNameIndex],
-                                    columns[
-                                        raceStageIndex
-                                    ] as BoatraceRaceStage,
-                                    new Date(columns[raceDateIndex]),
-                                    columns[placeIndex] as BoatraceRaceCourse,
-                                    columns[gradeIndex] as BoatraceGradeType,
-                                    parseInt(columns[raceNumIndex]),
-                                ),
-                                // racePlayerRecordList のraceIdが columns[idIndex] と一致するものを取得
-                                racePlayerRecordList
-                                    .filter((racePlayerRecord) => {
-                                        return (
-                                            racePlayerRecord.raceId ===
-                                            columns[idIndex]
-                                        );
-                                    })
-                                    .map((racePlayerRecord) => {
-                                        return new BoatraceRacePlayerData(
-                                            racePlayerRecord.positionNumber,
-                                            racePlayerRecord.playerNumber,
-                                        );
-                                    }),
-                            );
-                        })
-                        .filter(
-                            (raceData): raceData is BoatraceRaceEntity =>
-                                raceData !== undefined,
-                        );
-                }),
-            )
-        ).flat();
-
-        return new FetchRaceListResponse(raceEntityList);
+        return new FetchRaceListResponse(filteredRaceEntityList);
     }
 
     /**
@@ -215,66 +124,193 @@ export class BoatraceRaceRepositoryFromStorageImpl
     async registerRaceEntityList(
         request: RegisterRaceListRequest<BoatraceRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntityList: BoatraceRaceEntity[] = request.raceEntityList;
-        // レースデータを日付ごとに分割する
-        const raceRecordDict: Record<string, BoatraceRaceRecord[]> = {};
-        raceEntityList.forEach((raceEntity) => {
-            const raceRecord = new BoatraceRaceRecord(
-                raceEntity.id,
-                raceEntity.raceData.name,
-                raceEntity.raceData.stage,
-                raceEntity.raceData.dateTime,
-                raceEntity.raceData.location,
-                raceEntity.raceData.grade,
-                raceEntity.raceData.number,
+        // 既に登録されているデータを取得する
+        const existFetchRaceRecordList: BoatraceRaceRecord[] =
+            await this.getRaceRecordListFromS3();
+
+        const existFetchRacePlayerRecordList: BoatraceRacePlayerRecord[] =
+            await this.getRacePlayerRecordListFromS3();
+
+        // RaceEntityをRaceRecordに変換する
+        const raceRecordList: BoatraceRaceRecord[] = request.raceEntityList.map(
+            (raceEntity) => raceEntity.toRaceRecord(),
+        );
+
+        // RaceEntityをRacePlayerRecordに変換する
+        const racePlayerRecordList = request.raceEntityList
+            .map((raceEntity) => raceEntity.toPlayerRecordList())
+            .flat();
+
+        // raceデータでidが重複しているデータは上書きをし、新規のデータは追加する
+        raceRecordList.forEach((raceRecord) => {
+            // 既に登録されているデータがある場合は上書きする
+            const index = existFetchRaceRecordList.findIndex(
+                (record) => record.id === raceRecord.id,
             );
-            const key = `${format(raceRecord.dateTime, 'yyyyMMdd')}.csv`;
-            if (!(key in raceRecordDict)) {
-                raceRecordDict[key] = [];
+            if (index !== -1) {
+                existFetchRaceRecordList[index] = raceRecord;
+            } else {
+                existFetchRaceRecordList.push(raceRecord);
             }
-            raceRecordDict[key].push(raceRecord);
         });
 
-        // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceRecord] of Object.entries(raceRecordDict)) {
-            await this.raceS3Gateway.uploadDataToS3(raceRecord, fileName);
-        }
-
-        const racePlayerRecordDict: Record<string, BoatraceRacePlayerRecord[]> =
-            {};
-        raceEntityList.forEach((raceEntity) => {
-            const racePlayerRecordList = raceEntity.racePlayerDataList.map(
-                (racePlayerData) => {
-                    return new BoatraceRacePlayerRecord(
-                        generateBoatraceRacePlayerId(
-                            raceEntity.raceData.dateTime,
-                            raceEntity.raceData.location,
-                            raceEntity.raceData.number,
-                            racePlayerData.positionNumber,
-                        ),
-                        raceEntity.id,
-                        racePlayerData.positionNumber,
-                        racePlayerData.playerNumber,
-                    );
-                },
+        // racePlayerデータでidが重複しているデータは上書きをし、新規のデータは追加する
+        racePlayerRecordList.forEach((racePlayerRecord) => {
+            // 既に登録されているデータがある場合は上書きする
+            const index = existFetchRacePlayerRecordList.findIndex(
+                (record) => record.id === racePlayerRecord.id,
             );
-            const key = `${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}.csv`;
-            if (!(key in racePlayerRecordDict)) {
-                racePlayerRecordDict[key] = [];
+            if (index !== -1) {
+                existFetchRacePlayerRecordList[index] = racePlayerRecord;
+            } else {
+                existFetchRacePlayerRecordList.push(racePlayerRecord);
             }
-            racePlayerRecordList.forEach((racePlayerRecord) => {
-                racePlayerRecordDict[key].push(racePlayerRecord);
-            });
         });
-        // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, racePlayerRecord] of Object.entries(
-            racePlayerRecordDict,
-        )) {
-            await this.racePlayerS3Gateway.uploadDataToS3(
-                racePlayerRecord,
-                fileName,
-            );
-        }
+
+        // 日付の最新順にソート
+        existFetchRaceRecordList.sort(
+            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
+        );
+
+        // raceDataをS3にアップロードする
+        await this.raceS3Gateway.uploadDataToS3(
+            existFetchRaceRecordList,
+            this.raceListFileName,
+        );
+        await this.racePlayerS3Gateway.uploadDataToS3(
+            existFetchRacePlayerRecordList,
+            this.racePlayerListFileName,
+        );
         return new RegisterRaceListResponse(200);
+    }
+
+    /**
+     * レースデータをS3から取得する
+     * @param request
+     */
+    @Logger
+    private async getRaceRecordListFromS3(): Promise<BoatraceRaceRecord[]> {
+        // S3からデータを取得する
+        const csv = await this.raceS3Gateway.fetchDataFromS3(
+            this.raceListFileName,
+        );
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const indices = {
+            id: headers.indexOf('id'),
+            name: headers.indexOf('name'),
+            stage: headers.indexOf('stage'),
+            dateTime: headers.indexOf('dateTime'),
+            location: headers.indexOf('location'),
+            grade: headers.indexOf('grade'),
+            number: headers.indexOf('number'),
+        };
+
+        // データ行を解析してRaceDataのリストを生成
+        return lines
+            .slice(1)
+            .map((line: string) => {
+                const columns = line.split(',');
+
+                // 必要なフィールドが存在しない場合はundefinedを返す
+                if (
+                    !columns[indices.name] ||
+                    isNaN(parseInt(columns[indices.number]))
+                ) {
+                    return undefined;
+                }
+
+                return new BoatraceRaceRecord(
+                    columns[indices.id] as BoatraceRaceId,
+                    columns[indices.name],
+                    columns[indices.stage] as BoatraceRaceStage,
+                    new Date(columns[indices.dateTime]),
+                    columns[indices.location] as BoatraceRaceCourse,
+                    columns[indices.grade] as BoatraceGradeType,
+                    parseInt(columns[indices.number]),
+                );
+            })
+            .filter(
+                (raceData): raceData is BoatraceRaceRecord =>
+                    raceData !== undefined,
+            )
+            .filter(
+                (raceData, index, self): raceData is BoatraceRaceRecord =>
+                    self.findIndex((data) => data.id === raceData.id) === index,
+            );
+    }
+
+    /**
+     * レースプレイヤーデータをS3から取得する
+     * @param request
+     */
+    @Logger
+    private async getRacePlayerRecordListFromS3(): Promise<
+        BoatraceRacePlayerRecord[]
+    > {
+        // S3からデータを取得する
+        const csv = await this.racePlayerS3Gateway.fetchDataFromS3(
+            this.racePlayerListFileName,
+        );
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        const indices = {
+            id: headers.indexOf('id'),
+            raceId: headers.indexOf('raceId'),
+            positionNumber: headers.indexOf('positionNumber'),
+            playerNumber: headers.indexOf('playerNumber'),
+        };
+
+        // データ行を解析してBoatraceRaceDataのリストを生成
+        const boatraceRacePlayerRecordList: BoatraceRacePlayerRecord[] = lines
+            .slice(1)
+            .map((line: string) => {
+                const columns = line.split(',');
+
+                // 必要なフィールドが存在しない場合はundefinedを返す
+                if (
+                    !columns[indices.id] ||
+                    !columns[indices.raceId] ||
+                    isNaN(parseInt(columns[indices.positionNumber])) ||
+                    isNaN(parseInt(columns[indices.playerNumber]))
+                ) {
+                    return undefined;
+                }
+
+                return new BoatraceRacePlayerRecord(
+                    columns[indices.id] as BoatraceRacePlayerId,
+                    columns[indices.raceId] as BoatraceRaceId,
+                    parseInt(columns[indices.positionNumber]),
+                    parseInt(columns[indices.playerNumber]),
+                );
+            })
+            .filter(
+                (
+                    racePlayerRecord,
+                ): racePlayerRecord is BoatraceRacePlayerRecord =>
+                    racePlayerRecord !== undefined,
+            );
+        return boatraceRacePlayerRecordList;
     }
 }
