@@ -396,19 +396,19 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 // 2024年のデータ366日分を作成
                 const startDate = new Date('2024-01-01');
                 const currentDate = new Date(startDate);
+                const fileName = `autorace/raceList.csv`;
+                const mockDataHeader = [
+                    'name',
+                    'stage',
+                    'dateTime',
+                    'location',
+                    'grade',
+                    'number',
+                    'id',
+                ].join(',');
+                const mockData = [mockDataHeader];
                 // whileで回していって、最初の日付の年数と異なったら終了
                 while (currentDate.getFullYear() === startDate.getFullYear()) {
-                    const fileName = `autorace/race/${format(currentDate, 'yyyyMMdd')}.csv`;
-                    const mockDataHeader = [
-                        'name',
-                        'stage',
-                        'dateTime',
-                        'location',
-                        'grade',
-                        'number',
-                        'id',
-                    ].join(',');
-                    const mockData = [mockDataHeader];
                     for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
@@ -426,12 +426,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                             ].join(','),
                         );
                     }
-                    MockS3Gateway.mockStorage.set(
-                        fileName,
-                        mockData.join('\n'),
-                    );
                     currentDate.setDate(currentDate.getDate() + 1);
                 }
+                MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
                 break;
         }
     }
@@ -442,7 +439,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             case 'ITa':
                 break;
             default:
-                const fileName = `autorace/place/placeList.csv`;
+                const fileName = `autorace/placeList.csv`;
                 const mockDataHeader = [
                     'id',
                     'dateTime',

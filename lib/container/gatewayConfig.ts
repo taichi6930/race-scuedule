@@ -296,14 +296,14 @@ container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<AutoraceRaceRecord>(
                     'race-schedule-bucket',
-                    'autorace/race/',
+                    'autorace/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<AutoraceRaceRecord>(
                     'race-schedule-bucket',
-                    'autorace/race/',
+                    'autorace/',
                 );
         }
     },
