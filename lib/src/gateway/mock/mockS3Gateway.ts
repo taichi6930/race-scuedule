@@ -179,7 +179,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             case 'ITa':
                 break;
             default:
-                const fileName = `nar/place/placeList.csv`;
+                const fileName = `nar/placeList.csv`;
                 const mockDataHeader = ['id', 'dateTime', 'location'].join(',');
                 const mockData = [mockDataHeader];
                 // 2024年のデータ12ヶ月分を作成
@@ -266,7 +266,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             case 'ITa':
                 break;
             default:
-                const fileName = `jra/place/placeList.csv`;
+                const fileName = `jra/placeList.csv`;
                 const mockDataHeader = [
                     'id',
                     'dateTime',
@@ -355,7 +355,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             case 'ITa':
                 break;
             default:
-                const fileName = `keirin/place/placeList.csv`;
+                const fileName = `keirin/placeList.csv`;
                 const mockDataHeader = [
                     'id',
                     'dateTime',

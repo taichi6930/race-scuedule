@@ -59,14 +59,14 @@ container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
             case 'PRODUCTION':
                 return new S3Gateway<KeirinPlaceRecord>(
                     'race-schedule-bucket',
-                    'keirin/place/',
+                    'keirin/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<KeirinPlaceRecord>(
                     'race-schedule-bucket',
-                    'keirin/place/',
+                    'keirin/',
                 );
         }
     },
@@ -158,14 +158,14 @@ container.register<IS3Gateway<NarPlaceRecord>>('NarPlaceS3Gateway', {
             case 'PRODUCTION':
                 return new S3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
-                    'nar/place/',
+                    'nar/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
-                    'nar/place/',
+                    'nar/',
                 );
         }
     },
@@ -220,14 +220,14 @@ container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
             case 'PRODUCTION':
                 return new S3Gateway<JraPlaceRecord>(
                     'race-schedule-bucket',
-                    'jra/place/',
+                    'jra/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<JraPlaceRecord>(
                     'race-schedule-bucket',
-                    'jra/place/',
+                    'jra/',
                 );
         }
     },
