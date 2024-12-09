@@ -83,7 +83,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 // 2024年のデータ366日分を作成
                 const startDate = new Date('2024-01-01');
                 const currentDate = new Date(startDate);
-                const fileName = `world/race/raceList.csv`;
+                const fileName = `world/raceList.csv`;
                 const mockDataHeader = [
                     'name',
                     'dateTime',
@@ -483,7 +483,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 // 2024年のデータ366日分を作成
                 const startDate = new Date('2024-01-01');
                 const currentDate = new Date(startDate);
-                const fileName = `boatrace/race/raceList.csv`;
+                const fileName = `boatrace/raceList.csv`;
                 const mockDataHeader = [
                     'name',
                     'stage',
@@ -526,7 +526,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             case 'ITa':
                 break;
             default:
-                const fileName = `boatrace/place/placeList.csv`;
+                const fileName = `boatrace/placeList.csv`;
                 const mockDataHeader = [
                     'id',
                     'dateTime',
