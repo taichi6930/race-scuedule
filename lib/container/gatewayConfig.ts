@@ -78,14 +78,14 @@ container.register<IS3Gateway<KeirinRaceRecord>>('KeirinRaceS3Gateway', {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
-                    'keirin/race/',
+                    'keirin/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
-                    'keirin/race/',
+                    'keirin/',
                 );
         }
     },
