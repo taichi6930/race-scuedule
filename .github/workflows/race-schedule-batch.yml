@@ -331,6 +331,15 @@ jobs:
                     \"gradeList\": [\"GP\", \"GⅠ\", \"GⅡ\", \"GⅢ\"]
                   }")
 
+            # レスポンスチェック
+            if [[ "$update_race_calendar_response" != "200" ]]; then
+              echo "❌ POST request failed with status code $update_race_calendar_response"
+              exit 1
+            fi
+
+            currentDate=$(date -I -d "$currentDate + 1 day")
+          done
+
 
   update-keirin-race-data-f:
     needs: [set-dates, health-check]
