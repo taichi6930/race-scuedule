@@ -99,14 +99,14 @@ container.register<IS3Gateway<KeirinRacePlayerRecord>>(
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<KeirinRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'keirin',
+                        'keirin/',
                     );
                 case 'ITa':
                 case 'LOCAL':
                 default:
                     return new MockS3Gateway<KeirinRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'keirin',
+                        'keirin/',
                     );
             }
         },
@@ -335,14 +335,14 @@ container.register<IS3Gateway<AutoraceRacePlayerRecord>>(
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<AutoraceRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'autorace',
+                        'autorace/',
                     );
                 case 'ITa':
                 case 'LOCAL':
                 default:
                     return new MockS3Gateway<AutoraceRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'autorace',
+                        'autorace/',
                     );
             }
         },
@@ -425,14 +425,14 @@ container.register<IS3Gateway<BoatraceRacePlayerRecord>>(
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<BoatraceRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'boatrace',
+                        'boatrace/',
                     );
                 case 'ITa':
                 case 'LOCAL':
                 default:
                     return new MockS3Gateway<BoatraceRacePlayerRecord>(
                         'race-schedule-bucket',
-                        'boatrace',
+                        'boatrace/',
                     );
             }
         },
