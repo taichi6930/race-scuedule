@@ -183,13 +183,21 @@ describe('KeirinRaceDataUseCase', () => {
 
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
+            const searchList = {
+                gradeList: ['GⅠ' as KeirinGradeType],
+                locationList: ['平塚' as KeirinRaceCourse],
+            };
 
             // モックの戻り値を設定
             keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
             );
 
-            await useCase.updateRaceEntityList(startDate, finishDate);
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
 
             expect(
                 keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList,
