@@ -54,6 +54,7 @@ jobs:
           # GITHUB_OUTPUTを使って出力設定
           echo "start-date=$startDate" >> $GITHUB_OUTPUT
           echo "finish-date=$finishDate" >> $GITHUB_OUTPUT
+          echo "start-date-for-keirin=$startDateForKeirin" >> $GITHUB_OUTPUT
           echo "finish-date-for-keirin=$finishDateForKeirin" >> $GITHUB_OUTPUT
           echo "finish-date-for-autorace=$finishDateForAutorace" >> $GITHUB_OUTPUT
           echo "finish-date-for-boatrace=$finishDateForBoatrace" >> $GITHUB_OUTPUT
