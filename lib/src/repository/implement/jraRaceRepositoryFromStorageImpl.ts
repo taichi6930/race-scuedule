@@ -12,7 +12,7 @@ import {
     JraRaceCourseType,
 } from '../../utility/data/jra';
 import { Logger } from '../../utility/logger';
-import { JraRaceId } from '../../utility/raceId';
+import { generateJraRaceId, JraRaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -59,7 +59,8 @@ export class JraRaceRepositoryFromStorageImpl
                         const lines = csv.split('\n');
 
                         // ヘッダー行を解析
-                        const headers = lines[0].split(',');
+                        // 末尾に「\r」が含まれる場合があるので削除
+                        const headers = lines[0].replace('\r', '').split(',');
 
                         // ヘッダーに基づいてインデックスを取得
                         const idIndex = headers.indexOf('id');
@@ -79,7 +80,9 @@ export class JraRaceRepositoryFromStorageImpl
                             lines
                                 .slice(1)
                                 .map((line: string) => {
-                                    const columns = line.split(',');
+                                    const columns = line
+                                        .replace('\r', '')
+                                        .split(',');
 
                                     // 必要なフィールドが存在しない場合はundefinedを返す
                                     if (
@@ -89,8 +92,25 @@ export class JraRaceRepositoryFromStorageImpl
                                         return undefined;
                                     }
 
+                                    // idが存在しない場合はgenerateする
+                                    const jraRaceId =
+                                        columns[idIndex] === undefined ||
+                                        columns[idIndex] === ''
+                                            ? generateJraRaceId(
+                                                  new Date(
+                                                      columns[raceDateIndex],
+                                                  ),
+                                                  columns[
+                                                      placeIndex
+                                                  ] as JraRaceCourse,
+                                                  parseInt(
+                                                      columns[raceNumIndex],
+                                                  ),
+                                              )
+                                            : (columns[idIndex] as JraRaceId);
+
                                     return new JraRaceRecord(
-                                        columns[idIndex] as JraRaceId,
+                                        jraRaceId,
                                         columns[raceNameIndex],
                                         new Date(columns[raceDateIndex]),
                                         columns[placeIndex] as JraRaceCourse,
