@@ -184,26 +184,26 @@ export class KeirinRaceDataUseCase
                 fetchPlaceListRequest,
             );
 
-        // フィルタリング処理
-        const filteredPlaceEntityList: KeirinPlaceEntity[] =
-            fetchPlaceListResponse.placeEntityList
-                .filter((placeEntity) => {
-                    if (searchList?.gradeList) {
-                        return searchList.gradeList.includes(
-                            placeEntity.placeData.grade,
-                        );
-                    }
-                    return true;
-                })
-                .filter((placeEntity) => {
-                    if (searchList?.locationList) {
-                        return searchList.locationList.includes(
-                            placeEntity.placeData.location,
-                        );
-                    }
-                    return true;
-                });
+        const placeEntityList = fetchPlaceListResponse.placeEntityList;
 
+        // フィルタリング処理
+        const filteredPlaceEntityList: KeirinPlaceEntity[] = placeEntityList
+            ?.filter((placeEntity) => {
+                if (searchList?.gradeList) {
+                    return searchList.gradeList.includes(
+                        placeEntity.placeData.grade,
+                    );
+                }
+                return true;
+            })
+            ?.filter((placeEntity) => {
+                if (searchList?.locationList) {
+                    return searchList.locationList.includes(
+                        placeEntity.placeData.location,
+                    );
+                }
+                return true;
+            });
         return filteredPlaceEntityList;
     }
 
