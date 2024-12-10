@@ -127,6 +127,11 @@ export class KeirinRaceDataUseCase
                     searchList,
                 );
 
+            // placeEntityListが空の場合は処理を終了する
+            if (placeEntityList.length === 0) {
+                return;
+            }
+
             // レースデータを取得する
             const raceEntityList: KeirinRaceEntity[] =
                 await this.getRaceEntityList(
