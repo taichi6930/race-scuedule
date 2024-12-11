@@ -197,14 +197,13 @@ export class BoatraceRaceDataUseCase
                 finishDate,
                 placeEntityList,
             );
-        const fetchRaceListResponse: FetchRaceListResponse<BoatraceRaceEntity> =
+        const repository =
             type === 'storage'
-                ? await this.boatraceRaceRepositoryFromStorage.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  )
-                : await this.boatraceRaceRepositoryFromHtml.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  );
+                ? this.boatraceRaceRepositoryFromStorage
+                : this.boatraceRaceRepositoryFromHtml;
+
+        const fetchRaceListResponse: FetchRaceListResponse<BoatraceRaceEntity> =
+            await repository.fetchRaceEntityList(fetchRaceListRequest);
         return fetchRaceListResponse.raceEntityList;
     }
 

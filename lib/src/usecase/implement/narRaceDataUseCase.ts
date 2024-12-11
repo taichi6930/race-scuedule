@@ -179,14 +179,13 @@ export class NarRaceDataUseCase
             finishDate,
             placeEntityList,
         );
-        const fetchRaceListResponse: FetchRaceListResponse<NarRaceEntity> =
+        const repository =
             type === 'storage'
-                ? await this.narRaceRepositoryFromStorage.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  )
-                : await this.narRaceRepositoryFromHtml.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  );
+                ? this.narRaceRepositoryFromStorage
+                : this.narRaceRepositoryFromHtml;
+
+        const fetchRaceListResponse: FetchRaceListResponse<NarRaceEntity> =
+            await repository.fetchRaceEntityList(fetchRaceListRequest);
         return fetchRaceListResponse.raceEntityList;
     }
 

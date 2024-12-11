@@ -234,14 +234,13 @@ export class KeirinRaceDataUseCase
                 finishDate,
                 placeEntityList,
             );
-        const fetchRaceListResponse: FetchRaceListResponse<KeirinRaceEntity> =
+        const repository =
             type === 'storage'
-                ? await this.keirinRaceRepositoryFromStorage.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  )
-                : await this.keirinRaceRepositoryFromHtml.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  );
+                ? this.keirinRaceRepositoryFromStorage
+                : this.keirinRaceRepositoryFromHtml;
+
+        const fetchRaceListResponse: FetchRaceListResponse<KeirinRaceEntity> =
+            await repository.fetchRaceEntityList(fetchRaceListRequest);
         return fetchRaceListResponse.raceEntityList;
     }
 
