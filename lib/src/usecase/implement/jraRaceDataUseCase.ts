@@ -178,14 +178,13 @@ export class JraRaceDataUseCase
             finishDate,
             placeEntityList,
         );
-        const fetchRaceListResponse: FetchRaceListResponse<JraRaceEntity> =
+        const repository =
             type === 'storage'
-                ? await this.jraRaceRepositoryFromStorage.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  )
-                : await this.jraRaceRepositoryFromHtml.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  );
+                ? this.jraRaceRepositoryFromStorage
+                : this.jraRaceRepositoryFromHtml;
+
+        const fetchRaceListResponse: FetchRaceListResponse<JraRaceEntity> =
+            await repository.fetchRaceEntityList(fetchRaceListRequest);
         return fetchRaceListResponse.raceEntityList;
     }
 

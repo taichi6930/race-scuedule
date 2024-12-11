@@ -197,14 +197,13 @@ export class AutoraceRaceDataUseCase
                 finishDate,
                 placeEntityList,
             );
-        const fetchRaceListResponse: FetchRaceListResponse<AutoraceRaceEntity> =
+        const repository =
             type === 'storage'
-                ? await this.autoraceRaceRepositoryFromStorage.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  )
-                : await this.autoraceRaceRepositoryFromHtml.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  );
+                ? this.autoraceRaceRepositoryFromStorage
+                : this.autoraceRaceRepositoryFromHtml;
+
+        const fetchRaceListResponse: FetchRaceListResponse<AutoraceRaceEntity> =
+            await repository.fetchRaceEntityList(fetchRaceListRequest);
         return fetchRaceListResponse.raceEntityList;
     }
 

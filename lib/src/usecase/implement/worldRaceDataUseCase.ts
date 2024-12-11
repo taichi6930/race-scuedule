@@ -141,14 +141,13 @@ export class WorldRaceDataUseCase
             startDate,
             finishDate,
         );
-        const fetchRaceListResponse: FetchRaceListResponse<WorldRaceEntity> =
+        const repository =
             type === 'storage'
-                ? await this.worldRaceRepositoryFromStorage.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  )
-                : await this.worldRaceRepositoryFromHtml.fetchRaceEntityList(
-                      fetchRaceListRequest,
-                  );
+                ? this.worldRaceRepositoryFromStorage
+                : this.worldRaceRepositoryFromHtml;
+
+        const fetchRaceListResponse: FetchRaceListResponse<WorldRaceEntity> =
+            await repository.fetchRaceEntityList(fetchRaceListRequest);
         return fetchRaceListResponse.raceEntityList;
     }
 
