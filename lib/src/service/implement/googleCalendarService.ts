@@ -229,65 +229,43 @@ export class GoogleCalendarService<R extends RaceEntity>
             startDate,
             finishDate,
         );
-        // calendarIdのListを取得
-        const calendarIdList = calendarList.map(
-            (calendarData) => calendarData.id,
-        );
-        // raceEntityListのidのListを取得
-        const raceEntityIdList = raceEntityList.map(
-            (raceEntity) => raceEntity.id as string,
-        );
-        console.log(`calendarIdList: ${calendarIdList.join(', ')}`);
-        console.log(`raceEntityIdList: ${raceEntityIdList.join(', ')}`);
-
-        // 一致しているidのListを取得
-        // これは更新の対象となる
-        const matchIdList = raceEntityIdList.filter((id) =>
-            calendarIdList.includes(id),
-        );
-        // 一致しているidのListを元にraceEntityListを取得
-        const matchIdRaceEntityList = raceEntityList.filter((raceEntity) => {
-            return matchIdList.includes(raceEntity.id as string);
-        });
-        // 更新処理
-        await this.upsertEvents(matchIdRaceEntityList);
 
         // calenderIdの方だけあるListを取得
         // これは削除の対象となる
-        const onlyCalendarIdList = calendarIdList.filter(
-            (id) => !raceEntityIdList.includes(id),
+        const onlyCalendarEvents = calendarList.filter(
+            (calendarData) =>
+                !raceEntityList.some(
+                    (raceEntity) => raceEntity.id === calendarData.id,
+                ),
         );
-        onlyCalendarIdList.forEach(async (id) => {
-            try {
-                await this.calendar.events.delete({
-                    calendarId: this.calendarId,
-                    eventId: id,
-                });
-                console.debug(
-                    `Google Calendar APIからレースを削除しました: ${id}`,
-                );
-            } catch (error) {
-                console.debug(error);
-                throw new Error(
-                    `Google Calendar APIからのレース削除に失敗しました: ${id}`,
-                );
-            }
-        });
+        // 削除処理 IDで削除する
+        await this.processEvents(
+            onlyCalendarEvents.map((calendarData) => {
+                return {
+                    id: calendarData.id,
+                } as calendar_v3.Schema$Event;
+            }),
+            this.deleteEvent.bind(this),
+            '削除',
+        );
 
-        // raceEntityIdの方だけあるListを取得
-        // これは新規登録の対象となる
-        const onlyRaceEntityIdList = raceEntityIdList.filter(
-            (id) => !calendarIdList.includes(id),
+        // 一致しているidのListを取得し、更新処理
+        const matchIdRaceEntityList = raceEntityList.filter((raceEntity) =>
+            calendarList.some(
+                (calendarData) => calendarData.id === raceEntity.id,
+            ),
         );
+        // raceEntityIdの方だけあるListを取得し、新規登録処理
         const onlyRaceEntityIdRaceEntityList = raceEntityList.filter(
-            (raceEntity) => {
-                return onlyRaceEntityIdList.includes(raceEntity.id as string);
-            },
+            (raceEntity) =>
+                !calendarList.some(
+                    (calendarData) => calendarData.id === raceEntity.id,
+                ),
         );
-        await this.upsertEvents(onlyRaceEntityIdRaceEntityList);
-        console.log(`matchIdList: ${matchIdList.join(', ')}`);
-        console.log(`onlyCalendarIdList: ${onlyCalendarIdList.join(', ')}`);
-        console.log(`onlyRaceEntityIdList: ${onlyRaceEntityIdList.join(', ')}`);
+        await this.upsertEvents([
+            ...matchIdRaceEntityList,
+            ...onlyRaceEntityIdRaceEntityList,
+        ]);
     }
 
     /**
@@ -581,11 +559,6 @@ export class GoogleCalendarService<R extends RaceEntity>
             ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[raceEntity.raceData.location]}${(raceEntity.raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
             ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${raceEntity.raceData.dateTime.getFullYear().toString()}%2f${raceEntity.raceData.dateTime.getXDigitMonth(2)}%2f${raceEntity.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${raceEntity.raceData.number.toXDigits(2)}&k_babaCode=${NAR_BABACODE[raceEntity.raceData.location]}`)}
         `.replace(/\n\s+/g, '\n'),
-            extendedProperties: {
-                private: {
-                    raceEntity: JSON.stringify(raceEntity),
-                },
-            },
         };
     }
 

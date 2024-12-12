@@ -249,6 +249,52 @@ describe('WorldRaceCalendarUseCase', () => {
 
     describe('cleansingRacesFromCalendar', () => {
         it('カレンダーのイベントが正常にクレンジングされること', async () => {
+            const mockRaceEntityList: WorldRaceEntity[] = [];
+            const expectedRaceEntityList: WorldRaceEntity[] = [];
+
+            const grades: WorldGradeType[] = [
+                'GⅠ',
+                'Listed',
+            ] as WorldGradeType[];
+            const months = [12 - 1];
+            const days = [29, 30, 31];
+
+            grades.forEach((grade) => {
+                months.forEach((month) => {
+                    days.forEach((day) => {
+                        // モック用のデータを作成
+                        mockRaceEntityList.push(
+                            baseWorldRaceEntity.copy({
+                                raceData: baseWorldRaceData.copy({
+                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                    dateTime: new Date(2024, month, day),
+                                    grade: grade,
+                                }),
+                            }),
+                        );
+                        if (WORLD_SPECIFIED_GRADE_LIST.includes(grade)) {
+                            // 期待するデータを作成
+                            expectedRaceEntityList.push(
+                                baseWorldRaceEntity.copy({
+                                    raceData: baseWorldRaceData.copy({
+                                        name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                        dateTime: new Date(2024, month, day),
+                                        grade: grade,
+                                    }),
+                                }),
+                            );
+                        }
+                    });
+                });
+            });
+
+            // モックが値を返すよう設定
+            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
 
@@ -258,6 +304,7 @@ describe('WorldRaceCalendarUseCase', () => {
             expect(calendarServiceMock.cleansingEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
+                [],
             );
         });
 

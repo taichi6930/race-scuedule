@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
@@ -97,8 +96,6 @@ describe('AutoraceRaceCalendarUseCase', () => {
 
     describe('updateRacesToCalendar', () => {
         it('正常に更新できること', async () => {
-            const mockRaceDataList: AutoraceRaceData[] = [];
-            const expectedRaceDataList: AutoraceRaceData[] = [];
             const mockRaceEntityList: AutoraceRaceEntity[] = [];
             const expectedRaceEntityList: AutoraceRaceEntity[] = [];
 
@@ -119,13 +116,6 @@ describe('AutoraceRaceCalendarUseCase', () => {
                                 }),
                             }),
                         );
-                        mockRaceDataList.push(
-                            baseAutoraceRaceEntity.raceData.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
-                            }),
-                        );
                         if (AUTORACE_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
@@ -135,13 +125,6 @@ describe('AutoraceRaceCalendarUseCase', () => {
                                         dateTime: new Date(2024, month, day),
                                         grade: grade,
                                     }),
-                                }),
-                            );
-                            expectedRaceDataList.push(
-                                baseAutoraceRaceEntity.raceData.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
                                 }),
                             );
                         }
@@ -247,6 +230,49 @@ describe('AutoraceRaceCalendarUseCase', () => {
 
     describe('cleansingRacesFromCalendar', () => {
         it('カレンダーのイベントが正常にクレンジングされること', async () => {
+            const mockRaceEntityList: AutoraceRaceEntity[] = [];
+            const expectedRaceEntityList: AutoraceRaceEntity[] = [];
+
+            const grades: AutoraceGradeType[] = ['SG'] as AutoraceGradeType[];
+            const months = [12 - 1];
+            const days = [29, 30, 31];
+
+            grades.forEach((grade) => {
+                months.forEach((month) => {
+                    days.forEach((day) => {
+                        // モック用のデータを作成
+                        mockRaceEntityList.push(
+                            baseAutoraceRaceEntity.copy({
+                                raceData: baseAutoraceRaceData.copy({
+                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                    dateTime: new Date(2024, month, day),
+                                    grade: grade,
+                                }),
+                            }),
+                        );
+                        if (AUTORACE_SPECIFIED_GRADE_LIST.includes(grade)) {
+                            // 期待するデータを作成
+                            expectedRaceEntityList.push(
+                                baseAutoraceRaceEntity.copy({
+                                    raceData: baseAutoraceRaceData.copy({
+                                        name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
+                                        dateTime: new Date(2024, month, day),
+                                        grade: grade,
+                                    }),
+                                }),
+                            );
+                        }
+                    });
+                });
+            });
+
+            // モックが値を返すよう設定
+            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
 
