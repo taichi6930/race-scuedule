@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
@@ -10,7 +9,7 @@ import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 @injectable()
-export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
+export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceEntity> {
     constructor(
         @inject('NarPlaceRepositoryFromStorage')
         private readonly narPlaceRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,
@@ -25,10 +24,10 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
      * @returns
      */
     @Logger
-    async fetchPlaceDataList(
+    async fetchPlaceEntityList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<NarPlaceData[]> {
+    ): Promise<NarPlaceEntity[]> {
         const request: FetchPlaceListRequest = new FetchPlaceListRequest(
             startDate,
             finishDate,
@@ -37,10 +36,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
             await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
                 request,
             );
-        const placeDataList: NarPlaceData[] = response.placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return response.placeEntityList;
     }
 
     /**
@@ -50,7 +46,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
      * @param finishDate
      */
     @Logger
-    async updatePlaceDataList(
+    async updatePlaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {

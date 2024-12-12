@@ -2,15 +2,11 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { BoatracePlaceDataUseCase } from '../../../../lib/src/usecase/implement/boatracePlaceDataUseCase';
-import {
-    baseBoatracePlaceData,
-    baseBoatracePlaceEntity,
-} from '../../mock/common/baseBoatraceData';
+import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
 import { mockBoatracePlaceRepositoryFromHtmlImpl } from '../../mock/repository/boatracePlaceRepositoryFromHtmlImpl';
 import { mockBoatracePlaceRepositoryFromStorageImpl } from '../../mock/repository/boatracePlaceRepositoryFromStorageImpl';
 
@@ -49,7 +45,6 @@ describe('BoatracePlaceDataUseCase', () => {
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
-            const mockPlaceData: BoatracePlaceData[] = [baseBoatracePlaceData];
             const mockPlaceEntity: BoatracePlaceEntity[] = [
                 baseBoatracePlaceEntity,
             ];
@@ -64,12 +59,12 @@ describe('BoatracePlaceDataUseCase', () => {
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
 
-            const result = await useCase.fetchPlaceDataList(
+            const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
             );
 
-            expect(result).toEqual(mockPlaceData);
+            expect(result).toEqual(mockPlaceEntity);
         });
     });
 
@@ -89,7 +84,7 @@ describe('BoatracePlaceDataUseCase', () => {
                 ),
             );
 
-            await useCase.updatePlaceDataList(startDate, finishDate);
+            await useCase.updatePlaceEntityList(startDate, finishDate);
 
             expect(
                 boatracePlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,

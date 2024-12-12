@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
@@ -11,7 +10,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 @injectable()
 export class KeirinPlaceDataUseCase
-    implements IPlaceDataUseCase<KeirinPlaceData>
+    implements IPlaceDataUseCase<KeirinPlaceEntity>
 {
     constructor(
         @inject('KeirinPlaceRepositoryFromStorage')
@@ -27,10 +26,10 @@ export class KeirinPlaceDataUseCase
      * @returns
      */
     @Logger
-    async fetchPlaceDataList(
+    async fetchPlaceEntityList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<KeirinPlaceData[]> {
+    ): Promise<KeirinPlaceEntity[]> {
         const request: FetchPlaceListRequest = new FetchPlaceListRequest(
             startDate,
             finishDate,
@@ -39,11 +38,7 @@ export class KeirinPlaceDataUseCase
             await this.keirinPlaceRepositoryFromStorage.fetchPlaceEntityList(
                 request,
             );
-        // placeEntityListをplaceDataListに変換する
-        const placeDataList: KeirinPlaceData[] = response.placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return response.placeEntityList;
     }
 
     /**
@@ -53,7 +48,7 @@ export class KeirinPlaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updatePlaceDataList(
+    async updatePlaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {

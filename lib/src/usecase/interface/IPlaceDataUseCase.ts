@@ -1,19 +1,19 @@
-import type { PlaceData } from '../../domain/baseData';
+import type { PlaceEntity } from '../../repository/entity/baseEntity';
 
 /**
  * IPlaceDataUseCase
  */
-export interface IPlaceDataUseCase<P extends PlaceData> {
+export interface IPlaceDataUseCase<P extends PlaceEntity> {
     /**
      * レース開催地のデータを取得する
      * @param startDate
      * @param finishDate
      */
-    fetchPlaceDataList: (startDate: Date, finishDate: Date) => Promise<P[]>;
+    fetchPlaceEntityList: (startDate: Date, finishDate: Date) => Promise<P[]>;
     /**
      * レース開催地のデータを更新する
      * @param startDate
      * @param finishDate
      */
-    updatePlaceDataList: (startDate: Date, finishDate: Date) => Promise<void>;
+    updatePlaceEntityList: (startDate: Date, finishDate: Date) => Promise<void>;
 }

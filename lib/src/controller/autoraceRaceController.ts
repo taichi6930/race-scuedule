@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceData } from '../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../domain/autoraceRaceData';
+import { AutoracePlaceEntity } from '../repository/entity/autoracePlaceEntity';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
@@ -32,7 +32,7 @@ export class AutoraceRaceController {
             AutoraceRaceStage
         >,
         @inject('AutoracePlaceDataUseCase')
-        private readonly autoracePlaceDataUseCase: IPlaceDataUseCase<AutoracePlaceData>,
+        private readonly autoracePlaceDataUseCase: IPlaceDataUseCase<AutoracePlaceEntity>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -655,7 +655,7 @@ export class AutoraceRaceController {
 
             // オートレース場情報を取得する
             const placeList =
-                await this.autoracePlaceDataUseCase.fetchPlaceDataList(
+                await this.autoracePlaceDataUseCase.fetchPlaceEntityList(
                     new Date(startDate as string),
                     new Date(finishDate as string),
                 );
@@ -723,7 +723,7 @@ export class AutoraceRaceController {
             }
 
             // オートレース場情報を取得する
-            await this.autoracePlaceDataUseCase.updatePlaceDataList(
+            await this.autoracePlaceDataUseCase.updatePlaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
             );

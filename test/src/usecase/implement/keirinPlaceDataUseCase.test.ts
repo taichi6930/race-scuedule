@@ -2,15 +2,11 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { KeirinPlaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinPlaceDataUseCase';
-import {
-    baseKeirinPlaceData,
-    baseKeirinPlaceEntity,
-} from '../../mock/common/baseKeirinData';
+import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
 import { mockKeirinPlaceRepositoryFromHtmlImpl } from '../../mock/repository/keirinPlaceRepositoryFromHtmlImpl';
 import { mockKeirinPlaceRepositoryFromStorageImpl } from '../../mock/repository/keirinPlaceRepositoryFromStorageImpl';
 
@@ -49,7 +45,6 @@ describe('KeirinPlaceDataUseCase', () => {
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
-            const mockPlaceData: KeirinPlaceData[] = [baseKeirinPlaceData];
             const mockPlaceEntity: KeirinPlaceEntity[] = [
                 baseKeirinPlaceEntity,
             ];
@@ -62,12 +57,12 @@ describe('KeirinPlaceDataUseCase', () => {
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
 
-            const result = await useCase.fetchPlaceDataList(
+            const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
             );
 
-            expect(result).toEqual(mockPlaceData);
+            expect(result).toEqual(mockPlaceEntity);
         });
     });
 
@@ -85,7 +80,7 @@ describe('KeirinPlaceDataUseCase', () => {
                 new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
             );
 
-            await useCase.updatePlaceDataList(startDate, finishDate);
+            await useCase.updatePlaceEntityList(startDate, finishDate);
 
             expect(
                 keirinPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,

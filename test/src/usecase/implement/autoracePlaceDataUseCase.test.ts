@@ -2,15 +2,11 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { AutoracePlaceDataUseCase } from '../../../../lib/src/usecase/implement/autoracePlaceDataUseCase';
-import {
-    baseAutoracePlaceData,
-    baseAutoracePlaceEntity,
-} from '../../mock/common/baseAutoraceData';
+import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
 import { mockAutoracePlaceRepositoryFromHtmlImpl } from '../../mock/repository/autoracePlaceRepositoryFromHtmlImpl';
 import { mockAutoracePlaceRepositoryFromStorageImpl } from '../../mock/repository/autoracePlaceRepositoryFromStorageImpl';
 
@@ -49,7 +45,6 @@ describe('AutoracePlaceDataUseCase', () => {
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
-            const mockPlaceData: AutoracePlaceData[] = [baseAutoracePlaceData];
             const mockPlaceEntity: AutoracePlaceEntity[] = [
                 baseAutoracePlaceEntity,
             ];
@@ -64,12 +59,12 @@ describe('AutoracePlaceDataUseCase', () => {
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
 
-            const result = await useCase.fetchPlaceDataList(
+            const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
             );
 
-            expect(result).toEqual(mockPlaceData);
+            expect(result).toEqual(mockPlaceEntity);
         });
     });
 
@@ -89,7 +84,7 @@ describe('AutoracePlaceDataUseCase', () => {
                 ),
             );
 
-            await useCase.updatePlaceDataList(startDate, finishDate);
+            await useCase.updatePlaceEntityList(startDate, finishDate);
 
             expect(
                 autoracePlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,

@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { JraPlaceData } from '../domain/jraPlaceData';
 import { JraRaceData } from '../domain/jraRaceData';
+import { JraPlaceEntity } from '../repository/entity/jraPlaceEntity';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
@@ -32,7 +32,7 @@ export class JraRaceController {
             undefined
         >,
         @inject('JraPlaceDataUseCase')
-        private readonly jraPlaceDataUseCase: IPlaceDataUseCase<JraPlaceData>,
+        private readonly jraPlaceDataUseCase: IPlaceDataUseCase<JraPlaceEntity>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -664,10 +664,11 @@ export class JraRaceController {
             }
 
             // 競馬場情報を取得する
-            const placeList = await this.jraPlaceDataUseCase.fetchPlaceDataList(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-            );
+            const placeList =
+                await this.jraPlaceDataUseCase.fetchPlaceEntityList(
+                    new Date(startDate as string),
+                    new Date(finishDate as string),
+                );
             res.json(placeList);
         } catch (error) {
             console.error('競馬場情報の取得中にエラーが発生しました:', error);
@@ -728,7 +729,7 @@ export class JraRaceController {
             }
 
             // 競馬場情報を取得する
-            await this.jraPlaceDataUseCase.updatePlaceDataList(
+            await this.jraPlaceDataUseCase.updatePlaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
             );
