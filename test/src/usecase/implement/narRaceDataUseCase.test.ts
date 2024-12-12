@@ -75,7 +75,7 @@ describe('NarRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(
+            const result = await useCase.fetchRaceEntityList(
                 startDate,
                 finishDate,
             );
@@ -94,7 +94,7 @@ describe('NarRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(
+            const result = await useCase.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 { gradeList: ['GⅠ'] },
@@ -115,7 +115,7 @@ describe('NarRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(
+            const result = await useCase.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 { locationList: ['大井'] },
@@ -136,7 +136,7 @@ describe('NarRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(
+            const result = await useCase.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 { gradeList: ['GⅠ'], locationList: ['大井'] },

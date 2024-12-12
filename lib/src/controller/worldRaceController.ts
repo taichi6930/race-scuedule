@@ -404,7 +404,7 @@ export class WorldRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.worldRaceDataUseCase.fetchRaceDataList(
+            const races = await this.worldRaceDataUseCase.fetchRaceEntityList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
                 {

@@ -428,7 +428,7 @@ export class JraRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.jraRaceDataUseCase.fetchRaceDataList(
+            const races = await this.jraRaceDataUseCase.fetchRaceEntityList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
                 {

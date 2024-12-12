@@ -412,7 +412,7 @@ export class NarRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.narRaceDataUseCase.fetchRaceDataList(
+            const races = await this.narRaceDataUseCase.fetchRaceEntityList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
                 {

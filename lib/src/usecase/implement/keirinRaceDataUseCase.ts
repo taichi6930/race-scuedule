@@ -50,7 +50,7 @@ export class KeirinRaceDataUseCase
      * @param startDate
      * @param finishDate
      */
-    async fetchRaceDataList(
+    async fetchRaceEntityList(
         startDate: Date,
         finishDate: Date,
         searchList?: {

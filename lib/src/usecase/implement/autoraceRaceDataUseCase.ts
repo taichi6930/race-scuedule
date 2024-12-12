@@ -50,7 +50,7 @@ export class AutoraceRaceDataUseCase
      * @param startDate
      * @param finishDate
      */
-    async fetchRaceDataList(
+    async fetchRaceEntityList(
         startDate: Date,
         finishDate: Date,
         searchList?: {

@@ -425,15 +425,16 @@ export class AutoraceRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.autoraceRaceDataUseCase.fetchRaceDataList(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-                {
-                    gradeList: gradeList,
-                    locationList: locationList,
-                    stageList: stageList,
-                },
-            );
+            const races =
+                await this.autoraceRaceDataUseCase.fetchRaceEntityList(
+                    new Date(startDate as string),
+                    new Date(finishDate as string),
+                    {
+                        gradeList: gradeList,
+                        locationList: locationList,
+                        stageList: stageList,
+                    },
+                );
             res.json(races);
         } catch (error) {
             console.error('レース情報の取得中にエラーが発生しました:', error);

@@ -60,7 +60,7 @@ describe('WorldRaceDataUseCase', () => {
             const startDate = new Date('2024-10-01');
             const finishDate = new Date('2024-10-31');
 
-            const result = await useCase.fetchRaceDataList(
+            const result = await useCase.fetchRaceEntityList(
                 startDate,
                 finishDate,
             );
@@ -79,7 +79,7 @@ describe('WorldRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(
+            const result = await useCase.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 { gradeList: ['GⅠ'] },
@@ -100,7 +100,7 @@ describe('WorldRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(
+            const result = await useCase.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 { locationList: ['パリロンシャン'] },
@@ -121,7 +121,7 @@ describe('WorldRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(
+            const result = await useCase.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 { gradeList: ['GⅠ'], locationList: ['パリロンシャン'] },

@@ -15,7 +15,7 @@ export interface IRaceDataUseCase<
      * @param startDate
      * @param finishDate
      */
-    fetchRaceDataList: (
+    fetchRaceEntityList: (
         startDate: Date,
         finishDate: Date,
         // Optional parameters

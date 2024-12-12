@@ -82,7 +82,7 @@ describe('AutoraceRaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchRaceDataList(
+            const result = await useCase.fetchRaceEntityList(
                 startDate,
                 finishDate,
             );
@@ -171,7 +171,7 @@ describe('AutoraceRaceDataUseCase', () => {
                 const startDate = new Date('2025-12-01');
                 const finishDate = new Date('2025-12-31');
 
-                const result = await useCase.fetchRaceDataList(
+                const result = await useCase.fetchRaceEntityList(
                     startDate,
                     finishDate,
                     searchConditions,

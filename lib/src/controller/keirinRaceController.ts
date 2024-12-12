@@ -425,7 +425,7 @@ export class KeirinRaceController {
             }
 
             // レース情報を取得する
-            const races = await this.keirinRaceDataUseCase.fetchRaceDataList(
+            const races = await this.keirinRaceDataUseCase.fetchRaceEntityList(
                 new Date(startDate as string),
                 new Date(finishDate as string),
                 {
