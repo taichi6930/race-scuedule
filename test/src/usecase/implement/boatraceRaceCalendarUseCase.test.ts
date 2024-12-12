@@ -20,7 +20,7 @@ import { mockBoatraceRaceRepositoryFromStorageImpl } from '../../mock/repository
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('BoatraceRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<BoatraceRaceData>>;
+    let calendarServiceMock: jest.Mocked<ICalendarService<BoatraceRaceEntity>>;
     let boatraceRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
@@ -28,8 +28,8 @@ describe('BoatraceRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<BoatraceRaceData>();
-        container.register<ICalendarService<BoatraceRaceData>>(
+        calendarServiceMock = CalendarServiceMock<BoatraceRaceEntity>();
+        container.register<ICalendarService<BoatraceRaceEntity>>(
             'BoatraceCalendarService',
             {
                 useValue: calendarServiceMock,
@@ -173,7 +173,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             // updateEventsが呼び出された回数を確認
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
-                expectedRaceDataList,
+                expectedRaceEntityList,
             );
         });
 

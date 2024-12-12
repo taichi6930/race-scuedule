@@ -1,43 +1,43 @@
 import type { GaxiosPromise } from 'gaxios';
 import { google } from 'googleapis';
 
-import type { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
-import type { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
-import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
-import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
-import type { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
+import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
+import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
+import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
+import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
+import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import { GoogleCalendarService } from '../../../../lib/src/service/implement/googleCalendarService';
 import {
     baseAutoraceCalendarData,
     baseAutoraceCalendarDataFromGoogleCalendar,
-    baseAutoraceRaceData,
+    baseAutoraceRaceEntity,
 } from '../../mock/common/baseAutoraceData';
 import {
     baseBoatraceCalendarData,
     baseBoatraceCalendarDataFromGoogleCalendar,
-    baseBoatraceRaceData,
+    baseBoatraceRaceEntity,
 } from '../../mock/common/baseBoatraceData';
 import {
     baseJraCalendarData,
     baseJraCalendarDataFromGoogleCalendar,
-    baseJraRaceData,
+    baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
 import {
     baseKeirinCalendarData,
     baseKeirinCalendarDataFromGoogleCalendar,
-    baseKeirinRaceData,
+    baseKeirinRaceEntity,
 } from '../../mock/common/baseKeirinData';
 import {
     baseNarCalendarData,
     baseNarCalendarDataFromGoogleCalendar,
-    baseNarRaceData,
+    baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import {
     baseWorldCalendarData,
     baseWorldCalendarDataFromGoogleCalendar,
-    baseWorldRaceData,
+    baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
 
 // googleapis のモック設定
@@ -64,21 +64,27 @@ jest.mock('googleapis', () => {
 /* eslint-disable */
 describe('GoogleCalendarService', () => {
     const googleCalendarServiceRecord = {
-        nar: new GoogleCalendarService<NarRaceData>('nar', 'testNarCalendarId'),
-        jra: new GoogleCalendarService<JraRaceData>('jra', 'testJraCalendarId'),
-        keirin: new GoogleCalendarService<KeirinRaceData>(
+        nar: new GoogleCalendarService<NarRaceEntity>(
+            'nar',
+            'testNarCalendarId',
+        ),
+        jra: new GoogleCalendarService<JraRaceEntity>(
+            'jra',
+            'testJraCalendarId',
+        ),
+        keirin: new GoogleCalendarService<KeirinRaceEntity>(
             'keirin',
             'testKeirinCalendarId',
         ),
-        world: new GoogleCalendarService<WorldRaceData>(
+        world: new GoogleCalendarService<WorldRaceEntity>(
             'world',
             'testWorldCalendarId',
         ),
-        autorace: new GoogleCalendarService<AutoraceRaceData>(
+        autorace: new GoogleCalendarService<AutoraceRaceEntity>(
             'autorace',
             'testAutoraceCalendarId',
         ),
-        boatrace: new GoogleCalendarService<BoatraceRaceData>(
+        boatrace: new GoogleCalendarService<BoatraceRaceEntity>(
             'boatrace',
             'testBoatraceCalendarId',
         ),
@@ -102,13 +108,13 @@ describe('GoogleCalendarService', () => {
         boatrace: [baseBoatraceCalendarDataFromGoogleCalendar],
     };
 
-    const raceDataRecord: Record<string, any> = {
-        jra: [baseJraRaceData],
-        nar: [baseNarRaceData],
-        keirin: [baseKeirinRaceData],
-        world: [baseWorldRaceData],
-        autorace: [baseAutoraceRaceData],
-        boatrace: [baseBoatraceRaceData],
+    const raceEntityRecord: Record<string, any> = {
+        jra: [baseJraRaceEntity],
+        nar: [baseNarRaceEntity],
+        keirin: [baseKeirinRaceEntity],
+        world: [baseWorldRaceEntity],
+        autorace: [baseAutoraceRaceEntity],
+        boatrace: [baseBoatraceRaceEntity],
     };
 
     beforeEach(() => {
@@ -133,10 +139,10 @@ describe('GoogleCalendarService', () => {
         ['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'] as const
     ).forEach((key) => {
         let googleCalendarService: GoogleCalendarService<any>;
-        let raceDataList: any;
+        let raceEntityList: any;
         beforeEach(() => {
             googleCalendarService = googleCalendarServiceRecord[key];
-            raceDataList = raceDataRecord[key];
+            raceEntityList = raceEntityRecord[key];
         });
         describe(`${key} getEvents`, () => {
             it(`${key} CalendarData[]が返ってくること`, async () => {
@@ -213,19 +219,19 @@ describe('GoogleCalendarService', () => {
                 const eventsInsertMock = jest.fn().mockResolvedValue({});
                 google.calendar('v3').events.insert = eventsInsertMock;
 
-                await googleCalendarService.upsertEvents(raceDataList);
+                await googleCalendarService.upsertEvents(raceEntityList);
 
                 // `events.insert` メソッドが呼ばれていることを確認
                 expect(google.calendar('v3').events.insert).toHaveBeenCalled();
 
                 // console.debugで確認
                 expect(console.debug).toHaveBeenCalledWith(
-                    `Google Calendar APIにレースを登録しました: ${raceDataList[0].stage ? `${raceDataList[0].stage} ` : ``}${raceDataList[0].name}`,
+                    `Google Calendar APIにレースを登録しました: ${raceEntityList[0].raceData.stage ? `${raceEntityList[0].raceData.stage} ` : ``}${raceEntityList[0].raceData.name}`,
                 );
             });
 
             it(`${key} イベントが存在しない場合、新規作成処理が行われるが、events.insertがエラーを吐く`, async () => {
-                const raceDataList = raceDataRecord[key];
+                const raceEntityList = raceEntityRecord[key];
 
                 // モックの `events.list` メソッドを設定
                 const eventsListMock = google.calendar('v3').events
@@ -243,19 +249,19 @@ describe('GoogleCalendarService', () => {
                 });
                 google.calendar('v3').events.insert = eventsInsertMock;
 
-                await googleCalendarService.upsertEvents(raceDataList);
+                await googleCalendarService.upsertEvents(raceEntityList);
 
                 // エラーログが出力されていることを確認
                 expect(console.error).toHaveBeenCalledWith(
                     '[GoogleCalendarService.createEvent] エラー',
                     expect.objectContaining({
-                        message: `Google Calendar APIへのレース登録に失敗しました: ${raceDataList[0].stage ? `${raceDataList[0].stage} ` : ``}${raceDataList[0].name}`,
+                        message: `Google Calendar APIへのレース登録に失敗しました: ${raceEntityList[0].raceData.stage ? `${raceEntityList[0].raceData.stage} ` : ``}${raceEntityList[0].raceData.name}`,
                     }),
                 );
                 expect(console.error).toHaveBeenCalledWith(
                     'Google Calendar APIへのイベント新規登録に失敗しました',
                     expect.objectContaining({
-                        message: `Google Calendar APIへのレース登録に失敗しました: ${raceDataList[0].stage ? `${raceDataList[0].stage} ` : ``}${raceDataList[0].name}`,
+                        message: `Google Calendar APIへのレース登録に失敗しました: ${raceEntityList[0].raceData.stage ? `${raceEntityList[0].raceData.stage} ` : ``}${raceEntityList[0].raceData.name}`,
                     }),
                 );
             });
@@ -283,11 +289,11 @@ describe('GoogleCalendarService', () => {
                 const eventsUpdateMock = jest.fn().mockResolvedValue({});
                 google.calendar('v3').events.update = eventsUpdateMock;
 
-                await googleCalendarService.upsertEvents(raceDataList);
+                await googleCalendarService.upsertEvents(raceEntityList);
 
                 // console.debugで確認
                 expect(console.debug).toHaveBeenCalledWith(
-                    `Google Calendar APIにレースを更新しました: ${raceDataList[0].name}`,
+                    `Google Calendar APIにレースを更新しました: ${raceEntityList[0].raceData.name}`,
                 );
             });
 
@@ -319,19 +325,19 @@ describe('GoogleCalendarService', () => {
                 });
                 google.calendar('v3').events.update = eventsUpdateMock;
 
-                await googleCalendarService.upsertEvents(raceDataList);
+                await googleCalendarService.upsertEvents(raceEntityList);
 
                 // エラーログが出力されていることを確認
                 expect(console.error).toHaveBeenCalledWith(
                     '[GoogleCalendarService.updateEvent] エラー',
                     expect.objectContaining({
-                        message: `Google Calendar APIへのレース更新に失敗しました: ${raceDataList[0].name}`,
+                        message: `Google Calendar APIへのレース更新に失敗しました: ${raceEntityList[0].raceData.name}`,
                     }),
                 );
                 expect(console.error).toHaveBeenCalledWith(
                     '[GoogleCalendarService.updateEvent] エラー',
                     expect.objectContaining({
-                        message: `Google Calendar APIへのレース更新に失敗しました: ${raceDataList[0].name}`,
+                        message: `Google Calendar APIへのレース更新に失敗しました: ${raceEntityList[0].raceData.name}`,
                     }),
                 );
             });
@@ -364,7 +370,7 @@ describe('GoogleCalendarService', () => {
 
                 // console.debugでGoogle Calendar APIからレースを削除しました: testNarEventTitleというログが出力されていることを確認
                 expect(console.debug).toHaveBeenCalledWith(
-                    `Google Calendar APIからレースを削除しました: ${raceDataList[0].name}`,
+                    `Google Calendar APIからレースを削除しました: ${raceEntityList[0].raceData.name}`,
                 );
             });
 
@@ -420,13 +426,13 @@ describe('GoogleCalendarService', () => {
                 expect(console.error).toHaveBeenCalledWith(
                     '[GoogleCalendarService.deleteEvent] エラー',
                     expect.objectContaining({
-                        message: `Google Calendar APIからのレース削除に失敗しました: ${raceDataList[0].name}`,
+                        message: `Google Calendar APIからのレース削除に失敗しました: ${raceEntityList[0].raceData.name}`,
                     }),
                 );
                 expect(console.error).toHaveBeenCalledWith(
                     'Google Calendar APIへのレース削除に失敗しました（processEvents）',
                     expect.objectContaining({
-                        message: `Google Calendar APIからのレース削除に失敗しました: ${raceDataList[0].name}`,
+                        message: `Google Calendar APIからのレース削除に失敗しました: ${raceEntityList[0].raceData.name}`,
                     }),
                 );
             });

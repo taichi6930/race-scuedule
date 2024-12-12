@@ -20,7 +20,7 @@ import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/wo
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('WorldRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<WorldRaceData>>;
+    let calendarServiceMock: jest.Mocked<ICalendarService<WorldRaceEntity>>;
     let worldRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
     >;
@@ -28,8 +28,8 @@ describe('WorldRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<WorldRaceData>();
-        container.register<ICalendarService<WorldRaceData>>(
+        calendarServiceMock = CalendarServiceMock<WorldRaceEntity>();
+        container.register<ICalendarService<WorldRaceEntity>>(
             'WorldCalendarService',
             {
                 useValue: calendarServiceMock,
@@ -177,7 +177,7 @@ describe('WorldRaceCalendarUseCase', () => {
             // updateEventsが呼び出された回数を確認
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
-                expectedRaceDataList,
+                expectedRaceEntityList,
             );
         });
 
