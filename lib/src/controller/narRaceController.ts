@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { NarPlaceData } from '../domain/narPlaceData';
 import { NarRaceData } from '../domain/narRaceData';
+import { NarPlaceEntity } from '../repository/entity/narPlaceEntity';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
@@ -32,7 +32,7 @@ export class NarRaceController {
             undefined
         >,
         @inject('NarPlaceDataUseCase')
-        private readonly narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceData>,
+        private readonly narPlaceDataUseCase: IPlaceDataUseCase<NarPlaceEntity>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -646,10 +646,11 @@ export class NarRaceController {
             }
 
             // 競馬場情報を取得する
-            const placeList = await this.narPlaceDataUseCase.fetchPlaceDataList(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-            );
+            const placeList =
+                await this.narPlaceDataUseCase.fetchPlaceEntityList(
+                    new Date(startDate as string),
+                    new Date(finishDate as string),
+                );
             res.json(placeList);
         } catch (error) {
             console.error('競馬場情報の取得中にエラーが発生しました:', error);
@@ -710,7 +711,7 @@ export class NarRaceController {
             }
 
             // 競馬場情報を取得する
-            await this.narPlaceDataUseCase.updatePlaceDataList(
+            await this.narPlaceDataUseCase.updatePlaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
             );

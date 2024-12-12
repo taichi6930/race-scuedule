@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { KeirinPlaceData } from '../domain/keirinPlaceData';
 import { KeirinRaceData } from '../domain/keirinRaceData';
+import { KeirinPlaceEntity } from '../repository/entity/keirinPlaceEntity';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
@@ -32,7 +32,7 @@ export class KeirinRaceController {
             KeirinRaceStage
         >,
         @inject('KeirinPlaceDataUseCase')
-        private readonly keirinPlaceDataUseCase: IPlaceDataUseCase<KeirinPlaceData>,
+        private readonly keirinPlaceDataUseCase: IPlaceDataUseCase<KeirinPlaceEntity>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -600,7 +600,7 @@ export class KeirinRaceController {
 
             // 競輪場情報を取得する
             const placeList =
-                await this.keirinPlaceDataUseCase.fetchPlaceDataList(
+                await this.keirinPlaceDataUseCase.fetchPlaceEntityList(
                     new Date(startDate as string),
                     new Date(finishDate as string),
                 );
@@ -665,7 +665,7 @@ export class KeirinRaceController {
             }
 
             // 競輪場情報を取得する
-            await this.keirinPlaceDataUseCase.updatePlaceDataList(
+            await this.keirinPlaceDataUseCase.updatePlaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
             );

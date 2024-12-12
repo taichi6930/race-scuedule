@@ -1,16 +1,16 @@
 import { container } from 'tsyringe';
 
-import type { AutoracePlaceData } from '../src/domain/autoracePlaceData';
 import type { AutoraceRaceData } from '../src/domain/autoraceRaceData';
-import type { BoatracePlaceData } from '../src/domain/boatracePlaceData';
 import type { BoatraceRaceData } from '../src/domain/boatraceRaceData';
-import type { JraPlaceData } from '../src/domain/jraPlaceData';
 import type { JraRaceData } from '../src/domain/jraRaceData';
-import type { KeirinPlaceData } from '../src/domain/keirinPlaceData';
 import type { KeirinRaceData } from '../src/domain/keirinRaceData';
-import type { NarPlaceData } from '../src/domain/narPlaceData';
 import type { NarRaceData } from '../src/domain/narRaceData';
 import type { WorldRaceData } from '../src/domain/worldRaceData';
+import type { AutoracePlaceEntity } from '../src/repository/entity/autoracePlaceEntity';
+import type { BoatracePlaceEntity } from '../src/repository/entity/boatracePlaceEntity';
+import type { JraPlaceEntity } from '../src/repository/entity/jraPlaceEntity';
+import type { KeirinPlaceEntity } from '../src/repository/entity/keirinPlaceEntity';
+import type { NarPlaceEntity } from '../src/repository/entity/narPlaceEntity';
 import { AutoracePlaceDataUseCase } from '../src/usecase/implement/autoracePlaceDataUseCase';
 import { AutoraceRaceCalendarUseCase } from '../src/usecase/implement/autoraceRaceCalendarUseCase';
 import { AutoraceRaceDataUseCase } from '../src/usecase/implement/autoraceRaceDataUseCase';
@@ -83,13 +83,13 @@ container.register<
 >('KeirinRaceDataUseCase', {
     useClass: KeirinRaceDataUseCase,
 });
-container.register<IPlaceDataUseCase<NarPlaceData>>('NarPlaceDataUseCase', {
+container.register<IPlaceDataUseCase<NarPlaceEntity>>('NarPlaceDataUseCase', {
     useClass: NarPlaceDataUseCase,
 });
-container.register<IPlaceDataUseCase<JraPlaceData>>('JraPlaceDataUseCase', {
+container.register<IPlaceDataUseCase<JraPlaceEntity>>('JraPlaceDataUseCase', {
     useClass: JraPlaceDataUseCase,
 });
-container.register<IPlaceDataUseCase<KeirinPlaceData>>(
+container.register<IPlaceDataUseCase<KeirinPlaceEntity>>(
     'KeirinPlaceDataUseCase',
     {
         useClass: KeirinPlaceDataUseCase,
@@ -103,7 +103,7 @@ container.register<
 >('WorldRaceDataUseCase', {
     useClass: WorldRaceDataUseCase,
 });
-container.register<IPlaceDataUseCase<AutoracePlaceData>>(
+container.register<IPlaceDataUseCase<AutoracePlaceEntity>>(
     'AutoracePlaceDataUseCase',
     {
         useClass: AutoracePlaceDataUseCase,
@@ -122,7 +122,7 @@ container.register<
 container.register<IRaceCalendarUseCase>('AutoraceRaceCalendarUseCase', {
     useClass: AutoraceRaceCalendarUseCase,
 });
-container.register<IPlaceDataUseCase<BoatracePlaceData>>(
+container.register<IPlaceDataUseCase<BoatracePlaceEntity>>(
     'BoatracePlaceDataUseCase',
     {
         useClass: BoatracePlaceDataUseCase,

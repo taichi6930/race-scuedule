@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
@@ -11,7 +10,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 @injectable()
 export class BoatracePlaceDataUseCase
-    implements IPlaceDataUseCase<BoatracePlaceData>
+    implements IPlaceDataUseCase<BoatracePlaceEntity>
 {
     constructor(
         @inject('BoatracePlaceRepositoryFromStorage')
@@ -27,10 +26,10 @@ export class BoatracePlaceDataUseCase
      * @returns
      */
     @Logger
-    async fetchPlaceDataList(
+    async fetchPlaceEntityList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<BoatracePlaceData[]> {
+    ): Promise<BoatracePlaceEntity[]> {
         const request: FetchPlaceListRequest = new FetchPlaceListRequest(
             startDate,
             finishDate,
@@ -39,11 +38,7 @@ export class BoatracePlaceDataUseCase
             await this.boatracePlaceRepositoryFromStorage.fetchPlaceEntityList(
                 request,
             );
-        // placeEntityListをplaceDataListに変換する
-        const placeDataList: BoatracePlaceData[] = response.placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return response.placeEntityList;
     }
 
     /**
@@ -53,7 +48,7 @@ export class BoatracePlaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updatePlaceDataList(
+    async updatePlaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {

@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { inject, injectable } from 'tsyringe';
 
-import { BoatracePlaceData } from '../domain/boatracePlaceData';
 import { BoatraceRaceData } from '../domain/boatraceRaceData';
+import { BoatracePlaceEntity } from '../repository/entity/boatracePlaceEntity';
 import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
@@ -32,7 +32,7 @@ export class BoatraceRaceController {
             BoatraceRaceStage
         >,
         @inject('BoatracePlaceDataUseCase')
-        private readonly boatracePlaceDataUseCase: IPlaceDataUseCase<BoatracePlaceData>,
+        private readonly boatracePlaceDataUseCase: IPlaceDataUseCase<BoatracePlaceEntity>,
     ) {
         this.router = Router();
         this.initializeRoutes();
@@ -593,7 +593,7 @@ export class BoatraceRaceController {
 
             // ボートレース場情報を取得する
             const placeList =
-                await this.boatracePlaceDataUseCase.fetchPlaceDataList(
+                await this.boatracePlaceDataUseCase.fetchPlaceEntityList(
                     new Date(startDate as string),
                     new Date(finishDate as string),
                 );
@@ -661,7 +661,7 @@ export class BoatraceRaceController {
             }
 
             // ボートレース場情報を取得する
-            await this.boatracePlaceDataUseCase.updatePlaceDataList(
+            await this.boatracePlaceDataUseCase.updatePlaceEntityList(
                 new Date(startDate),
                 new Date(finishDate),
             );

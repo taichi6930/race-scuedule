@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
@@ -10,7 +9,7 @@ import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 @injectable()
-export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
+export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceEntity> {
     constructor(
         @inject('JraPlaceRepositoryFromStorage')
         private readonly jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
@@ -25,10 +24,10 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
      * @returns
      */
     @Logger
-    async fetchPlaceDataList(
+    async fetchPlaceEntityList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<JraPlaceData[]> {
+    ): Promise<JraPlaceEntity[]> {
         const request: FetchPlaceListRequest = new FetchPlaceListRequest(
             startDate,
             finishDate,
@@ -37,10 +36,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
             await this.jraPlaceRepositoryFromStorage.fetchPlaceEntityList(
                 request,
             );
-        const placeDataList: JraPlaceData[] = response.placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return response.placeEntityList;
     }
 
     /**
@@ -50,7 +46,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
      * @param finishDate
      */
     @Logger
-    async updatePlaceDataList(
+    async updatePlaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {

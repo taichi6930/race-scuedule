@@ -2,15 +2,11 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { JraPlaceDataUseCase } from '../../../../lib/src/usecase/implement/jraPlaceDataUseCase';
-import {
-    baseJraPlaceData,
-    baseJraPlaceEntity,
-} from '../../mock/common/baseJraData';
+import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
 import { mockJraPlaceRepositoryFromHtmlImpl } from '../../mock/repository/jraPlaceRepositoryFromHtmlImpl';
 import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/jraPlaceRepositoryFromStorageImpl';
 
@@ -48,7 +44,6 @@ describe('JraPlaceDataUseCase', () => {
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
-            const mockPlaceData: JraPlaceData[] = [baseJraPlaceData];
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
@@ -59,12 +54,12 @@ describe('JraPlaceDataUseCase', () => {
             const startDate = new Date('2024-06-01');
             const finishDate = new Date('2024-06-30');
 
-            const result = await useCase.fetchPlaceDataList(
+            const result = await useCase.fetchPlaceEntityList(
                 startDate,
                 finishDate,
             );
 
-            expect(result).toEqual(mockPlaceData);
+            expect(result).toEqual(mockPlaceEntity);
         });
     });
 
@@ -80,7 +75,7 @@ describe('JraPlaceDataUseCase', () => {
                 new FetchPlaceListResponse<JraPlaceEntity>(mockPlaceEntity),
             );
 
-            await useCase.updatePlaceDataList(startDate, finishDate);
+            await useCase.updatePlaceEntityList(startDate, finishDate);
 
             expect(
                 jraPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,

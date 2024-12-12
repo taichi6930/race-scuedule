@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
@@ -11,7 +10,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 @injectable()
 export class AutoracePlaceDataUseCase
-    implements IPlaceDataUseCase<AutoracePlaceData>
+    implements IPlaceDataUseCase<AutoracePlaceEntity>
 {
     constructor(
         @inject('AutoracePlaceRepositoryFromStorage')
@@ -27,10 +26,10 @@ export class AutoracePlaceDataUseCase
      * @returns
      */
     @Logger
-    async fetchPlaceDataList(
+    async fetchPlaceEntityList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<AutoracePlaceData[]> {
+    ): Promise<AutoracePlaceEntity[]> {
         const request: FetchPlaceListRequest = new FetchPlaceListRequest(
             startDate,
             finishDate,
@@ -39,11 +38,9 @@ export class AutoracePlaceDataUseCase
             await this.autoracePlaceRepositoryFromStorage.fetchPlaceEntityList(
                 request,
             );
-        // placeEntityListをplaceDataListに変換する
-        const placeDataList: AutoracePlaceData[] = response.placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        const placeEntityList = response.placeEntityList;
+
+        return placeEntityList;
     }
 
     /**
@@ -53,7 +50,7 @@ export class AutoracePlaceDataUseCase
      * @param finishDate
      */
     @Logger
-    async updatePlaceDataList(
+    async updatePlaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
