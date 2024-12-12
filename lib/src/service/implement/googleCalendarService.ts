@@ -119,17 +119,28 @@ export class GoogleCalendarService<R extends RaceData>
     private convertToCalendarData(
         events: calendar_v3.Schema$Event[],
     ): CalendarData[] {
-        return events.map(
-            (event) =>
-                new CalendarData(
-                    event.id ?? '',
-                    event.summary ?? '',
-                    new Date(event.start?.dateTime ?? ''),
-                    new Date(event.end?.dateTime ?? ''),
-                    event.location ?? '',
-                    event.description ?? '',
-                ),
-        );
+        return events
+            .map((event) => {
+                if (
+                    typeof event.id === 'string' &&
+                    typeof event.summary === 'string' &&
+                    typeof event.start?.dateTime === 'string' &&
+                    typeof event.end?.dateTime === 'string' &&
+                    typeof event.location === 'string' &&
+                    typeof event.description === 'string'
+                ) {
+                    return new CalendarData(
+                        event.id,
+                        event.summary,
+                        new Date(event.start?.dateTime),
+                        new Date(event.end?.dateTime),
+                        event.location,
+                        event.description,
+                    );
+                }
+                return undefined;
+            })
+            .filter((calendarData) => calendarData !== undefined);
     }
 
     /**
