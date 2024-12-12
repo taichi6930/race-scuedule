@@ -12,7 +12,7 @@ import {
     NarRaceCourseType,
 } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
-import { NarRaceId } from '../../utility/raceId';
+import { generateNarRaceId, NarRaceId } from '../../utility/raceId';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -59,7 +59,7 @@ export class NarRaceRepositoryFromStorageImpl
                         const lines = csv.split('\n');
 
                         // ヘッダー行を解析
-                        const headers = lines[0].split(',');
+                        const headers = lines[0].replace('\r', '').split(',');
 
                         // ヘッダーに基づいてインデックスを取得
                         const idIndex = headers.indexOf('id');
@@ -76,7 +76,9 @@ export class NarRaceRepositoryFromStorageImpl
                             lines
                                 .slice(1)
                                 .map((line: string) => {
-                                    const columns = line.split(',');
+                                    const columns = line
+                                        .replace('\r', '')
+                                        .split(',');
 
                                     // 必要なフィールドが存在しない場合はundefinedを返す
                                     if (
@@ -86,8 +88,29 @@ export class NarRaceRepositoryFromStorageImpl
                                         return undefined;
                                     }
 
-                                    return new NarRaceRecord(
+                                    // idが存在しない場合はgenerateする
+                                    const narRaceId =
+                                        columns[idIndex] === undefined ||
+                                        columns[idIndex] === ''
+                                            ? generateNarRaceId(
+                                                  new Date(
+                                                      columns[raceDateIndex],
+                                                  ),
+                                                  columns[
+                                                      placeIndex
+                                                  ] as NarRaceCourse,
+                                                  parseInt(
+                                                      columns[raceNumIndex],
+                                                  ),
+                                              )
+                                            : (columns[idIndex] as NarRaceId);
+                                    console.log('narRaceId:', narRaceId);
+                                    console.log(
+                                        'narRaceRowId:',
                                         columns[idIndex] as NarRaceId,
+                                    );
+                                    return new NarRaceRecord(
+                                        narRaceId,
                                         columns[raceNameIndex],
                                         new Date(columns[raceDateIndex]),
                                         columns[placeIndex] as NarRaceCourse,

@@ -94,9 +94,31 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
     async cleansingRacesFromCalendar(
         startDate: Date,
         finishDate: Date,
+        displayGradeList: string[],
     ): Promise<void> {
         try {
-            await this.calendarService.cleansingEvents(startDate, finishDate);
+            // startDateからfinishDateまでレース情報を取得
+            const fetchRaceDataListRequest =
+                new FetchRaceListRequest<NarPlaceEntity>(startDate, finishDate);
+            const fetchRaceDataListResponse =
+                await this.narRaceRepositoryFromStorage.fetchRaceEntityList(
+                    fetchRaceDataListRequest,
+                );
+            // レース情報を取得
+            const raceEntityList: NarRaceEntity[] =
+                fetchRaceDataListResponse.raceEntityList;
+
+            // displayGradeListに含まれるレース情報のみを抽出
+            const filteredRaceEntityList: NarRaceEntity[] =
+                raceEntityList.filter((raceEntity) =>
+                    displayGradeList.includes(raceEntity.raceData.grade),
+                );
+
+            await this.calendarService.cleansingEvents(
+                startDate,
+                finishDate,
+                filteredRaceEntityList,
+            );
         } catch (error) {
             console.error(
                 'Google Calendar APIからのイベントクレンジングに失敗しました',

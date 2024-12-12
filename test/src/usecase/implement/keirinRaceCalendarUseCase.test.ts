@@ -233,7 +233,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
 
-            await useCase.cleansingRacesFromCalendar(startDate, finishDate);
+            await useCase.cleansingRacesFromCalendar(startDate, finishDate, []);
 
             // cleansingEventsが正しく呼び出されたことを確認
             expect(calendarServiceMock.cleansingEvents).toHaveBeenCalledWith(
@@ -255,7 +255,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
 
-            await useCase.cleansingRacesFromCalendar(startDate, finishDate);
+            await useCase.cleansingRacesFromCalendar(startDate, finishDate, []);
 
             // コンソールエラーメッセージが出力されることを確認
             expect(consoleErrorSpy).toHaveBeenCalledWith(

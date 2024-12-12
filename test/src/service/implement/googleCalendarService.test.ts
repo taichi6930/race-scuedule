@@ -363,6 +363,7 @@ describe('GoogleCalendarService', () => {
                 await googleCalendarService.cleansingEvents(
                     startDate,
                     finishDate,
+                    [],
                 );
 
                 // `events.delete` メソッドが呼ばれていることを確認
@@ -386,6 +387,7 @@ describe('GoogleCalendarService', () => {
                 await googleCalendarService.cleansingEvents(
                     startDate,
                     finishDate,
+                    [],
                 );
                 // console.debugで指定された期間にイベントが見つかりませんでした。というログが出力されていることを確認
                 expect(console.debug).toHaveBeenCalledWith(
@@ -420,6 +422,7 @@ describe('GoogleCalendarService', () => {
                 await googleCalendarService.cleansingEvents(
                     startDate,
                     finishDate,
+                    [],
                 );
 
                 // エラーログが出力されていることを確認

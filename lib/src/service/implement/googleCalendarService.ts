@@ -219,8 +219,75 @@ export class GoogleCalendarService<R extends RaceEntity>
      * @param finishDate
      */
     @Logger
-    async cleansingEvents(startDate: Date, finishDate: Date): Promise<void> {
-        await this.deleteEvents(startDate, finishDate);
+    async cleansingEvents(
+        startDate: Date,
+        finishDate: Date,
+        raceEntityList: RaceEntity[],
+    ): Promise<void> {
+        // GoogleカレンダーAPIからイベントを取得
+        const calendarList: CalendarData[] = await this.getEvents(
+            startDate,
+            finishDate,
+        );
+        // calendarIdのListを取得
+        const calendarIdList = calendarList.map(
+            (calendarData) => calendarData.id,
+        );
+        // raceEntityListのidのListを取得
+        const raceEntityIdList = raceEntityList.map(
+            (raceEntity) => raceEntity.id as string,
+        );
+        console.log(`calendarIdList: ${calendarIdList.join(', ')}`);
+        console.log(`raceEntityIdList: ${raceEntityIdList.join(', ')}`);
+
+        // 一致しているidのListを取得
+        // これは更新の対象となる
+        const matchIdList = raceEntityIdList.filter((id) =>
+            calendarIdList.includes(id),
+        );
+        // 一致しているidのListを元にraceEntityListを取得
+        const matchIdRaceEntityList = raceEntityList.filter((raceEntity) => {
+            return matchIdList.includes(raceEntity.id as string);
+        });
+        // 更新処理
+        await this.upsertEvents(matchIdRaceEntityList);
+
+        // calenderIdの方だけあるListを取得
+        // これは削除の対象となる
+        const onlyCalendarIdList = calendarIdList.filter(
+            (id) => !raceEntityIdList.includes(id),
+        );
+        onlyCalendarIdList.forEach(async (id) => {
+            try {
+                await this.calendar.events.delete({
+                    calendarId: this.calendarId,
+                    eventId: id,
+                });
+                console.debug(
+                    `Google Calendar APIからレースを削除しました: ${id}`,
+                );
+            } catch (error) {
+                console.debug(error);
+                throw new Error(
+                    `Google Calendar APIからのレース削除に失敗しました: ${id}`,
+                );
+            }
+        });
+
+        // raceEntityIdの方だけあるListを取得
+        // これは新規登録の対象となる
+        const onlyRaceEntityIdList = raceEntityIdList.filter(
+            (id) => !calendarIdList.includes(id),
+        );
+        const onlyRaceEntityIdRaceEntityList = raceEntityList.filter(
+            (raceEntity) => {
+                return onlyRaceEntityIdList.includes(raceEntity.id as string);
+            },
+        );
+        await this.upsertEvents(onlyRaceEntityIdRaceEntityList);
+        console.log(`matchIdList: ${matchIdList.join(', ')}`);
+        console.log(`onlyCalendarIdList: ${onlyCalendarIdList.join(', ')}`);
+        console.log(`onlyRaceEntityIdList: ${onlyRaceEntityIdList.join(', ')}`);
     }
 
     /**
@@ -516,7 +583,7 @@ export class GoogleCalendarService<R extends RaceEntity>
         `.replace(/\n\s+/g, '\n'),
             extendedProperties: {
                 private: {
-                    raceData: JSON.stringify(raceEntity),
+                    raceEntity: JSON.stringify(raceEntity),
                 },
             },
         };

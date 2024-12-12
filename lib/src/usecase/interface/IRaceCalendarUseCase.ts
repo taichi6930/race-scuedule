@@ -31,5 +31,6 @@ export interface IRaceCalendarUseCase {
     cleansingRacesFromCalendar: (
         startDate: Date,
         finishDate: Date,
+        displayGradeList: string[],
     ) => Promise<void>;
 }

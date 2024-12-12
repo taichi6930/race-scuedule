@@ -21,6 +21,11 @@ export interface ICalendarService<R extends RaceEntity> {
      * カレンダーのクレンジングを行う
      * @param startDate
      * @param finishDate
+     * @param raceEntityList
      */
-    cleansingEvents: (startDate: Date, finishDate: Date) => Promise<void>;
+    cleansingEvents: (
+        startDate: Date,
+        finishDate: Date,
+        raceEntityList: RaceEntity[],
+    ) => Promise<void>;
 }

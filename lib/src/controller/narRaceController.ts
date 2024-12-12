@@ -272,6 +272,7 @@ export class NarRaceController {
             await this.raceCalendarUseCase.cleansingRacesFromCalendar(
                 new Date(startDate as string),
                 new Date(finishDate as string),
+                NAR_SPECIFIED_GRADE_LIST,
             );
             // レース情報をクレンジングする
             res.status(200).send();
