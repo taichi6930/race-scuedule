@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
@@ -20,7 +19,7 @@ import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/wo
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('WorldRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<WorldRaceData>>;
+    let calendarServiceMock: jest.Mocked<ICalendarService<WorldRaceEntity>>;
     let worldRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
     >;
@@ -28,8 +27,8 @@ describe('WorldRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<WorldRaceData>();
-        container.register<ICalendarService<WorldRaceData>>(
+        calendarServiceMock = CalendarServiceMock<WorldRaceEntity>();
+        container.register<ICalendarService<WorldRaceEntity>>(
             'WorldCalendarService',
             {
                 useValue: calendarServiceMock,
@@ -98,8 +97,6 @@ describe('WorldRaceCalendarUseCase', () => {
 
     describe('updateRacesToCalendar', () => {
         it('正常に更新できること', async () => {
-            const mockRaceDataList: WorldRaceData[] = [];
-            const expectedRaceDataList: WorldRaceData[] = [];
             const mockRaceEntityList: WorldRaceEntity[] = [];
             const expectedRaceEntityList: WorldRaceEntity[] = [];
 
@@ -123,13 +120,6 @@ describe('WorldRaceCalendarUseCase', () => {
                                 }),
                             }),
                         );
-                        mockRaceDataList.push(
-                            baseWorldRaceEntity.raceData.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
-                            }),
-                        );
                         if (WORLD_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
@@ -139,13 +129,6 @@ describe('WorldRaceCalendarUseCase', () => {
                                         dateTime: new Date(2024, month, day),
                                         grade: grade,
                                     }),
-                                }),
-                            );
-                            expectedRaceDataList.push(
-                                baseWorldRaceEntity.raceData.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
                                 }),
                             );
                         }
@@ -177,7 +160,7 @@ describe('WorldRaceCalendarUseCase', () => {
             // updateEventsが呼び出された回数を確認
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
-                expectedRaceDataList,
+                expectedRaceEntityList,
             );
         });
 

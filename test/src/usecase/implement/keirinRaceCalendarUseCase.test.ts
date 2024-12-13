@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
@@ -20,7 +19,7 @@ import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/k
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('KeirinRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<KeirinRaceData>>;
+    let calendarServiceMock: jest.Mocked<ICalendarService<KeirinRaceEntity>>;
     let keirinRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
     >;
@@ -28,8 +27,8 @@ describe('KeirinRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<KeirinRaceData>();
-        container.register<ICalendarService<KeirinRaceData>>(
+        calendarServiceMock = CalendarServiceMock<KeirinRaceEntity>();
+        container.register<ICalendarService<KeirinRaceEntity>>(
             'KeirinCalendarService',
             {
                 useValue: calendarServiceMock,
@@ -97,8 +96,6 @@ describe('KeirinRaceCalendarUseCase', () => {
 
     describe('updateRacesToCalendar', () => {
         it('正常に更新できること', async () => {
-            const mockRaceDataList: KeirinRaceData[] = [];
-            const expectedRaceDataList: KeirinRaceData[] = [];
             const mockRaceEntityList: KeirinRaceEntity[] = [];
             const expectedRaceEntityList: KeirinRaceEntity[] = [];
 
@@ -119,13 +116,6 @@ describe('KeirinRaceCalendarUseCase', () => {
                                 }),
                             }),
                         );
-                        mockRaceDataList.push(
-                            baseKeirinRaceEntity.raceData.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
-                            }),
-                        );
                         if (KEIRIN_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
@@ -135,13 +125,6 @@ describe('KeirinRaceCalendarUseCase', () => {
                                         dateTime: new Date(2024, month, day),
                                         grade: grade,
                                     }),
-                                }),
-                            );
-                            expectedRaceDataList.push(
-                                baseKeirinRaceEntity.raceData.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
                                 }),
                             );
                         }
@@ -173,7 +156,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             // updateEventsが呼び出された回数を確認
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
-                expectedRaceDataList,
+                expectedRaceEntityList,
             );
         });
 

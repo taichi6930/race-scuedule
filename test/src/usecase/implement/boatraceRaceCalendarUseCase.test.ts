@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { container } from 'tsyringe';
 
-import type { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
@@ -20,7 +19,7 @@ import { mockBoatraceRaceRepositoryFromStorageImpl } from '../../mock/repository
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('BoatraceRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<BoatraceRaceData>>;
+    let calendarServiceMock: jest.Mocked<ICalendarService<BoatraceRaceEntity>>;
     let boatraceRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
@@ -28,8 +27,8 @@ describe('BoatraceRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<BoatraceRaceData>();
-        container.register<ICalendarService<BoatraceRaceData>>(
+        calendarServiceMock = CalendarServiceMock<BoatraceRaceEntity>();
+        container.register<ICalendarService<BoatraceRaceEntity>>(
             'BoatraceCalendarService',
             {
                 useValue: calendarServiceMock,
@@ -97,8 +96,6 @@ describe('BoatraceRaceCalendarUseCase', () => {
 
     describe('updateRacesToCalendar', () => {
         it('正常に更新できること', async () => {
-            const mockRaceDataList: BoatraceRaceData[] = [];
-            const expectedRaceDataList: BoatraceRaceData[] = [];
             const mockRaceEntityList: BoatraceRaceEntity[] = [];
             const expectedRaceEntityList: BoatraceRaceEntity[] = [];
 
@@ -119,13 +116,6 @@ describe('BoatraceRaceCalendarUseCase', () => {
                                 }),
                             }),
                         );
-                        mockRaceDataList.push(
-                            baseBoatraceRaceEntity.raceData.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
-                            }),
-                        );
                         if (BOATRACE_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
@@ -135,13 +125,6 @@ describe('BoatraceRaceCalendarUseCase', () => {
                                         dateTime: new Date(2024, month, day),
                                         grade: grade,
                                     }),
-                                }),
-                            );
-                            expectedRaceDataList.push(
-                                baseBoatraceRaceEntity.raceData.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
                                 }),
                             );
                         }
@@ -173,7 +156,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             // updateEventsが呼び出された回数を確認
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
-                expectedRaceDataList,
+                expectedRaceEntityList,
             );
         });
 

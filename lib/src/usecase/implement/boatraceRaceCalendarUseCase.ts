@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { inject, injectable } from 'tsyringe';
 
-import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { CalendarData } from '../../domain/calendarData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
@@ -20,7 +19,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('BoatraceCalendarService')
-        private readonly calendarService: ICalendarService<BoatraceRaceData>,
+        private readonly calendarService: ICalendarService<BoatraceRaceEntity>,
         @inject('BoatraceRaceRepositoryFromStorage')
         private readonly boatraceRaceRepositoryFromStorage: IRaceRepository<
             BoatraceRaceEntity,
@@ -113,10 +112,8 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                     return racePriority + maxPlayerPriority >= 6;
                 });
 
-            const filteredRaceDataList: BoatraceRaceData[] =
-                filteredRaceEntityList.map((raceEntity) => raceEntity.raceData);
             // レース情報をカレンダーに登録
-            await this.calendarService.upsertEvents(filteredRaceDataList);
+            await this.calendarService.upsertEvents(filteredRaceEntityList);
         } catch (error) {
             console.error(
                 'Google Calendar APIへのイベント登録に失敗しました',

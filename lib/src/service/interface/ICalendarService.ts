@@ -1,11 +1,11 @@
-import type { RaceData } from '../../domain/baseData';
 import type { CalendarData } from '../../domain/calendarData';
+import type { RaceEntity } from '../../repository/entity/baseEntity';
 
 /**
  * CalendarServiceのインターフェース
  * Googleカレンダーなどの操作を行う
  */
-export interface ICalendarService<R extends RaceData> {
+export interface ICalendarService<R extends RaceEntity> {
     /**
      * カレンダーのイベントの取得を行う
      * @param startDate
@@ -14,13 +14,17 @@ export interface ICalendarService<R extends RaceData> {
     getEvents: (startDate: Date, finishDate: Date) => Promise<CalendarData[]>;
     /**
      * カレンダーのイベントの更新を行う
-     * @param raceDataList
+     * @param raceEntityList
      */
-    upsertEvents: (raceDataList: R[]) => Promise<void>;
+    upsertEvents: (raceEntityList: R[]) => Promise<void>;
     /**
      * カレンダーのクレンジングを行う
      * @param startDate
      * @param finishDate
      */
-    cleansingEvents: (startDate: Date, finishDate: Date) => Promise<void>;
+    cleansingEvents: (
+        startDate: Date,
+        finishDate: Date,
+        raceEntityList?: R,
+    ) => Promise<void>;
 }

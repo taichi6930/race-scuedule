@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { JraRaceData } from '../../domain/jraRaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
@@ -16,7 +15,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('JraCalendarService')
-        private readonly calendarService: ICalendarService<JraRaceData>,
+        private readonly calendarService: ICalendarService<JraRaceEntity>,
         @inject('JraRaceRepositoryFromStorage')
         private readonly jraRaceRepositoryFromStorage: IRaceRepository<
             JraRaceEntity,
@@ -68,18 +67,15 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
             // レース情報を取得
             const raceEntityList: JraRaceEntity[] =
                 fetchRaceDataListResponse.raceEntityList;
-            // レース情報をJraRaceDataに変換する
-            const raceDataList: JraRaceData[] = raceEntityList.map(
-                (raceEntity) => raceEntity.raceData,
-            );
 
             // displayGradeListに含まれるレース情報のみを抽出
-            const filteredRaceDataList: JraRaceData[] = raceDataList.filter(
-                (raceData) => displayGradeList.includes(raceData.grade),
-            );
+            const filteredRaceEntityList: JraRaceEntity[] =
+                raceEntityList.filter((raceEntity) =>
+                    displayGradeList.includes(raceEntity.raceData.grade),
+                );
 
             // レース情報をカレンダーに登録
-            await this.calendarService.upsertEvents(filteredRaceDataList);
+            await this.calendarService.upsertEvents(filteredRaceEntityList);
         } catch (error) {
             console.error(
                 'Google Calendar APIへのイベント登録に失敗しました',

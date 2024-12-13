@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
@@ -20,7 +19,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('KeirinCalendarService')
-        private readonly calendarService: ICalendarService<KeirinRaceData>,
+        private readonly calendarService: ICalendarService<KeirinRaceEntity>,
         @inject('KeirinRaceRepositoryFromStorage')
         private readonly keirinRaceRepositoryFromStorage: IRaceRepository<
             KeirinRaceEntity,
@@ -113,10 +112,8 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                     return racePriority + maxPlayerPriority >= 6;
                 });
 
-            const filteredRaceDataList: KeirinRaceData[] =
-                filteredRaceEntityList.map((raceEntity) => raceEntity.raceData);
             // レース情報をカレンダーに登録
-            await this.calendarService.upsertEvents(filteredRaceDataList);
+            await this.calendarService.upsertEvents(filteredRaceEntityList);
         } catch (error) {
             console.error(
                 'Google Calendar APIへのイベント登録に失敗しました',

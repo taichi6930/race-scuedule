@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
@@ -20,7 +19,7 @@ import { mockNarRaceRepositoryFromStorageImpl } from '../../mock/repository/narR
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceData>>;
+    let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceEntity>>;
     let narRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<NarRaceEntity, NarPlaceEntity>
     >;
@@ -28,8 +27,8 @@ describe('NarRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<NarRaceData>();
-        container.register<ICalendarService<NarRaceData>>(
+        calendarServiceMock = CalendarServiceMock<NarRaceEntity>();
+        container.register<ICalendarService<NarRaceEntity>>(
             'NarCalendarService',
             {
                 useValue: calendarServiceMock,
@@ -98,8 +97,6 @@ describe('NarRaceCalendarUseCase', () => {
 
     describe('updateRacesToCalendar', () => {
         it('正常に更新できること', async () => {
-            const mockRaceDataList: NarRaceData[] = [];
-            const expectedRaceDataList: NarRaceData[] = [];
             const mockRaceEntityList: NarRaceEntity[] = [];
             const expectedRaceEntityList: NarRaceEntity[] = [];
 
@@ -120,13 +117,6 @@ describe('NarRaceCalendarUseCase', () => {
                                 }),
                             }),
                         );
-                        mockRaceDataList.push(
-                            baseNarRaceEntity.raceData.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
-                            }),
-                        );
                         if (NAR_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
@@ -136,13 +126,6 @@ describe('NarRaceCalendarUseCase', () => {
                                         dateTime: new Date(2024, month, day),
                                         grade: grade,
                                     }),
-                                }),
-                            );
-                            expectedRaceDataList.push(
-                                baseNarRaceEntity.raceData.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
                                 }),
                             );
                         }
@@ -174,7 +157,7 @@ describe('NarRaceCalendarUseCase', () => {
             // updateEventsが呼び出された回数を確認
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
-                expectedRaceDataList,
+                expectedRaceEntityList,
             );
         });
 

@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
@@ -20,7 +19,7 @@ import { mockJraRaceRepositoryFromStorageImpl } from '../../mock/repository/jraR
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('JraRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<JraRaceData>>;
+    let calendarServiceMock: jest.Mocked<ICalendarService<JraRaceEntity>>;
     let JraRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<JraRaceEntity, JraPlaceEntity>
     >;
@@ -28,8 +27,8 @@ describe('JraRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<JraRaceData>();
-        container.register<ICalendarService<JraRaceData>>(
+        calendarServiceMock = CalendarServiceMock<JraRaceEntity>();
+        container.register<ICalendarService<JraRaceEntity>>(
             'JraCalendarService',
             {
                 useValue: calendarServiceMock,
@@ -98,8 +97,6 @@ describe('JraRaceCalendarUseCase', () => {
 
     describe('updateRacesToCalendar', () => {
         it('正常に更新できること', async () => {
-            const mockRaceDataList: JraRaceData[] = [];
-            const expectedRaceDataList: JraRaceData[] = [];
             const mockRaceEntityList: JraRaceEntity[] = [];
             const expectedRaceEntityList: JraRaceEntity[] = [];
 
@@ -120,13 +117,6 @@ describe('JraRaceCalendarUseCase', () => {
                                 }),
                             }),
                         );
-                        mockRaceDataList.push(
-                            baseJraRaceEntity.raceData.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
-                            }),
-                        );
                         if (JRA_SPECIFIED_GRADE_LIST.includes(grade)) {
                             // 期待するデータを作成
                             expectedRaceEntityList.push(
@@ -136,13 +126,6 @@ describe('JraRaceCalendarUseCase', () => {
                                         dateTime: new Date(2024, month, day),
                                         grade: grade,
                                     }),
-                                }),
-                            );
-                            expectedRaceDataList.push(
-                                baseJraRaceEntity.raceData.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
                                 }),
                             );
                         }
@@ -174,7 +157,7 @@ describe('JraRaceCalendarUseCase', () => {
             // updateEventsが呼び出された回数を確認
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
-                expectedRaceDataList,
+                expectedRaceEntityList,
             );
         });
 

@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { NarRaceData } from '../../domain/narRaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
@@ -16,7 +15,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('NarCalendarService')
-        private readonly calendarService: ICalendarService<NarRaceData>,
+        private readonly calendarService: ICalendarService<NarRaceEntity>,
         @inject('NarRaceRepositoryFromStorage')
         private readonly narRaceRepositoryFromStorage: IRaceRepository<
             NarRaceEntity,
@@ -58,27 +57,18 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
         displayGradeList: string[],
     ): Promise<void> {
         try {
-            // startDateからfinishDateまでレース情報を取得
-            const fetchRaceDataListRequest =
-                new FetchRaceListRequest<NarPlaceEntity>(startDate, finishDate);
-            const fetchRaceDataListResponse =
-                await this.narRaceRepositoryFromStorage.fetchRaceEntityList(
-                    fetchRaceDataListRequest,
-                );
             // レース情報を取得
             const raceEntityList: NarRaceEntity[] =
-                fetchRaceDataListResponse.raceEntityList;
-            // レース情報をJraRaceDataに変換する
-            const raceDataList: NarRaceData[] = raceEntityList.map(
-                (raceEntity) => raceEntity.raceData,
-            );
+                await this.fetchRaceEntityList(startDate, finishDate);
+
             // displayGradeListに含まれるレース情報のみを抽出
-            const filteredRaceDataList: NarRaceData[] = raceDataList.filter(
-                (raceData) => displayGradeList.includes(raceData.grade),
-            );
+            const filteredRaceEntityList: NarRaceEntity[] =
+                raceEntityList.filter((raceEntity) =>
+                    displayGradeList.includes(raceEntity.raceData.grade),
+                );
 
             // レース情報をカレンダーに登録
-            await this.calendarService.upsertEvents(filteredRaceDataList);
+            await this.calendarService.upsertEvents(filteredRaceEntityList);
         } catch (error) {
             console.error(
                 'Google Calendar APIへのイベント登録に失敗しました',
@@ -106,5 +96,29 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
                 error,
             );
         }
+    }
+
+    /**
+     * カレンダーの更新を行う
+     * @param startDate
+     * @param finishDate
+     */
+    @Logger
+    async fetchRaceEntityList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<NarRaceEntity[]> {
+        // startDateからfinishDateまでレース情報を取得
+        const fetchRaceDataListRequest =
+            new FetchRaceListRequest<NarPlaceEntity>(startDate, finishDate);
+        const fetchRaceDataListResponse =
+            await this.narRaceRepositoryFromStorage.fetchRaceEntityList(
+                fetchRaceDataListRequest,
+            );
+        // レース情報を取得
+        const raceEntityList: NarRaceEntity[] =
+            fetchRaceDataListResponse.raceEntityList;
+
+        return raceEntityList;
     }
 }
