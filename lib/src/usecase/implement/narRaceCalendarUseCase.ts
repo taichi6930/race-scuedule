@@ -57,42 +57,40 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
         displayGradeList: string[],
     ): Promise<void> {
         try {
-            // レース情報を取得
-            const raceEntityList: NarRaceEntity[] =
-                await this.fetchRaceEntityList(startDate, finishDate);
-
             // displayGradeListに含まれるレース情報のみを抽出
-            const filteredRaceEntityList: NarRaceEntity[] =
-                raceEntityList.filter((raceEntity) =>
-                    displayGradeList.includes(raceEntity.raceData.grade),
-                );
+            const filteredRaceEntityList: NarRaceEntity[] = (
+                await this.fetchRaceEntityList(startDate, finishDate)
+            ).filter((raceEntity) =>
+                displayGradeList.includes(raceEntity.raceData.grade),
+            );
 
-            // レース情報をカレンダーに登録
-            await this.calendarService.upsertEvents(filteredRaceEntityList);
+            // カレンダーの取得を行う
+            const calendarDataList: CalendarData[] =
+                await this.calendarService.getEvents(startDate, finishDate);
+
+            // 1. raceEntityListのIDに存在しないcalendarDataListを取得
+            const deleteCalendarDataList: CalendarData[] =
+                calendarDataList.filter(
+                    (calendarData) =>
+                        !filteredRaceEntityList.some(
+                            (raceEntity) => raceEntity.id === calendarData.id,
+                        ),
+                );
+            await this.calendarService.deleteEvents(deleteCalendarDataList);
+
+            // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
+            const upsertRaceEntityList: NarRaceEntity[] =
+                filteredRaceEntityList.filter(
+                    (raceEntity) =>
+                        !deleteCalendarDataList.some(
+                            (deleteCalendarData) =>
+                                deleteCalendarData.id === raceEntity.id,
+                        ),
+                );
+            await this.calendarService.upsertEvents(upsertRaceEntityList);
         } catch (error) {
             console.error(
                 'Google Calendar APIへのイベント登録に失敗しました',
-                error,
-            );
-        }
-    }
-
-    /**
-     * カレンダーのクレンジングを行う
-     * 既に旧システムのレース情報が登録されている場合、削除する
-     * @param startDate
-     * @param finishDate
-     */
-    @Logger
-    async cleansingRacesFromCalendar(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<void> {
-        try {
-            await this.calendarService.cleansingEvents(startDate, finishDate);
-        } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベントクレンジングに失敗しました',
                 error,
             );
         }

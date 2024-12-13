@@ -46,10 +46,6 @@ export class NarRaceController {
         // Calendar関連のAPI
         this.router.get('/calendar', this.getRacesFromCalendar.bind(this));
         this.router.post('/calendar', this.updateRacesToCalendar.bind(this));
-        this.router.delete(
-            '/calendar',
-            this.cleansingRacesFromCalendar.bind(this),
-        );
         // RaceData関連のAPI
         this.router.get('/race', this.getRaceDataList.bind(this));
         this.router.post('/race', this.updateRaceDataList.bind(this));
@@ -235,49 +231,6 @@ export class NarRaceController {
         } catch (error) {
             console.error(
                 'カレンダーにレース情報を更新中にエラーが発生しました:',
-                error,
-            );
-            const errorMessage =
-                error instanceof Error ? error.message : String(error);
-            res.status(500).send(
-                `サーバーエラーが発生しました: ${errorMessage}`,
-            );
-        }
-    }
-
-    /**
-     * カレンダーからレース情報をクレンジングする
-     * @param req
-     * @param res
-     * @returns
-     */
-    @Logger
-    private async cleansingRacesFromCalendar(
-        req: Request,
-        res: Response,
-    ): Promise<void> {
-        try {
-            const { startDate, finishDate } = req.query;
-
-            // startDateとfinishDateが指定されていない場合はエラーを返す
-            if (
-                isNaN(Date.parse(startDate as string)) ||
-                isNaN(Date.parse(finishDate as string))
-            ) {
-                res.status(400).send('startDate、finishDateは必須です');
-                return;
-            }
-
-            // カレンダーからレース情報をクレンジングする
-            await this.raceCalendarUseCase.cleansingRacesFromCalendar(
-                new Date(startDate as string),
-                new Date(finishDate as string),
-            );
-            // レース情報をクレンジングする
-            res.status(200).send();
-        } catch (error) {
-            console.error(
-                'カレンダーからレース情報をクレンジング中にエラーが発生しました:',
                 error,
             );
             const errorMessage =

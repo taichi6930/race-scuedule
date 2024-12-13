@@ -121,25 +121,4 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
             );
         }
     }
-
-    /**
-     * カレンダーのクレンジングを行う
-     * 既に旧システムのレース情報が登録されている場合、削除する
-     * @param startDate
-     * @param finishDate
-     */
-    @Logger
-    async cleansingRacesFromCalendar(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<void> {
-        try {
-            await this.calendarService.cleansingEvents(startDate, finishDate);
-        } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベントクレンジングに失敗しました',
-                error,
-            );
-        }
-    }
 }

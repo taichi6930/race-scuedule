@@ -161,7 +161,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
     }
 
     @Logger
-    async cleansingEvents(): Promise<void> {
+    async deleteEvents(): Promise<void> {
         // モックの動作を記述
     }
 

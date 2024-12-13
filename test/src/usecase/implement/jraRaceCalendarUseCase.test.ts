@@ -226,43 +226,4 @@ describe('JraRaceCalendarUseCase', () => {
             consoleErrorSpy.mockRestore();
         });
     });
-
-    describe('cleansingRacesFromCalendar', () => {
-        it('カレンダーのイベントが正常にクレンジングされること', async () => {
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            await useCase.cleansingRacesFromCalendar(startDate, finishDate);
-
-            // cleansingEventsが正しく呼び出されたことを確認
-            expect(calendarServiceMock.cleansingEvents).toHaveBeenCalledWith(
-                startDate,
-                finishDate,
-            );
-        });
-
-        it('クレンジング中にエラーが発生した場合、エラーメッセージがコンソールに表示されること', async () => {
-            const consoleErrorSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {});
-
-            // モックがエラーをスローするよう設定
-            calendarServiceMock.cleansingEvents.mockRejectedValue(
-                new Error('Cleansing Error'),
-            );
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            await useCase.cleansingRacesFromCalendar(startDate, finishDate);
-
-            // コンソールエラーメッセージが出力されることを確認
-            expect(consoleErrorSpy).toHaveBeenCalledWith(
-                'Google Calendar APIからのイベントクレンジングに失敗しました',
-                expect.any(Error),
-            );
-
-            consoleErrorSpy.mockRestore();
-        });
-    });
 });

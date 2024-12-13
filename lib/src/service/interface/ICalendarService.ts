@@ -18,13 +18,8 @@ export interface ICalendarService<R extends RaceEntity> {
      */
     upsertEvents: (raceEntityList: R[]) => Promise<void>;
     /**
-     * カレンダーのクレンジングを行う
-     * @param startDate
-     * @param finishDate
+     * カレンダーのイベントの削除を行う
+     * @param calendarDataList
      */
-    cleansingEvents: (
-        startDate: Date,
-        finishDate: Date,
-        raceEntityList?: R,
-    ) => Promise<void>;
+    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
 }

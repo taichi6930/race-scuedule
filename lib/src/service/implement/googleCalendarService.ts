@@ -225,35 +225,13 @@ export class GoogleCalendarService<R extends RaceEntity>
     }
 
     /**
-     * カレンダーのクレンジングを行う
-     * @param startDate
-     * @param finishDate
-     */
-    @Logger
-    async cleansingEvents(startDate: Date, finishDate: Date): Promise<void> {
-        await this.deleteEvents(startDate, finishDate);
-    }
-
-    /**
      * イベントを削除する（期間内のイベントを取得して削除）
-     * @param startDate
-     * @param finishDate
+     * @param calendarList
      * @returns
      */
     @Logger
-    private async deleteEvents(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<void> {
-        const events = (
-            await this.getEventsWithinDateRange(startDate, finishDate)
-        ).filter((event) => {
-            // trueの場合は削除対象
-            // イベントIDが指定したレースタイプで始まっていない場合は削除対象
-            const eventId = event.id;
-            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-            return !eventId?.startsWith(this.raceType);
-        });
+    async deleteEvents(calendarList: CalendarData[]): Promise<void> {
+        const events = calendarList;
         if (events.length === 0) {
             console.debug('指定された期間にイベントが見つかりませんでした。');
             return;
