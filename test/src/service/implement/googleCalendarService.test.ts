@@ -342,5 +342,138 @@ describe('GoogleCalendarService', () => {
                 );
             });
         });
+
+        describe(`${key} deleteEvents`, () => {
+            it(`${key} イベントが存在しない場合、削除処理が行われること`, async () => {
+                // モックの `events.insert` メソッドを設定
+                const eventsDeleteMock = jest.fn().mockResolvedValue({});
+                google.calendar('v3').events.delete = eventsDeleteMock;
+
+                const calendarList =
+                    calendarDataListFromGoogleCalendarRecord[key];
+                await googleCalendarService.deleteEvents(calendarList);
+
+                // `events.insert` メソッドが呼ばれていることを確認
+                expect(google.calendar('v3').events.delete).toHaveBeenCalled();
+                console.log(raceDataList[0].raceData);
+                console.log(raceDataList[0].raceData.stage);
+                // console.debugで確認
+                expect(console.debug).toHaveBeenCalledWith(
+                    `Google Calendar APIからレースを削除しました: ${raceDataList[0].raceData.stage ? `${raceDataList[0].raceData.stage} ` : ``}${raceDataList[0].raceData.name}`,
+                );
+            });
+
+            it(`${key} イベントが存在しない場合、新規作成処理が行われるが、events.insertがエラーを吐く`, async () => {
+                const raceDataList = raceEntityRecord[key];
+
+                // モックの `events.list` メソッドを設定
+                const eventsListMock = google.calendar('v3').events
+                    .list as jest.Mock;
+                eventsListMock.mockResolvedValue({ data: { items: [] } });
+
+                // モックの `events.insert` メソッドを設定
+                const eventsInsertMock = jest.fn().mockImplementation(() => {
+                    const promise: GaxiosPromise<void> = new Promise(
+                        (_, reject) => {
+                            reject(new Error('insert error'));
+                        },
+                    );
+                    return promise;
+                });
+                google.calendar('v3').events.insert = eventsInsertMock;
+
+                await googleCalendarService.upsertEvents(raceDataList);
+
+                // エラーログが出力されていることを確認
+                expect(console.error).toHaveBeenCalledWith(
+                    '[GoogleCalendarService.createEvent] エラー',
+                    expect.objectContaining({
+                        message: `Google Calendar APIへのレース登録に失敗しました: ${raceDataList[0].raceData.stage ? `${raceDataList[0].raceData.stage} ` : ``}${raceDataList[0].raceData.name}`,
+                    }),
+                );
+                expect(console.error).toHaveBeenCalledWith(
+                    'Google Calendar APIへのイベント新規登録に失敗しました',
+                    expect.objectContaining({
+                        message: `Google Calendar APIへのレース登録に失敗しました: ${raceDataList[0].raceData.stage ? `${raceDataList[0].raceData.stage} ` : ``}${raceDataList[0].raceData.name}`,
+                    }),
+                );
+            });
+
+            it(`${key} イベントが存在する場合、更新処理が行われること`, async () => {
+                const mockCalendarData = calendarDataListRecord[key][0];
+
+                const calendarList = [mockCalendarData];
+
+                // モックの `events.list` メソッドを設定
+                const eventsListMock = google.calendar('v3').events
+                    .list as jest.Mock;
+                eventsListMock.mockResolvedValue({
+                    data: { items: calendarList },
+                });
+
+                // モックの `events.get` メソッドを設定
+                // calendarList[0]のidを指定している
+                const eventsGetMock = jest
+                    .fn()
+                    .mockResolvedValue({ data: mockCalendarData });
+                google.calendar('v3').events.get = eventsGetMock;
+
+                // モックの `events.update` メソッドを設定
+                const eventsUpdateMock = jest.fn().mockResolvedValue({});
+                google.calendar('v3').events.update = eventsUpdateMock;
+
+                await googleCalendarService.upsertEvents(raceDataList);
+
+                // console.debugで確認
+                expect(console.debug).toHaveBeenCalledWith(
+                    `Google Calendar APIにレースを更新しました: ${raceDataList[0].raceData.name}`,
+                );
+            });
+
+            it('イベントが存在する場合、更新処理が行われるが、events.updateがエラーを吐く', async () => {
+                const mockCalendarData = calendarDataListRecord[key][0];
+                const calendarList = [mockCalendarData];
+
+                // モックの `events.list` メソッドを設定
+                const eventsListMock = google.calendar('v3').events
+                    .list as jest.Mock;
+                eventsListMock.mockResolvedValue({
+                    data: { items: calendarList },
+                });
+
+                // モックの `events.get` メソッドを設定
+                const eventsGetMock = jest
+                    .fn()
+                    .mockResolvedValue({ data: mockCalendarData });
+                google.calendar('v3').events.get = eventsGetMock;
+
+                // モックの `events.update` メソッドを設定
+                const eventsUpdateMock = jest.fn().mockImplementation(() => {
+                    const promise: GaxiosPromise<void> = new Promise(
+                        (_, reject) => {
+                            reject(new Error('update error'));
+                        },
+                    );
+                    return promise;
+                });
+                google.calendar('v3').events.update = eventsUpdateMock;
+
+                await googleCalendarService.upsertEvents(raceDataList);
+
+                // エラーログが出力されていることを確認
+                expect(console.error).toHaveBeenCalledWith(
+                    '[GoogleCalendarService.updateEvent] エラー',
+                    expect.objectContaining({
+                        message: `Google Calendar APIへのレース更新に失敗しました: ${raceDataList[0].raceData.name}`,
+                    }),
+                );
+                expect(console.error).toHaveBeenCalledWith(
+                    '[GoogleCalendarService.updateEvent] エラー',
+                    expect.objectContaining({
+                        message: `Google Calendar APIへのレース更新に失敗しました: ${raceDataList[0].raceData.name}`,
+                    }),
+                );
+            });
+        });
     });
 });

@@ -142,7 +142,7 @@ export const baseAutoraceRaceDataList = baseAutoraceRaceEntityList.map(
 
 export const baseAutoraceCalendarData = new CalendarData(
     'test202412310511',
-    'スーパースター王座決定戦',
+    '優勝戦 スーパースター王座決定戦',
     new Date('2024-12-31T16:30:00Z'),
     new Date('2024-12-31T16:40:00Z'),
     '飯塚オートレース場',
@@ -151,7 +151,7 @@ export const baseAutoraceCalendarData = new CalendarData(
 
 export const baseAutoraceCalendarDataFromGoogleCalendar = {
     id: 'test202412310511',
-    summary: 'スーパースター王座決定戦',
+    summary: '優勝戦 スーパースター王座決定戦',
     start: {
         dateTime: '2024-12-31T16:30:00Z',
     },

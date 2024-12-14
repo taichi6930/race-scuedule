@@ -143,7 +143,7 @@ export const baseKeirinRaceDataList = baseKeirinRaceEntityList.map(
 
 export const baseKeirinCalendarData = new CalendarData(
     'test202512303511',
-    'KEIRINグランプリ',
+    'S級グランプリ KEIRINグランプリ',
     new Date('2024-12-31T16:30:00Z'),
     new Date('2024-12-31T16:40:00Z'),
     '平塚競輪場',
@@ -152,7 +152,7 @@ export const baseKeirinCalendarData = new CalendarData(
 
 export const baseKeirinCalendarDataFromGoogleCalendar = {
     id: 'test202512303511',
-    summary: 'KEIRINグランプリ',
+    summary: 'S級グランプリ KEIRINグランプリ',
     start: {
         dateTime: '2024-12-31T16:30:00Z',
     },

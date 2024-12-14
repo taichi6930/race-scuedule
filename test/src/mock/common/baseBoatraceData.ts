@@ -142,7 +142,7 @@ export const baseBoatraceRaceDataList = baseBoatraceRaceEntityList.map(
 
 export const baseBoatraceCalendarData = new CalendarData(
     'test202412310511',
-    'グランプリ',
+    '優勝戦 グランプリ',
     new Date('2024-12-31T16:30:00Z'),
     new Date('2024-12-31T16:40:00Z'),
     '平和島ボートレース場',
@@ -151,7 +151,7 @@ export const baseBoatraceCalendarData = new CalendarData(
 
 export const baseBoatraceCalendarDataFromGoogleCalendar = {
     id: 'test202412310511',
-    summary: 'グランプリ',
+    summary: '優勝戦 グランプリ',
     start: {
         dateTime: '2024-12-31T16:30:00Z',
     },

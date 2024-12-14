@@ -319,12 +319,11 @@ describe('NarRaceCalendarUseCase', () => {
                     }),
             );
 
-            const expectCalendarDataList: CalendarData[] = [];
             const expectRaceEntityList: NarRaceEntity[] = Array.from(
-                { length: 3 },
+                { length: 8 },
                 (_, i: number) =>
                     baseNarRaceEntity.copy({
-                        id: `nar2024122920${(i + 5).toXDigits(2)}`,
+                        id: `nar2024122920${i.toXDigits(2)}`,
                     }),
             );
 
@@ -354,10 +353,7 @@ describe('NarRaceCalendarUseCase', () => {
             );
 
             // deleteEventsが呼び出された回数を確認
-            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
-                expectCalendarDataList,
-            );
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(0);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
