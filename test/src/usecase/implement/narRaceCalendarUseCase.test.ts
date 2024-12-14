@@ -303,6 +303,67 @@ describe('NarRaceCalendarUseCase', () => {
             );
         });
 
+        it('CalendarList、RaceListもあり、IDが複数被る場合、イベントが追加のみされること', async () => {
+            const mockCalendarDataList: CalendarData[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseNarCalendarData.copy({
+                        id: `nar2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+            const mockRaceEntityList: NarRaceEntity[] = Array.from(
+                { length: 8 },
+                (_, i: number) =>
+                    baseNarRaceEntity.copy({
+                        id: `nar2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+
+            const expectCalendarDataList: CalendarData[] = [];
+            const expectRaceEntityList: NarRaceEntity[] = Array.from(
+                { length: 3 },
+                (_, i: number) =>
+                    baseNarRaceEntity.copy({
+                        id: `nar2024122920${(i + 5).toXDigits(2)}`,
+                    }),
+            );
+
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
+
+            await useCase.updateRacesToCalendar(
+                startDate,
+                finishDate,
+                NAR_SPECIFIED_GRADE_LIST,
+            );
+
+            // モックが呼び出されたことを確認
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
+
+            // deleteEventsが呼び出された回数を確認
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
+                expectCalendarDataList,
+            );
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
+                expectRaceEntityList,
+            );
+        });
+
         it('fetchRaceListがエラーをスローした場合、エラーメッセージがコンソールに表示されること', async () => {
             const consoleErrorSpy = jest
                 .spyOn(console, 'error')
