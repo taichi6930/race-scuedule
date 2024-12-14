@@ -76,7 +76,9 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
                             (raceEntity) => raceEntity.id === calendarData.id,
                         ),
                 );
-            await this.calendarService.deleteEvents(deleteCalendarDataList);
+            if (deleteCalendarDataList.length > 0) {
+                await this.calendarService.deleteEvents(deleteCalendarDataList);
+            }
 
             // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
             const upsertRaceEntityList: NarRaceEntity[] =
@@ -87,7 +89,9 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
                                 deleteCalendarData.id === raceEntity.id,
                         ),
                 );
-            await this.calendarService.upsertEvents(upsertRaceEntityList);
+            if (upsertRaceEntityList.length > 0) {
+                await this.calendarService.upsertEvents(upsertRaceEntityList);
+            }
         } catch (error) {
             console.error(
                 'Google Calendar APIへのイベント登録に失敗しました',
@@ -102,7 +106,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
      * @param finishDate
      */
     @Logger
-    async fetchRaceEntityList(
+    private async fetchRaceEntityList(
         startDate: Date,
         finishDate: Date,
     ): Promise<NarRaceEntity[]> {
