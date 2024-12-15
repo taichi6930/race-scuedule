@@ -261,24 +261,24 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 break;
             default:
                 // 2024年のデータ366日分を作成
+                const fileName = `jra/raceList.csv`;
+                const mockDataHeader = [
+                    'name',
+                    'dateTime',
+                    'location',
+                    'surfaceType',
+                    'distance',
+                    'grade',
+                    'number',
+                    'heldTimes',
+                    'heldDayTimes',
+                    'id',
+                ].join(',');
+                const mockData = [mockDataHeader];
                 const startDate = new Date('2024-01-01');
                 const currentDate = new Date(startDate);
                 // whileで回していって、最初の日付の年数と異なったら終了
                 while (currentDate.getFullYear() === startDate.getFullYear()) {
-                    const fileName = `jra/race/${format(currentDate, 'yyyyMMdd')}.csv`;
-                    const mockDataHeader = [
-                        'name',
-                        'dateTime',
-                        'location',
-                        'surfaceType',
-                        'distance',
-                        'grade',
-                        'number',
-                        'heldTimes',
-                        'heldDayTimes',
-                        'id',
-                    ].join(',');
-                    const mockData = [mockDataHeader];
                     for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
@@ -299,12 +299,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                             ].join(','),
                         );
                     }
-                    MockS3Gateway.mockStorage.set(
-                        fileName,
-                        mockData.join('\n'),
-                    );
                     currentDate.setDate(currentDate.getDate() + 1);
                 }
+                MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
                 break;
         }
     }

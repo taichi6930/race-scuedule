@@ -40,13 +40,6 @@ export class NarRaceRepositoryFromStorageImpl
     async fetchRaceEntityList(
         request: FetchRaceListRequest<NarPlaceEntity>,
     ): Promise<FetchRaceListResponse<NarRaceEntity>> {
-        // 日付ごとのファイルから取得したレースデータ
-        const raceEntityListFromOldFileList =
-            await this.fetchRaceEntityListFromOldFileList(
-                request.startDate,
-                request.finishDate,
-            );
-
         // ファイル名リストから海外競馬場開催データを取得する
         const raceRecordList: NarRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -63,28 +56,7 @@ export class NarRaceRepositoryFromStorageImpl
                     raceEntity.raceData.dateTime >= request.startDate &&
                     raceEntity.raceData.dateTime <= request.finishDate,
             );
-        const raceEntityListFromNewFileList: NarRaceEntity[] =
-            filteredRaceEntityList;
-
-        // idに同じものがある場合は、raceEntityListFromNewFileListの方を採用する
-        const raceEntityMap = new Map<string, NarRaceEntity>();
-
-        // まず古いリストのデータをすべてマップに登録
-        for (const race of raceEntityListFromOldFileList) {
-            raceEntityMap.set(race.id, race);
-        }
-
-        // 新しいリストのデータで上書き
-        for (const race of raceEntityListFromNewFileList) {
-            raceEntityMap.set(race.id, race);
-        }
-
-        // マップの値を配列に変換して結果を取得
-        const raceEntityList: NarRaceEntity[] = Array.from(
-            raceEntityMap.values(),
-        );
-
-        return new FetchRaceListResponse<NarRaceEntity>(raceEntityList);
+        return new FetchRaceListResponse<NarRaceEntity>(filteredRaceEntityList);
     }
 
     /**

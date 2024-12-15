@@ -36,7 +36,6 @@ export class JraRaceDataUseCase
             JraPlaceEntity
         >,
     ) {}
-
     /**
      * レース開催データを取得する
      * @param startDate
@@ -64,13 +63,18 @@ export class JraRaceDataUseCase
             'storage',
         );
 
+        // データファイルを1ファイルにするために、ここでregisterRaceEntityListを呼び出す
+        // TODO: この処理は本来はここで行うべきではないので削除する start
+        await this.registerRaceEntityList(raceEntityList);
+        // TODO: この処理は本来はここで行うべきではないので削除する finish
+
         // レースデータをJraRaceDataに変換する
         const raceDataList: JraRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
 
         // フィルタリング処理
-        const filteredRaceDataList: JraRaceData[] = raceDataList
+        const filteredRaceDataList: JraRaceData[] = (raceDataList ?? [])
             // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.gradeList) {
@@ -128,7 +132,7 @@ export class JraRaceDataUseCase
     @Logger
     async upsertRaceDataList(raceDataList: JraRaceData[]): Promise<void> {
         try {
-            // jraRaceDataをJraRaceEntityに変換する
+            // JraRaceDataをJraRaceEntityに変換する
             const raceEntityList: JraRaceEntity[] = raceDataList.map(
                 (raceData) => new JraRaceEntity(null, raceData),
             );
@@ -165,6 +169,8 @@ export class JraRaceDataUseCase
      *
      * @param startDate
      * @param finishDate
+     * @param placeEntityList
+     * @param type
      */
     @Logger
     private async getRaceEntityList(

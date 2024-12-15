@@ -202,14 +202,14 @@ container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<JraRaceRecord>(
                     'race-schedule-bucket',
-                    'jra/race/',
+                    'jra/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<JraRaceRecord>(
                     'race-schedule-bucket',
-                    'jra/race/',
+                    'jra/',
                 );
         }
     },

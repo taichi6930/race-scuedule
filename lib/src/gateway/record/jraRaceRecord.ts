@@ -1,5 +1,7 @@
 import '../../utility/format';
 
+import { JraRaceData } from '../../domain/jraRaceData';
+import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import type {
     JraGradeType,
     JraRaceCourse,
@@ -58,6 +60,27 @@ export class JraRaceRecord {
             partial.number ?? this.number,
             partial.heldTimes ?? this.heldTimes,
             partial.heldDayTimes ?? this.heldDayTimes,
+        );
+    }
+
+    /**
+     * JraRaceEntityに変換する
+     * @returns
+     */
+    toEntity(): JraRaceEntity {
+        return new JraRaceEntity(
+            this.id,
+            new JraRaceData(
+                this.name,
+                this.dateTime,
+                this.location,
+                this.surfaceType,
+                this.distance,
+                this.grade,
+                this.number,
+                this.heldTimes,
+                this.heldDayTimes,
+            ),
         );
     }
 }

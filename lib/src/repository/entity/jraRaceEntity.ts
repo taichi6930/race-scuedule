@@ -1,6 +1,7 @@
 import '../../utility/format';
 
 import type { JraRaceData } from '../../domain/jraRaceData';
+import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import type { JraRaceId } from '../../utility/raceId';
 import { generateJraRaceId } from '../../utility/raceId';
 
@@ -43,6 +44,25 @@ export class JraRaceEntity {
         return new JraRaceEntity(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+        );
+    }
+
+    /**
+     * JraRaceRecordに変換する
+     * @returns
+     */
+    toRecord(): JraRaceRecord {
+        return new JraRaceRecord(
+            this.id,
+            this.raceData.name,
+            this.raceData.dateTime,
+            this.raceData.location,
+            this.raceData.surfaceType,
+            this.raceData.distance,
+            this.raceData.grade,
+            this.raceData.number,
+            this.raceData.heldTimes,
+            this.raceData.heldDayTimes,
         );
     }
 }
