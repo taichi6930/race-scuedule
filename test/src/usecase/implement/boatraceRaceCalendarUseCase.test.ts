@@ -8,11 +8,9 @@ import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/b
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { BoatraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceCalendarUseCase';
-import type { BoatraceGradeType } from '../../../../lib/src/utility/data/boatrace';
 import { BOATRACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/boatrace';
 import {
     baseBoatraceCalendarData,
-    baseBoatraceRaceData,
     baseBoatraceRaceEntity,
 } from '../../mock/common/baseBoatraceData';
 import { mockBoatraceRaceRepositoryFromStorageImpl } from '../../mock/repository/boatraceRaceRepositoryFromStorageImpl';
@@ -95,52 +93,32 @@ describe('BoatraceRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        it('正常に更新できること', async () => {
+        it('CalendarListがあって、RaceListが空の場合、イベントが削除されること', async () => {
+            const mockCalendarDataList: CalendarData[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseBoatraceCalendarData.copy({
+                        id: `boatrace2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+            // RaceEntityListは空
             const mockRaceEntityList: BoatraceRaceEntity[] = [];
-            const expectedRaceEntityList: BoatraceRaceEntity[] = [];
 
-            const grades: BoatraceGradeType[] = ['SG'] as BoatraceGradeType[];
-            const months = [12 - 1];
-            const days = [29, 30, 31];
+            // expectCalendarDataListは空
+            const expectCalendarDataList: CalendarData[] = mockCalendarDataList;
 
-            grades.forEach((grade) => {
-                months.forEach((month) => {
-                    days.forEach((day) => {
-                        // モック用のデータを作成
-                        mockRaceEntityList.push(
-                            baseBoatraceRaceEntity.copy({
-                                raceData: baseBoatraceRaceData.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
-                                }),
-                            }),
-                        );
-                        if (BOATRACE_SPECIFIED_GRADE_LIST.includes(grade)) {
-                            // 期待するデータを作成
-                            expectedRaceEntityList.push(
-                                baseBoatraceRaceEntity.copy({
-                                    raceData: baseBoatraceRaceData.copy({
-                                        name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                        dateTime: new Date(2024, month, day),
-                                        grade: grade,
-                                    }),
-                                }),
-                            );
-                        }
-                    });
-                });
-            });
-
-            // モックが値を返すよう設定
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
             boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 {
                     raceEntityList: mockRaceEntityList,
                 },
             );
 
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
 
             await useCase.updateRacesToCalendar(
                 startDate,
@@ -149,14 +127,238 @@ describe('BoatraceRaceCalendarUseCase', () => {
             );
 
             // モックが呼び出されたことを確認
-            expect(
-                boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
 
-            // updateEventsが呼び出された回数を確認
+            // deleteEventsが呼び出された回数を確認
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
+                expectCalendarDataList,
+            );
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(0);
+        });
+
+        it('CalendarListが空で、RaceListのみある場合、イベントが追加されること', async () => {
+            const mockCalendarDataList: CalendarData[] = [];
+            // RaceEntityListは空
+            const mockRaceEntityList: BoatraceRaceEntity[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseBoatraceRaceEntity.copy({
+                        id: `boatrace2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+
+            // expectCalendarDataListは空
+            const expectRaceEntityList: BoatraceRaceEntity[] =
+                mockRaceEntityList;
+
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
+
+            await useCase.updateRacesToCalendar(
+                startDate,
+                finishDate,
+                BOATRACE_SPECIFIED_GRADE_LIST,
+            );
+
+            // モックが呼び出されたことを確認
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
+
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(0);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
-                expectedRaceEntityList,
+                expectRaceEntityList,
+            );
+        });
+
+        it('CalendarList、RaceListもあり、IDが被らない場合、イベントが追加・削除されること', async () => {
+            const mockCalendarDataList: CalendarData[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseBoatraceCalendarData.copy({
+                        id: `boatrace2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+            const mockRaceEntityList: BoatraceRaceEntity[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseBoatraceRaceEntity.copy({
+                        id: `boatrace2024122921${i.toXDigits(2)}`,
+                    }),
+            );
+
+            const expectCalendarDataList: CalendarData[] = mockCalendarDataList;
+            const expectRaceEntityList: BoatraceRaceEntity[] =
+                mockRaceEntityList;
+
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
+
+            await useCase.updateRacesToCalendar(
+                startDate,
+                finishDate,
+                BOATRACE_SPECIFIED_GRADE_LIST,
+            );
+
+            // モックが呼び出されたことを確認
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
+
+            // deleteEventsが呼び出された回数を確認
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
+                expectCalendarDataList,
+            );
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
+                expectRaceEntityList,
+            );
+        });
+
+        it('CalendarList、RaceListもあり、IDが複数被る場合、イベントが追加・削除されること', async () => {
+            const mockCalendarDataList: CalendarData[] = Array.from(
+                { length: 8 },
+                (_, i: number) =>
+                    baseBoatraceCalendarData.copy({
+                        id: `boatrace2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+            const mockRaceEntityList: BoatraceRaceEntity[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseBoatraceRaceEntity.copy({
+                        id: `boatrace2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+
+            const expectCalendarDataList: CalendarData[] = Array.from(
+                { length: 3 },
+                (_, i: number) =>
+                    baseBoatraceCalendarData.copy({
+                        id: `boatrace2024122920${(i + 5).toXDigits(2)}`,
+                    }),
+            );
+            const expectRaceEntityList: BoatraceRaceEntity[] =
+                mockRaceEntityList;
+
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
+
+            await useCase.updateRacesToCalendar(
+                startDate,
+                finishDate,
+                BOATRACE_SPECIFIED_GRADE_LIST,
+            );
+
+            // モックが呼び出されたことを確認
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
+
+            // deleteEventsが呼び出された回数を確認
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
+                expectCalendarDataList,
+            );
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
+                expectRaceEntityList,
+            );
+        });
+
+        it('CalendarList、RaceListもあり、IDが複数被る場合、イベントが追加のみされること', async () => {
+            const mockCalendarDataList: CalendarData[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseBoatraceCalendarData.copy({
+                        id: `boatrace2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+            const mockRaceEntityList: BoatraceRaceEntity[] = Array.from(
+                { length: 8 },
+                (_, i: number) =>
+                    baseBoatraceRaceEntity.copy({
+                        id: `boatrace2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+
+            const expectRaceEntityList: BoatraceRaceEntity[] = Array.from(
+                { length: 8 },
+                (_, i: number) =>
+                    baseBoatraceRaceEntity.copy({
+                        id: `boatrace2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
+            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
+
+            await useCase.updateRacesToCalendar(
+                startDate,
+                finishDate,
+                BOATRACE_SPECIFIED_GRADE_LIST,
+            );
+
+            // モックが呼び出されたことを確認
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
+
+            // deleteEventsが呼び出された回数を確認
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(0);
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
+                expectRaceEntityList,
             );
         });
 
@@ -170,8 +372,8 @@ describe('BoatraceRaceCalendarUseCase', () => {
                 new Error('Fetch Error'),
             );
 
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
+            const startDate = new Date('2023-08-01');
+            const finishDate = new Date('2023-08-31');
 
             await useCase.updateRacesToCalendar(
                 startDate,
@@ -209,8 +411,8 @@ describe('BoatraceRaceCalendarUseCase', () => {
                 new Error('Update Error'),
             );
 
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
+            const startDate = new Date('2023-08-01');
+            const finishDate = new Date('2023-08-31');
 
             await useCase.updateRacesToCalendar(
                 startDate,
