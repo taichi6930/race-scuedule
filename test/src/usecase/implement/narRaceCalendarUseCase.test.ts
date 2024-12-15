@@ -3,24 +3,21 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { NarRaceData } from '../../../../lib/src/domain/narRaceData';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
-import type { NarGradeType } from '../../../../lib/src/utility/data/nar';
 import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/nar';
 import {
     baseNarCalendarData,
-    baseNarRaceData,
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import { mockNarRaceRepositoryFromStorageImpl } from '../../mock/repository/narRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceData>>;
+    let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceEntity>>;
     let narRaceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<NarRaceEntity, NarPlaceEntity>
     >;
@@ -28,8 +25,8 @@ describe('NarRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<NarRaceData>();
-        container.register<ICalendarService<NarRaceData>>(
+        calendarServiceMock = CalendarServiceMock<NarRaceEntity>();
+        container.register<ICalendarService<NarRaceEntity>>(
             'NarCalendarService',
             {
                 useValue: calendarServiceMock,
@@ -97,68 +94,32 @@ describe('NarRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        it('正常に更新できること', async () => {
-            const mockRaceDataList: NarRaceData[] = [];
-            const expectedRaceDataList: NarRaceData[] = [];
+        it('CalendarListがあって、RaceListが空の場合、イベントが削除されること', async () => {
+            const mockCalendarDataList: CalendarData[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseNarCalendarData.copy({
+                        id: `nar2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+            // RaceEntityListは空
             const mockRaceEntityList: NarRaceEntity[] = [];
-            const expectedRaceEntityList: NarRaceEntity[] = [];
 
-            const grades: NarGradeType[] = ['GⅠ', 'オープン'] as NarGradeType[];
-            const months = [12 - 1];
-            const days = [29, 30, 31];
+            // expectCalendarDataListは空
+            const expectCalendarDataList: CalendarData[] = mockCalendarDataList;
 
-            grades.forEach((grade) => {
-                months.forEach((month) => {
-                    days.forEach((day) => {
-                        // モック用のデータを作成
-                        mockRaceEntityList.push(
-                            baseNarRaceEntity.copy({
-                                raceData: baseNarRaceData.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
-                                }),
-                            }),
-                        );
-                        mockRaceDataList.push(
-                            baseNarRaceEntity.raceData.copy({
-                                name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                dateTime: new Date(2024, month, day),
-                                grade: grade,
-                            }),
-                        );
-                        if (NAR_SPECIFIED_GRADE_LIST.includes(grade)) {
-                            // 期待するデータを作成
-                            expectedRaceEntityList.push(
-                                baseNarRaceEntity.copy({
-                                    raceData: baseNarRaceData.copy({
-                                        name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                        dateTime: new Date(2024, month, day),
-                                        grade: grade,
-                                    }),
-                                }),
-                            );
-                            expectedRaceDataList.push(
-                                baseNarRaceEntity.raceData.copy({
-                                    name: `testRace${(month + 1).toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`,
-                                    dateTime: new Date(2024, month, day),
-                                    grade: grade,
-                                }),
-                            );
-                        }
-                    });
-                });
-            });
-
-            // モックが値を返すよう設定
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
             narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 {
                     raceEntityList: mockRaceEntityList,
                 },
             );
 
-            const startDate = new Date('2024-01-01');
-            const finishDate = new Date('2024-03-31');
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
 
             await useCase.updateRacesToCalendar(
                 startDate,
@@ -167,14 +128,235 @@ describe('NarRaceCalendarUseCase', () => {
             );
 
             // モックが呼び出されたことを確認
-            expect(
-                narRaceRepositoryFromStorageImpl.fetchRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
 
-            // updateEventsが呼び出された回数を確認
+            // deleteEventsが呼び出された回数を確認
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
+                expectCalendarDataList,
+            );
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(0);
+        });
+
+        it('CalendarListが空で、RaceListのみある場合、イベントが追加されること', async () => {
+            const mockCalendarDataList: CalendarData[] = [];
+            // RaceEntityListは空
+            const mockRaceEntityList: NarRaceEntity[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseNarRaceEntity.copy({
+                        id: `nar2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+
+            // expectCalendarDataListは空
+            const expectRaceEntityList: NarRaceEntity[] = mockRaceEntityList;
+
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
+
+            await useCase.updateRacesToCalendar(
+                startDate,
+                finishDate,
+                NAR_SPECIFIED_GRADE_LIST,
+            );
+
+            // モックが呼び出されたことを確認
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
+
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(0);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
-                expectedRaceDataList,
+                expectRaceEntityList,
+            );
+        });
+
+        it('CalendarList、RaceListもあり、IDが被らない場合、イベントが追加・削除されること', async () => {
+            const mockCalendarDataList: CalendarData[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseNarCalendarData.copy({
+                        id: `nar2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+            const mockRaceEntityList: NarRaceEntity[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseNarRaceEntity.copy({
+                        id: `nar2024122921${i.toXDigits(2)}`,
+                    }),
+            );
+
+            const expectCalendarDataList: CalendarData[] = mockCalendarDataList;
+            const expectRaceEntityList: NarRaceEntity[] = mockRaceEntityList;
+
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
+
+            await useCase.updateRacesToCalendar(
+                startDate,
+                finishDate,
+                NAR_SPECIFIED_GRADE_LIST,
+            );
+
+            // モックが呼び出されたことを確認
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
+
+            // deleteEventsが呼び出された回数を確認
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
+                expectCalendarDataList,
+            );
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
+                expectRaceEntityList,
+            );
+        });
+
+        it('CalendarList、RaceListもあり、IDが複数被る場合、イベントが追加・削除されること', async () => {
+            const mockCalendarDataList: CalendarData[] = Array.from(
+                { length: 8 },
+                (_, i: number) =>
+                    baseNarCalendarData.copy({
+                        id: `nar2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+            const mockRaceEntityList: NarRaceEntity[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseNarRaceEntity.copy({
+                        id: `nar2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+
+            const expectCalendarDataList: CalendarData[] = Array.from(
+                { length: 3 },
+                (_, i: number) =>
+                    baseNarCalendarData.copy({
+                        id: `nar2024122920${(i + 5).toXDigits(2)}`,
+                    }),
+            );
+            const expectRaceEntityList: NarRaceEntity[] = mockRaceEntityList;
+
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
+
+            await useCase.updateRacesToCalendar(
+                startDate,
+                finishDate,
+                NAR_SPECIFIED_GRADE_LIST,
+            );
+
+            // モックが呼び出されたことを確認
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
+
+            // deleteEventsが呼び出された回数を確認
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
+                expectCalendarDataList,
+            );
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
+                expectRaceEntityList,
+            );
+        });
+
+        it('CalendarList、RaceListもあり、IDが複数被る場合、イベントが追加のみされること', async () => {
+            const mockCalendarDataList: CalendarData[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseNarCalendarData.copy({
+                        id: `nar2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+            const mockRaceEntityList: NarRaceEntity[] = Array.from(
+                { length: 8 },
+                (_, i: number) =>
+                    baseNarRaceEntity.copy({
+                        id: `nar2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+
+            const expectRaceEntityList: NarRaceEntity[] = Array.from(
+                { length: 8 },
+                (_, i: number) =>
+                    baseNarRaceEntity.copy({
+                        id: `nar2024122920${i.toXDigits(2)}`,
+                    }),
+            );
+
+            // モックの戻り値を設定
+            calendarServiceMock.getEvents.mockResolvedValue(
+                mockCalendarDataList,
+            );
+            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+                {
+                    raceEntityList: mockRaceEntityList,
+                },
+            );
+
+            const startDate = new Date('2024-02-01');
+            const finishDate = new Date('2024-12-31');
+
+            await useCase.updateRacesToCalendar(
+                startDate,
+                finishDate,
+                NAR_SPECIFIED_GRADE_LIST,
+            );
+
+            // モックが呼び出されたことを確認
+            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+                startDate,
+                finishDate,
+            );
+
+            // deleteEventsが呼び出された回数を確認
+            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(0);
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
+                expectRaceEntityList,
             );
         });
 
@@ -237,45 +419,6 @@ describe('NarRaceCalendarUseCase', () => {
             // コンソールエラーメッセージが出力されることを確認
             expect(consoleErrorSpy).toHaveBeenCalledWith(
                 'Google Calendar APIへのイベント登録に失敗しました',
-                expect.any(Error),
-            );
-
-            consoleErrorSpy.mockRestore();
-        });
-    });
-
-    describe('cleansingRacesFromCalendar', () => {
-        it('カレンダーのイベントが正常にクレンジングされること', async () => {
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            await useCase.cleansingRacesFromCalendar(startDate, finishDate);
-
-            // cleansingEventsが正しく呼び出されたことを確認
-            expect(calendarServiceMock.cleansingEvents).toHaveBeenCalledWith(
-                startDate,
-                finishDate,
-            );
-        });
-
-        it('クレンジング中にエラーが発生した場合、エラーメッセージがコンソールに表示されること', async () => {
-            const consoleErrorSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {});
-
-            // モックがエラーをスローするよう設定
-            calendarServiceMock.cleansingEvents.mockRejectedValue(
-                new Error('Cleansing Error'),
-            );
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            await useCase.cleansingRacesFromCalendar(startDate, finishDate);
-
-            // コンソールエラーメッセージが出力されることを確認
-            expect(consoleErrorSpy).toHaveBeenCalledWith(
-                'Google Calendar APIからのイベントクレンジングに失敗しました',
                 expect.any(Error),
             );
 

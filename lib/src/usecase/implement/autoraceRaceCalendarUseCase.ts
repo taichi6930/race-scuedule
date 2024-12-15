@@ -2,7 +2,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 
 import { inject, injectable } from 'tsyringe';
 
-import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { CalendarData } from '../../domain/calendarData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
@@ -20,7 +19,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('AutoraceCalendarService')
-        private readonly calendarService: ICalendarService<AutoraceRaceData>,
+        private readonly calendarService: ICalendarService<AutoraceRaceEntity>,
         @inject('AutoraceRaceRepositoryFromStorage')
         private readonly autoraceRaceRepositoryFromStorage: IRaceRepository<
             AutoraceRaceEntity,
@@ -49,6 +48,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
             return [];
         }
     }
+
     /**
      * カレンダーの更新を行う
      * @param startDate
@@ -62,61 +62,40 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
         displayGradeList: string[],
     ): Promise<void> {
         try {
-            // startDateからfinishDateまでレース情報を取得
-            const fetchRaceDataListRequest =
-                new FetchRaceListRequest<AutoracePlaceEntity>(
-                    startDate,
-                    finishDate,
-                );
-            const fetchRaceDataListResponse =
-                await this.autoraceRaceRepositoryFromStorage.fetchRaceEntityList(
-                    fetchRaceDataListRequest,
-                );
             const raceEntityList: AutoraceRaceEntity[] =
-                fetchRaceDataListResponse.raceEntityList;
-            /**
-             * 表示対象のレースデータのみに絞り込む
-             * - 6以上の優先度を持つレースデータを表示対象とする
-             * - raceEntityList.racePlayerDataListの中に選手データ（AutoracePlayerDict）が存在するかを確認する
-             */
+                await this.fetchRaceEntityList(startDate, finishDate);
+
             const filteredRaceEntityList: AutoraceRaceEntity[] =
-                raceEntityList.filter((raceEntity) => {
-                    const maxPlayerPriority =
-                        raceEntity.racePlayerDataList.reduce(
-                            (maxPriority, playerData) => {
-                                const playerPriority =
-                                    AutoracePlayerList.find(
-                                        (autoracePlayer) =>
-                                            playerData.playerNumber ===
-                                            Number(autoracePlayer.playerNumber),
-                                    )?.priority ?? 0;
-                                return Math.max(maxPriority, playerPriority);
-                            },
-                            0,
-                        );
+                this.filterRaceEntity(raceEntityList, displayGradeList);
 
-                    const racePriority: number =
-                        AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST.find(
-                            (raceGradeList) => {
-                                return (
-                                    displayGradeList.includes(
-                                        raceEntity.raceData.grade,
-                                    ) &&
-                                    raceGradeList.grade ===
-                                        raceEntity.raceData.grade &&
-                                    raceGradeList.stage ===
-                                        raceEntity.raceData.stage
-                                );
-                            },
-                        )?.priority ?? 0;
+            // カレンダーの取得を行う
+            const calendarDataList: CalendarData[] =
+                await this.calendarService.getEvents(startDate, finishDate);
 
-                    return racePriority + maxPlayerPriority >= 6;
-                });
+            // 1. raceEntityListのIDに存在しないcalendarDataListを取得
+            const deleteCalendarDataList: CalendarData[] =
+                calendarDataList.filter(
+                    (calendarData) =>
+                        !filteredRaceEntityList.some(
+                            (raceEntity) => raceEntity.id === calendarData.id,
+                        ),
+                );
+            if (deleteCalendarDataList.length > 0) {
+                await this.calendarService.deleteEvents(deleteCalendarDataList);
+            }
 
-            const filteredRaceDataList: AutoraceRaceData[] =
-                filteredRaceEntityList.map((raceEntity) => raceEntity.raceData);
-            // レース情報をカレンダーに登録
-            await this.calendarService.upsertEvents(filteredRaceDataList);
+            // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
+            const upsertRaceEntityList: AutoraceRaceEntity[] =
+                filteredRaceEntityList.filter(
+                    (raceEntity) =>
+                        !deleteCalendarDataList.some(
+                            (deleteCalendarData) =>
+                                deleteCalendarData.id === raceEntity.id,
+                        ),
+                );
+            if (upsertRaceEntityList.length > 0) {
+                await this.calendarService.upsertEvents(upsertRaceEntityList);
+            }
         } catch (error) {
             console.error(
                 'Google Calendar APIへのイベント登録に失敗しました',
@@ -126,23 +105,75 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     }
 
     /**
-     * カレンダーのクレンジングを行う
-     * 既に旧システムのレース情報が登録されている場合、削除する
+     * カレンダーの更新を行う
      * @param startDate
      * @param finishDate
      */
     @Logger
-    async cleansingRacesFromCalendar(
+    private async fetchRaceEntityList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<void> {
-        try {
-            await this.calendarService.cleansingEvents(startDate, finishDate);
-        } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベントクレンジングに失敗しました',
-                error,
+    ): Promise<AutoraceRaceEntity[]> {
+        // startDateからfinishDateまでレース情報を取得
+        const fetchRaceEntityListRequest =
+            new FetchRaceListRequest<AutoracePlaceEntity>(
+                startDate,
+                finishDate,
             );
-        }
+        const fetchRaceEntityListResponse =
+            await this.autoraceRaceRepositoryFromStorage.fetchRaceEntityList(
+                fetchRaceEntityListRequest,
+            );
+        // レース情報を取得
+        const raceEntityList: AutoraceRaceEntity[] =
+            fetchRaceEntityListResponse.raceEntityList;
+
+        return raceEntityList;
+    }
+
+    /**
+     * 表示対象のレースデータのみに絞り込む
+     * - 6以上の優先度を持つレースデータを表示対象とする
+     * - raceEntityList.racePlayerDataListの中に選手データ（AutoracePlayerDict）が存在するかを確認する
+     * @param raceEntity[]
+     * @return raceEntity[]
+     */
+    private filterRaceEntity(
+        raceEntityList: AutoraceRaceEntity[],
+        displayGradeList: string[],
+    ): AutoraceRaceEntity[] {
+        const filteredRaceEntityList: AutoraceRaceEntity[] =
+            raceEntityList.filter((raceEntity) => {
+                const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
+                    (maxPriority, playerData) => {
+                        const playerPriority =
+                            AutoracePlayerList.find(
+                                (autoracePlayer) =>
+                                    playerData.playerNumber ===
+                                    Number(autoracePlayer.playerNumber),
+                            )?.priority ?? 0;
+                        return Math.max(maxPriority, playerPriority);
+                    },
+                    0,
+                );
+
+                const racePriority: number =
+                    AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST.find(
+                        (raceGradeList) => {
+                            return (
+                                displayGradeList.includes(
+                                    raceEntity.raceData.grade,
+                                ) &&
+                                raceGradeList.grade ===
+                                    raceEntity.raceData.grade &&
+                                raceGradeList.stage ===
+                                    raceEntity.raceData.stage
+                            );
+                        },
+                    )?.priority ?? 0;
+
+                return racePriority + maxPlayerPriority >= 6;
+            });
+        return filteredRaceEntityList;
     }
 }

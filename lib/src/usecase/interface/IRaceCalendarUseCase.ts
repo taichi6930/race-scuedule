@@ -16,20 +16,11 @@ export interface IRaceCalendarUseCase {
      * @param startDate
      * @param finishDate
      * @param displayGradeList
+     * @returns void
      */
     updateRacesToCalendar: (
         startDate: Date,
         finishDate: Date,
         displayGradeList: string[],
-    ) => Promise<void>;
-    /**
-     * カレンダーのクレンジングを行う
-     * 既に旧システムのレース情報が登録されている場合、削除する
-     * @param startDate
-     * @param finishDate
-     */
-    cleansingRacesFromCalendar: (
-        startDate: Date,
-        finishDate: Date,
     ) => Promise<void>;
 }

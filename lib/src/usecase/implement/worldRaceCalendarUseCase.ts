@@ -3,7 +3,6 @@ import 'reflect-metadata'; // reflect-metadataをインポート
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
@@ -16,7 +15,7 @@ import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('WorldCalendarService')
-        private readonly calendarService: ICalendarService<WorldRaceData>,
+        private readonly calendarService: ICalendarService<WorldRaceEntity>,
         @inject('WorldRaceRepositoryFromStorage')
         private readonly worldRaceRepositoryFromStorage: IRaceRepository<
             WorldRaceEntity,
@@ -45,6 +44,7 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
             return [];
         }
     }
+
     /**
      * カレンダーの更新を行う
      * @param startDate
@@ -58,29 +58,41 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
         displayGradeList: string[],
     ): Promise<void> {
         try {
-            // startDateからfinishDateまでレース情報を取得
-            const fetchRaceDataListRequest =
-                new FetchRaceListRequest<WorldPlaceEntity>(
-                    startDate,
-                    finishDate,
-                );
-            const fetchRaceDataListResponse =
-                await this.worldRaceRepositoryFromStorage.fetchRaceEntityList(
-                    fetchRaceDataListRequest,
-                );
-            // レース情報を取得
-            const raceEntityList: WorldRaceEntity[] =
-                fetchRaceDataListResponse.raceEntityList;
-            // レース情報をJraRaceDataに変換する
-            const raceDataList: WorldRaceData[] = raceEntityList.map(
-                (raceEntity) => raceEntity.raceData,
-            );
-            const filteredRaceDataList: WorldRaceData[] = raceDataList.filter(
-                (raceData) => displayGradeList.includes(raceData.grade),
+            // displayGradeListに含まれるレース情報のみを抽出
+            const filteredRaceEntityList: WorldRaceEntity[] = (
+                await this.fetchRaceEntityList(startDate, finishDate)
+            ).filter((raceEntity) =>
+                displayGradeList.includes(raceEntity.raceData.grade),
             );
 
-            // レース情報をカレンダーに登録
-            await this.calendarService.upsertEvents(filteredRaceDataList);
+            // カレンダーの取得を行う
+            const calendarDataList: CalendarData[] =
+                await this.calendarService.getEvents(startDate, finishDate);
+
+            // 1. raceEntityListのIDに存在しないcalendarDataListを取得
+            const deleteCalendarDataList: CalendarData[] =
+                calendarDataList.filter(
+                    (calendarData) =>
+                        !filteredRaceEntityList.some(
+                            (raceEntity) => raceEntity.id === calendarData.id,
+                        ),
+                );
+            if (deleteCalendarDataList.length > 0) {
+                await this.calendarService.deleteEvents(deleteCalendarDataList);
+            }
+
+            // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
+            const upsertRaceEntityList: WorldRaceEntity[] =
+                filteredRaceEntityList.filter(
+                    (raceEntity) =>
+                        !deleteCalendarDataList.some(
+                            (deleteCalendarData) =>
+                                deleteCalendarData.id === raceEntity.id,
+                        ),
+                );
+            if (upsertRaceEntityList.length > 0) {
+                await this.calendarService.upsertEvents(upsertRaceEntityList);
+            }
         } catch (error) {
             console.error(
                 'Google Calendar APIへのイベント登録に失敗しました',
@@ -90,23 +102,26 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
     }
 
     /**
-     * カレンダーのクレンジングを行う
-     * 既に旧システムのレース情報が登録されている場合、削除する
+     * カレンダーの更新を行う
      * @param startDate
      * @param finishDate
      */
     @Logger
-    async cleansingRacesFromCalendar(
+    private async fetchRaceEntityList(
         startDate: Date,
         finishDate: Date,
-    ): Promise<void> {
-        try {
-            await this.calendarService.cleansingEvents(startDate, finishDate);
-        } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベントクレンジングに失敗しました',
-                error,
+    ): Promise<WorldRaceEntity[]> {
+        // startDateからfinishDateまでレース情報を取得
+        const fetchRaceEntityListRequest =
+            new FetchRaceListRequest<WorldPlaceEntity>(startDate, finishDate);
+        const fetchRaceEntityListResponse =
+            await this.worldRaceRepositoryFromStorage.fetchRaceEntityList(
+                fetchRaceEntityListRequest,
             );
-        }
+        // レース情報を取得
+        const raceEntityList: WorldRaceEntity[] =
+            fetchRaceEntityListResponse.raceEntityList;
+
+        return raceEntityList;
     }
 }
