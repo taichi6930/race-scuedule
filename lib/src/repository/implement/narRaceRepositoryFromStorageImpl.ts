@@ -38,11 +38,48 @@ export class NarRaceRepositoryFromStorageImpl
     async fetchRaceEntityList(
         request: FetchRaceListRequest<NarPlaceEntity>,
     ): Promise<FetchRaceListResponse<NarRaceEntity>> {
+        // 日付ごとのファイルから取得したレースデータ
+        const raceEntityListFromOldFileList =
+            await this.fetchRaceEntityListFromOldFileList(
+                request.startDate,
+                request.finishDate,
+            );
+
+        const raceEntityListFromNewFileList: NarRaceEntity[] = [];
+
+        // idに同じものがある場合は、raceEntityListFromNewFileListの方を採用する
+        const raceEntityMap = new Map<string, NarRaceEntity>();
+
+        // まず古いリストのデータをすべてマップに登録
+        for (const race of raceEntityListFromOldFileList) {
+            raceEntityMap.set(race.id, race);
+        }
+
+        // 新しいリストのデータで上書き
+        for (const race of raceEntityListFromNewFileList) {
+            raceEntityMap.set(race.id, race);
+        }
+
+        // マップの値を配列に変換して結果を取得
+        const raceEntityList: NarRaceEntity[] = Array.from(
+            raceEntityMap.values(),
+        );
+
+        return new FetchRaceListResponse<NarRaceEntity>(raceEntityList);
+    }
+
+    /**
+     * 旧ファイルリストからレースデータを取得する
+     */
+    private async fetchRaceEntityListFromOldFileList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<NarRaceEntity[]> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
         const fileNameList: string[] = [];
-        const currentDate = new Date(request.startDate);
-        while (currentDate <= request.finishDate) {
-            const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
+        const currentDate = new Date(startDate);
+        while (currentDate <= finishDate) {
+            const fileName = `race/${format(currentDate, 'yyyyMMdd')}.csv`;
             fileNameList.push(fileName);
             currentDate.setDate(currentDate.getDate() + 1);
         }
@@ -139,8 +176,7 @@ export class NarRaceRepositoryFromStorageImpl
                 ),
             );
         });
-
-        return new FetchRaceListResponse<NarRaceEntity>(raceEntityList);
+        return raceEntityList;
     }
 
     /**
