@@ -236,66 +236,25 @@ export class GoogleCalendarService<R extends RaceEntity>
             console.debug('指定された期間にイベントが見つかりませんでした。');
             return;
         }
-        await this.processEvents(events, this.deleteEvent.bind(this), '削除');
-    }
-
-    /**
-     * イベントを削除する（単体）
-     * @param event
-     * @returns
-     */
-    @Logger
-    private async deleteEvent(event: calendar_v3.Schema$Event): Promise<void> {
-        try {
-            if (
-                event.id !== null &&
-                event.id !== undefined &&
-                event.id.trim() !== ''
-            ) {
-                await this.calendar.events.delete({
-                    calendarId: this.calendarId,
-                    eventId: event.id,
-                });
-                console.debug(
-                    `Google Calendar APIからレースを削除しました: ${event.summary ?? 'No Summary'}`,
-                );
-            }
-        } catch (error) {
-            console.debug(error);
-            throw new Error(
-                `Google Calendar APIからのレース削除に失敗しました: ${event.summary ?? 'No Summary'}`,
-            );
-        }
-    }
-
-    /**
-     * イベントを一括処理する
-     * @param events
-     * @param action
-     * @param actionName
-     * @returns
-     */
-    private async processEvents(
-        events: calendar_v3.Schema$Event[],
-        action: (
-            event: calendar_v3.Schema$Event,
-            calendarId: string,
-        ) => Promise<void>,
-        actionName: string,
-    ): Promise<void> {
-        try {
-            await Promise.all(
-                events.map(async (event) => action(event, this.calendarId)),
-            );
-            console.log(
-                `Google Calendar APIにレースを${actionName}しました（processEvents）`,
-            );
-        } catch (error) {
-            console.error(
-                `Google Calendar APIへのレース${actionName}に失敗しました（processEvents）`,
-                error,
-            );
-        }
+        // イベントを削除
+        await Promise.all(
+            events.map(async (event) => {
+                try {
+                    await this.calendar.events.delete({
+                        calendarId: this.calendarId,
+                        eventId: event.id,
+                    });
+                    console.debug(
+                        `Google Calendar APIからレースを削除しました: ${event.title ?? 'No Summary'}`,
+                    );
+                } catch (error) {
+                    console.error(
+                        `Google Calendar APIからのレース削除に失敗しました: ${event.title ?? 'No Summary'}`,
+                        error,
+                    );
+                }
+            }),
+        );
     }
 
     /**
