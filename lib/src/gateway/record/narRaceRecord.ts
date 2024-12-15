@@ -1,5 +1,7 @@
 import '../../utility/format';
 
+import { NarRaceData } from '../../domain/narRaceData';
+import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type {
     NarGradeType,
     NarRaceCourse,
@@ -52,6 +54,25 @@ export class NarRaceRecord {
             partial.distance ?? this.distance,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
+        );
+    }
+
+    /**
+     * NarRaceEntityに変換する
+     * @returns
+     */
+    toEntity(): NarRaceEntity {
+        return new NarRaceEntity(
+            this.id,
+            new NarRaceData(
+                this.name,
+                this.dateTime,
+                this.location,
+                this.surfaceType,
+                this.distance,
+                this.grade,
+                this.number,
+            ),
         );
     }
 }

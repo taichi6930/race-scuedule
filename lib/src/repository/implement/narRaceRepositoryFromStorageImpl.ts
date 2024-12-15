@@ -25,6 +25,8 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 export class NarRaceRepositoryFromStorageImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
+    private readonly fileName = 'raceList.csv';
+
     constructor(
         @inject('NarRaceS3Gateway')
         private s3Gateway: IS3Gateway<NarRaceRecord>,
@@ -45,7 +47,24 @@ export class NarRaceRepositoryFromStorageImpl
                 request.finishDate,
             );
 
-        const raceEntityListFromNewFileList: NarRaceEntity[] = [];
+        // ファイル名リストから海外競馬場開催データを取得する
+        const raceRecordList: NarRaceRecord[] =
+            await this.getRaceRecordListFromS3();
+
+        // RaceRecordをRaceEntityに変換
+        const newRaceEntityList: NarRaceEntity[] = raceRecordList.map(
+            (raceRecord) => raceRecord.toEntity(),
+        );
+
+        // フィルタリング処理（日付の範囲指定）
+        const filteredRaceEntityList: NarRaceEntity[] =
+            newRaceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.dateTime >= request.startDate &&
+                    raceEntity.raceData.dateTime <= request.finishDate,
+            );
+        const raceEntityListFromNewFileList: NarRaceEntity[] =
+            filteredRaceEntityList;
 
         // idに同じものがある場合は、raceEntityListFromNewFileListの方を採用する
         const raceEntityMap = new Map<string, NarRaceEntity>();
@@ -66,6 +85,69 @@ export class NarRaceRepositoryFromStorageImpl
         );
 
         return new FetchRaceListResponse<NarRaceEntity>(raceEntityList);
+    }
+    /**
+     * 新ファイルリストからレースデータを取得する
+     */
+    private async getRaceRecordListFromS3(): Promise<NarRaceRecord[]> {
+        // S3からデータを取得する
+        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const indices = {
+            id: headers.indexOf('id'),
+            name: headers.indexOf('name'),
+            dateTime: headers.indexOf('dateTime'),
+            location: headers.indexOf('location'),
+            surfaceType: headers.indexOf('surfaceType'),
+            distance: headers.indexOf('distance'),
+            grade: headers.indexOf('grade'),
+            number: headers.indexOf('number'),
+        };
+
+        // データ行を解析してRaceDataのリストを生成
+        return lines
+            .slice(1)
+            .map((line: string) => {
+                const columns = line.split(',');
+
+                // 必要なフィールドが存在しない場合はundefinedを返す
+                if (
+                    !columns[indices.name] ||
+                    isNaN(parseInt(columns[indices.number]))
+                ) {
+                    return undefined;
+                }
+
+                return new NarRaceRecord(
+                    columns[indices.id] as NarRaceId,
+                    columns[indices.name],
+                    new Date(columns[indices.dateTime]),
+                    columns[indices.location] as NarRaceCourse,
+                    columns[indices.surfaceType] as NarRaceCourseType,
+                    parseInt(columns[indices.distance]),
+                    columns[indices.grade] as NarGradeType,
+                    parseInt(columns[indices.number]),
+                );
+            })
+            .filter(
+                (raceData): raceData is NarRaceRecord => raceData !== undefined,
+            )
+            .filter(
+                (raceData, index, self): raceData is NarRaceRecord =>
+                    self.findIndex((data) => data.id === raceData.id) === index,
+            );
     }
 
     /**
