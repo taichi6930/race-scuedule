@@ -58,15 +58,15 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
     ): Promise<void> {
         try {
             // startDateからfinishDateまでレース情報を取得
-            const fetchRaceDataListRequest =
+            const fetchRaceEntityListRequest =
                 new FetchRaceListRequest<JraPlaceEntity>(startDate, finishDate);
-            const fetchRaceDataListResponse =
+            const fetchRaceEntityListResponse =
                 await this.jraRaceRepositoryFromStorage.fetchRaceEntityList(
-                    fetchRaceDataListRequest,
+                    fetchRaceEntityListRequest,
                 );
             // レース情報を取得
             const raceEntityList: JraRaceEntity[] =
-                fetchRaceDataListResponse.raceEntityList;
+                fetchRaceEntityListResponse.raceEntityList;
 
             // displayGradeListに含まれるレース情報のみを抽出
             const filteredRaceEntityList: JraRaceEntity[] =

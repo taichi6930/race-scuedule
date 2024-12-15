@@ -61,64 +61,115 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
         displayGradeList: string[],
     ): Promise<void> {
         try {
-            // startDateからfinishDateまでレース情報を取得
-            const fetchRaceDataListRequest =
-                new FetchRaceListRequest<KeirinPlaceEntity>(
-                    startDate,
-                    finishDate,
-                );
-            const fetchRaceDataListResponse =
-                await this.keirinRaceRepositoryFromStorage.fetchRaceEntityList(
-                    fetchRaceDataListRequest,
-                );
             const raceEntityList: KeirinRaceEntity[] =
-                fetchRaceDataListResponse.raceEntityList;
-            /**
-             * 表示対象のレースデータのみに絞り込む
-             * - 6以上の優先度を持つレースデータを表示対象とする
-             * - raceEntityList.racePlayerDataListの中に選手データ（KeirinPlayerDict）が存在するかを確認する
-             */
+                await this.fetchRaceEntityList(startDate, finishDate);
+
             const filteredRaceEntityList: KeirinRaceEntity[] =
-                raceEntityList.filter((raceEntity) => {
-                    const maxPlayerPriority =
-                        raceEntity.racePlayerDataList.reduce(
-                            (maxPriority, playerData) => {
-                                const playerPriority =
-                                    KeirinPlayerList.find(
-                                        (keirinPlayer) =>
-                                            playerData.playerNumber ===
-                                            Number(keirinPlayer.playerNumber),
-                                    )?.priority ?? 0;
-                                return Math.max(maxPriority, playerPriority);
-                            },
-                            0,
-                        );
+                this.filterRaceEntity(raceEntityList, displayGradeList);
 
-                    const racePriority: number =
-                        KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST.find(
-                            (raceGradeList) => {
-                                return (
-                                    displayGradeList.includes(
-                                        raceEntity.raceData.grade,
-                                    ) &&
-                                    raceGradeList.grade ===
-                                        raceEntity.raceData.grade &&
-                                    raceGradeList.stage ===
-                                        raceEntity.raceData.stage
-                                );
-                            },
-                        )?.priority ?? 0;
+            // カレンダーの取得を行う
+            const calendarDataList: CalendarData[] =
+                await this.calendarService.getEvents(startDate, finishDate);
 
-                    return racePriority + maxPlayerPriority >= 6;
-                });
+            // 1. raceEntityListのIDに存在しないcalendarDataListを取得
+            const deleteCalendarDataList: CalendarData[] =
+                calendarDataList.filter(
+                    (calendarData) =>
+                        !filteredRaceEntityList.some(
+                            (raceEntity) => raceEntity.id === calendarData.id,
+                        ),
+                );
+            if (deleteCalendarDataList.length > 0) {
+                await this.calendarService.deleteEvents(deleteCalendarDataList);
+            }
 
-            // レース情報をカレンダーに登録
-            await this.calendarService.upsertEvents(filteredRaceEntityList);
+            // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
+            const upsertRaceEntityList: KeirinRaceEntity[] =
+                filteredRaceEntityList.filter(
+                    (raceEntity) =>
+                        !deleteCalendarDataList.some(
+                            (deleteCalendarData) =>
+                                deleteCalendarData.id === raceEntity.id,
+                        ),
+                );
+            if (upsertRaceEntityList.length > 0) {
+                await this.calendarService.upsertEvents(upsertRaceEntityList);
+            }
         } catch (error) {
             console.error(
                 'Google Calendar APIへのイベント登録に失敗しました',
                 error,
             );
         }
+    }
+
+    /**
+     * カレンダーの更新を行う
+     * @param startDate
+     * @param finishDate
+     */
+    @Logger
+    private async fetchRaceEntityList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<KeirinRaceEntity[]> {
+        // startDateからfinishDateまでレース情報を取得
+        const fetchRaceEntityListRequest =
+            new FetchRaceListRequest<KeirinPlaceEntity>(startDate, finishDate);
+        const fetchRaceEntityListResponse =
+            await this.keirinRaceRepositoryFromStorage.fetchRaceEntityList(
+                fetchRaceEntityListRequest,
+            );
+        // レース情報を取得
+        const raceEntityList: KeirinRaceEntity[] =
+            fetchRaceEntityListResponse.raceEntityList;
+
+        return raceEntityList;
+    }
+
+    /**
+     * 表示対象のレースデータのみに絞り込む
+     * - 6以上の優先度を持つレースデータを表示対象とする
+     * - raceEntityList.racePlayerDataListの中に選手データ（KeirinPlayerDict）が存在するかを確認する
+     * @param raceEntity[]
+     * @return raceEntity[]
+     */
+    private filterRaceEntity(
+        raceEntityList: KeirinRaceEntity[],
+        displayGradeList: string[],
+    ): KeirinRaceEntity[] {
+        const filteredRaceEntityList: KeirinRaceEntity[] =
+            raceEntityList.filter((raceEntity) => {
+                const maxPlayerPriority = raceEntity.racePlayerDataList.reduce(
+                    (maxPriority, playerData) => {
+                        const playerPriority =
+                            KeirinPlayerList.find(
+                                (keirinPlayer) =>
+                                    playerData.playerNumber ===
+                                    Number(keirinPlayer.playerNumber),
+                            )?.priority ?? 0;
+                        return Math.max(maxPriority, playerPriority);
+                    },
+                    0,
+                );
+
+                const racePriority: number =
+                    KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST.find(
+                        (raceGradeList) => {
+                            return (
+                                displayGradeList.includes(
+                                    raceEntity.raceData.grade,
+                                ) &&
+                                raceGradeList.grade ===
+                                    raceEntity.raceData.grade &&
+                                raceGradeList.stage ===
+                                    raceEntity.raceData.stage
+                            );
+                        },
+                    )?.priority ?? 0;
+
+                return racePriority + maxPlayerPriority >= 6;
+            });
+        return filteredRaceEntityList;
     }
 }

@@ -62,17 +62,17 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     ): Promise<void> {
         try {
             // startDateからfinishDateまでレース情報を取得
-            const fetchRaceDataListRequest =
+            const fetchRaceEntityListRequest =
                 new FetchRaceListRequest<AutoracePlaceEntity>(
                     startDate,
                     finishDate,
                 );
-            const fetchRaceDataListResponse =
+            const fetchRaceEntityListResponse =
                 await this.autoraceRaceRepositoryFromStorage.fetchRaceEntityList(
-                    fetchRaceDataListRequest,
+                    fetchRaceEntityListRequest,
                 );
             const raceEntityList: AutoraceRaceEntity[] =
-                fetchRaceDataListResponse.raceEntityList;
+                fetchRaceEntityListResponse.raceEntityList;
             /**
              * 表示対象のレースデータのみに絞り込む
              * - 6以上の優先度を持つレースデータを表示対象とする

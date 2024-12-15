@@ -58,18 +58,18 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
     ): Promise<void> {
         try {
             // startDateからfinishDateまでレース情報を取得
-            const fetchRaceDataListRequest =
+            const fetchRaceEntityListRequest =
                 new FetchRaceListRequest<WorldPlaceEntity>(
                     startDate,
                     finishDate,
                 );
-            const fetchRaceDataListResponse =
+            const fetchRaceEntityListResponse =
                 await this.worldRaceRepositoryFromStorage.fetchRaceEntityList(
-                    fetchRaceDataListRequest,
+                    fetchRaceEntityListRequest,
                 );
             // レース情報を取得
             const raceEntityList: WorldRaceEntity[] =
-                fetchRaceDataListResponse.raceEntityList;
+                fetchRaceEntityListResponse.raceEntityList;
 
             const filteredRaceEntityList: WorldRaceEntity[] =
                 raceEntityList.filter((raceEntity) =>

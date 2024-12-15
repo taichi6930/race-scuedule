@@ -44,6 +44,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
             return [];
         }
     }
+
     /**
      * カレンダーの更新を行う
      * @param startDate
@@ -111,15 +112,15 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
         finishDate: Date,
     ): Promise<NarRaceEntity[]> {
         // startDateからfinishDateまでレース情報を取得
-        const fetchRaceDataListRequest =
+        const fetchRaceEntityListRequest =
             new FetchRaceListRequest<NarPlaceEntity>(startDate, finishDate);
-        const fetchRaceDataListResponse =
+        const fetchRaceEntityListResponse =
             await this.narRaceRepositoryFromStorage.fetchRaceEntityList(
-                fetchRaceDataListRequest,
+                fetchRaceEntityListRequest,
             );
         // レース情報を取得
         const raceEntityList: NarRaceEntity[] =
-            fetchRaceDataListResponse.raceEntityList;
+            fetchRaceEntityListResponse.raceEntityList;
 
         return raceEntityList;
     }
