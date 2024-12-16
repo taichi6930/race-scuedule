@@ -12,7 +12,7 @@ import {
     NarRaceCourseType,
 } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
-import { NarRaceId } from '../../utility/raceId';
+import { generateNarRaceId, NarRaceId } from '../../utility/raceId';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -25,6 +25,8 @@ import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 export class NarRaceRepositoryFromStorageImpl
     implements IRaceRepository<NarRaceEntity, NarPlaceEntity>
 {
+    private readonly fileName = 'raceList.csv';
+
     constructor(
         @inject('NarRaceS3Gateway')
         private s3Gateway: IS3Gateway<NarRaceRecord>,
@@ -38,11 +40,101 @@ export class NarRaceRepositoryFromStorageImpl
     async fetchRaceEntityList(
         request: FetchRaceListRequest<NarPlaceEntity>,
     ): Promise<FetchRaceListResponse<NarRaceEntity>> {
+        // ファイル名リストから海外競馬場開催データを取得する
+        const raceRecordList: NarRaceRecord[] =
+            await this.getRaceRecordListFromS3();
+
+        // RaceRecordをRaceEntityに変換
+        const newRaceEntityList: NarRaceEntity[] = raceRecordList.map(
+            (raceRecord) => raceRecord.toEntity(),
+        );
+
+        // フィルタリング処理（日付の範囲指定）
+        const filteredRaceEntityList: NarRaceEntity[] =
+            newRaceEntityList.filter(
+                (raceEntity) =>
+                    raceEntity.raceData.dateTime >= request.startDate &&
+                    raceEntity.raceData.dateTime <= request.finishDate,
+            );
+        return new FetchRaceListResponse<NarRaceEntity>(filteredRaceEntityList);
+    }
+
+    /**
+     * 新ファイルリストからレースデータを取得する
+     */
+    private async getRaceRecordListFromS3(): Promise<NarRaceRecord[]> {
+        // S3からデータを取得する
+        const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
+
+        // ファイルが空の場合は空のリストを返す
+        if (!csv) {
+            return [];
+        }
+
+        // CSVを行ごとに分割
+        const lines = csv.split('\n');
+
+        // ヘッダー行を解析
+        const headers = lines[0].replace('\r', '').split(',');
+
+        // ヘッダーに基づいてインデックスを取得
+        const indices = {
+            id: headers.indexOf('id'),
+            name: headers.indexOf('name'),
+            dateTime: headers.indexOf('dateTime'),
+            location: headers.indexOf('location'),
+            surfaceType: headers.indexOf('surfaceType'),
+            distance: headers.indexOf('distance'),
+            grade: headers.indexOf('grade'),
+            number: headers.indexOf('number'),
+        };
+
+        // データ行を解析してRaceDataのリストを生成
+        return lines
+            .slice(1)
+            .map((line: string) => {
+                const columns = line.replace('\r', '').split(',');
+
+                // 必要なフィールドが存在しない場合はundefinedを返す
+                if (
+                    !columns[indices.name] ||
+                    isNaN(parseInt(columns[indices.number]))
+                ) {
+                    return undefined;
+                }
+
+                return new NarRaceRecord(
+                    columns[indices.id] as NarRaceId,
+                    columns[indices.name],
+                    new Date(columns[indices.dateTime]),
+                    columns[indices.location] as NarRaceCourse,
+                    columns[indices.surfaceType] as NarRaceCourseType,
+                    parseInt(columns[indices.distance]),
+                    columns[indices.grade] as NarGradeType,
+                    parseInt(columns[indices.number]),
+                );
+            })
+            .filter(
+                (raceData): raceData is NarRaceRecord => raceData !== undefined,
+            )
+            .filter(
+                (raceData, index, self): raceData is NarRaceRecord =>
+                    self.findIndex((data) => data.id === raceData.id) === index,
+            );
+    }
+
+    /**
+     * 旧ファイルリストからレースデータを取得する
+     */
+    private async fetchRaceEntityListFromOldFileList(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<NarRaceEntity[]> {
         // startDateからfinishDateまでの日ごとのファイル名リストを生成する
         const fileNameList: string[] = [];
-        const currentDate = new Date(request.startDate);
-        while (currentDate <= request.finishDate) {
-            const fileName = `${format(currentDate, 'yyyyMMdd')}.csv`;
+        const currentDate = new Date(startDate);
+        while (currentDate <= finishDate) {
+            const fileName = `race/${format(currentDate, 'yyyyMMdd')}.csv`;
             fileNameList.push(fileName);
             currentDate.setDate(currentDate.getDate() + 1);
         }
@@ -59,7 +151,7 @@ export class NarRaceRepositoryFromStorageImpl
                         const lines = csv.split('\n');
 
                         // ヘッダー行を解析
-                        const headers = lines[0].split(',');
+                        const headers = lines[0].replace('\r', '').split(',');
 
                         // ヘッダーに基づいてインデックスを取得
                         const idIndex = headers.indexOf('id');
@@ -76,7 +168,9 @@ export class NarRaceRepositoryFromStorageImpl
                             lines
                                 .slice(1)
                                 .map((line: string) => {
-                                    const columns = line.split(',');
+                                    const columns = line
+                                        .replace('\r', '')
+                                        .split(',');
 
                                     // 必要なフィールドが存在しない場合はundefinedを返す
                                     if (
@@ -85,9 +179,25 @@ export class NarRaceRepositoryFromStorageImpl
                                     ) {
                                         return undefined;
                                     }
+                                    // idが存在しない場合はgenerateする
+                                    const narRaceId =
+                                        columns[idIndex] === undefined ||
+                                        columns[idIndex] === ''
+                                            ? generateNarRaceId(
+                                                  new Date(
+                                                      columns[raceDateIndex],
+                                                  ),
+                                                  columns[
+                                                      placeIndex
+                                                  ] as NarRaceCourse,
+                                                  parseInt(
+                                                      columns[raceNumIndex],
+                                                  ),
+                                              )
+                                            : (columns[idIndex] as NarRaceId);
 
                                     return new NarRaceRecord(
-                                        columns[idIndex] as NarRaceId,
+                                        narRaceId,
                                         columns[raceNameIndex],
                                         new Date(columns[raceDateIndex]),
                                         columns[placeIndex] as NarRaceCourse,
@@ -139,8 +249,7 @@ export class NarRaceRepositoryFromStorageImpl
                 ),
             );
         });
-
-        return new FetchRaceListResponse<NarRaceEntity>(raceEntityList);
+        return raceEntityList;
     }
 
     /**
@@ -151,42 +260,38 @@ export class NarRaceRepositoryFromStorageImpl
     async registerRaceEntityList(
         request: RegisterRaceListRequest<NarRaceEntity>,
     ): Promise<RegisterRaceListResponse> {
-        const raceEntityList: NarRaceEntity[] = request.raceEntityList;
-        // レースデータを日付ごとに分割する
-        const raceRecordDict: Record<string, NarRaceRecord[]> = {};
-        raceEntityList.forEach((raceEntity) => {
-            const raceRecord = new NarRaceRecord(
-                raceEntity.id,
-                raceEntity.raceData.name,
-                raceEntity.raceData.dateTime,
-                raceEntity.raceData.location,
-                raceEntity.raceData.surfaceType,
-                raceEntity.raceData.distance,
-                raceEntity.raceData.grade,
-                raceEntity.raceData.number,
+        // 既に登録されているデータを取得する
+        const existFetchRaceRecordList: NarRaceRecord[] =
+            await this.getRaceRecordListFromS3();
+
+        // RaceEntityをRaceRecordに変換する
+        const raceRecordList: NarRaceRecord[] = request.raceEntityList.map(
+            (raceEntity) => raceEntity.toRecord(),
+        );
+
+        // idが重複しているデータは上書きをし、新規のデータは追加する
+        raceRecordList.forEach((raceRecord) => {
+            // 既に登録されているデータがある場合は上書きする
+            const index = existFetchRaceRecordList.findIndex(
+                (record) => record.id === raceRecord.id,
             );
-            const key = `${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}.csv`;
-            // 日付ごとに分割されたレースデータを格納
-            if (!(key in raceRecordDict)) {
-                raceRecordDict[key] = [];
+            if (index !== -1) {
+                existFetchRaceRecordList[index] = raceRecord;
+            } else {
+                existFetchRaceRecordList.push(raceRecord);
             }
-
-            // 既に存在する場合は追加しない
-            if (
-                raceRecordDict[key].findIndex(
-                    (record) => record.id === raceRecord.id,
-                ) !== -1
-            ) {
-                return;
-            }
-
-            raceRecordDict[key].push(raceRecord);
         });
 
+        // 日付の最新順にソート
+        existFetchRaceRecordList.sort(
+            (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
+        );
+
         // 月毎に分けられたplaceをS3にアップロードする
-        for (const [fileName, raceRecord] of Object.entries(raceRecordDict)) {
-            await this.s3Gateway.uploadDataToS3(raceRecord, fileName);
-        }
+        await this.s3Gateway.uploadDataToS3(
+            existFetchRaceRecordList,
+            this.fileName,
+        );
         return new RegisterRaceListResponse(200);
     }
 }

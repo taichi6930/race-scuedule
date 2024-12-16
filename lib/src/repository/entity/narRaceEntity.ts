@@ -1,6 +1,7 @@
 import '../../utility/format';
 
 import type { NarRaceData } from '../../domain/narRaceData';
+import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
 import type { NarRaceId } from '../../utility/raceId';
 import { generateNarRaceId } from '../../utility/raceId';
 
@@ -43,6 +44,23 @@ export class NarRaceEntity {
         return new NarRaceEntity(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+        );
+    }
+
+    /**
+     * NarRaceRecordに変換する
+     * @returns
+     */
+    toRecord(): NarRaceRecord {
+        return new NarRaceRecord(
+            this.id,
+            this.raceData.name,
+            this.raceData.dateTime,
+            this.raceData.location,
+            this.raceData.surfaceType,
+            this.raceData.distance,
+            this.raceData.grade,
+            this.raceData.number,
         );
     }
 }

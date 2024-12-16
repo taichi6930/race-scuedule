@@ -63,6 +63,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
         // 2024年のデータ366日分を作成
         this.setNarRaceMockData();
         this.setNarPlaceMockData();
+        this.setOldNarRaceMockData();
         this.setJraRaceMockData();
         this.setJraPlaceMockData();
         this.setKeirinRaceMockData();
@@ -129,6 +130,54 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 break;
             default:
                 // 2024年のデータ366日分を作成
+                const fileName = `nar/raceList.csv`;
+                const mockDataHeader = [
+                    'name',
+                    'dateTime',
+                    'location',
+                    'surfaceType',
+                    'distance',
+                    'grade',
+                    'number',
+                    'id',
+                ].join(',');
+                const mockData = [mockDataHeader];
+                const startDate = new Date('2024-01-01');
+                const currentDate = new Date(startDate);
+                // whileで回していって、最初の日付の年数と異なったら終了
+                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                    for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
+                        mockData.push(
+                            [
+                                `東京大賞典`,
+                                `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
+                                '大井',
+                                'ダート',
+                                '2000',
+                                'GⅠ',
+                                raceNumber,
+                                generateNarRaceId(
+                                    currentDate,
+                                    '大井',
+                                    raceNumber,
+                                ),
+                            ].join(','),
+                        );
+                    }
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
+                break;
+        }
+    }
+
+    @Logger
+    private setOldNarRaceMockData() {
+        switch (ENV) {
+            case 'ITa':
+                break;
+            default:
+                // 2024年のデータ366日分を作成
                 const startDate = new Date('2024-01-01');
                 const currentDate = new Date(startDate);
                 // whileで回していって、最初の日付の年数と異なったら終了
@@ -148,16 +197,16 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                     for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
-                                `東京大賞典`,
+                                `川崎記念`,
                                 `${format(currentDate, 'yyyy-MM-dd')} ${raceNumber + 6}:00`,
-                                '大井',
+                                '川崎',
                                 'ダート',
-                                '2000',
-                                'GⅠ',
+                                '2100',
+                                'JpnⅠ',
                                 raceNumber,
                                 generateNarRaceId(
                                     currentDate,
-                                    '大井',
+                                    '川崎',
                                     raceNumber,
                                 ),
                             ].join(','),
@@ -212,24 +261,24 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 break;
             default:
                 // 2024年のデータ366日分を作成
+                const fileName = `jra/raceList.csv`;
+                const mockDataHeader = [
+                    'name',
+                    'dateTime',
+                    'location',
+                    'surfaceType',
+                    'distance',
+                    'grade',
+                    'number',
+                    'heldTimes',
+                    'heldDayTimes',
+                    'id',
+                ].join(',');
+                const mockData = [mockDataHeader];
                 const startDate = new Date('2024-01-01');
                 const currentDate = new Date(startDate);
                 // whileで回していって、最初の日付の年数と異なったら終了
                 while (currentDate.getFullYear() === startDate.getFullYear()) {
-                    const fileName = `jra/race/${format(currentDate, 'yyyyMMdd')}.csv`;
-                    const mockDataHeader = [
-                        'name',
-                        'dateTime',
-                        'location',
-                        'surfaceType',
-                        'distance',
-                        'grade',
-                        'number',
-                        'heldTimes',
-                        'heldDayTimes',
-                        'id',
-                    ].join(',');
-                    const mockData = [mockDataHeader];
                     for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
@@ -250,12 +299,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                             ].join(','),
                         );
                     }
-                    MockS3Gateway.mockStorage.set(
-                        fileName,
-                        mockData.join('\n'),
-                    );
                     currentDate.setDate(currentDate.getDate() + 1);
                 }
+                MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
                 break;
         }
     }
