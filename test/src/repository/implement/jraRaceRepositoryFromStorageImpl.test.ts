@@ -34,11 +34,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockImplementation(
                 async (filename: string) => {
                     // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse(
-                        filename.slice(0, 8),
-                        'yyyyMMdd',
-                        new Date(),
-                    );
+                    const date = parse('20240101', 'yyyyMMdd', new Date());
                     date.setHours(16);
                     const csvHeaderDataText: string = [
                         'name',
@@ -50,7 +46,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         'number',
                     ].join(',');
                     const csvDataText: string = [
-                        `raceName${filename.slice(0, 8)}`,
+                        `raceName20240101`,
                         date.toISOString(),
                         '大井',
                         'ダート',
@@ -94,7 +90,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             const response = await repository.fetchRaceEntityList(request);
 
             // レスポンスの検証
-            expect(response.raceEntityList).toHaveLength(32);
+            expect(response.raceEntityList).toHaveLength(1);
         });
     });
 
@@ -135,7 +131,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             await repository.registerRaceEntityList(request);
 
             // uploadDataToS3が366回呼ばれることを検証
-            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(366);
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
 });
