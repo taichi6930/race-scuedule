@@ -63,11 +63,6 @@ export class JraRaceDataUseCase
             'storage',
         );
 
-        // データファイルを1ファイルにするために、ここでregisterRaceEntityListを呼び出す
-        // TODO: この処理は本来はここで行うべきではないので削除する start
-        await this.registerRaceEntityList(raceEntityList);
-        // TODO: この処理は本来はここで行うべきではないので削除する finish
-
         // レースデータをJraRaceDataに変換する
         const raceDataList: JraRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,

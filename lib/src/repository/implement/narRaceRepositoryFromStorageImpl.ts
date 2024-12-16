@@ -1,9 +1,7 @@
 import '../../utility/format';
 
-import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import { NarRaceData } from '../../domain/narRaceData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
 import {
@@ -12,7 +10,7 @@ import {
     NarRaceCourseType,
 } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
-import { generateNarRaceId, NarRaceId } from '../../utility/raceId';
+import { NarRaceId } from '../../utility/raceId';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -139,136 +137,6 @@ export class NarRaceRepositoryFromStorageImpl
         // 結果を1つにまとめ、重複を排除
         const mergedResults = results.flat();
         return mergedResults;
-    }
-
-    /**
-     * 旧ファイルリストからレースデータを取得する
-     */
-    @Logger
-    private async fetchRaceEntityListFromOldFileList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<NarRaceEntity[]> {
-        // startDateからfinishDateまでの日ごとのファイル名リストを生成する
-        const fileNameList: string[] = [];
-        const currentDate = new Date(startDate);
-        while (currentDate <= finishDate) {
-            const fileName = `race/${format(currentDate, 'yyyyMMdd')}.csv`;
-            fileNameList.push(fileName);
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-
-        // ファイル名リストから競馬場開催データを取得する
-        const raceRecordList = (
-            await Promise.all(
-                fileNameList.map(async (fileName) => {
-                    try {
-                        const csv =
-                            await this.s3Gateway.fetchDataFromS3(fileName);
-
-                        // CSVを行ごとに分割
-                        const lines = csv.split('\n');
-
-                        // ヘッダー行を解析
-                        const headers = lines[0].replace('\r', '').split(',');
-
-                        // ヘッダーに基づいてインデックスを取得
-                        const idIndex = headers.indexOf('id');
-                        const raceNameIndex = headers.indexOf('name');
-                        const raceDateIndex = headers.indexOf('dateTime');
-                        const placeIndex = headers.indexOf('location');
-                        const surfaceTypeIndex = headers.indexOf('surfaceType');
-                        const distanceIndex = headers.indexOf('distance');
-                        const gradeIndex = headers.indexOf('grade');
-                        const raceNumIndex = headers.indexOf('number');
-
-                        // データ行を解析してNarRaceEntityのリストを生成
-                        return (
-                            lines
-                                .slice(1)
-                                .map((line: string) => {
-                                    const columns = line
-                                        .replace('\r', '')
-                                        .split(',');
-
-                                    // 必要なフィールドが存在しない場合はundefinedを返す
-                                    if (
-                                        !columns[raceNameIndex] ||
-                                        isNaN(parseInt(columns[raceNumIndex]))
-                                    ) {
-                                        return undefined;
-                                    }
-                                    // idが存在しない場合はgenerateする
-                                    const narRaceId =
-                                        columns[idIndex] === undefined ||
-                                        columns[idIndex] === ''
-                                            ? generateNarRaceId(
-                                                  new Date(
-                                                      columns[raceDateIndex],
-                                                  ),
-                                                  columns[
-                                                      placeIndex
-                                                  ] as NarRaceCourse,
-                                                  parseInt(
-                                                      columns[raceNumIndex],
-                                                  ),
-                                              )
-                                            : (columns[idIndex] as NarRaceId);
-
-                                    return new NarRaceRecord(
-                                        narRaceId,
-                                        columns[raceNameIndex],
-                                        new Date(columns[raceDateIndex]),
-                                        columns[placeIndex] as NarRaceCourse,
-                                        columns[
-                                            surfaceTypeIndex
-                                        ] as NarRaceCourseType,
-                                        parseInt(columns[distanceIndex]),
-                                        columns[gradeIndex] as NarGradeType,
-                                        parseInt(columns[raceNumIndex]),
-                                    );
-                                })
-                                .filter(
-                                    (raceData): raceData is NarRaceRecord =>
-                                        raceData !== undefined,
-                                )
-                                // IDが重複している場合は1つにまとめる
-                                .reduce<NarRaceRecord[]>((acc, raceData) => {
-                                    const index = acc.findIndex(
-                                        (data) => data.id === raceData.id,
-                                    );
-                                    if (index === -1) {
-                                        acc.push(raceData);
-                                    }
-                                    return acc;
-                                }, [])
-                        );
-                    } catch (error) {
-                        console.error(
-                            `Error processing file ${fileName}:`,
-                            error,
-                        );
-                        return [];
-                    }
-                }),
-            )
-        ).flat();
-
-        const raceEntityList = raceRecordList.map((raceRecord) => {
-            return new NarRaceEntity(
-                raceRecord.id,
-                new NarRaceData(
-                    raceRecord.name,
-                    raceRecord.dateTime,
-                    raceRecord.location,
-                    raceRecord.surfaceType,
-                    raceRecord.distance,
-                    raceRecord.grade,
-                    raceRecord.number,
-                ),
-            );
-        });
-        return raceEntityList;
     }
 
     /**
