@@ -148,10 +148,6 @@ export class JraRaceRepositoryFromStorageImpl
             })
             .filter(
                 (raceData): raceData is JraRaceRecord => raceData !== undefined,
-            )
-            .filter(
-                (raceData, index, self): raceData is JraRaceRecord =>
-                    self.findIndex((data) => data.id === raceData.id) === index,
             );
     }
 

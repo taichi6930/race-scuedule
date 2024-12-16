@@ -158,11 +158,6 @@ export class AutoracePlaceRepositoryFromStorageImpl
             .filter(
                 (placeData): placeData is AutoracePlaceRecord =>
                     placeData !== undefined,
-            )
-            .filter(
-                (placeData, index, self): placeData is AutoracePlaceRecord =>
-                    self.findIndex((data) => data.id === placeData.id) ===
-                    index,
             );
 
         return placeRecordList;

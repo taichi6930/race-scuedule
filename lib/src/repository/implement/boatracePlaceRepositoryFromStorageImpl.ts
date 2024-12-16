@@ -158,11 +158,6 @@ export class BoatracePlaceRepositoryFromStorageImpl
             .filter(
                 (placeData): placeData is BoatracePlaceRecord =>
                     placeData !== undefined,
-            )
-            .filter(
-                (placeData, index, self): placeData is BoatracePlaceRecord =>
-                    self.findIndex((data) => data.id === placeData.id) ===
-                    index,
             );
 
         return placeRecordList;

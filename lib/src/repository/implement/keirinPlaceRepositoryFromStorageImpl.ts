@@ -155,11 +155,6 @@ export class KeirinPlaceRepositoryFromStorageImpl
             .filter(
                 (placeData): placeData is KeirinPlaceRecord =>
                     placeData !== undefined,
-            )
-            .filter(
-                (placeData, index, self): placeData is KeirinPlaceRecord =>
-                    self.findIndex((data) => data.id === placeData.id) ===
-                    index,
             );
 
         return placeRecordList;

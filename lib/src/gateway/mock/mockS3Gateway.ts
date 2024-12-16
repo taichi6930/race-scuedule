@@ -32,6 +32,14 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     private static mockStorage: Map<string, string> = new Map<string, string>();
 
     /**
+     * 初期化処理フラグ
+     * @private
+     * @static
+     * @type {boolean}
+     */
+    private static isInitialized = false;
+
+    /**
      * バケット名 S3の中にあるデータの保存場所
      *
      * @private
@@ -46,44 +54,54 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
      */
     private folderPath: string;
 
+    // スタートの年数
+    private startDate = new Date('2001-01-01');
+    // 終了の年数
+    private finishDate = new Date('2025-01-01');
+
     /**
      * MockS3Gatewayのコンストラクタ
      * @param {string} bucketName
      * @param {string} folderPath
      */
     constructor(bucketName: string, folderPath: string) {
-        this.bucketName = bucketName;
-        this.folderPath = folderPath;
+        (async () => {
+            this.bucketName = bucketName;
+            this.folderPath = folderPath;
 
-        // 既にmockStorageに値が入っている場合は何もしない
-        if (MockS3Gateway.mockStorage.size > 0) {
-            return;
-        }
-        // 最初にmockStorageに値を入れておく
-        // 2024年のデータ366日分を作成
-        this.setNarRaceMockData();
-        this.setNarPlaceMockData();
-        this.setOldNarRaceMockData();
-        this.setJraRaceMockData();
-        this.setJraPlaceMockData();
-        this.setKeirinRaceMockData();
-        this.setKeirinPlaceMockData();
-        this.setAutoraceRaceMockData();
-        this.setAutoracePlaceMockData();
-        this.setBoatraceRaceMockData();
-        this.setBoatracePlaceMockData();
-        this.setWorldRaceMockData();
+            // 既にmockStorageに値が入っている場合は何もしない
+            if (MockS3Gateway.isInitialized) {
+                return;
+            }
+            MockS3Gateway.isInitialized = true;
+
+            // 最初にmockStorageに値を入れておく
+            // 2024年のデータ366日分を作成
+            await Promise.all([
+                this.setNarRaceMockData(),
+                this.setNarPlaceMockData(),
+                this.setOldNarRaceMockData(),
+                this.setJraRaceMockData(),
+                this.setJraPlaceMockData(),
+                this.setKeirinRaceMockData(),
+                this.setKeirinPlaceMockData(),
+                this.setAutoraceRaceMockData(),
+                this.setAutoracePlaceMockData(),
+                this.setBoatraceRaceMockData(),
+                this.setBoatracePlaceMockData(),
+                this.setWorldRaceMockData(),
+            ]);
+        })();
     }
 
     @Logger
-    private setWorldRaceMockData() {
+    private async setWorldRaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
             default:
                 // 2024年のデータ366日分を作成
-                const startDate = new Date('2024-01-01');
-                const currentDate = new Date(startDate);
+                const currentDate = new Date(this.startDate);
                 const fileName = `world/raceList.csv`;
                 const mockDataHeader = [
                     'name',
@@ -97,7 +115,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 ].join(',');
                 const mockData = [mockDataHeader];
                 // whileで回していって、最初の日付の年数と異なったら終了
-                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                while (
+                    currentDate.getFullYear() !== this.finishDate.getFullYear()
+                ) {
                     for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
@@ -124,7 +144,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setNarRaceMockData() {
+    private async setNarRaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
@@ -142,10 +162,11 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                     'id',
                 ].join(',');
                 const mockData = [mockDataHeader];
-                const startDate = new Date('2024-01-01');
-                const currentDate = new Date(startDate);
+                const currentDate = new Date(this.startDate);
                 // whileで回していって、最初の日付の年数と異なったら終了
-                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                while (
+                    currentDate.getFullYear() !== this.finishDate.getFullYear()
+                ) {
                     for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
@@ -172,16 +193,18 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setOldNarRaceMockData() {
+    private async setOldNarRaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
             default:
                 // 2024年のデータ366日分を作成
-                const startDate = new Date('2024-01-01');
-                const currentDate = new Date(startDate);
+
+                const currentDate = new Date(this.startDate);
                 // whileで回していって、最初の日付の年数と異なったら終了
-                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                while (
+                    currentDate.getFullYear() !== this.finishDate.getFullYear()
+                ) {
                     const fileName = `nar/race/${format(currentDate, 'yyyyMMdd')}.csv`;
                     const mockDataHeader = [
                         'name',
@@ -223,7 +246,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setNarPlaceMockData() {
+    private async setNarPlaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
@@ -232,21 +255,30 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 const mockDataHeader = ['id', 'dateTime', 'location'].join(',');
                 const mockData = [mockDataHeader];
                 // 2024年のデータ12ヶ月分を作成
-                for (let month = 1; month <= 12; month++) {
-                    const startDate = new Date(2024, month - 1, 1);
-                    // 1ヶ月分のデータ（28~31日）を作成
-                    // 2024年のデータ366日分を作成
-                    const currentDate = new Date(startDate);
-                    // whileで回していって、最初の日付の年数と異なったら終了
-                    while (currentDate.getMonth() === startDate.getMonth()) {
-                        mockData.push(
-                            [
-                                generateNarPlaceId(currentDate, '大井'),
-                                format(currentDate, 'yyyy-MM-dd'),
-                                '大井',
-                            ].join(','),
-                        );
-                        currentDate.setDate(currentDate.getDate() + 1);
+                for (
+                    let year = 2001;
+                    year <= this.finishDate.getFullYear() - 1;
+                    year++
+                ) {
+                    // 2024年のデータ12ヶ月分を作成
+                    for (let month = 1; month <= 12; month++) {
+                        const startDate = new Date(year, month - 1, 1);
+                        // 1ヶ月分のデータ（28~31日）を作成
+                        // 2024年のデータ366日分を作成
+                        const currentDate = new Date(this.startDate);
+                        // whileで回していって、最初の日付の年数と異なったら終了
+                        while (
+                            currentDate.getMonth() === startDate.getMonth()
+                        ) {
+                            mockData.push(
+                                [
+                                    generateNarPlaceId(currentDate, '大井'),
+                                    format(currentDate, 'yyyy-MM-dd'),
+                                    '大井',
+                                ].join(','),
+                            );
+                            currentDate.setDate(currentDate.getDate() + 1);
+                        }
                     }
                 }
                 MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
@@ -255,7 +287,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setJraRaceMockData() {
+    private async setJraRaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
@@ -275,10 +307,12 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                     'id',
                 ].join(',');
                 const mockData = [mockDataHeader];
-                const startDate = new Date('2024-01-01');
-                const currentDate = new Date(startDate);
+
+                const currentDate = new Date(this.startDate);
                 // whileで回していって、最初の日付の年数と異なったら終了
-                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                while (
+                    currentDate.getFullYear() !== this.finishDate.getFullYear()
+                ) {
                     for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
@@ -307,7 +341,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setJraPlaceMockData() {
+    private async setJraPlaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
@@ -322,23 +356,32 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 ].join(',');
                 const mockData = [mockDataHeader];
                 // 2024年のデータ12ヶ月分を作成
-                for (let month = 1; month <= 12; month++) {
-                    const startDate = new Date(2024, month - 1, 1);
-                    // 1ヶ月分のデータ（28~31日）を作成
-                    // 2024年のデータ366日分を作成
-                    const currentDate = new Date(startDate);
-                    // whileで回していって、最初の日付の年数と異なったら終了
-                    while (currentDate.getMonth() === startDate.getMonth()) {
-                        mockData.push(
-                            [
-                                generateJraPlaceId(currentDate, '東京'),
-                                format(currentDate, 'yyyy-MM-dd'),
-                                '東京',
-                                '1',
-                                '1',
-                            ].join(','),
-                        );
-                        currentDate.setDate(currentDate.getDate() + 1);
+                for (
+                    let year = 2001;
+                    year <= this.finishDate.getFullYear() - 1;
+                    year++
+                ) {
+                    // 2024年のデータ12ヶ月分を作成
+                    for (let month = 1; month <= 12; month++) {
+                        const startDate = new Date(year, month - 1, 1);
+                        // 1ヶ月分のデータ（28~31日）を作成
+                        // 2024年のデータ366日分を作成
+                        const currentDate = new Date(this.startDate);
+                        // whileで回していって、最初の日付の年数と異なったら終了
+                        while (
+                            currentDate.getMonth() === startDate.getMonth()
+                        ) {
+                            mockData.push(
+                                [
+                                    generateJraPlaceId(currentDate, '東京'),
+                                    format(currentDate, 'yyyy-MM-dd'),
+                                    '東京',
+                                    '1',
+                                    '1',
+                                ].join(','),
+                            );
+                            currentDate.setDate(currentDate.getDate() + 1);
+                        }
                     }
                 }
                 MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
@@ -347,7 +390,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setKeirinRaceMockData() {
+    private async setKeirinRaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
@@ -364,10 +407,12 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                     'id',
                 ].join(',');
                 const mockData = [mockDataHeader];
-                const startDate = new Date('2024-01-01');
-                const currentDate = new Date(startDate);
+
+                const currentDate = new Date(this.startDate);
                 // whileで回していって、最初の日付の年数と異なったら終了
-                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                while (
+                    currentDate.getFullYear() !== this.finishDate.getFullYear()
+                ) {
                     for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
@@ -393,7 +438,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setKeirinPlaceMockData() {
+    private async setKeirinPlaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
@@ -407,22 +452,31 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 ].join(',');
                 const mockData = [mockDataHeader];
                 // 2024年のデータ12ヶ月分を作成
-                for (let month = 1; month <= 12; month++) {
-                    const startDate = new Date(2024, month - 1, 1);
-                    // 1ヶ月分のデータ（28~31日）を作成
-                    // 2024年のデータ366日分を作成
-                    const currentDate = new Date(startDate);
-                    // whileで回していって、最初の日付の年数と異なったら終了
-                    while (currentDate.getMonth() === startDate.getMonth()) {
-                        mockData.push(
-                            [
-                                generateKeirinPlaceId(currentDate, '川崎'),
-                                format(currentDate, 'yyyy-MM-dd'),
-                                '川崎',
-                                'GP',
-                            ].join(','),
-                        );
-                        currentDate.setDate(currentDate.getDate() + 1);
+                for (
+                    let year = 2001;
+                    year <= this.finishDate.getFullYear() - 1;
+                    year++
+                ) {
+                    // 2024年のデータ12ヶ月分を作成
+                    for (let month = 1; month <= 12; month++) {
+                        const startDate = new Date(year, month - 1, 1);
+                        // 1ヶ月分のデータ（28~31日）を作成
+                        // 2024年のデータ366日分を作成
+                        const currentDate = new Date(this.startDate);
+                        // whileで回していって、最初の日付の年数と異なったら終了
+                        while (
+                            currentDate.getMonth() === startDate.getMonth()
+                        ) {
+                            mockData.push(
+                                [
+                                    generateKeirinPlaceId(currentDate, '川崎'),
+                                    format(currentDate, 'yyyy-MM-dd'),
+                                    '川崎',
+                                    'GP',
+                                ].join(','),
+                            );
+                            currentDate.setDate(currentDate.getDate() + 1);
+                        }
                     }
                 }
                 MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
@@ -431,14 +485,14 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setAutoraceRaceMockData() {
+    private async setAutoraceRaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
             default:
                 // 2024年のデータ366日分を作成
-                const startDate = new Date('2024-01-01');
-                const currentDate = new Date(startDate);
+
+                const currentDate = new Date(this.startDate);
                 const fileName = `autorace/raceList.csv`;
                 const mockDataHeader = [
                     'name',
@@ -451,7 +505,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 ].join(',');
                 const mockData = [mockDataHeader];
                 // whileで回していって、最初の日付の年数と異なったら終了
-                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                while (
+                    currentDate.getFullYear() !== this.finishDate.getFullYear()
+                ) {
                     for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
@@ -477,7 +533,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setAutoracePlaceMockData() {
+    private async setAutoracePlaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
@@ -490,23 +546,34 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                     'grade',
                 ].join(',');
                 const mockData = [mockDataHeader];
-                // 2024年のデータ12ヶ月分を作成
-                for (let month = 1; month <= 12; month++) {
-                    const startDate = new Date(2024, month - 1, 1);
-                    // 1ヶ月分のデータ（28~31日）を作成
-                    // 2024年のデータ366日分を作成
-                    const currentDate = new Date(startDate);
-                    // whileで回していって、最初の日付の年数と異なったら終了
-                    while (currentDate.getMonth() === startDate.getMonth()) {
-                        mockData.push(
-                            [
-                                generateAutoracePlaceId(currentDate, '飯塚'),
-                                format(currentDate, 'yyyy-MM-dd'),
-                                '飯塚',
-                                'SG',
-                            ].join(','),
-                        );
-                        currentDate.setDate(currentDate.getDate() + 1);
+                for (
+                    let year = 2001;
+                    year <= this.finishDate.getFullYear() - 1;
+                    year++
+                ) {
+                    // 2024年のデータ12ヶ月分を作成
+                    for (let month = 1; month <= 12; month++) {
+                        const startDate = new Date(year, month - 1, 1);
+                        // 1ヶ月分のデータ（28~31日）を作成
+                        // 2024年のデータ366日分を作成
+                        const currentDate = new Date(this.startDate);
+                        // whileで回していって、最初の日付の年数と異なったら終了
+                        while (
+                            currentDate.getMonth() === startDate.getMonth()
+                        ) {
+                            mockData.push(
+                                [
+                                    generateAutoracePlaceId(
+                                        currentDate,
+                                        '飯塚',
+                                    ),
+                                    format(currentDate, 'yyyy-MM-dd'),
+                                    '飯塚',
+                                    'SG',
+                                ].join(','),
+                            );
+                            currentDate.setDate(currentDate.getDate() + 1);
+                        }
                     }
                 }
                 MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
@@ -515,14 +582,14 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setBoatraceRaceMockData() {
+    private async setBoatraceRaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
             default:
                 // 2024年のデータ366日分を作成
-                const startDate = new Date('2024-01-01');
-                const currentDate = new Date(startDate);
+
+                const currentDate = new Date(this.startDate);
                 const fileName = `boatrace/raceList.csv`;
                 const mockDataHeader = [
                     'name',
@@ -535,7 +602,9 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 ].join(',');
                 const mockData = [mockDataHeader];
                 // whileで回していって、最初の日付の年数と異なったら終了
-                while (currentDate.getFullYear() === startDate.getFullYear()) {
+                while (
+                    currentDate.getFullYear() !== this.finishDate.getFullYear()
+                ) {
                     for (let raceNumber = 1; raceNumber <= 12; raceNumber++) {
                         mockData.push(
                             [
@@ -561,7 +630,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
     }
 
     @Logger
-    private setBoatracePlaceMockData() {
+    private async setBoatracePlaceMockData() {
         switch (ENV) {
             case 'ITa':
                 break;
@@ -575,22 +644,34 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 ].join(',');
                 const mockData = [mockDataHeader];
                 // 2024年のデータ12ヶ月分を作成
-                for (let month = 1; month <= 12; month++) {
-                    const startDate = new Date(2024, month - 1, 1);
-                    // 1ヶ月分のデータ（28~31日）を作成
-                    // 2024年のデータ366日分を作成
-                    const currentDate = new Date(startDate);
-                    // whileで回していって、最初の日付の年数と異なったら終了
-                    while (currentDate.getMonth() === startDate.getMonth()) {
-                        mockData.push(
-                            [
-                                generateBoatracePlaceId(currentDate, '平和島'),
-                                format(currentDate, 'yyyy-MM-dd'),
-                                '平和島',
-                                'SG',
-                            ].join(','),
-                        );
-                        currentDate.setDate(currentDate.getDate() + 1);
+                for (
+                    let year = 2001;
+                    year <= this.finishDate.getFullYear() - 1;
+                    year++
+                ) {
+                    // 2024年のデータ12ヶ月分を作成
+                    for (let month = 1; month <= 12; month++) {
+                        const startDate = new Date(year, month - 1, 1);
+                        // 1ヶ月分のデータ（28~31日）を作成
+                        // 2024年のデータ366日分を作成
+                        const currentDate = new Date(this.startDate);
+                        // whileで回していって、最初の日付の年数と異なったら終了
+                        while (
+                            currentDate.getMonth() === startDate.getMonth()
+                        ) {
+                            mockData.push(
+                                [
+                                    generateBoatracePlaceId(
+                                        currentDate,
+                                        '平和島',
+                                    ),
+                                    format(currentDate, 'yyyy-MM-dd'),
+                                    '平和島',
+                                    'SG',
+                                ].join(','),
+                            );
+                            currentDate.setDate(currentDate.getDate() + 1);
+                        }
                     }
                 }
                 MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));

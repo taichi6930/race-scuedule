@@ -147,11 +147,6 @@ export class NarPlaceRepositoryFromStorageImpl
             .filter(
                 (placeData): placeData is NarPlaceRecord =>
                     placeData !== undefined,
-            )
-            .filter(
-                (placeData, index, self): placeData is NarPlaceRecord =>
-                    self.findIndex((data) => data.id === placeData.id) ===
-                    index,
             );
 
         return placeRecordList;

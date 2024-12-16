@@ -226,10 +226,6 @@ export class KeirinRaceRepositoryFromStorageImpl
             .filter(
                 (raceData): raceData is KeirinRaceRecord =>
                     raceData !== undefined,
-            )
-            .filter(
-                (raceData, index, self): raceData is KeirinRaceRecord =>
-                    self.findIndex((data) => data.id === raceData.id) === index,
             );
     }
 

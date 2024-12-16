@@ -62,6 +62,7 @@ export class NarRaceRepositoryFromStorageImpl
     /**
      * 新ファイルリストからレースデータを取得する
      */
+    @Logger
     private async getRaceRecordListFromS3(): Promise<NarRaceRecord[]> {
         // S3からデータを取得する
         const csv = await this.s3Gateway.fetchDataFromS3(this.fileName);
@@ -89,43 +90,61 @@ export class NarRaceRepositoryFromStorageImpl
             number: headers.indexOf('number'),
         };
 
-        // データ行を解析してRaceDataのリストを生成
-        return lines
-            .slice(1)
-            .map((line: string) => {
-                const columns = line.replace('\r', '').split(',');
+        console.log('データ行を100件ずつ分割');
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.name] ||
-                    isNaN(parseInt(columns[indices.number]))
-                ) {
-                    return undefined;
-                }
+        // データ行を100件ずつ分割
+        const chunkSize = 100;
+        const chunks: string[][] = [];
+        for (let i = 1; i < lines.length; i += chunkSize) {
+            chunks.push(lines.slice(i, i + chunkSize));
+        }
 
-                return new NarRaceRecord(
-                    columns[indices.id] as NarRaceId,
-                    columns[indices.name],
-                    new Date(columns[indices.dateTime]),
-                    columns[indices.location] as NarRaceCourse,
-                    columns[indices.surfaceType] as NarRaceCourseType,
-                    parseInt(columns[indices.distance]),
-                    columns[indices.grade] as NarGradeType,
-                    parseInt(columns[indices.number]),
-                );
-            })
-            .filter(
-                (raceData): raceData is NarRaceRecord => raceData !== undefined,
-            )
-            .filter(
-                (raceData, index, self): raceData is NarRaceRecord =>
-                    self.findIndex((data) => data.id === raceData.id) === index,
-            );
+        console.log('並列で処理を実行');
+
+        // 並列で処理を実行
+        const results = await Promise.all(
+            chunks.map((chunk) =>
+                chunk
+                    .map((line: string) => {
+                        const columns = line.replace('\r', '').split(',');
+
+                        // 必要なフィールドが存在しない場合はundefinedを返す
+                        if (
+                            !columns[indices.name] ||
+                            isNaN(parseInt(columns[indices.number]))
+                        ) {
+                            return undefined;
+                        }
+
+                        return new NarRaceRecord(
+                            columns[indices.id] as NarRaceId,
+                            columns[indices.name],
+                            new Date(columns[indices.dateTime]),
+                            columns[indices.location] as NarRaceCourse,
+                            columns[indices.surfaceType] as NarRaceCourseType,
+                            parseInt(columns[indices.distance]),
+                            columns[indices.grade] as NarGradeType,
+                            parseInt(columns[indices.number]),
+                        );
+                    })
+                    .filter(
+                        (raceData): raceData is NarRaceRecord =>
+                            raceData !== undefined,
+                    ),
+            ),
+        );
+
+        console.log('結果を1つにまとめ、重複を排除');
+
+        // 結果を1つにまとめ、重複を排除
+        const mergedResults = results.flat();
+        return mergedResults;
     }
 
     /**
      * 旧ファイルリストからレースデータを取得する
      */
+    @Logger
     private async fetchRaceEntityListFromOldFileList(
         startDate: Date,
         finishDate: Date,
@@ -269,27 +288,23 @@ export class NarRaceRepositoryFromStorageImpl
             (raceEntity) => raceEntity.toRecord(),
         );
 
-        // idが重複しているデータは上書きをし、新規のデータは追加する
+        // idをキーとしたMapを作成し、既存データを上書きまたは追加する
+        const raceRecordMap = new Map<string, NarRaceRecord>(
+            existFetchRaceRecordList.map((record) => [record.id, record]),
+        );
+
         raceRecordList.forEach((raceRecord) => {
-            // 既に登録されているデータがある場合は上書きする
-            const index = existFetchRaceRecordList.findIndex(
-                (record) => record.id === raceRecord.id,
-            );
-            if (index !== -1) {
-                existFetchRaceRecordList[index] = raceRecord;
-            } else {
-                existFetchRaceRecordList.push(raceRecord);
-            }
+            raceRecordMap.set(raceRecord.id, raceRecord);
         });
 
-        // 日付の最新順にソート
-        existFetchRaceRecordList.sort(
+        // Mapからリストに変換し、日付の最新順にソート
+        const updatedRaceRecordList = Array.from(raceRecordMap.values()).sort(
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 
         // 月毎に分けられたplaceをS3にアップロードする
         await this.s3Gateway.uploadDataToS3(
-            existFetchRaceRecordList,
+            updatedRaceRecordList,
             this.fileName,
         );
         return new RegisterRaceListResponse(200);

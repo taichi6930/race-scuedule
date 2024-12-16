@@ -163,10 +163,6 @@ export class WorldRaceRepositoryFromStorageImpl
             .filter(
                 (raceData): raceData is WorldRaceRecord =>
                     raceData !== undefined,
-            )
-            .filter(
-                (raceData, index, self): raceData is WorldRaceRecord =>
-                    self.findIndex((data) => data.id === raceData.id) === index,
             );
     }
 }
