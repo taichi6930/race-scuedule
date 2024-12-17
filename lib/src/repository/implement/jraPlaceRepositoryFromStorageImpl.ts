@@ -151,11 +151,6 @@ export class JraPlaceRepositoryFromStorageImpl
             .filter(
                 (placeData): placeData is JraPlaceRecord =>
                     placeData !== undefined,
-            )
-            .filter(
-                (placeData, index, self): placeData is JraPlaceRecord =>
-                    self.findIndex((data) => data.id === placeData.id) ===
-                    index,
             );
 
         return placeRecordList;

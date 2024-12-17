@@ -226,10 +226,6 @@ export class BoatraceRaceRepositoryFromStorageImpl
             .filter(
                 (raceData): raceData is BoatraceRaceRecord =>
                     raceData !== undefined,
-            )
-            .filter(
-                (raceData, index, self): raceData is BoatraceRaceRecord =>
-                    self.findIndex((data) => data.id === raceData.id) === index,
             );
     }
 

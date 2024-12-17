@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 export function Logger(
     _target: object,
@@ -7,13 +9,21 @@ export function Logger(
     const originalMethod = descriptor.value;
     descriptor.value = async function (...args: unknown[]): Promise<unknown> {
         const constructorName = Object.getPrototypeOf(this).constructor.name;
-        console.log(`[${constructorName}.${propertyKey}] 開始`);
+
+        console.log(
+            `${format(new Date(), 'yyyy-MM-dd HH:mm:ss')} [${constructorName}.${propertyKey}] 開始`,
+        );
         try {
             const result: unknown = await originalMethod.apply(this, args);
-            console.log(`[${constructorName}.${propertyKey}] 終了`);
+            console.log(
+                `${format(new Date(), 'yyyy-MM-dd HH:mm:ss')} [${constructorName}.${propertyKey}] 終了`,
+            );
             return result;
         } catch (error) {
-            console.error(`[${constructorName}.${propertyKey}] エラー`, error);
+            console.error(
+                `${format(new Date(), 'yyyy-MM-dd HH:mm:ss')} [${constructorName}.${propertyKey}] エラー`,
+                error,
+            );
             throw error;
         }
     };
