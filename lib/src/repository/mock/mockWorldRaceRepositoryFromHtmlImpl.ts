@@ -36,6 +36,12 @@ export class MockWorldRaceRepositoryFromHtmlImpl
                         'GⅠ',
                         12,
                     ),
+                    // 日本時間の現在時刻を設定
+                    new Date(
+                        new Date().toLocaleString('ja-JP', {
+                            timeZone: 'Asia/Tokyo',
+                        }),
+                    ),
                 ),
             );
         }

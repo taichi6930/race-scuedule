@@ -19,6 +19,7 @@ const baseWorldRaceNumber = 11;
 const baseWorldRaceSurfaceType = '芝';
 const baseWorldRaceDistance = 2400;
 const baseWorldRaceGrade: WorldGradeType = 'GⅠ';
+const baseWorldRaceUpdateDate = new Date('2025-01-01T00:00:00Z');
 
 export const baseWorldPlaceData = new WorldPlaceData(
     baseWorldPlaceDateTime,
@@ -48,6 +49,7 @@ export const baseWorldRaceRecord = new WorldRaceRecord(
     baseWorldRaceDistance,
     baseWorldRaceGrade,
     baseWorldRaceNumber,
+    baseWorldRaceUpdateDate,
 );
 
 export const baseWorldPlaceEntity = new WorldPlaceEntity(
@@ -55,7 +57,11 @@ export const baseWorldPlaceEntity = new WorldPlaceEntity(
     baseWorldPlaceData,
 );
 
-export const baseWorldRaceEntity = new WorldRaceEntity(null, baseWorldRaceData);
+export const baseWorldRaceEntity = new WorldRaceEntity(
+    null,
+    baseWorldRaceData,
+    baseWorldRaceUpdateDate,
+);
 
 export const baseWorldRaceEntityList: WorldRaceEntity[] = [
     'パリロンシャン',
@@ -86,6 +92,7 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
                 grade as WorldGradeType,
                 index + 1,
             ),
+            baseWorldRaceUpdateDate,
         );
     });
 });

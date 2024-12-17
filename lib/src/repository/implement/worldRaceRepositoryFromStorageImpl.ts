@@ -133,6 +133,8 @@ export class WorldRaceRepositoryFromStorageImpl
             distance: headers.indexOf('distance'),
             grade: headers.indexOf('grade'),
             number: headers.indexOf('number'),
+            insertDate: headers.indexOf('insertDate'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してRaceDataのリストを生成
@@ -149,6 +151,12 @@ export class WorldRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                // columns[indices.updateDate]がundefinedの場合は new Date() で初期化
+                const updateDate =
+                    columns[indices.updateDate] === undefined
+                        ? new Date()
+                        : new Date(columns[indices.updateDate]);
+
                 return new WorldRaceRecord(
                     columns[indices.id] as WorldRaceId,
                     columns[indices.name],
@@ -158,6 +166,7 @@ export class WorldRaceRepositoryFromStorageImpl
                     parseInt(columns[indices.distance]),
                     columns[indices.grade] as WorldGradeType,
                     parseInt(columns[indices.number]),
+                    updateDate,
                 );
             })
             .filter(

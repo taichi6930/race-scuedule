@@ -114,7 +114,16 @@ export class WorldRaceDataUseCase
         try {
             // worldRaceDataをworldRaceEntityに変換する
             const raceEntityList: WorldRaceEntity[] = raceDataList.map(
-                (raceData) => new WorldRaceEntity(null, raceData),
+                (raceData) =>
+                    new WorldRaceEntity(
+                        null,
+                        raceData,
+                        new Date(
+                            new Date().toLocaleString('ja-JP', {
+                                timeZone: 'Asia/Tokyo',
+                            }),
+                        ),
+                    ),
             );
             // S3にデータを保存する
             await this.registerRaceDataList(raceEntityList);

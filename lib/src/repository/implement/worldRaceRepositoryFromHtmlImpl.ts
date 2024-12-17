@@ -253,6 +253,12 @@ export class WorldRaceRepositoryFromHtmlImpl
                                     grade,
                                     number,
                                 ),
+                                // 日本時間で取得した日時を更新日時とする
+                                new Date(
+                                    new Date().toLocaleString('ja-JP', {
+                                        timeZone: 'Asia/Tokyo',
+                                    }),
+                                ),
                             ),
                         );
                     });

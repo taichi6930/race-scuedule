@@ -119,6 +119,11 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                                     'GⅠ',
                                     j + 1,
                                 ),
+                                new Date(
+                                    new Date().toLocaleString('ja-JP', {
+                                        timeZone: 'Asia/Tokyo',
+                                    }),
+                                ),
                             ),
                     );
                 },
