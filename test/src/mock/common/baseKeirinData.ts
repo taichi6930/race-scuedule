@@ -26,6 +26,7 @@ const baseKeirinRaceName = 'KEIRINグランプリ';
 const baseKeirinRaceDateTime = new Date('2025-12-30 16:30');
 const baseKeirinRaceNumber = 11;
 const baseKeirinRaceStage: KeirinRaceStage = 'S級グランプリ';
+const baseKeirinRaceUpdateDate = new Date('2025-01-01T00:00:00Z');
 
 export const baseKeirinPlaceData = new KeirinPlaceData(
     baseKeirinPlaceDateTime,
@@ -47,6 +48,7 @@ export const baseKeirinPlaceRecord = new KeirinPlaceRecord(
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
+    baseKeirinRaceUpdateDate,
 );
 
 export const baseKeirinRaceRecord = new KeirinRaceRecord(
@@ -61,11 +63,13 @@ export const baseKeirinRaceRecord = new KeirinRaceRecord(
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
     baseKeirinRaceNumber,
+    baseKeirinRaceUpdateDate,
 );
 
 export const baseKeirinPlaceEntity = new KeirinPlaceEntity(
     null,
     baseKeirinPlaceData,
+    baseKeirinRaceUpdateDate,
 );
 
 export const baseKeirinRacePlayerDataList = Array.from(
@@ -79,6 +83,7 @@ export const baseKeirinRaceEntity = new KeirinRaceEntity(
     null,
     baseKeirinRaceData,
     baseKeirinRacePlayerDataList,
+    baseKeirinRaceUpdateDate,
 );
 
 export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
@@ -115,7 +120,12 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
         const racePlayerDataList = Array.from({ length: 9 }, (_, i) => {
             return new KeirinRacePlayerData(i + 1, i + 1);
         });
-        return new KeirinRaceEntity(null, raceData, racePlayerDataList);
+        return new KeirinRaceEntity(
+            null,
+            raceData,
+            racePlayerDataList,
+            baseKeirinRaceUpdateDate,
+        );
     });
 });
 
@@ -133,6 +143,7 @@ export const baseKeirinRacePlayerRecord = new KeirinRacePlayerRecord(
     ),
     1,
     10000,
+    baseKeirinRaceUpdateDate,
 );
 
 export const baseKeirinRacePlayerData = new KeirinRacePlayerData(1, 10000);

@@ -151,10 +151,13 @@ export class WorldRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
-                // columns[indices.updateDate]がundefinedの場合は new Date() で初期化
                 const updateDate =
                     columns[indices.updateDate] === undefined
-                        ? new Date()
+                        ? new Date(
+                              new Date().toLocaleString('ja-JP', {
+                                  timeZone: 'Asia/Tokyo',
+                              }),
+                          )
                         : new Date(columns[indices.updateDate]);
 
                 return new WorldRaceRecord(

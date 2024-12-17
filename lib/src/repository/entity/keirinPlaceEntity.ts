@@ -19,10 +19,12 @@ export class KeirinPlaceEntity {
      * 競輪のレース開催場所データを生成する
      * @param id - ID
      * @param placeData - レース開催場所データ
+     * @param updateDate - 更新日時
      */
     constructor(
         id: KeirinPlaceId | null,
         public readonly placeData: KeirinPlaceData,
+        public readonly updateDate: Date,
     ) {
         this.id =
             id ?? generateKeirinPlaceId(placeData.dateTime, placeData.location);
@@ -37,6 +39,7 @@ export class KeirinPlaceEntity {
         return new KeirinPlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -50,6 +53,7 @@ export class KeirinPlaceEntity {
             this.placeData.dateTime,
             this.placeData.location,
             this.placeData.grade,
+            this.updateDate,
         );
     }
 }

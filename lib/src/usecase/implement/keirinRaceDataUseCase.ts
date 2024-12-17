@@ -158,7 +158,17 @@ export class KeirinRaceDataUseCase
         try {
             // KeirinRaceDataをKeirinRaceEntityに変換する
             const raceEntityList: KeirinRaceEntity[] = raceDataList.map(
-                (raceData) => new KeirinRaceEntity(null, raceData, []),
+                (raceData) =>
+                    new KeirinRaceEntity(
+                        null,
+                        raceData,
+                        [],
+                        new Date(
+                            new Date().toLocaleString('ja-JP', {
+                                timeZone: 'Asia/Tokyo',
+                            }),
+                        ),
+                    ),
             );
             // S3にデータを保存する
             await this.registerRaceEntityList(raceEntityList);

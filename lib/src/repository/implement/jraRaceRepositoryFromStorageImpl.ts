@@ -35,7 +35,6 @@ export class JraRaceRepositoryFromStorageImpl
      * @returns
      */
     @Logger
-    @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<JraPlaceEntity>,
     ): Promise<FetchRaceListResponse<JraRaceEntity>> {

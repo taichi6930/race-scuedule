@@ -128,6 +128,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
             dateTime: headers.indexOf('dateTime'),
             location: headers.indexOf('location'),
             grade: headers.indexOf('grade'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してPlaceDataのリストを生成
@@ -145,11 +146,21 @@ export class KeirinPlaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                const updateDate =
+                    columns[indices.updateDate] === undefined
+                        ? new Date(
+                              new Date().toLocaleString('ja-JP', {
+                                  timeZone: 'Asia/Tokyo',
+                              }),
+                          )
+                        : new Date(columns[indices.updateDate]);
+
                 return new KeirinPlaceRecord(
                     columns[indices.id] as KeirinPlaceId,
                     new Date(columns[indices.dateTime]),
                     columns[indices.location] as KeirinRaceCourse,
                     columns[indices.grade] as KeirinGradeType,
+                    updateDate,
                 );
             })
             .filter(

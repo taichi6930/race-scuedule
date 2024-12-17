@@ -84,6 +84,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     raceRecord.id,
                     raceData,
                     racePlayerDataList,
+                    raceRecord.updateDate,
                 );
             },
         );
@@ -197,6 +198,7 @@ export class KeirinRaceRepositoryFromStorageImpl
             location: headers.indexOf('location'),
             grade: headers.indexOf('grade'),
             number: headers.indexOf('number'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してRaceDataのリストを生成
@@ -213,6 +215,15 @@ export class KeirinRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                const updateDate =
+                    columns[indices.updateDate] === undefined
+                        ? new Date(
+                              new Date().toLocaleString('ja-JP', {
+                                  timeZone: 'Asia/Tokyo',
+                              }),
+                          )
+                        : new Date(columns[indices.updateDate]);
+
                 return new KeirinRaceRecord(
                     columns[indices.id] as KeirinRaceId,
                     columns[indices.name],
@@ -221,6 +232,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     columns[indices.location] as KeirinRaceCourse,
                     columns[indices.grade] as KeirinGradeType,
                     parseInt(columns[indices.number]),
+                    updateDate,
                 );
             })
             .filter(
@@ -258,6 +270,7 @@ export class KeirinRaceRepositoryFromStorageImpl
             raceId: headers.indexOf('raceId'),
             positionNumber: headers.indexOf('positionNumber'),
             playerNumber: headers.indexOf('playerNumber'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してKeirinRaceDataのリストを生成
@@ -276,11 +289,21 @@ export class KeirinRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                const updateDate =
+                    columns[indices.updateDate] === undefined
+                        ? new Date(
+                              new Date().toLocaleString('ja-JP', {
+                                  timeZone: 'Asia/Tokyo',
+                              }),
+                          )
+                        : new Date(columns[indices.updateDate]);
+
                 return new KeirinRacePlayerRecord(
                     columns[indices.id] as KeirinRacePlayerId,
                     columns[indices.raceId] as KeirinRaceId,
                     parseInt(columns[indices.positionNumber]),
                     parseInt(columns[indices.playerNumber]),
+                    updateDate,
                 );
             })
             .filter(
