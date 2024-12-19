@@ -10,6 +10,7 @@ import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/kei
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== 'GITHUB_ACTIONS_CI') {
@@ -45,6 +46,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                                     '弥彦',
                                     'GⅠ',
                                 ),
+                                getJSTDate(new Date()),
                             ),
                         ],
                     ),

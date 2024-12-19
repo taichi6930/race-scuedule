@@ -1,4 +1,5 @@
 import { JraRaceData } from '../../domain/jraRaceData';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
@@ -41,6 +42,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
                                 1,
                                 1,
                             ),
+                            getJSTDate(new Date()),
                         ),
                     );
                 }

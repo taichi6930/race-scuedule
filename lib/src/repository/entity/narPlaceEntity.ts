@@ -17,11 +17,14 @@ export class NarPlaceEntity {
      *
      * @remarks
      * 地方競馬のレース開催場所データを生成する
+     * @param id - ID
      * @param placeData - レース開催場所データ
+     * @param updateDate - 更新日時
      */
     constructor(
         id: NarPlaceId | null,
         public readonly placeData: NarPlaceData,
+        public readonly updateDate: Date,
     ) {
         this.id =
             id ?? generateNarPlaceId(placeData.dateTime, placeData.location);
@@ -36,6 +39,7 @@ export class NarPlaceEntity {
         return new NarPlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -48,6 +52,7 @@ export class NarPlaceEntity {
             this.id,
             this.placeData.dateTime,
             this.placeData.location,
+            this.updateDate,
         );
     }
 }

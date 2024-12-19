@@ -1,4 +1,5 @@
 import { JraPlaceData } from '../../domain/jraPlaceData';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -28,6 +29,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
             const jraPlaceEntity = new JraPlaceEntity(
                 null,
                 new JraPlaceData(new Date(currentDate), '東京', 1, 1),
+                getJSTDate(new Date()),
             );
             fetchPlaceEntityList.push(jraPlaceEntity);
             // 日付を1日進める

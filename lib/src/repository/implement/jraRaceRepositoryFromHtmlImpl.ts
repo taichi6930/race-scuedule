@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { IJraRaceDataHtmlGateway } from '../../gateway/interface/iJraRaceDataHtmlGateway';
 import { JraGradeType, JraRaceCourse } from '../../utility/data/jra';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processJraRaceName } from '../../utility/raceName';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
@@ -283,6 +284,7 @@ export class JraRaceRepositoryFromHtmlImpl
                                 raceHeld,
                                 raceHeldDay,
                             ),
+                            getJSTDate(new Date()),
                         );
                         jraRaceDataList.push(jradata);
                     });

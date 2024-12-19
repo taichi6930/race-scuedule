@@ -15,6 +15,7 @@ import {
     KeirinRaceCourse,
     KeirinRaceStage,
 } from '../../utility/data/keirin';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -158,7 +159,13 @@ export class KeirinRaceDataUseCase
         try {
             // KeirinRaceDataをKeirinRaceEntityに変換する
             const raceEntityList: KeirinRaceEntity[] = raceDataList.map(
-                (raceData) => new KeirinRaceEntity(null, raceData, []),
+                (raceData) =>
+                    new KeirinRaceEntity(
+                        null,
+                        raceData,
+                        [],
+                        getJSTDate(new Date()),
+                    ),
             );
             // S3にデータを保存する
             await this.registerRaceEntityList(raceEntityList);

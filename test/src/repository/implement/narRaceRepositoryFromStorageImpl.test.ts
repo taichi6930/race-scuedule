@@ -11,6 +11,7 @@ import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEnti
 import { NarRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForNarRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('NarRaceRepositoryFromStorageImpl', () => {
@@ -118,6 +119,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
                                     'GⅠ',
                                     j + 1,
                                 ),
+                                getJSTDate(new Date()),
                             ),
                     );
                 },

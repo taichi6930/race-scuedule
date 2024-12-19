@@ -7,6 +7,7 @@ import { inject, injectable } from 'tsyringe';
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataHtmlGateway';
 import { NarRaceCourse } from '../../utility/data/nar';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -169,6 +170,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                             ),
                             place as NarRaceCourse,
                         ),
+                        getJSTDate(new Date()),
                     ),
                 );
             });

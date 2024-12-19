@@ -9,6 +9,7 @@ import { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
 import { KEIRIN_STAGE_MAP } from '../../utility/data/keirin';
 import { KeirinGradeType, KeirinRaceStage } from '../../utility/data/keirin';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
@@ -178,6 +179,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                     null,
                                     keirinRaceData,
                                     racePlayerDataList,
+                                    getJSTDate(new Date()),
                                 ),
                             );
                         }

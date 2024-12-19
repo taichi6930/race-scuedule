@@ -21,10 +21,12 @@ export class JraRaceEntity {
      * 中央競馬のレース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
+     * @param updateDate - 更新日時
      */
     constructor(
         id: JraRaceId | null,
         public readonly raceData: JraRaceData,
+        public readonly updateDate: Date,
     ) {
         this.id =
             id ??
@@ -44,6 +46,7 @@ export class JraRaceEntity {
         return new JraRaceEntity(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -63,6 +66,7 @@ export class JraRaceEntity {
             this.raceData.number,
             this.raceData.heldTimes,
             this.raceData.heldDayTimes,
+            this.updateDate,
         );
     }
 }

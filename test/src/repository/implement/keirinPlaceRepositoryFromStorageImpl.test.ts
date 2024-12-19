@@ -11,6 +11,7 @@ import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinP
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForKeirinPlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('KeirinPlaceRepositoryFromStorageImpl', () => {
@@ -95,6 +96,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                             new KeirinPlaceEntity(
                                 null,
                                 new KeirinPlaceData(date, '平塚', 'GP'),
+                                getJSTDate(new Date()),
                             ),
                     );
                 },

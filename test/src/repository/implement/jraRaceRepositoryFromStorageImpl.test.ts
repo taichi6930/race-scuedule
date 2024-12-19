@@ -11,6 +11,7 @@ import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEnti
 import { JraRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForJraRace } from '../../mock/gateway/s3GatewayMock';
 
 describe('JraRaceRepositoryFromStorageImpl', () => {
@@ -118,6 +119,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                                     1,
                                     1,
                                 ),
+                                getJSTDate(new Date()),
                             ),
                     );
                 },

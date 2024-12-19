@@ -11,6 +11,7 @@ import { RegisterRaceListRequest } from '../../repository/request/registerRaceLi
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
 import { JraGradeType, JraRaceCourse } from '../../utility/data/jra';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
@@ -129,7 +130,8 @@ export class JraRaceDataUseCase
         try {
             // JraRaceDataをJraRaceEntityに変換する
             const raceEntityList: JraRaceEntity[] = raceDataList.map(
-                (raceData) => new JraRaceEntity(null, raceData),
+                (raceData) =>
+                    new JraRaceEntity(null, raceData, getJSTDate(new Date())),
             );
             // S3にデータを保存する
             await this.registerRaceEntityList(raceEntityList);

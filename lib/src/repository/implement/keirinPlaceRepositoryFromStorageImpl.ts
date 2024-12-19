@@ -6,6 +6,7 @@ import { inject, injectable } from 'tsyringe';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
 import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceId } from '../../utility/raceId';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
@@ -128,6 +129,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
             dateTime: headers.indexOf('dateTime'),
             location: headers.indexOf('location'),
             grade: headers.indexOf('grade'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してPlaceDataのリストを生成
@@ -145,11 +147,16 @@ export class KeirinPlaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new KeirinPlaceRecord(
                     columns[indices.id] as KeirinPlaceId,
                     new Date(columns[indices.dateTime]),
                     columns[indices.location] as KeirinRaceCourse,
                     columns[indices.grade] as KeirinGradeType,
+                    updateDate,
                 );
             })
             .filter(

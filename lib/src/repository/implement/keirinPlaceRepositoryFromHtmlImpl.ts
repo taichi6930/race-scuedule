@@ -7,6 +7,7 @@ import { inject, injectable } from 'tsyringe';
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlaceDataHtmlGateway';
 import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -175,6 +176,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                                     place,
                                     grade,
                                 ),
+                                getJSTDate(new Date()),
                             ),
                         );
                     }

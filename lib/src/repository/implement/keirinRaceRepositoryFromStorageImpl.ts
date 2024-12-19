@@ -12,6 +12,7 @@ import {
     KeirinRaceCourse,
     KeirinRaceStage,
 } from '../../utility/data/keirin';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinRaceId, KeirinRacePlayerId } from '../../utility/raceId';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
@@ -84,6 +85,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     raceRecord.id,
                     raceData,
                     racePlayerDataList,
+                    raceRecord.updateDate,
                 );
             },
         );
@@ -197,6 +199,7 @@ export class KeirinRaceRepositoryFromStorageImpl
             location: headers.indexOf('location'),
             grade: headers.indexOf('grade'),
             number: headers.indexOf('number'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してRaceDataのリストを生成
@@ -213,6 +216,10 @@ export class KeirinRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new KeirinRaceRecord(
                     columns[indices.id] as KeirinRaceId,
                     columns[indices.name],
@@ -221,6 +228,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     columns[indices.location] as KeirinRaceCourse,
                     columns[indices.grade] as KeirinGradeType,
                     parseInt(columns[indices.number]),
+                    updateDate,
                 );
             })
             .filter(
@@ -258,6 +266,7 @@ export class KeirinRaceRepositoryFromStorageImpl
             raceId: headers.indexOf('raceId'),
             positionNumber: headers.indexOf('positionNumber'),
             playerNumber: headers.indexOf('playerNumber'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してKeirinRaceDataのリストを生成
@@ -276,11 +285,16 @@ export class KeirinRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new KeirinRacePlayerRecord(
                     columns[indices.id] as KeirinRacePlayerId,
                     columns[indices.raceId] as KeirinRaceId,
                     parseInt(columns[indices.positionNumber]),
                     parseInt(columns[indices.playerNumber]),
+                    updateDate,
                 );
             })
             .filter(

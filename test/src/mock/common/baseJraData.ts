@@ -25,6 +25,7 @@ const baseJraRaceDistance = 2500;
 const baseJraRaceGrade: JraGradeType = 'GⅠ';
 const baseJraRaceHeldTimes = 5;
 const baseJraRaceHeldDayTimes = 8;
+const baseJraRaceUpdateDate = new Date('2024-12-01 00:00');
 
 export const baseJraPlaceData = new JraPlaceData(
     baseJraPlaceDateTime,
@@ -51,6 +52,7 @@ export const baseJraPlaceRecord = new JraPlaceRecord(
     baseJraPlaceCourse,
     baseJraRaceHeldTimes,
     baseJraRaceHeldDayTimes,
+    baseJraRaceUpdateDate,
 );
 
 export const baseJraRaceRecord = new JraRaceRecord(
@@ -68,11 +70,20 @@ export const baseJraRaceRecord = new JraRaceRecord(
     baseJraRaceNumber,
     baseJraRaceHeldTimes,
     baseJraRaceHeldDayTimes,
+    baseJraRaceUpdateDate,
 );
 
-export const baseJraPlaceEntity = new JraPlaceEntity(null, baseJraPlaceData);
+export const baseJraPlaceEntity = new JraPlaceEntity(
+    null,
+    baseJraPlaceData,
+    baseJraRaceUpdateDate,
+);
 
-export const baseJraRaceEntity = new JraRaceEntity(null, baseJraRaceData);
+export const baseJraRaceEntity = new JraRaceEntity(
+    null,
+    baseJraRaceData,
+    baseJraRaceUpdateDate,
+);
 
 export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatMap(
     (location) => {
@@ -103,6 +114,7 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
                     1,
                     1,
                 ),
+                baseJraRaceUpdateDate,
             );
         });
     },

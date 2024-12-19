@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
 import { NarRaceCourse } from '../../utility/data/nar';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceId } from '../../utility/raceId';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
@@ -121,6 +122,7 @@ export class NarPlaceRepositoryFromStorageImpl
             id: headers.indexOf('id'),
             dateTime: headers.indexOf('dateTime'),
             location: headers.indexOf('location'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してPlaceDataのリストを生成
@@ -138,10 +140,15 @@ export class NarPlaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new NarPlaceRecord(
                     columns[indices.id] as NarPlaceId,
                     new Date(columns[indices.dateTime]),
                     columns[indices.location] as NarRaceCourse,
+                    updateDate,
                 );
             })
             .filter(

@@ -10,6 +10,7 @@ import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRac
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== 'GITHUB_ACTIONS_CI') {
@@ -44,6 +45,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                                     new Date('2024-10-02'),
                                     '大井',
                                 ),
+                                getJSTDate(new Date()),
                             ),
                         ],
                     ),

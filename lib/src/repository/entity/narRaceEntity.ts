@@ -25,6 +25,7 @@ export class NarRaceEntity {
     constructor(
         id: NarRaceId | null,
         public readonly raceData: NarRaceData,
+        public readonly updateDate: Date,
     ) {
         this.id =
             id ??
@@ -44,6 +45,7 @@ export class NarRaceEntity {
         return new NarRaceEntity(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -61,6 +63,7 @@ export class NarRaceEntity {
             this.raceData.distance,
             this.raceData.grade,
             this.raceData.number,
+            this.updateDate,
         );
     }
 }

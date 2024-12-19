@@ -10,6 +10,7 @@ import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEn
 import { JraPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForJraPlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('JraPlaceRepositoryFromStorageImpl', () => {
@@ -86,6 +87,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                             new JraPlaceEntity(
                                 null,
                                 new JraPlaceData(date, '東京', 1, 1),
+                                getJSTDate(new Date()),
                             ),
                     );
                 },
