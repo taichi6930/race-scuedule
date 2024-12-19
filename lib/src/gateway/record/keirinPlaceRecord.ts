@@ -19,12 +19,14 @@ export class KeirinPlaceRecord {
      * @param dateTime - 開催日時
      * @param location - 開催場所
      * @param grade - 競輪のグレード
+     * @param updateDate - 更新日時
      */
     constructor(
         public readonly id: KeirinPlaceId,
         public readonly dateTime: Date,
         public readonly location: KeirinRaceCourse,
         public readonly grade: KeirinGradeType,
+        public readonly updateDate: Date,
     ) {}
 
     /**
@@ -38,6 +40,7 @@ export class KeirinPlaceRecord {
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
             partial.grade ?? this.grade,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -49,6 +52,7 @@ export class KeirinPlaceRecord {
         return new KeirinPlaceEntity(
             this.id,
             new KeirinPlaceData(this.dateTime, this.location, this.grade),
+            this.updateDate,
         );
     }
 }

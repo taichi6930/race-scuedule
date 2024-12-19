@@ -1,6 +1,7 @@
 import { baseKeirinRacePlayerDataList } from '../../../../test/src/mock/common/baseKeirinData';
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
@@ -43,6 +44,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                                 i,
                             ),
                             baseKeirinRacePlayerDataList,
+                            getJSTDate(new Date()),
                         ),
                     );
                 }

@@ -13,6 +13,7 @@ import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/reposit
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { KEIRIN_PLACE_CODE } from '../../../../lib/src/utility/data/keirin';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 import {
     mockS3GatewayForKeirinRace,
@@ -170,6 +171,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                                     j + 1,
                                 ),
                                 baseKeirinRacePlayerDataList,
+                                getJSTDate(new Date()),
                             ),
                     );
                 },
