@@ -17,6 +17,7 @@ export class JraPlaceRecord {
      * @param location - 開催場所
      * @param heldTimes - 開催回数
      * @param heldDayTimes - 開催日数
+     * @param updateDate - 更新日時
      */
     constructor(
         public readonly id: JraPlaceId,
@@ -24,6 +25,7 @@ export class JraPlaceRecord {
         public readonly location: JraRaceCourse,
         public readonly heldTimes: number,
         public readonly heldDayTimes: number,
+        public readonly updateDate: Date,
     ) {}
 
     /**
@@ -38,6 +40,7 @@ export class JraPlaceRecord {
             partial.location ?? this.location,
             partial.heldTimes ?? this.heldTimes,
             partial.heldDayTimes ?? this.heldDayTimes,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -54,6 +57,7 @@ export class JraPlaceRecord {
                 this.heldTimes,
                 this.heldDayTimes,
             ),
+            this.updateDate,
         );
     }
 }

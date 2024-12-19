@@ -17,11 +17,14 @@ export class JraPlaceEntity {
      *
      * @remarks
      * 中央競馬のレース開催場所データを生成する
+     * @param id - ID
      * @param placeData - レース開催場所データ
+     * @param updateDate - 更新日時
      */
     constructor(
         id: JraPlaceId | null,
         public readonly placeData: JraPlaceData,
+        public readonly updateDate: Date,
     ) {
         this.id =
             id ?? generateJraPlaceId(placeData.dateTime, placeData.location);
@@ -36,6 +39,7 @@ export class JraPlaceEntity {
         return new JraPlaceEntity(
             partial.id ?? null,
             partial.placeData ?? this.placeData,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -50,6 +54,7 @@ export class JraPlaceEntity {
             this.placeData.location,
             this.placeData.heldTimes,
             this.placeData.heldDayTimes,
+            this.updateDate,
         );
     }
 }

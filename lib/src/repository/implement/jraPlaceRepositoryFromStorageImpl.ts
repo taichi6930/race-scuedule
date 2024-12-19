@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { JraRaceCourse } from '../../utility/data/jra';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
@@ -123,6 +124,7 @@ export class JraPlaceRepositoryFromStorageImpl
             location: headers.indexOf('location'),
             heldTimes: headers.indexOf('heldTimes'),
             heldDayTimes: headers.indexOf('heldDayTimes'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してPlaceDataのリストを生成
@@ -140,12 +142,17 @@ export class JraPlaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new JraPlaceRecord(
                     columns[indices.id] as JraPlaceId,
                     new Date(columns[indices.dateTime]),
                     columns[indices.location] as JraRaceCourse,
                     parseInt(columns[indices.heldTimes]),
                     parseInt(columns[indices.heldDayTimes]),
+                    updateDate,
                 );
             })
             .filter(

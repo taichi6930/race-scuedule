@@ -9,6 +9,7 @@ import {
     JraRaceCourse,
     JraRaceCourseType,
 } from '../../utility/data/jra';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraRaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
@@ -89,6 +90,7 @@ export class JraRaceRepositoryFromStorageImpl
             number: headers.indexOf('number'),
             heldTimes: headers.indexOf('heldTimes'),
             heldDayTimes: headers.indexOf('heldDayTimes'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         // データ行を解析してRaceDataのリストを生成
@@ -105,6 +107,10 @@ export class JraRaceRepositoryFromStorageImpl
                     return undefined;
                 }
 
+                const updateDate = columns[indices.updateDate]
+                    ? new Date(columns[indices.updateDate])
+                    : getJSTDate(new Date());
+
                 return new JraRaceRecord(
                     columns[indices.id] as JraRaceId,
                     columns[indices.name],
@@ -116,6 +122,7 @@ export class JraRaceRepositoryFromStorageImpl
                     parseInt(columns[indices.number]),
                     parseInt(columns[indices.heldTimes]),
                     parseInt(columns[indices.heldDayTimes]),
+                    updateDate,
                 );
             })
             .filter(

@@ -1,10 +1,10 @@
 import * as cheerio from 'cheerio';
 import { inject, injectable } from 'tsyringe';
 
-import { JraPlaceData } from '../../domain/jraPlaceData';
 import { IJraPlaceDataHtmlGateway } from '../../gateway/interface/iJraPlaceDataHtmlGateway';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { JraRaceCourse } from '../../utility/data/jra';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { generateJraPlaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
@@ -50,16 +50,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 
         // Entityに変換
         const placeEntityList: JraPlaceEntity[] = placeRecordList.map(
-            (placeRecord) =>
-                new JraPlaceEntity(
-                    placeRecord.id,
-                    new JraPlaceData(
-                        placeRecord.dateTime,
-                        placeRecord.location,
-                        placeRecord.heldTimes,
-                        placeRecord.heldDayTimes,
-                    ),
-                ),
+            (placeRecord) => placeRecord.toEntity(),
         );
 
         // filterで日付の範囲を指定
@@ -195,6 +186,7 @@ export class JraPlaceRepositoryFromHtmlImpl
                                 getPlaceName(placeInitial),
                                 heldTimes,
                                 heldDayTimes,
+                                getJSTDate(new Date()),
                             ),
                         );
                     });

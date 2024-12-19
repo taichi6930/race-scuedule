@@ -28,6 +28,7 @@ export class JraRaceRecord {
      * @param number - レース番号
      * @param heldTimes - 開催回数
      * @param heldDayTimes - 開催日数
+     * @param updateDate - 更新日時
      *
      */
     constructor(
@@ -41,6 +42,7 @@ export class JraRaceRecord {
         public readonly number: number,
         public readonly heldTimes: number,
         public readonly heldDayTimes: number,
+        public readonly updateDate: Date,
     ) {}
 
     /**
@@ -60,6 +62,7 @@ export class JraRaceRecord {
             partial.number ?? this.number,
             partial.heldTimes ?? this.heldTimes,
             partial.heldDayTimes ?? this.heldDayTimes,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -81,6 +84,7 @@ export class JraRaceRecord {
                 this.heldTimes,
                 this.heldDayTimes,
             ),
+            this.updateDate,
         );
     }
 }
