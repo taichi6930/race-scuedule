@@ -1,4 +1,5 @@
 import { NarPlaceData } from '../../domain/narPlaceData';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
@@ -28,6 +29,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
             const narPlaceEntity = new NarPlaceEntity(
                 null,
                 new NarPlaceData(new Date(currentDate), '大井'),
+                getJSTDate(new Date()),
             );
             fetchPlaceEntityList.push(narPlaceEntity);
             // 日付を1日進める

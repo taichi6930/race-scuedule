@@ -26,6 +26,7 @@ export class NarRaceRecord {
      * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
+     * @param updateDate - 更新日時
      *
      */
     constructor(
@@ -37,6 +38,7 @@ export class NarRaceRecord {
         public readonly distance: number,
         public readonly grade: NarGradeType,
         public readonly number: number,
+        public readonly updateDate: Date,
     ) {}
 
     /**
@@ -54,6 +56,7 @@ export class NarRaceRecord {
             partial.distance ?? this.distance,
             partial.grade ?? this.grade,
             partial.number ?? this.number,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -73,6 +76,7 @@ export class NarRaceRecord {
                 this.grade,
                 this.number,
             ),
+            this.updateDate,
         );
     }
 }

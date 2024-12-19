@@ -1,4 +1,5 @@
 import { NarRaceData } from '../../domain/narRaceData';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
@@ -39,6 +40,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
                                 'GⅠ',
                                 i,
                             ),
+                            getJSTDate(new Date()),
                         ),
                     );
                 }

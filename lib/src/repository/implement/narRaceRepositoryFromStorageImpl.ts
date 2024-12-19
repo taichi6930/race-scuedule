@@ -9,6 +9,7 @@ import {
     NarRaceCourse,
     NarRaceCourseType,
 } from '../../utility/data/nar';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarRaceId } from '../../utility/raceId';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
@@ -86,6 +87,7 @@ export class NarRaceRepositoryFromStorageImpl
             distance: headers.indexOf('distance'),
             grade: headers.indexOf('grade'),
             number: headers.indexOf('number'),
+            updateDate: headers.indexOf('updateDate'),
         };
 
         console.log('データ行を100件ずつ分割');
@@ -96,8 +98,6 @@ export class NarRaceRepositoryFromStorageImpl
         for (let i = 1; i < lines.length; i += chunkSize) {
             chunks.push(lines.slice(i, i + chunkSize));
         }
-
-        console.log('並列で処理を実行');
 
         // 並列で処理を実行
         const results = await Promise.all(
@@ -114,6 +114,10 @@ export class NarRaceRepositoryFromStorageImpl
                             return undefined;
                         }
 
+                        const updateDate = columns[indices.updateDate]
+                            ? new Date(columns[indices.updateDate])
+                            : getJSTDate(new Date());
+
                         return new NarRaceRecord(
                             columns[indices.id] as NarRaceId,
                             columns[indices.name],
@@ -123,6 +127,7 @@ export class NarRaceRepositoryFromStorageImpl
                             parseInt(columns[indices.distance]),
                             columns[indices.grade] as NarGradeType,
                             parseInt(columns[indices.number]),
+                            updateDate,
                         );
                     })
                     .filter(

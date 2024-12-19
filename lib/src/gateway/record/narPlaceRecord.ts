@@ -15,11 +15,13 @@ export class NarPlaceRecord {
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
+     * @param updateDate - 更新日時
      */
     constructor(
         public readonly id: NarPlaceId,
         public readonly dateTime: Date,
         public readonly location: NarRaceCourse,
+        public readonly updateDate: Date,
     ) {}
 
     /**
@@ -32,6 +34,7 @@ export class NarPlaceRecord {
             partial.id ?? this.id,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
+            partial.updateDate ?? this.updateDate,
         );
     }
 
@@ -43,6 +46,7 @@ export class NarPlaceRecord {
         return new NarPlaceEntity(
             this.id,
             new NarPlaceData(this.dateTime, this.location),
+            this.updateDate,
         );
     }
 }

@@ -23,6 +23,7 @@ const baseNarRaceNumber = 11;
 const baseNarRaceSurfaceType = 'ダート';
 const baseNarRaceDistance = 2000;
 const baseNarRaceGrade: NarGradeType = 'GⅠ';
+const baseNarRaceUpdateDate = new Date('2024-12-01 00:00');
 
 export const baseNarPlaceData = new NarPlaceData(
     baseNarPlaceDateTime,
@@ -43,6 +44,7 @@ export const baseNarPlaceRecord = new NarPlaceRecord(
     generateNarPlaceId(baseNarPlaceDateTime, baseNarPlaceCourse),
     baseNarPlaceDateTime,
     baseNarPlaceCourse,
+    baseNarRaceUpdateDate,
 );
 
 export const baseNarRaceRecord = new NarRaceRecord(
@@ -58,11 +60,20 @@ export const baseNarRaceRecord = new NarRaceRecord(
     baseNarRaceDistance,
     baseNarRaceGrade,
     baseNarRaceNumber,
+    baseNarRaceUpdateDate,
 );
 
-export const baseNarPlaceEntity = new NarPlaceEntity(null, baseNarPlaceData);
+export const baseNarPlaceEntity = new NarPlaceEntity(
+    null,
+    baseNarPlaceData,
+    baseNarRaceUpdateDate,
+);
 
-export const baseNarRaceEntity = new NarRaceEntity(null, baseNarRaceData);
+export const baseNarRaceEntity = new NarRaceEntity(
+    null,
+    baseNarRaceData,
+    baseNarRaceUpdateDate,
+);
 
 export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatMap(
     (location) => {
@@ -91,6 +102,7 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
                     grade as NarGradeType,
                     index + 1,
                 ),
+                baseNarRaceUpdateDate,
             );
         });
     },

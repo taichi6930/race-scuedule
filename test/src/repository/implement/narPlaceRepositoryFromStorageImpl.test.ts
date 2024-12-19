@@ -10,6 +10,7 @@ import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEn
 import { NarPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForNarPlace } from '../../mock/gateway/s3GatewayMock';
 
 describe('NarPlaceRepositoryFromStorageImpl', () => {
@@ -80,6 +81,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                             new NarPlaceEntity(
                                 null,
                                 new NarPlaceData(date, '大井'),
+                                getJSTDate(new Date()),
                             ),
                     );
                 },

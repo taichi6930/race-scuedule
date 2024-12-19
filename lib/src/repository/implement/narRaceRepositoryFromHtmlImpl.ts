@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { NarRaceData } from '../../domain/narRaceData';
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
 import { NarGradeType, NarRaceCourseType } from '../../utility/data/nar';
+import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processNarRaceName } from '../../utility/raceName';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
@@ -111,6 +112,7 @@ export class NarRaceRepositoryFromHtmlImpl
                                 ),
                             ),
                         ),
+                        getJSTDate(new Date()),
                     ),
                 );
             });
