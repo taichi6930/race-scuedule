@@ -102,3 +102,10 @@ export const BoatracePlayerList = [
         priority: 6,
     },
 ];
+
+/**
+ * ボートレースの枠番
+ * @remarks
+ * 1~8枠まで
+ */
+export type AutoracePositionNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;

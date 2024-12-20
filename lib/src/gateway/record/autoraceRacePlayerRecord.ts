@@ -1,9 +1,10 @@
 import '../../utility/format';
 
+import type { AutoracePositionNumber } from '../../utility/data/boatrace';
 import type { AutoraceRaceId } from '../../utility/raceId';
 
 /**
- * オートレースのレース選手データ
+ * Repository層のRecord オートレースのレース出場選手データ
  */
 export class AutoraceRacePlayerRecord {
     /**
@@ -17,12 +18,11 @@ export class AutoraceRacePlayerRecord {
      * @param playerNumber - 選手番号
      * @param updateDate - 更新日時
      *
-     *
      */
     constructor(
         public readonly id: string,
         public readonly raceId: AutoraceRaceId,
-        public readonly positionNumber: number,
+        public readonly positionNumber: AutoracePositionNumber,
         public readonly playerNumber: number,
         public readonly updateDate: Date,
     ) {}
