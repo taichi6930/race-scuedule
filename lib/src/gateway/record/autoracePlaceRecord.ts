@@ -7,7 +7,7 @@ import type {
 import type { AutoracePlaceId } from '../../utility/raceId';
 
 /**
- * Repository層のRecord オートレースのレース開催場所データ
+ * Repository層のRecord オートレースの開催場所データ
  */
 export class AutoracePlaceRecord {
     /**
@@ -20,6 +20,7 @@ export class AutoracePlaceRecord {
      * @param location - 開催場所
      * @param grade - オートレースのグレード
      * @param updateDate - 更新日時
+     *
      */
     constructor(
         public readonly id: AutoracePlaceId,
