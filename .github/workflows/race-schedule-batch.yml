@@ -285,7 +285,7 @@ jobs:
       - name: Send curl request to API
         run: |
           startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date-for-autorace }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
           # カレンダーの更新
           update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
@@ -352,7 +352,7 @@ jobs:
         run: |
           # 日付はset-datesで設定済み
           startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date-for-keirin }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
           currentDate="$startDate"
           while [ "$currentDate" != "$(date -I -d "$finishDate + 1 day")" ]; do
@@ -388,7 +388,7 @@ jobs:
       - name: Send curl request to API
         run: |
           startDate="${{ needs.set-dates.outputs.start-date-for-keirin }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date-for-keirin }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
           # カレンダーの更新
           update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
@@ -445,7 +445,7 @@ jobs:
       - name: Send curl request to API
         run: |
           startDate="${{ needs.set-dates.outputs.start-date }}"
-          finishDate="${{ needs.set-dates.outputs.finish-date-for-boatrace }}"
+          finishDate="${{ needs.set-dates.outputs.finish-date }}"
 
           # カレンダーの更新
           update_race_calendar_response=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
