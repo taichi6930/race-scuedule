@@ -314,14 +314,14 @@ container.register<IS3Gateway<AutoracePlaceRecord>>('AutoracePlaceS3Gateway', {
             case 'PRODUCTION':
                 return new S3Gateway<AutoracePlaceRecord>(
                     'race-schedule-bucket',
-                    'autorace/place/',
+                    'autorace/',
                 );
             case 'ITa':
             case 'LOCAL':
             default:
                 return new MockS3Gateway<AutoracePlaceRecord>(
                     'race-schedule-bucket',
-                    'autorace/place/',
+                    'autorace/',
                 );
         }
     },
