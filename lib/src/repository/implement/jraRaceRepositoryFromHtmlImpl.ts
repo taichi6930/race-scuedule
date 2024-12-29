@@ -145,15 +145,16 @@ export class JraRaceRepositoryFromHtmlImpl
                             .replace('サラ系', '');
 
                         // レースのグレードを取得
-                        const raceGrade: JraGradeType = this.extractRaceGrade(
-                            element,
-                            raceSurfaceType,
-                            rowRaceName,
-                        );
+                        const [raceGrade, _raceName] =
+                            this.extractRaceGradeAndRaceName(
+                                element,
+                                raceSurfaceType,
+                                rowRaceName,
+                            );
 
                         // レース名を取得
                         const raceName = processJraRaceName({
-                            name: rowRaceName,
+                            name: _raceName,
                             place: raceCourse,
                             date: raceDate,
                             surfaceType: raceSurfaceType,
@@ -320,11 +321,11 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param rowRaceName
      * @returns
      */
-    private extractRaceGrade = (
+    private extractRaceGradeAndRaceName = (
         element: cheerio.Cheerio,
         raceSurfaceType: JraRaceCourseType,
         rowRaceName: string,
-    ): JraGradeType => {
+    ): [JraGradeType, string] => {
         let raceGrade: JraGradeType | null = null;
 
         if (rowRaceName.includes('(GⅠ)')) {
@@ -424,7 +425,7 @@ export class JraRaceRepositoryFromHtmlImpl
             }
         }
 
-        return raceGrade ?? '格付けなし';
+        return [raceGrade ?? '格付けなし', rowRaceName];
     };
 
     /**
