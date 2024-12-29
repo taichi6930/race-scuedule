@@ -6,7 +6,11 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlaceDataHtmlGateway';
-import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
+import {
+    KeirinGradeType,
+    KeirinRaceCourse,
+    KeirinRaceCourseList,
+} from '../../utility/data/keirin';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
@@ -142,7 +146,17 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 if (!(th.text() as KeirinRaceCourse)) {
                     return;
                 }
-                const place: KeirinRaceCourse = th.text() as KeirinRaceCourse;
+                const placeString = th.text();
+                // placeStringがKeirinRaceCourseに含まれているか
+                if (
+                    !KeirinRaceCourseList.includes(
+                        placeString as KeirinRaceCourse,
+                    )
+                ) {
+                    console.log(`${placeString}は競輪場に登録されていません`);
+                    return;
+                }
+                const place: KeirinRaceCourse = placeString as KeirinRaceCourse;
 
                 const tds = $(element).find('td');
                 tds.each((index: number, element: cheerio.Element) => {
