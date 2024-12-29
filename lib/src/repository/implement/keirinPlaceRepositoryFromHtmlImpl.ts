@@ -6,7 +6,11 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlaceDataHtmlGateway';
-import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
+import {
+    KeirinGradeType,
+    KeirinRaceCourse,
+    KeirinRaceCourseList,
+} from '../../utility/data/keirin';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
@@ -77,26 +81,16 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         startDate: Date,
         finishDate: Date,
     ): Promise<Date[]> {
-        console.log('startDate', startDate);
-        console.log('finishDate', finishDate);
         const monthList: Date[] = [];
-        let currentDate = new Date(startDate);
+        const currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
-            const date = new Date(
-                currentDate.getFullYear(),
-                currentDate.getMonth(),
-                1,
+            monthList.push(
+                new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
             );
-            monthList.push(date);
-
-            // 次の月の1日を取得
-            currentDate = new Date(
-                currentDate.getFullYear(),
-                currentDate.getMonth() + 1,
-                1,
-            );
+            currentDate.setMonth(currentDate.getMonth() + 1);
         }
+
         console.log(
             `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
         );
@@ -142,7 +136,17 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 if (!(th.text() as KeirinRaceCourse)) {
                     return;
                 }
-                const place: KeirinRaceCourse = th.text() as KeirinRaceCourse;
+                const placeString = th.text();
+                // placeStringがKeirinRaceCourseに含まれているか
+                if (
+                    !KeirinRaceCourseList.includes(
+                        placeString as KeirinRaceCourse,
+                    )
+                ) {
+                    console.log(`${placeString}は競輪場に登録されていません`);
+                    return;
+                }
+                const place: KeirinRaceCourse = placeString as KeirinRaceCourse;
 
                 const tds = $(element).find('td');
                 tds.each((index: number, element: cheerio.Element) => {

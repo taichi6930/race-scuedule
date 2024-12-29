@@ -79,16 +79,13 @@ export class JraPlaceRepositoryFromHtmlImpl
         finishDate: Date,
     ): Promise<Date[]> {
         const yearList: Date[] = [];
-        let currentDate = new Date(startDate);
+        const currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
-            const year = currentDate.getFullYear();
-            const date = new Date(year, 0, 1);
-            yearList.push(date);
-
-            // 次の年の1日を取得
-            currentDate = new Date(year + 1, 0, 1);
+            yearList.push(new Date(currentDate.getFullYear(), 0, 1));
+            currentDate.setFullYear(currentDate.getFullYear() + 1);
         }
+
         console.debug(
             `年リストを生成しました: ${yearList.map((year) => year.toISOString().split('T')[0]).join(', ')}`,
         );
@@ -135,7 +132,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 
         // 開催日数を計算するためのdict
         // keyは競馬場、valueは「key: 開催回数、value: 開催日数」のdict
-        const placeHeldDayTimesCountDict: Record<
+        const placeHeldDayTimesCountMap: Record<
             string,
             Record<string, number>
         > = {};
@@ -150,28 +147,35 @@ export class JraPlaceRepositoryFromHtmlImpl
                     .find(`.d${day.toString()}`)
                     .each((index: number, element: cheerio.Element) => {
                         // 開催競馬場のイニシャルを取得
-                        const placeInitial = $(element).find('span').text();
-                        const place = getPlaceName(placeInitial);
+                        const placeInitial: string = $(element)
+                            .find('span')
+                            .text();
+                        const place: JraRaceCourse = getPlaceName(placeInitial);
+                        // 競馬場が存在しない場合はスキップ
                         if (!place) return;
+
                         // aタグの中の数字を取得、spanタグの中の文字はいらない
                         const heldTimesInitial = $(element).text();
                         // 数字のみを取得（3東の形になっているので、placeInitialの分を削除）
-                        const heldTimes = parseInt(
+                        const heldTimes: number = parseInt(
                             heldTimesInitial.replace(placeInitial, ''),
                         );
                         // placeCountDictに競馬場が存在しない場合は初期化
-                        if (!(place in placeHeldDayTimesCountDict)) {
-                            placeHeldDayTimesCountDict[place] = {};
+                        if (!(place in placeHeldDayTimesCountMap)) {
+                            placeHeldDayTimesCountMap[place] = {};
                         }
                         // 開催回数が存在しない場合は初期化
-                        if (!(heldTimes in placeHeldDayTimesCountDict[place])) {
-                            placeHeldDayTimesCountDict[place][heldTimes] = 0;
+                        if (!(heldTimes in placeHeldDayTimesCountMap[place])) {
+                            placeHeldDayTimesCountMap[place][heldTimes] = 0;
                         }
                         // placeCountDict[place][heldTimes]に1を加算
-                        placeHeldDayTimesCountDict[place][heldTimes] += 1;
+                        placeHeldDayTimesCountMap[place][heldTimes] += 1;
+
                         // 開催日数を取得
-                        const heldDayTimes =
-                            placeHeldDayTimesCountDict[place][heldTimes];
+                        const heldDayTimes: number =
+                            placeHeldDayTimesCountMap[place][heldTimes];
+
+                        // 競馬場開催レコードを追加
                         jraPlaceRecordList.push(
                             new JraPlaceRecord(
                                 generateJraPlaceId(
