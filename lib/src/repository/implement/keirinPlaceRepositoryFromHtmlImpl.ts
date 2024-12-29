@@ -81,26 +81,16 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         startDate: Date,
         finishDate: Date,
     ): Promise<Date[]> {
-        console.log('startDate', startDate);
-        console.log('finishDate', finishDate);
         const monthList: Date[] = [];
-        let currentDate = new Date(startDate);
+        const currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
-            const date = new Date(
-                currentDate.getFullYear(),
-                currentDate.getMonth(),
-                1,
+            monthList.push(
+                new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
             );
-            monthList.push(date);
-
-            // 次の月の1日を取得
-            currentDate = new Date(
-                currentDate.getFullYear(),
-                currentDate.getMonth() + 1,
-                1,
-            );
+            currentDate.setMonth(currentDate.getMonth() + 1);
         }
+
         console.log(
             `月リストを生成しました: ${monthList.map((month) => formatDate(month, 'yyyy-MM-dd')).join(', ')}`,
         );

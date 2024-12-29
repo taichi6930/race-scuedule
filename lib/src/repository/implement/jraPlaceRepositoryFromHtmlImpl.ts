@@ -79,16 +79,13 @@ export class JraPlaceRepositoryFromHtmlImpl
         finishDate: Date,
     ): Promise<Date[]> {
         const yearList: Date[] = [];
-        let currentDate = new Date(startDate);
+        const currentDate = new Date(startDate);
 
         while (currentDate <= finishDate) {
-            const year = currentDate.getFullYear();
-            const date = new Date(year, 0, 1);
-            yearList.push(date);
-
-            // 次の年の1日を取得
-            currentDate = new Date(year + 1, 0, 1);
+            yearList.push(new Date(currentDate.getFullYear(), 0, 1));
+            currentDate.setFullYear(currentDate.getFullYear() + 1);
         }
+
         console.debug(
             `年リストを生成しました: ${yearList.map((year) => year.toISOString().split('T')[0]).join(', ')}`,
         );

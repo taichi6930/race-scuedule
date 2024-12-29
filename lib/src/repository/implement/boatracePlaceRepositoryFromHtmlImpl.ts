@@ -84,31 +84,27 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         startDate: Date,
         finishDate: Date,
     ): Promise<Record<string, Date>> {
-        // 20241: 2024/1/1のようなdictを生成する
         const quarterList: Record<string, Date> = {};
 
-        // qStartDateは、そのクオーターの月初めの日付にする
         const qStartDate = new Date(
             startDate.getFullYear(),
             Math.floor(startDate.getMonth() / 3) * 3,
             1,
         );
 
-        // qFinishDateは、そのクオーターの月初めの日付にする
         const qFinishDate = new Date(
             finishDate.getFullYear(),
             Math.floor(finishDate.getMonth() / 3) * 3,
             1,
         );
 
-        // qStartDateからqFinishDateまでのクオーターのリストを生成する
-        const currentDate = new Date(qStartDate);
-        while (currentDate <= qFinishDate) {
-            const quarter = `${currentDate.getFullYear().toString()}${(
-                Math.floor(currentDate.getMonth() / 3) + 1
-            ).toString()}`;
+        for (
+            let currentDate = new Date(qStartDate);
+            currentDate <= qFinishDate;
+            currentDate.setMonth(currentDate.getMonth() + 3)
+        ) {
+            const quarter = `${currentDate.getFullYear().toString()}${(Math.floor(currentDate.getMonth() / 3) + 1).toString()}`;
             quarterList[quarter] = new Date(currentDate);
-            currentDate.setMonth(currentDate.getMonth() + 3);
         }
 
         return Promise.resolve(quarterList);
