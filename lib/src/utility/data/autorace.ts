@@ -32,7 +32,7 @@ export const AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST: {
 }[] = [{ grade: 'SG', stage: '優勝戦', priority: 9 }];
 
 /**
- * オートレース場
+ * オートレース場 型定義
  */
 export type AutoraceRaceCourse =
     | '船橋'
@@ -41,6 +41,18 @@ export type AutoraceRaceCourse =
     | '浜松'
     | '飯塚'
     | '山陽';
+
+/**
+ * オートレース場リスト
+ */
+export const AutoraceRaceCourseList: AutoraceRaceCourse[] = [
+    '船橋',
+    '川口',
+    '伊勢崎',
+    '浜松',
+    '飯塚',
+    '山陽',
+];
 
 /**
  * オートレースのレース場名とコードの対応表

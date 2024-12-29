@@ -1,5 +1,5 @@
 /**
- * JRAの競馬場
+ * JRAの競馬場 型定義
  */
 export type JraRaceCourse =
     | '札幌'
@@ -12,6 +12,22 @@ export type JraRaceCourse =
     | '京都'
     | '阪神'
     | '小倉';
+
+/**
+ * JRAの競馬場 リスト
+ */
+export const JraRaceCourseList: JraRaceCourse[] = [
+    '札幌',
+    '函館',
+    '福島',
+    '新潟',
+    '東京',
+    '中山',
+    '中京',
+    '京都',
+    '阪神',
+    '小倉',
+];
 
 /**
  * JRAの馬場種別

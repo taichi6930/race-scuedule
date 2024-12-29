@@ -36,7 +36,7 @@ export const NAR_BABACODE: Record<string, string> = {
 };
 
 /**
- * NARの競馬場
+ * NARの競馬場 型定義
  */
 export type NarRaceCourse =
     | '北見ば'
@@ -70,6 +70,43 @@ export type NarRaceCourse =
     | '佐賀'
     | '荒尾'
     | '中津';
+
+/**
+ * NARの競馬場 リスト
+ */
+export const NarRaceCourseList: NarRaceCourse[] = [
+    '北見ば',
+    '岩見ば',
+    '帯広ば',
+    '旭川ば',
+    '旭川',
+    '門別',
+    '札幌',
+    '盛岡',
+    '水沢',
+    '上山',
+    '新潟',
+    '三条',
+    '足利',
+    '宇都宮',
+    '高崎',
+    '浦和',
+    '船橋',
+    '大井',
+    '川崎',
+    '金沢',
+    '笠松',
+    '名古屋',
+    '中京',
+    '園田',
+    '姫路',
+    '益田',
+    '福山',
+    '高知',
+    '佐賀',
+    '荒尾',
+    '中津',
+];
 
 /**
  * NARの馬場種別
