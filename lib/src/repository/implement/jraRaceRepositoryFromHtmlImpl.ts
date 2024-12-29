@@ -3,7 +3,12 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraRaceData } from '../../domain/jraRaceData';
 import { IJraRaceDataHtmlGateway } from '../../gateway/interface/iJraRaceDataHtmlGateway';
-import { JraGradeType, JraRaceCourse } from '../../utility/data/jra';
+import {
+    JraGradeType,
+    JraRaceCourse,
+    JraRaceCourseList,
+    JraRaceCourseType,
+} from '../../utility/data/jra';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processJraRaceName } from '../../utility/raceName';
@@ -50,17 +55,12 @@ export class JraRaceRepositoryFromHtmlImpl
 
     @Logger
     async fetchRaceListFromHtmlWithJraPlace(
-        date: Date,
+        raceDate: Date,
     ): Promise<JraRaceEntity[]> {
         try {
-            const [year, month, day] = [
-                date.getFullYear(),
-                date.getMonth() + 1,
-                date.getDate(),
-            ];
             // レース情報を取得
             const htmlText: string =
-                await this.jraRaceDataHtmlGateway.getRaceDataHtml(date);
+                await this.jraRaceDataHtmlGateway.getRaceDataHtml(raceDate);
             const jraRaceDataList: JraRaceEntity[] = [];
 
             // mockHTML内のsection id="raceInfo"の中のtableを取得
@@ -72,6 +72,7 @@ export class JraRaceRepositoryFromHtmlImpl
             table.each((i: number, tableElem: cheerio.Element) => {
                 // theadタグを取得
                 const thead = $(tableElem).find('thead');
+
                 // thead内のthタグ内に「x回yyz日目」が含まれている
                 // 「2回東京8日目」のような文字列が取得できる
                 // xは回数、yyは競馬場名、zは日目
@@ -84,47 +85,52 @@ export class JraRaceRepositoryFromHtmlImpl
                     return;
                 }
                 // 競馬場を取得
-                // TODO: JraRaceCourse型に変換できるかどうかは別途検討
-                const placeString: string = theadElementMatch[2];
-                // placeStringがJraRaceCourseに変換できるかを確認して、OKであればキャストする
-                const place: JraRaceCourse = placeString as JraRaceCourse;
-
-                // 開催回数を取得 数字でない場合はreturn
-                if (isNaN(parseInt(theadElementMatch[1]))) {
+                const raceCourse: JraRaceCourse | null =
+                    this.extractRaceCourse(theadElementMatch);
+                // 開催回数を取得
+                const raceHeld: number | null =
+                    this.extractRaceHeld(theadElementMatch);
+                // 開催日数を取得
+                const raceHeldDay: number | null =
+                    this.extractRaceHeldDay(theadElementMatch);
+                // 競馬場、開催回数、開催日数が取得できない場合はreturn
+                if (
+                    raceCourse === null ||
+                    raceHeld === null ||
+                    raceHeldDay === null
+                ) {
                     return;
                 }
-                const raceHeld: number = parseInt(theadElementMatch[1]);
-                // 開催日程を取得 数字でない場合はreturn
-                if (isNaN(parseInt(theadElementMatch[3]))) {
-                    return;
-                }
-                const raceHeldDay: number = parseInt(theadElementMatch[3]);
 
                 // tbody内のtrタグを取得
                 $(tableElem)
                     .find('tbody')
                     .find('tr')
                     .each((_: number, elem: cheerio.Element) => {
-                        // trタグ内のtdタグを取得
-                        const td = $(elem).find('td');
-                        // tdが3つある
-                        // 1つ目はレース番号とレース開始時間
-                        // hh:mmの形式で取得
-                        const raceNumAndTime = td.eq(0).text().split(' ')[0];
-                        // tdの最初の要素からレース番号を取得 raceNumAndTimeのxRとなっているxを取得
-                        const raceNum: number = parseInt(
-                            raceNumAndTime.split('R')[0],
+                        const element = $(elem);
+                        // レース番号を取得
+                        const raceNumber = this.extractRaceNumber(element);
+                        // レース距離を取得
+                        const raceDistance = this.extractRaceDistance(element);
+                        // レース距離が取得できない場合はreturn
+                        if (raceDistance === null) {
+                            return;
+                        }
+                        // レース時間を取得
+                        const raceDateTime: Date = this.extractRaceTime(
+                            element,
+                            raceDate,
                         );
-                        // tdの最初の要素からレース開始時間を取得 raceNumAndTimeのhh:mmを取得
-                        const raceTime = raceNumAndTime.split('R')[1];
-                        // hh:mmの形式からhhとmmを取得
-                        const [hour, minute] = raceTime
-                            .split(':')
-                            .map((time: string) => parseInt(time));
+                        // surfaceTypeを取得
+                        const raceSurfaceType =
+                            this.extractSurfaceType(element);
+                        if (raceSurfaceType === null) {
+                            return;
+                        }
 
                         // 2つ目はレース名、レースのグレード、馬の種類、距離、頭数
-                        // レース名は <a class="" href="/db/race/202405120401/" itemprop="url">サラ系3歳未勝利</a> のような形式で取得
-                        let raceName = td
+                        const rowRaceName = element
+                            .find('td')
                             .eq(1)
                             .find('a')
                             .text()
@@ -138,149 +144,33 @@ export class JraRaceRepositoryFromHtmlImpl
                             .replace(/カップ/, 'C')
                             .replace('サラ系', '');
 
-                        const surfaceTypeMatch = /[芝ダ障]{1,2}/.exec(
-                            td.eq(1).find('span').eq(1).text(),
+                        // レースのグレードを取得
+                        const raceGrade: JraGradeType = this.extractRaceGrade(
+                            element,
+                            raceSurfaceType,
+                            rowRaceName,
                         );
-                        // ダ である場合には ダート に、障 である場合には 障害 に変換する
-                        const surfaceType: string = (
-                            surfaceTypeMatch?.[0] ?? ''
-                        )
-                            .replace('ダ', 'ダート')
-                            .replace('障', '障害');
-                        if (
-                            surfaceType !== '芝' &&
-                            surfaceType !== 'ダート' &&
-                            surfaceType !== '障害'
-                        ) {
-                            return;
-                        }
 
-                        const distanceMatch = /\d+m/.exec(
-                            td.eq(1).find('span').eq(1).text(),
-                        );
-                        const distance: number = distanceMatch
-                            ? parseInt(distanceMatch[0].replace('m', ''))
-                            : 0;
-                        if (distance === 0) {
-                            return;
-                        }
-                        let raceGrade: JraGradeType | null = null;
-
-                        if (raceName.includes('(GⅠ)')) {
-                            raceGrade = surfaceType === '障害' ? 'J.GⅠ' : 'GⅠ';
-                            raceName = raceName.replace('(GⅠ)', '');
-                        }
-                        if (raceName.includes('(GⅡ)')) {
-                            raceGrade = surfaceType === '障害' ? 'J.GⅡ' : 'GⅡ';
-                            raceName = raceName.replace('(GⅡ)', '');
-                        }
-                        if (raceName.includes('(GⅢ)')) {
-                            raceGrade = surfaceType === '障害' ? 'J.GⅢ' : 'GⅢ';
-                            raceName = raceName.replace('(GⅢ)', '');
-                        }
-                        if (raceName.includes('(L)')) {
-                            raceGrade = 'Listed';
-                            raceName = raceName.replace('(L)', '');
-                        }
-                        if (raceGrade === null) {
-                            // 2つあるspanのうち1つ目にレースの格が入っているので、それを取得
-                            const tbodyTrTdElement1 = td
-                                .eq(1)
-                                .find('span')
-                                .eq(0)
-                                .text();
-                            if (tbodyTrTdElement1.includes('オープン')) {
-                                raceGrade = 'オープン特別';
-                            }
-                            if (tbodyTrTdElement1.includes('3勝クラス')) {
-                                raceGrade = '3勝クラス';
-                            }
-                            if (tbodyTrTdElement1.includes('2勝クラス')) {
-                                raceGrade = '2勝クラス';
-                            }
-                            if (tbodyTrTdElement1.includes('1勝クラス')) {
-                                raceGrade = '1勝クラス';
-                            }
-                            if (tbodyTrTdElement1.includes('1600万')) {
-                                raceGrade = '1600万下';
-                            }
-                            if (tbodyTrTdElement1.includes('1000万')) {
-                                raceGrade = '1000万下';
-                            }
-                            if (tbodyTrTdElement1.includes('900万')) {
-                                raceGrade = '900万下';
-                            }
-                            if (tbodyTrTdElement1.includes('500万')) {
-                                raceGrade = '500万下';
-                            }
-                            if (tbodyTrTdElement1.includes('未勝利')) {
-                                raceGrade = '未勝利';
-                            }
-                            if (tbodyTrTdElement1.includes('未出走')) {
-                                raceGrade = '未出走';
-                            }
-                            if (tbodyTrTdElement1.includes('新馬')) {
-                                raceGrade = '新馬';
-                            }
-                        }
-                        if (raceGrade === null) {
-                            if (raceName.includes('オープン')) {
-                                raceGrade = 'オープン特別';
-                            }
-                            if (raceName.includes('3勝クラス')) {
-                                raceGrade = '3勝クラス';
-                            }
-                            if (raceName.includes('2勝クラス')) {
-                                raceGrade = '2勝クラス';
-                            }
-                            if (raceName.includes('1勝クラス')) {
-                                raceGrade = '1勝クラス';
-                            }
-                            if (raceName.includes('1600万')) {
-                                raceGrade = '1600万下';
-                            }
-                            if (raceName.includes('1000万')) {
-                                raceGrade = '1000万下';
-                            }
-                            if (raceName.includes('900万')) {
-                                raceGrade = '900万下';
-                            }
-                            if (raceName.includes('500万')) {
-                                raceGrade = '500万下';
-                            }
-                            if (raceName.includes('未勝利')) {
-                                raceGrade = '未勝利';
-                            }
-                            if (raceName.includes('未出走')) {
-                                raceGrade = '未出走';
-                            }
-                            if (raceName.includes('新馬')) {
-                                raceGrade = '新馬';
-                            }
-                            if (raceName.includes('オープン')) {
-                                raceGrade = 'オープン';
-                            }
-                        }
-
-                        const newRaceName = processJraRaceName({
-                            name: raceName,
-                            place: place,
-                            date: new Date(year, month - 1, day),
-                            surfaceType: surfaceType,
-                            distance: distance,
-                            grade: raceGrade ?? '格付けなし',
+                        // レース名を取得
+                        const raceName = processJraRaceName({
+                            name: rowRaceName,
+                            place: raceCourse,
+                            date: raceDate,
+                            surfaceType: raceSurfaceType,
+                            distance: raceDistance,
+                            grade: raceGrade,
                         });
 
                         const jradata = new JraRaceEntity(
                             null,
                             new JraRaceData(
-                                newRaceName,
-                                new Date(year, month - 1, day, hour, minute),
-                                place,
-                                surfaceType,
-                                distance,
-                                raceGrade as JraGradeType,
-                                raceNum,
+                                raceName,
+                                raceDateTime,
+                                raceCourse,
+                                raceSurfaceType,
+                                raceDistance,
+                                raceGrade,
+                                raceNumber,
                                 raceHeld,
                                 raceHeldDay,
                             ),
@@ -295,6 +185,247 @@ export class JraRaceRepositoryFromHtmlImpl
             return [];
         }
     }
+
+    /**
+     * 開催競馬場を取得
+     *
+     * @param theadElementMatch
+     * @returns
+     */
+    private extractRaceCourse = (
+        theadElementMatch: RegExpExecArray,
+    ): JraRaceCourse | null => {
+        const placeString: string = theadElementMatch[2];
+        // placeStringがJraRaceCourseに変換できるかを確認して、OKであればキャストする
+        const place: JraRaceCourse = placeString as JraRaceCourse;
+        if (!JraRaceCourseList.includes(place)) return null;
+        return place;
+    };
+
+    /**
+     * 開催回数を取得
+     *
+     * @param theadElementMatch
+     * @returns
+     */
+    private extractRaceHeld = (
+        theadElementMatch: RegExpExecArray,
+    ): number | null => {
+        // 開催回数を取得 数字でない場合はreturn
+        if (isNaN(parseInt(theadElementMatch[1]))) {
+            return null;
+        }
+        const raceHeld: number = parseInt(theadElementMatch[1]);
+        return raceHeld;
+    };
+
+    /**
+     * 開催日数を取得
+     *
+     * @param theadElementMatch
+     * @returns
+     */
+    private extractRaceHeldDay = (
+        theadElementMatch: RegExpExecArray,
+    ): number | null => {
+        // 開催日程を取得 数字でない場合はreturn
+        if (isNaN(parseInt(theadElementMatch[3]))) {
+            return null;
+        }
+        const raceHeldDay: number = parseInt(theadElementMatch[3]);
+        return raceHeldDay;
+    };
+
+    /**
+     * レース番号を取得
+     *
+     * @param element
+     * @returns
+     */
+    private extractRaceNumber = (element: cheerio.Cheerio): number => {
+        const raceNumAndTime = element.find('td').eq(0).text().split(' ')[0];
+        // tdの最初の要素からレース番号を取得 raceNumAndTimeのxRとなっているxを取得
+        const raceNum: number = parseInt(raceNumAndTime.split('R')[0]);
+        return raceNum;
+    };
+
+    /**
+     * レース距離を取得
+     *
+     * @param element
+     * @returns
+     */
+    private extractRaceDistance = (element: cheerio.Cheerio): number | null => {
+        // tdの2つ目の要素からレース距離を取得
+        const distanceMatch = /\d+m/.exec(
+            element.find('td').eq(1).find('span').eq(1).text(),
+        );
+        const distance: number | null = distanceMatch
+            ? parseInt(distanceMatch[0].replace('m', ''))
+            : null;
+        return distance;
+    };
+
+    /**
+     * レース時間を取得
+     *
+     * @param element
+     * @returns
+     */
+    private extractRaceTime = (element: cheerio.Cheerio, date: Date): Date => {
+        // tdが3つある
+        // 1つ目はレース番号とレース開始時間
+        // hh:mmの形式で取得
+        const raceNumAndTime = element.find('td').eq(0).text().split(' ')[0];
+        // tdの最初の要素からレース開始時間を取得 raceNumAndTimeのhh:mmを取得
+        const raceTime = raceNumAndTime.split('R')[1];
+        // hh:mmの形式からhhとmmを取得
+        const [hour, minute] = raceTime
+            .split(':')
+            .map((time: string) => parseInt(time));
+        return new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            hour,
+            minute,
+        );
+    };
+
+    /** surfaceType */
+    private extractSurfaceType = (
+        element: cheerio.Cheerio,
+    ): JraRaceCourseType | null => {
+        const surfaceTypeMatch = /[芝ダ障]{1,2}/.exec(
+            element.find('td').eq(1).find('span').eq(1).text(),
+        );
+        // ダ である場合には ダート に、障 である場合には 障害 に変換する
+        const surfaceType: string = (surfaceTypeMatch?.[0] ?? '')
+            .replace('ダ', 'ダート')
+            .replace('障', '障害');
+        if (
+            surfaceType !== '芝' &&
+            surfaceType !== 'ダート' &&
+            surfaceType !== '障害'
+        ) {
+            return null;
+        }
+        return surfaceType as JraRaceCourseType;
+    };
+
+    /**
+     * レースグレードを取得
+     * @param element
+     * @param raceSurfaceType
+     * @param rowRaceName
+     * @returns
+     */
+    private extractRaceGrade = (
+        element: cheerio.Cheerio,
+        raceSurfaceType: JraRaceCourseType,
+        rowRaceName: string,
+    ): JraGradeType => {
+        let raceGrade: JraGradeType | null = null;
+
+        if (rowRaceName.includes('(GⅠ)')) {
+            raceGrade = raceSurfaceType === '障害' ? 'J.GⅠ' : 'GⅠ';
+            rowRaceName = rowRaceName.replace('(GⅠ)', '');
+        }
+        if (rowRaceName.includes('(GⅡ)')) {
+            raceGrade = raceSurfaceType === '障害' ? 'J.GⅡ' : 'GⅡ';
+            rowRaceName = rowRaceName.replace('(GⅡ)', '');
+        }
+        if (rowRaceName.includes('(GⅢ)')) {
+            raceGrade = raceSurfaceType === '障害' ? 'J.GⅢ' : 'GⅢ';
+            rowRaceName = rowRaceName.replace('(GⅢ)', '');
+        }
+        if (rowRaceName.includes('(L)')) {
+            raceGrade = 'Listed';
+            rowRaceName = rowRaceName.replace('(L)', '');
+        }
+        if (raceGrade === null) {
+            // 2つあるspanのうち1つ目にレースの格が入っているので、それを取得
+            const tbodyTrTdElement1 = element
+                .find('td')
+                .eq(1)
+                .find('span')
+                .eq(0)
+                .text();
+            if (tbodyTrTdElement1.includes('オープン')) {
+                raceGrade = 'オープン特別';
+            }
+            if (tbodyTrTdElement1.includes('3勝クラス')) {
+                raceGrade = '3勝クラス';
+            }
+            if (tbodyTrTdElement1.includes('2勝クラス')) {
+                raceGrade = '2勝クラス';
+            }
+            if (tbodyTrTdElement1.includes('1勝クラス')) {
+                raceGrade = '1勝クラス';
+            }
+            if (tbodyTrTdElement1.includes('1600万')) {
+                raceGrade = '1600万下';
+            }
+            if (tbodyTrTdElement1.includes('1000万')) {
+                raceGrade = '1000万下';
+            }
+            if (tbodyTrTdElement1.includes('900万')) {
+                raceGrade = '900万下';
+            }
+            if (tbodyTrTdElement1.includes('500万')) {
+                raceGrade = '500万下';
+            }
+            if (tbodyTrTdElement1.includes('未勝利')) {
+                raceGrade = '未勝利';
+            }
+            if (tbodyTrTdElement1.includes('未出走')) {
+                raceGrade = '未出走';
+            }
+            if (tbodyTrTdElement1.includes('新馬')) {
+                raceGrade = '新馬';
+            }
+        }
+        if (raceGrade === null) {
+            if (rowRaceName.includes('オープン')) {
+                raceGrade = 'オープン特別';
+            }
+            if (rowRaceName.includes('3勝クラス')) {
+                raceGrade = '3勝クラス';
+            }
+            if (rowRaceName.includes('2勝クラス')) {
+                raceGrade = '2勝クラス';
+            }
+            if (rowRaceName.includes('1勝クラス')) {
+                raceGrade = '1勝クラス';
+            }
+            if (rowRaceName.includes('1600万')) {
+                raceGrade = '1600万下';
+            }
+            if (rowRaceName.includes('1000万')) {
+                raceGrade = '1000万下';
+            }
+            if (rowRaceName.includes('900万')) {
+                raceGrade = '900万下';
+            }
+            if (rowRaceName.includes('500万')) {
+                raceGrade = '500万下';
+            }
+            if (rowRaceName.includes('未勝利')) {
+                raceGrade = '未勝利';
+            }
+            if (rowRaceName.includes('未出走')) {
+                raceGrade = '未出走';
+            }
+            if (rowRaceName.includes('新馬')) {
+                raceGrade = '新馬';
+            }
+            if (rowRaceName.includes('オープン')) {
+                raceGrade = 'オープン';
+            }
+        }
+
+        return raceGrade ?? '格付けなし';
+    };
 
     /**
      * レースデータを登録する
