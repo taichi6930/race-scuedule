@@ -9,6 +9,7 @@ import { IWorldRaceDataHtmlGateway } from '../../gateway/interface/iWorldRaceDat
 import {
     WorldGradeType,
     WorldRaceCourse,
+    WorldRaceCourseList,
     WorldRaceCourseType,
 } from '../../utility/data/world';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
@@ -144,7 +145,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                             .text()
                             .trim() as WorldRaceCourse;
                         // locationがWorldRaceCourseに適していない場合はスキップ
-                        if (!Object.keys(WORLD_PLACE_CODE).includes(location)) {
+                        if (!WorldRaceCourseList.includes(location)) {
                             console.error(
                                 `登録されていない競馬場です: ${location} ${rowRaceName}`,
                             );
