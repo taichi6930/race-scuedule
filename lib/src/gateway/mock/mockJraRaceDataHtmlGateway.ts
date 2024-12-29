@@ -17,8 +17,8 @@ export class MockJraRaceDataHtmlGateway implements IJraRaceDataHtmlGateway {
     @Logger
     async getRaceDataHtml(date: Date): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/jra/race/${format(date, 'yyyyMMdd')}.html`;
-        // lib/src/gateway/mockData/jra/placeの中にあるhtmlを取得
+        const testHtmlUrl = `../mockData/html/jra/race/${format(date, 'yyyyMMdd')}.html`;
+        // lib/src/gateway/mockData/html/jra/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
