@@ -7,10 +7,10 @@ import { inject, injectable } from 'tsyringe';
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatracePlaceDataHtmlGateway';
 import {
-    BOATRACE_PLACE_CODE,
     BOATRACE_SPECIFIED_GRADE_LIST,
     BoatraceGradeType,
     BoatraceRaceCourse,
+    BoatraceRaceCourseList,
 } from '../../utility/data/boatrace';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -180,11 +180,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 .replace(/[\s　]+/g, '');
 
             //placeがBoatraceRaceCourseに含まれているか確認
-            if (
-                !Object.keys(BOATRACE_PLACE_CODE).includes(
-                    place as BoatraceRaceCourse,
-                )
-            ) {
+            if (!BoatraceRaceCourseList.includes(place as BoatraceRaceCourse)) {
                 console.log('ボートレース場が見つかりませんでした');
                 return;
             }
