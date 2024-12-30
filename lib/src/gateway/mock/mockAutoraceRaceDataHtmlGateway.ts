@@ -26,8 +26,8 @@ export class MockAutoraceRaceDataHtmlGateway
         place: AutoraceRaceCourse,
     ): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/autorace/race/${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[place]}.html`;
-        // lib/src/gateway/mockData/autorace/placeの中にあるhtmlを取得
+        const testHtmlUrl = `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[place]}.html`;
+        // lib/src/gateway/mockData/html/autorace/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');

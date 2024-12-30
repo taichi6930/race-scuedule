@@ -17,8 +17,8 @@ export class MockNarPlaceDataHtmlGateway implements INarPlaceDataHtmlGateway {
     @Logger
     getPlaceDataHtml(date: Date): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/nar/place/${format(date, 'yyyyMM')}.html`;
-        // lib/src/gateway/mockData/nar/placeの中にあるhtmlを取得
+        const testHtmlUrl = `../mockData/html/nar/place/${format(date, 'yyyyMM')}.html`;
+        // lib/src/gateway/mockData/html/nar/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');

@@ -4,6 +4,8 @@ import { IS3Gateway, Record } from '../interface/iS3Gateway';
 import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
 import { ENV } from '../../utility/env';
+import fs from 'fs';
+import path from 'path';
 import {
     generateAutoracePlaceId,
     generateAutoraceRaceId,
@@ -73,27 +75,160 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             if (MockS3Gateway.isInitialized) {
                 return;
             }
+            // 初期化処理フラグを立てる
             MockS3Gateway.isInitialized = true;
 
+            await this.setPlaceMockData();
+            await this.setRaceMockData();
+        })();
+    }
+
+    /**
+     * モックのデータをS3にアップロードする
+     *
+     * @param data
+     * @param fileName
+     */
+    @Logger
+    async uploadDataToS3(data: Record[], fileName: string): Promise<void> {
+        try {
+            const csvContent = this.convertToCsv(data);
+            const key = `${this.folderPath}${fileName}`;
+            MockS3Gateway.mockStorage.set(key, csvContent);
+        } catch (error) {
+            console.debug(error);
+            throw new Error('モックのファイルのアップロードに失敗しました');
+        }
+    }
+
+    /**
+     * モックのデータをS3から取得する
+     *
+     * @param fileName
+     * @returns
+     */
+    @Logger
+    async fetchDataFromS3(fileName: string): Promise<string> {
+        const key = `${this.folderPath}${fileName}`;
+        const data = MockS3Gateway.mockStorage.get(key);
+        if (!data) {
+            console.warn(`モックのファイルが存在しません: ${key}`);
+            return '';
+        }
+        console.log(`モックのファイルを取得しました: ${key}`);
+        return data;
+    }
+
+    /**
+     * オブジェクトデータをCSV形式に変換する
+     *
+     * @private
+     * @param {T[]} data
+     * @returns {string}
+     */
+    @Logger
+    private convertToCsv(data: Record[]): string {
+        if (data.length === 0) return '';
+
+        const keys = Object.keys(data[0]);
+        const csvHeader = keys.join(',') + '\n';
+        const csvRows = data
+            .map((item) => keys.map((key) => (item as any)[key]).join(','))
+            .join('\n');
+
+        return `${csvHeader}${csvRows}`;
+    }
+
+    /**
+     * モックデータを作成する
+     */
+    @Logger
+    private async setPlaceMockData() {
+        if (ENV === 'ITa') return;
+        if (ENV === 'STAGING') {
+            // 最初にmockStorageに値を入れておく
+            // 2024年のデータ366日分を作成
+            await Promise.all([
+                this.setNarPlaceMockData(),
+                this.setJraPlaceMockData(),
+                this.setKeirinPlaceMockData(),
+                this.setAutoracePlaceMockData(),
+                this.setBoatracePlaceMockData(),
+            ]);
+            return;
+        }
+
+        const csvPathList = [
+            'nar/placeList.csv', // nar
+            'jra/placeList.csv', // jra
+            'keirin/placeList.csv', // keirin
+            'autorace/placeList.csv', // autorace
+            'boatrace/placeList.csv', // boatrace
+        ];
+
+        for (const csvPath of csvPathList) {
+            try {
+                const _csvPath = path.join(
+                    __dirname,
+                    `../mockData/csv/${csvPath}`,
+                );
+                const data = fs.readFileSync(_csvPath, 'utf-8');
+                MockS3Gateway.mockStorage.set(csvPath, data);
+                console.log(
+                    `MockS3Gateway: ${csvPath}のデータを読み込みました`,
+                );
+            } catch (error) {
+                console.error(`Error reading CSV from ${csvPath}:`, error);
+            }
+        }
+    }
+
+    /**
+     * モックデータを作成する
+     */
+    @Logger
+    private async setRaceMockData() {
+        if (ENV === 'ITa') return;
+        if (ENV === 'STAGING') {
             // 最初にmockStorageに値を入れておく
             // 2024年のデータ366日分を作成
             await Promise.all([
                 this.setNarRaceMockData(),
-                this.setNarPlaceMockData(),
-                this.setOldNarRaceMockData(),
                 this.setJraRaceMockData(),
-                this.setJraPlaceMockData(),
                 this.setKeirinRaceMockData(),
-                this.setKeirinPlaceMockData(),
                 this.setAutoraceRaceMockData(),
-                this.setAutoracePlaceMockData(),
                 this.setBoatraceRaceMockData(),
-                this.setBoatracePlaceMockData(),
                 this.setWorldRaceMockData(),
             ]);
-        })();
+            return;
+        }
+
+        const csvPathList = [
+            'world/raceList.csv', // world
+            'nar/raceList.csv', // nar
+            'jra/raceList.csv', // jra
+            'keirin/raceList.csv', // keirin
+            'autorace/raceList.csv', // autorace
+            'boatrace/raceList.csv', // boatrace
+        ];
+
+        for (const csvPath of csvPathList) {
+            try {
+                const _csvPath = path.join(
+                    __dirname,
+                    `../mockData/csv/${csvPath}`,
+                );
+                const data = fs.readFileSync(_csvPath, 'utf-8');
+                MockS3Gateway.mockStorage.set(csvPath, data);
+            } catch (error) {
+                console.error(`Error reading CSV from ${csvPath}:`, error);
+            }
+        }
     }
 
+    /**
+     * WorldRaceのモックデータを作成する
+     */
     @Logger
     private async setWorldRaceMockData() {
         switch (ENV) {
@@ -677,61 +812,5 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                 MockS3Gateway.mockStorage.set(fileName, mockData.join('\n'));
                 break;
         }
-    }
-
-    /**
-     * モックのデータをS3にアップロードする
-     *
-     * @param data
-     * @param fileName
-     */
-    @Logger
-    async uploadDataToS3(data: Record[], fileName: string): Promise<void> {
-        try {
-            const csvContent = this.convertToCsv(data);
-            const key = `${this.folderPath}${fileName}`;
-            MockS3Gateway.mockStorage.set(key, csvContent);
-        } catch (error) {
-            console.debug(error);
-            throw new Error('モックのファイルのアップロードに失敗しました');
-        }
-    }
-
-    /**
-     * モックのデータをS3から取得する
-     *
-     * @param fileName
-     * @returns
-     */
-    @Logger
-    async fetchDataFromS3(fileName: string): Promise<string> {
-        const key = `${this.folderPath}${fileName}`;
-        const data = MockS3Gateway.mockStorage.get(key);
-        if (!data) {
-            console.warn(`モックのファイルが存在しません: ${key}`);
-            return '';
-        }
-        console.log(`モックのファイルを取得しました: ${key}`);
-        return data;
-    }
-
-    /**
-     * オブジェクトデータをCSV形式に変換する
-     *
-     * @private
-     * @param {T[]} data
-     * @returns {string}
-     */
-    @Logger
-    private convertToCsv(data: Record[]): string {
-        if (data.length === 0) return '';
-
-        const keys = Object.keys(data[0]);
-        const csvHeader = keys.join(',') + '\n';
-        const csvRows = data
-            .map((item) => keys.map((key) => (item as any)[key]).join(','))
-            .join('\n');
-
-        return `${csvHeader}${csvRows}`;
     }
 }
