@@ -4,6 +4,8 @@ import { IS3Gateway, Record } from '../interface/iS3Gateway';
 import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
 import { ENV } from '../../utility/env';
+import fs from 'fs';
+import path from 'path';
 import {
     generateAutoracePlaceId,
     generateAutoraceRaceId,
@@ -75,25 +77,100 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             }
             MockS3Gateway.isInitialized = true;
 
+            await this.setPlaceMockData();
+            await this.setRaceMockData();
+        })();
+    }
+    /**
+     * モックデータを作成する
+     */
+    @Logger
+    private async setPlaceMockData() {
+        if (ENV === 'ITa') return;
+        if (ENV === 'STAGING') {
+            // 最初にmockStorageに値を入れておく
+            // 2024年のデータ366日分を作成
+            await Promise.all([
+                this.setNarPlaceMockData(),
+                this.setJraPlaceMockData(),
+                this.setKeirinPlaceMockData(),
+                this.setAutoracePlaceMockData(),
+                this.setBoatracePlaceMockData(),
+            ]);
+            return;
+        }
+
+        const csvPathList = [
+            'nar/placeList.csv', // nar
+            'jra/placeList.csv', // jra
+            'keirin/placeList.csv', // keirin
+            'autorace/placeList.csv', // autorace
+            'boatrace/placeList.csv', // boatrace
+        ];
+
+        for (const csvPath of csvPathList) {
+            try {
+                const _csvPath = path.join(
+                    __dirname,
+                    `../mockData/csv/${csvPath}`,
+                );
+                const data = fs.readFileSync(_csvPath, 'utf-8');
+                MockS3Gateway.mockStorage.set(csvPath, data);
+                console.log(
+                    `MockS3Gateway: ${csvPath}のデータを読み込みました`,
+                );
+            } catch (error) {
+                console.error(`Error reading CSV from ${csvPath}:`, error);
+            }
+        }
+    }
+
+    /**
+     * モックデータを作成する
+     */
+    @Logger
+    private async setRaceMockData() {
+        if (ENV === 'ITa') return;
+        if (ENV === 'STAGING') {
             // 最初にmockStorageに値を入れておく
             // 2024年のデータ366日分を作成
             await Promise.all([
                 this.setNarRaceMockData(),
-                this.setNarPlaceMockData(),
-                this.setOldNarRaceMockData(),
                 this.setJraRaceMockData(),
-                this.setJraPlaceMockData(),
                 this.setKeirinRaceMockData(),
-                this.setKeirinPlaceMockData(),
                 this.setAutoraceRaceMockData(),
-                this.setAutoracePlaceMockData(),
                 this.setBoatraceRaceMockData(),
-                this.setBoatracePlaceMockData(),
                 this.setWorldRaceMockData(),
             ]);
-        })();
+            return;
+        }
+
+        const csvPathList = [
+            'world/raceList.csv', // world
+            'nar/raceList.csv', // nar
+            'jra/raceList.csv', // jra
+            'keirin/raceList.csv', // keirin
+            'autorace/raceList.csv', // autorace
+            'boatrace/raceList.csv', // boatrace
+        ];
+
+        for (const csvPath of csvPathList) {
+            try {
+                const _csvPath = path.join(
+                    __dirname,
+                    `../mockData/csv/${csvPath}`,
+                );
+                const data = fs.readFileSync(_csvPath, 'utf-8');
+                MockS3Gateway.mockStorage.set(csvPath, data);
+            } catch (error) {
+                console.error(`Error reading CSV from ${csvPath}:`, error);
+            }
+        }
     }
 
+    /**
+     * WorldRaceのモックデータを作成する
+     */
     @Logger
     private async setWorldRaceMockData() {
         switch (ENV) {

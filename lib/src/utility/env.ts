@@ -5,6 +5,7 @@ dotenv.config();
 const allowedEnvs = [
     'PRODUCTION', // 本番環境
     'ITa', // ITA環境
+    'STAGING', // ステージング環境
     'LOCAL', // ローカル環境
     'GITHUB_ACTIONS_CI', // GitHub Actions CI環境 HTML取得のテストをスキップするため
 ] as const;
