@@ -20,7 +20,27 @@ export class JraPlaceData {
         public readonly location: JraRaceCourse,
         public readonly heldTimes: number,
         public readonly heldDayTimes: number,
-    ) {}
+    ) {
+        const [isValid, errorMessageList] = this.validate();
+        if (!isValid) {
+            throw new Error(errorMessageList.join('\n'));
+        }
+    }
+
+    /**
+     * バリデーション
+     * @returns バリデーション結果
+     */
+    private validate(): [boolean, string[]] {
+        const errorMessageList: string[] = [];
+        if (this.heldTimes < 1) {
+            errorMessageList.push('開催回数は1以上である必要があります');
+        }
+        if (this.heldDayTimes < 1) {
+            errorMessageList.push('開催日数は1以上である必要があります');
+        }
+        return [errorMessageList.length === 0, errorMessageList];
+    }
 
     /**
      * データのコピー
