@@ -80,7 +80,6 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
 
             await this.setPlaceMockData();
             await this.setRaceMockData();
-
         })();
     }
     /**
