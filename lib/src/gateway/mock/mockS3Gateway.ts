@@ -75,10 +75,12 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
             if (MockS3Gateway.isInitialized) {
                 return;
             }
+            // 初期化処理フラグを立てる
             MockS3Gateway.isInitialized = true;
 
             await this.setPlaceMockData();
             await this.setRaceMockData();
+
         })();
     }
     /**
