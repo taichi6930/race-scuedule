@@ -22,6 +22,7 @@ import {
 } from '../../utility/data/movie';
 import { NAR_BABACODE } from '../../utility/data/nar';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import {
@@ -420,6 +421,7 @@ export class GoogleCalendarService<R extends RaceEntity>
                 `距離: ${raceEntity.raceData.surfaceType}${raceEntity.raceData.distance.toString()}m
             発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
             ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[raceEntity.raceData.location]}${raceEntity.raceData.heldTimes.toXDigits(2)}${raceEntity.raceData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
+            更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -461,6 +463,7 @@ export class GoogleCalendarService<R extends RaceEntity>
             ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(CHIHO_KEIBA_YOUTUBE_USER_ID[raceEntity.raceData.location]))}
             ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[raceEntity.raceData.location]}${(raceEntity.raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
             ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${raceEntity.raceData.dateTime.getFullYear().toString()}%2f${raceEntity.raceData.dateTime.getXDigitMonth(2)}%2f${raceEntity.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${raceEntity.raceData.number.toXDigits(2)}&k_babaCode=${NAR_BABACODE[raceEntity.raceData.location]}`)}
+            更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -502,6 +505,7 @@ export class GoogleCalendarService<R extends RaceEntity>
             description:
                 `距離: ${raceEntity.raceData.surfaceType}${raceEntity.raceData.distance.toString()}m
             発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
+            更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -547,6 +551,7 @@ export class GoogleCalendarService<R extends RaceEntity>
                       )
                     : ''
             }
+            更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -583,6 +588,7 @@ export class GoogleCalendarService<R extends RaceEntity>
             colorId: this.getColorId(raceEntity.raceData.grade),
             description:
                 `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
+                更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };
     }
@@ -620,6 +626,7 @@ export class GoogleCalendarService<R extends RaceEntity>
             colorId: this.getColorId(raceEntity.raceData.grade),
             description:
                 `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
+                更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };
     }
