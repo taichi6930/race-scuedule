@@ -2,7 +2,6 @@ import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import type { JraRaceCourse } from '../../utility/data/jra';
 import type { JraPlaceId } from '../../utility/raceId';
-
 /**
  * Repository層のRecord 中央競馬のレース開催場所データ
  */

@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { z } from 'zod';
 
 import type { AutoraceRaceCourse } from './data/autorace';
 import { AUTORACE_PLACE_CODE } from './data/autorace';
@@ -42,7 +43,18 @@ export const generateJraPlaceId = (
     return `jra${dateCode}${locationCode}`;
 };
 
-export type JraPlaceId = `jra${string}`;
+/**
+ * JraPlaceIdのzod型定義
+ * jra + 8桁の数字（開催日） + 2桁の数字（開催場所）
+ */
+export const JraPlaceIdSchema = z.string().refine((value) => {
+    return /^jra\d{8}\d{2}$/.test(value);
+});
+
+/**
+ * JraPlaceIdの型定義
+ */
+export type JraPlaceId = z.infer<typeof JraPlaceIdSchema>;
 
 /**
  * 地方競馬のraceIdを作成する
