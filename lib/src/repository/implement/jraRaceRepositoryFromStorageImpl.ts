@@ -11,7 +11,6 @@ import {
 } from '../../utility/data/jra';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { JraRaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -112,7 +111,7 @@ export class JraRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new JraRaceRecord(
-                    columns[indices.id] as JraRaceId,
+                    columns[indices.id],
                     columns[indices.name],
                     new Date(columns[indices.dateTime]),
                     columns[indices.location] as JraRaceCourse,

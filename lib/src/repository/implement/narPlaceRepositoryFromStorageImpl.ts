@@ -7,7 +7,6 @@ import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
 import { NarRaceCourse } from '../../utility/data/nar';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { NarPlaceId } from '../../utility/raceId';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -145,7 +144,7 @@ export class NarPlaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new NarPlaceRecord(
-                    columns[indices.id] as NarPlaceId,
+                    columns[indices.id],
                     new Date(columns[indices.dateTime]),
                     columns[indices.location] as NarRaceCourse,
                     updateDate,

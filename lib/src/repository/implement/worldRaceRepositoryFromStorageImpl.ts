@@ -13,7 +13,6 @@ import {
 } from '../../utility/data/world';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { WorldRaceId } from '../../utility/raceId';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -157,7 +156,7 @@ export class WorldRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new WorldRaceRecord(
-                    columns[indices.id] as WorldRaceId,
+                    columns[indices.id],
                     columns[indices.name],
                     new Date(columns[indices.dateTime]),
                     columns[indices.location] as WorldRaceCourse,

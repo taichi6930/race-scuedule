@@ -14,7 +14,6 @@ import {
 } from '../../utility/data/autorace';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { AutoraceRaceId, AutoraceRacePlayerId } from '../../utility/raceId';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -222,7 +221,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new AutoraceRaceRecord(
-                    columns[indices.id] as AutoraceRaceId,
+                    columns[indices.id],
                     columns[indices.name],
                     columns[indices.stage] as AutoraceRaceStage,
                     new Date(columns[indices.dateTime]),
@@ -292,8 +291,8 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new AutoraceRacePlayerRecord(
-                    columns[indices.id] as AutoraceRacePlayerId,
-                    columns[indices.raceId] as AutoraceRaceId,
+                    columns[indices.id],
+                    columns[indices.raceId],
                     parseInt(columns[indices.positionNumber]),
                     parseInt(columns[indices.playerNumber]),
                     updateDate,

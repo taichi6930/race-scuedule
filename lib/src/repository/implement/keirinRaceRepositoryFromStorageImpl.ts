@@ -14,7 +14,6 @@ import {
 } from '../../utility/data/keirin';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { KeirinRaceId, KeirinRacePlayerId } from '../../utility/raceId';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -221,7 +220,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new KeirinRaceRecord(
-                    columns[indices.id] as KeirinRaceId,
+                    columns[indices.id],
                     columns[indices.name],
                     columns[indices.stage] as KeirinRaceStage,
                     new Date(columns[indices.dateTime]),
@@ -290,8 +289,8 @@ export class KeirinRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new KeirinRacePlayerRecord(
-                    columns[indices.id] as KeirinRacePlayerId,
-                    columns[indices.raceId] as KeirinRaceId,
+                    columns[indices.id],
+                    columns[indices.raceId],
                     parseInt(columns[indices.positionNumber]),
                     parseInt(columns[indices.playerNumber]),
                     updateDate,

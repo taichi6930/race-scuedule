@@ -11,7 +11,6 @@ import {
 } from '../../utility/data/nar';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { NarRaceId } from '../../utility/raceId';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -119,7 +118,7 @@ export class NarRaceRepositoryFromStorageImpl
                             : getJSTDate(new Date());
 
                         return new NarRaceRecord(
-                            columns[indices.id] as NarRaceId,
+                            columns[indices.id],
                             columns[indices.name],
                             new Date(columns[indices.dateTime]),
                             columns[indices.location] as NarRaceCourse,

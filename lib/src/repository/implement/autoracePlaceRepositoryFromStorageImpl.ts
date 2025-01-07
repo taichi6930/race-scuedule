@@ -11,7 +11,6 @@ import {
 } from '../../utility/data/autorace';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { AutoracePlaceId } from '../../utility/raceId';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -156,7 +155,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new AutoracePlaceRecord(
-                    columns[indices.id] as AutoracePlaceId,
+                    columns[indices.id],
                     new Date(columns[indices.dateTime]),
                     columns[indices.location] as AutoraceRaceCourse,
                     columns[indices.grade] as AutoraceGradeType,
