@@ -21,12 +21,6 @@ describe('NarRaceDataクラスのテスト', () => {
         expect(newRaceData).toEqual(raceData);
     });
 
-    it('距離が0または負の値の場合にエラーがスローされることを確認', () => {
-        expect(() => {
-            baseRaceData.copy({ distance: 0 });
-        }).toThrow('距離は0より大きい必要があります');
-    });
-
     it('レース番号が範囲外の場合にエラーがスローされることを確認', () => {
         expect(() => {
             baseRaceData.copy({ number: 13 });

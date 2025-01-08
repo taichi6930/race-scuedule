@@ -104,3 +104,15 @@ export const JRA_SPECIFIED_GRADE_LIST: JraGradeType[] = [
     'Listed',
     'オープン特別',
 ];
+
+/**
+ * JraRaceDistanceのzod型定義
+ */
+export const JraRaceDistanceSchema = z
+    .number()
+    .positive('距離は0よりも大きい必要があります');
+
+/**
+ * JraRaceDistanceの型定義
+ */
+export type JraRaceDistance = z.infer<typeof JraRaceDistanceSchema>;

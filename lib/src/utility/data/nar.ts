@@ -152,3 +152,15 @@ export const NAR_SPECIFIED_GRADE_LIST: NarGradeType[] = [
     '地方重賞',
     '地方準重賞',
 ];
+
+/**
+ * NarRaceDistanceのzod型定義
+ */
+export const NarRaceDistanceSchema = z
+    .number()
+    .positive('距離は0よりも大きい必要があります');
+
+/**
+ * NarRaceDistanceの型定義
+ */
+export type NarRaceDistance = z.infer<typeof NarRaceDistanceSchema>;

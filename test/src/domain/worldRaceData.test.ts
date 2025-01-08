@@ -24,10 +24,4 @@ describe('WorldRaceDataクラスのテスト', () => {
         // インスタンスが変更されていないか確認
         expect(newRaceData).toEqual(raceData);
     });
-
-    it('距離が範囲外の場合にエラーがスローされることを確認', () => {
-        expect(() => {
-            baseRaceData.copy({ distance: -1 });
-        }).toThrow('距離は0より大きい必要があります');
-    });
 });
