@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { z } from 'zod';
 
 import type { AutoraceRaceCourse } from './data/autorace';
 import { AUTORACE_PLACE_CODE } from './data/autorace';
@@ -26,7 +27,29 @@ export const generateJraRaceId = (
     return `${generateJraPlaceId(dateTime, location)}${numberCode}`;
 };
 
-export type JraRaceId = `jra${string}`;
+/**
+ * JraRaceIdのzod型定義
+ * jra + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+ */
+export const JraRaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('jra');
+    }, 'jraから始まる必要があります')
+    // jraの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+    .refine((value) => {
+        return /^jra\d{8}\d{2}\d{2}$/.test(value);
+    }, 'JraRaceIdの形式ではありません')
+    // レース番号は1~12の範囲
+    .refine((value) => {
+        const raceNumber = parseInt(value.slice(-2));
+        return 1 <= raceNumber && raceNumber <= 12;
+    }, 'レース番号は1~12の範囲である必要があります');
+
+/**
+ * JraRaceIdの型定義
+ */
+export type JraRaceId = z.infer<typeof JraRaceIdSchema>;
 
 /**
  * 中央競馬のplaceIdを作成する
@@ -42,7 +65,23 @@ export const generateJraPlaceId = (
     return `jra${dateCode}${locationCode}`;
 };
 
-export type JraPlaceId = `jra${string}`;
+/**
+ * JraPlaceIdのzod型定義
+ * jra + 8桁の数字（開催日） + 2桁の数字（開催場所）
+ */
+export const JraPlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('jra');
+    }, 'jraから始まる必要があります')
+    .refine((value) => {
+        return /^jra\d{8}\d{2}$/.test(value);
+    }, 'JraPlaceIdの形式ではありません');
+
+/**
+ * JraPlaceIdの型定義
+ */
+export type JraPlaceId = z.infer<typeof JraPlaceIdSchema>;
 
 /**
  * 地方競馬のraceIdを作成する
@@ -62,7 +101,29 @@ export const generateNarRaceId = (
     return `${generateNarPlaceId(dateTime, location)}${numberCode}`;
 };
 
-export type NarRaceId = `nar${string}`;
+/**
+ * NarRaceIdのzod型定義
+ * nar + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+ */
+export const NarRaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('nar');
+    }, 'narから始まる必要があります')
+    // narの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+    .refine((value) => {
+        return /^nar\d{8}\d{2}\d{2}$/.test(value);
+    }, 'NarRaceIdの形式ではありません')
+    // レース番号は1~12の範囲
+    .refine((value) => {
+        const raceNumber = parseInt(value.slice(-2));
+        return 1 <= raceNumber && raceNumber <= 12;
+    }, 'レース番号は1~12の範囲である必要があります');
+
+/**
+ * NarRaceIdの型定義
+ */
+export type NarRaceId = z.infer<typeof NarRaceIdSchema>;
 
 /**
  * 地方競馬のplaceIdを作成する
@@ -81,7 +142,23 @@ export const generateNarPlaceId = (
     return `nar${dateCode}${locationCode}`;
 };
 
-export type NarPlaceId = `nar${string}`;
+/**
+ * NarPlaceIdのzod型定義
+ * nar + 8桁の数字（開催日） + 2桁の数字（開催場所）
+ */
+export const NarPlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('nar');
+    }, 'narから始まる必要があります')
+    .refine((value) => {
+        return /^nar\d{8}\d{2}$/.test(value);
+    }, 'NarPlaceIdの形式ではありません');
+
+/**
+ * NarPlaceIdの型定義
+ */
+export type NarPlaceId = z.infer<typeof NarPlaceIdSchema>;
 
 /**
  * 海外競馬のraceIdを作成する
@@ -98,7 +175,24 @@ export const generateWorldRaceId = (
     return `${generateWorldPlaceId(dateTime, location)}${numberCode}`;
 };
 
-export type WorldRaceId = `world${string}`;
+/**
+ * WorldRaceIdのzod型定義
+ * world + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+ */
+export const WorldRaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('world');
+    }, 'worldから始まる必要があります')
+    // worldの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+    .refine((value) => {
+        return /^world\d{8}\d{2}\d{2}$/.test(value);
+    }, 'WorldRaceIdの形式ではありません');
+
+/**
+ * WorldRaceIdの型定義
+ */
+export type WorldRaceId = z.infer<typeof WorldRaceIdSchema>;
 
 /**
  * 海外競馬のplaceIdを作成する
@@ -114,7 +208,23 @@ export const generateWorldPlaceId = (
     return `world${dateCode}${locationCode}`;
 };
 
-export type WorldPlaceId = `world${string}`;
+/**
+ * WorldPlaceIdのzod型定義
+ * world + 8桁の数字（開催日） + 2桁の数字（開催場所）
+ */
+export const WorldPlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('world');
+    }, 'worldから始まる必要があります')
+    .refine((value) => {
+        return /^world\d{8}\d{2}$/.test(value);
+    }, 'WorldPlaceIdの形式ではありません');
+
+/**
+ * WorldPlaceIdの型定義
+ */
+export type WorldPlaceId = z.infer<typeof WorldPlaceIdSchema>;
 
 /**
  * 競輪のracePlayerIdを作成する
@@ -133,7 +243,34 @@ export const generateKeirinRacePlayerId = (
     return `${generateKeirinRaceId(dateTime, location, number)}${frameNumberCode}`;
 };
 
-export type KeirinRacePlayerId = `keirin${string}`;
+/**
+ * KeirinRacePlayerIdのzod型定義
+ * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
+ */
+export const KeirinRacePlayerIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('keirin');
+    }, 'keirinから始まる必要があります')
+    // keirinの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
+    .refine((value) => {
+        return /^keirin\d{8}\d{2}\d{2}\d{2}$/.test(value);
+    }, 'KeirinRacePlayerIdの形式ではありません')
+    // レース番号は1~12の範囲
+    .refine((value) => {
+        const raceNumber = parseInt(value.slice(-4, -2));
+        return 1 <= raceNumber && raceNumber <= 12;
+    }, 'レース番号は1~12の範囲である必要があります')
+    // 枠番は1~9の範囲
+    .refine((value) => {
+        const frameNumber = parseInt(value.slice(-2));
+        return 1 <= frameNumber && frameNumber <= 9;
+    }, '枠番は1~9の範囲である必要があります');
+
+/**
+ * KeirinRacePlayerIdの型定義
+ */
+export type KeirinRacePlayerId = z.infer<typeof KeirinRacePlayerIdSchema>;
 
 /**
  * 競輪のraceIdを作成する
@@ -150,7 +287,29 @@ export const generateKeirinRaceId = (
     return `${generateKeirinPlaceId(dateTime, location)}${numberCode}`;
 };
 
-export type KeirinRaceId = `keirin${string}`;
+/**
+ * KeirinRaceIdのzod型定義
+ * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+ */
+export const KeirinRaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('keirin');
+    }, 'keirinから始まる必要があります')
+    // keirinの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+    .refine((value) => {
+        return /^keirin\d{8}\d{2}\d{2}$/.test(value);
+    }, 'KeirinRaceIdの形式ではありません')
+    // レース番号は1~12の範囲
+    .refine((value) => {
+        const raceNumber = parseInt(value.slice(-2));
+        return 1 <= raceNumber && raceNumber <= 12;
+    }, 'レース番号は1~12の範囲である必要があります');
+
+/**
+ * KeirinRaceIdの型定義
+ */
+export type KeirinRaceId = z.infer<typeof KeirinRaceIdSchema>;
 
 /**
  * 競輪のplaceIdを作成する
@@ -166,7 +325,23 @@ export const generateKeirinPlaceId = (
     return `keirin${dateCode}${locationCode}`;
 };
 
-export type KeirinPlaceId = `keirin${string}`;
+/**
+ * KeirinPlaceIdのzod型定義
+ * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）
+ */
+export const KeirinPlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('keirin');
+    }, 'keirinから始まる必要があります')
+    .refine((value) => {
+        return /^keirin\d{8}\d{2}$/.test(value);
+    }, 'KeirinPlaceIdの形式ではありません');
+
+/**
+ * KeirinPlaceIdの型定義
+ */
+export type KeirinPlaceId = z.infer<typeof KeirinPlaceIdSchema>;
 
 /**
  * ボートレースのracePlayerIdを作成する
@@ -185,7 +360,34 @@ export const generateBoatraceRacePlayerId = (
     return `${generateBoatraceRaceId(dateTime, location, number)}${frameNumberCode}`;
 };
 
-export type BoatraceRacePlayerId = `boatrace${string}`;
+/**
+ * BoatraceRacePlayerIdのzod型定義
+ * boatrace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
+ */
+export const BoatraceRacePlayerIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('boatrace');
+    }, 'boatraceから始まる必要があります')
+    // boatraceの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
+    .refine((value) => {
+        return /^boatrace\d{8}\d{2}\d{2}\d{2}$/.test(value);
+    }, 'BoatraceRacePlayerIdの形式ではありません')
+    // レース番号は1~12の範囲
+    .refine((value) => {
+        const raceNumber = parseInt(value.slice(-4, -2));
+        return 1 <= raceNumber && raceNumber <= 12;
+    }, 'レース番号は1~12の範囲である必要があります')
+    // 枠番は1~6の範囲
+    .refine((value) => {
+        const frameNumber = parseInt(value.slice(-2));
+        return 1 <= frameNumber && frameNumber <= 6;
+    }, '枠番は1~6の範囲である必要があります');
+
+/**
+ * BoatraceRacePlayerIdの型定義
+ */
+export type BoatraceRacePlayerId = z.infer<typeof BoatraceRacePlayerIdSchema>;
 
 /**
  * ボートレースのraceIdを作成する
@@ -202,7 +404,29 @@ export const generateBoatraceRaceId = (
     return `${generateBoatracePlaceId(dateTime, location)}${numberCode}`;
 };
 
-export type BoatraceRaceId = `boatrace${string}`;
+/**
+ * BoatraceRaceIdのzod型定義
+ * boatrace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+ */
+export const BoatraceRaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('boatrace');
+    }, 'boatraceから始まる必要があります')
+    // boatraceの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+    .refine((value) => {
+        return /^boatrace\d{8}\d{2}\d{2}$/.test(value);
+    }, 'BoatraceRaceIdの形式ではありません')
+    // レース番号は1~12の範囲
+    .refine((value) => {
+        const raceNumber = parseInt(value.slice(-2));
+        return 1 <= raceNumber && raceNumber <= 12;
+    }, 'レース番号は1~12の範囲である必要があります');
+
+/**
+ * BoatraceRaceIdの型定義
+ */
+export type BoatraceRaceId = z.infer<typeof BoatraceRaceIdSchema>;
 
 /**
  * ボートレースのplaceIdを作成する
@@ -218,7 +442,23 @@ export const generateBoatracePlaceId = (
     return `boatrace${dateCode}${locationCode}`;
 };
 
-export type BoatracePlaceId = `boatrace${string}`;
+/**
+ * BoatracePlaceIdのzod型定義
+ * boatrace + 8桁の数字（開催日） + 2桁の数字（開催場所）
+ */
+export const BoatracePlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('boatrace');
+    }, 'boatraceから始まる必要があります')
+    .refine((value) => {
+        return /^boatrace\d{8}\d{2}$/.test(value);
+    }, 'BoatracePlaceIdの形式ではありません');
+
+/**
+ * BoatracePlaceIdの型定義
+ */
+export type BoatracePlaceId = z.infer<typeof BoatracePlaceIdSchema>;
 
 /**
  * オートレースのracePlayerIdを作成する
@@ -237,7 +477,34 @@ export const generateAutoraceRacePlayerId = (
     return `${generateAutoraceRaceId(dateTime, location, number)}${frameNumberCode}`;
 };
 
-export type AutoraceRacePlayerId = `autorace${string}`;
+/**
+ * AutoraceRacePlayerIdのzod型定義
+ * autorace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
+ */
+export const AutoraceRacePlayerIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('autorace');
+    }, 'autoraceから始まる必要があります')
+    // autoraceの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
+    .refine((value) => {
+        return /^autorace\d{8}\d{2}\d{2}\d{2}$/.test(value);
+    }, 'AutoraceRacePlayerIdの形式ではありません')
+    // レース番号は1~12の範囲
+    .refine((value) => {
+        const raceNumber = parseInt(value.slice(-4, -2));
+        return 1 <= raceNumber && raceNumber <= 12;
+    }, 'レース番号は1~12の範囲である必要があります')
+    // 枠番は1~8の範囲
+    .refine((value) => {
+        const frameNumber = parseInt(value.slice(-2));
+        return 1 <= frameNumber && frameNumber <= 8;
+    }, '枠番は1~8の範囲である必要があります');
+
+/**
+ * AutoraceRacePlayerIdの型定義
+ */
+export type AutoraceRacePlayerId = z.infer<typeof AutoraceRacePlayerIdSchema>;
 
 /**
  * オートレースのraceIdを作成する
@@ -254,7 +521,29 @@ export const generateAutoraceRaceId = (
     return `${generateAutoracePlaceId(dateTime, location)}${numberCode}`;
 };
 
-export type AutoraceRaceId = `autorace${string}`;
+/**
+ * AutoraceRaceIdのzod型定義
+ * autorace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+ */
+export const AutoraceRaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('autorace');
+    }, 'autoraceから始まる必要があります')
+    // autoraceの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
+    .refine((value) => {
+        return /^autorace\d{8}\d{2}\d{2}$/.test(value);
+    }, 'AutoraceRaceIdの形式ではありません')
+    // レース番号は1~12の範囲
+    .refine((value) => {
+        const raceNumber = parseInt(value.slice(-2));
+        return 1 <= raceNumber && raceNumber <= 12;
+    }, 'レース番号は1~12の範囲である必要があります');
+
+/**
+ * AutoraceRaceIdの型定義
+ */
+export type AutoraceRaceId = z.infer<typeof AutoraceRaceIdSchema>;
 
 /**
  * オートレースのplaceIdを作成する
@@ -270,4 +559,20 @@ export const generateAutoracePlaceId = (
     return `autorace${dateCode}${locationCode}`;
 };
 
-export type AutoracePlaceId = `autorace${string}`;
+/**
+ * AutoracePlaceIdのzod型定義
+ * autorace + 8桁の数字（開催日） + 2桁の数字（開催場所）
+ */
+export const AutoracePlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('autorace');
+    }, 'autoraceから始まる必要があります')
+    .refine((value) => {
+        return /^autorace\d{8}\d{2}$/.test(value);
+    }, 'AutoracePlaceIdの形式ではありません');
+
+/**
+ * AutoracePlaceIdの型定義
+ */
+export type AutoracePlaceId = z.infer<typeof AutoracePlaceIdSchema>;

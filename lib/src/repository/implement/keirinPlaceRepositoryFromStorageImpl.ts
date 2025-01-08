@@ -5,10 +5,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
-import { KeirinGradeType, KeirinRaceCourse } from '../../utility/data/keirin';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { KeirinPlaceId } from '../../utility/raceId';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -152,10 +150,10 @@ export class KeirinPlaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new KeirinPlaceRecord(
-                    columns[indices.id] as KeirinPlaceId,
+                    columns[indices.id],
                     new Date(columns[indices.dateTime]),
-                    columns[indices.location] as KeirinRaceCourse,
-                    columns[indices.grade] as KeirinGradeType,
+                    columns[indices.location],
+                    columns[indices.grade],
                     updateDate,
                 );
             })

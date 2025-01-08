@@ -8,7 +8,7 @@ export interface IRaceDataUseCase<
     R extends RaceData,
     G extends GradeType,
     C extends RaceCourse,
-    S extends RaceStage,
+    S extends RaceStage | undefined,
 > {
     /**
      * レースデータを取得する

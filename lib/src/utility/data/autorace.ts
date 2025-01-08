@@ -1,26 +1,60 @@
+import { z } from 'zod';
+
 /**
- * オートレースのグレードリスト
+ * AutoraceGradeTypeのzod型定義
  */
-export type AutoraceGradeType = 'SG' | '特GⅠ' | 'GⅠ' | 'GⅡ' | '開催';
+export const AutoraceGradeTypeSchema = z.string().refine((value) => {
+    return AutoraceGradeTypeList.includes(value);
+}, 'オートレースのグレードではありません');
+
+/**
+ * AutoraceGradeTypeの型定義
+ */
+export type AutoraceGradeType = z.infer<typeof AutoraceGradeTypeSchema>;
+
+/**
+ * ボートレースのグレード リスト
+ */
+export const AutoraceGradeTypeList: string[] = [
+    'SG',
+    '特GⅠ',
+    'GⅠ',
+    'GⅡ',
+    '開催',
+];
+
 /**
  * オートレースの指定グレードリスト
  */
 export const AUTORACE_SPECIFIED_GRADE_LIST: AutoraceGradeType[] = ['SG'];
 
 /**
- * オートレースのステージ
+ * AutoraceRaceStageのzod型定義
  */
-export type AutoraceRaceStage =
-    | '優勝戦'
-    | '準決勝戦'
-    | '特別選抜戦'
-    | '特別一般戦'
-    | '一般戦'
-    | '予選'
-    | '選抜予選'
-    | '最終予選'
-    | 'オーバル特別'
-    | '選抜戦';
+export const AutoraceRaceStageSchema = z.string().refine((value) => {
+    return AutoraceRaceStageList.includes(value);
+}, 'オートレースのステージではありません');
+
+/**
+ * AutoraceRaceStageの型定義
+ */
+export type AutoraceRaceStage = z.infer<typeof AutoraceRaceStageSchema>;
+
+/**
+ * ボートレースのステージ リスト
+ */
+export const AutoraceRaceStageList: string[] = [
+    '優勝戦',
+    '準決勝戦',
+    '特別選抜戦',
+    '特別一般戦',
+    '一般戦',
+    '予選',
+    '選抜予選',
+    '最終予選',
+    'オーバル特別',
+    '選抜戦',
+];
 
 /**
  * オートレースの指定グレード・ステージリスト
@@ -32,20 +66,21 @@ export const AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST: {
 }[] = [{ grade: 'SG', stage: '優勝戦', priority: 9 }];
 
 /**
- * オートレース場 型定義
+ * AutoraceRaceCourseのzod型定義
  */
-export type AutoraceRaceCourse =
-    | '船橋'
-    | '川口'
-    | '伊勢崎'
-    | '浜松'
-    | '飯塚'
-    | '山陽';
+export const AutoraceRaceCourseSchema = z.string().refine((value) => {
+    return AutoraceRaceCourseList.includes(value);
+}, 'オートレース場ではありません');
+
+/**
+ * AutoraceRaceCourseの型定義
+ */
+export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
 
 /**
  * オートレース場リスト
  */
-export const AutoraceRaceCourseList: AutoraceRaceCourse[] = [
+export const AutoraceRaceCourseList: string[] = [
     '船橋',
     '川口',
     '伊勢崎',

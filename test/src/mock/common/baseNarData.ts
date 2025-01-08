@@ -96,10 +96,10 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
                 new NarRaceData(
                     `テスト${location}${grade}${(index + 1).toString()}レース`,
                     new Date(2024, 6 - 1, 1, 7 + index, 0),
-                    location as NarRaceCourse,
+                    location,
                     'ダート',
                     1600,
-                    grade as NarGradeType,
+                    grade,
                     index + 1,
                 ),
                 baseNarRaceUpdateDate,

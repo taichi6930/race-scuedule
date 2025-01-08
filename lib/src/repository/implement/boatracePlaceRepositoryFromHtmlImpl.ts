@@ -8,8 +8,6 @@ import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatracePlaceDataHtmlGateway';
 import {
     BOATRACE_SPECIFIED_GRADE_LIST,
-    BoatraceGradeType,
-    BoatraceRaceCourse,
     BoatraceRaceCourseList,
 } from '../../utility/data/boatrace';
 import { getJSTDate } from '../../utility/date';
@@ -176,16 +174,12 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 .replace(/[\s　]+/g, '');
 
             //placeがBoatraceRaceCourseに含まれているか確認
-            if (!BoatraceRaceCourseList.includes(place as BoatraceRaceCourse)) {
+            if (!BoatraceRaceCourseList.includes(place)) {
                 console.log('ボートレース場が見つかりませんでした');
                 return;
             }
             // gradeがBoatraceGradeTypeに含まれているか確認
-            if (
-                !BOATRACE_SPECIFIED_GRADE_LIST.includes(
-                    grade as BoatraceGradeType,
-                )
-            ) {
+            if (!BOATRACE_SPECIFIED_GRADE_LIST.includes(grade)) {
                 console.log(`グレードが見つかりませんでした:"${grade}"`);
                 return;
             }
@@ -199,11 +193,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             ) {
                 const boatracePlaceEntity = new BoatracePlaceEntity(
                     null,
-                    new BoatracePlaceData(
-                        new Date(currentDate),
-                        place as BoatraceRaceCourse,
-                        grade as BoatraceGradeType,
-                    ),
+                    new BoatracePlaceData(new Date(currentDate), place, grade),
                     getJSTDate(new Date()),
                 );
                 boatracePlaceEntityList.push(boatracePlaceEntity);

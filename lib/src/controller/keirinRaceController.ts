@@ -334,34 +334,28 @@ export class KeirinRaceController {
             // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const gradeList =
                 typeof grade === 'string'
-                    ? [grade as KeirinGradeType]
+                    ? [grade]
                     : typeof grade === 'object'
                       ? Array.isArray(grade)
-                          ? (grade as string[]).map(
-                                (g: string) => g as KeirinGradeType,
-                            )
+                          ? (grade as string[]).map((g: string) => g)
                           : undefined
                       : undefined;
 
             const locationList =
                 typeof location === 'string'
-                    ? [location as KeirinRaceCourse]
+                    ? [location]
                     : typeof location === 'object'
                       ? Array.isArray(location)
-                          ? (location as string[]).map(
-                                (l: string) => l as KeirinRaceCourse,
-                            )
+                          ? (location as string[]).map((l: string) => l)
                           : undefined
                       : undefined;
 
             const stageList =
                 typeof stage === 'string'
-                    ? [stage as KeirinRaceStage]
+                    ? [stage]
                     : typeof stage === 'object'
                       ? Array.isArray(stage)
-                          ? (stage as string[]).map(
-                                (s: string) => s as KeirinRaceStage,
-                            )
+                          ? (stage as string[]).map((s: string) => s)
                           : undefined
                       : undefined;
 
@@ -453,9 +447,7 @@ export class KeirinRaceController {
                     gradeList:
                         gradeList === undefined
                             ? undefined
-                            : gradeList.map(
-                                  (g: string) => g as KeirinGradeType,
-                              ),
+                            : gradeList.map((g: string) => g),
                 },
             );
             res.status(200).send();

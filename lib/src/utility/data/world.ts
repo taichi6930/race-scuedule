@@ -1,67 +1,44 @@
-/**
- * 世界の競馬のグレード
- */
-export type WorldGradeType = 'GⅠ' | 'GⅡ' | 'GⅢ' | 'Listed' | '格付けなし';
+import z from 'zod';
 
 /**
- * 世界の競馬場 型定義
+ * WorldGradeTypeのzod型定義
  */
-export type WorldRaceCourse =
-    // フランス
-    | 'ロンシャン'
-    | 'パリロンシャン'
-    | 'シャンティイ'
-    | 'サンクルー'
-    | 'ドーヴィル'
-    // イギリス
-    | 'アスコット'
-    | 'ニューマーケット'
-    | 'ニューベリー'
-    | 'エプソム'
-    | 'グッドウッド'
-    | 'サンダウン'
-    | 'ヨーク'
-    | 'ヘイドック'
-    | 'ドンカスター'
-    // アイルランド
-    | 'レパーズタウン'
-    | 'カラ'
-    // アメリカ
-    | 'ガルフストリームパーク'
-    | 'サンタアニタパーク'
-    | 'チャーチルダウンズ'
-    | 'ピムリコ'
-    | 'サラトガ'
-    | 'アケダクト'
-    | 'モンマスパーク'
-    | 'ベルモントパーク'
-    | 'コロニアルダウンズ'
-    | 'デルマー'
-    | 'パークスレーシング'
-    | 'キーンランド'
-    | 'オークローンパーク'
-    // ドイツ
-    | 'ミュンヘン'
-    | 'ホッペガルテン'
-    | 'バーデンバーデン'
-    // 香港
-    | 'シャティン'
-    // サウジアラビア
-    | 'キングアブドゥルアジーズ'
-    // ドバイ
-    | 'メイダン'
-    // オーストラリア
-    | 'ランドウィック'
-    | 'コーフィールド'
-    | 'フレミントン'
-    | 'メルボルン'
-    | 'ムーニーバレー'
-    | 'ローズヒルガーデンズ';
+export const WorldGradeTypeSchema = z.string().refine((value) => {
+    return WorldGradeTypeList.includes(value);
+}, '世界の競馬のグレードではありません');
+
+/**
+ * WorldGradeTypeの型定義
+ */
+export type WorldGradeType = z.infer<typeof WorldGradeTypeSchema>;
+
+/**
+ * 世界の競馬のグレード リスト
+ */
+export const WorldGradeTypeList: string[] = [
+    'GⅠ',
+    'GⅡ',
+    'GⅢ',
+    'Listed',
+    '格付けなし',
+];
+
+/**
+ * WorldRaceCourseのzod型定義
+ */
+export const WorldRaceCourseSchema = z.string().refine((value) => {
+    return WorldRaceCourseList.includes(value);
+}, '世界の競馬場ではありません');
+
+/**
+ * WorldRaceCourseの型定義
+ */
+export type WorldRaceCourse = z.infer<typeof WorldRaceCourseSchema>;
 
 /**
  * 世界の競馬場 リスト
  */
-export const WorldRaceCourseList: WorldRaceCourse[] = [
+export const WorldRaceCourseList: string[] = [
     'ロンシャン',
     'パリロンシャン',
     'シャンティイ',
@@ -106,9 +83,21 @@ export const WorldRaceCourseList: WorldRaceCourse[] = [
 ];
 
 /**
- * 世界の競馬の馬場種別
+ * WorldRaceCourseTypeのzod型定義
  */
-export type WorldRaceCourseType = '芝' | 'ダート' | '障害' | 'AW';
+export const WorldRaceCourseTypeSchema = z.string().refine((value) => {
+    return WorldRaceCourseTypeList.includes(value);
+}, '世界の競馬の馬場種別ではありません');
+
+/**
+ * WorldRaceCourseTypeの型定義
+ */
+export type WorldRaceCourseType = z.infer<typeof WorldRaceCourseTypeSchema>;
+
+/**
+ * 世界の競馬の馬場種別 リスト
+ */
+export const WorldRaceCourseTypeList: string[] = ['芝', 'ダート', '障害', 'AW'];
 
 /**
  * 世界の競馬の指定グレードリスト

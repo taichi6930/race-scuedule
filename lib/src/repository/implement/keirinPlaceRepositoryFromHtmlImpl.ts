@@ -133,20 +133,16 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                 const th = $(element).find('th');
 
                 // thのテキストが KeirinRaceCourseに含まれているか
-                if (!(th.text() as KeirinRaceCourse)) {
+                if (!th.text()) {
                     return;
                 }
                 const placeString = th.text();
                 // placeStringがKeirinRaceCourseに含まれているか
-                if (
-                    !KeirinRaceCourseList.includes(
-                        placeString as KeirinRaceCourse,
-                    )
-                ) {
+                if (!KeirinRaceCourseList.includes(placeString)) {
                     console.log(`${placeString}は競輪場に登録されていません`);
                     return;
                 }
-                const place: KeirinRaceCourse = placeString as KeirinRaceCourse;
+                const place: KeirinRaceCourse = placeString;
 
                 const tds = $(element).find('td');
                 tds.each((index: number, element: cheerio.Element) => {
@@ -162,7 +158,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                             grade = alt
                                 .replace('1', 'Ⅰ')
                                 .replace('2', 'Ⅱ')
-                                .replace('3', 'Ⅲ') as KeirinGradeType;
+                                .replace('3', 'Ⅲ');
                         }
                     });
 

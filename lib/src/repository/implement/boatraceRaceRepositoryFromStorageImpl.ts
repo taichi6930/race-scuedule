@@ -7,14 +7,8 @@ import { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { BoatraceRacePlayerRecord } from '../../gateway/record/boatraceRacePlayerRecord';
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
-import {
-    BoatraceGradeType,
-    BoatraceRaceCourse,
-    BoatraceRaceStage,
-} from '../../utility/data/boatrace';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { BoatraceRaceId, BoatraceRacePlayerId } from '../../utility/raceId';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -222,12 +216,12 @@ export class BoatraceRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new BoatraceRaceRecord(
-                    columns[indices.id] as BoatraceRaceId,
+                    columns[indices.id],
                     columns[indices.name],
-                    columns[indices.stage] as BoatraceRaceStage,
+                    columns[indices.stage],
                     new Date(columns[indices.dateTime]),
-                    columns[indices.location] as BoatraceRaceCourse,
-                    columns[indices.grade] as BoatraceGradeType,
+                    columns[indices.location],
+                    columns[indices.grade],
                     parseInt(columns[indices.number]),
                     updateDate,
                 );
@@ -292,8 +286,8 @@ export class BoatraceRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new BoatraceRacePlayerRecord(
-                    columns[indices.id] as BoatraceRacePlayerId,
-                    columns[indices.raceId] as BoatraceRaceId,
+                    columns[indices.id],
+                    columns[indices.raceId],
                     parseInt(columns[indices.positionNumber]),
                     parseInt(columns[indices.playerNumber]),
                     updateDate,

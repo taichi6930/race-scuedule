@@ -106,10 +106,10 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
                 new JraRaceData(
                     `テスト${location}${grade}${(index + 1).toString()}レース`,
                     new Date(2024, 6 - 1, 1, 7 + index, 0),
-                    location as JraRaceCourse,
+                    location,
                     '芝',
                     1600,
-                    grade as JraGradeType,
+                    grade,
                     index + 1,
                     1,
                     1,

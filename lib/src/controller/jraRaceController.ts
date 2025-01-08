@@ -10,7 +10,6 @@ import {
     JRA_SPECIFIED_GRADE_LIST,
     JraGradeType,
     JraRaceCourse,
-    JraRaceCourseType,
 } from '../utility/data/jra';
 import { Logger } from '../utility/logger';
 
@@ -348,23 +347,19 @@ export class JraRaceController {
             // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const gradeList =
                 typeof grade === 'string'
-                    ? [grade as JraGradeType]
+                    ? [grade]
                     : typeof grade === 'object'
                       ? Array.isArray(grade)
-                          ? (grade as string[]).map(
-                                (g: string) => g as JraGradeType,
-                            )
+                          ? (grade as string[]).map((g: string) => g)
                           : undefined
                       : undefined;
 
             const locationList =
                 typeof location === 'string'
-                    ? [location as JraRaceCourse]
+                    ? [location]
                     : typeof location === 'object'
                       ? Array.isArray(location)
-                          ? (location as string[]).map(
-                                (l: string) => l as JraRaceCourse,
-                            )
+                          ? (location as string[]).map((l: string) => l)
                           : undefined
                       : undefined;
 
@@ -492,10 +487,10 @@ export class JraRaceController {
                             return new JraRaceData(
                                 race.name,
                                 new Date(race.dateTime),
-                                race.location as JraRaceCourse,
-                                race.surfaceType as JraRaceCourseType,
+                                race.location,
+                                race.surfaceType,
                                 Number(race.distance),
-                                race.grade as JraGradeType,
+                                race.grade,
                                 Number(race.number),
                                 Number(race.heldTimes),
                                 Number(race.heldDayTimes),

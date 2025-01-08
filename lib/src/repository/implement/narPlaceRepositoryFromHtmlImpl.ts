@@ -6,7 +6,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataHtmlGateway';
-import { NarRaceCourse } from '../../utility/data/nar';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
@@ -160,7 +159,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                                 date.getMonth(),
                                 raceDay,
                             ),
-                            place as NarRaceCourse,
+                            place,
                         ),
                         getJSTDate(new Date()),
                     ),

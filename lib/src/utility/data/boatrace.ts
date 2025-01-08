@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export const BOATRACE_PLACE_CODE: Record<string, string> = {
     桐生: '01',
     戸田: '02',
@@ -26,35 +28,18 @@ export const BOATRACE_PLACE_CODE: Record<string, string> = {
 };
 
 /**
- * ボートレース場
+ * BoatraceRaceCourseのzod型定義
  */
-export type BoatraceRaceCourse =
-    | '桐生'
-    | '戸田'
-    | '江戸川'
-    | '平和島'
-    | '多摩川'
-    | '浜名湖'
-    | '蒲郡'
-    | '常滑'
-    | '津'
-    | '三国'
-    | 'びわこ'
-    | '住之江'
-    | '尼崎'
-    | '鳴門'
-    | '丸亀'
-    | '児島'
-    | '宮島'
-    | '徳山'
-    | '下関'
-    | '若松'
-    | '芦屋'
-    | '福岡'
-    | '唐津'
-    | '大村';
+export const BoatraceRaceCourseSchema = z.string().refine((value) => {
+    return BoatraceRaceCourseList.includes(value);
+}, 'ボートレース場ではありません');
 
-export const BoatraceRaceCourseList: BoatraceRaceCourse[] = [
+/**
+ * BoatraceRaceCourseの型定義
+ */
+export type BoatraceRaceCourse = z.infer<typeof BoatraceRaceCourseSchema>;
+
+export const BoatraceRaceCourseList: string[] = [
     '桐生',
     '戸田',
     '江戸川',
@@ -82,9 +67,21 @@ export const BoatraceRaceCourseList: BoatraceRaceCourse[] = [
 ];
 
 /**
- * ボートレースのグレード
+ * BoatraceGradeTypeのzod型定義
  */
-export type BoatraceGradeType = 'SG' | 'GⅠ' | 'GⅡ' | 'GⅢ' | '一般';
+export const BoatraceGradeTypeSchema = z.string().refine((value) => {
+    return BoatraceGradeTypeList.includes(value);
+}, 'ボートレースのグレードではありません');
+
+/**
+ * BoatraceGradeTypeの型定義
+ */
+export type BoatraceGradeType = z.infer<typeof BoatraceGradeTypeSchema>;
+
+/**
+ * ボートレースのグレード リスト
+ */
+export const BoatraceGradeTypeList: string[] = ['SG', 'GⅠ', 'GⅡ', 'GⅢ', '一般'];
 
 /**
  * ボートレースのグレード
@@ -98,9 +95,26 @@ export const BOATRACE_SPECIFIED_GRADE_LIST: BoatraceGradeType[] = [
 ];
 
 /**
- * ボートレースのレースステージ
+ * BoatraceRaceStageのzod型定義
  */
-export type BoatraceRaceStage = '優勝戦' | '準優勝戦' | '一般戦' | '';
+export const BoatraceRaceStageSchema = z.string().refine((value) => {
+    return BoatraceRaceStageList.includes(value);
+}, 'ボートレースのステージではありません');
+
+/**
+ * BoatraceRaceStageの型定義
+ */
+export type BoatraceRaceStage = z.infer<typeof BoatraceRaceStageSchema>;
+
+/**
+ * ボートレースのステージ リスト
+ */
+export const BoatraceRaceStageList: string[] = [
+    '優勝戦',
+    '準優勝戦',
+    '一般戦',
+    '',
+];
 
 /**
  * HTMLのステージ名を正式名称に変換するためのマップ

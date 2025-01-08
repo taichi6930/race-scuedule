@@ -4,14 +4,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
-import {
-    JraGradeType,
-    JraRaceCourse,
-    JraRaceCourseType,
-} from '../../utility/data/jra';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { JraRaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
@@ -112,13 +106,13 @@ export class JraRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new JraRaceRecord(
-                    columns[indices.id] as JraRaceId,
+                    columns[indices.id],
                     columns[indices.name],
                     new Date(columns[indices.dateTime]),
-                    columns[indices.location] as JraRaceCourse,
-                    columns[indices.surfaceType] as JraRaceCourseType,
+                    columns[indices.location],
+                    columns[indices.surfaceType],
                     parseInt(columns[indices.distance]),
-                    columns[indices.grade] as JraGradeType,
+                    columns[indices.grade],
                     parseInt(columns[indices.number]),
                     parseInt(columns[indices.heldTimes]),
                     parseInt(columns[indices.heldDayTimes]),

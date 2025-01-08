@@ -1,3 +1,54 @@
+import { z } from 'zod';
+
+/**
+ * NarRaceCourseのzod型定義
+ */
+export const NarRaceCourseSchema = z.string().refine((value) => {
+    return NarRaceCourseList.includes(value);
+}, 'NARの競馬場ではありません');
+
+/**
+ * NarRaceCourseの型定義
+ */
+export type NarRaceCourse = z.infer<typeof NarRaceCourseSchema>;
+
+/**
+ * NARの競馬場 リスト
+ */
+export const NarRaceCourseList: string[] = [
+    '北見ば',
+    '岩見ば',
+    '帯広ば',
+    '旭川ば',
+    '旭川',
+    '門別',
+    '札幌',
+    '盛岡',
+    '水沢',
+    '上山',
+    '新潟',
+    '三条',
+    '足利',
+    '宇都宮',
+    '高崎',
+    '浦和',
+    '船橋',
+    '大井',
+    '川崎',
+    '金沢',
+    '笠松',
+    '名古屋',
+    '中京',
+    '園田',
+    '姫路',
+    '益田',
+    '福山',
+    '高知',
+    '佐賀',
+    '荒尾',
+    '中津',
+];
+
 /**
  * NARのレース場名とコードの対応表
  */
@@ -36,102 +87,54 @@ export const NAR_BABACODE: Record<string, string> = {
 };
 
 /**
- * NARの競馬場 型定義
+ * NarRaceCourseTypeのzod型定義
  */
-export type NarRaceCourse =
-    | '北見ば'
-    | '岩見ば'
-    | '帯広ば'
-    | '旭川ば'
-    | '旭川'
-    | '門別'
-    | '札幌'
-    | '盛岡'
-    | '水沢'
-    | '上山'
-    | '新潟'
-    | '三条'
-    | '足利'
-    | '宇都宮'
-    | '高崎'
-    | '浦和'
-    | '船橋'
-    | '大井'
-    | '川崎'
-    | '金沢'
-    | '笠松'
-    | '名古屋'
-    | '中京'
-    | '園田'
-    | '姫路'
-    | '益田'
-    | '福山'
-    | '高知'
-    | '佐賀'
-    | '荒尾'
-    | '中津';
+export const NarRaceCourseTypeSchema = z.string().refine((value) => {
+    return NarRaceCourseTypeList.includes(value);
+}, 'NARの馬場種別ではありません');
 
 /**
- * NARの競馬場 リスト
+ * NarRaceCourseTypeの型定義
  */
-export const NarRaceCourseList: NarRaceCourse[] = [
-    '北見ば',
-    '岩見ば',
-    '帯広ば',
-    '旭川ば',
-    '旭川',
-    '門別',
-    '札幌',
-    '盛岡',
-    '水沢',
-    '上山',
-    '新潟',
-    '三条',
-    '足利',
-    '宇都宮',
-    '高崎',
-    '浦和',
-    '船橋',
-    '大井',
-    '川崎',
-    '金沢',
-    '笠松',
-    '名古屋',
-    '中京',
-    '園田',
-    '姫路',
-    '益田',
-    '福山',
-    '高知',
-    '佐賀',
-    '荒尾',
-    '中津',
+export type NarRaceCourseType = z.infer<typeof NarRaceCourseTypeSchema>;
+
+/**
+ * NARの競馬の馬場種別 リスト
+ */
+export const NarRaceCourseTypeList: string[] = ['芝', 'ダート'];
+
+/**
+ * NarGradeTypeのzod型定義
+ */
+export const NarGradeTypeSchema = z.string().refine((value) => {
+    return NarGradeTypeList.includes(value);
+}, 'NARのグレードではありません');
+
+/**
+ * NarGradeTypeの型定義
+ */
+export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
+
+/**
+ * 世界の競馬のグレード リスト
+ */
+export const NarGradeTypeList: string[] = [
+    'GⅠ',
+    'GⅡ',
+    'GⅢ',
+    'JpnⅠ',
+    'JpnⅡ',
+    'JpnⅢ',
+    '重賞',
+    '地方重賞',
+    'Listed',
+    'オープン特別',
+    '地方準重賞',
+    '格付けなし',
+    'オープン',
+    '未格付',
+    '一般',
 ];
-
-/**
- * NARの馬場種別
- */
-export type NarRaceCourseType = '芝' | 'ダート';
-
-/**
- * NARのグレード
- */
-export type NarGradeType =
-    | 'GⅠ'
-    | 'GⅡ'
-    | 'GⅢ'
-    | 'JpnⅠ'
-    | 'JpnⅡ'
-    | 'JpnⅢ'
-    | '重賞'
-    | '地方重賞'
-    | 'Listed'
-    | 'オープン特別'
-    | '地方準重賞'
-    | '格付けなし'
-    | 'オープン'
-    | '未格付'
-    | '一般';
 
 /**
  * NARの指定グレードリスト

@@ -334,34 +334,28 @@ export class BoatraceRaceController {
             // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const gradeList =
                 typeof grade === 'string'
-                    ? [grade as BoatraceGradeType]
+                    ? [grade]
                     : typeof grade === 'object'
                       ? Array.isArray(grade)
-                          ? (grade as string[]).map(
-                                (g: string) => g as BoatraceGradeType,
-                            )
+                          ? (grade as string[]).map((g: string) => g)
                           : undefined
                       : undefined;
 
             const locationList =
                 typeof location === 'string'
-                    ? [location as BoatraceRaceCourse]
+                    ? [location]
                     : typeof location === 'object'
                       ? Array.isArray(location)
-                          ? (location as string[]).map(
-                                (l: string) => l as BoatraceRaceCourse,
-                            )
+                          ? (location as string[]).map((l: string) => l)
                           : undefined
                       : undefined;
 
             const stageList =
                 typeof stage === 'string'
-                    ? [stage as BoatraceRaceStage]
+                    ? [stage]
                     : typeof stage === 'object'
                       ? Array.isArray(stage)
-                          ? (stage as string[]).map(
-                                (s: string) => s as BoatraceRaceStage,
-                            )
+                          ? (stage as string[]).map((s: string) => s)
                           : undefined
                       : undefined;
 

@@ -9,11 +9,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { BoatraceRaceDataUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceDataUseCase';
-import type {
-    BoatraceGradeType,
-    BoatraceRaceCourse,
-    BoatraceRaceStage,
-} from '../../../../lib/src/utility/data/boatrace';
+import type { BoatraceRaceStage } from '../../../../lib/src/utility/data/boatrace';
 import {
     baseBoatraceRaceDataList,
     baseBoatraceRaceEntity,
@@ -92,13 +88,13 @@ describe('BoatraceRaceDataUseCase', () => {
 
         [
             {
-                searchConditions: { gradeList: ['SG' as BoatraceGradeType] },
+                searchConditions: { gradeList: ['SG'] },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 12,
             },
             {
                 searchConditions: {
-                    locationList: ['平和島' as BoatraceRaceCourse],
+                    locationList: ['平和島'],
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
@@ -112,23 +108,23 @@ describe('BoatraceRaceDataUseCase', () => {
             },
             {
                 searchConditions: {
-                    gradeList: ['SG' as BoatraceGradeType],
-                    locationList: ['平和島' as BoatraceRaceCourse],
+                    gradeList: ['SG'],
+                    locationList: ['平和島'],
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 12,
             },
             {
                 searchConditions: {
-                    gradeList: ['SG' as BoatraceGradeType],
-                    locationList: ['桐生' as BoatraceRaceCourse],
+                    gradeList: ['SG'],
+                    locationList: ['桐生'],
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
             },
             {
                 searchConditions: {
-                    gradeList: ['SG' as BoatraceGradeType],
+                    gradeList: ['SG'],
                     stageList: ['優勝戦' as BoatraceRaceStage],
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
@@ -136,7 +132,7 @@ describe('BoatraceRaceDataUseCase', () => {
             },
             {
                 searchConditions: {
-                    locationList: ['平和島' as BoatraceRaceCourse],
+                    locationList: ['平和島'],
                     stageList: ['優勝戦' as BoatraceRaceStage],
                 },
                 descriptions: 'locationとstageを検索条件に入れて',
@@ -144,8 +140,8 @@ describe('BoatraceRaceDataUseCase', () => {
             },
             {
                 searchConditions: {
-                    gradeList: ['SG' as BoatraceGradeType],
-                    locationList: ['平和島' as BoatraceRaceCourse],
+                    gradeList: ['SG'],
+                    locationList: ['平和島'],
                     stageList: ['優勝戦' as BoatraceRaceStage],
                 },
                 descriptions: 'gradeとlocation、stageを検索条件に入れて',

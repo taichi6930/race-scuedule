@@ -6,14 +6,8 @@ import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import {
-    WorldGradeType,
-    WorldRaceCourse,
-    WorldRaceCourseType,
-} from '../../utility/data/world';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { WorldRaceId } from '../../utility/raceId';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
@@ -157,13 +151,13 @@ export class WorldRaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new WorldRaceRecord(
-                    columns[indices.id] as WorldRaceId,
+                    columns[indices.id],
                     columns[indices.name],
                     new Date(columns[indices.dateTime]),
-                    columns[indices.location] as WorldRaceCourse,
-                    columns[indices.surfaceType] as WorldRaceCourseType,
+                    columns[indices.location],
+                    columns[indices.surfaceType],
                     parseInt(columns[indices.distance]),
-                    columns[indices.grade] as WorldGradeType,
+                    columns[indices.grade],
                     parseInt(columns[indices.number]),
                     updateDate,
                 );

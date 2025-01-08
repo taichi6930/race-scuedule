@@ -87,10 +87,10 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
             new WorldRaceData(
                 `テスト${location}${grade}${(index + 1).toString()}レース`,
                 new Date(2024, 10 - 1, 1, 7 + index, 0),
-                location as WorldRaceCourse,
+                location,
                 '芝',
                 1600,
-                grade as WorldGradeType,
+                grade,
                 index + 1,
             ),
             getJSTDate(baseWorldRaceUpdateDate),

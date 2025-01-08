@@ -4,10 +4,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
-import { JraRaceCourse } from '../../utility/data/jra';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { JraPlaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -147,9 +145,9 @@ export class JraPlaceRepositoryFromStorageImpl
                     : getJSTDate(new Date());
 
                 return new JraPlaceRecord(
-                    columns[indices.id] as JraPlaceId,
+                    columns[indices.id],
                     new Date(columns[indices.dateTime]),
-                    columns[indices.location] as JraRaceCourse,
+                    columns[indices.location],
                     parseInt(columns[indices.heldTimes]),
                     parseInt(columns[indices.heldDayTimes]),
                     updateDate,

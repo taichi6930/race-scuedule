@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 /**
  * 競輪のレース場名とコードの対応表
  */
@@ -108,54 +110,18 @@ export const KEIRIN_STAGE_MAP: Record<string, KeirinRaceStage> = {
 };
 
 /**
- * 競輪場
+ * KeirinRaceCourseのzod型定義
  */
-export type KeirinRaceCourse =
-    | '函館'
-    | '青森'
-    | 'いわき平'
-    | '弥彦'
-    | '前橋'
-    | '取手'
-    | '宇都宮'
-    | '大宮'
-    | '西武園'
-    | '京王閣'
-    | '立川'
-    | '松戸'
-    | '千葉'
-    | '川崎'
-    | '平塚'
-    | '小田原'
-    | '伊東'
-    | '静岡'
-    | '名古屋'
-    | '岐阜'
-    | '大垣'
-    | '豊橋'
-    | '富山'
-    | '松阪'
-    | '四日市'
-    | '福井'
-    | '奈良'
-    | '向日町'
-    | '和歌山'
-    | '岸和田'
-    | '玉野'
-    | '広島'
-    | '防府'
-    | '高松'
-    | '小松島'
-    | '高知'
-    | '松山'
-    | '小倉'
-    | '久留米'
-    | '武雄'
-    | '佐世保'
-    | '別府'
-    | '熊本';
+export const KeirinRaceCourseSchema = z.string().refine((value) => {
+    return KeirinRaceCourseList.includes(value);
+}, '競輪場ではありません');
 
-export const KeirinRaceCourseList: KeirinRaceCourse[] = [
+/**
+ * KeirinRaceCourseの型定義
+ */
+export type KeirinRaceCourse = z.infer<typeof KeirinRaceCourseSchema>;
+
+export const KeirinRaceCourseList: string[] = [
     '函館',
     '青森',
     'いわき平',
@@ -202,67 +168,99 @@ export const KeirinRaceCourseList: KeirinRaceCourse[] = [
 ];
 
 /**
- * 競輪のグレード
+ * KeirinGradeTypeのzod型定義
  */
-export type KeirinGradeType = 'GP' | 'GⅠ' | 'GⅡ' | 'GⅢ' | 'FⅠ' | 'FⅡ';
+export const KeirinGradeTypeSchema = z.string().refine((value) => {
+    return KeirinGradeTypeList.includes(value);
+}, '競輪のグレードではありません');
 
 /**
- * 競輪のステージ
+ * KeirinGradeTypeの型定義
  */
-export type KeirinRaceStage =
-    | 'S級グランプリ'
-    | 'L級ガールズグランプリ'
-    | 'SA混合ヤンググランプリ'
-    | 'S級一次予選'
-    | 'S級二次予選'
-    | 'S級特別選抜予選'
-    | 'S級初日特別選抜'
-    | 'S級特一般'
-    | 'S級順位決定'
-    | 'S級スタールビー賞'
-    | 'S級ゴールデンレーサー賞'
-    | 'S級ドリームレース'
-    | 'S級オリオン賞'
-    | 'S級ダイヤモンドレース'
-    | 'S級シャイニングスター賞'
-    | 'S級毘沙門天賞'
-    | 'S級準決勝'
-    | 'S級特選'
-    | 'S級選抜'
-    | 'S級一般'
-    | 'S級優秀'
-    | 'S級特別優秀'
-    | 'S級決勝'
-    | 'S級西日本二次予選'
-    | 'S級西日本一次予選'
-    | 'S級東日本二次予選'
-    | 'S級東日本一次予選'
-    | 'S級白虎賞'
-    | 'S級青龍賞'
-    | 'S級西日本準決勝'
-    | 'S級東日本準決勝'
-    | 'S級西日本特別選抜予選'
-    | 'S級東日本特別選抜予選'
-    | 'S級日本競輪選手会理事長杯'
-    | 'S級ローズカップ'
-    | 'S級予選'
-    | 'L級ガールズドリームレース'
-    | 'L級ガールズアルテミス賞'
-    | 'L級ガールズ決勝'
-    | 'L級ガールズ準決勝'
-    | 'L級ガールズ予選'
-    | 'L級ガールズ特選'
-    | 'L級ガールズ選抜'
-    | 'L級ガールズ西日本準決勝'
-    | 'L級ガールズ東日本準決勝'
-    | 'L級ガールズ西日本予選'
-    | 'L級ガールズ東日本予選'
-    | 'L級ガールズコレクション'
-    | 'L級ティアラカップ'
-    | 'S級ダイナミックステージ'
-    | 'S級ワンダーステージ'
-    | 'S級スーパープロピストレーサー賞'
-    | '';
+export type KeirinGradeType = z.infer<typeof KeirinGradeTypeSchema>;
+
+/**
+ * 競輪のグレード リスト
+ */
+export const KeirinGradeTypeList: string[] = [
+    'GP',
+    'GⅠ',
+    'GⅡ',
+    'GⅢ',
+    'FⅠ',
+    'FⅡ',
+];
+
+/**
+ * KeirinRaceStageのzod型定義
+ */
+export const KeirinRaceStageSchema = z.string().refine((value) => {
+    return KeirinRaceStageList.includes(value);
+}, '競輪のステージではありません');
+
+/**
+ * KeirinRaceStageの型定義
+ */
+export type KeirinRaceStage = z.infer<typeof KeirinRaceStageSchema>;
+
+/**
+ * ボートレースのステージ リスト
+ */
+export const KeirinRaceStageList: string[] = [
+    'S級グランプリ',
+    'L級ガールズグランプリ',
+    'SA混合ヤンググランプリ',
+    'S級一次予選',
+    'S級二次予選',
+    'S級特別選抜予選',
+    'S級初日特別選抜',
+    'S級特一般',
+    'S級順位決定',
+    'S級スタールビー賞',
+    'S級ゴールデンレーサー賞',
+    'S級ドリームレース',
+    'S級オリオン賞',
+    'S級ダイヤモンドレース',
+    'S級シャイニングスター賞',
+    'S級毘沙門天賞',
+    'S級準決勝',
+    'S級特選',
+    'S級選抜',
+    'S級一般',
+    'S級優秀',
+    'S級特別優秀',
+    'S級決勝',
+    'S級西日本二次予選',
+    'S級西日本一次予選',
+    'S級東日本二次予選',
+    'S級東日本一次予選',
+    'S級白虎賞',
+    'S級青龍賞',
+    'S級西日本準決勝',
+    'S級東日本準決勝',
+    'S級西日本特別選抜予選',
+    'S級東日本特別選抜予選',
+    'S級日本競輪選手会理事長杯',
+    'S級ローズカップ',
+    'S級予選',
+    'L級ガールズドリームレース',
+    'L級ガールズアルテミス賞',
+    'L級ガールズ決勝',
+    'L級ガールズ準決勝',
+    'L級ガールズ予選',
+    'L級ガールズ特選',
+    'L級ガールズ選抜',
+    'L級ガールズ西日本準決勝',
+    'L級ガールズ東日本準決勝',
+    'L級ガールズ西日本予選',
+    'L級ガールズ東日本予選',
+    'L級ガールズコレクション',
+    'L級ティアラカップ',
+    'S級ダイナミックステージ',
+    'S級ワンダーステージ',
+    'S級スーパープロピストレーサー賞',
+    '',
+];
 
 /**
  * 競輪の指定グレードリスト
