@@ -1,22 +1,21 @@
+import { z } from 'zod';
+
 /**
- * JRAの競馬場 型定義
+ * JraRaceCourseのzod型定義
  */
-export type JraRaceCourse =
-    | '札幌'
-    | '函館'
-    | '福島'
-    | '新潟'
-    | '東京'
-    | '中山'
-    | '中京'
-    | '京都'
-    | '阪神'
-    | '小倉';
+export const JraRaceCourseSchema = z.string().refine((value) => {
+    return JraRaceCourseList.includes(value);
+}, 'Jraの競馬場ではありません');
+
+/**
+ * JraRaceCourseの型定義
+ */
+export type JraRaceCourse = z.infer<typeof JraRaceCourseSchema>;
 
 /**
  * JRAの競馬場 リスト
  */
-export const JraRaceCourseList: JraRaceCourse[] = [
+export const JraRaceCourseList: string[] = [
     '札幌',
     '函館',
     '福島',

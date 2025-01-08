@@ -7,7 +7,6 @@ import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
-import { JraRaceCourse } from '../../utility/data/jra';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import { NarRaceCourse } from '../../utility/data/nar';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
@@ -55,7 +54,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
                                     location = '東京';
                                     raceId = generateJraRaceId(
                                         currentDate,
-                                        location as JraRaceCourse,
+                                        location,
                                         i,
                                     );
                                     break;

@@ -128,7 +128,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 
         // 競馬場名を取得する関数
         const getPlaceName = (placeInitial: string): JraRaceCourse =>
-            placeMap[placeInitial] || null;
+            placeMap[placeInitial];
 
         // 開催日数を計算するためのdict
         // keyは競馬場、valueは「key: 開催回数、value: 開催日数」のdict

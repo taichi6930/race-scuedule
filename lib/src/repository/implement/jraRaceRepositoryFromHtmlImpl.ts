@@ -198,7 +198,7 @@ export class JraRaceRepositoryFromHtmlImpl
     ): JraRaceCourse | null => {
         const placeString: string = theadElementMatch[2];
         // placeStringがJraRaceCourseに変換できるかを確認して、OKであればキャストする
-        const place: JraRaceCourse = placeString as JraRaceCourse;
+        const place: JraRaceCourse = placeString;
         if (!JraRaceCourseList.includes(place)) return null;
         return place;
     };

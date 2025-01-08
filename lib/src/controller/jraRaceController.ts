@@ -359,12 +359,10 @@ export class JraRaceController {
 
             const locationList =
                 typeof location === 'string'
-                    ? [location as JraRaceCourse]
+                    ? [location]
                     : typeof location === 'object'
                       ? Array.isArray(location)
-                          ? (location as string[]).map(
-                                (l: string) => l as JraRaceCourse,
-                            )
+                          ? (location as string[]).map((l: string) => l)
                           : undefined
                       : undefined;
 
