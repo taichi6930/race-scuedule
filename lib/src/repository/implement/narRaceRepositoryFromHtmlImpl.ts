@@ -186,7 +186,7 @@ export class NarRaceRepositoryFromHtmlImpl
         const regexList = ['JpnIII', 'JpnII', 'JpnI', 'JpnＩ', 'ＧＩ'];
         for (const regex of regexList) {
             if (race.some((item) => item.includes(regex))) {
-                grade = regexMap[regex] as NarGradeType;
+                grade = regexMap[regex];
                 break;
             }
         }

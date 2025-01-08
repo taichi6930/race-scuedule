@@ -5,7 +5,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
-import { AutoraceGradeType } from '../../utility/data/autorace';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
@@ -155,7 +154,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
                     columns[indices.id],
                     new Date(columns[indices.dateTime]),
                     columns[indices.location],
-                    columns[indices.grade] as AutoraceGradeType,
+                    columns[indices.grade],
                     updateDate,
                 );
             })

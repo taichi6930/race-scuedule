@@ -90,7 +90,7 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
                 location,
                 '芝',
                 1600,
-                grade as WorldGradeType,
+                grade,
                 index + 1,
             ),
             getJSTDate(baseWorldRaceUpdateDate),

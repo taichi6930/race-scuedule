@@ -324,12 +324,10 @@ export class WorldRaceController {
             // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const gradeList =
                 typeof grade === 'string'
-                    ? [grade as WorldGradeType]
+                    ? [grade]
                     : typeof grade === 'object'
                       ? Array.isArray(grade)
-                          ? (grade as string[]).map(
-                                (g: string) => g as WorldGradeType,
-                            )
+                          ? (grade as string[]).map((g: string) => g)
                           : undefined
                       : undefined;
 

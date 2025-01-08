@@ -109,7 +109,7 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
                     location,
                     '芝',
                     1600,
-                    grade as JraGradeType,
+                    grade,
                     index + 1,
                     1,
                     1,

@@ -1,31 +1,40 @@
 import { z } from 'zod';
 
 import {
-    type AutoraceGradeType,
+    AutoraceGradeTypeSchema,
     AutoraceRaceCourseSchema,
-    type AutoraceRaceStage,
+    AutoraceRaceStageSchema,
 } from './autorace';
 import {
-    type BoatraceGradeType,
+    BoatraceGradeTypeSchema,
     BoatraceRaceCourseSchema,
-    type BoatraceRaceStage,
+    BoatraceRaceStageSchema,
 } from './boatrace';
-import { type JraGradeType, JraRaceCourseSchema } from './jra';
+import { JraGradeTypeSchema, JraRaceCourseSchema } from './jra';
 import {
-    type KeirinGradeType,
+    KeirinGradeTypeSchema,
     KeirinRaceCourseSchema,
-    type KeirinRaceStage,
+    KeirinRaceStageSchema,
 } from './keirin';
-import { type NarGradeType, NarRaceCourseSchema } from './nar';
-import { type WorldGradeType, WorldRaceCourseSchema } from './world';
+import { NarGradeTypeSchema, NarRaceCourseSchema } from './nar';
+import { WorldGradeTypeSchema, WorldRaceCourseSchema } from './world';
 
-export type GradeType =
-    | JraGradeType
-    | NarGradeType
-    | WorldGradeType
-    | KeirinGradeType
-    | AutoraceGradeType
-    | BoatraceGradeType;
+/**
+ * GradeTypeのzod型定義
+ */
+export const GradeTypeSchema = z.union([
+    JraGradeTypeSchema,
+    NarGradeTypeSchema,
+    WorldGradeTypeSchema,
+    KeirinGradeTypeSchema,
+    AutoraceGradeTypeSchema,
+    BoatraceGradeTypeSchema,
+]);
+
+/**
+ * GradeTypeの型定義
+ */
+export type GradeType = z.infer<typeof GradeTypeSchema>;
 
 /**
  * RaceCourseのzod型定義
@@ -44,8 +53,16 @@ export const RaceCourseSchema = z.union([
  */
 export type RaceCourse = z.infer<typeof RaceCourseSchema>;
 
-export type RaceStage =
-    | KeirinRaceStage
-    | AutoraceRaceStage
-    | BoatraceRaceStage
-    | undefined;
+/**
+ * RaceStageのzod型定義
+ */
+export const RaceStageSchema = z.union([
+    KeirinRaceStageSchema,
+    AutoraceRaceStageSchema,
+    BoatraceRaceStageSchema,
+]);
+
+/**
+ * RaceStageの型定義
+ */
+export type RaceStage = z.infer<typeof RaceStageSchema>;

@@ -7,10 +7,6 @@ import { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { BoatraceRacePlayerRecord } from '../../gateway/record/boatraceRacePlayerRecord';
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
-import {
-    BoatraceGradeType,
-    BoatraceRaceStage,
-} from '../../utility/data/boatrace';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
@@ -222,10 +218,10 @@ export class BoatraceRaceRepositoryFromStorageImpl
                 return new BoatraceRaceRecord(
                     columns[indices.id],
                     columns[indices.name],
-                    columns[indices.stage] as BoatraceRaceStage,
+                    columns[indices.stage],
                     new Date(columns[indices.dateTime]),
                     columns[indices.location],
-                    columns[indices.grade] as BoatraceGradeType,
+                    columns[indices.grade],
                     parseInt(columns[indices.number]),
                     updateDate,
                 );

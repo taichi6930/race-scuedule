@@ -334,12 +334,10 @@ export class AutoraceRaceController {
             // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const gradeList =
                 typeof grade === 'string'
-                    ? [grade as AutoraceGradeType]
+                    ? [grade]
                     : typeof grade === 'object'
                       ? Array.isArray(grade)
-                          ? (grade as string[]).map(
-                                (g: string) => g as AutoraceGradeType,
-                            )
+                          ? (grade as string[]).map((g: string) => g)
                           : undefined
                       : undefined;
 
@@ -354,12 +352,10 @@ export class AutoraceRaceController {
 
             const stageList =
                 typeof stage === 'string'
-                    ? [stage as AutoraceRaceStage]
+                    ? [stage]
                     : typeof stage === 'object'
                       ? Array.isArray(stage)
-                          ? (stage as string[]).map(
-                                (s: string) => s as AutoraceRaceStage,
-                            )
+                          ? (stage as string[]).map((s: string) => s)
                           : undefined
                       : undefined;
 
@@ -486,8 +482,8 @@ export class AutoraceRaceController {
                                 race.name,
                                 race.stage as AutoraceRaceStage,
                                 new Date(race.dateTime),
-                                race.location as AutoraceRaceCourse,
-                                race.grade as AutoraceGradeType,
+                                race.location,
+                                race.grade,
                                 Number(race.number),
                             );
                         } catch (error) {

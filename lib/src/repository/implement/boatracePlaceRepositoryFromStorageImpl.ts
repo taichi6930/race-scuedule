@@ -5,7 +5,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
-import { BoatraceGradeType } from '../../utility/data/boatrace';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
@@ -155,7 +154,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
                     columns[indices.id],
                     new Date(columns[indices.dateTime]),
                     columns[indices.location],
-                    columns[indices.grade] as BoatraceGradeType,
+                    columns[indices.grade],
                     updateDate,
                 );
             })

@@ -158,7 +158,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                             grade = alt
                                 .replace('1', 'Ⅰ')
                                 .replace('2', 'Ⅱ')
-                                .replace('3', 'Ⅲ') as KeirinGradeType;
+                                .replace('3', 'Ⅲ');
                         }
                     });
 

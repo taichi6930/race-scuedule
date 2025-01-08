@@ -1,4 +1,8 @@
-import { AutoraceRaceCourseSchema } from '../../../../lib/src/utility/data/autorace';
+import {
+    AutoraceGradeTypeSchema,
+    AutoraceRaceCourseSchema,
+    AutoraceRaceStageSchema,
+} from '../../../../lib/src/utility/data/autorace';
 
 describe('AutoraceRaceCourseSchema', () => {
     it('正しいAutoraceRaceCourse', () => {
@@ -20,6 +24,63 @@ describe('AutoraceRaceCourseSchema', () => {
         ];
         invalidAutoraceRaceCourseAndMessage.forEach(([invalidId, message]) => {
             const result = AutoraceRaceCourseSchema.safeParse(invalidId);
+            expect(result.success).toBe(false);
+            if (!result.success) {
+                expect(result.error.issues[0].message).toBe(message);
+            }
+        });
+    });
+});
+
+describe('AutoraceGradeTypeSchema', () => {
+    it('正しいAutoraceGradeType', () => {
+        const validAutoraceGradeType = 'GⅠ';
+        const result = AutoraceGradeTypeSchema.safeParse(
+            validAutoraceGradeType,
+        );
+        expect(result.success).toBe(true);
+
+        if (result.success) {
+            expect(result.data).toBe(validAutoraceGradeType);
+        }
+    });
+
+    it('不正なAutoraceGradeType', () => {
+        const invalidAutoraceGradeTypeAndMessage: [string, string][] = [
+            ['GⅣ', 'オートレースのグレードではありません'],
+            ['GⅤ', 'オートレースのグレードではありません'],
+            ['新馬', 'オートレースのグレードではありません'],
+        ];
+        invalidAutoraceGradeTypeAndMessage.forEach(([invalidId, message]) => {
+            const result = AutoraceGradeTypeSchema.safeParse(invalidId);
+            expect(result.success).toBe(false);
+            if (!result.success) {
+                expect(result.error.issues[0].message).toBe(message);
+            }
+        });
+    });
+});
+
+describe('AutoraceRaceStageSchema', () => {
+    it('正しいAutoraceRaceStage', () => {
+        const validAutoraceRaceStage = '優勝戦';
+        const result = AutoraceRaceStageSchema.safeParse(
+            validAutoraceRaceStage,
+        );
+        expect(result.success).toBe(true);
+
+        if (result.success) {
+            expect(result.data).toBe(validAutoraceRaceStage);
+        }
+    });
+
+    it('不正なAutoraceRaceStage', () => {
+        const invalidAutoraceRaceStageAndMessage: [string, string][] = [
+            ['東京', 'オートレースのステージではありません'],
+            ['中央', 'オートレースのステージではありません'],
+        ];
+        invalidAutoraceRaceStageAndMessage.forEach(([invalidId, message]) => {
+            const result = AutoraceRaceStageSchema.safeParse(invalidId);
             expect(result.success).toBe(false);
             if (!result.success) {
                 expect(result.error.issues[0].message).toBe(message);

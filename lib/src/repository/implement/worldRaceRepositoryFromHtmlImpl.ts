@@ -158,9 +158,9 @@ export class WorldRaceRepositoryFromHtmlImpl
                             .trim(); // テキストをトリムして不要な空白を削除
 
                         const surfaceType: WorldRaceCourseType | null =
-                            (['芝', 'ダート', '障害', 'AW'].find((type) =>
+                            ['芝', 'ダート', '障害', 'AW'].find((type) =>
                                 surfaceTypeAndDistanceText.includes(type),
-                            ) as WorldRaceCourseType) ?? null;
+                            ) ?? null;
                         if (surfaceType == null) {
                             return;
                         }
@@ -185,9 +185,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                                   .replace('G3', 'GⅢ')
                                   .replace('Listed', 'Listed');
                         const grade: WorldGradeType =
-                            gradeText === ''
-                                ? '格付けなし'
-                                : (gradeText as WorldGradeType);
+                            gradeText === '' ? '格付けなし' : gradeText;
 
                         // timeは<span class="time">23:36発走</span>の"23:36"を取得
                         const timeText = $(raceElement)

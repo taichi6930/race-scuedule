@@ -7,10 +7,6 @@ import { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
-import {
-    AutoraceGradeType,
-    AutoraceRaceStage,
-} from '../../utility/data/autorace';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
@@ -222,10 +218,10 @@ export class AutoraceRaceRepositoryFromStorageImpl
                 return new AutoraceRaceRecord(
                     columns[indices.id],
                     columns[indices.name],
-                    columns[indices.stage] as AutoraceRaceStage,
+                    columns[indices.stage],
                     new Date(columns[indices.dateTime]),
                     columns[indices.location],
-                    columns[indices.grade] as AutoraceGradeType,
+                    columns[indices.grade],
                     parseInt(columns[indices.number]),
                     updateDate,
                 );

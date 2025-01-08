@@ -67,9 +67,21 @@ export const BoatraceRaceCourseList: string[] = [
 ];
 
 /**
- * ボートレースのグレード
+ * BoatraceGradeTypeのzod型定義
  */
-export type BoatraceGradeType = 'SG' | 'GⅠ' | 'GⅡ' | 'GⅢ' | '一般';
+export const BoatraceGradeTypeSchema = z.string().refine((value) => {
+    return BoatraceGradeTypeList.includes(value);
+}, 'ボートレースのグレードではありません');
+
+/**
+ * BoatraceGradeTypeの型定義
+ */
+export type BoatraceGradeType = z.infer<typeof BoatraceGradeTypeSchema>;
+
+/**
+ * ボートレースのグレード リスト
+ */
+export const BoatraceGradeTypeList: string[] = ['SG', 'GⅠ', 'GⅡ', 'GⅢ', '一般'];
 
 /**
  * ボートレースのグレード
@@ -83,9 +95,26 @@ export const BOATRACE_SPECIFIED_GRADE_LIST: BoatraceGradeType[] = [
 ];
 
 /**
- * ボートレースのレースステージ
+ * BoatraceRaceStageのzod型定義
  */
-export type BoatraceRaceStage = '優勝戦' | '準優勝戦' | '一般戦' | '';
+export const BoatraceRaceStageSchema = z.string().refine((value) => {
+    return BoatraceRaceStageList.includes(value);
+}, 'ボートレースのステージではありません');
+
+/**
+ * BoatraceRaceStageの型定義
+ */
+export type BoatraceRaceStage = z.infer<typeof BoatraceRaceStageSchema>;
+
+/**
+ * ボートレースのステージ リスト
+ */
+export const BoatraceRaceStageList: string[] = [
+    '優勝戦',
+    '準優勝戦',
+    '一般戦',
+    '',
+];
 
 /**
  * HTMLのステージ名を正式名称に変換するためのマップ

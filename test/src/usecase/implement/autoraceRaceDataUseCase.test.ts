@@ -9,11 +9,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { AutoraceRaceDataUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceDataUseCase';
-import type {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-    AutoraceRaceStage,
-} from '../../../../lib/src/utility/data/autorace';
+import type { AutoraceRaceStage } from '../../../../lib/src/utility/data/autorace';
 import {
     baseAutoraceRaceDataList,
     baseAutoraceRaceEntity,
@@ -92,13 +88,13 @@ describe('AutoraceRaceDataUseCase', () => {
 
         [
             {
-                searchConditions: { gradeList: ['SG' as AutoraceGradeType] },
+                searchConditions: { gradeList: ['SG'] },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 12,
             },
             {
                 searchConditions: {
-                    locationList: ['飯塚' as AutoraceRaceCourse],
+                    locationList: ['飯塚'],
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
@@ -112,23 +108,23 @@ describe('AutoraceRaceDataUseCase', () => {
             },
             {
                 searchConditions: {
-                    gradeList: ['SG' as AutoraceGradeType],
-                    locationList: ['飯塚' as AutoraceRaceCourse],
+                    gradeList: ['SG'],
+                    locationList: ['飯塚'],
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 12,
             },
             {
                 searchConditions: {
-                    gradeList: ['SG' as AutoraceGradeType],
-                    locationList: ['川口' as AutoraceRaceCourse],
+                    gradeList: ['SG'],
+                    locationList: ['川口'],
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
             },
             {
                 searchConditions: {
-                    gradeList: ['SG' as AutoraceGradeType],
+                    gradeList: ['SG'],
                     stageList: ['優勝戦' as AutoraceRaceStage],
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
@@ -136,7 +132,7 @@ describe('AutoraceRaceDataUseCase', () => {
             },
             {
                 searchConditions: {
-                    locationList: ['飯塚' as AutoraceRaceCourse],
+                    locationList: ['飯塚'],
                     stageList: ['優勝戦' as AutoraceRaceStage],
                 },
                 descriptions: 'locationとstageを検索条件に入れて',
@@ -144,8 +140,8 @@ describe('AutoraceRaceDataUseCase', () => {
             },
             {
                 searchConditions: {
-                    gradeList: ['SG' as AutoraceGradeType],
-                    locationList: ['飯塚' as AutoraceRaceCourse],
+                    gradeList: ['SG'],
+                    locationList: ['飯塚'],
                     stageList: ['優勝戦' as AutoraceRaceStage],
                 },
                 descriptions: 'gradeとlocation、stageを検索条件に入れて',

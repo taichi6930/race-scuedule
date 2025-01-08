@@ -5,7 +5,7 @@ import { z } from 'zod';
  */
 export const NarRaceCourseSchema = z.string().refine((value) => {
     return NarRaceCourseList.includes(value);
-}, 'Narの競馬場ではありません');
+}, 'NARの競馬場ではありません');
 
 /**
  * NarRaceCourseの型定義
@@ -87,29 +87,54 @@ export const NAR_BABACODE: Record<string, string> = {
 };
 
 /**
- * NARの馬場種別
+ * NarRaceCourseTypeのzod型定義
  */
-export type NarRaceCourseType = '芝' | 'ダート';
+export const NarRaceCourseTypeSchema = z.string().refine((value) => {
+    return NarRaceCourseTypeList.includes(value);
+}, 'NARの馬場種別ではありません');
 
 /**
- * NARのグレード
+ * NarRaceCourseTypeの型定義
  */
-export type NarGradeType =
-    | 'GⅠ'
-    | 'GⅡ'
-    | 'GⅢ'
-    | 'JpnⅠ'
-    | 'JpnⅡ'
-    | 'JpnⅢ'
-    | '重賞'
-    | '地方重賞'
-    | 'Listed'
-    | 'オープン特別'
-    | '地方準重賞'
-    | '格付けなし'
-    | 'オープン'
-    | '未格付'
-    | '一般';
+export type NarRaceCourseType = z.infer<typeof NarRaceCourseTypeSchema>;
+
+/**
+ * NARの競馬の馬場種別 リスト
+ */
+export const NarRaceCourseTypeList: string[] = ['芝', 'ダート'];
+
+/**
+ * NarGradeTypeのzod型定義
+ */
+export const NarGradeTypeSchema = z.string().refine((value) => {
+    return NarGradeTypeList.includes(value);
+}, 'NARのグレードではありません');
+
+/**
+ * NarGradeTypeの型定義
+ */
+export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
+
+/**
+ * 世界の競馬のグレード リスト
+ */
+export const NarGradeTypeList: string[] = [
+    'GⅠ',
+    'GⅡ',
+    'GⅢ',
+    'JpnⅠ',
+    'JpnⅡ',
+    'JpnⅢ',
+    '重賞',
+    '地方重賞',
+    'Listed',
+    'オープン特別',
+    '地方準重賞',
+    '格付けなし',
+    'オープン',
+    '未格付',
+    '一般',
+];
 
 /**
  * NARの指定グレードリスト

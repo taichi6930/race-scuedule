@@ -10,7 +10,6 @@ import {
     NAR_SPECIFIED_GRADE_LIST,
     NarGradeType,
     NarRaceCourse,
-    NarRaceCourseType,
 } from '../utility/data/nar';
 import { Logger } from '../utility/logger';
 
@@ -332,12 +331,10 @@ export class NarRaceController {
             // gradeが配列だった場合、配列に変換する、配列でなければ配列にしてあげる
             const gradeList =
                 typeof grade === 'string'
-                    ? [grade as NarGradeType]
+                    ? [grade]
                     : typeof grade === 'object'
                       ? Array.isArray(grade)
-                          ? (grade as string[]).map(
-                                (g: string) => g as NarGradeType,
-                            )
+                          ? (grade as string[]).map((g: string) => g)
                           : undefined
                       : undefined;
 
@@ -474,10 +471,10 @@ export class NarRaceController {
                             return new NarRaceData(
                                 race.name,
                                 new Date(race.dateTime),
-                                race.location as NarRaceCourse,
-                                race.surfaceType as NarRaceCourseType,
+                                race.location,
+                                race.surfaceTypeType,
                                 Number(race.distance),
-                                race.grade as NarGradeType,
+                                race.grade,
                                 Number(race.number),
                             );
                         } catch (error) {

@@ -311,7 +311,7 @@ export class JraRaceRepositoryFromHtmlImpl
         ) {
             return null;
         }
-        return surfaceType as JraRaceCourseType;
+        return surfaceType;
     };
 
     /**

@@ -1,9 +1,27 @@
 import z from 'zod';
 
 /**
- * 世界の競馬のグレード
+ * WorldGradeTypeのzod型定義
  */
-export type WorldGradeType = 'GⅠ' | 'GⅡ' | 'GⅢ' | 'Listed' | '格付けなし';
+export const WorldGradeTypeSchema = z.string().refine((value) => {
+    return WorldGradeTypeList.includes(value);
+}, '世界の競馬のグレードではありません');
+
+/**
+ * WorldGradeTypeの型定義
+ */
+export type WorldGradeType = z.infer<typeof WorldGradeTypeSchema>;
+
+/**
+ * 世界の競馬のグレード リスト
+ */
+export const WorldGradeTypeList: string[] = [
+    'GⅠ',
+    'GⅡ',
+    'GⅢ',
+    'Listed',
+    '格付けなし',
+];
 
 /**
  * WorldRaceCourseのzod型定義
@@ -65,9 +83,21 @@ export const WorldRaceCourseList: string[] = [
 ];
 
 /**
- * 世界の競馬の馬場種別
+ * WorldRaceCourseTypeのzod型定義
  */
-export type WorldRaceCourseType = '芝' | 'ダート' | '障害' | 'AW';
+export const WorldRaceCourseTypeSchema = z.string().refine((value) => {
+    return WorldRaceCourseTypeList.includes(value);
+}, '世界の競馬の馬場種別ではありません');
+
+/**
+ * WorldRaceCourseTypeの型定義
+ */
+export type WorldRaceCourseType = z.infer<typeof WorldRaceCourseTypeSchema>;
+
+/**
+ * 世界の競馬の馬場種別 リスト
+ */
+export const WorldRaceCourseTypeList: string[] = ['芝', 'ダート', '障害', 'AW'];
 
 /**
  * 世界の競馬の指定グレードリスト

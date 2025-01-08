@@ -99,7 +99,7 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
                     location,
                     'ダート',
                     1600,
-                    grade as NarGradeType,
+                    grade,
                     index + 1,
                 ),
                 baseNarRaceUpdateDate,

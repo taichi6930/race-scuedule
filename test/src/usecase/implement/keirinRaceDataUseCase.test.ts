@@ -10,11 +10,7 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { KeirinRaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinRaceDataUseCase';
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-    KeirinRaceStage,
-} from '../../../../lib/src/utility/data/keirin';
+import type { KeirinRaceStage } from '../../../../lib/src/utility/data/keirin';
 import {
     baseKeirinPlaceEntity,
     baseKeirinRaceDataList,
@@ -93,13 +89,13 @@ describe('KeirinRaceDataUseCase', () => {
 
         [
             {
-                searchConditions: { gradeList: ['GP' as KeirinGradeType] },
+                searchConditions: { gradeList: ['GP'] },
                 descriptions: 'gradeを検索条件に入れて',
                 expectedLength: 12,
             },
             {
                 searchConditions: {
-                    locationList: ['平塚' as KeirinRaceCourse],
+                    locationList: ['平塚'],
                 },
                 descriptions: 'locationを検索条件に入れて',
                 expectedLength: 12,
@@ -111,23 +107,23 @@ describe('KeirinRaceDataUseCase', () => {
             },
             {
                 searchConditions: {
-                    gradeList: ['GP' as KeirinGradeType],
-                    locationList: ['平塚' as KeirinRaceCourse],
+                    gradeList: ['GP'],
+                    locationList: ['平塚'],
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 12,
             },
             {
                 searchConditions: {
-                    gradeList: ['GP' as KeirinGradeType],
-                    locationList: ['小倉' as KeirinRaceCourse],
+                    gradeList: ['GP'],
+                    locationList: ['小倉'],
                 },
                 descriptions: 'gradeとlocationを検索条件に入れて',
                 expectedLength: 0,
             },
             {
                 searchConditions: {
-                    gradeList: ['GP' as KeirinGradeType],
+                    gradeList: ['GP'],
                     stageList: ['決勝' as KeirinRaceStage],
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
@@ -135,7 +131,7 @@ describe('KeirinRaceDataUseCase', () => {
             },
             {
                 searchConditions: {
-                    locationList: ['平塚' as KeirinRaceCourse],
+                    locationList: ['平塚'],
                     stageList: ['決勝' as KeirinRaceStage],
                 },
                 descriptions: 'locationとstageを検索条件に入れて',
@@ -143,8 +139,8 @@ describe('KeirinRaceDataUseCase', () => {
             },
             {
                 searchConditions: {
-                    gradeList: ['GP' as KeirinGradeType],
-                    locationList: ['平塚' as KeirinRaceCourse],
+                    gradeList: ['GP'],
+                    locationList: ['平塚'],
                     stageList: ['決勝' as KeirinRaceStage],
                 },
                 descriptions: 'gradeとlocation、stageを検索条件に入れて',
@@ -189,8 +185,8 @@ describe('KeirinRaceDataUseCase', () => {
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
             const searchList = {
-                gradeList: ['GP' as KeirinGradeType],
-                locationList: ['平塚' as KeirinRaceCourse],
+                gradeList: ['GP'],
+                locationList: ['平塚'],
             };
 
             // モックの戻り値を設定
@@ -225,8 +221,8 @@ describe('KeirinRaceDataUseCase', () => {
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
             const searchList = {
-                gradeList: ['GP' as KeirinGradeType],
-                locationList: ['平塚' as KeirinRaceCourse],
+                gradeList: ['GP'],
+                locationList: ['平塚'],
             };
 
             // モックの戻り値を設定

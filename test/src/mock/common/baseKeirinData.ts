@@ -112,10 +112,10 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
     ].map((stage, index) => {
         const raceData = new KeirinRaceData(
             `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
-            stage as KeirinRaceStage,
+            stage,
             new Date(2025, 12 - 1, 30, 7 + index, 0),
             location,
-            grade as KeirinGradeType,
+            grade,
             index + 1,
         );
         const racePlayerDataList = Array.from({ length: 9 }, (_, i) => {
