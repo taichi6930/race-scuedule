@@ -3,6 +3,7 @@ import '../../utility/format';
 import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
+    AutoraceRaceNumber,
     AutoraceRaceStage,
 } from '../../utility/data/autorace';
 import type { AutoraceRaceId } from '../../utility/raceId';
@@ -28,13 +29,13 @@ export class AutoraceRaceRecord {
      */
     constructor(
         public readonly id: AutoraceRaceId,
-        public readonly name: string, // レース名
-        public readonly stage: AutoraceRaceStage, // 開催ステージ
-        public readonly dateTime: Date, // 開催日時
-        public readonly location: AutoraceRaceCourse, // オートレース場名
-        public readonly grade: AutoraceGradeType, // グレード
-        public readonly number: number, // レース番号
-        public readonly updateDate: Date, // 更新日時
+        public readonly name: string,
+        public readonly stage: AutoraceRaceStage,
+        public readonly dateTime: Date,
+        public readonly location: AutoraceRaceCourse,
+        public readonly grade: AutoraceGradeType,
+        public readonly number: AutoraceRaceNumber,
+        public readonly updateDate: Date,
     ) {}
 
     /**

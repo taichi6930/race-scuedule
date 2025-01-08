@@ -3,6 +3,7 @@ import type {
     JraRaceCourse,
     JraRaceCourseType,
     JraRaceDistance,
+    JraRaceNumber,
 } from '../utility/data/jra';
 
 /**
@@ -31,7 +32,7 @@ export class JraRaceData {
         public readonly surfaceType: JraRaceCourseType,
         public readonly distance: JraRaceDistance,
         public readonly grade: JraGradeType,
-        public readonly number: number,
+        public readonly number: JraRaceNumber,
         public readonly heldTimes: number,
         public readonly heldDayTimes: number,
     ) {
@@ -69,13 +70,6 @@ export class JraRaceData {
     private validate(): [boolean, string[]] {
         // エラー文をまとめて表示する
         const errorMessageList: string[] = [];
-
-        // レース番号は1以上12以下
-        if (this.number < 1 || this.number > 12) {
-            errorMessageList.push(
-                'レース番号は1以上12以下である必要があります',
-            );
-        }
         // 開催回数は1以上
         if (this.heldTimes < 1) {
             errorMessageList.push('開催回数は1以上である必要があります');

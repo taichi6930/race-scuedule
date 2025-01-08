@@ -168,3 +168,18 @@ export const WorldRaceDistanceSchema = z
  * WorldRaceDistanceの型定義
  */
 export type WorldRaceDistance = z.infer<typeof WorldRaceDistanceSchema>;
+
+/**
+ * WorldRaceNumberのzod型定義
+ * 1~12の整数
+ */
+export const WorldRaceNumberSchema = z
+    .number()
+    .int()
+    .min(1, 'レース番号は1以上である必要があります')
+    .max(12, 'レース番号は12以下である必要があります');
+
+/**
+ * WorldRaceNumberの型定義
+ */
+export type WorldRaceNumber = z.infer<typeof WorldRaceNumberSchema>;

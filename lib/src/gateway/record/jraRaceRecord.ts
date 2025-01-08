@@ -7,6 +7,7 @@ import type {
     JraRaceCourse,
     JraRaceCourseType,
     JraRaceDistance,
+    JraRaceNumber,
 } from '../../utility/data/jra';
 import type { JraRaceId } from '../../utility/raceId';
 
@@ -40,7 +41,7 @@ export class JraRaceRecord {
         public readonly surfaceType: JraRaceCourseType,
         public readonly distance: JraRaceDistance,
         public readonly grade: JraGradeType,
-        public readonly number: number,
+        public readonly number: JraRaceNumber,
         public readonly heldTimes: number,
         public readonly heldDayTimes: number,
         public readonly updateDate: Date,

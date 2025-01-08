@@ -7,6 +7,7 @@ import type {
     NarRaceCourse,
     NarRaceCourseType,
     NarRaceDistance,
+    NarRaceNumber,
 } from '../../utility/data/nar';
 import type { NarRaceId } from '../../utility/raceId';
 
@@ -38,7 +39,7 @@ export class NarRaceRecord {
         public readonly surfaceType: NarRaceCourseType,
         public readonly distance: NarRaceDistance,
         public readonly grade: NarGradeType,
-        public readonly number: number,
+        public readonly number: NarRaceNumber,
         public readonly updateDate: Date,
     ) {}
 

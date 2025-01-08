@@ -3,6 +3,7 @@ import type {
     WorldRaceCourse,
     WorldRaceCourseType,
     WorldRaceDistance,
+    WorldRaceNumber,
 } from '../utility/data/world';
 
 /**
@@ -29,7 +30,7 @@ export class WorldRaceData {
         public readonly surfaceType: WorldRaceCourseType,
         public readonly distance: WorldRaceDistance,
         public readonly grade: WorldGradeType,
-        public readonly number: number,
+        public readonly number: WorldRaceNumber,
     ) {}
 
     /**

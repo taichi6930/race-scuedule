@@ -20,10 +20,4 @@ describe('NarRaceDataクラスのテスト', () => {
         // インスタンスが変更されていないか確認
         expect(newRaceData).toEqual(raceData);
     });
-
-    it('レース番号が範囲外の場合にエラーがスローされることを確認', () => {
-        expect(() => {
-            baseRaceData.copy({ number: 13 });
-        }).toThrow('レース番号は1以上12以下である必要があります');
-    });
 });

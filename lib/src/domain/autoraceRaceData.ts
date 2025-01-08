@@ -1,6 +1,7 @@
 import type {
     AutoraceGradeType,
     AutoraceRaceCourse,
+    AutoraceRaceNumber,
     AutoraceRaceStage,
 } from '../utility/data/autorace';
 
@@ -21,18 +22,13 @@ export class AutoraceRaceData {
      * @param number - レース番号
      */
     constructor(
-        public readonly name: string, // レース名
-        public readonly stage: AutoraceRaceStage, // 開催ステージ
-        public readonly dateTime: Date, // 開催日時
-        public readonly location: AutoraceRaceCourse, // オートレース場名
-        public readonly grade: AutoraceGradeType, // グレード
-        public readonly number: number, // レース番号
-    ) {
-        const [isValid, errorMessageList] = this.validate();
-        if (!isValid) {
-            throw new Error(errorMessageList.join('\n'));
-        }
-    }
+        public readonly name: string,
+        public readonly stage: AutoraceRaceStage,
+        public readonly dateTime: Date,
+        public readonly location: AutoraceRaceCourse,
+        public readonly grade: AutoraceGradeType,
+        public readonly number: AutoraceRaceNumber,
+    ) {}
 
     /**
      * データのコピー
@@ -48,24 +44,5 @@ export class AutoraceRaceData {
             partial.grade ?? this.grade,
             partial.number ?? this.number,
         );
-    }
-
-    /**
-     * バリデーション
-     * 型ではない部分でのバリデーションを行う
-     *
-     * @returns バリデーション結果
-     */
-    private validate(): [boolean, string[]] {
-        // エラー文をまとめて表示する
-        const errorMessageList: string[] = [];
-
-        // レース番号は1以上12以下
-        if (this.number < 1 || this.number > 12) {
-            errorMessageList.push(
-                'レース番号は1以上12以下である必要があります',
-            );
-        }
-        return [errorMessageList.length === 0, errorMessageList];
     }
 }

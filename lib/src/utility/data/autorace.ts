@@ -131,3 +131,18 @@ export const AutoracePlayerList = [
         priority: 6,
     },
 ];
+
+/**
+ * AutoraceRaceNumberのzod型定義
+ * 1~12の整数
+ */
+export const AutoraceRaceNumberSchema = z
+    .number()
+    .int()
+    .min(1, 'レース番号は1以上である必要があります')
+    .max(12, 'レース番号は12以下である必要があります');
+
+/**
+ * AutoraceRaceNumberの型定義
+ */
+export type AutoraceRaceNumber = z.infer<typeof AutoraceRaceNumberSchema>;

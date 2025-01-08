@@ -143,3 +143,18 @@ export const BoatracePlayerList = [
         priority: 6,
     },
 ];
+
+/**
+ * BoatraceRaceNumberのzod型定義
+ * 1~12の整数
+ */
+export const BoatraceRaceNumberSchema = z
+    .number()
+    .int()
+    .min(1, 'レース番号は1以上である必要があります')
+    .max(12, 'レース番号は12以下である必要があります');
+
+/**
+ * BoatraceRaceNumberの型定義
+ */
+export type BoatraceRaceNumber = z.infer<typeof BoatraceRaceNumberSchema>;
