@@ -69,9 +69,14 @@ export const generateJraPlaceId = (
  * JraPlaceIdのzod型定義
  * jra + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const JraPlaceIdSchema = z.string().refine((value) => {
-    return /^jra\d{8}\d{2}$/.test(value);
-}, 'JraPlaceIdの形式ではありません');
+export const JraPlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('jra');
+    }, 'jraから始まる必要があります')
+    .refine((value) => {
+        return /^jra\d{8}\d{2}$/.test(value);
+    }, 'JraPlaceIdの形式ではありません');
 
 /**
  * JraPlaceIdの型定義
@@ -141,9 +146,14 @@ export const generateNarPlaceId = (
  * NarPlaceIdのzod型定義
  * nar + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const NarPlaceIdSchema = z.string().refine((value) => {
-    return /^nar\d{8}\d{2}$/.test(value);
-}, 'NarPlaceIdの形式ではありません');
+export const NarPlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('nar');
+    }, 'narから始まる必要があります')
+    .refine((value) => {
+        return /^nar\d{8}\d{2}$/.test(value);
+    }, 'NarPlaceIdの形式ではありません');
 
 /**
  * NarPlaceIdの型定義
@@ -202,9 +212,14 @@ export const generateWorldPlaceId = (
  * WorldPlaceIdのzod型定義
  * world + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const WorldPlaceIdSchema = z.string().refine((value) => {
-    return /^world\d{8}\d{2}$/.test(value);
-}, 'WorldPlaceIdの形式ではありません');
+export const WorldPlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('world');
+    }, 'worldから始まる必要があります')
+    .refine((value) => {
+        return /^world\d{8}\d{2}$/.test(value);
+    }, 'WorldPlaceIdの形式ではありません');
 
 /**
  * WorldPlaceIdの型定義
@@ -314,9 +329,14 @@ export const generateKeirinPlaceId = (
  * KeirinPlaceIdのzod型定義
  * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const KeirinPlaceIdSchema = z.string().refine((value) => {
-    return /^keirin\d{8}\d{2}$/.test(value);
-}, 'KeirinPlaceIdの形式ではありません');
+export const KeirinPlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('keirin');
+    }, 'keirinから始まる必要があります')
+    .refine((value) => {
+        return /^keirin\d{8}\d{2}$/.test(value);
+    }, 'KeirinPlaceIdの形式ではありません');
 
 /**
  * KeirinPlaceIdの型定義
@@ -426,9 +446,14 @@ export const generateBoatracePlaceId = (
  * BoatracePlaceIdのzod型定義
  * boatrace + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const BoatracePlaceIdSchema = z.string().refine((value) => {
-    return /^boatrace\d{8}\d{2}$/.test(value);
-}, 'BoatracePlaceIdの形式ではありません');
+export const BoatracePlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('boatrace');
+    }, 'boatraceから始まる必要があります')
+    .refine((value) => {
+        return /^boatrace\d{8}\d{2}$/.test(value);
+    }, 'BoatracePlaceIdの形式ではありません');
 
 /**
  * BoatracePlaceIdの型定義
@@ -538,9 +563,14 @@ export const generateAutoracePlaceId = (
  * AutoracePlaceIdのzod型定義
  * autorace + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const AutoracePlaceIdSchema = z.string().refine((value) => {
-    return /^autorace\d{8}\d{2}$/.test(value);
-}, 'AutoracePlaceIdの形式ではありません');
+export const AutoracePlaceIdSchema = z
+    .string()
+    .refine((value) => {
+        return value.startsWith('autorace');
+    }, 'autoraceから始まる必要があります')
+    .refine((value) => {
+        return /^autorace\d{8}\d{2}$/.test(value);
+    }, 'AutoracePlaceIdの形式ではありません');
 
 /**
  * AutoracePlaceIdの型定義
