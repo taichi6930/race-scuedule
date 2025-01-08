@@ -335,12 +335,10 @@ export class WorldRaceController {
 
             const locationList =
                 typeof location === 'string'
-                    ? [location as WorldRaceCourse]
+                    ? [location]
                     : typeof location === 'object'
                       ? Array.isArray(location)
-                          ? (location as string[]).map(
-                                (l: string) => l as WorldRaceCourse,
-                            )
+                          ? (location as string[]).map((l: string) => l)
                           : undefined
                       : undefined;
 

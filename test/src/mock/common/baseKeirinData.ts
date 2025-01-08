@@ -114,7 +114,7 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
             `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
             stage as KeirinRaceStage,
             new Date(2025, 12 - 1, 30, 7 + index, 0),
-            location as KeirinRaceCourse,
+            location,
             grade as KeirinGradeType,
             index + 1,
         );

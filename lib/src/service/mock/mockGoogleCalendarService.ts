@@ -8,9 +8,8 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
 import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
-import { NarRaceCourse } from '../../utility/data/nar';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
-import { WORLD_PLACE_CODE, WorldRaceCourse } from '../../utility/data/world';
+import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { generateJraRaceId } from '../../utility/raceId';
@@ -60,11 +59,11 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
                                     break;
                                 case 'nar':
                                     location = '大井';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location as NarRaceCourse]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${i.toXDigits(2)}`;
                                     break;
                                 case 'world':
                                     location = 'ロンシャン';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WORLD_PLACE_CODE[location as WorldRaceCourse]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WORLD_PLACE_CODE[location]}${i.toXDigits(2)}`;
                                     break;
                                 case 'keirin':
                                     location = '川崎';

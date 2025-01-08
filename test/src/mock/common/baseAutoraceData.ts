@@ -134,7 +134,7 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
                 `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
                 stage as AutoraceRaceStage,
                 new Date(2025, 12 - 1, 31, 7 + index, 0),
-                location as AutoraceRaceCourse,
+                location,
                 grade as AutoraceGradeType,
                 index + 1,
             ),

@@ -345,12 +345,10 @@ export class KeirinRaceController {
 
             const locationList =
                 typeof location === 'string'
-                    ? [location as KeirinRaceCourse]
+                    ? [location]
                     : typeof location === 'object'
                       ? Array.isArray(location)
-                          ? (location as string[]).map(
-                                (l: string) => l as KeirinRaceCourse,
-                            )
+                          ? (location as string[]).map((l: string) => l)
                           : undefined
                       : undefined;
 

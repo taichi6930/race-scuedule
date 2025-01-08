@@ -7,11 +7,7 @@ import { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { KeirinRacePlayerRecord } from '../../gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
-import {
-    KeirinGradeType,
-    KeirinRaceCourse,
-    KeirinRaceStage,
-} from '../../utility/data/keirin';
+import { KeirinGradeType, KeirinRaceStage } from '../../utility/data/keirin';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
@@ -224,7 +220,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     columns[indices.name],
                     columns[indices.stage] as KeirinRaceStage,
                     new Date(columns[indices.dateTime]),
-                    columns[indices.location] as KeirinRaceCourse,
+                    columns[indices.location],
                     columns[indices.grade] as KeirinGradeType,
                     parseInt(columns[indices.number]),
                     updateDate,

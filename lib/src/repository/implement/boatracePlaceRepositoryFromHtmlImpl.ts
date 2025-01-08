@@ -9,7 +9,6 @@ import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatrace
 import {
     BOATRACE_SPECIFIED_GRADE_LIST,
     BoatraceGradeType,
-    BoatraceRaceCourse,
     BoatraceRaceCourseList,
 } from '../../utility/data/boatrace';
 import { getJSTDate } from '../../utility/date';
@@ -176,7 +175,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 .replace(/[\s　]+/g, '');
 
             //placeがBoatraceRaceCourseに含まれているか確認
-            if (!BoatraceRaceCourseList.includes(place as BoatraceRaceCourse)) {
+            if (!BoatraceRaceCourseList.includes(place)) {
                 console.log('ボートレース場が見つかりませんでした');
                 return;
             }
@@ -201,7 +200,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                     null,
                     new BoatracePlaceData(
                         new Date(currentDate),
-                        place as BoatraceRaceCourse,
+                        place,
                         grade as BoatraceGradeType,
                     ),
                     getJSTDate(new Date()),

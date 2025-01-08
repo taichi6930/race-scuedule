@@ -19,7 +19,6 @@ describe('JraRaceCourseSchema', () => {
         invalidJraRaceCourseAndMessage.forEach(([invalidId, message]) => {
             const result = JraRaceCourseSchema.safeParse(invalidId);
             expect(result.success).toBe(false);
-
             if (!result.success) {
                 expect(result.error.issues[0].message).toBe(message);
             }

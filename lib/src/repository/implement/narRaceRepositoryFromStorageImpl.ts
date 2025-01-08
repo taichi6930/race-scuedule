@@ -4,11 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
-import {
-    NarGradeType,
-    NarRaceCourse,
-    NarRaceCourseType,
-} from '../../utility/data/nar';
+import { NarGradeType, NarRaceCourseType } from '../../utility/data/nar';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
@@ -121,7 +117,7 @@ export class NarRaceRepositoryFromStorageImpl
                             columns[indices.id],
                             columns[indices.name],
                             new Date(columns[indices.dateTime]),
-                            columns[indices.location] as NarRaceCourse,
+                            columns[indices.location],
                             columns[indices.surfaceType] as NarRaceCourseType,
                             parseInt(columns[indices.distance]),
                             columns[indices.grade] as NarGradeType,

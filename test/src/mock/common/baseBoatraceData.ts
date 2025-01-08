@@ -132,7 +132,7 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
             `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
             stage as BoatraceRaceStage,
             new Date(2025, 12 - 1, 30, 7 + index, 0),
-            location as BoatraceRaceCourse,
+            location,
             grade as BoatraceGradeType,
             index + 1,
         );

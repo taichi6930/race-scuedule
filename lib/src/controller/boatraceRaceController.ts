@@ -345,12 +345,10 @@ export class BoatraceRaceController {
 
             const locationList =
                 typeof location === 'string'
-                    ? [location as BoatraceRaceCourse]
+                    ? [location]
                     : typeof location === 'object'
                       ? Array.isArray(location)
-                          ? (location as string[]).map(
-                                (l: string) => l as BoatraceRaceCourse,
-                            )
+                          ? (location as string[]).map((l: string) => l)
                           : undefined
                       : undefined;
 

@@ -135,7 +135,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                             .find('.racelist__race__sub')
                             .find('.course')
                             .text()
-                            .trim() as WorldRaceCourse;
+                            .trim();
                         // locationがWorldRaceCourseに適していない場合はスキップ
                         if (!WorldRaceCourseList.includes(location)) {
                             console.error(

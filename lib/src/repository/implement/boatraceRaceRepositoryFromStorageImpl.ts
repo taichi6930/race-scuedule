@@ -9,7 +9,6 @@ import { BoatraceRacePlayerRecord } from '../../gateway/record/boatraceRacePlaye
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
 import {
     BoatraceGradeType,
-    BoatraceRaceCourse,
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
 import { getJSTDate } from '../../utility/date';
@@ -225,7 +224,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                     columns[indices.name],
                     columns[indices.stage] as BoatraceRaceStage,
                     new Date(columns[indices.dateTime]),
-                    columns[indices.location] as BoatraceRaceCourse,
+                    columns[indices.location],
                     columns[indices.grade] as BoatraceGradeType,
                     parseInt(columns[indices.number]),
                     updateDate,

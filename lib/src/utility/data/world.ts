@@ -1,67 +1,26 @@
+import z from 'zod';
+
 /**
  * 世界の競馬のグレード
  */
 export type WorldGradeType = 'GⅠ' | 'GⅡ' | 'GⅢ' | 'Listed' | '格付けなし';
 
 /**
- * 世界の競馬場 型定義
+ * WorldRaceCourseのzod型定義
  */
-export type WorldRaceCourse =
-    // フランス
-    | 'ロンシャン'
-    | 'パリロンシャン'
-    | 'シャンティイ'
-    | 'サンクルー'
-    | 'ドーヴィル'
-    // イギリス
-    | 'アスコット'
-    | 'ニューマーケット'
-    | 'ニューベリー'
-    | 'エプソム'
-    | 'グッドウッド'
-    | 'サンダウン'
-    | 'ヨーク'
-    | 'ヘイドック'
-    | 'ドンカスター'
-    // アイルランド
-    | 'レパーズタウン'
-    | 'カラ'
-    // アメリカ
-    | 'ガルフストリームパーク'
-    | 'サンタアニタパーク'
-    | 'チャーチルダウンズ'
-    | 'ピムリコ'
-    | 'サラトガ'
-    | 'アケダクト'
-    | 'モンマスパーク'
-    | 'ベルモントパーク'
-    | 'コロニアルダウンズ'
-    | 'デルマー'
-    | 'パークスレーシング'
-    | 'キーンランド'
-    | 'オークローンパーク'
-    // ドイツ
-    | 'ミュンヘン'
-    | 'ホッペガルテン'
-    | 'バーデンバーデン'
-    // 香港
-    | 'シャティン'
-    // サウジアラビア
-    | 'キングアブドゥルアジーズ'
-    // ドバイ
-    | 'メイダン'
-    // オーストラリア
-    | 'ランドウィック'
-    | 'コーフィールド'
-    | 'フレミントン'
-    | 'メルボルン'
-    | 'ムーニーバレー'
-    | 'ローズヒルガーデンズ';
+export const WorldRaceCourseSchema = z.string().refine((value) => {
+    return WorldRaceCourseList.includes(value);
+}, '世界の競馬場ではありません');
+
+/**
+ * WorldRaceCourseの型定義
+ */
+export type WorldRaceCourse = z.infer<typeof WorldRaceCourseSchema>;
 
 /**
  * 世界の競馬場 リスト
  */
-export const WorldRaceCourseList: WorldRaceCourse[] = [
+export const WorldRaceCourseList: string[] = [
     'ロンシャン',
     'パリロンシャン',
     'シャンティイ',

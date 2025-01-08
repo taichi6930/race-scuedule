@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 /**
  * オートレースのグレードリスト
  */
@@ -32,20 +34,21 @@ export const AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST: {
 }[] = [{ grade: 'SG', stage: '優勝戦', priority: 9 }];
 
 /**
- * オートレース場 型定義
+ * AutoraceRaceCourseのzod型定義
  */
-export type AutoraceRaceCourse =
-    | '船橋'
-    | '川口'
-    | '伊勢崎'
-    | '浜松'
-    | '飯塚'
-    | '山陽';
+export const AutoraceRaceCourseSchema = z.string().refine((value) => {
+    return AutoraceRaceCourseList.includes(value);
+}, 'オートレース場ではありません');
+
+/**
+ * AutoraceRaceCourseの型定義
+ */
+export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
 
 /**
  * オートレース場リスト
  */
-export const AutoraceRaceCourseList: AutoraceRaceCourse[] = [
+export const AutoraceRaceCourseList: string[] = [
     '船橋',
     '川口',
     '伊勢崎',

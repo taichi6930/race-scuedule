@@ -4,7 +4,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
-import { NarRaceCourse } from '../../utility/data/nar';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
@@ -146,7 +145,7 @@ export class NarPlaceRepositoryFromStorageImpl
                 return new NarPlaceRecord(
                     columns[indices.id],
                     new Date(columns[indices.dateTime]),
-                    columns[indices.location] as NarRaceCourse,
+                    columns[indices.location],
                     updateDate,
                 );
             })

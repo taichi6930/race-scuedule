@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 /**
  * 競輪のレース場名とコードの対応表
  */
@@ -108,54 +110,18 @@ export const KEIRIN_STAGE_MAP: Record<string, KeirinRaceStage> = {
 };
 
 /**
- * 競輪場
+ * KeirinRaceCourseのzod型定義
  */
-export type KeirinRaceCourse =
-    | '函館'
-    | '青森'
-    | 'いわき平'
-    | '弥彦'
-    | '前橋'
-    | '取手'
-    | '宇都宮'
-    | '大宮'
-    | '西武園'
-    | '京王閣'
-    | '立川'
-    | '松戸'
-    | '千葉'
-    | '川崎'
-    | '平塚'
-    | '小田原'
-    | '伊東'
-    | '静岡'
-    | '名古屋'
-    | '岐阜'
-    | '大垣'
-    | '豊橋'
-    | '富山'
-    | '松阪'
-    | '四日市'
-    | '福井'
-    | '奈良'
-    | '向日町'
-    | '和歌山'
-    | '岸和田'
-    | '玉野'
-    | '広島'
-    | '防府'
-    | '高松'
-    | '小松島'
-    | '高知'
-    | '松山'
-    | '小倉'
-    | '久留米'
-    | '武雄'
-    | '佐世保'
-    | '別府'
-    | '熊本';
+export const KeirinRaceCourseSchema = z.string().refine((value) => {
+    return KeirinRaceCourseList.includes(value);
+}, '競輪場ではありません');
 
-export const KeirinRaceCourseList: KeirinRaceCourse[] = [
+/**
+ * KeirinRaceCourseの型定義
+ */
+export type KeirinRaceCourse = z.infer<typeof KeirinRaceCourseSchema>;
+
+export const KeirinRaceCourseList: string[] = [
     '函館',
     '青森',
     'いわき平',

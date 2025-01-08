@@ -9,7 +9,6 @@ import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlaye
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
 import {
     AutoraceGradeType,
-    AutoraceRaceCourse,
     AutoraceRaceStage,
 } from '../../utility/data/autorace';
 import { getJSTDate } from '../../utility/date';
@@ -225,7 +224,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
                     columns[indices.name],
                     columns[indices.stage] as AutoraceRaceStage,
                     new Date(columns[indices.dateTime]),
-                    columns[indices.location] as AutoraceRaceCourse,
+                    columns[indices.location],
                     columns[indices.grade] as AutoraceGradeType,
                     parseInt(columns[indices.number]),
                     updateDate,

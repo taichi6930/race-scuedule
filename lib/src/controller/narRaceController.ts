@@ -343,12 +343,10 @@ export class NarRaceController {
 
             const locationList =
                 typeof location === 'string'
-                    ? [location as NarRaceCourse]
+                    ? [location]
                     : typeof location === 'object'
                       ? Array.isArray(location)
-                          ? (location as string[]).map(
-                                (l: string) => l as NarRaceCourse,
-                            )
+                          ? (location as string[]).map((l: string) => l)
                           : undefined
                       : undefined;
 
