@@ -1,6 +1,9 @@
 import '../../utility/format';
 
-import type { KeirinPositionNumber } from '../../utility/data/keirin';
+import type {
+    KeirinPlayerNumber,
+    KeirinPositionNumber,
+} from '../../utility/data/keirin';
 import type { KeirinRaceId, KeirinRacePlayerId } from '../../utility/raceId';
 
 /**
@@ -23,7 +26,7 @@ export class KeirinRacePlayerRecord {
         public readonly id: KeirinRacePlayerId,
         public readonly raceId: KeirinRaceId,
         public readonly positionNumber: KeirinPositionNumber,
-        public readonly playerNumber: number,
+        public readonly playerNumber: KeirinPlayerNumber,
         public readonly updateDate: Date,
     ) {}
 

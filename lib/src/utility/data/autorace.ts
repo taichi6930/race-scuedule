@@ -163,3 +163,16 @@ export const AutoracePositionNumberSchema = z
 export type AutoracePositionNumber = z.infer<
     typeof AutoracePositionNumberSchema
 >;
+
+/**
+ * AutoracePlayerNumberのzod型定義
+ */
+export const AutoracePlayerNumberSchema = z
+    .number()
+    .int()
+    .min(1, '選手番号は1以上である必要があります');
+
+/**
+ * AutoracePlayerNumberの型定義
+ */
+export type AutoracePlayerNumber = z.infer<typeof AutoracePlayerNumberSchema>;

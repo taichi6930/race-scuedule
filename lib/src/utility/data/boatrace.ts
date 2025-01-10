@@ -175,3 +175,16 @@ export const BoatracePositionNumberSchema = z
 export type BoatracePositionNumber = z.infer<
     typeof BoatracePositionNumberSchema
 >;
+
+/**
+ * BoatracePlayerNumberのzod型定義
+ */
+export const BoatracePlayerNumberSchema = z
+    .number()
+    .int()
+    .min(1, '選手番号は1以上である必要があります');
+
+/**
+ * BoatracePlayerNumberの型定義
+ */
+export type BoatracePlayerNumber = z.infer<typeof BoatracePlayerNumberSchema>;

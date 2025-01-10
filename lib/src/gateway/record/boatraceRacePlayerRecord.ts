@@ -1,6 +1,9 @@
 import '../../utility/format';
 
-import type { BoatracePositionNumber } from '../../utility/data/boatrace';
+import type {
+    BoatracePlayerNumber,
+    BoatracePositionNumber,
+} from '../../utility/data/boatrace';
 import type { BoatraceRaceId } from '../../utility/raceId';
 
 /**
@@ -24,7 +27,7 @@ export class BoatraceRacePlayerRecord {
         public readonly id: string,
         public readonly raceId: BoatraceRaceId,
         public readonly positionNumber: BoatracePositionNumber,
-        public readonly playerNumber: number,
+        public readonly playerNumber: BoatracePlayerNumber,
         public readonly updateDate: Date,
     ) {}
 

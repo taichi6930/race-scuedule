@@ -497,3 +497,16 @@ export const KeirinPositionNumberSchema = z
  * 1~8の整数
  */
 export type KeirinPositionNumber = z.infer<typeof KeirinPositionNumberSchema>;
+
+/**
+ * KeirinPlayerNumberのzod型定義
+ */
+export const KeirinPlayerNumberSchema = z
+    .number()
+    .int()
+    .min(1, '選手番号は1以上である必要があります');
+
+/**
+ * KeirinPlayerNumberの型定義
+ */
+export type KeirinPlayerNumber = z.infer<typeof KeirinPlayerNumberSchema>;
