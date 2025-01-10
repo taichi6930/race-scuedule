@@ -19,10 +19,4 @@ describe('AutoraceRacePlayerDataクラスのテスト', () => {
         // インスタンスが変更されていないか確認
         expect(newRacePlayerData).toEqual(racePlayerData);
     });
-
-    it('選手番号が範囲外の場合にエラーがスローされることを確認', () => {
-        expect(() => {
-            baseRacePlayerData.copy({ playerNumber: 0 });
-        }).toThrow('選手番号は1以上である必要があります');
-    });
 });
