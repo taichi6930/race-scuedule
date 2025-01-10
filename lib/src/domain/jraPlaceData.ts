@@ -1,4 +1,8 @@
-import type { JraRaceCourse } from '../utility/data/jra';
+import type {
+    JraHeldDayTimes,
+    JraHeldTimes,
+    JraRaceCourse,
+} from '../utility/data/jra';
 
 /**
  * JRAのレース開催場所データ
@@ -18,29 +22,9 @@ export class JraPlaceData {
     constructor(
         public readonly dateTime: Date,
         public readonly location: JraRaceCourse,
-        public readonly heldTimes: number,
-        public readonly heldDayTimes: number,
-    ) {
-        const [isValid, errorMessageList] = this.validate();
-        if (!isValid) {
-            throw new Error(errorMessageList.join('\n'));
-        }
-    }
-
-    /**
-     * バリデーション
-     * @returns バリデーション結果
-     */
-    private validate(): [boolean, string[]] {
-        const errorMessageList: string[] = [];
-        if (this.heldTimes < 1) {
-            errorMessageList.push('開催回数は1以上である必要があります');
-        }
-        if (this.heldDayTimes < 1) {
-            errorMessageList.push('開催日数は1以上である必要があります');
-        }
-        return [errorMessageList.length === 0, errorMessageList];
-    }
+        public readonly heldTimes: JraHeldTimes,
+        public readonly heldDayTimes: JraHeldDayTimes,
+    ) {}
 
     /**
      * データのコピー

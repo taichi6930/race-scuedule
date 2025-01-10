@@ -1,5 +1,7 @@
 import type {
     JraGradeType,
+    JraHeldDayTimes,
+    JraHeldTimes,
     JraRaceCourse,
     JraRaceCourseType,
     JraRaceDistance,
@@ -33,14 +35,9 @@ export class JraRaceData {
         public readonly distance: JraRaceDistance,
         public readonly grade: JraGradeType,
         public readonly number: JraRaceNumber,
-        public readonly heldTimes: number,
-        public readonly heldDayTimes: number,
-    ) {
-        const [isValid, errorMessageList] = this.validate();
-        if (!isValid) {
-            throw new Error(errorMessageList.join('\n'));
-        }
-    }
+        public readonly heldTimes: JraHeldTimes,
+        public readonly heldDayTimes: JraHeldDayTimes,
+    ) {}
 
     /**
      * データのコピー
@@ -59,25 +56,5 @@ export class JraRaceData {
             partial.heldTimes ?? this.heldTimes,
             partial.heldDayTimes ?? this.heldDayTimes,
         );
-    }
-
-    /**
-     * バリデーション
-     * 型ではない部分でのバリデーションを行う
-     *
-     * @returns バリデーション結果
-     */
-    private validate(): [boolean, string[]] {
-        // エラー文をまとめて表示する
-        const errorMessageList: string[] = [];
-        // 開催回数は1以上
-        if (this.heldTimes < 1) {
-            errorMessageList.push('開催回数は1以上である必要があります');
-        }
-        // 開催日数は1以上
-        if (this.heldDayTimes < 1) {
-            errorMessageList.push('開催日数は1以上である必要があります');
-        }
-        return [errorMessageList.length === 0, errorMessageList];
     }
 }

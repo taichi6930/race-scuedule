@@ -36,18 +36,4 @@ describe('JraRaceDataクラスのテスト', () => {
         // インスタンスが変更されていないか確認
         expect(newRaceData).toEqual(raceData);
     });
-
-    it('開催回数が1未満の場合にエラーがスローされることを確認', () => {
-        expect(() => {
-            baseRaceData.copy({ heldTimes: 0 });
-        })
-            // エラーメッセージがあっているか確認
-            .toThrow('開催回数は1以上である必要があります');
-    });
-
-    it('開催日数が1未満の場合にエラーがスローされることを確認', () => {
-        expect(() => {
-            baseRaceData.copy({ heldDayTimes: 0 });
-        }).toThrow('開催日数は1以上である必要があります');
-    });
 });

@@ -131,3 +131,29 @@ export const JraRaceNumberSchema = z
  * JraRaceNumberの型定義
  */
 export type JraRaceNumber = z.infer<typeof JraRaceNumberSchema>;
+
+/**
+ * JraHeldTimesのzod型定義
+ */
+export const JraHeldTimesSchema = z
+    .number()
+    .int()
+    .min(1, '開催回数は1以上である必要があります');
+
+/**
+ * JraHeldTimesの型定義
+ */
+export type JraHeldTimes = z.infer<typeof JraHeldTimesSchema>;
+
+/**
+ * JraHeldDayTimesのzod型定義
+ */
+export const JraHeldDayTimesSchema = z
+    .number()
+    .int()
+    .min(1, '開催日数は1以上である必要があります');
+
+/**
+ * JraHeldDayTimesの型定義
+ */
+export type JraHeldDayTimes = z.infer<typeof JraHeldDayTimesSchema>;
