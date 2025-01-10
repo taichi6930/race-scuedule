@@ -2,6 +2,8 @@ import type {
     WorldGradeType,
     WorldRaceCourse,
     WorldRaceCourseType,
+    WorldRaceDistance,
+    WorldRaceNumber,
 } from '../utility/data/world';
 
 /**
@@ -26,15 +28,10 @@ export class WorldRaceData {
         public readonly dateTime: Date,
         public readonly location: WorldRaceCourse,
         public readonly surfaceType: WorldRaceCourseType,
-        public readonly distance: number,
+        public readonly distance: WorldRaceDistance,
         public readonly grade: WorldGradeType,
-        public readonly number: number,
-    ) {
-        const [isValid, errorMessageList] = this.validate();
-        if (!isValid) {
-            throw new Error(errorMessageList.join('\n'));
-        }
-    }
+        public readonly number: WorldRaceNumber,
+    ) {}
 
     /**
      * データのコピー
@@ -51,22 +48,5 @@ export class WorldRaceData {
             partial.grade ?? this.grade,
             partial.number ?? this.number,
         );
-    }
-
-    /**
-     * バリデーション
-     * 型ではない部分でのバリデーションを行う
-     *
-     * @returns バリデーション結果
-     */
-    private validate(): [boolean, string[]] {
-        // エラー文をまとめて表示する
-        const errorMessageList: string[] = [];
-
-        // 距離は0より大きい
-        if (this.distance <= 0) {
-            errorMessageList.push('距離は0より大きい必要があります');
-        }
-        return [errorMessageList.length === 0, errorMessageList];
     }
 }

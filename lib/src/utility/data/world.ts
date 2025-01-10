@@ -156,3 +156,30 @@ export const WORLD_PLACE_CODE: Record<string, string> = {
     ムーニーバレー: 'mooneevalley',
     ローズヒルガーデンズ: 'rosehill-gardens',
 };
+
+/**
+ * WorldRaceDistanceのzod型定義
+ */
+export const WorldRaceDistanceSchema = z
+    .number()
+    .positive('距離は0よりも大きい必要があります');
+
+/**
+ * WorldRaceDistanceの型定義
+ */
+export type WorldRaceDistance = z.infer<typeof WorldRaceDistanceSchema>;
+
+/**
+ * WorldRaceNumberのzod型定義
+ * 1~12の整数
+ */
+export const WorldRaceNumberSchema = z
+    .number()
+    .int()
+    .min(1, 'レース番号は1以上である必要があります')
+    .max(12, 'レース番号は12以下である必要があります');
+
+/**
+ * WorldRaceNumberの型定義
+ */
+export type WorldRaceNumber = z.infer<typeof WorldRaceNumberSchema>;

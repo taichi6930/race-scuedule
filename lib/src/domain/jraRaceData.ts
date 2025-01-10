@@ -1,7 +1,11 @@
 import type {
     JraGradeType,
+    JraHeldDayTimes,
+    JraHeldTimes,
     JraRaceCourse,
     JraRaceCourseType,
+    JraRaceDistance,
+    JraRaceNumber,
 } from '../utility/data/jra';
 
 /**
@@ -28,17 +32,12 @@ export class JraRaceData {
         public readonly dateTime: Date,
         public readonly location: JraRaceCourse,
         public readonly surfaceType: JraRaceCourseType,
-        public readonly distance: number,
+        public readonly distance: JraRaceDistance,
         public readonly grade: JraGradeType,
-        public readonly number: number,
-        public readonly heldTimes: number,
-        public readonly heldDayTimes: number,
-    ) {
-        const [isValid, errorMessageList] = this.validate();
-        if (!isValid) {
-            throw new Error(errorMessageList.join('\n'));
-        }
-    }
+        public readonly number: JraRaceNumber,
+        public readonly heldTimes: JraHeldTimes,
+        public readonly heldDayTimes: JraHeldDayTimes,
+    ) {}
 
     /**
      * データのコピー
@@ -57,36 +56,5 @@ export class JraRaceData {
             partial.heldTimes ?? this.heldTimes,
             partial.heldDayTimes ?? this.heldDayTimes,
         );
-    }
-
-    /**
-     * バリデーション
-     * 型ではない部分でのバリデーションを行う
-     *
-     * @returns バリデーション結果
-     */
-    private validate(): [boolean, string[]] {
-        // エラー文をまとめて表示する
-        const errorMessageList: string[] = [];
-
-        // 距離は0より大きい
-        if (this.distance <= 0) {
-            errorMessageList.push('距離は0より大きい必要があります');
-        }
-        // レース番号は1以上12以下
-        if (this.number < 1 || this.number > 12) {
-            errorMessageList.push(
-                'レース番号は1以上12以下である必要があります',
-            );
-        }
-        // 開催回数は1以上
-        if (this.heldTimes < 1) {
-            errorMessageList.push('開催回数は1以上である必要があります');
-        }
-        // 開催日数は1以上
-        if (this.heldDayTimes < 1) {
-            errorMessageList.push('開催日数は1以上である必要があります');
-        }
-        return [errorMessageList.length === 0, errorMessageList];
     }
 }

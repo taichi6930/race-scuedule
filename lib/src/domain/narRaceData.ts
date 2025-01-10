@@ -2,6 +2,8 @@ import type {
     NarGradeType,
     NarRaceCourse,
     NarRaceCourseType,
+    NarRaceDistance,
+    NarRaceNumber,
 } from '../utility/data/nar';
 
 /**
@@ -22,19 +24,14 @@ export class NarRaceData {
      * @param number - レース番号
      */
     constructor(
-        public readonly name: string, // レース名
-        public readonly dateTime: Date, // 開催日時
-        public readonly location: NarRaceCourse, // 競馬場名
-        public readonly surfaceType: NarRaceCourseType, // 馬場種別
-        public readonly distance: number, // 距離
-        public readonly grade: NarGradeType, // グレード
-        public readonly number: number, // レース番号
-    ) {
-        const [isValid, errorMessageList] = this.validate();
-        if (!isValid) {
-            throw new Error(errorMessageList.join('\n'));
-        }
-    }
+        public readonly name: string,
+        public readonly dateTime: Date,
+        public readonly location: NarRaceCourse,
+        public readonly surfaceType: NarRaceCourseType,
+        public readonly distance: NarRaceDistance,
+        public readonly grade: NarGradeType,
+        public readonly number: NarRaceNumber,
+    ) {}
 
     /**
      * データのコピー
@@ -51,28 +48,5 @@ export class NarRaceData {
             partial.grade ?? this.grade,
             partial.number ?? this.number,
         );
-    }
-
-    /**
-     * バリデーション
-     * 型ではない部分でのバリデーションを行う
-     *
-     * @returns バリデーション結果
-     */
-    private validate(): [boolean, string[]] {
-        // エラー文をまとめて表示する
-        const errorMessageList: string[] = [];
-
-        // 距離は0より大きい
-        if (this.distance <= 0) {
-            errorMessageList.push('距離は0より大きい必要があります');
-        }
-        // レース番号は1以上12以下
-        if (this.number < 1 || this.number > 12) {
-            errorMessageList.push(
-                'レース番号は1以上12以下である必要があります',
-            );
-        }
-        return [errorMessageList.length === 0, errorMessageList];
     }
 }

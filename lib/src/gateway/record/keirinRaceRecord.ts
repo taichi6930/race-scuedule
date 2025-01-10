@@ -3,6 +3,7 @@ import '../../utility/format';
 import type {
     KeirinGradeType,
     KeirinRaceCourse,
+    KeirinRaceNumber,
     KeirinRaceStage,
 } from '../../utility/data/keirin';
 import type { KeirinRaceId } from '../../utility/raceId';
@@ -28,12 +29,12 @@ export class KeirinRaceRecord {
      */
     constructor(
         public readonly id: KeirinRaceId,
-        public readonly name: string, // レース名
-        public readonly stage: KeirinRaceStage, // 開催ステージ
-        public readonly dateTime: Date, // 開催日時
-        public readonly location: KeirinRaceCourse, // 競輪場名
-        public readonly grade: KeirinGradeType, // グレード
-        public readonly number: number, // レース番号
+        public readonly name: string,
+        public readonly stage: KeirinRaceStage,
+        public readonly dateTime: Date,
+        public readonly location: KeirinRaceCourse,
+        public readonly grade: KeirinGradeType,
+        public readonly number: KeirinRaceNumber,
         public readonly updateDate: Date,
     ) {}
 

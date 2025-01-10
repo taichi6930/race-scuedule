@@ -1,5 +1,9 @@
 import '../../utility/format';
 
+import type {
+    AutoracePlayerNumber,
+    AutoracePositionNumber,
+} from '../../utility/data/autorace';
 import type { AutoraceRaceId } from '../../utility/raceId';
 
 /**
@@ -22,8 +26,8 @@ export class AutoraceRacePlayerRecord {
     constructor(
         public readonly id: string,
         public readonly raceId: AutoraceRaceId,
-        public readonly positionNumber: number,
-        public readonly playerNumber: number,
+        public readonly positionNumber: AutoracePositionNumber,
+        public readonly playerNumber: AutoracePlayerNumber,
         public readonly updateDate: Date,
     ) {}
 

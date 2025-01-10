@@ -104,3 +104,56 @@ export const JRA_SPECIFIED_GRADE_LIST: JraGradeType[] = [
     'Listed',
     'オープン特別',
 ];
+
+/**
+ * JraRaceDistanceのzod型定義
+ */
+export const JraRaceDistanceSchema = z
+    .number()
+    .positive('距離は0よりも大きい必要があります');
+
+/**
+ * JraRaceDistanceの型定義
+ */
+export type JraRaceDistance = z.infer<typeof JraRaceDistanceSchema>;
+
+/**
+ * JraRaceNumberのzod型定義
+ * 1~12の整数
+ */
+export const JraRaceNumberSchema = z
+    .number()
+    .int()
+    .min(1, 'レース番号は1以上である必要があります')
+    .max(12, 'レース番号は12以下である必要があります');
+
+/**
+ * JraRaceNumberの型定義
+ */
+export type JraRaceNumber = z.infer<typeof JraRaceNumberSchema>;
+
+/**
+ * JraHeldTimesのzod型定義
+ */
+export const JraHeldTimesSchema = z
+    .number()
+    .int()
+    .min(1, '開催回数は1以上である必要があります');
+
+/**
+ * JraHeldTimesの型定義
+ */
+export type JraHeldTimes = z.infer<typeof JraHeldTimesSchema>;
+
+/**
+ * JraHeldDayTimesのzod型定義
+ */
+export const JraHeldDayTimesSchema = z
+    .number()
+    .int()
+    .min(1, '開催日数は1以上である必要があります');
+
+/**
+ * JraHeldDayTimesの型定義
+ */
+export type JraHeldDayTimes = z.infer<typeof JraHeldDayTimesSchema>;

@@ -467,3 +467,46 @@ export const KeirinPlayerList = [
         priority: 3,
     },
 ];
+
+/**
+ * KeirinRaceNumberのzod型定義
+ * 1~12の整数
+ */
+export const KeirinRaceNumberSchema = z
+    .number()
+    .int()
+    .min(1, 'レース番号は1以上である必要があります')
+    .max(12, 'レース番号は12以下である必要があります');
+
+/**
+ * KeirinRaceNumberの型定義
+ */
+export type KeirinRaceNumber = z.infer<typeof KeirinRaceNumberSchema>;
+
+/**
+ * KeirinPositionNumberのzod型定義
+ */
+export const KeirinPositionNumberSchema = z
+    .number()
+    .int()
+    .min(1, '枠番は1以上である必要があります')
+    .max(9, '枠番は9以下である必要があります');
+
+/**
+ * KeirinPositionNumberの型定義
+ * 1~8の整数
+ */
+export type KeirinPositionNumber = z.infer<typeof KeirinPositionNumberSchema>;
+
+/**
+ * KeirinPlayerNumberのzod型定義
+ */
+export const KeirinPlayerNumberSchema = z
+    .number()
+    .int()
+    .min(1, '選手番号は1以上である必要があります');
+
+/**
+ * KeirinPlayerNumberの型定義
+ */
+export type KeirinPlayerNumber = z.infer<typeof KeirinPlayerNumberSchema>;

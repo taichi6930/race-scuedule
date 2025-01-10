@@ -131,3 +131,48 @@ export const AutoracePlayerList = [
         priority: 6,
     },
 ];
+
+/**
+ * AutoraceRaceNumberのzod型定義
+ * 1~12の整数
+ */
+export const AutoraceRaceNumberSchema = z
+    .number()
+    .int()
+    .min(1, 'レース番号は1以上である必要があります')
+    .max(12, 'レース番号は12以下である必要があります');
+
+/**
+ * AutoraceRaceNumberの型定義
+ */
+export type AutoraceRaceNumber = z.infer<typeof AutoraceRaceNumberSchema>;
+
+/**
+ * AutoracePositionNumberのzod型定義
+ */
+export const AutoracePositionNumberSchema = z
+    .number()
+    .int()
+    .min(1, '枠番は1以上である必要があります')
+    .max(8, '枠番は8以下である必要があります');
+
+/**
+ * AutoracePositionNumberの型定義
+ * 1~8の整数
+ */
+export type AutoracePositionNumber = z.infer<
+    typeof AutoracePositionNumberSchema
+>;
+
+/**
+ * AutoracePlayerNumberのzod型定義
+ */
+export const AutoracePlayerNumberSchema = z
+    .number()
+    .int()
+    .min(1, '選手番号は1以上である必要があります');
+
+/**
+ * AutoracePlayerNumberの型定義
+ */
+export type AutoracePlayerNumber = z.infer<typeof AutoracePlayerNumberSchema>;

@@ -6,6 +6,8 @@ import type {
     WorldGradeType,
     WorldRaceCourse,
     WorldRaceCourseType,
+    WorldRaceDistance,
+    WorldRaceNumber,
 } from '../../utility/data/world';
 import type { WorldRaceId } from '../../utility/raceId';
 
@@ -35,9 +37,9 @@ export class WorldRaceRecord {
         public readonly dateTime: Date,
         public readonly location: WorldRaceCourse,
         public readonly surfaceType: WorldRaceCourseType,
-        public readonly distance: number,
+        public readonly distance: WorldRaceDistance,
         public readonly grade: WorldGradeType,
-        public readonly number: number,
+        public readonly number: WorldRaceNumber,
         public readonly updateDate: Date,
     ) {}
 

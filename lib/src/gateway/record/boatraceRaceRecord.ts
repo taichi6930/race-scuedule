@@ -3,6 +3,7 @@ import '../../utility/format';
 import type {
     BoatraceGradeType,
     BoatraceRaceCourse,
+    BoatraceRaceNumber,
     BoatraceRaceStage,
 } from '../../utility/data/boatrace';
 import type { BoatraceRaceId } from '../../utility/raceId';
@@ -28,13 +29,13 @@ export class BoatraceRaceRecord {
      */
     constructor(
         public readonly id: BoatraceRaceId,
-        public readonly name: string, // レース名
-        public readonly stage: BoatraceRaceStage, // 開催ステージ
-        public readonly dateTime: Date, // 開催日時
-        public readonly location: BoatraceRaceCourse, // ボートレース場名
-        public readonly grade: BoatraceGradeType, // グレード
-        public readonly number: number, // レース番号
-        public readonly updateDate: Date, // 更新日時
+        public readonly name: string,
+        public readonly stage: BoatraceRaceStage,
+        public readonly dateTime: Date,
+        public readonly location: BoatraceRaceCourse,
+        public readonly grade: BoatraceGradeType,
+        public readonly number: BoatraceRaceNumber,
+        public readonly updateDate: Date,
     ) {}
 
     /**
