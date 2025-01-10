@@ -132,7 +132,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                 const tableRow = table.find(`.${className}`);
                                 // class="bg-1-pl"の中にあるtdを取得
                                 // <td class="no1">1</td>のような形なので、"no${i}"の中のテキストを取得、枠番になる
-                                const frameNumber = tableRow
+                                const positionNumber = tableRow
                                     .find(`.no${i.toString()}`)
                                     .text();
                                 // <td class="al-left"><a href="./PlayerDetail.do?playerCd=015480">松本秀之介</a></td>
@@ -144,10 +144,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                         .find('a')
                                         .attr('href')
                                         ?.split('=')[1] ?? null;
-                                if (frameNumber && playerNumber !== null) {
+                                if (positionNumber && playerNumber !== null) {
                                     racePlayerDataList.push(
                                         new KeirinRacePlayerData(
-                                            Number(frameNumber),
+                                            Number(positionNumber),
                                             Number(playerNumber),
                                         ),
                                     );

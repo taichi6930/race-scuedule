@@ -258,16 +258,16 @@ export type WorldPlaceId = z.infer<typeof WorldPlaceIdSchema>;
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
- * @param frameNumber - 枠番
+ * @param positionNumber - 枠番
  */
 export const generateKeirinRacePlayerId = (
     dateTime: Date,
     location: KeirinRaceCourse,
     number: KeirinRaceNumber,
-    frameNumber: KeirinPositionNumber,
+    positionNumber: KeirinPositionNumber,
 ): KeirinRacePlayerId => {
-    const frameNumberCode = frameNumber.toXDigits(2);
-    return `${generateKeirinRaceId(dateTime, location, number)}${frameNumberCode}`;
+    const positionNumberCode = positionNumber.toXDigits(2);
+    return `${generateKeirinRaceId(dateTime, location, number)}${positionNumberCode}`;
 };
 
 /**
@@ -290,8 +290,8 @@ export const KeirinRacePlayerIdSchema = z
     }, 'レース番号は1~12の範囲である必要があります')
     // 枠番は1~9の範囲
     .refine((value) => {
-        const frameNumber = parseInt(value.slice(-2));
-        return KeirinPositionNumberSchema.safeParse(frameNumber).success;
+        const positionNumber = parseInt(value.slice(-2));
+        return KeirinPositionNumberSchema.safeParse(positionNumber).success;
     }, '枠番は1~9の範囲である必要があります');
 
 /**
@@ -375,16 +375,16 @@ export type KeirinPlaceId = z.infer<typeof KeirinPlaceIdSchema>;
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
- * @param frameNumber - 枠番
+ * @param positionNumber - 枠番
  */
 export const generateBoatraceRacePlayerId = (
     dateTime: Date,
     location: BoatraceRaceCourse,
     number: BoatraceRaceNumber,
-    frameNumber: BoatracePositionNumber,
+    positionNumber: BoatracePositionNumber,
 ): BoatraceRacePlayerId => {
-    const frameNumberCode = frameNumber.toXDigits(2);
-    return `${generateBoatraceRaceId(dateTime, location, number)}${frameNumberCode}`;
+    const positionNumberCode = positionNumber.toXDigits(2);
+    return `${generateBoatraceRaceId(dateTime, location, number)}${positionNumberCode}`;
 };
 
 /**
@@ -407,8 +407,8 @@ export const BoatraceRacePlayerIdSchema = z
     }, 'レース番号は1~12の範囲である必要があります')
     // 枠番は1~6の範囲
     .refine((value) => {
-        const frameNumber = parseInt(value.slice(-2));
-        return BoatracePositionNumberSchema.safeParse(frameNumber).success;
+        const positionNumber = parseInt(value.slice(-2));
+        return BoatracePositionNumberSchema.safeParse(positionNumber).success;
     }, '枠番は1~6の範囲である必要があります');
 
 /**
@@ -492,16 +492,16 @@ export type BoatracePlaceId = z.infer<typeof BoatracePlaceIdSchema>;
  * @param dateTime - 開催日時
  * @param location - 開催場所
  * @param number - レース番号
- * @param frameNumber - 枠番
+ * @param positionNumber - 枠番
  */
 export const generateAutoraceRacePlayerId = (
     dateTime: Date,
     location: AutoraceRaceCourse,
     number: AutoraceRaceNumber,
-    frameNumber: AutoracePositionNumber,
+    positionNumber: AutoracePositionNumber,
 ): AutoraceRacePlayerId => {
-    const frameNumberCode = frameNumber.toXDigits(2);
-    return `${generateAutoraceRaceId(dateTime, location, number)}${frameNumberCode}`;
+    const positionNumberCode = positionNumber.toXDigits(2);
+    return `${generateAutoraceRaceId(dateTime, location, number)}${positionNumberCode}`;
 };
 
 /**
@@ -524,8 +524,8 @@ export const AutoraceRacePlayerIdSchema = z
     }, 'レース番号は1~12の範囲である必要があります')
     // 枠番は1~8の範囲
     .refine((value) => {
-        const frameNumber = parseInt(value.slice(-2));
-        return AutoracePositionNumberSchema.safeParse(frameNumber).success;
+        const positionNumber = parseInt(value.slice(-2));
+        return AutoracePositionNumberSchema.safeParse(positionNumber).success;
     }, '枠番は1~8の範囲である必要があります');
 
 /**
