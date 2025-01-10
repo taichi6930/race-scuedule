@@ -158,3 +158,20 @@ export const BoatraceRaceNumberSchema = z
  * BoatraceRaceNumberの型定義
  */
 export type BoatraceRaceNumber = z.infer<typeof BoatraceRaceNumberSchema>;
+
+/**
+ * BoatracePositionNumberのzod型定義
+ */
+export const BoatracePositionNumberSchema = z
+    .number()
+    .int()
+    .min(1, '枠番は1以上である必要があります')
+    .max(6, '枠番は6以下である必要があります');
+
+/**
+ * BoatracePositionNumberの型定義
+ * 1~8の整数
+ */
+export type BoatracePositionNumber = z.infer<
+    typeof BoatracePositionNumberSchema
+>;

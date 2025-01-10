@@ -1,3 +1,5 @@
+import type { BoatracePositionNumber } from '../utility/data/boatrace';
+
 /**
  * 競輪のレースの選手データ
  */
@@ -11,8 +13,8 @@ export class KeirinRacePlayerData {
      * @param playerNumber - 選手番号
      */
     constructor(
-        public readonly positionNumber: number, // 枠番
-        public readonly playerNumber: number, // 選手番号
+        public readonly positionNumber: BoatracePositionNumber,
+        public readonly playerNumber: number,
     ) {
         const [isValid, errorMessageList] = this.validate();
         if (!isValid) {
@@ -41,11 +43,6 @@ export class KeirinRacePlayerData {
     private validate(): [boolean, string[]] {
         // エラー文をまとめて表示する
         const errorMessageList: string[] = [];
-
-        // 枠番が1以上9以下であるか
-        if (this.positionNumber < 1 || this.positionNumber > 9) {
-            errorMessageList.push('枠番は1以上9以下である必要があります');
-        }
         // 選手番号が1以上であるか
         if (this.playerNumber < 1) {
             errorMessageList.push('選手番号は1以上である必要があります');

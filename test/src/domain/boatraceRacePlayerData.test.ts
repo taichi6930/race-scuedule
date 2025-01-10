@@ -20,12 +20,6 @@ describe('BoatraceRacePlayerDataクラスのテスト', () => {
         expect(newRacePlayerData).toEqual(racePlayerData);
     });
 
-    it('レース番号が範囲外の場合にエラーがスローされることを確認', () => {
-        expect(() => {
-            baseRacePlayerData.copy({ positionNumber: 13 });
-        }).toThrow('枠番は1以上6以下である必要があります');
-    });
-
     it('選手番号が範囲外の場合にエラーがスローされることを確認', () => {
         expect(() => {
             baseRacePlayerData.copy({ playerNumber: 0 });

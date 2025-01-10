@@ -1,14 +1,38 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
-import type { AutoraceRaceCourse, AutoraceRaceNumber } from './data/autorace';
-import { AUTORACE_PLACE_CODE, AutoraceRaceNumberSchema } from './data/autorace';
-import type { BoatraceRaceCourse, BoatraceRaceNumber } from './data/boatrace';
-import { BOATRACE_PLACE_CODE, BoatraceRaceNumberSchema } from './data/boatrace';
+import type {
+    AutoracePositionNumber,
+    AutoraceRaceCourse,
+    AutoraceRaceNumber,
+} from './data/autorace';
+import {
+    AUTORACE_PLACE_CODE,
+    AutoracePositionNumberSchema,
+    AutoraceRaceNumberSchema,
+} from './data/autorace';
+import type {
+    BoatracePositionNumber,
+    BoatraceRaceCourse,
+    BoatraceRaceNumber,
+} from './data/boatrace';
+import {
+    BOATRACE_PLACE_CODE,
+    BoatracePositionNumberSchema,
+    BoatraceRaceNumberSchema,
+} from './data/boatrace';
 import type { JraRaceNumber } from './data/jra';
 import { type JraRaceCourse, JraRaceNumberSchema } from './data/jra';
-import type { KeirinRaceCourse, KeirinRaceNumber } from './data/keirin';
-import { KEIRIN_PLACE_CODE, KeirinRaceNumberSchema } from './data/keirin';
+import type {
+    KeirinPositionNumber,
+    KeirinRaceCourse,
+    KeirinRaceNumber,
+} from './data/keirin';
+import {
+    KEIRIN_PLACE_CODE,
+    KeirinPositionNumberSchema,
+    KeirinRaceNumberSchema,
+} from './data/keirin';
 import type { NarRaceNumber } from './data/nar';
 import { type NarRaceCourse, NarRaceNumberSchema } from './data/nar';
 import { NETKEIBA_BABACODE } from './data/netkeiba';
@@ -240,7 +264,7 @@ export const generateKeirinRacePlayerId = (
     dateTime: Date,
     location: KeirinRaceCourse,
     number: KeirinRaceNumber,
-    frameNumber: number,
+    frameNumber: KeirinPositionNumber,
 ): KeirinRacePlayerId => {
     const frameNumberCode = frameNumber.toXDigits(2);
     return `${generateKeirinRaceId(dateTime, location, number)}${frameNumberCode}`;
@@ -267,7 +291,7 @@ export const KeirinRacePlayerIdSchema = z
     // 枠番は1~9の範囲
     .refine((value) => {
         const frameNumber = parseInt(value.slice(-2));
-        return 1 <= frameNumber && frameNumber <= 9;
+        return KeirinPositionNumberSchema.safeParse(frameNumber).success;
     }, '枠番は1~9の範囲である必要があります');
 
 /**
@@ -357,7 +381,7 @@ export const generateBoatraceRacePlayerId = (
     dateTime: Date,
     location: BoatraceRaceCourse,
     number: BoatraceRaceNumber,
-    frameNumber: number,
+    frameNumber: BoatracePositionNumber,
 ): BoatraceRacePlayerId => {
     const frameNumberCode = frameNumber.toXDigits(2);
     return `${generateBoatraceRaceId(dateTime, location, number)}${frameNumberCode}`;
@@ -384,7 +408,7 @@ export const BoatraceRacePlayerIdSchema = z
     // 枠番は1~6の範囲
     .refine((value) => {
         const frameNumber = parseInt(value.slice(-2));
-        return 1 <= frameNumber && frameNumber <= 6;
+        return BoatracePositionNumberSchema.safeParse(frameNumber).success;
     }, '枠番は1~6の範囲である必要があります');
 
 /**
@@ -474,7 +498,7 @@ export const generateAutoraceRacePlayerId = (
     dateTime: Date,
     location: AutoraceRaceCourse,
     number: AutoraceRaceNumber,
-    frameNumber: number,
+    frameNumber: AutoracePositionNumber,
 ): AutoraceRacePlayerId => {
     const frameNumberCode = frameNumber.toXDigits(2);
     return `${generateAutoraceRaceId(dateTime, location, number)}${frameNumberCode}`;
@@ -501,7 +525,7 @@ export const AutoraceRacePlayerIdSchema = z
     // 枠番は1~8の範囲
     .refine((value) => {
         const frameNumber = parseInt(value.slice(-2));
-        return 1 <= frameNumber && frameNumber <= 8;
+        return AutoracePositionNumberSchema.safeParse(frameNumber).success;
     }, '枠番は1~8の範囲である必要があります');
 
 /**
