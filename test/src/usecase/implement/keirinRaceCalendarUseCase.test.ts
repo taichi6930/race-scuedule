@@ -142,18 +142,26 @@ describe('KeirinRaceCalendarUseCase', () => {
 
         it('CalendarListが空で、RaceListのみある場合、イベントが追加されること', async () => {
             const mockCalendarDataList: CalendarData[] = [];
-            // RaceEntityListは空
-            const mockRaceEntityList: KeirinRaceEntity[] = Array.from(
-                { length: 5 },
-                (_, i: number) =>
+            const mockRaceEntityList: KeirinRaceEntity[] = [
+                ...Array.from({ length: 5 }, (_, i: number) =>
                     baseKeirinRaceEntity.copy({
                         id: `keirin2024122920${i.toXDigits(2)}`,
                     }),
-            );
+                ),
+                baseKeirinRaceEntity.copy({
+                    raceData: baseKeirinRaceEntity.raceData.copy({
+                        grade: '一般',
+                    }),
+                }),
+            ];
 
-            // expectCalendarDataListは空
-            const expectRaceEntityList: KeirinRaceEntity[] = mockRaceEntityList;
-
+            const expectRaceEntityList: KeirinRaceEntity[] = [
+                ...Array.from({ length: 5 }, (_, i: number) =>
+                    baseKeirinRaceEntity.copy({
+                        id: `keirin2024122920${i.toXDigits(2)}`,
+                    }),
+                ),
+            ];
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
