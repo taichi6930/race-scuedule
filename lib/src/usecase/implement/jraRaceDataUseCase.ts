@@ -70,7 +70,7 @@ export class JraRaceDataUseCase
         );
 
         // フィルタリング処理
-        const filteredRaceDataList: JraRaceData[] = (raceDataList ?? [])
+        const filteredRaceDataList: JraRaceData[] = raceDataList
             // グレードリストが指定されている場合は、指定されたグレードのレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.gradeList) {
