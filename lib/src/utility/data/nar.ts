@@ -15,7 +15,7 @@ export type NarRaceCourse = z.infer<typeof NarRaceCourseSchema>;
 /**
  * NARの競馬場 リスト
  */
-export const NarRaceCourseList: string[] = [
+const NarRaceCourseList: string[] = [
     '北見ば',
     '岩見ば',
     '帯広ば',
@@ -101,7 +101,7 @@ export type NarRaceCourseType = z.infer<typeof NarRaceCourseTypeSchema>;
 /**
  * NARの競馬の馬場種別 リスト
  */
-export const NarRaceCourseTypeList: string[] = ['芝', 'ダート'];
+const NarRaceCourseTypeList: string[] = ['芝', 'ダート'];
 
 /**
  * NarGradeTypeのzod型定義
@@ -118,7 +118,7 @@ export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
 /**
  * 世界の競馬のグレード リスト
  */
-export const NarGradeTypeList: string[] = [
+const NarGradeTypeList: string[] = [
     'GⅠ',
     'GⅡ',
     'GⅢ',

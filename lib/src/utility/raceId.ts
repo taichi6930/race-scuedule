@@ -37,7 +37,11 @@ import type { NarRaceNumber } from './data/nar';
 import { type NarRaceCourse, NarRaceNumberSchema } from './data/nar';
 import { NETKEIBA_BABACODE } from './data/netkeiba';
 import type { WorldRaceNumber } from './data/world';
-import { WORLD_PLACE_CODE, type WorldRaceCourse } from './data/world';
+import {
+    WORLD_PLACE_CODE,
+    type WorldRaceCourse,
+    WorldRaceNumberSchema,
+} from './data/world';
 
 /**
  * 中央競馬のraceIdを作成する
@@ -214,7 +218,11 @@ export const WorldRaceIdSchema = z
     // worldの後に8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
     .refine((value) => {
         return /^world\d{8}\d{2}\d{2}$/.test(value);
-    }, 'WorldRaceIdの形式ではありません');
+    }, 'WorldRaceIdの形式ではありません')
+    .refine((value) => {
+        const raceNumber = parseInt(value.slice(-2));
+        return WorldRaceNumberSchema.safeParse(raceNumber).success;
+    });
 
 /**
  * WorldRaceIdの型定義

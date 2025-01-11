@@ -1,5 +1,6 @@
 import {
     BoatraceGradeTypeSchema,
+    BoatracePlayerNumberSchema,
     BoatraceRaceCourseSchema,
     BoatraceRaceStageSchema,
 } from '../../../../lib/src/utility/data/boatrace';
@@ -86,5 +87,35 @@ describe('BoatraceRaceStageSchema', () => {
                 expect(result.error.issues[0].message).toBe(message);
             }
         });
+    });
+});
+
+describe('BoatracePlayerNumberSchema', () => {
+    it('正しいBoatracePlayerNumber', () => {
+        const validBoatracePlayerNumber = 1;
+        const result = BoatracePlayerNumberSchema.safeParse(
+            validBoatracePlayerNumber,
+        );
+        expect(result.success).toBe(true);
+
+        if (result.success) {
+            expect(result.data).toBe(validBoatracePlayerNumber);
+        }
+    });
+
+    it('不正なBoatracePlayerNumber', () => {
+        const invalidBoatracePlayerNumberAndMessage: [number, string][] = [
+            [0, '選手番号は1以上である必要があります'],
+            [-2, '選手番号は1以上である必要があります'],
+        ];
+        invalidBoatracePlayerNumberAndMessage.forEach(
+            ([invalidId, message]) => {
+                const result = BoatracePlayerNumberSchema.safeParse(invalidId);
+                expect(result.success).toBe(false);
+                if (!result.success) {
+                    expect(result.error.issues[0].message).toBe(message);
+                }
+            },
+        );
     });
 });

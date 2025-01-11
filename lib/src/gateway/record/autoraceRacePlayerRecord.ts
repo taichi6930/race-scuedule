@@ -4,7 +4,10 @@ import type {
     AutoracePlayerNumber,
     AutoracePositionNumber,
 } from '../../utility/data/autorace';
-import type { AutoraceRaceId } from '../../utility/raceId';
+import type {
+    AutoraceRaceId,
+    AutoraceRacePlayerId,
+} from '../../utility/raceId';
 
 /**
  * オートレースのレース選手データ
@@ -24,7 +27,7 @@ export class AutoraceRacePlayerRecord {
      *
      */
     constructor(
-        public readonly id: string,
+        public readonly id: AutoraceRacePlayerId,
         public readonly raceId: AutoraceRaceId,
         public readonly positionNumber: AutoracePositionNumber,
         public readonly playerNumber: AutoracePlayerNumber,

@@ -43,7 +43,7 @@ export type JraRaceCourseType = z.infer<typeof JraRaceCourseTypeSchema>;
 /**
  * JRAの競馬の馬場種別 リスト
  */
-export const JraRaceCourseTypeList: string[] = ['芝', 'ダート', '障害'];
+const JraRaceCourseTypeList: string[] = ['芝', 'ダート', '障害'];
 
 /**
  * JraGradeTypeのzod型定義
@@ -60,7 +60,7 @@ export type JraGradeType = z.infer<typeof JraGradeTypeSchema>;
 /**
  * JRAのグレード リスト
  */
-export const JraGradeTypeList: string[] = [
+const JraGradeTypeList: string[] = [
     'GⅠ',
     'GⅡ',
     'GⅢ',
