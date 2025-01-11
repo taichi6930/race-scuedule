@@ -100,8 +100,8 @@ describe('JraRaceDistanceSchema', () => {
 
     it('不正なJraRaceDistance', () => {
         const invalidJraRaceDistanceAndMessage: [number, string][] = [
-            [0, '距離は0よりも大きい必要があります'],
-            [-1, '距離は0よりも大きい必要があります'],
+            [0, '距離は1以上である必要があります'],
+            [-1, '距離は1以上である必要があります'],
         ];
         invalidJraRaceDistanceAndMessage.forEach(([invalidId, message]) => {
             const result = JraRaceDistanceSchema.safeParse(invalidId);

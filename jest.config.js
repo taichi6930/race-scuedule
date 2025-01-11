@@ -11,7 +11,6 @@ module.exports = {
         'lib/src/repository/implement/boatrace.*.ts',
         'lib/src/repository/implement/keirin.*.ts',
         'lib/src/repository/implement/world.*.ts',
-        'lib/src/repository/implement/nar.*.ts',
         'lib/src/repository/implement/jra.*.ts',
     ],
     testEnvironment: 'node',

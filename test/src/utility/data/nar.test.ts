@@ -99,8 +99,8 @@ describe('NarRaceDistanceSchema', () => {
 
     it('不正なNarRaceDistance', () => {
         const invalidNarRaceDistanceAndMessage: [number, string][] = [
-            [0, '距離は0よりも大きい必要があります'],
-            [-1, '距離は0よりも大きい必要があります'],
+            [0, '距離は1以上である必要があります'],
+            [-1, '距離は1以上である必要があります'],
         ];
         invalidNarRaceDistanceAndMessage.forEach(([invalidId, message]) => {
             const result = NarRaceDistanceSchema.safeParse(invalidId);

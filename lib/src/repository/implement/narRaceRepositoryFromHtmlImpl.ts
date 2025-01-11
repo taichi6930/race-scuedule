@@ -3,7 +3,15 @@ import { inject, injectable } from 'tsyringe';
 
 import { NarRaceData } from '../../domain/narRaceData';
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
-import { NarGradeType, NarRaceCourseType } from '../../utility/data/nar';
+import {
+    NarGradeType,
+    NarRaceCourse,
+    NarRaceCourseType,
+    NarRaceDistance,
+    NarRaceDistanceSchema,
+    NarRaceNumber,
+    NarRaceNumberSchema,
+} from '../../utility/data/nar';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processNarRaceName } from '../../utility/raceName';
@@ -54,11 +62,6 @@ export class NarRaceRepositoryFromHtmlImpl
         placeEntity: NarPlaceEntity,
     ): Promise<NarRaceEntity[]> {
         try {
-            const [year, month, day] = [
-                placeEntity.placeData.dateTime.getFullYear(),
-                placeEntity.placeData.dateTime.getMonth() + 1,
-                placeEntity.placeData.dateTime.getDate(),
-            ];
             const htmlText = await this.narRaceDataHtmlGateway.getRaceDataHtml(
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
@@ -70,51 +73,64 @@ export class NarRaceRepositoryFromHtmlImpl
 
             Array.from(trs).forEach((tr: cheerio.Element) => {
                 const tds = $(tr).find('td');
-                const distance = this.extractDistance(
-                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-                );
-                if (distance <= 0) {
-                    return;
-                }
-                const [hour, minute] = this.extractRaceTime(
-                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-                );
-                const raceName = this.extractRaceName(
-                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-                );
-                const grade = this.extractGrade(
-                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-                );
-                const surfaceType = this.extractSurfaceType(
-                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-                );
-                const newRaceName = processNarRaceName({
-                    name: raceName,
-                    place: placeEntity.placeData.location,
-                    date: new Date(year, month - 1, day),
-                    surfaceType: surfaceType,
-                    distance: distance,
-                    grade: grade ?? '一般',
-                });
-                narRaceDataList.push(
-                    new NarRaceEntity(
-                        null,
-                        new NarRaceData(
-                            newRaceName,
-                            new Date(year, month - 1, day, hour, minute),
-                            placeEntity.placeData.location,
-                            surfaceType,
-                            distance,
-                            grade,
-                            this.extractRaceNumber(
-                                Array.from(tds).map((td: cheerio.Element) =>
-                                    $(td).text(),
+                try {
+                    const distance: NarRaceDistance = this.extractDistance(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                    );
+                    // レースの開催日時を生成
+                    const raceDateTime = this.extractRaceDateTime(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                        placeEntity.placeData.dateTime,
+                    );
+                    // レースのグレードを生成
+                    const grade: NarGradeType = this.extractGrade(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                    );
+                    // レースの馬場の種類を生成
+                    const surfaceType: NarRaceCourseType =
+                        this.extractSurfaceType(
+                            Array.from(tds).map((td: cheerio.Element) =>
+                                $(td).text(),
+                            ),
+                        );
+                    const raceName: string = this.extractRaceName(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                        placeEntity.placeData.location,
+                        raceDateTime,
+                        surfaceType,
+                        distance,
+                        grade,
+                    );
+                    narRaceDataList.push(
+                        new NarRaceEntity(
+                            null,
+                            new NarRaceData(
+                                raceName,
+                                raceDateTime,
+                                placeEntity.placeData.location,
+                                surfaceType,
+                                distance,
+                                grade,
+                                this.extractRaceNumber(
+                                    Array.from(tds).map((td: cheerio.Element) =>
+                                        $(td).text(),
+                                    ),
                                 ),
                             ),
+                            getJSTDate(new Date()),
                         ),
-                        getJSTDate(new Date()),
-                    ),
-                );
+                    );
+                } catch (e) {
+                    console.error('レースデータを取得できませんでした', e);
+                }
             });
             return narRaceDataList;
         } catch (e) {
@@ -123,29 +139,45 @@ export class NarRaceRepositoryFromHtmlImpl
         }
     }
 
-    private extractRaceNumber(race: string[]): number {
-        return (
+    /**
+     * レース番号を生成
+     * @param
+     * @returns
+     */
+    private extractRaceNumber(race: string[]): NarRaceNumber {
+        return NarRaceNumberSchema.parse(
             race
                 .map((item) => {
                     const match = /(\d+)[Rr]/.exec(item);
                     return match ? parseInt(match[1]) : 0;
                 })
-                .find((item) => item !== 0) ?? 0
+                .find((item) => item !== 0) ?? 0,
         );
     }
 
-    private extractDistance(race: string[]): number {
-        return (
+    /**
+     * レースの距離を生成
+     * @param race
+     * @returns
+     */
+    private extractDistance(race: string[]): NarRaceDistance {
+        return NarRaceDistanceSchema.parse(
             race
                 .map((item) => {
                     const match = /(\d+)m/.exec(item);
                     return match ? parseInt(match[1]) : 0;
                 })
-                .find((item) => item !== 0) ?? 0
+                .find((item) => item !== 0) ?? 0,
         );
     }
 
-    private extractRaceTime(race: string[]): [number, number] {
+    /**
+     * レースの開催時間を生成
+     * @param race
+     * @param date
+     * @returns
+     */
+    private extractRaceDateTime(race: string[], date: Date): Date {
         const [hour, minute] = (
             race
                 .map((item) => {
@@ -156,9 +188,20 @@ export class NarRaceRepositoryFromHtmlImpl
         )
             .split(':')
             .map((item) => parseInt(item));
-        return [hour, minute];
+        return new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            hour,
+            minute,
+        );
     }
 
+    /**
+     * レースの馬場の種類を生成
+     * @param race
+     * @returns
+     */
     private extractSurfaceType(race: string[]): NarRaceCourseType {
         const regex = /(芝)[左右直]+[0-9]+m/;
         const trackType = race.find((item) => regex.test(item));
@@ -168,6 +211,11 @@ export class NarRaceRepositoryFromHtmlImpl
         return '芝';
     }
 
+    /**
+     * レースのグレードを生成
+     * @param race
+     * @returns
+     */
     private extractGrade(race: string[]): NarGradeType {
         let grade: NarGradeType = '一般';
         if (race.includes('準重賞')) {
@@ -193,22 +241,47 @@ export class NarRaceRepositoryFromHtmlImpl
         return grade || '地方重賞';
     }
 
-    private extractRaceName(race: string[]): string {
+    /**
+     * レース名を生成
+     * @param race
+     * @param place
+     * @param date
+     * @param surfaceType
+     * @param distance
+     * @param grade
+     * @returns
+     */
+    private extractRaceName(
+        race: string[],
+        place: NarRaceCourse,
+        date: Date,
+        surfaceType: NarRaceCourseType,
+        distance: NarRaceDistance,
+        grade: NarGradeType,
+    ): string {
         // 重賞の取得
         const regexList = ['JpnIII', 'JpnII', 'JpnI', 'JpnＩ', 'ＧＩ'];
-        let raceName: string | null = null;
+        let _rowRaceName: string | null = null;
         for (const regex of regexList) {
             for (const item of race) {
                 const _raceName = item.match(regex);
                 if (_raceName !== null) {
-                    raceName = item.replace(regex, '');
+                    _rowRaceName = item.replace(regex, '');
                 }
             }
-            if (raceName !== null) {
+            if (_rowRaceName !== null) {
                 break;
             }
         }
-        return (raceName ?? race[4] ?? '').replace(/\n/g, '');
+        const rowRaceName = (_rowRaceName ?? race[4] ?? '').replace(/\n/g, '');
+        return processNarRaceName({
+            name: rowRaceName,
+            place: place,
+            date: date,
+            surfaceType: surfaceType,
+            distance: distance,
+            grade: grade,
+        });
     }
 
     /**

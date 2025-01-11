@@ -156,7 +156,8 @@ export const WORLD_PLACE_CODE: Record<string, string> = {
  */
 export const WorldRaceDistanceSchema = z
     .number()
-    .positive('距離は0よりも大きい必要があります');
+    .int()
+    .min(1, '距離は1以上である必要があります');
 
 /**
  * WorldRaceDistanceの型定義

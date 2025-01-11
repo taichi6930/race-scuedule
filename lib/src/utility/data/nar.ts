@@ -155,10 +155,12 @@ export const NAR_SPECIFIED_GRADE_LIST: NarGradeType[] = [
 
 /**
  * NarRaceDistanceのzod型定義
+ * 1以上の整数
  */
 export const NarRaceDistanceSchema = z
     .number()
-    .positive('距離は0よりも大きい必要があります');
+    .int()
+    .min(1, '距離は1以上である必要があります');
 
 /**
  * NarRaceDistanceの型定義

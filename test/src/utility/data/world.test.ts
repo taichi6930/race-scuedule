@@ -101,8 +101,8 @@ describe('WorldRaceDistanceSchema', () => {
 
     it('不正なWorldRaceDistance', () => {
         const invalidWorldRaceDistanceAndMessage: [number, string][] = [
-            [0, '距離は0よりも大きい必要があります'],
-            [-1, '距離は0よりも大きい必要があります'],
+            [0, '距離は1以上である必要があります'],
+            [-1, '距離は1以上である必要があります'],
         ];
         invalidWorldRaceDistanceAndMessage.forEach(([invalidId, message]) => {
             const result = WorldRaceDistanceSchema.safeParse(invalidId);

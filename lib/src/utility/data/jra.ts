@@ -110,7 +110,8 @@ export const JRA_SPECIFIED_GRADE_LIST: JraGradeType[] = [
  */
 export const JraRaceDistanceSchema = z
     .number()
-    .positive('距離は0よりも大きい必要があります');
+    .int()
+    .min(1, '距離は1以上である必要があります');
 
 /**
  * JraRaceDistanceの型定義
