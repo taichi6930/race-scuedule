@@ -1,11 +1,22 @@
 /* eslint-disable */
 
-import { JraRaceCourse, JraGradeType, JraRaceCourseType } from './data/jra';
-import { NarRaceCourse, NarGradeType, NarRaceCourseType } from './data/nar';
+import {
+    JraRaceCourse,
+    JraGradeType,
+    JraRaceCourseType,
+    JraRaceDistance,
+} from './data/jra';
+import {
+    NarRaceCourse,
+    NarGradeType,
+    NarRaceCourseType,
+    NarRaceDistance,
+} from './data/nar';
 import {
     WorldRaceCourse,
     WorldGradeType,
     WorldRaceCourseType,
+    WorldRaceDistance,
 } from './data/world';
 
 type JraRaceDataForRaceName = {
@@ -14,7 +25,7 @@ type JraRaceDataForRaceName = {
     grade: JraGradeType;
     date: Date;
     surfaceType: JraRaceCourseType;
-    distance: number;
+    distance: JraRaceDistance;
 };
 
 export const processJraRaceName = (
@@ -178,7 +189,7 @@ type NarRaceDataForRaceName = {
     grade: NarGradeType;
     date: Date;
     surfaceType: NarRaceCourseType;
-    distance: number;
+    distance: NarRaceDistance;
 };
 export const processNarRaceName = (
     raceInfo: NarRaceDataForRaceName,
@@ -322,7 +333,7 @@ type WorldRaceDataForRaceName = {
     grade: WorldGradeType;
     date: Date;
     surfaceType: WorldRaceCourseType;
-    distance: number;
+    distance: WorldRaceDistance;
 };
 
 export const processWorldRaceName = (
