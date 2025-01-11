@@ -182,14 +182,7 @@ export type KeirinGradeType = z.infer<typeof KeirinGradeTypeSchema>;
 /**
  * 競輪のグレード リスト
  */
-export const KeirinGradeTypeList: string[] = [
-    'GP',
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
-    'FⅠ',
-    'FⅡ',
-];
+const KeirinGradeTypeList: string[] = ['GP', 'GⅠ', 'GⅡ', 'GⅢ', 'FⅠ', 'FⅡ'];
 
 /**
  * KeirinRaceStageのzod型定義
@@ -206,7 +199,7 @@ export type KeirinRaceStage = z.infer<typeof KeirinRaceStageSchema>;
 /**
  * ボートレースのステージ リスト
  */
-export const KeirinRaceStageList: string[] = [
+const KeirinRaceStageList: string[] = [
     'S級グランプリ',
     'L級ガールズグランプリ',
     'SA混合ヤンググランプリ',

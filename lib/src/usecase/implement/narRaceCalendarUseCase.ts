@@ -8,6 +8,7 @@ import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
+import { NarGradeType } from '../../utility/data/nar';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -55,7 +56,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
     async updateRacesToCalendar(
         startDate: Date,
         finishDate: Date,
-        displayGradeList: string[],
+        displayGradeList: NarGradeType[],
     ): Promise<void> {
         try {
             // displayGradeListに含まれるレース情報のみを抽出

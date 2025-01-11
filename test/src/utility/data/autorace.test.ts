@@ -1,5 +1,6 @@
 import {
     AutoraceGradeTypeSchema,
+    AutoracePlayerNumberSchema,
     AutoraceRaceCourseSchema,
     AutoraceRaceStageSchema,
 } from '../../../../lib/src/utility/data/autorace';
@@ -86,5 +87,35 @@ describe('AutoraceRaceStageSchema', () => {
                 expect(result.error.issues[0].message).toBe(message);
             }
         });
+    });
+});
+
+describe('AutoracePlayerNumberSchema', () => {
+    it('正しいAutoracePlayerNumber', () => {
+        const validAutoracePlayerNumber = 1;
+        const result = AutoracePlayerNumberSchema.safeParse(
+            validAutoracePlayerNumber,
+        );
+        expect(result.success).toBe(true);
+
+        if (result.success) {
+            expect(result.data).toBe(validAutoracePlayerNumber);
+        }
+    });
+
+    it('不正なAutoracePlayerNumber', () => {
+        const invalidAutoracePlayerNumberAndMessage: [number, string][] = [
+            [0, '選手番号は1以上である必要があります'],
+            [-2, '選手番号は1以上である必要があります'],
+        ];
+        invalidAutoracePlayerNumberAndMessage.forEach(
+            ([invalidId, message]) => {
+                const result = AutoracePlayerNumberSchema.safeParse(invalidId);
+                expect(result.success).toBe(false);
+                if (!result.success) {
+                    expect(result.error.issues[0].message).toBe(message);
+                }
+            },
+        );
     });
 });

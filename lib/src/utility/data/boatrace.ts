@@ -81,7 +81,7 @@ export type BoatraceGradeType = z.infer<typeof BoatraceGradeTypeSchema>;
 /**
  * ボートレースのグレード リスト
  */
-export const BoatraceGradeTypeList: string[] = ['SG', 'GⅠ', 'GⅡ', 'GⅢ', '一般'];
+const BoatraceGradeTypeList: string[] = ['SG', 'GⅠ', 'GⅡ', 'GⅢ', '一般'];
 
 /**
  * ボートレースのグレード
@@ -109,12 +109,7 @@ export type BoatraceRaceStage = z.infer<typeof BoatraceRaceStageSchema>;
 /**
  * ボートレースのステージ リスト
  */
-export const BoatraceRaceStageList: string[] = [
-    '優勝戦',
-    '準優勝戦',
-    '一般戦',
-    '',
-];
+const BoatraceRaceStageList: string[] = ['優勝戦', '準優勝戦', '一般戦', ''];
 
 /**
  * HTMLのステージ名を正式名称に変換するためのマップ

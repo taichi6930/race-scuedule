@@ -2,6 +2,7 @@ import {
     NarGradeTypeSchema,
     NarRaceCourseSchema,
     NarRaceCourseTypeSchema,
+    NarRaceDistanceSchema,
 } from '../../../../lib/src/utility/data/nar';
 
 describe('NarRaceCourseSchema', () => {
@@ -77,6 +78,32 @@ describe('NarRaceCourseTypeSchema', () => {
         ];
         invalidNarRaceCourseTypeAndMessage.forEach(([invalidId, message]) => {
             const result = NarRaceCourseTypeSchema.safeParse(invalidId);
+            expect(result.success).toBe(false);
+            if (!result.success) {
+                expect(result.error.issues[0].message).toBe(message);
+            }
+        });
+    });
+});
+
+describe('NarRaceDistanceSchema', () => {
+    it('正しいNarRaceDistance', () => {
+        const validNarRaceDistance = 2000;
+        const result = NarRaceDistanceSchema.safeParse(validNarRaceDistance);
+        expect(result.success).toBe(true);
+
+        if (result.success) {
+            expect(result.data).toBe(validNarRaceDistance);
+        }
+    });
+
+    it('不正なNarRaceDistance', () => {
+        const invalidNarRaceDistanceAndMessage: [number, string][] = [
+            [0, '距離は0よりも大きい必要があります'],
+            [-1, '距離は0よりも大きい必要があります'],
+        ];
+        invalidNarRaceDistanceAndMessage.forEach(([invalidId, message]) => {
+            const result = NarRaceDistanceSchema.safeParse(invalidId);
             expect(result.success).toBe(false);
             if (!result.success) {
                 expect(result.error.issues[0].message).toBe(message);

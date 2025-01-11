@@ -142,18 +142,26 @@ describe('AutoraceRaceCalendarUseCase', () => {
 
         it('CalendarListが空で、RaceListのみある場合、イベントが追加されること', async () => {
             const mockCalendarDataList: CalendarData[] = [];
-            // RaceEntityListは空
-            const mockRaceEntityList: AutoraceRaceEntity[] = Array.from(
-                { length: 5 },
-                (_, i: number) =>
+            const mockRaceEntityList: AutoraceRaceEntity[] = [
+                ...Array.from({ length: 5 }, (_, i: number) =>
                     baseAutoraceRaceEntity.copy({
                         id: `autorace2024122920${i.toXDigits(2)}`,
                     }),
-            );
+                ),
+                baseAutoraceRaceEntity.copy({
+                    raceData: baseAutoraceRaceEntity.raceData.copy({
+                        grade: '一般',
+                    }),
+                }),
+            ];
 
-            // expectCalendarDataListは空
-            const expectRaceEntityList: AutoraceRaceEntity[] =
-                mockRaceEntityList;
+            const expectRaceEntityList: AutoraceRaceEntity[] = [
+                ...Array.from({ length: 5 }, (_, i: number) =>
+                    baseAutoraceRaceEntity.copy({
+                        id: `autorace2024122920${i.toXDigits(2)}`,
+                    }),
+                ),
+            ];
 
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(

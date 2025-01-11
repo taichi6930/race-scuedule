@@ -2,6 +2,7 @@ import {
     WorldGradeTypeSchema,
     WorldRaceCourseSchema,
     WorldRaceCourseTypeSchema,
+    WorldRaceDistanceSchema,
 } from '../../../../lib/src/utility/data/world';
 
 describe('WorldRaceCourseSchema', () => {
@@ -77,6 +78,34 @@ describe('WorldRaceCourseTypeSchema', () => {
         ];
         invalidWorldRaceCourseTypeAndMessage.forEach(([invalidId, message]) => {
             const result = WorldRaceCourseTypeSchema.safeParse(invalidId);
+            expect(result.success).toBe(false);
+            if (!result.success) {
+                expect(result.error.issues[0].message).toBe(message);
+            }
+        });
+    });
+});
+
+describe('WorldRaceDistanceSchema', () => {
+    it('正しいWorldRaceDistance', () => {
+        const validWorldRaceDistance = 2000;
+        const result = WorldRaceDistanceSchema.safeParse(
+            validWorldRaceDistance,
+        );
+        expect(result.success).toBe(true);
+
+        if (result.success) {
+            expect(result.data).toBe(validWorldRaceDistance);
+        }
+    });
+
+    it('不正なWorldRaceDistance', () => {
+        const invalidWorldRaceDistanceAndMessage: [number, string][] = [
+            [0, '距離は0よりも大きい必要があります'],
+            [-1, '距離は0よりも大きい必要があります'],
+        ];
+        invalidWorldRaceDistanceAndMessage.forEach(([invalidId, message]) => {
+            const result = WorldRaceDistanceSchema.safeParse(invalidId);
             expect(result.success).toBe(false);
             if (!result.success) {
                 expect(result.error.issues[0].message).toBe(message);

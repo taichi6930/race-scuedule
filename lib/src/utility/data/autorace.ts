@@ -15,13 +15,7 @@ export type AutoraceGradeType = z.infer<typeof AutoraceGradeTypeSchema>;
 /**
  * ボートレースのグレード リスト
  */
-export const AutoraceGradeTypeList: string[] = [
-    'SG',
-    '特GⅠ',
-    'GⅠ',
-    'GⅡ',
-    '開催',
-];
+const AutoraceGradeTypeList: string[] = ['SG', '特GⅠ', 'GⅠ', 'GⅡ', '開催'];
 
 /**
  * オートレースの指定グレードリスト
@@ -43,7 +37,7 @@ export type AutoraceRaceStage = z.infer<typeof AutoraceRaceStageSchema>;
 /**
  * ボートレースのステージ リスト
  */
-export const AutoraceRaceStageList: string[] = [
+const AutoraceRaceStageList: string[] = [
     '優勝戦',
     '準決勝戦',
     '特別選抜戦',
@@ -80,7 +74,7 @@ export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
 /**
  * オートレース場リスト
  */
-export const AutoraceRaceCourseList: string[] = [
+const AutoraceRaceCourseList: string[] = [
     '船橋',
     '川口',
     '伊勢崎',

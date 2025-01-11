@@ -15,13 +15,7 @@ export type WorldGradeType = z.infer<typeof WorldGradeTypeSchema>;
 /**
  * 世界の競馬のグレード リスト
  */
-export const WorldGradeTypeList: string[] = [
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
-    'Listed',
-    '格付けなし',
-];
+const WorldGradeTypeList: string[] = ['GⅠ', 'GⅡ', 'GⅢ', 'Listed', '格付けなし'];
 
 /**
  * WorldRaceCourseのzod型定義
@@ -97,7 +91,7 @@ export type WorldRaceCourseType = z.infer<typeof WorldRaceCourseTypeSchema>;
 /**
  * 世界の競馬の馬場種別 リスト
  */
-export const WorldRaceCourseTypeList: string[] = ['芝', 'ダート', '障害', 'AW'];
+const WorldRaceCourseTypeList: string[] = ['芝', 'ダート', '障害', 'AW'];
 
 /**
  * 世界の競馬の指定グレードリスト
@@ -171,14 +165,9 @@ export type WorldRaceDistance = z.infer<typeof WorldRaceDistanceSchema>;
 
 /**
  * WorldRaceNumberのzod型定義
- * 1~12の整数
+ * 整数
  */
-export const WorldRaceNumberSchema = z
-    .number()
-    .int()
-    .min(1, 'レース番号は1以上である必要があります')
-    .max(12, 'レース番号は12以下である必要があります');
-
+export const WorldRaceNumberSchema = z.number().int();
 /**
  * WorldRaceNumberの型定義
  */

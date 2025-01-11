@@ -4,7 +4,10 @@ import type {
     BoatracePlayerNumber,
     BoatracePositionNumber,
 } from '../../utility/data/boatrace';
-import type { BoatraceRaceId } from '../../utility/raceId';
+import type {
+    BoatraceRaceId,
+    BoatraceRacePlayerId,
+} from '../../utility/raceId';
 
 /**
  * ボートレースのレース選手データ
@@ -24,7 +27,7 @@ export class BoatraceRacePlayerRecord {
      *
      */
     constructor(
-        public readonly id: string,
+        public readonly id: BoatraceRacePlayerId,
         public readonly raceId: BoatraceRaceId,
         public readonly positionNumber: BoatracePositionNumber,
         public readonly playerNumber: BoatracePlayerNumber,

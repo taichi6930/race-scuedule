@@ -10,6 +10,7 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import {
     KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST,
+    KeirinGradeType,
     KeirinPlayerList,
 } from '../../utility/data/keirin';
 import { Logger } from '../../utility/logger';
@@ -59,7 +60,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
     async updateRacesToCalendar(
         startDate: Date,
         finishDate: Date,
-        displayGradeList: string[],
+        displayGradeList: KeirinGradeType[],
     ): Promise<void> {
         try {
             const raceEntityList: KeirinRaceEntity[] =
@@ -137,7 +138,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      */
     private filterRaceEntity(
         raceEntityList: KeirinRaceEntity[],
-        displayGradeList: string[],
+        displayGradeList: KeirinGradeType[],
     ): KeirinRaceEntity[] {
         const filteredRaceEntityList: KeirinRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
