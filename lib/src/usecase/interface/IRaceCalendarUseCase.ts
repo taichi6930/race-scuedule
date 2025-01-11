@@ -1,4 +1,5 @@
 import type { CalendarData } from '../../domain/calendarData';
+import type { GradeType } from '../../utility/data/base';
 
 export interface IRaceCalendarUseCase {
     /**
@@ -21,6 +22,6 @@ export interface IRaceCalendarUseCase {
     updateRacesToCalendar: (
         startDate: Date,
         finishDate: Date,
-        displayGradeList: string[],
+        displayGradeList: GradeType[],
     ) => Promise<void>;
 }

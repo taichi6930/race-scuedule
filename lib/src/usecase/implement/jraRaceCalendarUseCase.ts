@@ -8,6 +8,7 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
+import { JraGradeType } from '../../utility/data/jra';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -55,7 +56,7 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
     async updateRacesToCalendar(
         startDate: Date,
         finishDate: Date,
-        displayGradeList: string[],
+        displayGradeList: JraGradeType[],
     ): Promise<void> {
         try {
             // displayGradeListに含まれるレース情報のみを抽出

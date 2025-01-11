@@ -10,6 +10,7 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import {
     AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST,
+    AutoraceGradeType,
     AutoracePlayerList,
 } from '../../utility/data/autorace';
 import { Logger } from '../../utility/logger';
@@ -59,7 +60,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     async updateRacesToCalendar(
         startDate: Date,
         finishDate: Date,
-        displayGradeList: string[],
+        displayGradeList: AutoraceGradeType[],
     ): Promise<void> {
         try {
             const raceEntityList: AutoraceRaceEntity[] =
@@ -140,7 +141,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
      */
     private filterRaceEntity(
         raceEntityList: AutoraceRaceEntity[],
-        displayGradeList: string[],
+        displayGradeList: AutoraceGradeType[],
     ): AutoraceRaceEntity[] {
         const filteredRaceEntityList: AutoraceRaceEntity[] =
             raceEntityList.filter((raceEntity) => {
