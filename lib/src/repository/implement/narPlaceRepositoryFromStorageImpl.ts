@@ -4,8 +4,10 @@ import { inject, injectable } from 'tsyringe';
 
 import { IS3Gateway } from '../../gateway/interface/iS3Gateway';
 import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
+import { NarRaceCourseSchema } from '../../utility/data/nar';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { NarPlaceIdSchema } from '../../utility/raceId';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -128,26 +130,26 @@ export class NarPlaceRepositoryFromStorageImpl
             .slice(1)
             .map((line: string) => {
                 const columns = line.split(',');
+                try {
+                    const placeId = NarPlaceIdSchema.parse(columns[indices.id]);
+                    const dateTime = new Date(columns[indices.dateTime]);
+                    const location = NarRaceCourseSchema.parse(
+                        columns[indices.location],
+                    );
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.id] ||
-                    !columns[indices.dateTime] ||
-                    !columns[indices.location]
-                ) {
+                    return new NarPlaceRecord(
+                        placeId,
+                        dateTime,
+                        location,
+                        updateDate,
+                    );
+                } catch (e) {
+                    console.error('競馬場データを取得できませんでした', e);
                     return undefined;
                 }
-
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                return new NarPlaceRecord(
-                    columns[indices.id],
-                    new Date(columns[indices.dateTime]),
-                    columns[indices.location],
-                    updateDate,
-                );
             })
             .filter(
                 (placeData): placeData is NarPlaceRecord =>

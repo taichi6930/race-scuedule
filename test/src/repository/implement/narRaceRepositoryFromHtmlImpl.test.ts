@@ -50,7 +50,6 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         ],
                     ),
                 );
-                console.log(response.raceEntityList);
                 expect(response.raceEntityList).toHaveLength(12);
             });
         });
