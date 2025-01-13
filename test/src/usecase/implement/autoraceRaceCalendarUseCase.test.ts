@@ -8,7 +8,7 @@ import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/a
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { AutoraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceCalendarUseCase';
-import { AUTORACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/autorace';
+import { AUTORACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/autorace/autoraceGradeType';
 import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntity,

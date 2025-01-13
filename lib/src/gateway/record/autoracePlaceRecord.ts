@@ -1,9 +1,8 @@
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
-import type {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-} from '../../utility/data/autorace';
+import type { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
+import type { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
+import type { AutoraceRaceDate } from '../../utility/data/autorace/autoraceRaceDate';
 import type { AutoracePlaceId } from '../../utility/raceId';
 
 /**
@@ -23,7 +22,7 @@ export class AutoracePlaceRecord {
      */
     constructor(
         public readonly id: AutoracePlaceId,
-        public readonly dateTime: Date,
+        public readonly dateTime: AutoraceRaceDate,
         public readonly location: AutoraceRaceCourse,
         public readonly grade: AutoraceGradeType,
         public readonly updateDate: Date,
@@ -51,7 +50,7 @@ export class AutoracePlaceRecord {
     toEntity(): AutoracePlaceEntity {
         return new AutoracePlaceEntity(
             this.id,
-            new AutoracePlaceData(this.dateTime, this.location, this.grade),
+            AutoracePlaceData.create(this.dateTime, this.location, this.grade),
             this.updateDate,
         );
     }

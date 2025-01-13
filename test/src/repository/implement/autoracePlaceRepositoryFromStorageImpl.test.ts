@@ -95,7 +95,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
                         () =>
                             new AutoracePlaceEntity(
                                 null,
-                                new AutoracePlaceData(date, '飯塚', 'SG'),
+                                AutoracePlaceData.create(date, '飯塚', 'SG'),
                                 getJSTDate(new Date()),
                             ),
                     );

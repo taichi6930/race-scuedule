@@ -7,11 +7,9 @@ import { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/aut
 import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-    AutoraceRaceStage,
-} from '../../../../lib/src/utility/data/autorace';
+import type { AutoraceRaceStage } from '../../../../lib/src/utility/data/autorace';
+import type { AutoraceGradeType } from '../../../../lib/src/utility/data/autorace/autoraceGradeType';
+import type { AutoraceRaceCourse } from '../../../../lib/src/utility/data/autorace/autoraceRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateAutoracePlaceId,
@@ -29,7 +27,7 @@ const baseAutoraceRaceNumber = 11;
 const baseAutoraceRaceStage: AutoraceRaceStage = '優勝戦';
 const baseAutoraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseAutoracePlaceData = new AutoracePlaceData(
+export const baseAutoracePlaceData = AutoracePlaceData.create(
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
