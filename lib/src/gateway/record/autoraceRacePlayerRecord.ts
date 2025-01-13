@@ -1,9 +1,7 @@
 import '../../utility/format';
 
-import type {
-    AutoracePlayerNumber,
-    AutoracePositionNumber,
-} from '../../utility/data/autorace';
+import type { AutoracePlayerNumber } from '../../utility/data/autorace/autoracePlayerNumber';
+import type { AutoracePositionNumber } from '../../utility/data/autorace/autoracePositionNumber';
 import type {
     AutoraceRaceId,
     AutoraceRacePlayerId,

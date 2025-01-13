@@ -1,9 +1,7 @@
-import {
-    AutoracePlayerNumberSchema,
-    AutoraceRaceStageSchema,
-} from '../../../../lib/src/utility/data/autorace';
 import { AutoraceGradeTypeSchema } from '../../../../lib/src/utility/data/autorace/autoraceGradeType';
+import { AutoracePlayerNumberSchema } from '../../../../lib/src/utility/data/autorace/autoracePlayerNumber';
 import { AutoraceRaceCourseSchema } from '../../../../lib/src/utility/data/autorace/autoraceRaceCourse';
+import { AutoraceRaceStageSchema } from '../../../../lib/src/utility/data/autorace/autoraceRaceStage';
 
 describe('AutoraceRaceCourseSchema', () => {
     it('正しいAutoraceRaceCourse', () => {

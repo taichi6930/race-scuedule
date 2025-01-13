@@ -1,10 +1,8 @@
 import { z } from 'zod';
 
-import {
-    AutoraceGradeTypeSchema,
-    AutoraceRaceCourseSchema,
-    AutoraceRaceStageSchema,
-} from './autorace';
+import { AutoraceGradeTypeSchema } from './autorace/autoraceGradeType';
+import { AutoraceRaceCourseSchema } from './autorace/autoraceRaceCourse';
+import { AutoraceRaceStageSchema } from './autorace/autoraceRaceStage';
 import {
     BoatraceGradeTypeSchema,
     BoatraceRaceCourseSchema,

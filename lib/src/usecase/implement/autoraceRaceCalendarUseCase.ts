@@ -8,11 +8,9 @@ import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import {
-    AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST,
-    AutoraceGradeType,
-    AutoracePlayerList,
-} from '../../utility/data/autorace';
+import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
+import { AutoracePlayerList } from '../../utility/data/autorace/autoracePlayerNumber';
+import { AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/autorace/autoraceRaceStage';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 

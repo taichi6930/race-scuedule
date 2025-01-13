@@ -10,11 +10,9 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
-import {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-    AutoraceRaceStage,
-} from '../../utility/data/autorace';
+import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
+import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
+import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';

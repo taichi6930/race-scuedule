@@ -1,16 +1,16 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
-import type {
-    AutoracePositionNumber,
-    AutoraceRaceCourse,
-    AutoraceRaceNumber,
-} from './data/autorace';
+import {
+    type AutoracePositionNumber,
+    AutoracePositionNumberSchema,
+} from './data/autorace/autoracePositionNumber';
 import {
     AUTORACE_PLACE_CODE,
-    AutoracePositionNumberSchema,
-    AutoraceRaceNumberSchema,
-} from './data/autorace';
+    type AutoraceRaceCourse,
+} from './data/autorace/autoraceRaceCourse';
+import type { AutoraceRaceNumber } from './data/autorace/autoraceRaceNumber';
+import { AutoraceRaceNumberSchema } from './data/autorace/autoraceRaceNumber';
 import type {
     BoatracePositionNumber,
     BoatraceRaceCourse,

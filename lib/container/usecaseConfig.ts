@@ -31,11 +31,9 @@ import { WorldRaceDataUseCase } from '../src/usecase/implement/worldRaceDataUseC
 import type { IPlaceDataUseCase } from '../src/usecase/interface/IPlaceDataUseCase';
 import type { IRaceCalendarUseCase } from '../src/usecase/interface/IRaceCalendarUseCase';
 import type { IRaceDataUseCase } from '../src/usecase/interface/IRaceDataUseCase';
-import type {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-    AutoraceRaceStage,
-} from '../src/utility/data/autorace';
+import type { AutoraceGradeType } from '../src/utility/data/autorace/autoraceGradeType';
+import type { AutoraceRaceCourse } from '../src/utility/data/autorace/autoraceRaceCourse';
+import type { AutoraceRaceStage } from '../src/utility/data/autorace/autoraceRaceStage';
 import type {
     BoatraceGradeType,
     BoatraceRaceCourse,

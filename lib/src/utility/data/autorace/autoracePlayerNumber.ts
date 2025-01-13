@@ -1,0 +1,38 @@
+import { z } from 'zod';
+
+/**
+ * オートレースの選手リスト
+ */
+export const AutoracePlayerList = [
+    {
+        playerNumber: 5954,
+        name: '青山周平',
+        priority: 6,
+    },
+];
+
+/**
+ * AutoracePlayerNumberのzod型定義
+ */
+export const AutoracePlayerNumberSchema = z
+    .number()
+    .int()
+    .min(1, '選手番号は1以上である必要があります');
+
+/**
+ * AutoracePlayerNumberの型定義
+ */
+export type AutoracePlayerNumber = z.infer<typeof AutoracePlayerNumberSchema>;
+
+/**
+ * オートレースの選手番号のバリデーション
+ */
+export const validateAutoracePlayerNumber = (
+    playerNumber: number,
+): AutoracePlayerNumber => {
+    const result = AutoracePlayerNumberSchema.safeParse(playerNumber);
+    if (!result.success) {
+        throw new Error('選手番号が不正です');
+    }
+    return result.data;
+};

@@ -36,3 +36,15 @@ export const validateAutoraceRaceCourse = (
     }
     return result.data;
 };
+
+/**
+ * オートレースのレース場名とコードの対応表
+ */
+export const AUTORACE_PLACE_CODE: Record<string, string> = {
+    船橋: '01',
+    川口: '02',
+    伊勢崎: '03',
+    浜松: '04',
+    飯塚: '05',
+    山陽: '06',
+};

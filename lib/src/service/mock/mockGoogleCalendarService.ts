@@ -5,7 +5,7 @@ import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { RaceEntity } from '../../repository/entity/baseEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace';
+import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace/autoraceRaceCourse';
 import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
 import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
