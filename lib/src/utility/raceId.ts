@@ -11,16 +11,12 @@ import {
 } from './data/autorace/autoraceRaceCourse';
 import type { AutoraceRaceNumber } from './data/autorace/autoraceRaceNumber';
 import { AutoraceRaceNumberSchema } from './data/autorace/autoraceRaceNumber';
-import type {
-    BoatracePositionNumber,
-    BoatraceRaceCourse,
-    BoatraceRaceNumber,
-} from './data/boatrace';
-import {
-    BOATRACE_PLACE_CODE,
-    BoatracePositionNumberSchema,
-    BoatraceRaceNumberSchema,
-} from './data/boatrace';
+import type { BoatracePositionNumber } from './data/boatrace/boatracePositionNumber';
+import { BoatracePositionNumberSchema } from './data/boatrace/boatracePositionNumber';
+import type { BoatraceRaceCourse } from './data/boatrace/boatraceRaceCourse';
+import { BOATRACE_PLACE_CODE } from './data/boatrace/boatraceRaceCourse';
+import type { BoatraceRaceNumber } from './data/boatrace/boatraceRaceNumber';
+import { BoatraceRaceNumberSchema } from './data/boatrace/boatraceRaceNumber';
 import type { JraRaceNumber } from './data/jra';
 import { type JraRaceCourse, JraRaceNumberSchema } from './data/jra';
 import type {

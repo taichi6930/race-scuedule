@@ -3,11 +3,9 @@ import { z } from 'zod';
 import { AutoraceGradeTypeSchema } from './autorace/autoraceGradeType';
 import { AutoraceRaceCourseSchema } from './autorace/autoraceRaceCourse';
 import { AutoraceRaceStageSchema } from './autorace/autoraceRaceStage';
-import {
-    BoatraceGradeTypeSchema,
-    BoatraceRaceCourseSchema,
-    BoatraceRaceStageSchema,
-} from './boatrace';
+import { BoatraceGradeTypeSchema } from './boatrace/boatraceGradeType';
+import { BoatraceRaceCourseSchema } from './boatrace/boatraceRaceCourse';
+import { BoatraceRaceStageSchema } from './boatrace/boatraceRaceStage';
 import { JraGradeTypeSchema, JraRaceCourseSchema } from './jra';
 import {
     KeirinGradeTypeSchema,

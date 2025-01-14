@@ -34,11 +34,9 @@ import type { IRaceDataUseCase } from '../src/usecase/interface/IRaceDataUseCase
 import type { AutoraceGradeType } from '../src/utility/data/autorace/autoraceGradeType';
 import type { AutoraceRaceCourse } from '../src/utility/data/autorace/autoraceRaceCourse';
 import type { AutoraceRaceStage } from '../src/utility/data/autorace/autoraceRaceStage';
-import type {
-    BoatraceGradeType,
-    BoatraceRaceCourse,
-    BoatraceRaceStage,
-} from '../src/utility/data/boatrace';
+import type { BoatraceGradeType } from '../src/utility/data/boatrace/boatraceGradeType';
+import type { BoatraceRaceCourse } from '../src/utility/data/boatrace/boatraceRaceCourse';
+import type { BoatraceRaceStage } from '../src/utility/data/boatrace/boatraceRaceStage';
 import type { JraGradeType, JraRaceCourse } from '../src/utility/data/jra';
 import type {
     KeirinGradeType,

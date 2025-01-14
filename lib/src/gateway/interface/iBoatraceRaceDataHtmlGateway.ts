@@ -1,4 +1,5 @@
-import type { BoatraceRaceCourse } from '../../utility/data/boatrace';
+import type { BoatraceRaceCourse } from '../../utility/data/boatrace/boatraceRaceCourse';
+import type { BoatraceRaceNumber } from '../../utility/data/boatrace/boatraceRaceNumber';
 
 /**
  * ボートレース場のレースデータのHTMLを取得するGatewayのInterface
@@ -14,6 +15,6 @@ export interface IBoatraceRaceDataHtmlGateway {
     getRaceDataHtml: (
         date: Date,
         place: BoatraceRaceCourse,
-        number: number,
+        number: BoatraceRaceNumber,
     ) => Promise<string>;
 }

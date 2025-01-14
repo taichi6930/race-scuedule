@@ -7,11 +7,9 @@ import { BoatraceRacePlayerRecord } from '../../../../lib/src/gateway/record/boa
 import { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
-import type {
-    BoatraceGradeType,
-    BoatraceRaceCourse,
-    BoatraceRaceStage,
-} from '../../../../lib/src/utility/data/boatrace';
+import type { BoatraceGradeType } from '../../../../lib/src/utility/data/boatrace/boatraceGradeType';
+import type { BoatraceRaceCourse } from '../../../../lib/src/utility/data/boatrace/boatraceRaceCourse';
+import type { BoatraceRaceStage } from '../../../../lib/src/utility/data/boatrace/boatraceRaceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateBoatracePlaceId,
@@ -29,13 +27,13 @@ const baseBoatraceRaceNumber = 11;
 const baseBoatraceRaceStage: BoatraceRaceStage = '優勝戦';
 const baseBoatraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseBoatracePlaceData = new BoatracePlaceData(
+export const baseBoatracePlaceData = BoatracePlaceData.create(
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
 );
 
-export const baseBoatraceRaceData = new BoatraceRaceData(
+export const baseBoatraceRaceData = BoatraceRaceData.create(
     baseBoatraceRaceName,
     baseBoatraceRaceStage,
     baseBoatraceRaceDateTime,
@@ -73,12 +71,15 @@ export const baseBoatracePlaceEntity = new BoatracePlaceEntity(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatraceRacePlayerData = new BoatraceRacePlayerData(1, 10000);
+export const baseBoatraceRacePlayerData = BoatraceRacePlayerData.create(
+    1,
+    10000,
+);
 
 export const baseBoatraceRacePlayerDataList = Array.from(
     { length: 6 },
     (_, i) => {
-        return new BoatraceRacePlayerData(i + 1, i + 1);
+        return BoatraceRacePlayerData.create(i + 1, i + 1);
     },
 );
 
@@ -128,7 +129,7 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
         '一般戦',
         '優勝戦',
     ].map((stage, index) => {
-        const raceData = new BoatraceRaceData(
+        const raceData = BoatraceRaceData.create(
             `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
             stage,
             new Date(2025, 12 - 1, 30, 7 + index, 0),
@@ -137,7 +138,7 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
             index + 1,
         );
         const racePlayerDataList = Array.from({ length: 6 }, (_, i) => {
-            return new BoatraceRacePlayerData(i + 1, i + 1);
+            return BoatraceRacePlayerData.create(i + 1, i + 1);
         });
         return new BoatraceRaceEntity(
             null,

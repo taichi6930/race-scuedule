@@ -3,7 +3,8 @@ import { format } from 'date-fns';
 import {
     BOATRACE_PLACE_CODE,
     BoatraceRaceCourse,
-} from '../../utility/data/boatrace';
+} from '../../utility/data/boatrace/boatraceRaceCourse';
+import { BoatraceRaceNumber } from '../../utility/data/boatrace/boatraceRaceNumber';
 import { Logger } from '../../utility/logger';
 import { IBoatraceRaceDataHtmlGateway } from '../interface/iBoatraceRaceDataHtmlGateway';
 /**
@@ -24,7 +25,7 @@ export class BoatraceRaceDataHtmlGateway
     async getRaceDataHtml(
         date: Date,
         place: BoatraceRaceCourse,
-        number: number,
+        number: BoatraceRaceNumber,
     ): Promise<string> {
         const raceDate = format(date, 'yyyyMMdd');
         const babacode = BOATRACE_PLACE_CODE[place];

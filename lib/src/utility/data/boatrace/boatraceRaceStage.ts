@@ -1,0 +1,50 @@
+import { z } from 'zod';
+
+import type { BoatraceGradeType } from './boatraceGradeType';
+
+/**
+ * BoatraceRaceStageのzod型定義
+ */
+export const BoatraceRaceStageSchema = z.string().refine((value) => {
+    return BoatraceRaceStageList.includes(value);
+}, 'ボートレースのステージではありません');
+
+/**
+ * BoatraceRaceStageの型定義
+ */
+export type BoatraceRaceStage = z.infer<typeof BoatraceRaceStageSchema>;
+
+/**
+ * ボートレースのステージ リスト
+ */
+const BoatraceRaceStageList: string[] = ['優勝戦', '準優勝戦', '一般戦', ''];
+
+/**
+ * HTMLのステージ名を正式名称に変換するためのマップ
+ */
+export const BOATRACE_STAGE_MAP: Record<string, BoatraceRaceStage> = {
+    準優勝戦: '準優勝戦',
+    優勝戦: '優勝戦',
+};
+
+/**
+ * ボートレースの指定グレード・ステージリスト
+ */
+export const BOATRACE_SPECIFIED_GRADE_AND_STAGE_LIST: {
+    grade: BoatraceGradeType;
+    stage: BoatraceRaceStage;
+    priority: number;
+}[] = [{ grade: 'SG', stage: '優勝戦', priority: 10 }];
+
+/**
+ * ボートレースのステージ リスト
+ * @param stage - ステージ
+ * @returns - バリデーション済みのステージ
+ */
+export const validateBoatraceRaceStage = (stage: string): BoatraceRaceStage => {
+    const result = BoatraceRaceStageSchema.safeParse(stage);
+    if (!result.success) {
+        throw new Error(result.error.message);
+    }
+    return result.data;
+};

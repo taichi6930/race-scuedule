@@ -41,7 +41,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         [
                             new BoatracePlaceEntity(
                                 null,
-                                new BoatracePlaceData(
+                                BoatracePlaceData.create(
                                     new Date('2024-11-24'),
                                     '下関',
                                     'SG',

@@ -1,9 +1,8 @@
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
-import type {
-    BoatraceGradeType,
-    BoatraceRaceCourse,
-} from '../../utility/data/boatrace';
+import type { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
+import type { BoatraceRaceCourse } from '../../utility/data/boatrace/boatraceRaceCourse';
+import type { BoatraceRaceDate } from '../../utility/data/boatrace/boatraceRaceDate';
 import type { BoatracePlaceId } from '../../utility/raceId';
 
 /**
@@ -23,7 +22,7 @@ export class BoatracePlaceRecord {
      */
     constructor(
         public readonly id: BoatracePlaceId,
-        public readonly dateTime: Date,
+        public readonly dateTime: BoatraceRaceDate,
         public readonly location: BoatraceRaceCourse,
         public readonly grade: BoatraceGradeType,
         public readonly updateDate: Date,
@@ -51,7 +50,7 @@ export class BoatracePlaceRecord {
     toEntity(): BoatracePlaceEntity {
         return new BoatracePlaceEntity(
             this.id,
-            new BoatracePlaceData(this.dateTime, this.location, this.grade),
+            BoatracePlaceData.create(this.dateTime, this.location, this.grade),
             this.updateDate,
         );
     }

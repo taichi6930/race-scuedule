@@ -6,10 +6,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatracePlaceDataHtmlGateway';
-import {
-    BOATRACE_SPECIFIED_GRADE_LIST,
-    BoatraceRaceCourseList,
-} from '../../utility/data/boatrace';
+import { BOATRACE_SPECIFIED_GRADE_LIST } from '../../utility/data/boatrace/boatraceGradeType';
+import { BoatraceRaceCourseList } from '../../utility/data/boatrace/boatraceRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
@@ -193,7 +191,11 @@ export class BoatracePlaceRepositoryFromHtmlImpl
             ) {
                 const boatracePlaceEntity = new BoatracePlaceEntity(
                     null,
-                    new BoatracePlaceData(new Date(currentDate), place, grade),
+                    BoatracePlaceData.create(
+                        new Date(currentDate),
+                        place,
+                        grade,
+                    ),
                     getJSTDate(new Date()),
                 );
                 boatracePlaceEntityList.push(boatracePlaceEntity);

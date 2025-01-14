@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 
+import { AutoraceRaceDate } from '../../utility/data/autorace/autoraceRaceDate';
 import { Logger } from '../../utility/logger';
 import { IAutoracePlaceDataHtmlGateway } from '../interface/iAutoracePlaceDataHtmlGateway';
 /**
@@ -15,7 +16,7 @@ export class AutoracePlaceDataHtmlGateway
      * @returns Promise<string> - オートレース開催データのHTML
      */
     @Logger
-    async getPlaceDataHtml(date: Date): Promise<string> {
+    async getPlaceDataHtml(date: AutoraceRaceDate): Promise<string> {
         try {
             // oddsparkのURLからHTMLを取得する
             const url = `https://www.oddspark.com/autorace/KaisaiCalendar.do?target=${format(date, 'yyyyMM')}`;

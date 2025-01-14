@@ -8,7 +8,7 @@ import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/b
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { BoatraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceCalendarUseCase';
-import { BOATRACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/boatrace';
+import { BOATRACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/boatrace/boatraceGradeType';
 import {
     baseBoatraceCalendarData,
     baseBoatraceRaceEntity,

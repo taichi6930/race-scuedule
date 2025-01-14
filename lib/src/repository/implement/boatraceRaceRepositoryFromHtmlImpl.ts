@@ -7,11 +7,11 @@ import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
 import { IBoatraceRaceDataHtmlGateway } from '../../gateway/interface/iBoatraceRaceDataHtmlGateway';
+import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import {
     BOATRACE_STAGE_MAP,
-    BoatraceGradeType,
     BoatraceRaceStage,
-} from '../../utility/data/boatrace';
+} from '../../utility/data/boatrace/boatraceRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
@@ -114,7 +114,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             boatraceRaceEntityList.push(
                 new BoatraceRaceEntity(
                     null,
-                    new BoatraceRaceData(
+                    BoatraceRaceData.create(
                         raceName,
                         raceStage,
                         new Date(year, month - 1, day, hour, minute),
