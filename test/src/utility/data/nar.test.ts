@@ -1,9 +1,7 @@
-import {
-    NarGradeTypeSchema,
-    NarRaceCourseSchema,
-    NarRaceCourseTypeSchema,
-    NarRaceDistanceSchema,
-} from '../../../../lib/src/utility/data/nar';
+import { NarGradeTypeSchema } from '../../../../lib/src/utility/data/nar/narGradeType';
+import { NarRaceCourseSchema } from '../../../../lib/src/utility/data/nar/narRaceCourse';
+import { NarRaceCourseTypeSchema } from '../../../../lib/src/utility/data/nar/narRaceCourseType';
+import { NarRaceDistanceSchema } from '../../../../lib/src/utility/data/nar/narRaceDistance';
 
 describe('NarRaceCourseSchema', () => {
     it('正しいNarRaceCourse', () => {
@@ -18,8 +16,8 @@ describe('NarRaceCourseSchema', () => {
 
     it('不正なNarRaceCourse', () => {
         const invalidNarRaceCourseAndMessage: [string, string][] = [
-            ['東京', 'NARの競馬場ではありません'],
-            ['中央', 'NARの競馬場ではありません'],
+            ['東京', '地方の競馬場ではありません'],
+            ['中央', '地方の競馬場ではありません'],
         ];
         invalidNarRaceCourseAndMessage.forEach(([invalidId, message]) => {
             const result = NarRaceCourseSchema.safeParse(invalidId);
@@ -44,9 +42,9 @@ describe('NarGradeTypeSchema', () => {
 
     it('不正なNarGradeType', () => {
         const invalidNarGradeTypeAndMessage: [string, string][] = [
-            ['GⅣ', 'NARのグレードではありません'],
-            ['GⅤ', 'NARのグレードではありません'],
-            ['新馬', 'NARのグレードではありません'],
+            ['GⅣ', '地方競馬のグレードではありません'],
+            ['GⅤ', '地方競馬のグレードではありません'],
+            ['新馬', '地方競馬のグレードではありません'],
         ];
         invalidNarGradeTypeAndMessage.forEach(([invalidId, message]) => {
             const result = NarGradeTypeSchema.safeParse(invalidId);
@@ -73,8 +71,8 @@ describe('NarRaceCourseTypeSchema', () => {
 
     it('不正なNarRaceCourseType', () => {
         const invalidNarRaceCourseTypeAndMessage: [string, string][] = [
-            ['テスト', 'NARの馬場種別ではありません'],
-            ['サークル', 'NARの馬場種別ではありません'],
+            ['テスト', '地方競馬の馬場種別ではありません'],
+            ['サークル', '地方競馬の馬場種別ではありません'],
         ];
         invalidNarRaceCourseTypeAndMessage.forEach(([invalidId, message]) => {
             const result = NarRaceCourseTypeSchema.safeParse(invalidId);

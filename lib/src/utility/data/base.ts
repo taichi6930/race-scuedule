@@ -10,7 +10,8 @@ import { JraGradeTypeSchema, JraRaceCourseSchema } from './jra';
 import { KeirinGradeTypeSchema } from './keirin/keirinGradeType';
 import { KeirinRaceCourseSchema } from './keirin/keirinRaceCourse';
 import { KeirinRaceStageSchema } from './keirin/keirinRaceStage';
-import { NarGradeTypeSchema, NarRaceCourseSchema } from './nar';
+import { NarGradeTypeSchema } from './nar/narGradeType';
+import { NarRaceCourseSchema } from './nar/narRaceCourse';
 import { WorldGradeTypeSchema } from './world/worldGradeType';
 import { WorldRaceCourseSchema } from './world/worldRaceCourse';
 

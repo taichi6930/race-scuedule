@@ -1,6 +1,6 @@
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
-import type { NarRaceCourse } from '../../utility/data/nar';
+import type { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
 import type { NarPlaceId } from '../../utility/raceId';
 
 /**
@@ -45,7 +45,7 @@ export class NarPlaceRecord {
     toEntity(): NarPlaceEntity {
         return new NarPlaceEntity(
             this.id,
-            new NarPlaceData(this.dateTime, this.location),
+            NarPlaceData.create(this.dateTime, this.location),
             this.updateDate,
         );
     }

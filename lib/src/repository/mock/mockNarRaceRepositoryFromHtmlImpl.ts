@@ -26,7 +26,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
                     raceEntityList.push(
                         new NarRaceEntity(
                             null,
-                            new NarRaceData(
+                            NarRaceData.create(
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 new Date(
                                     placeEntity.placeData.dateTime.getFullYear(),

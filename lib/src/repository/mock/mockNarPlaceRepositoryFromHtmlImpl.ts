@@ -28,7 +28,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
             // 地方競馬場データを作成
             const narPlaceEntity = new NarPlaceEntity(
                 null,
-                new NarPlaceData(new Date(currentDate), '大井'),
+                NarPlaceData.create(new Date(currentDate), '大井'),
                 getJSTDate(new Date()),
             );
             fetchPlaceEntityList.push(narPlaceEntity);

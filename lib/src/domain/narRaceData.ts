@@ -1,20 +1,54 @@
-import type {
-    NarGradeType,
-    NarRaceCourse,
-    NarRaceCourseType,
-    NarRaceDistance,
-    NarRaceNumber,
-} from '../utility/data/nar';
+import {
+    type NarGradeType,
+    validateNarGradeType,
+} from '../utility/data/nar/narGradeType';
+import {
+    type NarRaceCourse,
+    validateNarRaceCourse,
+} from '../utility/data/nar/narRaceCourse';
+import {
+    type NarRaceCourseType,
+    validateNarRaceCourseType,
+} from '../utility/data/nar/narRaceCourseType';
+import { validateNarRaceDate } from '../utility/data/nar/narRaceDate';
+import type { NarRaceDateTime } from '../utility/data/nar/narRaceDateTime';
+import {
+    type NarRaceDistance,
+    validateNarRaceDistance,
+} from '../utility/data/nar/narRaceDistance';
+import {
+    type NarRaceName,
+    validateNarRaceName,
+} from '../utility/data/nar/narRaceName';
+import {
+    type NarRaceNumber,
+    validateNarRaceNumber,
+} from '../utility/data/nar/narRaceNumber';
 
 /**
- * NARのレース開催データ
+ * 地方競馬のレース開催データ
  */
 export class NarRaceData {
+    // レース名
+    public readonly name: NarRaceName;
+    // 開催日程
+    public readonly dateTime: NarRaceDateTime;
+    // 開催場所
+    public readonly location: NarRaceCourse;
+    // 馬場種別
+    public readonly surfaceType: NarRaceCourseType;
+    // 距離
+    public readonly distance: NarRaceDistance;
+    // グレード
+    public readonly grade: NarGradeType;
+    // レース番号
+    public readonly number: NarRaceNumber;
+
     /**
      * コンストラクタ
      *
      * @remarks
-     * NARのレース開催データを生成する
+     * 地方競馬のレース開催データを生成する
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -23,15 +57,54 @@ export class NarRaceData {
      * @param grade - グレード
      * @param number - レース番号
      */
-    constructor(
-        public readonly name: string,
-        public readonly dateTime: Date,
-        public readonly location: NarRaceCourse,
-        public readonly surfaceType: NarRaceCourseType,
-        public readonly distance: NarRaceDistance,
-        public readonly grade: NarGradeType,
-        public readonly number: NarRaceNumber,
-    ) {}
+    private constructor(
+        name: NarRaceName,
+        dateTime: NarRaceDateTime,
+        location: NarRaceCourse,
+        surfaceType: NarRaceCourseType,
+        distance: NarRaceDistance,
+        grade: NarGradeType,
+        number: NarRaceNumber,
+    ) {
+        this.name = name;
+        this.dateTime = dateTime;
+        this.location = location;
+        this.surfaceType = surfaceType;
+        this.distance = distance;
+        this.grade = grade;
+        this.number = number;
+    }
+
+    /**
+     * インスタンス生成メソッド
+     * バリデーション済みデータを元にインスタンスを生成する
+     * @param name - レース名
+     * @param dateTime - 開催日時
+     * @param location - 開催場所
+     * @param surfaceType - 馬場種別
+     * @param distance - 距離
+     * @param grade - グレード
+     * @param number - レース番号
+     */
+    static create(
+        name: string,
+        dateTime: Date,
+        location: string,
+        surfaceType: string,
+        distance: number,
+        grade: string,
+        number: number,
+    ): NarRaceData {
+        return new NarRaceData(
+            validateNarRaceName(name),
+            validateNarRaceDate(dateTime),
+            validateNarRaceCourse(location),
+            validateNarRaceCourseType(surfaceType),
+            validateNarRaceDistance(distance),
+            validateNarGradeType(grade),
+            validateNarRaceNumber(number),
+        );
+    }
 
     /**
      * データのコピー

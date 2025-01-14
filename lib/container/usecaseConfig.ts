@@ -41,7 +41,8 @@ import type { JraGradeType, JraRaceCourse } from '../src/utility/data/jra';
 import type { KeirinGradeType } from '../src/utility/data/keirin/keirinGradeType';
 import type { KeirinRaceCourse } from '../src/utility/data/keirin/keirinRaceCourse';
 import type { KeirinRaceStage } from '../src/utility/data/keirin/keirinRaceStage';
-import type { NarGradeType, NarRaceCourse } from '../src/utility/data/nar';
+import type { NarGradeType } from '../src/utility/data/nar/narGradeType';
+import type { NarRaceCourse } from '../src/utility/data/nar/narRaceCourse';
 import type { WorldGradeType } from '../src/utility/data/world/worldGradeType';
 import type { WorldRaceCourse } from '../src/utility/data/world/worldRaceCourse';
 

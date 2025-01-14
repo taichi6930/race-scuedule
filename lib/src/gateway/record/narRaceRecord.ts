@@ -2,13 +2,11 @@ import '../../utility/format';
 
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import type {
-    NarGradeType,
-    NarRaceCourse,
-    NarRaceCourseType,
-    NarRaceDistance,
-    NarRaceNumber,
-} from '../../utility/data/nar';
+import type { NarGradeType } from '../../utility/data/nar/narGradeType';
+import type { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
+import type { NarRaceCourseType } from '../../utility/data/nar/narRaceCourseType';
+import type { NarRaceDistance } from '../../utility/data/nar/narRaceDistance';
+import type { NarRaceNumber } from '../../utility/data/nar/narRaceNumber';
 import type { NarRaceId } from '../../utility/raceId';
 
 /**
@@ -69,7 +67,7 @@ export class NarRaceRecord {
     toEntity(): NarRaceEntity {
         return new NarRaceEntity(
             this.id,
-            new NarRaceData(
+            NarRaceData.create(
                 this.name,
                 this.dateTime,
                 this.location,

@@ -6,12 +6,12 @@ import {
     JraRaceCourseType,
     JraRaceDistance,
 } from './data/jra';
-import {
-    NarRaceCourse,
-    NarGradeType,
-    NarRaceCourseType,
-    NarRaceDistance,
-} from './data/nar';
+import { NarGradeType } from './data/nar/narGradeType';
+import { NarRaceCourse } from './data/nar/narRaceCourse';
+import { NarRaceCourseType } from './data/nar/narRaceCourseType';
+import { NarRaceDateTime } from './data/nar/narRaceDateTime';
+import { NarRaceDistance } from './data/nar/narRaceDistance';
+import { NarRaceName } from './data/nar/narRaceName';
 import { WorldGradeType } from './data/world/worldGradeType';
 import { WorldRaceCourse } from './data/world/worldRaceCourse';
 import { WorldRaceCourseType } from './data/world/worldRaceCourseType';
@@ -182,10 +182,10 @@ const isLumiereAutumnDash = (raceInfo: JraRaceDataForRaceName): boolean =>
     raceInfo.distance === 1000;
 
 type NarRaceDataForRaceName = {
-    name: string;
+    name: NarRaceName;
     place: NarRaceCourse;
     grade: NarGradeType;
-    date: Date;
+    date: NarRaceDateTime;
     surfaceType: NarRaceCourseType;
     distance: NarRaceDistance;
 };

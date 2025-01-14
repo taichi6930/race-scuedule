@@ -20,7 +20,7 @@ import {
     CHIHO_KEIBA_YOUTUBE_USER_ID,
     getYoutubeLiveUrl,
 } from '../../utility/data/movie';
-import { NAR_BABACODE } from '../../utility/data/nar';
+import { NAR_BABACODE } from '../../utility/data/nar/narRaceCourse';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';

@@ -9,8 +9,8 @@ import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     NAR_SPECIFIED_GRADE_LIST,
     NarGradeType,
-    NarRaceCourse,
-} from '../utility/data/nar';
+} from '../utility/data/nar/narGradeType';
+import { NarRaceCourse } from '../utility/data/nar/narRaceCourse';
 import { Logger } from '../utility/logger';
 
 /**
@@ -468,7 +468,7 @@ export class NarRaceController {
                     .map((race: any) => {
                         try {
                             console.info(race);
-                            return new NarRaceData(
+                            return NarRaceData.create(
                                 race.name,
                                 new Date(race.dateTime),
                                 race.location,

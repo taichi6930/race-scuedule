@@ -153,7 +153,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                 narPlaceDataList.push(
                     new NarPlaceEntity(
                         null,
-                        new NarPlaceData(
+                        NarPlaceData.create(
                             new Date(
                                 date.getFullYear(),
                                 date.getMonth(),
