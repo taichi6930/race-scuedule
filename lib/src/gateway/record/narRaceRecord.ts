@@ -5,7 +5,9 @@ import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import type { NarGradeType } from '../../utility/data/nar/narGradeType';
 import type { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
 import type { NarRaceCourseType } from '../../utility/data/nar/narRaceCourseType';
+import type { NarRaceDateTime } from '../../utility/data/nar/narRaceDateTime';
 import type { NarRaceDistance } from '../../utility/data/nar/narRaceDistance';
+import type { NarRaceName } from '../../utility/data/nar/narRaceName';
 import type { NarRaceNumber } from '../../utility/data/nar/narRaceNumber';
 import type { NarRaceId } from '../../utility/raceId';
 
@@ -31,8 +33,8 @@ export class NarRaceRecord {
      */
     constructor(
         public readonly id: NarRaceId,
-        public readonly name: string,
-        public readonly dateTime: Date,
+        public readonly name: NarRaceName,
+        public readonly dateTime: NarRaceDateTime,
         public readonly location: NarRaceCourse,
         public readonly surfaceType: NarRaceCourseType,
         public readonly distance: NarRaceDistance,

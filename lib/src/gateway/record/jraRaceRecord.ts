@@ -7,7 +7,9 @@ import type { JraHeldDayTimes } from '../../utility/data/jra/jraHeldDayTimes';
 import type { JraHeldTimes } from '../../utility/data/jra/jraHeldTimes';
 import type { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
 import type { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
+import type { JraRaceDateTime } from '../../utility/data/jra/jraRaceDateTime';
 import type { JraRaceDistance } from '../../utility/data/jra/jraRaceDistance';
+import type { JraRaceName } from '../../utility/data/jra/jraRaceName';
 import type { JraRaceNumber } from '../../utility/data/jra/jraRaceNumber';
 import type { JraRaceId } from '../../utility/raceId';
 
@@ -35,8 +37,8 @@ export class JraRaceRecord {
      */
     constructor(
         public readonly id: JraRaceId,
-        public readonly name: string,
-        public readonly dateTime: Date,
+        public readonly name: JraRaceName,
+        public readonly dateTime: JraRaceDateTime,
         public readonly location: JraRaceCourse,
         public readonly surfaceType: JraRaceCourseType,
         public readonly distance: JraRaceDistance,

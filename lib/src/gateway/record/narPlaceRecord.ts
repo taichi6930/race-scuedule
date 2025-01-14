@@ -1,6 +1,7 @@
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import type { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
+import type { NarRaceDate } from '../../utility/data/nar/narRaceDate';
 import type { NarPlaceId } from '../../utility/raceId';
 
 /**
@@ -19,7 +20,7 @@ export class NarPlaceRecord {
      */
     constructor(
         public readonly id: NarPlaceId,
-        public readonly dateTime: Date,
+        public readonly dateTime: NarRaceDate,
         public readonly location: NarRaceCourse,
         public readonly updateDate: Date,
     ) {}
