@@ -41,7 +41,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         [
                             new KeirinPlaceEntity(
                                 null,
-                                new KeirinPlaceData(
+                                KeirinPlaceData.create(
                                     new Date('2024-10-20'),
                                     '弥彦',
                                     'GⅠ',

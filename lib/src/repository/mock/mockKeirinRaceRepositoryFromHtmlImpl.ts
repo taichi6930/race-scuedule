@@ -30,8 +30,8 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                     raceEntityList.push(
                         new KeirinRaceEntity(
                             null,
-                            new KeirinRaceData(
-                                `${placeData.location}第${i.toString()}R`,
+                            KeirinRaceData.create(
+                                `keirin第${i.toString()}R`,
                                 raceStage,
                                 new Date(
                                     placeData.dateTime.getFullYear(),

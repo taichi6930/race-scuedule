@@ -6,11 +6,11 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlaceDataHtmlGateway';
+import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import {
-    KeirinGradeType,
     KeirinRaceCourse,
     KeirinRaceCourseList,
-} from '../../utility/data/keirin';
+} from '../../utility/data/keirin/keirinRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
@@ -167,7 +167,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                         keirinPlaceEntityList.push(
                             new KeirinPlaceEntity(
                                 null,
-                                new KeirinPlaceData(
+                                KeirinPlaceData.create(
                                     new Date(
                                         date.getFullYear(),
                                         date.getMonth(),

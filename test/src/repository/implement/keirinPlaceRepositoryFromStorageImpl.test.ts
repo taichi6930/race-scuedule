@@ -95,7 +95,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                         () =>
                             new KeirinPlaceEntity(
                                 null,
-                                new KeirinPlaceData(date, '平塚', 'GP'),
+                                KeirinPlaceData.create(date, '平塚', 'GP'),
                                 getJSTDate(new Date()),
                             ),
                     );

@@ -28,7 +28,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
             // 競輪場データを作成
             const keirinPlaceEntity = new KeirinPlaceEntity(
                 null,
-                new KeirinPlaceData(new Date(currentDate), '川崎', 'GⅠ'),
+                KeirinPlaceData.create(new Date(currentDate), '川崎', 'GⅠ'),
                 getJSTDate(new Date()),
             );
             fetchPlaceEntityList.push(keirinPlaceEntity);

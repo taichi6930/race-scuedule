@@ -1,9 +1,7 @@
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-} from '../../utility/data/keirin';
+import type { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
+import type { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
 import type { KeirinPlaceId } from '../../utility/raceId';
 
 /**
@@ -51,7 +49,7 @@ export class KeirinPlaceRecord {
     toEntity(): KeirinPlaceEntity {
         return new KeirinPlaceEntity(
             this.id,
-            new KeirinPlaceData(this.dateTime, this.location, this.grade),
+            KeirinPlaceData.create(this.dateTime, this.location, this.grade),
             this.updateDate,
         );
     }

@@ -61,13 +61,13 @@ export class KeirinRaceRepositoryFromStorageImpl
                 // KeirinRacePlayerDataのリストを生成
                 const racePlayerDataList: KeirinRacePlayerData[] =
                     filteredRacePlayerRecordList.map((racePlayerRecord) => {
-                        return new KeirinRacePlayerData(
+                        return KeirinRacePlayerData.create(
                             racePlayerRecord.positionNumber,
                             racePlayerRecord.playerNumber,
                         );
                     });
                 // KeirinRaceDataを生成
-                const raceData = new KeirinRaceData(
+                const raceData = KeirinRaceData.create(
                     raceRecord.name,
                     raceRecord.stage,
                     raceRecord.dateTime,

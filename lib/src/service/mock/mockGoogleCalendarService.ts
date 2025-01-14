@@ -7,7 +7,7 @@ import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace/autoraceRaceCourse';
 import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace/boatraceRaceCourse';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
+import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin/keirinRaceCourse';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { WORLD_PLACE_CODE } from '../../utility/data/world';
 import { ENV } from '../../utility/env';

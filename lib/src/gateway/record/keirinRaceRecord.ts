@@ -1,11 +1,9 @@
 import '../../utility/format';
 
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-    KeirinRaceNumber,
-    KeirinRaceStage,
-} from '../../utility/data/keirin';
+import type { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
+import type { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
+import type { KeirinRaceNumber } from '../../utility/data/keirin/keirinRaceNumber';
+import type { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
 import type { KeirinRaceId } from '../../utility/raceId';
 
 /**

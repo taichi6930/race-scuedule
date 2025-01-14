@@ -14,7 +14,7 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
+import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin/keirinRaceCourse';
 import {
     CHIHO_KEIBA_LIVE_URL,
     CHIHO_KEIBA_YOUTUBE_USER_ID,

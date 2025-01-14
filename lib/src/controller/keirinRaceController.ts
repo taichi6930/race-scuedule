@@ -9,9 +9,9 @@ import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     KEIRIN_SPECIFIED_GRADE_LIST,
     KeirinGradeType,
-    KeirinRaceCourse,
-    KeirinRaceStage,
-} from '../utility/data/keirin';
+} from '../utility/data/keirin/keirinGradeType';
+import { KeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
+import { KeirinRaceStage } from '../utility/data/keirin/keirinRaceStage';
 import { Logger } from '../utility/logger';
 
 /**

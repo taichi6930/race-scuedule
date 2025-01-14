@@ -7,8 +7,11 @@ import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinRaceData } from '../../domain/keirinRaceData';
 import { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
-import { KEIRIN_STAGE_MAP } from '../../utility/data/keirin';
-import { KeirinGradeType, KeirinRaceStage } from '../../utility/data/keirin';
+import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
+import {
+    KEIRIN_STAGE_MAP,
+    KeirinRaceStage,
+} from '../../utility/data/keirin/keirinRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
@@ -146,7 +149,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                                         ?.split('=')[1] ?? null;
                                 if (positionNumber && playerNumber !== null) {
                                     racePlayerDataList.push(
-                                        new KeirinRacePlayerData(
+                                        KeirinRacePlayerData.create(
                                             Number(positionNumber),
                                             Number(playerNumber),
                                         ),
@@ -155,7 +158,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             });
                         const keirinRaceData =
                             raceStage !== null
-                                ? new KeirinRaceData(
+                                ? KeirinRaceData.create(
                                       raceName,
                                       raceStage,
                                       new Date(

@@ -19,16 +19,12 @@ import type { BoatraceRaceNumber } from './data/boatrace/boatraceRaceNumber';
 import { BoatraceRaceNumberSchema } from './data/boatrace/boatraceRaceNumber';
 import type { JraRaceNumber } from './data/jra';
 import { type JraRaceCourse, JraRaceNumberSchema } from './data/jra';
-import type {
-    KeirinPositionNumber,
-    KeirinRaceCourse,
-    KeirinRaceNumber,
-} from './data/keirin';
-import {
-    KEIRIN_PLACE_CODE,
-    KeirinPositionNumberSchema,
-    KeirinRaceNumberSchema,
-} from './data/keirin';
+import type { KeirinPositionNumber } from './data/keirin/keirinPositionNumber';
+import { KeirinPositionNumberSchema } from './data/keirin/keirinPositionNumber';
+import type { KeirinRaceCourse } from './data/keirin/keirinRaceCourse';
+import { KEIRIN_PLACE_CODE } from './data/keirin/keirinRaceCourse';
+import type { KeirinRaceNumber } from './data/keirin/keirinRaceNumber';
+import { KeirinRaceNumberSchema } from './data/keirin/keirinRaceNumber';
 import type { NarRaceNumber } from './data/nar';
 import { type NarRaceCourse, NarRaceNumberSchema } from './data/nar';
 import { NETKEIBA_BABACODE } from './data/netkeiba';

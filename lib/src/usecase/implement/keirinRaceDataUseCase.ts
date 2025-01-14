@@ -10,11 +10,9 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
-import {
-    KeirinGradeType,
-    KeirinRaceCourse,
-    KeirinRaceStage,
-} from '../../utility/data/keirin';
+import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
+import { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
+import { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';

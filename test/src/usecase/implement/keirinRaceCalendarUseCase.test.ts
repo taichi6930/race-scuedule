@@ -8,7 +8,7 @@ import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/kei
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/keirinRaceCalendarUseCase';
-import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/keirin';
+import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/keirin/keirinGradeType';
 import {
     baseKeirinCalendarData,
     baseKeirinRaceEntity,

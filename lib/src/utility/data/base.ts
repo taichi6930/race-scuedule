@@ -7,11 +7,9 @@ import { BoatraceGradeTypeSchema } from './boatrace/boatraceGradeType';
 import { BoatraceRaceCourseSchema } from './boatrace/boatraceRaceCourse';
 import { BoatraceRaceStageSchema } from './boatrace/boatraceRaceStage';
 import { JraGradeTypeSchema, JraRaceCourseSchema } from './jra';
-import {
-    KeirinGradeTypeSchema,
-    KeirinRaceCourseSchema,
-    KeirinRaceStageSchema,
-} from './keirin';
+import { KeirinGradeTypeSchema } from './keirin/keirinGradeType';
+import { KeirinRaceCourseSchema } from './keirin/keirinRaceCourse';
+import { KeirinRaceStageSchema } from './keirin/keirinRaceStage';
 import { NarGradeTypeSchema, NarRaceCourseSchema } from './nar';
 import { WorldGradeTypeSchema, WorldRaceCourseSchema } from './world';
 

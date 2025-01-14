@@ -10,7 +10,7 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { KeirinRaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinRaceDataUseCase';
-import type { KeirinRaceStage } from '../../../../lib/src/utility/data/keirin';
+import type { KeirinRaceStage } from '../../../../lib/src/utility/data/keirin/keirinRaceStage';
 import {
     baseKeirinPlaceEntity,
     baseKeirinRaceDataList,
@@ -101,7 +101,7 @@ describe('KeirinRaceDataUseCase', () => {
                 expectedLength: 12,
             },
             {
-                searchConditions: { stageList: ['決勝' as KeirinRaceStage] },
+                searchConditions: { stageList: ['S級決勝' as KeirinRaceStage] },
                 descriptions: 'stageを検索条件に入れて',
                 expectedLength: 6,
             },
@@ -124,7 +124,7 @@ describe('KeirinRaceDataUseCase', () => {
             {
                 searchConditions: {
                     gradeList: ['GP'],
-                    stageList: ['決勝' as KeirinRaceStage],
+                    stageList: ['S級決勝' as KeirinRaceStage],
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
                 expectedLength: 1,
@@ -132,7 +132,7 @@ describe('KeirinRaceDataUseCase', () => {
             {
                 searchConditions: {
                     locationList: ['平塚'],
-                    stageList: ['決勝' as KeirinRaceStage],
+                    stageList: ['S級決勝' as KeirinRaceStage],
                 },
                 descriptions: 'locationとstageを検索条件に入れて',
                 expectedLength: 1,
@@ -141,7 +141,7 @@ describe('KeirinRaceDataUseCase', () => {
                 searchConditions: {
                     gradeList: ['GP'],
                     locationList: ['平塚'],
-                    stageList: ['決勝' as KeirinRaceStage],
+                    stageList: ['S級決勝' as KeirinRaceStage],
                 },
                 descriptions: 'gradeとlocation、stageを検索条件に入れて',
                 expectedLength: 1,
