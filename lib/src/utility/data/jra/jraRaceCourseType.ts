@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * JraRaceCourseTypeのzod型定義
  */
-export const JraRaceCourseTypeSchema = z.string().refine((value) => {
+const JraRaceCourseTypeSchema = z.string().refine((value) => {
     return JraRaceCourseTypeList.includes(value);
 }, '中央競馬の馬場種別ではありません');
 

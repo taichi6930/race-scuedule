@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * NarRaceDateのzod型定義
  */
-export const NarRaceDateSchema = z.date();
+const NarRaceDateSchema = z.date();
 
 /**
  * NarRaceDateの型定義

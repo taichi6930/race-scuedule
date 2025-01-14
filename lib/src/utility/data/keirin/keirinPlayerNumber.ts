@@ -131,7 +131,7 @@ export const KeirinPlayerList = [
 /**
  * KeirinPlayerNumberのzod型定義
  */
-export const KeirinPlayerNumberSchema = z
+const KeirinPlayerNumberSchema = z
     .number()
     .int()
     .min(1, '選手番号は1以上である必要があります');

@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * JraHeldDayTimesのzod型定義
  */
-export const JraHeldDayTimesSchema = z
+const JraHeldDayTimesSchema = z
     .number()
     .int()
     .min(1, '開催日数は1以上である必要があります');

@@ -3,9 +3,7 @@ import { z } from 'zod';
 /**
  * JraRaceNameのzod型定義
  */
-export const JraRaceNameSchema = z
-    .string()
-    .min(1, '空文字は許可されていません');
+const JraRaceNameSchema = z.string().min(1, '空文字は許可されていません');
 
 /**
  * JraRaceNameの型定義

@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * NarRaceDistanceのzod型定義
  */
-export const NarRaceDistanceSchema = z
+const NarRaceDistanceSchema = z
     .number()
     .positive('距離は0よりも大きい必要があります');
 

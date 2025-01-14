@@ -14,7 +14,7 @@ export const BoatracePlayerList = [
 /**
  * BoatracePlayerNumberのzod型定義
  */
-export const BoatracePlayerNumberSchema = z
+const BoatracePlayerNumberSchema = z
     .number()
     .int()
     .min(1, '選手番号は1以上である必要があります');

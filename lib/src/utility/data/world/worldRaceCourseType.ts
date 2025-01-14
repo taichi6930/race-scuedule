@@ -3,7 +3,7 @@ import z from 'zod';
 /**
  * WorldRaceCourseTypeのzod型定義
  */
-export const WorldRaceCourseTypeSchema = z.string().refine((value) => {
+const WorldRaceCourseTypeSchema = z.string().refine((value) => {
     return WorldRaceCourseTypeList.includes(value);
 }, '海外競馬の馬場種別ではありません');
 

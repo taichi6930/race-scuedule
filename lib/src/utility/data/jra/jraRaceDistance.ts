@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * JraRaceDistanceのzod型定義
  */
-export const JraRaceDistanceSchema = z
+const JraRaceDistanceSchema = z
     .number()
     .positive('距離は0よりも大きい必要があります');
 

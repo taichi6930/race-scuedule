@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * AutoraceRaceDateのzod型定義
  */
-export const AutoraceRaceDateSchema = z.date();
+const AutoraceRaceDateSchema = z.date();
 
 /**
  * AutoraceRaceDateの型定義

@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * WorldRaceDateTimeのzod型定義
  */
-export const WorldRaceDateTimeSchema = z.date();
+const WorldRaceDateTimeSchema = z.date();
 
 /**
  * WorldRaceDateTimeの型定義

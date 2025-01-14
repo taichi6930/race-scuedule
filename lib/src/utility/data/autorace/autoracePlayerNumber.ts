@@ -14,7 +14,7 @@ export const AutoracePlayerList = [
 /**
  * AutoracePlayerNumberのzod型定義
  */
-export const AutoracePlayerNumberSchema = z
+const AutoracePlayerNumberSchema = z
     .number()
     .int()
     .min(1, '選手番号は1以上である必要があります');

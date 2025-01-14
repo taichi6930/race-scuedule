@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * WorldRaceDistanceのzod型定義
  */
-export const WorldRaceDistanceSchema = z
+const WorldRaceDistanceSchema = z
     .number()
     .positive('距離は0よりも大きい必要があります');
 

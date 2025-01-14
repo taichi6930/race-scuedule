@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * KeirinRaceDateTimeのzod型定義
  */
-export const KeirinRaceDateTimeSchema = z.date();
+const KeirinRaceDateTimeSchema = z.date();
 
 /**
  * KeirinRaceDateTimeの型定義

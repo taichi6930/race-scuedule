@@ -3,9 +3,7 @@ import { z } from 'zod';
 /**
  * KeirinRaceNameのzod型定義
  */
-export const KeirinRaceNameSchema = z
-    .string()
-    .min(1, '空文字は許可されていません');
+const KeirinRaceNameSchema = z.string().min(1, '空文字は許可されていません');
 
 /**
  * KeirinRaceNameの型定義

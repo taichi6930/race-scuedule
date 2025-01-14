@@ -3,9 +3,7 @@ import { z } from 'zod';
 /**
  * NarRaceNameのzod型定義
  */
-export const NarRaceNameSchema = z
-    .string()
-    .min(1, '空文字は許可されていません');
+const NarRaceNameSchema = z.string().min(1, '空文字は許可されていません');
 
 /**
  * NarRaceNameの型定義

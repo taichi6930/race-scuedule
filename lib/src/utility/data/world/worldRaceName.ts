@@ -3,9 +3,7 @@ import { z } from 'zod';
 /**
  * WorldRaceNameのzod型定義
  */
-export const WorldRaceNameSchema = z
-    .string()
-    .min(1, '空文字は許可されていません');
+const WorldRaceNameSchema = z.string().min(1, '空文字は許可されていません');
 
 /**
  * WorldRaceNameの型定義

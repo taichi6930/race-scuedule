@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * NarRaceCourseTypeのzod型定義
  */
-export const NarRaceCourseTypeSchema = z.string().refine((value) => {
+const NarRaceCourseTypeSchema = z.string().refine((value) => {
     return NarRaceCourseTypeList.includes(value);
 }, '地方競馬の馬場種別ではありません');
 
