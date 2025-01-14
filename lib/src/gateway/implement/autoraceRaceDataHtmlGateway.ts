@@ -1,9 +1,7 @@
 import { format } from 'date-fns';
 
-import {
-    AUTORACE_PLACE_CODE,
-    AutoraceRaceCourse,
-} from '../../utility/data/autorace';
+import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace/autoraceRaceCourse';
+import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import { Logger } from '../../utility/logger';
 import { IAutoraceRaceDataHtmlGateway } from '../interface/iAutoraceRaceDataHtmlGateway';
 /**

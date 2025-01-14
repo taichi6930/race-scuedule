@@ -12,7 +12,7 @@ import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatra
 import { BoatraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { BOATRACE_PLACE_CODE } from '../../../../lib/src/utility/data/boatrace';
+import { BOATRACE_PLACE_CODE } from '../../../../lib/src/utility/data/boatrace/boatraceRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceData';
 import {
@@ -60,30 +60,30 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                     ].join(',');
                     const csvDataText: string = [
                         `raceName20240101`,
-                        `決勝`,
+                        `優勝戦`,
                         date.toISOString(),
-                        '平塚',
+                        '平和島',
                         'GⅠ',
                         '1',
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `決勝`,
+                        `優勝戦`,
                         date.toISOString(),
-                        '平塚',
+                        '平和島',
                         'GⅠ',
                         '1',
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
-                        `決勝`,
+                        `優勝戦`,
                         date.toISOString(),
-                        '平塚',
+                        '平和島',
                         'GⅠ',
                         undefined,
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
@@ -110,20 +110,20 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         'playerNumber',
                     ].join(',');
                     const csvDataText: string = [
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}0101`,
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}0101`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
                         '1',
                         '1',
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
                         '1',
                         '1',
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}0101`,
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平塚']}01`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}0101`,
+                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
                         null,
                         '1',
                     ].join(',');
@@ -162,7 +162,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         (__, j) =>
                             new BoatraceRaceEntity(
                                 null,
-                                new BoatraceRaceData(
+                                BoatraceRaceData.create(
                                     `raceName${format(date, 'yyyyMMdd')}`,
                                     `優勝戦`,
                                     date,

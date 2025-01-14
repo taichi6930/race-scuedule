@@ -41,7 +41,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         [
                             new AutoracePlaceEntity(
                                 null,
-                                new AutoracePlaceData(
+                                AutoracePlaceData.create(
                                     new Date('2024-11-04'),
                                     '川口',
                                     'SG',

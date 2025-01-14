@@ -9,7 +9,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { AutoraceRaceDataUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceDataUseCase';
-import type { AutoraceRaceStage } from '../../../../lib/src/utility/data/autorace';
+import type { AutoraceRaceStage } from '../../../../lib/src/utility/data/autorace/autoraceRaceStage';
 import {
     baseAutoraceRaceDataList,
     baseAutoraceRaceEntity,

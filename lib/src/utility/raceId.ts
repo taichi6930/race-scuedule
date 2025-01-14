@@ -1,47 +1,39 @@
 import { format } from 'date-fns';
 import { z } from 'zod';
 
-import type {
-    AutoracePositionNumber,
-    AutoraceRaceCourse,
-    AutoraceRaceNumber,
-} from './data/autorace';
+import {
+    type AutoracePositionNumber,
+    AutoracePositionNumberSchema,
+} from './data/autorace/autoracePositionNumber';
 import {
     AUTORACE_PLACE_CODE,
-    AutoracePositionNumberSchema,
-    AutoraceRaceNumberSchema,
-} from './data/autorace';
-import type {
-    BoatracePositionNumber,
-    BoatraceRaceCourse,
-    BoatraceRaceNumber,
-} from './data/boatrace';
-import {
-    BOATRACE_PLACE_CODE,
-    BoatracePositionNumberSchema,
-    BoatraceRaceNumberSchema,
-} from './data/boatrace';
-import type { JraRaceNumber } from './data/jra';
-import { type JraRaceCourse, JraRaceNumberSchema } from './data/jra';
-import type {
-    KeirinPositionNumber,
-    KeirinRaceCourse,
-    KeirinRaceNumber,
-} from './data/keirin';
-import {
-    KEIRIN_PLACE_CODE,
-    KeirinPositionNumberSchema,
-    KeirinRaceNumberSchema,
-} from './data/keirin';
-import type { NarRaceNumber } from './data/nar';
-import { type NarRaceCourse, NarRaceNumberSchema } from './data/nar';
+    type AutoraceRaceCourse,
+} from './data/autorace/autoraceRaceCourse';
+import type { AutoraceRaceNumber } from './data/autorace/autoraceRaceNumber';
+import { AutoraceRaceNumberSchema } from './data/autorace/autoraceRaceNumber';
+import type { BoatracePositionNumber } from './data/boatrace/boatracePositionNumber';
+import { BoatracePositionNumberSchema } from './data/boatrace/boatracePositionNumber';
+import type { BoatraceRaceCourse } from './data/boatrace/boatraceRaceCourse';
+import { BOATRACE_PLACE_CODE } from './data/boatrace/boatraceRaceCourse';
+import type { BoatraceRaceNumber } from './data/boatrace/boatraceRaceNumber';
+import { BoatraceRaceNumberSchema } from './data/boatrace/boatraceRaceNumber';
+import type { JraRaceCourse } from './data/jra/jraRaceCourse';
+import type { JraRaceNumber } from './data/jra/jraRaceNumber';
+import { JraRaceNumberSchema } from './data/jra/jraRaceNumber';
+import type { KeirinPositionNumber } from './data/keirin/keirinPositionNumber';
+import { KeirinPositionNumberSchema } from './data/keirin/keirinPositionNumber';
+import type { KeirinRaceCourse } from './data/keirin/keirinRaceCourse';
+import { KEIRIN_PLACE_CODE } from './data/keirin/keirinRaceCourse';
+import type { KeirinRaceNumber } from './data/keirin/keirinRaceNumber';
+import { KeirinRaceNumberSchema } from './data/keirin/keirinRaceNumber';
+import type { NarRaceCourse } from './data/nar/narRaceCourse';
+import type { NarRaceNumber } from './data/nar/narRaceNumber';
+import { NarRaceNumberSchema } from './data/nar/narRaceNumber';
 import { NETKEIBA_BABACODE } from './data/netkeiba';
-import type { WorldRaceNumber } from './data/world';
-import {
-    WORLD_PLACE_CODE,
-    type WorldRaceCourse,
-    WorldRaceNumberSchema,
-} from './data/world';
+import type { WorldRaceCourse } from './data/world/worldRaceCourse';
+import { WORLD_PLACE_CODE } from './data/world/worldRaceCourse';
+import type { WorldRaceNumber } from './data/world/worldRaceNumber';
+import { WorldRaceNumberSchema } from './data/world/worldRaceNumber';
 
 /**
  * 中央競馬のraceIdを作成する

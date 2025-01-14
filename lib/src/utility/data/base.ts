@@ -1,23 +1,20 @@
 import { z } from 'zod';
 
-import {
-    AutoraceGradeTypeSchema,
-    AutoraceRaceCourseSchema,
-    AutoraceRaceStageSchema,
-} from './autorace';
-import {
-    BoatraceGradeTypeSchema,
-    BoatraceRaceCourseSchema,
-    BoatraceRaceStageSchema,
-} from './boatrace';
-import { JraGradeTypeSchema, JraRaceCourseSchema } from './jra';
-import {
-    KeirinGradeTypeSchema,
-    KeirinRaceCourseSchema,
-    KeirinRaceStageSchema,
-} from './keirin';
-import { NarGradeTypeSchema, NarRaceCourseSchema } from './nar';
-import { WorldGradeTypeSchema, WorldRaceCourseSchema } from './world';
+import { AutoraceGradeTypeSchema } from './autorace/autoraceGradeType';
+import { AutoraceRaceCourseSchema } from './autorace/autoraceRaceCourse';
+import { AutoraceRaceStageSchema } from './autorace/autoraceRaceStage';
+import { BoatraceGradeTypeSchema } from './boatrace/boatraceGradeType';
+import { BoatraceRaceCourseSchema } from './boatrace/boatraceRaceCourse';
+import { BoatraceRaceStageSchema } from './boatrace/boatraceRaceStage';
+import { JraGradeTypeSchema } from './jra/jraGradeType';
+import { JraRaceCourseSchema } from './jra/jraRaceCourse';
+import { KeirinGradeTypeSchema } from './keirin/keirinGradeType';
+import { KeirinRaceCourseSchema } from './keirin/keirinRaceCourse';
+import { KeirinRaceStageSchema } from './keirin/keirinRaceStage';
+import { NarGradeTypeSchema } from './nar/narGradeType';
+import { NarRaceCourseSchema } from './nar/narRaceCourse';
+import { WorldGradeTypeSchema } from './world/worldGradeType';
+import { WorldRaceCourseSchema } from './world/worldRaceCourse';
 
 /**
  * GradeTypeのzod型定義

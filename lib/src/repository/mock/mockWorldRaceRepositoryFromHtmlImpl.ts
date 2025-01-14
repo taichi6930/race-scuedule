@@ -23,7 +23,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
             raceEntityList.push(
                 new WorldRaceEntity(
                     null,
-                    new WorldRaceData(
+                    WorldRaceData.create(
                         `第${i.toString()}R`,
                         new Date(
                             request.startDate.getFullYear(),

@@ -8,11 +8,9 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import {
-    KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST,
-    KeirinGradeType,
-    KeirinPlayerList,
-} from '../../utility/data/keirin';
+import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
+import { KeirinPlayerList } from '../../utility/data/keirin/keirinPlayerNumber';
+import { KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/keirin/keirinRaceStage';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 

@@ -5,10 +5,8 @@ import { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecor
 import { NarRaceRecord } from '../../../../lib/src/gateway/record/narRaceRecord';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
-import type {
-    NarGradeType,
-    NarRaceCourse,
-} from '../../../../lib/src/utility/data/nar';
+import type { NarGradeType } from '../../../../lib/src/utility/data/nar/narGradeType';
+import type { NarRaceCourse } from '../../../../lib/src/utility/data/nar/narRaceCourse';
 import {
     generateNarPlaceId,
     generateNarRaceId,
@@ -25,12 +23,12 @@ const baseNarRaceDistance = 2000;
 const baseNarRaceGrade: NarGradeType = 'GⅠ';
 const baseNarRaceUpdateDate = new Date('2024-12-01 00:00');
 
-export const baseNarPlaceData = new NarPlaceData(
+export const baseNarPlaceData = NarPlaceData.create(
     baseNarPlaceDateTime,
     baseNarPlaceCourse,
 );
 
-export const baseNarRaceData = new NarRaceData(
+export const baseNarRaceData = NarRaceData.create(
     baseNarRaceName,
     baseNarRaceDateTime,
     baseNarPlaceCourse,
@@ -93,7 +91,7 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
         ].map((grade, index) => {
             return new NarRaceEntity(
                 null,
-                new NarRaceData(
+                NarRaceData.create(
                     `テスト${location}${grade}${(index + 1).toString()}レース`,
                     new Date(2024, 6 - 1, 1, 7 + index, 0),
                     location,

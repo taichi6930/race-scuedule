@@ -40,7 +40,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         [
                             new WorldPlaceEntity(
                                 null,
-                                new WorldPlaceData(
+                                WorldPlaceData.create(
                                     new Date('2024-11-04'),
                                     'パリロンシャン',
                                 ),

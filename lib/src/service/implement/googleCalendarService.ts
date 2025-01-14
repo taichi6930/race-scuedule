@@ -14,13 +14,13 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin';
+import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin/keirinRaceCourse';
 import {
     CHIHO_KEIBA_LIVE_URL,
     CHIHO_KEIBA_YOUTUBE_USER_ID,
     getYoutubeLiveUrl,
 } from '../../utility/data/movie';
-import { NAR_BABACODE } from '../../utility/data/nar';
+import { NAR_BABACODE } from '../../utility/data/nar/narRaceCourse';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';

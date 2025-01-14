@@ -1,11 +1,11 @@
 import '../../utility/format';
 
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-    KeirinRaceNumber,
-    KeirinRaceStage,
-} from '../../utility/data/keirin';
+import type { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
+import type { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
+import type { KeirinRaceDateTime } from '../../utility/data/keirin/keirinRaceDateTime';
+import type { KeirinRaceName } from '../../utility/data/keirin/keirinRaceName';
+import type { KeirinRaceNumber } from '../../utility/data/keirin/keirinRaceNumber';
+import type { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
 import type { KeirinRaceId } from '../../utility/raceId';
 
 /**
@@ -29,9 +29,9 @@ export class KeirinRaceRecord {
      */
     constructor(
         public readonly id: KeirinRaceId,
-        public readonly name: string,
+        public readonly name: KeirinRaceName,
         public readonly stage: KeirinRaceStage,
-        public readonly dateTime: Date,
+        public readonly dateTime: KeirinRaceDateTime,
         public readonly location: KeirinRaceCourse,
         public readonly grade: KeirinGradeType,
         public readonly number: KeirinRaceNumber,

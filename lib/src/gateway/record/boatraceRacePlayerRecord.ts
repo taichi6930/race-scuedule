@@ -1,9 +1,7 @@
 import '../../utility/format';
 
-import type {
-    BoatracePlayerNumber,
-    BoatracePositionNumber,
-} from '../../utility/data/boatrace';
+import type { BoatracePlayerNumber } from '../../utility/data/boatrace/boatracePlayerNumber';
+import type { BoatracePositionNumber } from '../../utility/data/boatrace/boatracePositionNumber';
 import type {
     BoatraceRaceId,
     BoatraceRacePlayerId,

@@ -2,13 +2,13 @@ import '../../utility/format';
 
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import type {
-    WorldGradeType,
-    WorldRaceCourse,
-    WorldRaceCourseType,
-    WorldRaceDistance,
-    WorldRaceNumber,
-} from '../../utility/data/world';
+import type { WorldGradeType } from '../../utility/data/world/worldGradeType';
+import type { WorldRaceCourse } from '../../utility/data/world/worldRaceCourse';
+import type { WorldRaceCourseType } from '../../utility/data/world/worldRaceCourseType';
+import type { WorldRaceDateTime } from '../../utility/data/world/worldRaceDateTime';
+import type { WorldRaceDistance } from '../../utility/data/world/worldRaceDistance';
+import type { WorldRaceName } from '../../utility/data/world/worldRaceName';
+import type { WorldRaceNumber } from '../../utility/data/world/worldRaceNumber';
 import type { WorldRaceId } from '../../utility/raceId';
 
 /**
@@ -33,8 +33,8 @@ export class WorldRaceRecord {
      */
     constructor(
         public readonly id: WorldRaceId,
-        public readonly name: string,
-        public readonly dateTime: Date,
+        public readonly name: WorldRaceName,
+        public readonly dateTime: WorldRaceDateTime,
         public readonly location: WorldRaceCourse,
         public readonly surfaceType: WorldRaceCourseType,
         public readonly distance: WorldRaceDistance,
@@ -69,7 +69,7 @@ export class WorldRaceRecord {
     toEntity(): WorldRaceEntity {
         return new WorldRaceEntity(
             this.id,
-            new WorldRaceData(
+            WorldRaceData.create(
                 this.name,
                 this.dateTime,
                 this.location,

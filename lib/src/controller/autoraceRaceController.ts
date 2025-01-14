@@ -9,9 +9,9 @@ import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     AUTORACE_SPECIFIED_GRADE_LIST,
     AutoraceGradeType,
-    AutoraceRaceCourse,
-    AutoraceRaceStage,
-} from '../utility/data/autorace';
+} from '../utility/data/autorace/autoraceGradeType';
+import { AutoraceRaceCourse } from '../utility/data/autorace/autoraceRaceCourse';
+import { AutoraceRaceStage } from '../utility/data/autorace/autoraceRaceStage';
 import { Logger } from '../utility/logger';
 
 /**
@@ -478,7 +478,7 @@ export class AutoraceRaceController {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     .map((race: any) => {
                         try {
-                            return new AutoraceRaceData(
+                            return AutoraceRaceData.create(
                                 race.name,
                                 race.stage as AutoraceRaceStage,
                                 new Date(race.dateTime),

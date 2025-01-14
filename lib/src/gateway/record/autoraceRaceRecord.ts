@@ -1,11 +1,11 @@
 import '../../utility/format';
 
-import type {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-    AutoraceRaceNumber,
-    AutoraceRaceStage,
-} from '../../utility/data/autorace';
+import type { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
+import type { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
+import type { AutoraceRaceDateTime } from '../../utility/data/autorace/autoraceRaceDateTime';
+import type { AutoraceRaceName } from '../../utility/data/autorace/autoraceRaceName';
+import type { AutoraceRaceNumber } from '../../utility/data/autorace/autoraceRaceNumber';
+import type { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
 import type { AutoraceRaceId } from '../../utility/raceId';
 
 /**
@@ -29,9 +29,9 @@ export class AutoraceRaceRecord {
      */
     constructor(
         public readonly id: AutoraceRaceId,
-        public readonly name: string,
+        public readonly name: AutoraceRaceName,
         public readonly stage: AutoraceRaceStage,
-        public readonly dateTime: Date,
+        public readonly dateTime: AutoraceRaceDateTime,
         public readonly location: AutoraceRaceCourse,
         public readonly grade: AutoraceGradeType,
         public readonly number: AutoraceRaceNumber,

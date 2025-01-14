@@ -2,8 +2,11 @@ import { format } from 'date-fns';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace';
-import { BoatraceRaceCourse } from '../../utility/data/boatrace';
+import {
+    BOATRACE_PLACE_CODE,
+    BoatraceRaceCourse,
+} from '../../utility/data/boatrace/boatraceRaceCourse';
+import { BoatraceRaceNumber } from '../../utility/data/boatrace/boatraceRaceNumber';
 import { Logger } from '../../utility/logger';
 import { IBoatraceRaceDataHtmlGateway } from '../interface/iBoatraceRaceDataHtmlGateway';
 /**
@@ -22,7 +25,7 @@ export class MockBoatraceRaceDataHtmlGateway
     async getRaceDataHtml(
         date: Date,
         place: BoatraceRaceCourse,
-        number: number,
+        number: BoatraceRaceNumber,
     ): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
         const testHtmlUrl = `../mockData/html/boatrace/race/${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[place]}${number.toString()}.html`;

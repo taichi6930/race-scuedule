@@ -61,13 +61,13 @@ export class AutoraceRaceRepositoryFromStorageImpl
                 // AutoraceRacePlayerDataのリストを生成
                 const racePlayerDataList: AutoraceRacePlayerData[] =
                     filteredRacePlayerRecordList.map((racePlayerRecord) => {
-                        return new AutoraceRacePlayerData(
+                        return AutoraceRacePlayerData.create(
                             racePlayerRecord.positionNumber,
                             racePlayerRecord.playerNumber,
                         );
                     });
                 // AutoraceRaceDataを生成
-                const raceData = new AutoraceRaceData(
+                const raceData = AutoraceRaceData.create(
                     raceRecord.name,
                     raceRecord.stage,
                     raceRecord.dateTime,

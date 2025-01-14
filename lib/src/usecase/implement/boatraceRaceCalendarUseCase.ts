@@ -8,11 +8,9 @@ import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import {
-    BOATRACE_SPECIFIED_GRADE_AND_STAGE_LIST,
-    BoatraceGradeType,
-    BoatracePlayerList,
-} from '../../utility/data/boatrace';
+import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
+import { BoatracePlayerList } from '../../utility/data/boatrace/boatracePlayerNumber';
+import { BOATRACE_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/boatrace/boatraceRaceStage';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 

@@ -3,12 +3,12 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraRaceData } from '../../domain/jraRaceData';
 import { IJraRaceDataHtmlGateway } from '../../gateway/interface/iJraRaceDataHtmlGateway';
+import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import {
-    JraGradeType,
     JraRaceCourse,
     JraRaceCourseList,
-    JraRaceCourseType,
-} from '../../utility/data/jra';
+} from '../../utility/data/jra/jraRaceCourse';
+import { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processJraRaceName } from '../../utility/raceName';
@@ -164,7 +164,7 @@ export class JraRaceRepositoryFromHtmlImpl
 
                         const jradata = new JraRaceEntity(
                             null,
-                            new JraRaceData(
+                            JraRaceData.create(
                                 raceName,
                                 raceDateTime,
                                 raceCourse,

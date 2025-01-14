@@ -1,4 +1,4 @@
-import type { NarRaceCourse } from '../../utility/data/nar';
+import type { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
 
 /**
  * 地方競馬のレースデータのHTMLを取得するGatewayのInterface

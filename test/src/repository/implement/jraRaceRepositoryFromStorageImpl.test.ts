@@ -45,33 +45,41 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         'distance',
                         'grade',
                         'number',
+                        'heldTimes',
+                        'heldDayTimes',
                     ].join(',');
                     const csvDataText: string = [
                         `raceName20240101`,
                         date.toISOString(),
-                        '大井',
+                        '東京',
                         'ダート',
                         '1200',
                         'GⅠ',
+                        '1',
+                        '1',
                         '1',
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
                         date.toISOString(),
-                        '大井',
+                        '東京',
                         'ダート',
                         '1200',
                         'GⅠ',
+                        '1',
+                        '1',
                         '1',
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
                         date.toISOString(),
-                        '大井',
+                        '東京',
                         'ダート',
                         '1200',
                         'GⅠ',
                         undefined,
+                        '1',
+                        '1',
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
@@ -108,7 +116,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         (__, j) =>
                             new JraRaceEntity(
                                 null,
-                                new JraRaceData(
+                                JraRaceData.create(
                                     `raceName${format(date, 'yyyyMMdd')}`,
                                     date,
                                     '東京',

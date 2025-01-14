@@ -1,32 +1,53 @@
-import type {
-    BoatraceGradeType,
-    BoatraceRaceCourse,
-} from '../utility/data/boatrace';
+import type { BoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
+import { validateBoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
+import type { BoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
+import { validateBoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
+import type { BoatraceRaceDate } from '../utility/data/boatrace/boatraceRaceDate';
+import { validateBoatraceRaceDate } from '../utility/data/boatrace/boatraceRaceDate';
 
 /**
  * ボートレースのレース開催場所データ
  */
 export class BoatracePlaceData {
-    /**
-     * コンストラクタ
-     *
-     * @remarks
-     * ボートレースのレース開催場所データを生成する
-     * 開催場所の型はBoatraceRaceCourseを使用しているのでValidationは現時点で不要
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - ボートレースのグレード
-     */
-    constructor(
-        public readonly dateTime: Date,
-        public readonly location: BoatraceRaceCourse,
-        public readonly grade: BoatraceGradeType,
-    ) {}
+    // 開催日時
+    public readonly dateTime: BoatraceRaceDate;
+    // 開催場所
+    public readonly location: BoatraceRaceCourse;
+    // ボートレースのグレード
+    public readonly grade: BoatraceGradeType;
+
+    private constructor(
+        dateTime: BoatraceRaceDate,
+        location: BoatraceRaceCourse,
+        grade: BoatraceGradeType,
+    ) {
+        this.dateTime = dateTime;
+        this.location = location;
+        this.grade = grade;
+    }
 
     /**
+     * インスタンス生成メソッド
+     * バリデーション済みデータを元にインスタンスを生成する
+     * @param dateTime - 開催日時
+     * @param location - 開催場所 (バリデーション対象)
+     * @param grade - ボートレースのグレード (バリデーション対象)
+     */
+    static create(
+        dateTime: Date,
+        location: string,
+        grade: string,
+    ): BoatracePlaceData {
+        return new BoatracePlaceData(
+            validateBoatraceRaceDate(dateTime),
+            validateBoatraceRaceCourse(location),
+            validateBoatraceGradeType(grade),
+        );
+    }
+    /**
      * データのコピー
-     * @param partial
-     * @returns
+     * @param partial - 上書きする部分データ
+     * @returns 新しいBoatracePlaceDataインスタンス
      */
     copy(partial: Partial<BoatracePlaceData> = {}): BoatracePlaceData {
         return new BoatracePlaceData(

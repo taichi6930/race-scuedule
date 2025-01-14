@@ -9,9 +9,9 @@ import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     BOATRACE_SPECIFIED_GRADE_LIST,
     BoatraceGradeType,
-    BoatraceRaceCourse,
-    BoatraceRaceStage,
-} from '../utility/data/boatrace';
+} from '../utility/data/boatrace/boatraceGradeType';
+import { BoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
+import { BoatraceRaceStage } from '../utility/data/boatrace/boatraceRaceStage';
 import { Logger } from '../utility/logger';
 
 /**

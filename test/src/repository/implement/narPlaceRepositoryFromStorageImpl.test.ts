@@ -80,7 +80,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                         () =>
                             new NarPlaceEntity(
                                 null,
-                                new NarPlaceData(date, '大井'),
+                                NarPlaceData.create(date, '大井'),
                                 getJSTDate(new Date()),
                             ),
                     );

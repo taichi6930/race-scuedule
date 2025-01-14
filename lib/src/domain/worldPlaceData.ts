@@ -1,30 +1,42 @@
-import type { WorldRaceCourse } from '../utility/data/world';
+import type { WorldRaceCourse } from '../utility/data/world/worldRaceCourse';
+import { validateWorldRaceCourse } from '../utility/data/world/worldRaceCourse';
+import type { WorldRaceDate } from '../utility/data/world/worldRaceDate';
+import { validateWorldRaceDate } from '../utility/data/world/worldRaceDate';
 
 /**
- * 世界の競馬のレース開催場所データ
+ * 海外競馬のレース開催場所データ
  */
 export class WorldPlaceData {
-    /**
-     * コンストラクタ
-     *
-     * @remarks
-     * 世界の競馬のレース開催場所データを生成する
-     * 開催場所の型はWorldRaceCourseを使用しているのでValidationは現時点で不要
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     */
-    constructor(
-        public readonly dateTime: Date,
-        public readonly location: WorldRaceCourse,
-    ) {}
+    // 開催日時
+    public readonly dateTime: WorldRaceDate;
+    // 開催場所
+    public readonly location: WorldRaceCourse;
+
+    private constructor(dateTime: WorldRaceDate, location: WorldRaceCourse) {
+        this.dateTime = dateTime;
+        this.location = location;
+    }
 
     /**
+     * インスタンス生成メソッド
+     * バリデーション済みデータを元にインスタンスを生成する
+     * @param dateTime - 開催日時
+     * @param location - 開催場所 (バリデーション対象)
+     * @param grade - オートレースのグレード (バリデーション対象)
+     */
+    static create(dateTime: Date, location: string): WorldPlaceData {
+        return new WorldPlaceData(
+            validateWorldRaceDate(dateTime),
+            validateWorldRaceCourse(location),
+        );
+    }
+    /**
      * データのコピー
-     * @param partial
-     * @returns
+     * @param partial - 上書きする部分データ
+     * @returns 新しいWorldPlaceDataインスタンス
      */
     copy(partial: Partial<WorldPlaceData> = {}): WorldPlaceData {
-        return new WorldPlaceData(
+        return WorldPlaceData.create(
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
         );

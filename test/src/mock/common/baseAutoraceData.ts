@@ -7,11 +7,9 @@ import { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/record/aut
 import { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-    AutoraceRaceStage,
-} from '../../../../lib/src/utility/data/autorace';
+import type { AutoraceGradeType } from '../../../../lib/src/utility/data/autorace/autoraceGradeType';
+import type { AutoraceRaceCourse } from '../../../../lib/src/utility/data/autorace/autoraceRaceCourse';
+import type { AutoraceRaceStage } from '../../../../lib/src/utility/data/autorace/autoraceRaceStage';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import {
     generateAutoracePlaceId,
@@ -29,13 +27,13 @@ const baseAutoraceRaceNumber = 11;
 const baseAutoraceRaceStage: AutoraceRaceStage = '優勝戦';
 const baseAutoraceRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseAutoracePlaceData = new AutoracePlaceData(
+export const baseAutoracePlaceData = AutoracePlaceData.create(
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
 );
 
-export const baseAutoraceRaceData = new AutoraceRaceData(
+export const baseAutoraceRaceData = AutoraceRaceData.create(
     baseAutoraceRaceName,
     baseAutoraceRaceStage,
     baseAutoraceRaceDateTime,
@@ -76,7 +74,7 @@ export const baseAutoracePlaceEntity = new AutoracePlaceEntity(
 export const baseAutoraceRacePlayerDataList = Array.from(
     { length: 8 },
     (_, i) => {
-        return new AutoraceRacePlayerData(i + 1, i + 1);
+        return AutoraceRacePlayerData.create(i + 1, i + 1);
     },
 );
 
@@ -104,7 +102,10 @@ export const baseAutoraceRacePlayerRecord = new AutoraceRacePlayerRecord(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRacePlayerData = new AutoraceRacePlayerData(1, 10000);
+export const baseAutoraceRacePlayerData = AutoraceRacePlayerData.create(
+    1,
+    10000,
+);
 
 export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
     { location: '飯塚', grade: 'SG' },
@@ -130,7 +131,7 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
     ].map((stage, index) => {
         return new AutoraceRaceEntity(
             null,
-            new AutoraceRaceData(
+            AutoraceRaceData.create(
                 `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
                 stage,
                 new Date(2025, 12 - 1, 31, 7 + index, 0),

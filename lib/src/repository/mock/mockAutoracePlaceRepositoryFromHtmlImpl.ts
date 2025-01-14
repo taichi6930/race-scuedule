@@ -28,7 +28,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
             // オートレース場データを作成
             const autoracePlaceEntity = new AutoracePlaceEntity(
                 null,
-                new AutoracePlaceData(new Date(currentDate), '伊勢崎', 'SG'),
+                AutoracePlaceData.create(new Date(currentDate), '伊勢崎', 'SG'),
                 getJSTDate(new Date()),
             );
             fetchPlaceEntityList.push(autoracePlaceEntity);

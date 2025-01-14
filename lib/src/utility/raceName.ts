@@ -1,29 +1,29 @@
 /* eslint-disable */
 
-import {
-    JraRaceCourse,
-    JraGradeType,
-    JraRaceCourseType,
-    JraRaceDistance,
-} from './data/jra';
-import {
-    NarRaceCourse,
-    NarGradeType,
-    NarRaceCourseType,
-    NarRaceDistance,
-} from './data/nar';
-import {
-    WorldRaceCourse,
-    WorldGradeType,
-    WorldRaceCourseType,
-    WorldRaceDistance,
-} from './data/world';
+import { JraGradeType } from './data/jra/jraGradeType';
+import { JraRaceCourse } from './data/jra/jraRaceCourse';
+import { JraRaceCourseType } from './data/jra/jraRaceCourseType';
+import { JraRaceDateTime } from './data/jra/jraRaceDateTime';
+import { JraRaceDistance } from './data/jra/jraRaceDistance';
+import { JraRaceName } from './data/jra/jraRaceName';
+import { NarGradeType } from './data/nar/narGradeType';
+import { NarRaceCourse } from './data/nar/narRaceCourse';
+import { NarRaceCourseType } from './data/nar/narRaceCourseType';
+import { NarRaceDateTime } from './data/nar/narRaceDateTime';
+import { NarRaceDistance } from './data/nar/narRaceDistance';
+import { NarRaceName } from './data/nar/narRaceName';
+import { WorldGradeType } from './data/world/worldGradeType';
+import { WorldRaceCourse } from './data/world/worldRaceCourse';
+import { WorldRaceCourseType } from './data/world/worldRaceCourseType';
+import { WorldRaceDateTime } from './data/world/worldRaceDateTime';
+import { WorldRaceDistance } from './data/world/worldRaceDistance';
+import { WorldRaceName } from './data/world/worldRaceName';
 
 type JraRaceDataForRaceName = {
-    name: string;
+    name: JraRaceName;
     place: JraRaceCourse;
     grade: JraGradeType;
-    date: Date;
+    date: JraRaceDateTime;
     surfaceType: JraRaceCourseType;
     distance: JraRaceDistance;
 };
@@ -184,10 +184,10 @@ const isLumiereAutumnDash = (raceInfo: JraRaceDataForRaceName): boolean =>
     raceInfo.distance === 1000;
 
 type NarRaceDataForRaceName = {
-    name: string;
+    name: NarRaceName;
     place: NarRaceCourse;
     grade: NarGradeType;
-    date: Date;
+    date: NarRaceDateTime;
     surfaceType: NarRaceCourseType;
     distance: NarRaceDistance;
 };
@@ -328,10 +328,10 @@ export const processNarRaceName = (
 };
 
 type WorldRaceDataForRaceName = {
-    name: string;
+    name: WorldRaceName;
     place: WorldRaceCourse;
     grade: WorldGradeType;
-    date: Date;
+    date: WorldRaceDateTime;
     surfaceType: WorldRaceCourseType;
     distance: WorldRaceDistance;
 };

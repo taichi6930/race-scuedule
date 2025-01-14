@@ -20,7 +20,7 @@ describe('NarPlaceDataクラスのテスト', () => {
     });
 
     it('何も変更せずNarPlaceDataのインスタンスを作成できることを確認', () => {
-        const placeData = new NarPlaceData(new Date('2024-06-03'), '大井');
+        const placeData = NarPlaceData.create(new Date('2024-06-03'), '大井');
         const newPlaceData = placeData.copy();
 
         expect(newPlaceData).toEqual(placeData);

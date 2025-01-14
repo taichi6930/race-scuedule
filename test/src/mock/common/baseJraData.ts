@@ -5,10 +5,8 @@ import { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecor
 import { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import type {
-    JraGradeType,
-    JraRaceCourse,
-} from '../../../../lib/src/utility/data/jra';
+import type { JraGradeType } from '../../../../lib/src/utility/data/jra/jraGradeType';
+import type { JraRaceCourse } from '../../../../lib/src/utility/data/jra/jraRaceCourse';
 import {
     generateJraPlaceId,
     generateJraRaceId,
@@ -27,14 +25,14 @@ const baseJraRaceHeldTimes = 5;
 const baseJraRaceHeldDayTimes = 8;
 const baseJraRaceUpdateDate = new Date('2024-12-01 00:00');
 
-export const baseJraPlaceData = new JraPlaceData(
+export const baseJraPlaceData = JraPlaceData.create(
     baseJraPlaceDateTime,
     baseJraPlaceCourse,
     1,
     1,
 );
 
-export const baseJraRaceData = new JraRaceData(
+export const baseJraRaceData = JraRaceData.create(
     baseJraRaceName,
     baseJraRaceDateTime,
     baseJraPlaceCourse,
@@ -103,7 +101,7 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
         ].map((grade, index) => {
             return new JraRaceEntity(
                 null,
-                new JraRaceData(
+                JraRaceData.create(
                     `テスト${location}${grade}${(index + 1).toString()}レース`,
                     new Date(2024, 6 - 1, 1, 7 + index, 0),
                     location,

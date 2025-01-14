@@ -1,4 +1,4 @@
-import type { KeirinRaceCourse } from '../../utility/data/keirin';
+import type { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
 
 /**
  * 競輪場のレースデータのHTMLを取得するGatewayのInterface

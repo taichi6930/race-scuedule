@@ -31,27 +31,21 @@ import { WorldRaceDataUseCase } from '../src/usecase/implement/worldRaceDataUseC
 import type { IPlaceDataUseCase } from '../src/usecase/interface/IPlaceDataUseCase';
 import type { IRaceCalendarUseCase } from '../src/usecase/interface/IRaceCalendarUseCase';
 import type { IRaceDataUseCase } from '../src/usecase/interface/IRaceDataUseCase';
-import type {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-    AutoraceRaceStage,
-} from '../src/utility/data/autorace';
-import type {
-    BoatraceGradeType,
-    BoatraceRaceCourse,
-    BoatraceRaceStage,
-} from '../src/utility/data/boatrace';
-import type { JraGradeType, JraRaceCourse } from '../src/utility/data/jra';
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-    KeirinRaceStage,
-} from '../src/utility/data/keirin';
-import type { NarGradeType, NarRaceCourse } from '../src/utility/data/nar';
-import type {
-    WorldGradeType,
-    WorldRaceCourse,
-} from '../src/utility/data/world';
+import type { AutoraceGradeType } from '../src/utility/data/autorace/autoraceGradeType';
+import type { AutoraceRaceCourse } from '../src/utility/data/autorace/autoraceRaceCourse';
+import type { AutoraceRaceStage } from '../src/utility/data/autorace/autoraceRaceStage';
+import type { BoatraceGradeType } from '../src/utility/data/boatrace/boatraceGradeType';
+import type { BoatraceRaceCourse } from '../src/utility/data/boatrace/boatraceRaceCourse';
+import type { BoatraceRaceStage } from '../src/utility/data/boatrace/boatraceRaceStage';
+import type { JraGradeType } from '../src/utility/data/jra/jraGradeType';
+import type { JraRaceCourse } from '../src/utility/data/jra/jraRaceCourse';
+import type { KeirinGradeType } from '../src/utility/data/keirin/keirinGradeType';
+import type { KeirinRaceCourse } from '../src/utility/data/keirin/keirinRaceCourse';
+import type { KeirinRaceStage } from '../src/utility/data/keirin/keirinRaceStage';
+import type { NarGradeType } from '../src/utility/data/nar/narGradeType';
+import type { NarRaceCourse } from '../src/utility/data/nar/narRaceCourse';
+import type { WorldGradeType } from '../src/utility/data/world/worldGradeType';
+import type { WorldRaceCourse } from '../src/utility/data/world/worldRaceCourse';
 
 // Usecaseの実装クラスをDIコンテナに登錄する
 container.register<IRaceCalendarUseCase>('NarRaceCalendarUseCase', {

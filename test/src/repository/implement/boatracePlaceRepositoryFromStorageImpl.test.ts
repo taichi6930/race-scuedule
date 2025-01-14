@@ -95,7 +95,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
                         () =>
                             new BoatracePlaceEntity(
                                 null,
-                                new BoatracePlaceData(date, '平和島', 'SG'),
+                                BoatracePlaceData.create(date, '平和島', 'SG'),
                                 getJSTDate(new Date()),
                             ),
                     );

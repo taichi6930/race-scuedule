@@ -1,9 +1,8 @@
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
-import type {
-    KeirinGradeType,
-    KeirinRaceCourse,
-} from '../../utility/data/keirin';
+import type { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
+import type { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
+import type { KeirinRaceDate } from '../../utility/data/keirin/keirinRaceDate';
 import type { KeirinPlaceId } from '../../utility/raceId';
 
 /**
@@ -23,7 +22,7 @@ export class KeirinPlaceRecord {
      */
     constructor(
         public readonly id: KeirinPlaceId,
-        public readonly dateTime: Date,
+        public readonly dateTime: KeirinRaceDate,
         public readonly location: KeirinRaceCourse,
         public readonly grade: KeirinGradeType,
         public readonly updateDate: Date,
@@ -51,7 +50,7 @@ export class KeirinPlaceRecord {
     toEntity(): KeirinPlaceEntity {
         return new KeirinPlaceEntity(
             this.id,
-            new KeirinPlaceData(this.dateTime, this.location, this.grade),
+            KeirinPlaceData.create(this.dateTime, this.location, this.grade),
             this.updateDate,
         );
     }

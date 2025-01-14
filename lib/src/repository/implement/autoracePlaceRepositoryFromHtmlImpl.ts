@@ -6,10 +6,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { IAutoracePlaceDataHtmlGateway } from '../../gateway/interface/iAutoracePlaceDataHtmlGateway';
-import {
-    AutoraceGradeType,
-    AutoraceRaceCourse,
-} from '../../utility/data/autorace';
+import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
+import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
@@ -167,7 +165,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                         autoracePlaceEntityList.push(
                             new AutoracePlaceEntity(
                                 null,
-                                new AutoracePlaceData(
+                                AutoracePlaceData.create(
                                     new Date(
                                         date.getFullYear(),
                                         date.getMonth(),

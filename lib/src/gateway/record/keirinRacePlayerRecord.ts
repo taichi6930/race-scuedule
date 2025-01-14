@@ -1,9 +1,7 @@
 import '../../utility/format';
 
-import type {
-    KeirinPlayerNumber,
-    KeirinPositionNumber,
-} from '../../utility/data/keirin';
+import type { KeirinPlayerNumber } from '../../utility/data/keirin/keirinPlayerNumber';
+import type { KeirinPositionNumber } from '../../utility/data/keirin/keirinPositionNumber';
 import type { KeirinRaceId, KeirinRacePlayerId } from '../../utility/raceId';
 
 /**

@@ -27,7 +27,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                     raceEntityList.push(
                         new AutoraceRaceEntity(
                             null,
-                            new AutoraceRaceData(
+                            AutoraceRaceData.create(
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 raceStage,
                                 new Date(

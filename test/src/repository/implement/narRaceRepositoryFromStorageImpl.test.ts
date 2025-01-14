@@ -110,7 +110,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
                         (__, j) =>
                             new NarRaceEntity(
                                 null,
-                                new NarRaceData(
+                                NarRaceData.create(
                                     `raceName${format(date, 'yyyyMMdd')}`,
                                     date,
                                     '大井',

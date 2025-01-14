@@ -30,7 +30,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                     raceEntityList.push(
                         new BoatraceRaceEntity(
                             null,
-                            new BoatraceRaceData(
+                            BoatraceRaceData.create(
                                 `${placeData.location}第${i.toString()}R`,
                                 raceStage,
                                 new Date(

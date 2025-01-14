@@ -61,13 +61,13 @@ export class BoatraceRaceRepositoryFromStorageImpl
                 // BoatraceRacePlayerDataのリストを生成
                 const racePlayerDataList: BoatraceRacePlayerData[] =
                     filteredRacePlayerRecordList.map((racePlayerRecord) => {
-                        return new BoatraceRacePlayerData(
+                        return BoatraceRacePlayerData.create(
                             racePlayerRecord.positionNumber,
                             racePlayerRecord.playerNumber,
                         );
                     });
                 // BoatraceRaceDataを生成
-                const raceData = new BoatraceRaceData(
+                const raceData = BoatraceRaceData.create(
                     raceRecord.name,
                     raceRecord.stage,
                     raceRecord.dateTime,

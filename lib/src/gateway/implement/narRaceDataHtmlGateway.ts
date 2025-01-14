@@ -1,7 +1,9 @@
 import '../../utility/format';
 
-import { NAR_BABACODE } from '../../utility/data/nar';
-import { NarRaceCourse } from '../../utility/data/nar';
+import {
+    NAR_BABACODE,
+    NarRaceCourse,
+} from '../../utility/data/nar/narRaceCourse';
 import { Logger } from '../../utility/logger';
 import { INarRaceDataHtmlGateway } from '../interface/iNarRaceDataHtmlGateway';
 /**

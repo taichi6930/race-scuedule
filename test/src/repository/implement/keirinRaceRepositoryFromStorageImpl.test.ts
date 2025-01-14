@@ -12,7 +12,7 @@ import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRa
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { KEIRIN_PLACE_CODE } from '../../../../lib/src/utility/data/keirin';
+import { KEIRIN_PLACE_CODE } from '../../../../lib/src/utility/data/keirin/keirinRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 import {
@@ -60,7 +60,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                     ].join(',');
                     const csvDataText: string = [
                         `raceName20240101`,
-                        `決勝`,
+                        `S級決勝`,
                         date.toISOString(),
                         '平塚',
                         'GⅠ',
@@ -69,7 +69,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `決勝`,
+                        `S級決勝`,
                         date.toISOString(),
                         '平塚',
                         'GⅠ',
@@ -78,7 +78,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
-                        `決勝`,
+                        `S級決勝`,
                         date.toISOString(),
                         '平塚',
                         'GⅠ',
@@ -162,7 +162,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         (__, j) =>
                             new KeirinRaceEntity(
                                 null,
-                                new KeirinRaceData(
+                                KeirinRaceData.create(
                                     `raceName${format(date, 'yyyyMMdd')}`,
                                     `S級決勝`,
                                     date,

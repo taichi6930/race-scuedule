@@ -4,7 +4,7 @@ describe('JraRaceDataクラスのテスト', () => {
     /**
      * テスト用のJraRaceDataインスタンス
      */
-    const baseRaceData = new JraRaceData(
+    const baseRaceData = JraRaceData.create(
         '東京優駿',
         new Date('2024-05-26 15:40'),
         '東京',

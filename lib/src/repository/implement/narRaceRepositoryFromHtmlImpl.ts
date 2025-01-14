@@ -3,7 +3,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { NarRaceData } from '../../domain/narRaceData';
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
-import { NarGradeType, NarRaceCourseType } from '../../utility/data/nar';
+import { NarGradeType } from '../../utility/data/nar/narGradeType';
+import { NarRaceCourseType } from '../../utility/data/nar/narRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processNarRaceName } from '../../utility/raceName';
@@ -99,7 +100,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 narRaceDataList.push(
                     new NarRaceEntity(
                         null,
-                        new NarRaceData(
+                        NarRaceData.create(
                             newRaceName,
                             new Date(year, month - 1, day, hour, minute),
                             placeEntity.placeData.location,

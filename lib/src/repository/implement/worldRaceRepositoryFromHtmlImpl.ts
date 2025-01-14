@@ -6,13 +6,13 @@ import { inject, injectable } from 'tsyringe';
 
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { IWorldRaceDataHtmlGateway } from '../../gateway/interface/iWorldRaceDataHtmlGateway';
+import { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import {
-    WorldGradeType,
+    WORLD_PLACE_CODE,
     WorldRaceCourse,
     WorldRaceCourseList,
-    WorldRaceCourseType,
-} from '../../utility/data/world';
-import { WORLD_PLACE_CODE } from '../../utility/data/world';
+} from '../../utility/data/world/worldRaceCourse';
+import { WorldRaceCourseType } from '../../utility/data/world/worldRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processWorldRaceName } from '../../utility/raceName';
@@ -236,7 +236,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                         worldRaceDataList.push(
                             new WorldRaceEntity(
                                 null,
-                                new WorldRaceData(
+                                WorldRaceData.create(
                                     raceName,
                                     date,
                                     location,

@@ -8,7 +8,7 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
-import { JraGradeType } from '../../utility/data/jra';
+import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 

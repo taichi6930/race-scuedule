@@ -6,8 +6,8 @@ import { inject, injectable } from 'tsyringe';
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { IAutoraceRaceDataHtmlGateway } from '../../gateway/interface/iAutoraceRaceDataHtmlGateway';
-import { AUTORACE_STAGE_MAP } from '../../utility/data/autorace';
-import { AutoraceRaceStage } from '../../utility/data/autorace';
+import { AUTORACE_STAGE_MAP } from '../../utility/data/autorace/autoraceRaceStage';
+import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
@@ -127,7 +127,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                             autoraceRaceDataList.push(
                                 new AutoraceRaceEntity(
                                     null,
-                                    new AutoraceRaceData(
+                                    AutoraceRaceData.create(
                                         raceName,
                                         raceStage,
                                         raceDate,

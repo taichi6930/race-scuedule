@@ -10,7 +10,7 @@ describe('KeirinPlaceDataクラスのテスト', () => {
     });
 
     it('日付を変更したKeirinPlaceDataのインスタンスを作成できることを確認', () => {
-        const placeData = new KeirinPlaceData(
+        const placeData = KeirinPlaceData.create(
             new Date('2025-12-30'),
             '平塚',
             'GⅠ',
@@ -24,7 +24,7 @@ describe('KeirinPlaceDataクラスのテスト', () => {
     });
 
     it('何も変更せずKeirinPlaceDataのインスタンスを作成できることを確認', () => {
-        const placeData = new KeirinPlaceData(
+        const placeData = KeirinPlaceData.create(
             new Date('2025-12-30'),
             '平塚',
             'GⅠ',

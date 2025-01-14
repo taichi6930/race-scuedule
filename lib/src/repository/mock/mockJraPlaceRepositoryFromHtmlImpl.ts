@@ -28,7 +28,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
             // 中央競馬場データを作成
             const jraPlaceEntity = new JraPlaceEntity(
                 null,
-                new JraPlaceData(new Date(currentDate), '東京', 1, 1),
+                JraPlaceData.create(new Date(currentDate), '東京', 1, 1),
                 getJSTDate(new Date()),
             );
             fetchPlaceEntityList.push(jraPlaceEntity);
