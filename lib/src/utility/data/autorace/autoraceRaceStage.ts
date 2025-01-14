@@ -22,7 +22,7 @@ export type AutoraceRaceStage = z.infer<typeof AutoraceRaceStageSchema>;
 export const validateAutoraceRaceStage = (stage: string): AutoraceRaceStage => {
     const result = AutoraceRaceStageSchema.safeParse(stage);
     if (!result.success) {
-        throw new Error('ステージが不正です');
+        throw new Error(result.error.message);
     }
     return result.data;
 };

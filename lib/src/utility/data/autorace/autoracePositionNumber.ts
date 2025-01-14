@@ -25,7 +25,7 @@ export const validateAutoracePositionNumber = (
 ): AutoracePositionNumber => {
     const result = AutoracePositionNumberSchema.safeParse(positionNumber);
     if (!result.success) {
-        throw new Error('枠番が不正です');
+        throw new Error(result.error.message);
     }
     return result.data;
 };

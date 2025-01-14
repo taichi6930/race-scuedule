@@ -32,7 +32,7 @@ export const validateAutoracePlayerNumber = (
 ): AutoracePlayerNumber => {
     const result = AutoracePlayerNumberSchema.safeParse(playerNumber);
     if (!result.success) {
-        throw new Error('選手番号が不正です');
+        throw new Error(result.error.message);
     }
     return result.data;
 };

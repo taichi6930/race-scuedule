@@ -25,7 +25,7 @@ export const validateAutoraceRaceNumber = (
 ): AutoraceRaceNumber => {
     const result = AutoraceRaceNumberSchema.safeParse(number);
     if (!result.success) {
-        throw new Error('レース番号が不正です');
+        throw new Error(result.error.message);
     }
     return result.data;
 };

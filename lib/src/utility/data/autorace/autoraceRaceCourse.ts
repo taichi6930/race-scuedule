@@ -32,7 +32,7 @@ export const validateAutoraceRaceCourse = (
 ): AutoraceRaceCourse => {
     const result = AutoraceRaceCourseSchema.safeParse(course);
     if (!result.success) {
-        throw new Error('オートレース場が不正です');
+        throw new Error(result.error.message);
     }
     return result.data;
 };
