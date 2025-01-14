@@ -10,7 +10,8 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
-import { JraGradeType, JraRaceCourse } from '../../utility/data/jra';
+import { JraGradeType } from '../../utility/data/jra/jraGradeType';
+import { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';

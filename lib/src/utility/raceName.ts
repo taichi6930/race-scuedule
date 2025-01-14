@@ -1,11 +1,9 @@
 /* eslint-disable */
 
-import {
-    JraRaceCourse,
-    JraGradeType,
-    JraRaceCourseType,
-    JraRaceDistance,
-} from './data/jra';
+import { JraGradeType } from './data/jra/jraGradeType';
+import { JraRaceCourse } from './data/jra/jraRaceCourse';
+import { JraRaceCourseType } from './data/jra/jraRaceCourseType';
+import { JraRaceDistance } from './data/jra/jraRaceDistance';
 import { NarGradeType } from './data/nar/narGradeType';
 import { NarRaceCourse } from './data/nar/narRaceCourse';
 import { NarRaceCourseType } from './data/nar/narRaceCourseType';

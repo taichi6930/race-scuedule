@@ -9,8 +9,8 @@ import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     JRA_SPECIFIED_GRADE_LIST,
     JraGradeType,
-    JraRaceCourse,
-} from '../utility/data/jra';
+} from '../utility/data/jra/jraGradeType';
+import { JraRaceCourse } from '../utility/data/jra/jraRaceCourse';
 import { Logger } from '../utility/logger';
 
 /**
@@ -484,7 +484,7 @@ export class JraRaceController {
                     .map((race: any) => {
                         try {
                             console.info(race);
-                            return new JraRaceData(
+                            return JraRaceData.create(
                                 race.name,
                                 new Date(race.dateTime),
                                 race.location,

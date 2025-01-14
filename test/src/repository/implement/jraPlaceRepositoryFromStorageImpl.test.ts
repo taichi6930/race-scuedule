@@ -86,7 +86,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                         () =>
                             new JraPlaceEntity(
                                 null,
-                                new JraPlaceData(date, '東京', 1, 1),
+                                JraPlaceData.create(date, '東京', 1, 1),
                                 getJSTDate(new Date()),
                             ),
                     );

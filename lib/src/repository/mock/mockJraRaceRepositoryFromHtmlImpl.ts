@@ -26,7 +26,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
                     raceEntityList.push(
                         new JraRaceEntity(
                             null,
-                            new JraRaceData(
+                            JraRaceData.create(
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 new Date(
                                     placeEntity.placeData.dateTime.getFullYear(),

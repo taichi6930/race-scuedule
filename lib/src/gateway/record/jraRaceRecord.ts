@@ -2,13 +2,13 @@ import '../../utility/format';
 
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import type {
-    JraGradeType,
-    JraRaceCourse,
-    JraRaceCourseType,
-    JraRaceDistance,
-    JraRaceNumber,
-} from '../../utility/data/jra';
+import type { JraGradeType } from '../../utility/data/jra/jraGradeType';
+import type { JraHeldDayTimes } from '../../utility/data/jra/jraHeldDayTimes';
+import type { JraHeldTimes } from '../../utility/data/jra/jraHeldTimes';
+import type { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
+import type { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
+import type { JraRaceDistance } from '../../utility/data/jra/jraRaceDistance';
+import type { JraRaceNumber } from '../../utility/data/jra/jraRaceNumber';
 import type { JraRaceId } from '../../utility/raceId';
 
 /**
@@ -42,8 +42,8 @@ export class JraRaceRecord {
         public readonly distance: JraRaceDistance,
         public readonly grade: JraGradeType,
         public readonly number: JraRaceNumber,
-        public readonly heldTimes: number,
-        public readonly heldDayTimes: number,
+        public readonly heldTimes: JraHeldTimes,
+        public readonly heldDayTimes: JraHeldDayTimes,
         public readonly updateDate: Date,
     ) {}
 
@@ -75,7 +75,7 @@ export class JraRaceRecord {
     toEntity(): JraRaceEntity {
         return new JraRaceEntity(
             this.id,
-            new JraRaceData(
+            JraRaceData.create(
                 this.name,
                 this.dateTime,
                 this.location,

@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { IJraPlaceDataHtmlGateway } from '../../gateway/interface/iJraPlaceDataHtmlGateway';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
-import { JraRaceCourse } from '../../utility/data/jra';
+import { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { generateJraPlaceId } from '../../utility/raceId';

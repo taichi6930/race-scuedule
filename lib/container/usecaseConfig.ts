@@ -37,7 +37,8 @@ import type { AutoraceRaceStage } from '../src/utility/data/autorace/autoraceRac
 import type { BoatraceGradeType } from '../src/utility/data/boatrace/boatraceGradeType';
 import type { BoatraceRaceCourse } from '../src/utility/data/boatrace/boatraceRaceCourse';
 import type { BoatraceRaceStage } from '../src/utility/data/boatrace/boatraceRaceStage';
-import type { JraGradeType, JraRaceCourse } from '../src/utility/data/jra';
+import type { JraGradeType } from '../src/utility/data/jra/jraGradeType';
+import type { JraRaceCourse } from '../src/utility/data/jra/jraRaceCourse';
 import type { KeirinGradeType } from '../src/utility/data/keirin/keirinGradeType';
 import type { KeirinRaceCourse } from '../src/utility/data/keirin/keirinRaceCourse';
 import type { KeirinRaceStage } from '../src/utility/data/keirin/keirinRaceStage';

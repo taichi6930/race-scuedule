@@ -1,11 +1,9 @@
-import {
-    JraGradeTypeSchema,
-    JraHeldDayTimesSchema,
-    JraHeldTimesSchema,
-    JraRaceCourseSchema,
-    JraRaceCourseTypeSchema,
-    JraRaceDistanceSchema,
-} from '../../../../lib/src/utility/data/jra';
+import { JraGradeTypeSchema } from '../../../../lib/src/utility/data/jra/jraGradeType';
+import { JraHeldDayTimesSchema } from '../../../../lib/src/utility/data/jra/jraHeldDayTimes';
+import { JraHeldTimesSchema } from '../../../../lib/src/utility/data/jra/jraHeldTimes';
+import { JraRaceCourseSchema } from '../../../../lib/src/utility/data/jra/jraRaceCourse';
+import { JraRaceCourseTypeSchema } from '../../../../lib/src/utility/data/jra/jraRaceCourseType';
+import { JraRaceDistanceSchema } from '../../../../lib/src/utility/data/jra/jraRaceDistance';
 
 describe('JraRaceCourseSchema', () => {
     it('正しいJraRaceCourse', () => {
@@ -20,8 +18,8 @@ describe('JraRaceCourseSchema', () => {
 
     it('不正なJraRaceCourse', () => {
         const invalidJraRaceCourseAndMessage: [string, string][] = [
-            ['大井', 'Jraの競馬場ではありません'],
-            ['中央', 'Jraの競馬場ではありません'],
+            ['大井', '中央の競馬場ではありません'],
+            ['中央', '中央の競馬場ではありません'],
         ];
         invalidJraRaceCourseAndMessage.forEach(([invalidId, message]) => {
             const result = JraRaceCourseSchema.safeParse(invalidId);
@@ -74,8 +72,8 @@ describe('JraRaceCourseTypeSchema', () => {
 
     it('不正なJraRaceCourseType', () => {
         const invalidJraRaceCourseTypeAndMessage: [string, string][] = [
-            ['テスト', 'JRAの馬場種別ではありません'],
-            ['サークル', 'JRAの馬場種別ではありません'],
+            ['テスト', '中央競馬の馬場種別ではありません'],
+            ['サークル', '中央競馬の馬場種別ではありません'],
         ];
         invalidJraRaceCourseTypeAndMessage.forEach(([invalidId, message]) => {
             const result = JraRaceCourseTypeSchema.safeParse(invalidId);
