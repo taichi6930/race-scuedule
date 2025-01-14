@@ -28,12 +28,10 @@ import { KeirinRaceNumberSchema } from './data/keirin/keirinRaceNumber';
 import type { NarRaceNumber } from './data/nar';
 import { type NarRaceCourse, NarRaceNumberSchema } from './data/nar';
 import { NETKEIBA_BABACODE } from './data/netkeiba';
-import type { WorldRaceNumber } from './data/world';
-import {
-    WORLD_PLACE_CODE,
-    type WorldRaceCourse,
-    WorldRaceNumberSchema,
-} from './data/world';
+import type { WorldRaceCourse } from './data/world/worldRaceCourse';
+import { WORLD_PLACE_CODE } from './data/world/worldRaceCourse';
+import type { WorldRaceNumber } from './data/world/worldRaceNumber';
+import { WorldRaceNumberSchema } from './data/world/worldRaceNumber';
 
 /**
  * 中央競馬のraceIdを作成する

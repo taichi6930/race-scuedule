@@ -116,7 +116,7 @@ export const NarGradeTypeSchema = z.string().refine((value) => {
 export type NarGradeType = z.infer<typeof NarGradeTypeSchema>;
 
 /**
- * 世界の競馬のグレード リスト
+ * 海外競馬のグレード リスト
  */
 const NarGradeTypeList: string[] = [
     'GⅠ',

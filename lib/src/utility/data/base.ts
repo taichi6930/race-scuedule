@@ -11,7 +11,8 @@ import { KeirinGradeTypeSchema } from './keirin/keirinGradeType';
 import { KeirinRaceCourseSchema } from './keirin/keirinRaceCourse';
 import { KeirinRaceStageSchema } from './keirin/keirinRaceStage';
 import { NarGradeTypeSchema, NarRaceCourseSchema } from './nar';
-import { WorldGradeTypeSchema, WorldRaceCourseSchema } from './world';
+import { WorldGradeTypeSchema } from './world/worldGradeType';
+import { WorldRaceCourseSchema } from './world/worldRaceCourse';
 
 /**
  * GradeTypeのzod型定義

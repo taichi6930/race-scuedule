@@ -4,10 +4,8 @@ import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
 import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
-import type {
-    WorldGradeType,
-    WorldRaceCourse,
-} from '../../../../lib/src/utility/data/world';
+import type { WorldGradeType } from '../../../../lib/src/utility/data/world/worldGradeType';
+import type { WorldRaceCourse } from '../../../../lib/src/utility/data/world/worldRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { generateWorldRaceId } from '../../../../lib/src/utility/raceId';
 
@@ -22,12 +20,12 @@ const baseWorldRaceDistance = 2400;
 const baseWorldRaceGrade: WorldGradeType = 'GⅠ';
 const baseWorldRaceUpdateDate = getJSTDate(new Date('2024-10-01 16:30'));
 
-export const baseWorldPlaceData = new WorldPlaceData(
+export const baseWorldPlaceData = WorldPlaceData.create(
     baseWorldPlaceDateTime,
     baseWorldPlaceCourse,
 );
 
-export const baseWorldRaceData = new WorldRaceData(
+export const baseWorldRaceData = WorldRaceData.create(
     baseWorldRaceName,
     baseWorldRaceDateTime,
     baseWorldPlaceCourse,
@@ -84,7 +82,7 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
     ].map((grade, index) => {
         return new WorldRaceEntity(
             null,
-            new WorldRaceData(
+            WorldRaceData.create(
                 `テスト${location}${grade}${(index + 1).toString()}レース`,
                 new Date(2024, 10 - 1, 1, 7 + index, 0),
                 location,

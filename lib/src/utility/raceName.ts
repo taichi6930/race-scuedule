@@ -12,12 +12,10 @@ import {
     NarRaceCourseType,
     NarRaceDistance,
 } from './data/nar';
-import {
-    WorldRaceCourse,
-    WorldGradeType,
-    WorldRaceCourseType,
-    WorldRaceDistance,
-} from './data/world';
+import { WorldGradeType } from './data/world/worldGradeType';
+import { WorldRaceCourse } from './data/world/worldRaceCourse';
+import { WorldRaceCourseType } from './data/world/worldRaceCourseType';
+import { WorldRaceDistance } from './data/world/worldRaceDistance';
 
 type JraRaceDataForRaceName = {
     name: string;

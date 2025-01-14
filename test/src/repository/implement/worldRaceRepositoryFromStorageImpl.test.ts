@@ -11,7 +11,7 @@ import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRace
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { WORLD_PLACE_CODE } from '../../../../lib/src/utility/data/world';
+import { WORLD_PLACE_CODE } from '../../../../lib/src/utility/data/world/worldRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForWorldRace } from '../../mock/gateway/s3GatewayMock';
 
@@ -111,7 +111,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                         (__, j) =>
                             new WorldRaceEntity(
                                 null,
-                                new WorldRaceData(
+                                WorldRaceData.create(
                                     `raceName${format(date, 'yyyyMMdd')}`,
                                     date,
                                     'パリロンシャン',

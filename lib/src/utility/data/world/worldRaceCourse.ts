@@ -1,28 +1,11 @@
-import z from 'zod';
-
-/**
- * WorldGradeTypeのzod型定義
- */
-export const WorldGradeTypeSchema = z.string().refine((value) => {
-    return WorldGradeTypeList.includes(value);
-}, '世界の競馬のグレードではありません');
-
-/**
- * WorldGradeTypeの型定義
- */
-export type WorldGradeType = z.infer<typeof WorldGradeTypeSchema>;
-
-/**
- * 世界の競馬のグレード リスト
- */
-const WorldGradeTypeList: string[] = ['GⅠ', 'GⅡ', 'GⅢ', 'Listed', '格付けなし'];
+import { z } from 'zod';
 
 /**
  * WorldRaceCourseのzod型定義
  */
 export const WorldRaceCourseSchema = z.string().refine((value) => {
     return WorldRaceCourseList.includes(value);
-}, '世界の競馬場ではありません');
+}, '海外競馬場ではありません');
 
 /**
  * WorldRaceCourseの型定義
@@ -30,7 +13,7 @@ export const WorldRaceCourseSchema = z.string().refine((value) => {
 export type WorldRaceCourse = z.infer<typeof WorldRaceCourseSchema>;
 
 /**
- * 世界の競馬場 リスト
+ * 海外競馬場 リスト
  */
 export const WorldRaceCourseList: string[] = [
     'ロンシャン',
@@ -74,34 +57,6 @@ export const WorldRaceCourseList: string[] = [
     'メルボルン',
     'ムーニーバレー',
     'ローズヒルガーデンズ',
-];
-
-/**
- * WorldRaceCourseTypeのzod型定義
- */
-export const WorldRaceCourseTypeSchema = z.string().refine((value) => {
-    return WorldRaceCourseTypeList.includes(value);
-}, '世界の競馬の馬場種別ではありません');
-
-/**
- * WorldRaceCourseTypeの型定義
- */
-export type WorldRaceCourseType = z.infer<typeof WorldRaceCourseTypeSchema>;
-
-/**
- * 世界の競馬の馬場種別 リスト
- */
-const WorldRaceCourseTypeList: string[] = ['芝', 'ダート', '障害', 'AW'];
-
-/**
- * 世界の競馬の指定グレードリスト
- */
-export const WORLD_SPECIFIED_GRADE_LIST: WorldGradeType[] = [
-    'GⅠ',
-    'GⅡ',
-    'GⅢ',
-    'Listed',
-    '格付けなし',
 ];
 
 /**
@@ -152,23 +107,13 @@ export const WORLD_PLACE_CODE: Record<string, string> = {
 };
 
 /**
- * WorldRaceDistanceのzod型定義
+ * 開催海外競馬場のバリデーション
  */
-export const WorldRaceDistanceSchema = z
-    .number()
-    .positive('距離は0よりも大きい必要があります');
-
-/**
- * WorldRaceDistanceの型定義
- */
-export type WorldRaceDistance = z.infer<typeof WorldRaceDistanceSchema>;
-
-/**
- * WorldRaceNumberのzod型定義
- * 整数
- */
-export const WorldRaceNumberSchema = z.number().int();
-/**
- * WorldRaceNumberの型定義
- */
-export type WorldRaceNumber = z.infer<typeof WorldRaceNumberSchema>;
+export const validateWorldRaceCourse = (course: string): WorldRaceCourse => {
+    const result = WorldRaceCourseSchema.safeParse(course);
+    if (!result.success) {
+        console.error(`海外競馬場名が不正です: ${course}`);
+        throw new Error(result.error.message);
+    }
+    return result.data;
+};

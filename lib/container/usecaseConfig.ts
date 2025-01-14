@@ -42,10 +42,8 @@ import type { KeirinGradeType } from '../src/utility/data/keirin/keirinGradeType
 import type { KeirinRaceCourse } from '../src/utility/data/keirin/keirinRaceCourse';
 import type { KeirinRaceStage } from '../src/utility/data/keirin/keirinRaceStage';
 import type { NarGradeType, NarRaceCourse } from '../src/utility/data/nar';
-import type {
-    WorldGradeType,
-    WorldRaceCourse,
-} from '../src/utility/data/world';
+import type { WorldGradeType } from '../src/utility/data/world/worldGradeType';
+import type { WorldRaceCourse } from '../src/utility/data/world/worldRaceCourse';
 
 // Usecaseの実装クラスをDIコンテナに登錄する
 container.register<IRaceCalendarUseCase>('NarRaceCalendarUseCase', {

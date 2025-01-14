@@ -7,12 +7,12 @@ import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
     WORLD_SPECIFIED_GRADE_LIST,
     WorldGradeType,
-    WorldRaceCourse,
-} from '../utility/data/world';
+} from '../utility/data/world/worldGradeType';
+import { WorldRaceCourse } from '../utility/data/world/worldRaceCourse';
 import { Logger } from '../utility/logger';
 
 /**
- * 世界の競馬のレース情報コントローラー
+ * 海外競馬のレース情報コントローラー
  */
 @injectable()
 export class WorldRaceController {
@@ -47,7 +47,7 @@ export class WorldRaceController {
     }
 
     /**
-     * 世界の競馬カレンダーからレース情報を取得する
+     * 海外競馬カレンダーからレース情報を取得する
      * @param req リクエスト
      * @param res レスポンス
      * @returns
