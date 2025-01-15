@@ -177,7 +177,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 
                         // 競馬場開催レコードを追加
                         jraPlaceRecordList.push(
-                            new JraPlaceRecord(
+                            JraPlaceRecord.create(
                                 generateJraPlaceId(
                                     new Date(
                                         date.getFullYear(),
