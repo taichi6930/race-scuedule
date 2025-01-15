@@ -10,9 +10,14 @@ import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worl
 import { WorldRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== 'GITHUB_ACTIONS_CI') {
+if (process.env.GITHUB_ACTIONS_CI) {
+    describe('WorldRaceRepositoryFromHtmlImpl', () => {
+        test('CI環境でテストをスキップ', () => {
+            expect(true).toBe(true);
+        });
+    });
+} else {
     describe('WorldRaceRepositoryFromHtmlImpl', () => {
         let worldRaceDataHtmlGateway: IWorldRaceDataHtmlGateway;
         let repository: WorldRaceRepositoryFromHtmlImpl;
@@ -63,12 +68,6 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                     repository.registerRaceEntityList(request),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
-        });
-    });
-} else {
-    describe('WorldRaceRepositoryFromHtmlImpl', () => {
-        test('CI環境でテストをスキップ', () => {
-            expect(true).toBe(true);
         });
     });
 }

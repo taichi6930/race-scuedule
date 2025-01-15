@@ -99,7 +99,77 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        test('正しいレースデータを登録できる', async () => {
+        test('正しいレースデータを登録できる（既存データあり）', async () => {
+            // 1年間のレースデータを登録する
+            const raceEntityList: WorldRaceEntity[] = Array.from(
+                { length: 366 },
+                (_, day) => {
+                    const date = new Date('2024-01-01');
+                    date.setDate(date.getDate() + day);
+                    return Array.from(
+                        { length: 12 },
+                        (__, j) =>
+                            new WorldRaceEntity(
+                                null,
+                                WorldRaceData.create(
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    date,
+                                    'パリロンシャン',
+                                    '芝',
+                                    2400,
+                                    'GⅠ',
+                                    j + 1,
+                                ),
+                                getJSTDate(new Date()),
+                            ),
+                    );
+                },
+            ).flat();
+
+            // モックの戻り値を設定
+            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
+                // filenameから日付を取得 16時からのレースにしたい
+                const date = parse('20240101', 'yyyyMMdd', new Date());
+                date.setHours(16);
+                const csvHeaderDataText: string = [
+                    'name',
+                    'dateTime',
+                    'location',
+                    'surfaceType',
+                    'distance',
+                    'grade',
+                    'number',
+                    'id',
+                ].join(',');
+                const csvDataText: string = [
+                    `raceName20240101`,
+                    date.toISOString(),
+                    'パリロンシャン',
+                    '芝',
+                    '2400',
+                    'GⅠ',
+                    '1',
+                    `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                ].join(',');
+                const csvDatajoinText: string = [
+                    csvHeaderDataText,
+                    csvDataText,
+                ].join('\n');
+                return Promise.resolve(csvDatajoinText);
+            });
+
+            // リクエストの作成
+            const request = new RegisterRaceListRequest<WorldRaceEntity>(
+                raceEntityList,
+            );
+            // テスト実行
+            await repository.registerRaceEntityList(request);
+
+            // uploadDataToS3が1回呼ばれることを検証
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
+        });
+
+        test('正しいレースデータを登録できる（既存データなし）', async () => {
             // 1年間のレースデータを登録する
             const raceEntityList: WorldRaceEntity[] = Array.from(
                 { length: 366 },

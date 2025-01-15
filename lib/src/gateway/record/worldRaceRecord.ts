@@ -2,13 +2,34 @@ import '../../utility/format';
 
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import type { WorldGradeType } from '../../utility/data/world/worldGradeType';
-import type { WorldRaceCourse } from '../../utility/data/world/worldRaceCourse';
-import type { WorldRaceCourseType } from '../../utility/data/world/worldRaceCourseType';
-import type { WorldRaceDateTime } from '../../utility/data/world/worldRaceDateTime';
-import type { WorldRaceDistance } from '../../utility/data/world/worldRaceDistance';
-import type { WorldRaceName } from '../../utility/data/world/worldRaceName';
-import type { WorldRaceNumber } from '../../utility/data/world/worldRaceNumber';
+import {
+    validateWorldGradeType,
+    type WorldGradeType,
+} from '../../utility/data/world/worldGradeType';
+import {
+    validateWorldRaceCourse,
+    type WorldRaceCourse,
+} from '../../utility/data/world/worldRaceCourse';
+import {
+    validateWorldRaceCourseType,
+    type WorldRaceCourseType,
+} from '../../utility/data/world/worldRaceCourseType';
+import {
+    validateWorldRaceDateTime,
+    type WorldRaceDateTime,
+} from '../../utility/data/world/worldRaceDateTime';
+import {
+    validateWorldRaceDistance,
+    type WorldRaceDistance,
+} from '../../utility/data/world/worldRaceDistance';
+import {
+    validateWorldRaceName,
+    type WorldRaceName,
+} from '../../utility/data/world/worldRaceName';
+import {
+    validateWorldRaceNumber,
+    type WorldRaceNumber,
+} from '../../utility/data/world/worldRaceNumber';
 import type { WorldRaceId } from '../../utility/raceId';
 
 /**
@@ -31,7 +52,7 @@ export class WorldRaceRecord {
      * @param updateDate - 更新日時
      *
      */
-    constructor(
+    private constructor(
         public readonly id: WorldRaceId,
         public readonly name: WorldRaceName,
         public readonly dateTime: WorldRaceDateTime,
@@ -44,12 +65,48 @@ export class WorldRaceRecord {
     ) {}
 
     /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param name - レース名
+     * @param dateTime - 開催日時
+     * @param location - 開催場所
+     * @param surfaceType - 馬場種別
+     * @param distance - 距離
+     * @param grade - グレード
+     * @param number - レース番号
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: WorldRaceId,
+        name: WorldRaceName,
+        dateTime: WorldRaceDateTime,
+        location: WorldRaceCourse,
+        surfaceType: WorldRaceCourseType,
+        distance: WorldRaceDistance,
+        grade: WorldGradeType,
+        number: WorldRaceNumber,
+        updateDate: Date,
+    ): WorldRaceRecord {
+        return new WorldRaceRecord(
+            id,
+            validateWorldRaceName(name),
+            validateWorldRaceDateTime(dateTime),
+            validateWorldRaceCourse(location),
+            validateWorldRaceCourseType(surfaceType),
+            validateWorldRaceDistance(distance),
+            validateWorldGradeType(grade),
+            validateWorldRaceNumber(number),
+            updateDate,
+        );
+    }
+
+    /**
      * データのコピー
      * @param partial
      * @returns
      */
     copy(partial: Partial<WorldRaceRecord> = {}): WorldRaceRecord {
-        return new WorldRaceRecord(
+        return WorldRaceRecord.create(
             partial.id ?? this.id,
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,

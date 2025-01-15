@@ -127,27 +127,23 @@ export class NarPlaceRepositoryFromStorageImpl
         const placeRecordList: NarPlaceRecord[] = lines
             .slice(1)
             .map((line: string) => {
-                const columns = line.split(',');
+                try {
+                    const columns = line.split(',');
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.id] ||
-                    !columns[indices.dateTime] ||
-                    !columns[indices.location]
-                ) {
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
+
+                    return NarPlaceRecord.create(
+                        columns[indices.id],
+                        new Date(columns[indices.dateTime]),
+                        columns[indices.location],
+                        updateDate,
+                    );
+                } catch (e) {
+                    console.error(e);
                     return undefined;
                 }
-
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                return new NarPlaceRecord(
-                    columns[indices.id],
-                    new Date(columns[indices.dateTime]),
-                    columns[indices.location],
-                    updateDate,
-                );
             })
             .filter(
                 (placeData): placeData is NarPlaceRecord =>

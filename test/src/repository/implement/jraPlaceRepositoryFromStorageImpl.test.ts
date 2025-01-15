@@ -45,9 +45,15 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                     'heldTimes',
                     'heldDayTimes',
                 ].join(',');
-
                 const csvDataText: string = [
                     `jra2024010105`,
+                    date.toISOString(),
+                    '東京',
+                    '1',
+                    '1',
+                ].join(',');
+                const csvDataIdUndefinedText: string = [
+                    `jra20240101undefined`,
                     date.toISOString(),
                     '東京',
                     '1',
@@ -57,6 +63,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                 const csvDatajoinText: string = [
                     csvHeaderDataText,
                     csvDataText,
+                    csvDataIdUndefinedText,
                 ].join('\n');
                 return Promise.resolve(csvDatajoinText);
             });

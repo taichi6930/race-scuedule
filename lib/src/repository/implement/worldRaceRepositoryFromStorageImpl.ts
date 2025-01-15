@@ -150,7 +150,7 @@ export class WorldRaceRepositoryFromStorageImpl
                     ? new Date(columns[indices.updateDate])
                     : getJSTDate(new Date());
 
-                return new WorldRaceRecord(
+                return WorldRaceRecord.create(
                     columns[indices.id],
                     columns[indices.name],
                     new Date(columns[indices.dateTime]),

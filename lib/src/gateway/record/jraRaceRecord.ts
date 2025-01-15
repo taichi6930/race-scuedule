@@ -2,16 +2,43 @@ import '../../utility/format';
 
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import type { JraGradeType } from '../../utility/data/jra/jraGradeType';
-import type { JraHeldDayTimes } from '../../utility/data/jra/jraHeldDayTimes';
-import type { JraHeldTimes } from '../../utility/data/jra/jraHeldTimes';
-import type { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
-import type { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
-import type { JraRaceDateTime } from '../../utility/data/jra/jraRaceDateTime';
-import type { JraRaceDistance } from '../../utility/data/jra/jraRaceDistance';
-import type { JraRaceName } from '../../utility/data/jra/jraRaceName';
-import type { JraRaceNumber } from '../../utility/data/jra/jraRaceNumber';
-import type { JraRaceId } from '../../utility/raceId';
+import {
+    type JraGradeType,
+    validateJraGradeType,
+} from '../../utility/data/jra/jraGradeType';
+import {
+    type JraHeldDayTimes,
+    validateJraHeldDayTimes,
+} from '../../utility/data/jra/jraHeldDayTimes';
+import {
+    type JraHeldTimes,
+    validateJraHeldTimes,
+} from '../../utility/data/jra/jraHeldTimes';
+import {
+    type JraRaceCourse,
+    validateJraRaceCourse,
+} from '../../utility/data/jra/jraRaceCourse';
+import {
+    type JraRaceCourseType,
+    validateJraRaceCourseType,
+} from '../../utility/data/jra/jraRaceCourseType';
+import {
+    type JraRaceDateTime,
+    validateJraRaceDateTime,
+} from '../../utility/data/jra/jraRaceDateTime';
+import {
+    type JraRaceDistance,
+    validateJraRaceDistance,
+} from '../../utility/data/jra/jraRaceDistance';
+import {
+    type JraRaceName,
+    validateJraRaceName,
+} from '../../utility/data/jra/jraRaceName';
+import {
+    type JraRaceNumber,
+    validateJraRaceNumber,
+} from '../../utility/data/jra/jraRaceNumber';
+import { type JraRaceId, validateJraRaceId } from '../../utility/raceId';
 
 /**
  * 中央競馬のレース開催データ
@@ -35,7 +62,7 @@ export class JraRaceRecord {
      * @param updateDate - 更新日時
      *
      */
-    constructor(
+    private constructor(
         public readonly id: JraRaceId,
         public readonly name: JraRaceName,
         public readonly dateTime: JraRaceDateTime,
@@ -50,12 +77,60 @@ export class JraRaceRecord {
     ) {}
 
     /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param name - レース名
+     * @param dateTime - 開催日時
+     * @param location - 開催場所
+     * @param surfaceType - 馬場種別
+     * @param distance - 距離
+     * @param grade - グレード
+     * @param number - レース番号
+     * @param heldTimes - 開催回数
+     * @param heldDayTimes - 開催日数
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        name: string,
+        dateTime: Date,
+        location: string,
+        surfaceType: string,
+        distance: number,
+        grade: string,
+        number: number,
+        heldTimes: number,
+        heldDayTimes: number,
+        updateDate: Date,
+    ): JraRaceRecord {
+        try {
+            return new JraRaceRecord(
+                validateJraRaceId(id),
+                validateJraRaceName(name),
+                validateJraRaceDateTime(dateTime),
+                validateJraRaceCourse(location),
+                validateJraRaceCourseType(surfaceType),
+                validateJraRaceDistance(distance),
+                validateJraGradeType(grade),
+                validateJraRaceNumber(number),
+                validateJraHeldTimes(heldTimes),
+                validateJraHeldDayTimes(heldDayTimes),
+                updateDate,
+            );
+        } catch (e) {
+            throw new Error(
+                `JraRaceRecordの生成に失敗しました: ${(e as Error).message}`,
+            );
+        }
+    }
+
+    /**
      * データのコピー
      * @param partial
      * @returns
      */
     copy(partial: Partial<JraRaceRecord> = {}): JraRaceRecord {
-        return new JraRaceRecord(
+        return JraRaceRecord.create(
             partial.id ?? this.id,
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,

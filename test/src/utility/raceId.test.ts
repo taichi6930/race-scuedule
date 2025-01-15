@@ -12,6 +12,8 @@ import {
     KeirinRacePlayerIdSchema,
     NarPlaceIdSchema,
     NarRaceIdSchema,
+    validateJraPlaceId,
+    validateNarPlaceId,
     WorldPlaceIdSchema,
     WorldRaceIdSchema,
 } from '../../../lib/src/utility/raceId';
@@ -34,11 +36,7 @@ describe('JraPlaceIdSchema', () => {
             ['nar2021080101', 'jraから始まる必要があります'],
         ];
         invalidJraPlaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = JraPlaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateJraPlaceId(invalidId)).toThrow(message);
         });
     });
 });
@@ -89,11 +87,7 @@ describe('NarPlaceIdSchema', () => {
             ['jra2021080101', 'narから始まる必要があります'],
         ];
         invalidNarPlaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = NarPlaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateNarPlaceId(invalidId)).toThrow(message);
         });
     });
 });

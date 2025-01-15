@@ -93,33 +93,30 @@ export class JraRaceRepositoryFromStorageImpl
         return lines
             .slice(1)
             .map((line: string) => {
-                const columns = line.replace('\r', '').split(',');
+                try {
+                    const columns = line.replace('\r', '').split(',');
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.name] ||
-                    isNaN(parseInt(columns[indices.number]))
-                ) {
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
+
+                    return JraRaceRecord.create(
+                        columns[indices.id],
+                        columns[indices.name],
+                        new Date(columns[indices.dateTime]),
+                        columns[indices.location],
+                        columns[indices.surfaceType],
+                        parseInt(columns[indices.distance]),
+                        columns[indices.grade],
+                        parseInt(columns[indices.number]),
+                        parseInt(columns[indices.heldTimes]),
+                        parseInt(columns[indices.heldDayTimes]),
+                        updateDate,
+                    );
+                } catch (e) {
+                    console.error(e);
                     return undefined;
                 }
-
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                return new JraRaceRecord(
-                    columns[indices.id],
-                    columns[indices.name],
-                    new Date(columns[indices.dateTime]),
-                    columns[indices.location],
-                    columns[indices.surfaceType],
-                    parseInt(columns[indices.distance]),
-                    columns[indices.grade],
-                    parseInt(columns[indices.number]),
-                    parseInt(columns[indices.heldTimes]),
-                    parseInt(columns[indices.heldDayTimes]),
-                    updateDate,
-                );
             })
             .filter(
                 (raceData): raceData is JraRaceRecord => raceData !== undefined,

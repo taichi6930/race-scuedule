@@ -54,7 +54,7 @@ export class NarRaceEntity {
      * @returns
      */
     toRecord(): NarRaceRecord {
-        return new NarRaceRecord(
+        return NarRaceRecord.create(
             this.id,
             this.raceData.name,
             this.raceData.dateTime,

@@ -47,6 +47,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         'number',
                         'heldTimes',
                         'heldDayTimes',
+                        'id',
                     ].join(',');
                     const csvDataText: string = [
                         `raceName20240101`,
@@ -58,6 +59,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         '1',
                         '1',
                         '1',
+                        `jra${format(date, 'yyyyMMdd')}0501`,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
@@ -69,6 +71,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         '1',
                         '1',
                         '1',
+                        `jra${format(date, 'yyyyMMdd')}0501`,
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -80,12 +83,26 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         undefined,
                         '1',
                         '1',
+                        `jra${format(date, 'yyyyMMdd')}0501`,
+                    ].join(',');
+                    const csvDataIdUndefinedText: string = [
+                        `raceName${filename.slice(0, 8)}`,
+                        date.toISOString(),
+                        '東京',
+                        'ダート',
+                        '1200',
+                        'GⅠ',
+                        '1',
+                        '1',
+                        '1',
+                        `jra${format(date, 'yyyyMMdd')}05undefined`,
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
                         csvDataText,
                         csvDataRameNameUndefinedText,
                         csvDataNumUndefinedText,
+                        csvDataIdUndefinedText,
                     ].join('\n');
                     return Promise.resolve(csvDatajoinText);
                 },
@@ -104,7 +121,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        test('正しいレースデータを登録できる', async () => {
+        test('DBが空データのところに、正しいレースデータを登録できる', async () => {
             // 1年間のレースデータを登録する
             const raceEntityList: JraRaceEntity[] = Array.from(
                 { length: 366 },
@@ -132,6 +149,82 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                     );
                 },
             ).flat();
+
+            // リクエストの作成
+            const request = new RegisterRaceListRequest<JraRaceEntity>(
+                raceEntityList,
+            );
+            // テスト実行
+            await repository.registerRaceEntityList(request);
+
+            // uploadDataToS3が366回呼ばれることを検証
+            expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
+        });
+
+        test('DBにデータの存在するところに、正しいレースデータを登録できる', async () => {
+            // 1年間のレースデータを登録する
+            const raceEntityList: JraRaceEntity[] = Array.from(
+                { length: 366 },
+                (_, day) => {
+                    const date = new Date('2024-01-01');
+                    date.setDate(date.getDate() + day);
+                    return Array.from(
+                        { length: 12 },
+                        (__, j) =>
+                            new JraRaceEntity(
+                                null,
+                                JraRaceData.create(
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    date,
+                                    '東京',
+                                    'ダート',
+                                    1200,
+                                    'GⅠ',
+                                    j + 1,
+                                    1,
+                                    1,
+                                ),
+                                getJSTDate(new Date()),
+                            ),
+                    );
+                },
+            ).flat();
+
+            // モックの戻り値を設定
+            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
+                // filenameから日付を取得 16時からのレースにしたい
+                const date = parse('20240101', 'yyyyMMdd', new Date());
+                date.setHours(16);
+                const csvHeaderDataText: string = [
+                    'name',
+                    'dateTime',
+                    'location',
+                    'surfaceType',
+                    'distance',
+                    'grade',
+                    'number',
+                    'heldTimes',
+                    'heldDayTimes',
+                    'id',
+                ].join(',');
+                const csvDataText: string = [
+                    `raceName20240101`,
+                    date.toISOString(),
+                    '東京',
+                    'ダート',
+                    '1200',
+                    'GⅠ',
+                    '1',
+                    '1',
+                    '1',
+                    `jra${format(date, 'yyyyMMdd')}0501`,
+                ].join(',');
+                const csvDatajoinText: string = [
+                    csvHeaderDataText,
+                    csvDataText,
+                ].join('\n');
+                return Promise.resolve(csvDatajoinText);
+            });
 
             // リクエストの作成
             const request = new RegisterRaceListRequest<JraRaceEntity>(
