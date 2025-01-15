@@ -45,6 +45,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                     'location',
                     'grade',
                     'id',
+                    'updateDate',
                 ].join(',');
 
                 // データ行を生成
@@ -53,9 +54,11 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                     '平塚',
                     'GP',
                     `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}`,
+                    getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 // データ行を生成
                 const csvUndefinedDataText: string = [
+                    undefined,
                     undefined,
                     undefined,
                     undefined,

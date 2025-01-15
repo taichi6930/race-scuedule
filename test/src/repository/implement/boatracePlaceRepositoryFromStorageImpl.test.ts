@@ -45,6 +45,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
                     'location',
                     'grade',
                     'id',
+                    'updateDate',
                 ].join(',');
 
                 // データ行を生成
@@ -53,9 +54,11 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
                     '平和島',
                     'SG',
                     `boatrace${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平和島']}`,
+                    getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 // データ行を生成
                 const csvUndefinedDataText: string = [
+                    undefined,
                     undefined,
                     undefined,
                     undefined,

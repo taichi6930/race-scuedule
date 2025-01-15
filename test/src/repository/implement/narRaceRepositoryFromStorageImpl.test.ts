@@ -46,6 +46,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
                         'grade',
                         'number',
                         'id',
+                        'updateDate',
                     ].join(',');
                     const csvDataText: string = [
                         `raceName20240101`,
@@ -56,6 +57,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         '1',
                         `nar202401012001`,
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
@@ -66,6 +68,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         '1',
                         'nar202401012001',
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -76,6 +79,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         undefined,
                         'nar202401012001',
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataIdUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -86,6 +90,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         '1',
                         'nar2024010120undefined',
+                        undefined,
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,

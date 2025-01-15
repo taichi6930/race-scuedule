@@ -38,14 +38,18 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                 console.log(date);
 
                 // CSVのヘッダーを定義
-                const csvHeaderDataText = ['id', 'dateTime', 'location'].join(
-                    ',',
-                );
+                const csvHeaderDataText = [
+                    'id',
+                    'dateTime',
+                    'location',
+                    'updateDate',
+                ].join(',');
 
                 const csvDataText: string = [
                     `nar2024010105`,
                     date.toISOString(),
                     '大井',
+                    getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 // ヘッダーとデータ行を結合して完全なCSVデータを生成
                 const csvDatajoinText: string = [

@@ -52,6 +52,65 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                 );
                 expect(response.raceEntityList).toHaveLength(12);
             });
+            test('正しい競馬場データを取得できる（データが足りてないこともある）', async () => {
+                const response = await repository.fetchRaceEntityList(
+                    new FetchRaceListRequest<NarPlaceEntity>(
+                        new Date('2023-10-08'),
+                        new Date('2023-10-08'),
+                        [
+                            new NarPlaceEntity(
+                                null,
+                                NarPlaceData.create(
+                                    new Date('2023-10-08'),
+                                    '盛岡',
+                                ),
+                                getJSTDate(new Date()),
+                            ),
+                        ],
+                    ),
+                );
+                expect(response.raceEntityList).toHaveLength(12);
+            });
+            test('正しい競馬場データを取得できる', async () => {
+                const response = await repository.fetchRaceEntityList(
+                    new FetchRaceListRequest<NarPlaceEntity>(
+                        new Date('2024-10-02'),
+                        new Date('2024-10-02'),
+                        [
+                            new NarPlaceEntity(
+                                null,
+                                NarPlaceData.create(
+                                    new Date('2024-10-02'),
+                                    '大井',
+                                ),
+                                getJSTDate(new Date()),
+                            ),
+                        ],
+                    ),
+                );
+                expect(response.raceEntityList).toHaveLength(12);
+            });
+            test('データがない場合は空のリストを返す', async () => {
+                const response = await repository.fetchRaceEntityList(
+                    new FetchRaceListRequest<NarPlaceEntity>(
+                        new Date('2024-09-01'),
+                        new Date('2024-09-02'),
+                        [
+                            new NarPlaceEntity(
+                                null,
+                                NarPlaceData.create(
+                                    new Date('2024-09-02'),
+                                    '大井',
+                                ),
+                                getJSTDate(new Date()),
+                            ),
+                        ],
+                    ),
+                );
+
+                // データがない場合は空のリストを返す
+                expect(response.raceEntityList).toHaveLength(0);
+            });
         });
 
         describe('registerRaceList', () => {

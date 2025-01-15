@@ -45,6 +45,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
                     'location',
                     'grade',
                     'id',
+                    'updateDate',
                 ].join(',');
 
                 // データ行を生成
@@ -53,9 +54,11 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
                     '飯塚',
                     'SG',
                     `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['飯塚']}`,
+                    getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 // データ行を生成
                 const csvUndefinedDataText: string = [
+                    undefined,
                     undefined,
                     undefined,
                     undefined,

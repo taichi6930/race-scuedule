@@ -15,7 +15,7 @@ export type JraRaceCourse = z.infer<typeof JraRaceCourseSchema>;
 /**
  * JRAの競馬場 リスト
  */
-export const JraRaceCourseList: string[] = [
+const JraRaceCourseList: string[] = [
     '札幌',
     '函館',
     '福島',

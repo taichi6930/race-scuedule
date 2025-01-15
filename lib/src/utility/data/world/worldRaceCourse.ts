@@ -15,7 +15,7 @@ export type WorldRaceCourse = z.infer<typeof WorldRaceCourseSchema>;
 /**
  * 海外競馬場 リスト
  */
-export const WorldRaceCourseList: string[] = [
+const WorldRaceCourseList: string[] = [
     'ロンシャン',
     'パリロンシャン',
     'シャンティイ',

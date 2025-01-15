@@ -2,10 +2,9 @@ import 'reflect-metadata';
 
 import { container } from 'tsyringe';
 
-import { WorldPlaceData } from '../../../../lib/src/domain/worldPlaceData';
 import type { IWorldRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iWorldRaceDataHtmlGateway';
 import { MockWorldRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockWorldRaceDataHtmlGateway';
-import { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
+import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
@@ -41,20 +40,23 @@ if (ENV === 'GITHUB_ACTIONS_CI') {
             test('正しい競馬場データを取得できる', async () => {
                 const response = await repository.fetchRaceEntityList(
                     new FetchRaceListRequest<WorldPlaceEntity>(
-                        new Date('2024-11-01'),
-                        new Date('2024-11-30'),
-                        [
-                            new WorldPlaceEntity(
-                                null,
-                                WorldPlaceData.create(
-                                    new Date('2024-11-04'),
-                                    'パリロンシャン',
-                                ),
-                            ),
-                        ],
+                        new Date('2024-10-01'),
+                        new Date('2024-12-31'),
+                        [],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(16);
+                expect(response.raceEntityList).toHaveLength(43);
+            });
+
+            test('正しい競馬場データを取得できる（データが足りてないこともある）', async () => {
+                const response = await repository.fetchRaceEntityList(
+                    new FetchRaceListRequest<WorldPlaceEntity>(
+                        new Date('2025-01-01'),
+                        new Date('2025-03-31'),
+                        [],
+                    ),
+                );
+                expect(response.raceEntityList).toHaveLength(1);
             });
         });
 

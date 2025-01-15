@@ -14,7 +14,7 @@ module.exports = {
         'lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl.ts',
         'lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl.ts',
-        'lib/src/repository/implement/narRaceRepositoryFromHtmlImpl.ts',
+        // 'lib/src/repository/implement/narRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl.ts',
     ],
     testEnvironment: 'node',

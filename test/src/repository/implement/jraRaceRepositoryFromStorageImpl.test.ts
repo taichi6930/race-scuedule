@@ -48,6 +48,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         'heldTimes',
                         'heldDayTimes',
                         'id',
+                        'updateDate',
                     ].join(',');
                     const csvDataText: string = [
                         `raceName20240101`,
@@ -60,6 +61,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         '1',
                         '1',
                         `jra${format(date, 'yyyyMMdd')}0501`,
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
@@ -72,6 +74,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         '1',
                         '1',
                         `jra${format(date, 'yyyyMMdd')}0501`,
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -84,6 +87,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         '1',
                         '1',
                         `jra${format(date, 'yyyyMMdd')}0501`,
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataIdUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -96,6 +100,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
                         '1',
                         '1',
                         `jra${format(date, 'yyyyMMdd')}05undefined`,
+                        undefined,
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,

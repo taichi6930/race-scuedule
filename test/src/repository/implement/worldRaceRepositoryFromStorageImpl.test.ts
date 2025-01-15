@@ -46,6 +46,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                     'grade',
                     'number',
                     'id',
+                    'updateDate',
                 ].join(',');
                 const csvDataText: string = [
                     `raceName20240101`,
@@ -56,6 +57,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                     'GⅠ',
                     '1',
                     `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                    getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 const csvDataRameNameUndefinedText: string = [
                     undefined,
@@ -66,6 +68,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                     'GⅠ',
                     '1',
                     `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                    getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 const csvDataNumUndefinedText: string = [
                     `raceName20240101`,
@@ -76,6 +79,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                     'GⅠ',
                     undefined,
                     `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                    getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 const csvDatajoinText: string = [
                     csvHeaderDataText,
