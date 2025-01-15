@@ -44,19 +44,29 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                     'location',
                     'heldTimes',
                     'heldDayTimes',
+                    'updateDate',
                 ].join(',');
-
                 const csvDataText: string = [
                     `jra2024010105`,
                     date.toISOString(),
                     '東京',
                     '1',
                     '1',
+                    getJSTDate(new Date()).toISOString(),
+                ].join(',');
+                const csvDataIdUndefinedText: string = [
+                    `jra20240101undefined`,
+                    date.toISOString(),
+                    '東京',
+                    '1',
+                    '1',
+                    undefined,
                 ].join(',');
                 // ヘッダーとデータ行を結合して完全なCSVデータを生成
                 const csvDatajoinText: string = [
                     csvHeaderDataText,
                     csvDataText,
+                    csvDataIdUndefinedText,
                 ].join('\n');
                 return Promise.resolve(csvDatajoinText);
             });

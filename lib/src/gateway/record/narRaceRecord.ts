@@ -2,14 +2,35 @@ import '../../utility/format';
 
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import type { NarGradeType } from '../../utility/data/nar/narGradeType';
-import type { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
-import type { NarRaceCourseType } from '../../utility/data/nar/narRaceCourseType';
-import type { NarRaceDateTime } from '../../utility/data/nar/narRaceDateTime';
-import type { NarRaceDistance } from '../../utility/data/nar/narRaceDistance';
-import type { NarRaceName } from '../../utility/data/nar/narRaceName';
-import type { NarRaceNumber } from '../../utility/data/nar/narRaceNumber';
-import type { NarRaceId } from '../../utility/raceId';
+import {
+    type NarGradeType,
+    validateNarGradeType,
+} from '../../utility/data/nar/narGradeType';
+import {
+    type NarRaceCourse,
+    validateNarRaceCourse,
+} from '../../utility/data/nar/narRaceCourse';
+import {
+    type NarRaceCourseType,
+    validateNarRaceCourseType,
+} from '../../utility/data/nar/narRaceCourseType';
+import {
+    type NarRaceDateTime,
+    validateNarRaceDateTime,
+} from '../../utility/data/nar/narRaceDateTime';
+import {
+    type NarRaceDistance,
+    validateNarRaceDistance,
+} from '../../utility/data/nar/narRaceDistance';
+import {
+    type NarRaceName,
+    validateNarRaceName,
+} from '../../utility/data/nar/narRaceName';
+import {
+    type NarRaceNumber,
+    validateNarRaceNumber,
+} from '../../utility/data/nar/narRaceNumber';
+import { type NarRaceId, validateNarRaceId } from '../../utility/raceId';
 
 /**
  * 地方競馬のレース開催データ
@@ -31,7 +52,7 @@ export class NarRaceRecord {
      * @param updateDate - 更新日時
      *
      */
-    constructor(
+    private constructor(
         public readonly id: NarRaceId,
         public readonly name: NarRaceName,
         public readonly dateTime: NarRaceDateTime,
@@ -44,12 +65,53 @@ export class NarRaceRecord {
     ) {}
 
     /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param name - レース名
+     * @param dateTime - 開催日時
+     * @param location - 開催場所
+     * @param surfaceType - 馬場種別
+     * @param distance - 距離
+     * @param grade - グレード
+     * @param number - レース番号
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        name: string,
+        dateTime: Date,
+        location: string,
+        surfaceType: string,
+        distance: number,
+        grade: string,
+        number: number,
+        updateDate: Date,
+    ): NarRaceRecord {
+        try {
+            return new NarRaceRecord(
+                validateNarRaceId(id),
+                validateNarRaceName(name),
+                validateNarRaceDateTime(dateTime),
+                validateNarRaceCourse(location),
+                validateNarRaceCourseType(surfaceType),
+                validateNarRaceDistance(distance),
+                validateNarGradeType(grade),
+                validateNarRaceNumber(number),
+                updateDate,
+            );
+        } catch (e) {
+            console.error(e);
+            throw e;
+        }
+    }
+
+    /**
      * データのコピー
      * @param partial
      * @returns
      */
     copy(partial: Partial<NarRaceRecord> = {}): NarRaceRecord {
-        return new NarRaceRecord(
+        return NarRaceRecord.create(
             partial.id ?? this.id,
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,

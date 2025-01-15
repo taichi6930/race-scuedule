@@ -38,14 +38,14 @@ export const baseNarRaceData = NarRaceData.create(
     baseNarRaceNumber,
 );
 
-export const baseNarPlaceRecord = new NarPlaceRecord(
+export const baseNarPlaceRecord = NarPlaceRecord.create(
     generateNarPlaceId(baseNarPlaceDateTime, baseNarPlaceCourse),
     baseNarPlaceDateTime,
     baseNarPlaceCourse,
     baseNarRaceUpdateDate,
 );
 
-export const baseNarRaceRecord = new NarRaceRecord(
+export const baseNarRaceRecord = NarRaceRecord.create(
     generateNarRaceId(
         baseNarPlaceDateTime,
         baseNarPlaceCourse,

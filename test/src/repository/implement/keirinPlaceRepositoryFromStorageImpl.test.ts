@@ -11,6 +11,7 @@ import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinP
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { KEIRIN_PLACE_CODE } from '../../../../lib/src/utility/data/keirin/keirinRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForKeirinPlace } from '../../mock/gateway/s3GatewayMock';
 
@@ -44,6 +45,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                     'location',
                     'grade',
                     'id',
+                    'updateDate',
                 ].join(',');
 
                 // データ行を生成
@@ -51,10 +53,12 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                     format(date, 'yyyy-MM-dd HH:mm:ss'),
                     '平塚',
                     'GP',
-                    `keirin${format(date, 'yyyyMM')}`,
+                    `keirin${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE['平塚']}`,
+                    getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 // データ行を生成
                 const csvUndefinedDataText: string = [
+                    undefined,
                     undefined,
                     undefined,
                     undefined,

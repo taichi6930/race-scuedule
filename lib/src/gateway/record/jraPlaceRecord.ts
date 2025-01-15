@@ -1,10 +1,22 @@
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
-import type { JraHeldDayTimes } from '../../utility/data/jra/jraHeldDayTimes';
-import type { JraHeldTimes } from '../../utility/data/jra/jraHeldTimes';
-import type { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
-import type { JraRaceDate } from '../../utility/data/jra/jraRaceDate';
-import type { JraPlaceId } from '../../utility/raceId';
+import {
+    type JraHeldDayTimes,
+    validateJraHeldDayTimes,
+} from '../../utility/data/jra/jraHeldDayTimes';
+import {
+    type JraHeldTimes,
+    validateJraHeldTimes,
+} from '../../utility/data/jra/jraHeldTimes';
+import {
+    type JraRaceCourse,
+    validateJraRaceCourse,
+} from '../../utility/data/jra/jraRaceCourse';
+import {
+    type JraRaceDate,
+    validateJraRaceDate,
+} from '../../utility/data/jra/jraRaceDate';
+import { type JraPlaceId, validateJraPlaceId } from '../../utility/raceId';
 /**
  * Repository層のRecord 中央競馬のレース開催場所データ
  */
@@ -21,7 +33,7 @@ export class JraPlaceRecord {
      * @param heldDayTimes - 開催日数
      * @param updateDate - 更新日時
      */
-    constructor(
+    private constructor(
         public readonly id: JraPlaceId,
         public readonly dateTime: JraRaceDate,
         public readonly location: JraRaceCourse,
@@ -31,12 +43,45 @@ export class JraPlaceRecord {
     ) {}
 
     /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param dateTime - 開催日時
+     * @param location - 開催場所
+     * @param heldTimes - 開催回数
+     * @param heldDayTimes - 開催日数
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        dateTime: Date,
+        location: string,
+        heldTimes: number,
+        heldDayTimes: number,
+        updateDate: Date,
+    ): JraPlaceRecord {
+        try {
+            return new JraPlaceRecord(
+                validateJraPlaceId(id),
+                validateJraRaceDate(dateTime),
+                validateJraRaceCourse(location),
+                validateJraHeldTimes(heldTimes),
+                validateJraHeldDayTimes(heldDayTimes),
+                updateDate,
+            );
+        } catch (e) {
+            throw new Error(
+                `JraPlaceRecord create error: ${(e as Error).message}`,
+            );
+        }
+    }
+
+    /**
      * データのコピー
      * @param partial
      * @returns
      */
     copy(partial: Partial<JraPlaceRecord> = {}): JraPlaceRecord {
-        return new JraPlaceRecord(
+        return JraPlaceRecord.create(
             partial.id ?? this.id,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

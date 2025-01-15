@@ -233,6 +233,9 @@ export const processNarRaceName = (
     }
     // 岩手競馬
     if (['水沢', '盛岡'].includes(raceInfo.place)) {
+        if (newRaceName == '2歳') {
+            return `2歳`;
+        }
         newRaceName = newRaceName
             .replace(/(オープン|([2-3])歳)(?:牝馬)?.*/, '')
             .replace(/.*岩手県知事杯ORO.*/, '岩手県知事杯OROカップ')

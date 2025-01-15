@@ -38,6 +38,47 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                 console.log(date);
 
                 // CSVのヘッダーを定義
+                const csvHeaderDataText = [
+                    'id',
+                    'dateTime',
+                    'location',
+                    'updateDate',
+                ].join(',');
+
+                const csvDataText: string = [
+                    `nar2024010105`,
+                    date.toISOString(),
+                    '大井',
+                    getJSTDate(new Date()).toISOString(),
+                ].join(',');
+                // ヘッダーとデータ行を結合して完全なCSVデータを生成
+                const csvDatajoinText: string = [
+                    csvHeaderDataText,
+                    csvDataText,
+                ].join('\n');
+                return Promise.resolve(csvDatajoinText);
+            });
+            // リクエストの作成
+            const request = new FetchPlaceListRequest(
+                new Date('2024-01-01'),
+                new Date('2024-02-01'),
+            );
+            // テスト実行
+            const response = await repository.fetchPlaceEntityList(request);
+
+            // レスポンスの検証
+            expect(response.placeEntityList).toHaveLength(1);
+        });
+
+        test('競馬場データが欠損しているが処理は続行される', async () => {
+            // モックの戻り値を設定
+            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
+                // filenameから日付を取得 16時からの競馬場にしたい
+                const date = parse('2024', 'yyyy', new Date());
+                date.setHours(16);
+                console.log(date);
+
+                // CSVのヘッダーを定義
                 const csvHeaderDataText = ['id', 'dateTime', 'location'].join(
                     ',',
                 );
@@ -47,10 +88,16 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                     date.toISOString(),
                     '大井',
                 ].join(',');
+                const undefinedCsvDataText: string = [
+                    `nar2024010105`,
+                    date.toISOString(),
+                    undefined,
+                ].join(',');
                 // ヘッダーとデータ行を結合して完全なCSVデータを生成
                 const csvDatajoinText: string = [
                     csvHeaderDataText,
                     csvDataText,
+                    undefinedCsvDataText,
                 ].join('\n');
                 return Promise.resolve(csvDatajoinText);
             });

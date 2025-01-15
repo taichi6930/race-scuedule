@@ -9,7 +9,7 @@ import { IKeirinPlaceDataHtmlGateway } from '../../gateway/interface/iKeirinPlac
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import {
     KeirinRaceCourse,
-    KeirinRaceCourseList,
+    validateKeirinRaceCourse,
 } from '../../utility/data/keirin/keirinRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -129,61 +129,60 @@ export class KeirinPlaceRepositoryFromHtmlImpl
             // tr class="ref_sche"を取得
             const trs = tbody.find('tr');
             trs.each((index: number, element: cheerio.Element) => {
-                // thを取得
-                const th = $(element).find('th');
+                try {
+                    // thを取得
+                    const th = $(element).find('th');
 
-                // thのテキストが KeirinRaceCourseに含まれているか
-                if (!th.text()) {
-                    return;
-                }
-                const placeString = th.text();
-                // placeStringがKeirinRaceCourseに含まれているか
-                if (!KeirinRaceCourseList.includes(placeString)) {
-                    console.log(`${placeString}は競輪場に登録されていません`);
-                    return;
-                }
-                const place: KeirinRaceCourse = placeString;
+                    // thのテキストが KeirinRaceCourseに含まれているか
+                    if (!th.text()) {
+                        return;
+                    }
+                    const place: KeirinRaceCourse = validateKeirinRaceCourse(
+                        th.text(),
+                    );
 
-                const tds = $(element).find('td');
-                tds.each((index: number, element: cheerio.Element) => {
-                    const imgs = $(element).find('img');
-                    let grade: KeirinGradeType | undefined;
-                    imgs.each((_, img) => {
-                        const alt = $(img).attr('alt');
-                        if (
-                            alt !== null &&
-                            alt !== undefined &&
-                            alt.trim() !== ''
-                        ) {
-                            grade = alt
-                                .replace('1', 'Ⅰ')
-                                .replace('2', 'Ⅱ')
-                                .replace('3', 'Ⅲ');
+                    const tds = $(element).find('td');
+                    tds.each((index: number, element: cheerio.Element) => {
+                        const imgs = $(element).find('img');
+                        let grade: KeirinGradeType | undefined;
+                        imgs.each((_, img) => {
+                            const alt = $(img).attr('alt');
+                            if (
+                                alt !== null &&
+                                alt !== undefined &&
+                                alt.trim() !== ''
+                            ) {
+                                grade = alt
+                                    .replace('1', 'Ⅰ')
+                                    .replace('2', 'Ⅱ')
+                                    .replace('3', 'Ⅲ');
+                            }
+                        });
+
+                        // alt属性を出力
+                        if (grade) {
+                            keirinPlaceEntityList.push(
+                                new KeirinPlaceEntity(
+                                    null,
+                                    KeirinPlaceData.create(
+                                        new Date(
+                                            date.getFullYear(),
+                                            date.getMonth(),
+                                            index + 1,
+                                        ),
+                                        place,
+                                        grade,
+                                    ),
+                                    getJSTDate(new Date()),
+                                ),
+                            );
                         }
                     });
-
-                    // alt属性を出力
-                    if (grade) {
-                        keirinPlaceEntityList.push(
-                            new KeirinPlaceEntity(
-                                null,
-                                KeirinPlaceData.create(
-                                    new Date(
-                                        date.getFullYear(),
-                                        date.getMonth(),
-                                        index + 1,
-                                    ),
-                                    place,
-                                    grade,
-                                ),
-                                getJSTDate(new Date()),
-                            ),
-                        );
-                    }
-                });
+                } catch (e) {
+                    console.error(e);
+                }
             });
         });
-        console.log('keirinPlaceEntityList:', keirinPlaceEntityList);
         return keirinPlaceEntityList;
     }
 

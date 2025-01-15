@@ -61,7 +61,7 @@ export const KeirinRaceCourseSchema = z.string().refine((value) => {
  */
 export type KeirinRaceCourse = z.infer<typeof KeirinRaceCourseSchema>;
 
-export const KeirinRaceCourseList: string[] = [
+const KeirinRaceCourseList: string[] = [
     '函館',
     '青森',
     'いわき平',

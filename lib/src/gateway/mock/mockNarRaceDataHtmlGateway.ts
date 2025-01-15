@@ -20,14 +20,16 @@ export class MockNarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
      */
     @Logger
     async getRaceDataHtml(date: Date, place: NarRaceCourse): Promise<string> {
-        // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${NAR_BABACODE[place]}.html`;
-        // lib/src/gateway/mockData/html/nar/placeの中にあるhtmlを取得
-        const htmlFilePath = path.join(__dirname, testHtmlUrl);
-
-        const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
-        return Promise.resolve(htmlContent);
+        try {
+            // mockDataフォルダにあるhtmlを取得
+            const testHtmlUrl = `../mockData/html/nar/race/${format(date, 'yyyyMMdd')}${NAR_BABACODE[place]}.html`;
+            // lib/src/gateway/mockData/html/nar/placeの中にあるhtmlを取得
+            const htmlFilePath = path.join(__dirname, testHtmlUrl);
+            const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
+            return await Promise.resolve(htmlContent);
+        } catch (error) {
+            console.debug('htmlを取得できませんでした', error);
+            throw new Error('htmlを取得できませんでした');
+        }
     }
-
-    html = ``;
 }

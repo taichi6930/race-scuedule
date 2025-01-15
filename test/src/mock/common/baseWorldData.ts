@@ -35,7 +35,7 @@ export const baseWorldRaceData = WorldRaceData.create(
     baseWorldRaceNumber,
 );
 
-export const baseWorldRaceRecord = new WorldRaceRecord(
+export const baseWorldRaceRecord = WorldRaceRecord.create(
     generateWorldRaceId(
         baseWorldPlaceDateTime,
         baseWorldPlaceCourse,

@@ -50,7 +50,7 @@ export class BoatracePlaceEntity {
      * @returns
      */
     toRecord(): BoatracePlaceRecord {
-        return new BoatracePlaceRecord(
+        return BoatracePlaceRecord.create(
             this.id,
             this.placeData.dateTime,
             this.placeData.location,

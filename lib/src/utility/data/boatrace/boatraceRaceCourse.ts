@@ -39,7 +39,7 @@ export const BoatraceRaceCourseSchema = z.string().refine((value) => {
  */
 export type BoatraceRaceCourse = z.infer<typeof BoatraceRaceCourseSchema>;
 
-export const BoatraceRaceCourseList: string[] = [
+const BoatraceRaceCourseList: string[] = [
     '桐生',
     '戸田',
     '江戸川',

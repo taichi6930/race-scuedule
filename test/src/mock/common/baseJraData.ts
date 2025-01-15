@@ -44,7 +44,7 @@ export const baseJraRaceData = JraRaceData.create(
     baseJraRaceHeldDayTimes,
 );
 
-export const baseJraPlaceRecord = new JraPlaceRecord(
+export const baseJraPlaceRecord = JraPlaceRecord.create(
     generateJraPlaceId(baseJraPlaceDateTime, baseJraPlaceCourse),
     baseJraPlaceDateTime,
     baseJraPlaceCourse,
@@ -53,7 +53,7 @@ export const baseJraPlaceRecord = new JraPlaceRecord(
     baseJraRaceUpdateDate,
 );
 
-export const baseJraRaceRecord = new JraRaceRecord(
+export const baseJraRaceRecord = JraRaceRecord.create(
     generateJraRaceId(
         baseJraPlaceDateTime,
         baseJraPlaceCourse,

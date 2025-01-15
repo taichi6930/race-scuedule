@@ -48,7 +48,7 @@ export class JraPlaceEntity {
      * @returns
      */
     toRecord(): JraPlaceRecord {
-        return new JraPlaceRecord(
+        return JraPlaceRecord.create(
             this.id,
             this.placeData.dateTime,
             this.placeData.location,

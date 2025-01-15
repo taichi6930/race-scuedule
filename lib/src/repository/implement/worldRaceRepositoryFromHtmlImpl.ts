@@ -8,11 +8,11 @@ import { WorldRaceData } from '../../domain/worldRaceData';
 import { IWorldRaceDataHtmlGateway } from '../../gateway/interface/iWorldRaceDataHtmlGateway';
 import { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import {
-    WORLD_PLACE_CODE,
+    validateWorldRaceCourse,
     WorldRaceCourse,
-    WorldRaceCourseList,
 } from '../../utility/data/world/worldRaceCourse';
-import { WorldRaceCourseType } from '../../utility/data/world/worldRaceCourseType';
+import { validateWorldRaceCourseType } from '../../utility/data/world/worldRaceCourseType';
+import { validateWorldRaceDistance } from '../../utility/data/world/worldRaceDistance';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processWorldRaceName } from '../../utility/raceName';
@@ -121,133 +121,130 @@ export class WorldRaceRepositoryFromHtmlImpl
                 $(dayElement)
                     .find('.racelist__race')
                     .each((_, raceElement) => {
-                        // classにnolinkがある場合はスキップ
-                        if ($(raceElement).find('.nolink').text().length > 0) {
-                            return;
-                        }
+                        try {
+                            // classにnolinkがある場合はスキップ
+                            if (
+                                $(raceElement).find('.nolink').text().length > 0
+                            ) {
+                                return;
+                            }
 
-                        const rowRaceName = $(raceElement)
-                            .find('.racelist__race__title')
-                            .find('.name')
-                            .text();
+                            const rowRaceName = $(raceElement)
+                                .find('.racelist__race__title')
+                                .find('.name')
+                                .text();
 
-                        const location: WorldRaceCourse = $(raceElement)
-                            .find('.racelist__race__sub')
-                            .find('.course')
-                            .text()
-                            .trim();
-                        // locationがWorldRaceCourseに適していない場合はスキップ
-                        if (!WorldRaceCourseList.includes(location)) {
-                            console.error(
-                                `登録されていない競馬場です: ${location} ${rowRaceName}`,
+                            const location: WorldRaceCourse =
+                                validateWorldRaceCourse(
+                                    $(raceElement)
+                                        .find('.racelist__race__sub')
+                                        .find('.course')
+                                        .text()
+                                        .trim(),
+                                );
+                            // 芝1600mのような文字列からsurfaceTypeを取得
+                            // 芝、ダート、障害、AWがある
+                            const surfaceTypeAndDistanceText = $(raceElement)
+                                .find('.racelist__race__sub')
+                                .find('.type')
+                                .text()
+                                .trim(); // テキストをトリムして不要な空白を削除
+
+                            const surfaceType: string =
+                                validateWorldRaceCourseType(
+                                    ['芝', 'ダート', '障害', 'AW'].find(
+                                        (type) =>
+                                            surfaceTypeAndDistanceText.includes(
+                                                type,
+                                            ),
+                                    ) ?? '',
+                                );
+                            const distanceMatch = /\d+/.exec(
+                                surfaceTypeAndDistanceText,
                             );
-                            return;
-                        }
-                        if (WORLD_PLACE_CODE[location] === '') {
-                            console.error(
-                                `コードが登録されていない競馬場です: ${location} ${rowRaceName}`,
+                            const distance: number = validateWorldRaceDistance(
+                                distanceMatch ? Number(distanceMatch[0]) : -1,
                             );
-                            return;
-                        }
-                        // 芝1600mのような文字列からsurfaceTypeを取得
-                        // 芝、ダート、障害、AWがある
-                        const surfaceTypeAndDistanceText = $(raceElement)
-                            .find('.racelist__race__sub')
-                            .find('.type')
-                            .text()
-                            .trim(); // テキストをトリムして不要な空白を削除
+                            const gradeText: string = rowRaceName.includes(
+                                '（L）',
+                            )
+                                ? 'Listed'
+                                : $(raceElement)
+                                      .find('.racelist__race__title')
+                                      .find('.grade')
+                                      .find('span')
+                                      .text()
+                                      .replace('G1', 'GⅠ')
+                                      .replace('G2', 'GⅡ')
+                                      .replace('G3', 'GⅢ')
+                                      .replace('Listed', 'Listed');
+                            const grade: WorldGradeType =
+                                gradeText === '' ? '格付けなし' : gradeText;
 
-                        const surfaceType: WorldRaceCourseType | null =
-                            ['芝', 'ダート', '障害', 'AW'].find((type) =>
-                                surfaceTypeAndDistanceText.includes(type),
-                            ) ?? null;
-                        if (surfaceType == null) {
-                            return;
-                        }
-                        const distanceMatch = /\d+/.exec(
-                            surfaceTypeAndDistanceText,
-                        );
-                        const distance: number | null = distanceMatch
-                            ? Number(distanceMatch[0])
-                            : null;
-                        if (distance == null) {
-                            return;
-                        }
-                        const gradeText: string = rowRaceName.includes('（L）')
-                            ? 'Listed'
-                            : $(raceElement)
-                                  .find('.racelist__race__title')
-                                  .find('.grade')
-                                  .find('span')
-                                  .text()
-                                  .replace('G1', 'GⅠ')
-                                  .replace('G2', 'GⅡ')
-                                  .replace('G3', 'GⅢ')
-                                  .replace('Listed', 'Listed');
-                        const grade: WorldGradeType =
-                            gradeText === '' ? '格付けなし' : gradeText;
+                            // timeは<span class="time">23:36発走</span>の"23:36"を取得
+                            const timeText = $(raceElement)
+                                .find('.racelist__race__sub')
+                                .find('.time')
+                                .text()
+                                .trim();
 
-                        // timeは<span class="time">23:36発走</span>の"23:36"を取得
-                        const timeText = $(raceElement)
-                            .find('.racelist__race__sub')
-                            .find('.time')
-                            .text()
-                            .trim();
+                            const timeMatch = /\d{2}:\d{2}/.exec(timeText);
+                            const time = timeMatch ? timeMatch[0] : '';
+                            const [hour, minute] = time.split(':').map(Number);
 
-                        const timeMatch = /\d{2}:\d{2}/.exec(timeText);
-                        const time = timeMatch ? timeMatch[0] : null;
-                        if (time == null) {
-                            return;
-                        }
-                        const [hour, minute] = time.split(':').map(Number);
+                            // 競馬場が異なる場合はrecordDayをリセット
+                            if (recordPlace !== location) {
+                                recordHour = -1;
+                                recordDay = 0;
+                                recordNumber = 0;
+                            }
+                            recordPlace = location;
 
-                        // 競馬場が異なる場合はrecordDayをリセット
-                        if (recordPlace !== location) {
-                            recordHour = -1;
-                            recordDay = 0;
-                            recordNumber = 0;
-                        }
-                        recordPlace = location;
+                            // 日付が変わっているのでrecordDayを増やす
+                            if (recordHour > hour) {
+                                recordDay++;
+                            }
+                            recordHour = hour;
 
-                        // 日付が変わっているのでrecordDayを増やす
-                        if (recordHour > hour) {
-                            recordDay++;
-                        }
-                        recordHour = hour;
+                            recordNumber++;
+                            const number = recordNumber;
+                            const date = new Date(
+                                year,
+                                month - 1,
+                                day + recordDay,
+                                hour,
+                                minute,
+                            );
 
-                        recordNumber++;
-                        const number = recordNumber;
-                        const date = new Date(
-                            year,
-                            month - 1,
-                            day + recordDay,
-                            hour,
-                            minute,
-                        );
-
-                        const raceName = processWorldRaceName({
-                            name: rowRaceName,
-                            place: location,
-                            grade: grade,
-                            date: date,
-                            surfaceType: surfaceType,
-                            distance: distance,
-                        });
-                        worldRaceDataList.push(
-                            new WorldRaceEntity(
-                                null,
-                                WorldRaceData.create(
-                                    raceName,
-                                    date,
-                                    location,
-                                    surfaceType,
-                                    distance,
-                                    grade,
-                                    number,
+                            const raceName = processWorldRaceName({
+                                name: rowRaceName,
+                                place: location,
+                                grade: grade,
+                                date: date,
+                                surfaceType: surfaceType,
+                                distance: distance,
+                            });
+                            worldRaceDataList.push(
+                                new WorldRaceEntity(
+                                    null,
+                                    WorldRaceData.create(
+                                        raceName,
+                                        date,
+                                        location,
+                                        surfaceType,
+                                        distance,
+                                        grade,
+                                        number,
+                                    ),
+                                    getJSTDate(new Date()),
                                 ),
-                                getJSTDate(new Date()),
-                            ),
-                        );
+                            );
+                        } catch (e) {
+                            console.error(
+                                'レースデータ加工中にエラーが発生しました',
+                                e,
+                            );
+                        }
                     });
             });
             return worldRaceDataList;

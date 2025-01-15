@@ -6,7 +6,7 @@ import { IJraRaceDataHtmlGateway } from '../../gateway/interface/iJraRaceDataHtm
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import {
     JraRaceCourse,
-    JraRaceCourseList,
+    validateJraRaceCourse,
 } from '../../utility/data/jra/jraRaceCourse';
 import { JraRaceCourseType } from '../../utility/data/jra/jraRaceCourseType';
 import { getJSTDate } from '../../utility/date';
@@ -85,7 +85,7 @@ export class JraRaceRepositoryFromHtmlImpl
                     return;
                 }
                 // 競馬場を取得
-                const raceCourse: JraRaceCourse | null =
+                const raceCourse: JraRaceCourse =
                     this.extractRaceCourse(theadElementMatch);
                 // 開催回数を取得
                 const raceHeld: number | null =
@@ -195,12 +195,11 @@ export class JraRaceRepositoryFromHtmlImpl
      */
     private extractRaceCourse = (
         theadElementMatch: RegExpExecArray,
-    ): JraRaceCourse | null => {
+    ): JraRaceCourse => {
         const placeString: string = theadElementMatch[2];
         // placeStringがJraRaceCourseに変換できるかを確認して、OKであればキャストする
         const place: JraRaceCourse = placeString;
-        if (!JraRaceCourseList.includes(place)) return null;
-        return place;
+        return validateJraRaceCourse(place);
     };
 
     /**

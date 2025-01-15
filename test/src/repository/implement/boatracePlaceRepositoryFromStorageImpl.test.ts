@@ -11,6 +11,7 @@ import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatr
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { BOATRACE_PLACE_CODE } from '../../../../lib/src/utility/data/boatrace/boatraceRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForBoatracePlace } from '../../mock/gateway/s3GatewayMock';
 
@@ -44,6 +45,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
                     'location',
                     'grade',
                     'id',
+                    'updateDate',
                 ].join(',');
 
                 // データ行を生成
@@ -51,10 +53,12 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
                     format(date, 'yyyy-MM-dd HH:mm:ss'),
                     '平和島',
                     'SG',
-                    `boatrace${format(date, 'yyyyMM')}`,
+                    `boatrace${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE['平和島']}`,
+                    getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 // データ行を生成
                 const csvUndefinedDataText: string = [
+                    undefined,
                     undefined,
                     undefined,
                     undefined,

@@ -3,7 +3,10 @@ import { inject, injectable } from 'tsyringe';
 
 import { NarRaceData } from '../../domain/narRaceData';
 import { INarRaceDataHtmlGateway } from '../../gateway/interface/iNarRaceDataHtmlGateway';
-import { NarGradeType } from '../../utility/data/nar/narGradeType';
+import {
+    NarGradeType,
+    validateNarGradeType,
+} from '../../utility/data/nar/narGradeType';
 import { NarRaceCourseType } from '../../utility/data/nar/narRaceCourseType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -70,52 +73,66 @@ export class NarRaceRepositoryFromHtmlImpl
             const trs = raceTable.find('tr.data');
 
             Array.from(trs).forEach((tr: cheerio.Element) => {
-                const tds = $(tr).find('td');
-                const distance = this.extractDistance(
-                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-                );
-                if (distance <= 0) {
-                    return;
-                }
-                const [hour, minute] = this.extractRaceTime(
-                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-                );
-                const raceName = this.extractRaceName(
-                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-                );
-                const grade = this.extractGrade(
-                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-                );
-                const surfaceType = this.extractSurfaceType(
-                    Array.from(tds).map((td: cheerio.Element) => $(td).text()),
-                );
-                const newRaceName = processNarRaceName({
-                    name: raceName,
-                    place: placeEntity.placeData.location,
-                    date: new Date(year, month - 1, day),
-                    surfaceType: surfaceType,
-                    distance: distance,
-                    grade: grade ?? '一般',
-                });
-                narRaceDataList.push(
-                    new NarRaceEntity(
-                        null,
-                        NarRaceData.create(
-                            newRaceName,
-                            new Date(year, month - 1, day, hour, minute),
-                            placeEntity.placeData.location,
-                            surfaceType,
-                            distance,
-                            grade,
-                            this.extractRaceNumber(
-                                Array.from(tds).map((td: cheerio.Element) =>
-                                    $(td).text(),
+                try {
+                    const tds = $(tr).find('td');
+                    const distance = this.extractDistance(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                    );
+                    if (distance <= 0) {
+                        return;
+                    }
+                    const [hour, minute] = this.extractRaceTime(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                    );
+                    const raceName = this.extractRaceName(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                    );
+                    const grade = this.extractGrade(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                    );
+                    const surfaceType = this.extractSurfaceType(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                    );
+                    const newRaceName = processNarRaceName({
+                        name: raceName,
+                        place: placeEntity.placeData.location,
+                        date: new Date(year, month - 1, day),
+                        surfaceType: surfaceType,
+                        distance: distance,
+                        grade: grade,
+                    });
+                    narRaceDataList.push(
+                        new NarRaceEntity(
+                            null,
+                            NarRaceData.create(
+                                newRaceName,
+                                new Date(year, month - 1, day, hour, minute),
+                                placeEntity.placeData.location,
+                                surfaceType,
+                                distance,
+                                grade,
+                                this.extractRaceNumber(
+                                    Array.from(tds).map((td: cheerio.Element) =>
+                                        $(td).text(),
+                                    ),
                                 ),
                             ),
+                            getJSTDate(new Date()),
                         ),
-                        getJSTDate(new Date()),
-                    ),
-                );
+                    );
+                } catch (e) {
+                    console.error('レースデータの取得に失敗しました', e);
+                }
             });
             return narRaceDataList;
         } catch (e) {
@@ -191,7 +208,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 break;
             }
         }
-        return grade || '地方重賞';
+        return validateNarGradeType(grade);
     }
 
     private extractRaceName(race: string[]): string {

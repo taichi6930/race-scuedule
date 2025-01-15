@@ -129,29 +129,25 @@ export class JraPlaceRepositoryFromStorageImpl
         const placeRecordList: JraPlaceRecord[] = lines
             .slice(1)
             .map((line: string) => {
-                const columns = line.split(',');
+                try {
+                    const columns = line.split(',');
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.id] ||
-                    !columns[indices.dateTime] ||
-                    !columns[indices.location]
-                ) {
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
+
+                    return JraPlaceRecord.create(
+                        columns[indices.id],
+                        new Date(columns[indices.dateTime]),
+                        columns[indices.location],
+                        parseInt(columns[indices.heldTimes]),
+                        parseInt(columns[indices.heldDayTimes]),
+                        updateDate,
+                    );
+                } catch (e) {
+                    console.error(e);
                     return undefined;
                 }
-
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                return new JraPlaceRecord(
-                    columns[indices.id],
-                    new Date(columns[indices.dateTime]),
-                    columns[indices.location],
-                    parseInt(columns[indices.heldTimes]),
-                    parseInt(columns[indices.heldDayTimes]),
-                    updateDate,
-                );
             })
             .filter(
                 (placeData): placeData is JraPlaceRecord =>

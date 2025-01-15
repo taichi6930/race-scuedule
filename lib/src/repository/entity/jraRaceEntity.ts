@@ -55,7 +55,7 @@ export class JraRaceEntity {
      * @returns
      */
     toRecord(): JraRaceRecord {
-        return new JraRaceRecord(
+        return JraRaceRecord.create(
             this.id,
             this.raceData.name,
             this.raceData.dateTime,

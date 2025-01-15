@@ -55,7 +55,7 @@ export class WorldRaceEntity {
      * @returns
      */
     toRecord(): WorldRaceRecord {
-        return new WorldRaceRecord(
+        return WorldRaceRecord.create(
             this.id,
             this.raceData.name,
             this.raceData.dateTime,

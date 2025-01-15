@@ -98,31 +98,29 @@ export class NarRaceRepositoryFromStorageImpl
             chunks.map((chunk) =>
                 chunk
                     .map((line: string) => {
-                        const columns = line.replace('\r', '').split(',');
+                        try {
+                            const columns = line.replace('\r', '').split(',');
 
-                        // 必要なフィールドが存在しない場合はundefinedを返す
-                        if (
-                            !columns[indices.name] ||
-                            isNaN(parseInt(columns[indices.number]))
-                        ) {
+                            const updateDate = columns[indices.updateDate]
+                                ? new Date(columns[indices.updateDate])
+                                : getJSTDate(new Date());
+
+                            return NarRaceRecord.create(
+                                columns[indices.id],
+                                columns[indices.name],
+                                new Date(columns[indices.dateTime]),
+                                columns[indices.location],
+                                columns[indices.surfaceType],
+                                parseInt(columns[indices.distance]),
+                                columns[indices.grade],
+                                parseInt(columns[indices.number]),
+                                updateDate,
+                            );
+                        } catch (e) {
+                            console.error(e);
+                            // エラーが発生した場合はundefinedを返す
                             return undefined;
                         }
-
-                        const updateDate = columns[indices.updateDate]
-                            ? new Date(columns[indices.updateDate])
-                            : getJSTDate(new Date());
-
-                        return new NarRaceRecord(
-                            columns[indices.id],
-                            columns[indices.name],
-                            new Date(columns[indices.dateTime]),
-                            columns[indices.location],
-                            columns[indices.surfaceType],
-                            parseInt(columns[indices.distance]),
-                            columns[indices.grade],
-                            parseInt(columns[indices.number]),
-                            updateDate,
-                        );
                     })
                     .filter(
                         (raceData): raceData is NarRaceRecord =>
@@ -130,9 +128,6 @@ export class NarRaceRepositoryFromStorageImpl
                     ),
             ),
         );
-
-        console.log('結果を1つにまとめ、重複を排除');
-
         // 結果を1つにまとめ、重複を排除
         const mergedResults = results.flat();
         return mergedResults;
