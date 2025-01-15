@@ -58,11 +58,6 @@ export class NarRaceRepositoryFromHtmlImpl
         placeEntity: NarPlaceEntity,
     ): Promise<NarRaceEntity[]> {
         try {
-            const [year, month, day] = [
-                placeEntity.placeData.dateTime.getFullYear(),
-                placeEntity.placeData.dateTime.getMonth() + 1,
-                placeEntity.placeData.dateTime.getDate(),
-            ];
             const htmlText = await this.narRaceDataHtmlGateway.getRaceDataHtml(
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
@@ -83,11 +78,6 @@ export class NarRaceRepositoryFromHtmlImpl
                     if (distance <= 0) {
                         return;
                     }
-                    const [hour, minute] = this.extractRaceTime(
-                        Array.from(tds).map((td: cheerio.Element) =>
-                            $(td).text(),
-                        ),
-                    );
                     const raceName = this.extractRaceName(
                         Array.from(tds).map((td: cheerio.Element) =>
                             $(td).text(),
@@ -103,10 +93,29 @@ export class NarRaceRepositoryFromHtmlImpl
                             $(td).text(),
                         ),
                     );
+                    const raceNumber = this.extractRaceNumber(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                    );
+                    // 0時0分の日付を取得
+                    const raceDate = new Date(
+                        placeEntity.placeData.dateTime.getFullYear(),
+                        placeEntity.placeData.dateTime.getMonth(),
+                        placeEntity.placeData.dateTime.getDate(),
+                        0,
+                        0,
+                    );
+                    const raceDateTime = this.extractRaceDateTime(
+                        Array.from(tds).map((td: cheerio.Element) =>
+                            $(td).text(),
+                        ),
+                        placeEntity.placeData.dateTime,
+                    );
                     const newRaceName = processNarRaceName({
                         name: raceName,
                         place: placeEntity.placeData.location,
-                        date: new Date(year, month - 1, day),
+                        date: raceDate,
                         surfaceType: surfaceType,
                         distance: distance,
                         grade: grade,
@@ -116,16 +125,12 @@ export class NarRaceRepositoryFromHtmlImpl
                             null,
                             NarRaceData.create(
                                 newRaceName,
-                                new Date(year, month - 1, day, hour, minute),
+                                raceDateTime,
                                 placeEntity.placeData.location,
                                 surfaceType,
                                 distance,
                                 grade,
-                                this.extractRaceNumber(
-                                    Array.from(tds).map((td: cheerio.Element) =>
-                                        $(td).text(),
-                                    ),
-                                ),
+                                raceNumber,
                             ),
                             getJSTDate(new Date()),
                         ),
@@ -163,18 +168,17 @@ export class NarRaceRepositoryFromHtmlImpl
         );
     }
 
-    private extractRaceTime(race: string[]): [number, number] {
-        const [hour, minute] = (
-            race
-                .map((item) => {
-                    const match = /(\d+):(\d+)/.exec(item);
-                    return match ? match[0] : '0:0';
-                })
-                .find((item) => item !== '0:0') ?? '0:0'
-        )
-            .split(':')
-            .map((item) => parseInt(item));
-        return [hour, minute];
+    private extractRaceDateTime(race: string[], date: Date): Date {
+        const timeString =
+            race.find((item) => /(\d+):(\d+)/.test(item)) ?? '0:0';
+        const [hour, minute] = timeString.split(':').map(Number);
+        return new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            hour,
+            minute,
+        );
     }
 
     private extractSurfaceType(race: string[]): NarRaceCourseType {
@@ -226,7 +230,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 break;
             }
         }
-        return (raceName ?? race[4] ?? '').replace(/\n/g, '');
+        return (raceName ?? race[4]).replace(/\n/g, '');
     }
 
     /**

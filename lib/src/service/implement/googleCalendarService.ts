@@ -246,11 +246,11 @@ export class GoogleCalendarService<R extends RaceEntity>
                         eventId: event.id,
                     });
                     console.debug(
-                        `Google Calendar APIからレースを削除しました: ${event.title ?? 'No Summary'}`,
+                        `Google Calendar APIからレースを削除しました: ${event.title}`,
                     );
                 } catch (error) {
                     console.error(
-                        `Google Calendar APIからのレース削除に失敗しました: ${event.title ?? 'No Summary'}`,
+                        `Google Calendar APIからのレース削除に失敗しました: ${event.title}`,
                         error,
                     );
                 }
