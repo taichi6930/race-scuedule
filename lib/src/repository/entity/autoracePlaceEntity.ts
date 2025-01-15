@@ -50,7 +50,7 @@ export class AutoracePlaceEntity {
      * @returns
      */
     toRecord(): AutoracePlaceRecord {
-        return new AutoracePlaceRecord(
+        return AutoracePlaceRecord.create(
             this.id,
             this.placeData.dateTime,
             this.placeData.location,

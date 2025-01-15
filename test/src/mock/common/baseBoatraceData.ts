@@ -42,7 +42,7 @@ export const baseBoatraceRaceData = BoatraceRaceData.create(
     baseBoatraceRaceNumber,
 );
 
-export const baseBoatracePlaceRecord = new BoatracePlaceRecord(
+export const baseBoatracePlaceRecord = BoatracePlaceRecord.create(
     generateBoatracePlaceId(baseBoatracePlaceDateTime, baseBoatracePlaceCourse),
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,

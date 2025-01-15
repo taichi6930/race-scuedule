@@ -134,29 +134,25 @@ export class BoatracePlaceRepositoryFromStorageImpl
         const placeRecordList: BoatracePlaceRecord[] = lines
             .slice(1)
             .map((line: string) => {
-                const columns = line.split(',');
+                try {
+                    const columns = line.split(',');
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.id] ||
-                    !columns[indices.dateTime] ||
-                    !columns[indices.location]
-                ) {
+                    // updateDateが存在しない場合は現在時刻を設定
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
+
+                    return BoatracePlaceRecord.create(
+                        columns[indices.id],
+                        new Date(columns[indices.dateTime]),
+                        columns[indices.location],
+                        columns[indices.grade],
+                        updateDate,
+                    );
+                } catch (e) {
+                    console.error(e);
                     return undefined;
                 }
-
-                // updateDateが存在しない場合は現在時刻を設定
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                return new BoatracePlaceRecord(
-                    columns[indices.id],
-                    new Date(columns[indices.dateTime]),
-                    columns[indices.location],
-                    columns[indices.grade],
-                    updateDate,
-                );
             })
             .filter(
                 (placeData): placeData is BoatracePlaceRecord =>

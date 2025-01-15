@@ -42,7 +42,7 @@ export const baseKeirinRaceData = KeirinRaceData.create(
     baseKeirinRaceNumber,
 );
 
-export const baseKeirinPlaceRecord = new KeirinPlaceRecord(
+export const baseKeirinPlaceRecord = KeirinPlaceRecord.create(
     generateKeirinPlaceId(baseKeirinPlaceDateTime, baseKeirinPlaceCourse),
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,

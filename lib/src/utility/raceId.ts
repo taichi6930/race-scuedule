@@ -423,6 +423,19 @@ export const KeirinPlaceIdSchema = z
 export type KeirinPlaceId = z.infer<typeof KeirinPlaceIdSchema>;
 
 /**
+ * KeirinPlaceIdのバリデーション
+ * @param value - バリデーション対象
+ * @returns バリデーション済みのKeirinPlaceId
+ */
+export const validateKeirinPlaceId = (value: string): KeirinPlaceId => {
+    const result = KeirinPlaceIdSchema.safeParse(value);
+    if (!result.success) {
+        throw new Error(result.error.message);
+    }
+    return result.data;
+};
+
+/**
  * ボートレースのracePlayerIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
@@ -540,6 +553,19 @@ export const BoatracePlaceIdSchema = z
 export type BoatracePlaceId = z.infer<typeof BoatracePlaceIdSchema>;
 
 /**
+ * BoatracePlaceIdのバリデーション
+ * @param value - バリデーション対象
+ * @returns バリデーション済みのBoatracePlaceId
+ */
+export const validateBoatracePlaceId = (value: string): BoatracePlaceId => {
+    const result = BoatracePlaceIdSchema.safeParse(value);
+    if (!result.success) {
+        throw new Error(result.error.message);
+    }
+    return result.data;
+};
+
+/**
  * オートレースのracePlayerIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
@@ -655,3 +681,16 @@ export const AutoracePlaceIdSchema = z
  * AutoracePlaceIdの型定義
  */
 export type AutoracePlaceId = z.infer<typeof AutoracePlaceIdSchema>;
+
+/**
+ * AutoracePlaceIdのバリデーション
+ * @param value - バリデーション対象
+ * @returns バリデーション済みのAutoracePlaceId
+ */
+export const validateAutoracePlaceId = (value: string): AutoracePlaceId => {
+    const result = AutoracePlaceIdSchema.safeParse(value);
+    if (!result.success) {
+        throw new Error(result.error.message);
+    }
+    return result.data;
+};

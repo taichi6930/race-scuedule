@@ -48,7 +48,7 @@ export class KeirinPlaceEntity {
      * @returns
      */
     toRecord(): KeirinPlaceRecord {
-        return new KeirinPlaceRecord(
+        return KeirinPlaceRecord.create(
             this.id,
             this.placeData.dateTime,
             this.placeData.location,

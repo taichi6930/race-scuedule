@@ -42,7 +42,7 @@ export const baseAutoraceRaceData = AutoraceRaceData.create(
     baseAutoraceRaceNumber,
 );
 
-export const baseAutoracePlaceRecord = new AutoracePlaceRecord(
+export const baseAutoracePlaceRecord = AutoracePlaceRecord.create(
     generateAutoracePlaceId(baseAutoracePlaceDateTime, baseAutoracePlaceCourse),
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,

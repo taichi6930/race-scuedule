@@ -12,7 +12,10 @@ import {
     KeirinRacePlayerIdSchema,
     NarPlaceIdSchema,
     NarRaceIdSchema,
+    validateAutoracePlaceId,
+    validateBoatracePlaceId,
     validateJraPlaceId,
+    validateKeirinPlaceId,
     validateNarPlaceId,
     WorldPlaceIdSchema,
     WorldRaceIdSchema,
@@ -192,11 +195,7 @@ describe('KeirinPlaceIdSchema', () => {
             ['jra2021080101', 'keirinから始まる必要があります'],
         ];
         invalidKeirinPlaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = KeirinPlaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateKeirinPlaceId(invalidId)).toThrow(message);
         });
     });
 });
@@ -283,11 +282,7 @@ describe('BoatracePlaceIdSchema', () => {
             ['jra2021080101', 'boatraceから始まる必要があります'],
         ];
         invalidBoatracePlaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = BoatracePlaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateBoatracePlaceId(invalidId)).toThrow(message);
         });
     });
 });
@@ -385,11 +380,7 @@ describe('AutoracePlaceIdSchema', () => {
             ['jra2021080101', 'autoraceから始まる必要があります'],
         ];
         invalidAutoracePlaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = AutoracePlaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateAutoracePlaceId(invalidId)).toThrow(message);
         });
     });
 });

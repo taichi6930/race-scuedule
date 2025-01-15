@@ -6,8 +6,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatracePlaceDataHtmlGateway';
-import { BOATRACE_SPECIFIED_GRADE_LIST } from '../../utility/data/boatrace/boatraceGradeType';
-import { BoatraceRaceCourseList } from '../../utility/data/boatrace/boatraceRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
@@ -170,17 +168,6 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 .trim()
                 // eslint-disable-next-line no-irregular-whitespace
                 .replace(/[\s　]+/g, '');
-
-            //placeがBoatraceRaceCourseに含まれているか確認
-            if (!BoatraceRaceCourseList.includes(place)) {
-                console.log('ボートレース場が見つかりませんでした');
-                return;
-            }
-            // gradeがBoatraceGradeTypeに含まれているか確認
-            if (!BOATRACE_SPECIFIED_GRADE_LIST.includes(grade)) {
-                console.log(`グレードが見つかりませんでした:"${grade}"`);
-                return;
-            }
 
             // startDateからfinishDateまでfor文で回す
             // finishDateの1日後まで回す

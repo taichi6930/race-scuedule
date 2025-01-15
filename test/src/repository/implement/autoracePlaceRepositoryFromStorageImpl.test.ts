@@ -11,6 +11,7 @@ import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autor
 import { AutoracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
+import { AUTORACE_PLACE_CODE } from '../../../../lib/src/utility/data/autorace/autoraceRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForAutoracePlace } from '../../mock/gateway/s3GatewayMock';
 
@@ -51,7 +52,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
                     format(date, 'yyyy-MM-dd HH:mm:ss'),
                     '飯塚',
                     'SG',
-                    `autorace${format(date, 'yyyyMM')}`,
+                    `autorace${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE['飯塚']}`,
                 ].join(',');
                 // データ行を生成
                 const csvUndefinedDataText: string = [
