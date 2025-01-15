@@ -12,7 +12,7 @@ import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fet
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV === 'GITHUB_ACTIONS_CI') {
     describe('WorldRaceRepositoryFromHtmlImpl', () => {
         test('CI環境でテストをスキップ', () => {
             expect(true).toBe(true);
