@@ -10,8 +10,9 @@ import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worl
 import { WorldRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
+import { ENV } from '../../../../lib/src/utility/env';
 
-if (process.env.GITHUB_ACTIONS_CI) {
+if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('WorldRaceRepositoryFromHtmlImpl', () => {
         test('CI環境でテストをスキップ', () => {
             expect(true).toBe(true);
