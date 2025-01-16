@@ -543,14 +543,6 @@ export class GoogleCalendarService<R extends RaceEntity>
             description:
                 `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
             ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
-            ${
-                ['GP', 'GⅠ', 'GⅡ'].includes(raceEntity.raceData.grade)
-                    ? createAnchorTag(
-                          'Youtube（本気の競輪TV）',
-                          getYoutubeLiveUrl('rakutenkdreams'),
-                      )
-                    : ''
-            }
             更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };

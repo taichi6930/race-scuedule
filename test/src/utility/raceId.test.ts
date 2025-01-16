@@ -1,34 +1,25 @@
 import {
-    AutoracePlaceIdSchema,
-    AutoraceRaceIdSchema,
-    AutoraceRacePlayerIdSchema,
-    BoatracePlaceIdSchema,
-    BoatraceRaceIdSchema,
-    BoatraceRacePlayerIdSchema,
-    JraPlaceIdSchema,
-    JraRaceIdSchema,
-    KeirinPlaceIdSchema,
-    KeirinRaceIdSchema,
-    KeirinRacePlayerIdSchema,
-    NarPlaceIdSchema,
-    NarRaceIdSchema,
     validateAutoracePlaceId,
+    validateAutoraceRaceId,
+    validateAutoraceRacePlayerId,
     validateBoatracePlaceId,
+    validateBoatraceRaceId,
+    validateBoatraceRacePlayerId,
     validateJraPlaceId,
+    validateJraRaceId,
     validateKeirinPlaceId,
+    validateKeirinRaceId,
+    validateKeirinRacePlayerId,
     validateNarPlaceId,
-    WorldPlaceIdSchema,
-    WorldRaceIdSchema,
+    validateNarRaceId,
+    validateWorldPlaceId,
+    validateWorldRaceId,
 } from '../../../lib/src/utility/raceId';
 
 describe('JraPlaceIdSchema', () => {
     it('正しいJraPlaceId', () => {
         const validJraPlaceId = 'jra2021080101';
-        const result = JraPlaceIdSchema.safeParse(validJraPlaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validJraPlaceId);
-        }
+        expect(validateJraPlaceId(validJraPlaceId)).toBe(validJraPlaceId);
     });
 
     it('不正なJraPlaceId', () => {
@@ -47,11 +38,7 @@ describe('JraPlaceIdSchema', () => {
 describe('JraRaceIdSchema', () => {
     it('正しいJraRaceId', () => {
         const validJraRaceId = 'jra202108010101';
-        const result = JraRaceIdSchema.safeParse(validJraRaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validJraRaceId);
-        }
+        expect(validateJraRaceId(validJraRaceId)).toBe(validJraRaceId);
     });
 
     it('不正なJraRaceId', () => {
@@ -63,11 +50,7 @@ describe('JraRaceIdSchema', () => {
             ['jra202108010113', 'レース番号は1~12の範囲である必要があります'],
         ];
         invalidJraRaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = JraRaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateJraRaceId(invalidId)).toThrow(message);
         });
     });
 });
@@ -75,11 +58,7 @@ describe('JraRaceIdSchema', () => {
 describe('NarPlaceIdSchema', () => {
     it('正しいNarPlaceId', () => {
         const validNarPlaceId = 'nar2021080101';
-        const result = NarPlaceIdSchema.safeParse(validNarPlaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validNarPlaceId);
-        }
+        expect(validateNarPlaceId(validNarPlaceId)).toBe(validNarPlaceId);
     });
 
     it('不正なNarPlaceId', () => {
@@ -98,11 +77,7 @@ describe('NarPlaceIdSchema', () => {
 describe('NarRaceIdSchema', () => {
     it('正しいNarRaceId', () => {
         const validNarRaceId = 'nar202108010101';
-        const result = NarRaceIdSchema.safeParse(validNarRaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validNarRaceId);
-        }
+        expect(validateNarRaceId(validNarRaceId)).toBe(validNarRaceId);
     });
 
     it('不正なNarRaceId', () => {
@@ -114,11 +89,7 @@ describe('NarRaceIdSchema', () => {
             ['nar202108010113', 'レース番号は1~12の範囲である必要があります'],
         ];
         invalidNarRaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = NarRaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateNarRaceId(invalidId)).toThrow(message);
         });
     });
 });
@@ -126,11 +97,7 @@ describe('NarRaceIdSchema', () => {
 describe('WorldPlaceIdSchema', () => {
     it('正しいWorldPlaceId', () => {
         const validWorldPlaceId = 'world2021080101';
-        const result = WorldPlaceIdSchema.safeParse(validWorldPlaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validWorldPlaceId);
-        }
+        expect(validateWorldPlaceId(validWorldPlaceId)).toBe(validWorldPlaceId);
     });
 
     it('不正なWorldPlaceId', () => {
@@ -141,11 +108,7 @@ describe('WorldPlaceIdSchema', () => {
             ['jra2021080101', 'worldから始まる必要があります'],
         ];
         invalidWorldPlaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = WorldPlaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateWorldPlaceId(invalidId)).toThrow(message);
         });
     });
 });
@@ -153,11 +116,7 @@ describe('WorldPlaceIdSchema', () => {
 describe('WorldRaceIdSchema', () => {
     it('正しいWorldRaceId', () => {
         const validWorldRaceId = 'world202108010101';
-        const result = WorldRaceIdSchema.safeParse(validWorldRaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validWorldRaceId);
-        }
+        expect(validateWorldRaceId(validWorldRaceId)).toBe(validWorldRaceId);
     });
 
     it('不正なWorldRaceId', () => {
@@ -168,11 +127,7 @@ describe('WorldRaceIdSchema', () => {
             ['jra202108010101', 'worldから始まる必要があります'],
         ];
         invalidWorldRaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = WorldRaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateWorldRaceId(invalidId)).toThrow(message);
         });
     });
 });
@@ -180,11 +135,9 @@ describe('WorldRaceIdSchema', () => {
 describe('KeirinPlaceIdSchema', () => {
     it('正しいKeirinPlaceId', () => {
         const validKeirinPlaceId = 'keirin2021080101';
-        const result = KeirinPlaceIdSchema.safeParse(validKeirinPlaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validKeirinPlaceId);
-        }
+        expect(validateKeirinPlaceId(validKeirinPlaceId)).toBe(
+            validKeirinPlaceId,
+        );
     });
 
     it('不正なKeirinPlaceId', () => {
@@ -203,11 +156,7 @@ describe('KeirinPlaceIdSchema', () => {
 describe('KeirinRaceIdSchema', () => {
     it('正しいKeirinRaceId', () => {
         const validKeirinRaceId = 'keirin202108010101';
-        const result = KeirinRaceIdSchema.safeParse(validKeirinRaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validKeirinRaceId);
-        }
+        expect(validateKeirinRaceId(validKeirinRaceId)).toBe(validKeirinRaceId);
     });
 
     it('不正なKeirinRaceId', () => {
@@ -222,11 +171,7 @@ describe('KeirinRaceIdSchema', () => {
             ],
         ];
         invalidKeirinRaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = KeirinRaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateKeirinRaceId(invalidId)).toThrow(message);
         });
     });
 });
@@ -234,13 +179,9 @@ describe('KeirinRaceIdSchema', () => {
 describe('KeirinRacePlayerIdSchema', () => {
     it('正しいKeirinRacePlayerId', () => {
         const validKeirinRacePlayerId = 'keirin20210801010101';
-        const result = KeirinRacePlayerIdSchema.safeParse(
+        expect(validateKeirinRacePlayerId(validKeirinRacePlayerId)).toBe(
             validKeirinRacePlayerId,
         );
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validKeirinRacePlayerId);
-        }
     });
 
     it('不正なKeirinRacePlayerId', () => {
@@ -255,11 +196,9 @@ describe('KeirinRacePlayerIdSchema', () => {
             ['keirin20210801010113', '枠番は1~9の範囲である必要があります'],
         ];
         invalidKeirinRacePlayerIdAndMessage.forEach(([invalidId, message]) => {
-            const result = KeirinRacePlayerIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateKeirinRacePlayerId(invalidId)).toThrow(
+                message,
+            );
         });
     });
 });
@@ -267,11 +206,9 @@ describe('KeirinRacePlayerIdSchema', () => {
 describe('BoatracePlaceIdSchema', () => {
     it('正しいBoatracePlaceId', () => {
         const validBoatracePlaceId = 'boatrace2021080101';
-        const result = BoatracePlaceIdSchema.safeParse(validBoatracePlaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validBoatracePlaceId);
-        }
+        expect(validateBoatracePlaceId(validBoatracePlaceId)).toBe(
+            validBoatracePlaceId,
+        );
     });
 
     it('不正なBoatracePlaceId', () => {
@@ -290,11 +227,9 @@ describe('BoatracePlaceIdSchema', () => {
 describe('BoatraceRaceIdSchema', () => {
     it('正しいBoatraceRaceId', () => {
         const validBoatraceRaceId = 'boatrace202108010101';
-        const result = BoatraceRaceIdSchema.safeParse(validBoatraceRaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validBoatraceRaceId);
-        }
+        expect(validateBoatraceRaceId(validBoatraceRaceId)).toBe(
+            validBoatraceRaceId,
+        );
     });
 
     it('不正なBoatraceRaceId', () => {
@@ -312,11 +247,7 @@ describe('BoatraceRaceIdSchema', () => {
             ],
         ];
         invalidBoatraceRaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = BoatraceRaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateBoatraceRaceId(invalidId)).toThrow(message);
         });
     });
 });
@@ -324,13 +255,9 @@ describe('BoatraceRaceIdSchema', () => {
 describe('BoatraceRacePlayerIdSchema', () => {
     it('正しいBoatraceRacePlayerId', () => {
         const validBoatraceRacePlayerId = 'boatrace20210801010101';
-        const result = BoatraceRacePlayerIdSchema.safeParse(
+        expect(validateBoatraceRacePlayerId(validBoatraceRacePlayerId)).toBe(
             validBoatraceRacePlayerId,
         );
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validBoatraceRacePlayerId);
-        }
     });
 
     it('不正なBoatraceRacePlayerId', () => {
@@ -352,11 +279,9 @@ describe('BoatraceRacePlayerIdSchema', () => {
         ];
         invalidBoatraceRacePlayerIdAndMessage.forEach(
             ([invalidId, message]) => {
-                const result = BoatraceRacePlayerIdSchema.safeParse(invalidId);
-                expect(result.success).toBe(false);
-                if (!result.success) {
-                    expect(result.error.issues[0].message).toBe(message);
-                }
+                expect(() => validateBoatraceRacePlayerId(invalidId)).toThrow(
+                    message,
+                );
             },
         );
     });
@@ -365,11 +290,9 @@ describe('BoatraceRacePlayerIdSchema', () => {
 describe('AutoracePlaceIdSchema', () => {
     it('正しいAutoracePlaceId', () => {
         const validAutoracePlaceId = 'autorace2021080101';
-        const result = AutoracePlaceIdSchema.safeParse(validAutoracePlaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validAutoracePlaceId);
-        }
+        expect(validateAutoracePlaceId(validAutoracePlaceId)).toBe(
+            validAutoracePlaceId,
+        );
     });
 
     it('不正なAutoracePlaceId', () => {
@@ -388,11 +311,9 @@ describe('AutoracePlaceIdSchema', () => {
 describe('AutoraceRaceIdSchema', () => {
     it('正しいAutoraceRaceId', () => {
         const validAutoraceRaceId = 'autorace202108010101';
-        const result = AutoraceRaceIdSchema.safeParse(validAutoraceRaceId);
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validAutoraceRaceId);
-        }
+        expect(validateAutoraceRaceId(validAutoraceRaceId)).toBe(
+            validAutoraceRaceId,
+        );
     });
 
     it('不正なAutoraceRaceId', () => {
@@ -410,11 +331,7 @@ describe('AutoraceRaceIdSchema', () => {
             ],
         ];
         invalidAutoraceRaceIdAndMessage.forEach(([invalidId, message]) => {
-            const result = AutoraceRaceIdSchema.safeParse(invalidId);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].message).toBe(message);
-            }
+            expect(() => validateAutoraceRaceId(invalidId)).toThrow(message);
         });
     });
 });
@@ -422,13 +339,9 @@ describe('AutoraceRaceIdSchema', () => {
 describe('AutoraceRacePlayerIdSchema', () => {
     it('正しいAutoraceRacePlayerId', () => {
         const validAutoraceRacePlayerId = 'autorace20210801010101';
-        const result = AutoraceRacePlayerIdSchema.safeParse(
+        expect(validateAutoraceRacePlayerId(validAutoraceRacePlayerId)).toBe(
             validAutoraceRacePlayerId,
         );
-        expect(result.success).toBe(true);
-        if (result.success) {
-            expect(result.data).toBe(validAutoraceRacePlayerId);
-        }
     });
 
     it('不正なAutoraceRacePlayerId', () => {
@@ -450,11 +363,9 @@ describe('AutoraceRacePlayerIdSchema', () => {
         ];
         invalidAutoraceRacePlayerIdAndMessage.forEach(
             ([invalidId, message]) => {
-                const result = AutoraceRacePlayerIdSchema.safeParse(invalidId);
-                expect(result.success).toBe(false);
-                if (!result.success) {
-                    expect(result.error.issues[0].message).toBe(message);
-                }
+                expect(() => validateAutoraceRacePlayerId(invalidId)).toThrow(
+                    message,
+                );
             },
         );
     });

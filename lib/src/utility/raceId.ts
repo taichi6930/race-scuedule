@@ -32,6 +32,7 @@ import { NarRaceNumberSchema } from './data/nar/narRaceNumber';
 import { NETKEIBA_BABACODE } from './data/netkeiba';
 import type { WorldRaceCourse } from './data/world/worldRaceCourse';
 import { WORLD_PLACE_CODE } from './data/world/worldRaceCourse';
+import type { WorldRaceDateTime } from './data/world/worldRaceDateTime';
 import type { WorldRaceNumber } from './data/world/worldRaceNumber';
 import { WorldRaceNumberSchema } from './data/world/worldRaceNumber';
 
@@ -54,7 +55,7 @@ export const generateJraRaceId = (
  * JraRaceIdのzod型定義
  * jra + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
  */
-export const JraRaceIdSchema = z
+const JraRaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('jra');
@@ -105,7 +106,7 @@ export const generateJraPlaceId = (
  * JraPlaceIdのzod型定義
  * jra + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const JraPlaceIdSchema = z
+const JraPlaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('jra');
@@ -154,7 +155,7 @@ export const generateNarRaceId = (
  * NarRaceIdのzod型定義
  * nar + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
  */
-export const NarRaceIdSchema = z
+const NarRaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('nar');
@@ -208,7 +209,7 @@ export const generateNarPlaceId = (
  * NarPlaceIdのzod型定義
  * nar + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const NarPlaceIdSchema = z
+const NarPlaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('nar');
@@ -242,7 +243,7 @@ export const validateNarPlaceId = (value: string): NarPlaceId => {
  * @param number - レース番号
  */
 export const generateWorldRaceId = (
-    dateTime: Date,
+    dateTime: WorldRaceDateTime,
     location: WorldRaceCourse,
     number: WorldRaceNumber,
 ): WorldRaceId => {
@@ -254,7 +255,7 @@ export const generateWorldRaceId = (
  * WorldRaceIdのzod型定義
  * world + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
  */
-export const WorldRaceIdSchema = z
+const WorldRaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('world');
@@ -274,6 +275,19 @@ export const WorldRaceIdSchema = z
 export type WorldRaceId = z.infer<typeof WorldRaceIdSchema>;
 
 /**
+ * WorldRaceIdのバリデーション
+ * @param value - バリデーション対象
+ * @returns バリデーション済みのWorldRaceId
+ */
+export const validateWorldRaceId = (value: string): WorldRaceId => {
+    const result = WorldRaceIdSchema.safeParse(value);
+    if (!result.success) {
+        throw new Error(result.error.message);
+    }
+    return result.data;
+};
+
+/**
  * 海外競馬のplaceIdを作成する
  * @param dateTime - 開催日時
  * @param location - 開催場所
@@ -291,7 +305,7 @@ export const generateWorldPlaceId = (
  * WorldPlaceIdのzod型定義
  * world + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const WorldPlaceIdSchema = z
+const WorldPlaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('world');
@@ -304,6 +318,19 @@ export const WorldPlaceIdSchema = z
  * WorldPlaceIdの型定義
  */
 export type WorldPlaceId = z.infer<typeof WorldPlaceIdSchema>;
+
+/**
+ * WorldPlaceIdのバリデーション
+ * @param value - バリデーション対象
+ * @returns バリデーション済みのWorldPlaceId
+ */
+export const validateWorldPlaceId = (value: string): WorldPlaceId => {
+    const result = WorldPlaceIdSchema.safeParse(value);
+    if (!result.success) {
+        throw new Error(result.error.message);
+    }
+    return result.data;
+};
 
 /**
  * 競輪のracePlayerIdを作成する
@@ -326,7 +353,7 @@ export const generateKeirinRacePlayerId = (
  * KeirinRacePlayerIdのzod型定義
  * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
  */
-export const KeirinRacePlayerIdSchema = z
+const KeirinRacePlayerIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('keirin');
@@ -385,7 +412,7 @@ export const generateKeirinRaceId = (
  * KeirinRaceIdのzod型定義
  * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
  */
-export const KeirinRaceIdSchema = z
+const KeirinRaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('keirin');
@@ -436,7 +463,7 @@ export const generateKeirinPlaceId = (
  * KeirinPlaceIdのzod型定義
  * keirin + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const KeirinPlaceIdSchema = z
+const KeirinPlaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('keirin');
@@ -484,7 +511,7 @@ export const generateBoatraceRacePlayerId = (
  * BoatraceRacePlayerIdのzod型定義
  * boatrace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
  */
-export const BoatraceRacePlayerIdSchema = z
+const BoatraceRacePlayerIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('boatrace');
@@ -543,7 +570,7 @@ export const generateBoatraceRaceId = (
  * BoatraceRaceIdのzod型定義
  * boatrace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
  */
-export const BoatraceRaceIdSchema = z
+const BoatraceRaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('boatrace');
@@ -593,7 +620,7 @@ export const generateBoatracePlaceId = (
  * BoatracePlaceIdのzod型定義
  * boatrace + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const BoatracePlaceIdSchema = z
+const BoatracePlaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('boatrace');
@@ -641,7 +668,7 @@ export const generateAutoraceRacePlayerId = (
  * AutoraceRacePlayerIdのzod型定義
  * autorace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）+ 2桁の数字（枠番）
  */
-export const AutoraceRacePlayerIdSchema = z
+const AutoraceRacePlayerIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('autorace');
@@ -700,7 +727,7 @@ export const generateAutoraceRaceId = (
  * AutoraceRaceIdのzod型定義
  * autorace + 8桁の数字（開催日） + 2桁の数字（開催場所）+ 2桁の数字（レース番号）
  */
-export const AutoraceRaceIdSchema = z
+const AutoraceRaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('autorace');
@@ -751,7 +778,7 @@ export const generateAutoracePlaceId = (
  * AutoracePlaceIdのzod型定義
  * autorace + 8桁の数字（開催日） + 2桁の数字（開催場所）
  */
-export const AutoracePlaceIdSchema = z
+const AutoracePlaceIdSchema = z
     .string()
     .refine((value) => {
         return value.startsWith('autorace');
