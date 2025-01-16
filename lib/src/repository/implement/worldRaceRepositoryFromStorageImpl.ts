@@ -135,32 +135,29 @@ export class WorldRaceRepositoryFromStorageImpl
         return lines
             .slice(1)
             .map((line: string) => {
-                const columns = line.split(',');
+                try {
+                    const columns = line.split(',');
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.name] ||
-                    isNaN(parseInt(columns[indices.number]))
-                ) {
+                    // updateDateが存在しない場合は現在時刻を設定
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
+
+                    return WorldRaceRecord.create(
+                        columns[indices.id],
+                        columns[indices.name],
+                        new Date(columns[indices.dateTime]),
+                        columns[indices.location],
+                        columns[indices.surfaceType],
+                        parseInt(columns[indices.distance]),
+                        columns[indices.grade],
+                        parseInt(columns[indices.number]),
+                        updateDate,
+                    );
+                } catch (e) {
+                    console.error(e);
                     return undefined;
                 }
-
-                // updateDateが存在しない場合は現在時刻を設定
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                return WorldRaceRecord.create(
-                    columns[indices.id],
-                    columns[indices.name],
-                    new Date(columns[indices.dateTime]),
-                    columns[indices.location],
-                    columns[indices.surfaceType],
-                    parseInt(columns[indices.distance]),
-                    columns[indices.grade],
-                    parseInt(columns[indices.number]),
-                    updateDate,
-                );
             })
             .filter(
                 (raceData): raceData is WorldRaceRecord =>

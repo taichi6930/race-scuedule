@@ -64,7 +64,7 @@ export class BoatraceRaceEntity {
      * @returns
      */
     toRaceRecord(): BoatraceRaceRecord {
-        return new BoatraceRaceRecord(
+        return BoatraceRaceRecord.create(
             this.id,
             this.raceData.name,
             this.raceData.stage,
@@ -81,20 +81,19 @@ export class BoatraceRaceEntity {
      * @returns
      */
     toPlayerRecordList(): BoatraceRacePlayerRecord[] {
-        return this.racePlayerDataList.map(
-            (playerData) =>
-                new BoatraceRacePlayerRecord(
-                    generateBoatraceRacePlayerId(
-                        this.raceData.dateTime,
-                        this.raceData.location,
-                        this.raceData.number,
-                        playerData.positionNumber,
-                    ),
-                    this.id,
+        return this.racePlayerDataList.map((playerData) =>
+            BoatraceRacePlayerRecord.create(
+                generateBoatraceRacePlayerId(
+                    this.raceData.dateTime,
+                    this.raceData.location,
+                    this.raceData.number,
                     playerData.positionNumber,
-                    playerData.playerNumber,
-                    this.updateDate,
                 ),
+                this.id,
+                playerData.positionNumber,
+                playerData.playerNumber,
+                this.updateDate,
+            ),
         );
     }
 }

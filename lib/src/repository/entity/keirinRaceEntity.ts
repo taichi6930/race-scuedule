@@ -64,7 +64,7 @@ export class KeirinRaceEntity {
      * @returns
      */
     toRaceRecord(): KeirinRaceRecord {
-        return new KeirinRaceRecord(
+        return KeirinRaceRecord.create(
             this.id,
             this.raceData.name,
             this.raceData.stage,
@@ -81,20 +81,19 @@ export class KeirinRaceEntity {
      * @returns
      */
     toPlayerRecordList(): KeirinRacePlayerRecord[] {
-        return this.racePlayerDataList.map(
-            (playerData) =>
-                new KeirinRacePlayerRecord(
-                    generateKeirinRacePlayerId(
-                        this.raceData.dateTime,
-                        this.raceData.location,
-                        this.raceData.number,
-                        playerData.positionNumber,
-                    ),
-                    this.id,
+        return this.racePlayerDataList.map((playerData) =>
+            KeirinRacePlayerRecord.create(
+                generateKeirinRacePlayerId(
+                    this.raceData.dateTime,
+                    this.raceData.location,
+                    this.raceData.number,
                     playerData.positionNumber,
-                    playerData.playerNumber,
-                    this.updateDate,
                 ),
+                this.id,
+                playerData.positionNumber,
+                playerData.playerNumber,
+                this.updateDate,
+            ),
         );
     }
 }

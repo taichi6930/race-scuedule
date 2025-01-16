@@ -200,30 +200,27 @@ export class KeirinRaceRepositoryFromStorageImpl
         return lines
             .slice(1)
             .map((line: string) => {
-                const columns = line.split(',');
+                try {
+                    const columns = line.split(',');
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.name] ||
-                    isNaN(parseInt(columns[indices.number]))
-                ) {
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
+
+                    return KeirinRaceRecord.create(
+                        columns[indices.id],
+                        columns[indices.name],
+                        columns[indices.stage],
+                        new Date(columns[indices.dateTime]),
+                        columns[indices.location],
+                        columns[indices.grade],
+                        parseInt(columns[indices.number]),
+                        updateDate,
+                    );
+                } catch (error) {
+                    console.error('KeirinRaceRecord create error', error);
                     return undefined;
                 }
-
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                return new KeirinRaceRecord(
-                    columns[indices.id],
-                    columns[indices.name],
-                    columns[indices.stage],
-                    new Date(columns[indices.dateTime]),
-                    columns[indices.location],
-                    columns[indices.grade],
-                    parseInt(columns[indices.number]),
-                    updateDate,
-                );
             })
             .filter(
                 (raceData): raceData is KeirinRaceRecord =>
@@ -267,29 +264,24 @@ export class KeirinRaceRepositoryFromStorageImpl
         const keirinRacePlayerRecordList: KeirinRacePlayerRecord[] = lines
             .slice(1)
             .map((line: string) => {
-                const columns = line.split(',');
+                try {
+                    const columns = line.split(',');
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.id] ||
-                    !columns[indices.raceId] ||
-                    isNaN(parseInt(columns[indices.positionNumber])) ||
-                    isNaN(parseInt(columns[indices.playerNumber]))
-                ) {
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
+
+                    return KeirinRacePlayerRecord.create(
+                        columns[indices.id],
+                        columns[indices.raceId],
+                        parseInt(columns[indices.positionNumber]),
+                        parseInt(columns[indices.playerNumber]),
+                        updateDate,
+                    );
+                } catch (error) {
+                    console.error('KeirinRacePlayerRecord create error', error);
                     return undefined;
                 }
-
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                return new KeirinRacePlayerRecord(
-                    columns[indices.id],
-                    columns[indices.raceId],
-                    parseInt(columns[indices.positionNumber]),
-                    parseInt(columns[indices.playerNumber]),
-                    updateDate,
-                );
             })
             .filter(
                 (

@@ -64,7 +64,7 @@ export class AutoraceRaceEntity {
      * @returns
      */
     toRaceRecord(): AutoraceRaceRecord {
-        return new AutoraceRaceRecord(
+        return AutoraceRaceRecord.create(
             this.id,
             this.raceData.name,
             this.raceData.stage,
@@ -81,20 +81,19 @@ export class AutoraceRaceEntity {
      * @returns
      */
     toPlayerRecordList(): AutoraceRacePlayerRecord[] {
-        return this.racePlayerDataList.map(
-            (playerData) =>
-                new AutoraceRacePlayerRecord(
-                    generateAutoraceRacePlayerId(
-                        this.raceData.dateTime,
-                        this.raceData.location,
-                        this.raceData.number,
-                        playerData.positionNumber,
-                    ),
-                    this.id,
+        return this.racePlayerDataList.map((playerData) =>
+            AutoraceRacePlayerRecord.create(
+                generateAutoraceRacePlayerId(
+                    this.raceData.dateTime,
+                    this.raceData.location,
+                    this.raceData.number,
                     playerData.positionNumber,
-                    playerData.playerNumber,
-                    this.updateDate,
                 ),
+                this.id,
+                playerData.positionNumber,
+                playerData.playerNumber,
+                this.updateDate,
+            ),
         );
     }
 }

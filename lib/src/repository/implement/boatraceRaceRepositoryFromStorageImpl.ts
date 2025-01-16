@@ -200,31 +200,28 @@ export class BoatraceRaceRepositoryFromStorageImpl
         return lines
             .slice(1)
             .map((line: string) => {
-                const columns = line.split(',');
+                try {
+                    const columns = line.split(',');
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.name] ||
-                    isNaN(parseInt(columns[indices.number]))
-                ) {
+                    // updateDateが存在しない場合は現在時刻を設定
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
+
+                    return BoatraceRaceRecord.create(
+                        columns[indices.id],
+                        columns[indices.name],
+                        columns[indices.stage],
+                        new Date(columns[indices.dateTime]),
+                        columns[indices.location],
+                        columns[indices.grade],
+                        parseInt(columns[indices.number]),
+                        updateDate,
+                    );
+                } catch (e) {
+                    console.error(e);
                     return undefined;
                 }
-
-                // updateDateが存在しない場合は現在時刻を設定
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                return new BoatraceRaceRecord(
-                    columns[indices.id],
-                    columns[indices.name],
-                    columns[indices.stage],
-                    new Date(columns[indices.dateTime]),
-                    columns[indices.location],
-                    columns[indices.grade],
-                    parseInt(columns[indices.number]),
-                    updateDate,
-                );
             })
             .filter(
                 (raceData): raceData is BoatraceRaceRecord =>
@@ -268,30 +265,25 @@ export class BoatraceRaceRepositoryFromStorageImpl
         const boatraceRacePlayerRecordList: BoatraceRacePlayerRecord[] = lines
             .slice(1)
             .map((line: string) => {
-                const columns = line.split(',');
+                try {
+                    const columns = line.split(',');
 
-                // 必要なフィールドが存在しない場合はundefinedを返す
-                if (
-                    !columns[indices.id] ||
-                    !columns[indices.raceId] ||
-                    isNaN(parseInt(columns[indices.positionNumber])) ||
-                    isNaN(parseInt(columns[indices.playerNumber]))
-                ) {
+                    // updateDateが存在しない場合は現在時刻を設定
+                    const updateDate = columns[indices.updateDate]
+                        ? new Date(columns[indices.updateDate])
+                        : getJSTDate(new Date());
+
+                    return BoatraceRacePlayerRecord.create(
+                        columns[indices.id],
+                        columns[indices.raceId],
+                        parseInt(columns[indices.positionNumber]),
+                        parseInt(columns[indices.playerNumber]),
+                        updateDate,
+                    );
+                } catch (e) {
+                    console.error(e);
                     return undefined;
                 }
-
-                // updateDateが存在しない場合は現在時刻を設定
-                const updateDate = columns[indices.updateDate]
-                    ? new Date(columns[indices.updateDate])
-                    : getJSTDate(new Date());
-
-                return new BoatraceRacePlayerRecord(
-                    columns[indices.id],
-                    columns[indices.raceId],
-                    parseInt(columns[indices.positionNumber]),
-                    parseInt(columns[indices.playerNumber]),
-                    updateDate,
-                );
             })
             .filter(
                 (
