@@ -118,7 +118,6 @@ export class NarRaceRepositoryFromStorageImpl
                             );
                         } catch (e) {
                             console.error(e);
-                            // エラーが発生した場合はundefinedを返す
                             return undefined;
                         }
                     })

@@ -9,7 +9,6 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { AutoraceRaceDataUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceDataUseCase';
-import type { AutoraceRaceStage } from '../../../../lib/src/utility/data/autorace/autoraceRaceStage';
 import {
     baseAutoraceRaceDataList,
     baseAutoraceRaceEntity,
@@ -101,7 +100,7 @@ describe('AutoraceRaceDataUseCase', () => {
             },
             {
                 searchConditions: {
-                    stageList: ['優勝戦' as AutoraceRaceStage],
+                    stageList: ['優勝戦'],
                 },
                 descriptions: 'stageを検索条件に入れて',
                 expectedLength: 5,
@@ -125,7 +124,7 @@ describe('AutoraceRaceDataUseCase', () => {
             {
                 searchConditions: {
                     gradeList: ['SG'],
-                    stageList: ['優勝戦' as AutoraceRaceStage],
+                    stageList: ['優勝戦'],
                 },
                 descriptions: 'gradeとstageを検索条件に入れて',
                 expectedLength: 1,
@@ -133,7 +132,7 @@ describe('AutoraceRaceDataUseCase', () => {
             {
                 searchConditions: {
                     locationList: ['飯塚'],
-                    stageList: ['優勝戦' as AutoraceRaceStage],
+                    stageList: ['優勝戦'],
                 },
                 descriptions: 'locationとstageを検索条件に入れて',
                 expectedLength: 1,
@@ -142,7 +141,7 @@ describe('AutoraceRaceDataUseCase', () => {
                 searchConditions: {
                     gradeList: ['SG'],
                     locationList: ['飯塚'],
-                    stageList: ['優勝戦' as AutoraceRaceStage],
+                    stageList: ['優勝戦'],
                 },
                 descriptions: 'gradeとlocation、stageを検索条件に入れて',
                 expectedLength: 1,

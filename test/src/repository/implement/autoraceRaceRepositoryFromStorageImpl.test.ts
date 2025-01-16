@@ -57,6 +57,182 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'grade',
                         'number',
                         'id',
+                        'updateDate',
+                    ].join(',');
+                    const csvDataText: string = [
+                        `raceName20240101`,
+                        `優勝戦`,
+                        date.toISOString(),
+                        '飯塚',
+                        'GⅠ',
+                        '1',
+                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        getJSTDate(new Date()).toISOString(),
+                    ].join(',');
+                    const csvDataRameNameUndefinedText: string = [
+                        undefined,
+                        `優勝戦`,
+                        date.toISOString(),
+                        '飯塚',
+                        'GⅠ',
+                        '1',
+                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        getJSTDate(new Date()).toISOString(),
+                    ].join(',');
+                    const csvDataNumUndefinedText: string = [
+                        `raceName${filename.slice(0, 8)}`,
+                        `優勝戦`,
+                        date.toISOString(),
+                        '飯塚',
+                        'GⅠ',
+                        undefined,
+                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        undefined,
+                    ].join(',');
+                    const csvDatajoinText: string = [
+                        csvHeaderDataText,
+                        csvDataText,
+                        csvDataRameNameUndefinedText,
+                        csvDataNumUndefinedText,
+                    ].join('\n');
+                    return Promise.resolve(csvDatajoinText);
+                },
+            );
+            racePlayerS3Gateway.fetchDataFromS3.mockImplementation(
+                async (filename: string) => {
+                    // filenameから日付を取得 16時からのレースにしたい
+                    const date = parse(
+                        filename.slice(0, 8),
+                        'yyyyMMdd',
+                        new Date(),
+                    );
+                    date.setHours(16);
+                    const csvHeaderDataText: string = [
+                        'id',
+                        'raceId',
+                        'positionNumber',
+                        'playerNumber',
+                    ].join(',');
+                    const csvDataText: string = [
+                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}0101`,
+                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        '1',
+                        '999999',
+                    ].join(',');
+                    const csvDataRameNameUndefinedText: string = [
+                        undefined,
+                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        '1',
+                        '1',
+                    ].join(',');
+                    const csvDataNumUndefinedText: string = [
+                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}0101`,
+                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        null,
+                        '1',
+                    ].join(',');
+                    const csvDatajoinText: string = [
+                        csvHeaderDataText,
+                        csvDataText,
+                        csvDataRameNameUndefinedText,
+                        csvDataNumUndefinedText,
+                    ].join('\n');
+                    return Promise.resolve(csvDatajoinText);
+                },
+            );
+            // リクエストの作成
+            const request = new FetchRaceListRequest<AutoracePlaceEntity>(
+                new Date('2024-01-01'),
+                new Date('2024-02-01'),
+            );
+            // テスト実行
+            const response = await repository.fetchRaceEntityList(request);
+
+            // レスポンスの検証
+            expect(response.raceEntityList).toHaveLength(1);
+        });
+    });
+
+    describe('registerRaceList', () => {
+        test('DBが空データのところに、正しいレースデータを登録できる', async () => {
+            // 1年間のレースデータを登録する
+            const raceEntityList: AutoraceRaceEntity[] = Array.from(
+                { length: 366 },
+                (_, day) => {
+                    const date = new Date('2024-01-01');
+                    date.setDate(date.getDate() + day);
+                    return Array.from(
+                        { length: 12 },
+                        (__, j) =>
+                            new AutoraceRaceEntity(
+                                null,
+                                AutoraceRaceData.create(
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    `優勝戦`,
+                                    date,
+                                    '飯塚',
+                                    'GⅠ',
+                                    j + 1,
+                                ),
+                                baseAutoraceRacePlayerDataList,
+                                getJSTDate(new Date()),
+                            ),
+                    );
+                },
+            ).flat();
+
+            // リクエストの作成
+            const request = new RegisterRaceListRequest<AutoraceRaceEntity>(
+                raceEntityList,
+            );
+            // テスト実行
+            await repository.registerRaceEntityList(request);
+
+            // uploadDataToS3が1回呼ばれることを検証
+            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
+        });
+
+        test('DBにデータがあるところに、正しいレースデータを登録できる', async () => {
+            // 1年間のレースデータを登録する
+            const raceEntityList: AutoraceRaceEntity[] = Array.from(
+                { length: 366 },
+                (_, day) => {
+                    const date = new Date('2024-01-01');
+                    date.setDate(date.getDate() + day);
+                    return Array.from(
+                        { length: 12 },
+                        (__, j) =>
+                            new AutoraceRaceEntity(
+                                null,
+                                AutoraceRaceData.create(
+                                    `raceName${format(date, 'yyyyMMdd')}`,
+                                    `優勝戦`,
+                                    date,
+                                    '飯塚',
+                                    'GⅠ',
+                                    j + 1,
+                                ),
+                                baseAutoraceRacePlayerDataList,
+                                getJSTDate(new Date()),
+                            ),
+                    );
+                },
+            ).flat();
+
+            // モックの戻り値を設定
+            raceS3Gateway.fetchDataFromS3.mockImplementation(
+                async (filename: string) => {
+                    // filenameから日付を取得 16時からのレースにしたい
+                    const date = parse('20240101', 'yyyyMMdd', new Date());
+                    date.setHours(16);
+                    const csvHeaderDataText: string = [
+                        'name',
+                        'stage',
+                        'dateTime',
+                        'location',
+                        'grade',
+                        'number',
+                        'id',
                     ].join(',');
                     const csvDataText: string = [
                         `raceName20240101`,
@@ -105,7 +281,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                     date.setHours(16);
                     const csvHeaderDataText: string = [
                         'id',
-                        'playerId',
+                        'raceId',
                         'positionNumber',
                         'playerNumber',
                     ].join(',');
@@ -113,7 +289,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}0101`,
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
                         '1',
-                        '1',
+                        '999999',
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
@@ -136,46 +312,6 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                     return Promise.resolve(csvDatajoinText);
                 },
             );
-            // リクエストの作成
-            const request = new FetchRaceListRequest<AutoracePlaceEntity>(
-                new Date('2024-01-01'),
-                new Date('2024-02-01'),
-            );
-            // テスト実行
-            const response = await repository.fetchRaceEntityList(request);
-
-            // レスポンスの検証
-            expect(response.raceEntityList).toHaveLength(1);
-        });
-    });
-
-    describe('registerRaceList', () => {
-        test('正しいレースデータを登録できる', async () => {
-            // 1年間のレースデータを登録する
-            const raceEntityList: AutoraceRaceEntity[] = Array.from(
-                { length: 366 },
-                (_, day) => {
-                    const date = new Date('2024-01-01');
-                    date.setDate(date.getDate() + day);
-                    return Array.from(
-                        { length: 12 },
-                        (__, j) =>
-                            new AutoraceRaceEntity(
-                                null,
-                                AutoraceRaceData.create(
-                                    `raceName${format(date, 'yyyyMMdd')}`,
-                                    `優勝戦`,
-                                    date,
-                                    '飯塚',
-                                    'GⅠ',
-                                    j + 1,
-                                ),
-                                baseAutoraceRacePlayerDataList,
-                                getJSTDate(new Date()),
-                            ),
-                    );
-                },
-            ).flat();
 
             // リクエストの作成
             const request = new RegisterRaceListRequest<AutoraceRaceEntity>(

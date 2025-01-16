@@ -50,7 +50,7 @@ export const baseKeirinPlaceRecord = KeirinPlaceRecord.create(
     baseKeirinRaceUpdateDate,
 );
 
-export const baseKeirinRaceRecord = new KeirinRaceRecord(
+export const baseKeirinRaceRecord = KeirinRaceRecord.create(
     generateKeirinRaceId(
         baseKeirinPlaceDateTime,
         baseKeirinPlaceCourse,
@@ -128,7 +128,7 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
     });
 });
 
-export const baseKeirinRacePlayerRecord = new KeirinRacePlayerRecord(
+export const baseKeirinRacePlayerRecord = KeirinRacePlayerRecord.create(
     generateKeirinRacePlayerId(
         baseKeirinPlaceDateTime,
         baseKeirinPlaceCourse,

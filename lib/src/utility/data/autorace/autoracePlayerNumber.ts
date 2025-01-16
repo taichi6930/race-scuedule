@@ -9,6 +9,11 @@ export const AutoracePlayerList = [
         name: '青山周平',
         priority: 6,
     },
+    {
+        playerNumber: '999999',
+        name: 'test',
+        priority: 3,
+    },
 ];
 
 /**

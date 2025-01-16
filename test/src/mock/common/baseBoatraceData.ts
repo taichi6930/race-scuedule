@@ -50,7 +50,7 @@ export const baseBoatracePlaceRecord = BoatracePlaceRecord.create(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatraceRaceRecord = new BoatraceRaceRecord(
+export const baseBoatraceRaceRecord = BoatraceRaceRecord.create(
     generateBoatraceRaceId(
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,
@@ -90,7 +90,7 @@ export const baseBoatraceRaceEntity = new BoatraceRaceEntity(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatraceRacePlayerRecord = new BoatraceRacePlayerRecord(
+export const baseBoatraceRacePlayerRecord = BoatraceRacePlayerRecord.create(
     generateBoatraceRacePlayerId(
         baseBoatracePlaceDateTime,
         baseBoatracePlaceCourse,

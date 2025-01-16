@@ -1,10 +1,18 @@
 import '../../utility/format';
 
-import type { AutoracePlayerNumber } from '../../utility/data/autorace/autoracePlayerNumber';
-import type { AutoracePositionNumber } from '../../utility/data/autorace/autoracePositionNumber';
-import type {
-    AutoraceRaceId,
-    AutoraceRacePlayerId,
+import {
+    type AutoracePlayerNumber,
+    validateAutoracePlayerNumber,
+} from '../../utility/data/autorace/autoracePlayerNumber';
+import {
+    type AutoracePositionNumber,
+    validateAutoracePositionNumber,
+} from '../../utility/data/autorace/autoracePositionNumber';
+import {
+    type AutoraceRaceId,
+    type AutoraceRacePlayerId,
+    validateAutoraceRaceId,
+    validateAutoraceRacePlayerId,
 } from '../../utility/raceId';
 
 /**
@@ -24,13 +32,43 @@ export class AutoraceRacePlayerRecord {
      *
      *
      */
-    constructor(
+    private constructor(
         public readonly id: AutoraceRacePlayerId,
         public readonly raceId: AutoraceRaceId,
         public readonly positionNumber: AutoracePositionNumber,
         public readonly playerNumber: AutoracePlayerNumber,
         public readonly updateDate: Date,
     ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param raceId - レースID
+     * @param positionNumber - 枠番
+     * @param playerNumber - 選手番号
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        raceId: string,
+        positionNumber: number,
+        playerNumber: number,
+        updateDate: Date,
+    ): AutoraceRacePlayerRecord {
+        try {
+            return new AutoraceRacePlayerRecord(
+                validateAutoraceRacePlayerId(id),
+                validateAutoraceRaceId(raceId),
+                validateAutoracePositionNumber(positionNumber),
+                validateAutoracePlayerNumber(playerNumber),
+                updateDate,
+            );
+        } catch (error) {
+            throw new Error(
+                `Failed to create AutoraceRacePlayerRecord: ${(error as Error).message}`,
+            );
+        }
+    }
 
     /**
      * データのコピー
@@ -40,7 +78,7 @@ export class AutoraceRacePlayerRecord {
     copy(
         partial: Partial<AutoraceRacePlayerRecord> = {},
     ): AutoraceRacePlayerRecord {
-        return new AutoraceRacePlayerRecord(
+        return AutoraceRacePlayerRecord.create(
             partial.id ?? this.id,
             partial.raceId ?? this.raceId,
             partial.positionNumber ?? this.positionNumber,

@@ -50,7 +50,7 @@ export const baseAutoracePlaceRecord = AutoracePlaceRecord.create(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRaceRecord = new AutoraceRaceRecord(
+export const baseAutoraceRaceRecord = AutoraceRaceRecord.create(
     generateAutoraceRaceId(
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,
@@ -85,7 +85,7 @@ export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoraceRacePlayerRecord = new AutoraceRacePlayerRecord(
+export const baseAutoraceRacePlayerRecord = AutoraceRacePlayerRecord.create(
     generateAutoraceRacePlayerId(
         baseAutoracePlaceDateTime,
         baseAutoracePlaceCourse,

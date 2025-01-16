@@ -8,13 +8,9 @@ module.exports = {
         'lib/src/utility/env.ts',
         // TODO: データ用意が大変なので一旦除外、どこかでテストしたい
         'lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl.ts',
-        'lib/src/repository/implement/autoraceRaceRepositoryFromStorageImpl.ts',
         'lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl.ts',
-        'lib/src/repository/implement/boatraceRaceRepositoryFromStorageImpl.ts',
         'lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl.ts',
-        'lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl.ts',
         'lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl.ts',
-        // 'lib/src/repository/implement/narRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl.ts',
     ],
     testEnvironment: 'node',

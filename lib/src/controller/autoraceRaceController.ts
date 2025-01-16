@@ -480,7 +480,7 @@ export class AutoraceRaceController {
                         try {
                             return AutoraceRaceData.create(
                                 race.name,
-                                race.stage as AutoraceRaceStage,
+                                race.stage,
                                 new Date(race.dateTime),
                                 race.location,
                                 race.grade,
