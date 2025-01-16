@@ -128,7 +128,6 @@ export class AutoraceRaceDataUseCase
                     'web',
                 );
 
-            console.log('レースデータを登録する');
             // S3にデータを保存する
             await this.registerRaceEntityList(raceEntityList);
         } catch (error) {

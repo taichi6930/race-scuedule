@@ -99,7 +99,6 @@ export class WorldRaceDataUseCase
             const raceEntityList: WorldRaceEntity[] =
                 await this.getRaceDataList(startDate, finishDate, 'web');
 
-            console.log('レースデータを登録する');
             // S3にデータを保存する
             await this.registerRaceDataList(raceEntityList);
         } catch (error) {

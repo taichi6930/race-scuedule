@@ -141,11 +141,6 @@ export class KeirinPlaceRepositoryFromStorageImpl
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
 
-                    console.log(columns[indices.id]);
-                    console.log(new Date(columns[indices.dateTime]));
-                    console.log(columns[indices.location]);
-                    console.log(columns[indices.grade]);
-
                     return KeirinPlaceRecord.create(
                         columns[indices.id],
                         new Date(columns[indices.dateTime]),
