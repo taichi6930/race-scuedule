@@ -57,6 +57,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         'grade',
                         'number',
                         'id',
+                        'updateDate',
                     ].join(',');
                     const csvDataText: string = [
                         `raceName20240101`,
@@ -66,6 +67,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         '1',
                         `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
@@ -75,6 +77,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         '1',
                         `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -84,6 +87,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         undefined,
                         `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                        undefined,
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
@@ -108,24 +112,28 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         'raceId',
                         'positionNumber',
                         'playerNumber',
+                        'updateDate',
                     ].join(',');
                     const csvDataText: string = [
                         `keirin20240101${KEIRIN_PLACE_CODE['平塚']}0101`,
                         `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
                         '1',
                         '999999',
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
                         `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
                         '1',
                         '1',
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `keirin20240101${KEIRIN_PLACE_CODE['平塚']}0101`,
                         `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
                         null,
                         '1',
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,

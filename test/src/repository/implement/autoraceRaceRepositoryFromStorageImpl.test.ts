@@ -67,7 +67,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         '1',
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
-                        getJSTDate(new Date()).toISOString(),
+                        undefined,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
@@ -87,7 +87,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         undefined,
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
-                        undefined,
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
@@ -112,24 +112,28 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'raceId',
                         'positionNumber',
                         'playerNumber',
+                        'updateDate',
                     ].join(',');
                     const csvDataText: string = [
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}0101`,
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
                         '1',
                         '999999',
+                        undefined,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
                         '1',
                         '1',
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}0101`,
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
                         null,
                         '1',
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
@@ -233,6 +237,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'grade',
                         'number',
                         'id',
+                        'updateDate',
                     ].join(',');
                     const csvDataText: string = [
                         `raceName20240101`,
@@ -242,6 +247,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         '1',
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
@@ -251,6 +257,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         '1',
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `raceName${filename.slice(0, 8)}`,
@@ -260,6 +267,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'GⅠ',
                         undefined,
                         `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,

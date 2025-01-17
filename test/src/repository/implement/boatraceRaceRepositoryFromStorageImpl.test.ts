@@ -112,24 +112,28 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         'raceId',
                         'positionNumber',
                         'playerNumber',
+                        'updateDate',
                     ].join(',');
                     const csvDataText: string = [
                         `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}0101`,
                         `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
                         '1',
                         '999999',
+                        undefined,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
                         `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
                         '1',
                         '1',
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
                         `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}0101`,
                         `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
                         null,
                         '1',
+                        getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDatajoinText: string = [
                         csvHeaderDataText,
