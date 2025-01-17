@@ -3,13 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { IRaceRepository } from '../../repository/interface/IRaceRepository';
-import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
-import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
-import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
-import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
 import { getJSTDate } from '../../utility/date';
@@ -25,15 +20,10 @@ export class JraRaceDataUseCase
         IRaceDataUseCase<JraRaceData, JraGradeType, JraRaceCourse, undefined>
 {
     constructor(
-        @inject('JraPlaceRepositoryFromStorage')
-        private readonly jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
-        @inject('JraRaceRepositoryFromStorage')
-        private readonly jraRaceRepositoryFromStorage: IRaceRepository<
-            JraRaceEntity,
-            JraPlaceEntity
-        >,
-        @inject('JraRaceRepositoryFromHtml')
-        private readonly jraRaceRepositoryFromHtml: IRaceRepository<
+        @inject('JraPlaceDataService')
+        private readonly jraPlaceDataService: IPlaceDataService<JraPlaceEntity>,
+        @inject('JraRaceDataService')
+        private readonly jraRaceDataService: IRaceDataService<
             JraRaceEntity,
             JraPlaceEntity
         >,
@@ -52,18 +42,21 @@ export class JraRaceDataUseCase
         },
     ): Promise<JraRaceData[]> {
         // 競馬場データを取得する
-        const placeEntityList: JraPlaceEntity[] = await this.getPlaceEntityList(
-            startDate,
-            finishDate,
-        );
+        const placeEntityList: JraPlaceEntity[] =
+            await this.jraPlaceDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
+            );
 
         // レースデータを取得する
-        const raceEntityList: JraRaceEntity[] = await this.getRaceEntityList(
-            startDate,
-            finishDate,
-            placeEntityList,
-            'storage',
-        );
+        const raceEntityList: JraRaceEntity[] =
+            await this.jraRaceDataService.fetchRaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
+                placeEntityList,
+            );
 
         // レースデータをJraRaceDataに変換する
         const raceDataList: JraRaceData[] = raceEntityList.map(
@@ -101,25 +94,25 @@ export class JraRaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
-        try {
-            // 競馬場データを取得する
-            const placeEntityList: JraPlaceEntity[] =
-                await this.getPlaceEntityList(startDate, finishDate);
+        // 競馬場データを取得する
+        const placeEntityList: JraPlaceEntity[] =
+            await this.jraPlaceDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
+            );
 
-            // レースデータを取得する
-            const raceEntityList: JraRaceEntity[] =
-                await this.getRaceEntityList(
-                    startDate,
-                    finishDate,
-                    placeEntityList,
-                    'web',
-                );
+        // レースデータを取得する
+        const raceEntityList: JraRaceEntity[] =
+            await this.jraRaceDataService.fetchRaceEntityList(
+                startDate,
+                finishDate,
+                'web',
+                placeEntityList,
+            );
 
-            // S3にデータを保存する
-            await this.registerRaceEntityList(raceEntityList);
-        } catch (error) {
-            console.error('レースデータの更新中にエラーが発生しました:', error);
-        }
+        // S3にデータを保存する
+        await this.jraRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -128,83 +121,12 @@ export class JraRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: JraRaceData[]): Promise<void> {
-        try {
-            // JraRaceDataをJraRaceEntityに変換する
-            const raceEntityList: JraRaceEntity[] = raceDataList.map(
-                (raceData) =>
-                    new JraRaceEntity(null, raceData, getJSTDate(new Date())),
-            );
-            // S3にデータを保存する
-            await this.registerRaceEntityList(raceEntityList);
-        } catch (error) {
-            console.error('レースデータの更新中にエラーが発生しました:', error);
-        }
-    }
-
-    /**
-     * 競馬場データの取得
-     *
-     * @param startDate
-     * @param finishDate
-     */
-    @Logger
-    private async getPlaceEntityList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<JraPlaceEntity[]> {
-        const fetchPlaceListRequest: FetchPlaceListRequest =
-            new FetchPlaceListRequest(startDate, finishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.jraPlaceRepositoryFromStorage.fetchPlaceEntityList(
-                fetchPlaceListRequest,
-            );
-        return fetchPlaceListResponse.placeEntityList;
-    }
-
-    /**
-     * レースデータを取得する
-     * S3から取得する場合はstorage、Webから取得する場合はwebを指定する
-     *
-     * @param startDate
-     * @param finishDate
-     * @param placeEntityList
-     * @param type
-     */
-    @Logger
-    private async getRaceEntityList(
-        startDate: Date,
-        finishDate: Date,
-        placeEntityList: JraPlaceEntity[],
-        type: 'storage' | 'web',
-    ): Promise<JraRaceEntity[]> {
-        const fetchRaceListRequest = new FetchRaceListRequest<JraPlaceEntity>(
-            startDate,
-            finishDate,
-            placeEntityList,
+        // JraRaceDataをJraRaceEntityに変換する
+        const raceEntityList: JraRaceEntity[] = raceDataList.map(
+            (raceData) =>
+                new JraRaceEntity(null, raceData, getJSTDate(new Date())),
         );
-        const repository =
-            type === 'storage'
-                ? this.jraRaceRepositoryFromStorage
-                : this.jraRaceRepositoryFromHtml;
-
-        const fetchRaceListResponse: FetchRaceListResponse<JraRaceEntity> =
-            await repository.fetchRaceEntityList(fetchRaceListRequest);
-        return fetchRaceListResponse.raceEntityList;
-    }
-
-    /**
-     * レースデータを登録する
-     *
-     * @param raceList
-     */
-    @Logger
-    private async registerRaceEntityList(
-        raceEntityList: JraRaceEntity[],
-    ): Promise<void> {
-        const registerRaceListRequest =
-            new RegisterRaceListRequest<JraRaceEntity>(raceEntityList);
-        await this.jraRaceRepositoryFromStorage.registerRaceEntityList(
-            registerRaceListRequest,
-        );
+        // S3にデータを保存する
+        await this.jraRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }

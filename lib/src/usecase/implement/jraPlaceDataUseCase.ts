@@ -2,20 +2,15 @@ import { inject, injectable } from 'tsyringe';
 
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
-import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 @injectable()
 export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
     constructor(
-        @inject('JraPlaceRepositoryFromStorage')
-        private readonly jraPlaceRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
-        @inject('JraPlaceRepositoryFromHtml')
-        private readonly jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
+        @inject('JraPlaceDataService')
+        private readonly jraPlaceDataService: IPlaceDataService<JraPlaceEntity>,
     ) {}
     /**
      * レース開催データを取得する
@@ -29,15 +24,14 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         startDate: Date,
         finishDate: Date,
     ): Promise<JraPlaceData[]> {
-        const request: FetchPlaceListRequest = new FetchPlaceListRequest(
-            startDate,
-            finishDate,
-        );
-        const response: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.jraPlaceRepositoryFromStorage.fetchPlaceEntityList(
-                request,
+        const placeEntityList: JraPlaceEntity[] =
+            await this.jraPlaceDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
             );
-        const placeDataList: JraPlaceData[] = response.placeEntityList.map(
+
+        const placeDataList: JraPlaceData[] = placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
@@ -59,19 +53,14 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         // finishDateは年の最終日に設定する
         const modifyFinishDate = new Date(finishDate.getFullYear() + 1, 0, 0);
         // HTMLからデータを取得する
-        const fetchPlaceListRequest: FetchPlaceListRequest =
-            new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<JraPlaceEntity> =
-            await this.jraPlaceRepositoryFromHtml.fetchPlaceEntityList(
-                fetchPlaceListRequest,
+        const placeEntityList: JraPlaceEntity[] =
+            await this.jraPlaceDataService.fetchPlaceEntityList(
+                modifyStartDate,
+                modifyFinishDate,
+                'web',
             );
-        // S3にデータを保存する
-        const registerPlaceListRequest =
-            new RegisterPlaceListRequest<JraPlaceEntity>(
-                fetchPlaceListResponse.placeEntityList,
-            );
-        await this.jraPlaceRepositoryFromStorage.registerPlaceEntityList(
-            registerPlaceListRequest,
-        );
+
+        // データを更新する
+        await this.jraPlaceDataService.updatePlaceEntityList(placeEntityList);
     }
 }

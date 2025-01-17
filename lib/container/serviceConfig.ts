@@ -2,12 +2,17 @@ import { container } from 'tsyringe';
 
 import type { AutoraceRaceEntity } from '../src/repository/entity/autoraceRaceEntity';
 import type { BoatraceRaceEntity } from '../src/repository/entity/boatraceRaceEntity';
+import type { JraPlaceEntity } from '../src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../src/repository/entity/jraRaceEntity';
 import type { KeirinRaceEntity } from '../src/repository/entity/keirinRaceEntity';
 import type { NarRaceEntity } from '../src/repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../src/repository/entity/worldRaceEntity';
 import { GoogleCalendarService } from '../src/service/implement/googleCalendarService';
+import { JraPlaceDataService } from '../src/service/implement/jraPlaceDataService';
+import { JraRaceDataService } from '../src/service/implement/jraRaceDataService';
 import type { ICalendarService } from '../src/service/interface/ICalendarService';
+import type { IPlaceDataService } from '../src/service/interface/IPlaceDataService';
+import type { IRaceDataService } from '../src/service/interface/IRaceDataService';
 import { MockGoogleCalendarService } from '../src/service/mock/mockGoogleCalendarService';
 import { ENV } from '../src/utility/env';
 
@@ -126,5 +131,15 @@ container.register<ICalendarService<BoatraceRaceEntity>>(
                     return new MockGoogleCalendarService('boatrace');
             }
         },
+    },
+);
+
+container.register<IPlaceDataService<JraPlaceEntity>>('JraPlaceDataService', {
+    useClass: JraPlaceDataService,
+});
+container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
+    'JraRaceDataService',
+    {
+        useClass: JraRaceDataService,
     },
 );

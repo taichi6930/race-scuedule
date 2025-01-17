@@ -4,41 +4,25 @@ import { container } from 'tsyringe';
 
 import type { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import { JraPlaceDataUseCase } from '../../../../lib/src/usecase/implement/jraPlaceDataUseCase';
 import {
     baseJraPlaceData,
     baseJraPlaceEntity,
 } from '../../mock/common/baseJraData';
-import { mockJraPlaceRepositoryFromHtmlImpl } from '../../mock/repository/jraPlaceRepositoryFromHtmlImpl';
-import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/jraPlaceRepositoryFromStorageImpl';
+import { mockJraPlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('JraPlaceDataUseCase', () => {
-    let JraPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceEntity>
-    >;
-    let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<JraPlaceEntity>
-    >;
+    let jraPlaceDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
     let useCase: JraPlaceDataUseCase;
 
     beforeEach(() => {
-        // JraPlaceRepositoryFromStorageImplをコンテナに登録
-        JraPlaceRepositoryFromStorageImpl =
-            mockJraPlaceRepositoryFromStorageImpl();
-        container.register<IPlaceRepository<JraPlaceEntity>>(
-            'JraPlaceRepositoryFromStorage',
+        // JraPlaceDataServiceをコンテナに登録
+        jraPlaceDataService = mockJraPlaceDataServiceMock();
+        container.register<IPlaceDataService<JraPlaceEntity>>(
+            'JraPlaceDataService',
             {
-                useValue: JraPlaceRepositoryFromStorageImpl,
-            },
-        );
-
-        jraPlaceRepositoryFromHtmlImpl = mockJraPlaceRepositoryFromHtmlImpl();
-        container.register<IPlaceRepository<JraPlaceEntity>>(
-            'JraPlaceRepositoryFromHtml',
-            {
-                useValue: jraPlaceRepositoryFromHtmlImpl,
+                useValue: jraPlaceDataService,
             },
         );
 
@@ -52,8 +36,8 @@ describe('JraPlaceDataUseCase', () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
-            JraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<JraPlaceEntity>(mockPlaceEntity),
+            jraPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -76,17 +60,15 @@ describe('JraPlaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            JraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<JraPlaceEntity>(mockPlaceEntity),
+            jraPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
+            expect(jraPlaceDataService.fetchPlaceEntityList).toHaveBeenCalled();
             expect(
-                jraPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                JraPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                jraPlaceDataService.updatePlaceEntityList,
             ).toHaveBeenCalled();
         });
     });
