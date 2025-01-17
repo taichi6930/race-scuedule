@@ -3,13 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import { NarRaceData } from '../../domain/narRaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
-import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { IRaceRepository } from '../../repository/interface/IRaceRepository';
-import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
-import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
-import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
-import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
 import { getJSTDate } from '../../utility/date';
@@ -25,15 +20,10 @@ export class NarRaceDataUseCase
         IRaceDataUseCase<NarRaceData, NarGradeType, NarRaceCourse, undefined>
 {
     constructor(
-        @inject('NarPlaceRepositoryFromStorage')
-        private readonly narPlaceRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,
-        @inject('NarRaceRepositoryFromStorage')
-        private readonly narRaceRepositoryFromStorage: IRaceRepository<
-            NarRaceEntity,
-            NarPlaceEntity
-        >,
-        @inject('NarRaceRepositoryFromHtml')
-        private readonly narRaceRepositoryFromHtml: IRaceRepository<
+        @inject('NarPlaceDataService')
+        private readonly narPlaceDataService: IPlaceDataService<NarPlaceEntity>,
+        @inject('NarRaceDataService')
+        private readonly narRaceDataService: IRaceDataService<
             NarRaceEntity,
             NarPlaceEntity
         >,
@@ -52,18 +42,21 @@ export class NarRaceDataUseCase
         },
     ): Promise<NarRaceData[]> {
         // 競馬場データを取得する
-        const placeEntityList: NarPlaceEntity[] = await this.getPlaceEntityList(
-            startDate,
-            finishDate,
-        );
+        const placeEntityList: NarPlaceEntity[] =
+            await this.narPlaceDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
+            );
 
         // レースデータを取得する
-        const raceEntityList: NarRaceEntity[] = await this.getRaceEntityList(
-            startDate,
-            finishDate,
-            placeEntityList,
-            'storage',
-        );
+        const raceEntityList: NarRaceEntity[] =
+            await this.narRaceDataService.fetchRaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
+                placeEntityList,
+            );
 
         // レースデータをNarRaceDataに変換する
         const raceDataList: NarRaceData[] = raceEntityList.map(
@@ -101,25 +94,25 @@ export class NarRaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
-        try {
-            // 競馬場データを取得する
-            const placeEntityList: NarPlaceEntity[] =
-                await this.getPlaceEntityList(startDate, finishDate);
+        // 競馬場データを取得する
+        const placeEntityList: NarPlaceEntity[] =
+            await this.narPlaceDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
+            );
 
-            // レースデータを取得する
-            const raceEntityList: NarRaceEntity[] =
-                await this.getRaceEntityList(
-                    startDate,
-                    finishDate,
-                    placeEntityList,
-                    'web',
-                );
+        // レースデータを取得する
+        const raceEntityList: NarRaceEntity[] =
+            await this.narRaceDataService.fetchRaceEntityList(
+                startDate,
+                finishDate,
+                'web',
+                placeEntityList,
+            );
 
-            // S3にデータを保存する
-            await this.registerRaceEntityList(raceEntityList);
-        } catch (error) {
-            console.error('レースデータの更新中にエラーが発生しました:', error);
-        }
+        // S3にデータを保存する
+        await this.narRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -128,83 +121,12 @@ export class NarRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: NarRaceData[]): Promise<void> {
-        try {
-            // NarRaceDataをNarRaceEntityに変換する
-            const raceEntityList: NarRaceEntity[] = raceDataList.map(
-                (raceData) =>
-                    new NarRaceEntity(null, raceData, getJSTDate(new Date())),
-            );
-            // S3にデータを保存する
-            await this.registerRaceEntityList(raceEntityList);
-        } catch (error) {
-            console.error('レースデータの更新中にエラーが発生しました:', error);
-        }
-    }
-
-    /**
-     * 競馬場データの取得
-     *
-     * @param startDate
-     * @param finishDate
-     */
-    @Logger
-    private async getPlaceEntityList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<NarPlaceEntity[]> {
-        const fetchPlaceListRequest: FetchPlaceListRequest =
-            new FetchPlaceListRequest(startDate, finishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<NarPlaceEntity> =
-            await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
-                fetchPlaceListRequest,
-            );
-        return fetchPlaceListResponse.placeEntityList;
-    }
-
-    /**
-     * レースデータを取得する
-     * S3から取得する場合はstorage、Webから取得する場合はwebを指定する
-     *
-     * @param startDate
-     * @param finishDate
-     * @param placeEntityList
-     * @param type
-     */
-    @Logger
-    private async getRaceEntityList(
-        startDate: Date,
-        finishDate: Date,
-        placeEntityList: NarPlaceEntity[],
-        type: 'storage' | 'web',
-    ): Promise<NarRaceEntity[]> {
-        const fetchRaceListRequest = new FetchRaceListRequest<NarPlaceEntity>(
-            startDate,
-            finishDate,
-            placeEntityList,
+        // NarRaceDataをNarRaceEntityに変換する
+        const raceEntityList: NarRaceEntity[] = raceDataList.map(
+            (raceData) =>
+                new NarRaceEntity(null, raceData, getJSTDate(new Date())),
         );
-        const repository =
-            type === 'storage'
-                ? this.narRaceRepositoryFromStorage
-                : this.narRaceRepositoryFromHtml;
-
-        const fetchRaceListResponse: FetchRaceListResponse<NarRaceEntity> =
-            await repository.fetchRaceEntityList(fetchRaceListRequest);
-        return fetchRaceListResponse.raceEntityList;
-    }
-
-    /**
-     * レースデータを登録する
-     *
-     * @param raceList
-     */
-    @Logger
-    private async registerRaceEntityList(
-        raceEntityList: NarRaceEntity[],
-    ): Promise<void> {
-        const registerRaceListRequest =
-            new RegisterRaceListRequest<NarRaceEntity>(raceEntityList);
-        await this.narRaceRepositoryFromStorage.registerRaceEntityList(
-            registerRaceListRequest,
-        );
+        // S3にデータを保存する
+        await this.narRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }

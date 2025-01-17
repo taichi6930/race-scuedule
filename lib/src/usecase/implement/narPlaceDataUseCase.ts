@@ -2,20 +2,15 @@ import { inject, injectable } from 'tsyringe';
 
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
-import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
 @injectable()
 export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
     constructor(
-        @inject('NarPlaceRepositoryFromStorage')
-        private readonly narPlaceRepositoryFromStorage: IPlaceRepository<NarPlaceEntity>,
-        @inject('NarPlaceRepositoryFromHtml')
-        private readonly narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceEntity>,
+        @inject('NarPlaceDataService')
+        private readonly narPlaceDataService: IPlaceDataService<NarPlaceEntity>,
     ) {}
     /**
      * レース開催データを取得する
@@ -29,15 +24,14 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
         startDate: Date,
         finishDate: Date,
     ): Promise<NarPlaceData[]> {
-        const request: FetchPlaceListRequest = new FetchPlaceListRequest(
-            startDate,
-            finishDate,
-        );
-        const response: FetchPlaceListResponse<NarPlaceEntity> =
-            await this.narPlaceRepositoryFromStorage.fetchPlaceEntityList(
-                request,
+        const placeEntityList: NarPlaceEntity[] =
+            await this.narPlaceDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
             );
-        const placeDataList: NarPlaceData[] = response.placeEntityList.map(
+
+        const placeDataList: NarPlaceData[] = placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
@@ -67,19 +61,14 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
             0,
         );
         // HTMLからデータを取得する
-        const fetchPlaceListRequest: FetchPlaceListRequest =
-            new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<NarPlaceEntity> =
-            await this.narPlaceRepositoryFromHtml.fetchPlaceEntityList(
-                fetchPlaceListRequest,
+        const placeEntityList: NarPlaceEntity[] =
+            await this.narPlaceDataService.fetchPlaceEntityList(
+                modifyStartDate,
+                modifyFinishDate,
+                'web',
             );
-        // S3にデータを保存する
-        const registerPlaceListRequest =
-            new RegisterPlaceListRequest<NarPlaceEntity>(
-                fetchPlaceListResponse.placeEntityList,
-            );
-        await this.narPlaceRepositoryFromStorage.registerPlaceEntityList(
-            registerPlaceListRequest,
-        );
+
+        // データを更新する
+        await this.narPlaceDataService.updatePlaceEntityList(placeEntityList);
     }
 }

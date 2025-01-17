@@ -4,41 +4,25 @@ import { container } from 'tsyringe';
 
 import type { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import { NarPlaceDataUseCase } from '../../../../lib/src/usecase/implement/narPlaceDataUseCase';
 import {
     baseNarPlaceData,
     baseNarPlaceEntity,
 } from '../../mock/common/baseNarData';
-import { mockNarPlaceRepositoryFromHtmlImpl } from '../../mock/repository/narPlaceRepositoryFromHtmlImpl';
-import { mockNarPlaceRepositoryFromStorageImpl } from '../../mock/repository/narPlaceRepositoryFromStorageImpl';
+import { mockNarPlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('NarPlaceDataUseCase', () => {
-    let narPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<NarPlaceEntity>
-    >;
-    let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<NarPlaceEntity>
-    >;
+    let narPlaceDataService: jest.Mocked<IPlaceDataService<NarPlaceEntity>>;
     let useCase: NarPlaceDataUseCase;
 
     beforeEach(() => {
-        // narPlaceRepositoryFromStorageImplをコンテナに登録
-        narPlaceRepositoryFromStorageImpl =
-            mockNarPlaceRepositoryFromStorageImpl();
-        container.register<IPlaceRepository<NarPlaceEntity>>(
-            'NarPlaceRepositoryFromStorage',
+        // NarPlaceDataServiceをコンテナに登録
+        narPlaceDataService = mockNarPlaceDataServiceMock();
+        container.register<IPlaceDataService<NarPlaceEntity>>(
+            'NarPlaceDataService',
             {
-                useValue: narPlaceRepositoryFromStorageImpl,
-            },
-        );
-
-        narPlaceRepositoryFromHtmlImpl = mockNarPlaceRepositoryFromHtmlImpl();
-        container.register<IPlaceRepository<NarPlaceEntity>>(
-            'NarPlaceRepositoryFromHtml',
-            {
-                useValue: narPlaceRepositoryFromHtmlImpl,
+                useValue: narPlaceDataService,
             },
         );
 
@@ -52,8 +36,8 @@ describe('NarPlaceDataUseCase', () => {
             const mockPlaceEntity: NarPlaceEntity[] = [baseNarPlaceEntity];
 
             // モックの戻り値を設定
-            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceEntity),
+            narPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -76,17 +60,15 @@ describe('NarPlaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceEntity),
+            narPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
+            expect(narPlaceDataService.fetchPlaceEntityList).toHaveBeenCalled();
             expect(
-                narPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                narPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                narPlaceDataService.updatePlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

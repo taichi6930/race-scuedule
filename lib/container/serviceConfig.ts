@@ -5,11 +5,14 @@ import type { BoatraceRaceEntity } from '../src/repository/entity/boatraceRaceEn
 import type { JraPlaceEntity } from '../src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../src/repository/entity/jraRaceEntity';
 import type { KeirinRaceEntity } from '../src/repository/entity/keirinRaceEntity';
+import type { NarPlaceEntity } from '../src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../src/repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../src/repository/entity/worldRaceEntity';
 import { GoogleCalendarService } from '../src/service/implement/googleCalendarService';
 import { JraPlaceDataService } from '../src/service/implement/jraPlaceDataService';
 import { JraRaceDataService } from '../src/service/implement/jraRaceDataService';
+import { NarPlaceDataService } from '../src/service/implement/narPlaceDataService';
+import { NarRaceDataService } from '../src/service/implement/narRaceDataService';
 import type { ICalendarService } from '../src/service/interface/ICalendarService';
 import type { IPlaceDataService } from '../src/service/interface/IPlaceDataService';
 import type { IRaceDataService } from '../src/service/interface/IRaceDataService';
@@ -141,5 +144,15 @@ container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
     'JraRaceDataService',
     {
         useClass: JraRaceDataService,
+    },
+);
+
+container.register<IPlaceDataService<NarPlaceEntity>>('NarPlaceDataService', {
+    useClass: NarPlaceDataService,
+});
+container.register<IRaceDataService<NarRaceEntity, NarPlaceEntity>>(
+    'NarRaceDataService',
+    {
+        useClass: NarRaceDataService,
     },
 );
