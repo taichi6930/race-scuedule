@@ -8,12 +8,10 @@ import {
     type BoatracePositionNumber,
     validateBoatracePositionNumber,
 } from '../../utility/data/boatrace/boatracePositionNumber';
-import {
-    type BoatraceRaceId,
-    type BoatraceRacePlayerId,
-    validateBoatraceRaceId,
-    validateBoatraceRacePlayerId,
-} from '../../utility/raceId';
+import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
+import { validateBoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
+import type { BoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
+import { validateBoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
 
 /**
  * ボートレースのレース選手データ

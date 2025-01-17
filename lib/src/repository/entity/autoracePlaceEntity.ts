@@ -1,6 +1,6 @@
 import type { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
-import type { AutoracePlaceId } from '../../utility/raceId';
+import type { AutoracePlaceId } from '../../utility/data/autorace/autoracePlaceId';
 import { generateAutoracePlaceId } from '../../utility/raceId';
 
 /**

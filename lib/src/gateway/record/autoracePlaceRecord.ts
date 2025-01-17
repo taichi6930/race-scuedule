@@ -4,6 +4,8 @@ import {
     type AutoraceGradeType,
     validateAutoraceGradeType,
 } from '../../utility/data/autorace/autoraceGradeType';
+import type { AutoracePlaceId } from '../../utility/data/autorace/autoracePlaceId';
+import { validateAutoracePlaceId } from '../../utility/data/autorace/autoracePlaceId';
 import {
     type AutoraceRaceCourse,
     validateAutoraceRaceCourse,
@@ -12,10 +14,6 @@ import {
     type AutoraceRaceDate,
     validateAutoraceRaceDate,
 } from '../../utility/data/autorace/autoraceRaceDate';
-import {
-    type AutoracePlaceId,
-    validateAutoracePlaceId,
-} from '../../utility/raceId';
 
 /**
  * Repository層のRecord オートレースのレース開催場所データ

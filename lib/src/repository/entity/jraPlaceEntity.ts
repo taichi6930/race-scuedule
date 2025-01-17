@@ -1,6 +1,6 @@
 import type { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
-import type { JraPlaceId } from '../../utility/raceId';
+import type { JraPlaceId } from '../../utility/data/jra/jraPlaceId';
 import { generateJraPlaceId } from '../../utility/raceId';
 
 /**

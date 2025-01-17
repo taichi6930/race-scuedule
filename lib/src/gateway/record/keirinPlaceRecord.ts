@@ -5,6 +5,10 @@ import {
     validateKeirinGradeType,
 } from '../../utility/data/keirin/keirinGradeType';
 import {
+    type KeirinPlaceId,
+    validateKeirinPlaceId,
+} from '../../utility/data/keirin/keirinPlaceId';
+import {
     type KeirinRaceCourse,
     validateKeirinRaceCourse,
 } from '../../utility/data/keirin/keirinRaceCourse';
@@ -12,10 +16,6 @@ import {
     type KeirinRaceDate,
     validateKeirinRaceDate,
 } from '../../utility/data/keirin/keirinRaceDate';
-import {
-    type KeirinPlaceId,
-    validateKeirinPlaceId,
-} from '../../utility/raceId';
 
 /**
  * Repository層のRecord 競輪のレース開催場所データ

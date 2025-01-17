@@ -2,7 +2,7 @@ import '../../utility/format';
 
 import type { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
-import type { NarRaceId } from '../../utility/raceId';
+import type { NarRaceId } from '../../utility/data/nar/narRaceId';
 import { generateNarRaceId } from '../../utility/raceId';
 
 /**

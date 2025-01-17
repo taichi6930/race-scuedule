@@ -13,6 +13,10 @@ import {
     validateKeirinRaceDateTime,
 } from '../../utility/data/keirin/keirinRaceDateTime';
 import {
+    type KeirinRaceId,
+    validateKeirinRaceId,
+} from '../../utility/data/keirin/keirinRaceId';
+import {
     type KeirinRaceName,
     validateKeirinRaceName,
 } from '../../utility/data/keirin/keirinRaceName';
@@ -24,7 +28,6 @@ import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
 } from '../../utility/data/keirin/keirinRaceStage';
-import { type KeirinRaceId, validateKeirinRaceId } from '../../utility/raceId';
 
 /**
  * 競輪のレース開催データ

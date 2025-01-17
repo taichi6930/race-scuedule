@@ -1,6 +1,6 @@
 import type { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
-import type { NarPlaceId } from '../../utility/raceId';
+import type { NarPlaceId } from '../../utility/data/nar/narPlaceId';
 import { generateNarPlaceId } from '../../utility/raceId';
 
 /**

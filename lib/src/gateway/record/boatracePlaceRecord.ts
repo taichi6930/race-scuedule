@@ -5,6 +5,10 @@ import {
     validateBoatraceGradeType,
 } from '../../utility/data/boatrace/boatraceGradeType';
 import {
+    type BoatracePlaceId,
+    validateBoatracePlaceId,
+} from '../../utility/data/boatrace/boatracePlaceId';
+import {
     type BoatraceRaceCourse,
     validateBoatraceRaceCourse,
 } from '../../utility/data/boatrace/boatraceRaceCourse';
@@ -12,10 +16,6 @@ import {
     type BoatraceRaceDate,
     validateBoatraceRaceDate,
 } from '../../utility/data/boatrace/boatraceRaceDate';
-import {
-    type BoatracePlaceId,
-    validateBoatracePlaceId,
-} from '../../utility/raceId';
 
 /**
  * Repository層のRecord ボートレースのレース開催場所データ

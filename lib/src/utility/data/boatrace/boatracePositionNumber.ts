@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * BoatracePositionNumberのzod型定義
  */
-export const BoatracePositionNumberSchema = z
+const BoatracePositionNumberSchema = z
     .number()
     .int()
     .min(1, '枠番は1以上である必要があります')

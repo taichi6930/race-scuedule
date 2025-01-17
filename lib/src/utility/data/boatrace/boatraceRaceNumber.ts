@@ -4,7 +4,7 @@ import { z } from 'zod';
  * BoatraceRaceNumberのzod型定義
  * 1~12の整数
  */
-export const BoatraceRaceNumberSchema = z
+const BoatraceRaceNumberSchema = z
     .number()
     .int()
     .min(1, 'レース番号は1以上である必要があります')

@@ -1,5 +1,5 @@
 import type { WorldPlaceData } from '../../domain/worldPlaceData';
-import type { WorldPlaceId } from '../../utility/raceId';
+import type { WorldPlaceId } from '../../utility/data/world/worldPlaceId';
 import { generateWorldPlaceId } from '../../utility/raceId';
 
 /**

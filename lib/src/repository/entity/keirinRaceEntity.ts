@@ -4,7 +4,7 @@ import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { KeirinRacePlayerRecord } from '../../gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
-import type { KeirinRaceId } from '../../utility/raceId';
+import type { KeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import {
     generateKeirinRaceId,
     generateKeirinRacePlayerId,

@@ -1,20 +1,18 @@
-import {
-    validateAutoracePlaceId,
-    validateAutoraceRaceId,
-    validateAutoraceRacePlayerId,
-    validateBoatracePlaceId,
-    validateBoatraceRaceId,
-    validateBoatraceRacePlayerId,
-    validateJraPlaceId,
-    validateJraRaceId,
-    validateKeirinPlaceId,
-    validateKeirinRaceId,
-    validateKeirinRacePlayerId,
-    validateNarPlaceId,
-    validateNarRaceId,
-    validateWorldPlaceId,
-    validateWorldRaceId,
-} from '../../../lib/src/utility/raceId';
+import { validateAutoracePlaceId } from '../../../lib/src/utility/data/autorace/autoracePlaceId';
+import { validateAutoraceRaceId } from '../../../lib/src/utility/data/autorace/autoraceRaceId';
+import { validateAutoraceRacePlayerId } from '../../../lib/src/utility/data/autorace/autoraceRacePlayerId';
+import { validateBoatracePlaceId } from '../../../lib/src/utility/data/boatrace/boatracePlaceId';
+import { validateBoatraceRaceId } from '../../../lib/src/utility/data/boatrace/boatraceRaceId';
+import { validateBoatraceRacePlayerId } from '../../../lib/src/utility/data/boatrace/boatraceRacePlayerId';
+import { validateJraPlaceId } from '../../../lib/src/utility/data/jra/jraPlaceId';
+import { validateJraRaceId } from '../../../lib/src/utility/data/jra/jraRaceId';
+import { validateKeirinPlaceId } from '../../../lib/src/utility/data/keirin/keirinPlaceId';
+import { validateKeirinRaceId } from '../../../lib/src/utility/data/keirin/keirinRaceId';
+import { validateKeirinRacePlayerId } from '../../../lib/src/utility/data/keirin/keirinRacePlayerId';
+import { validateNarPlaceId } from '../../../lib/src/utility/data/nar/narPlaceId';
+import { validateNarRaceId } from '../../../lib/src/utility/data/nar/narRaceId';
+import { validateWorldPlaceId } from '../../../lib/src/utility/data/world/worldPlaceId';
+import { validateWorldRaceId } from '../../../lib/src/utility/data/world/worldRaceId';
 
 describe('JraPlaceIdSchema', () => {
     it('正しいJraPlaceId', () => {
