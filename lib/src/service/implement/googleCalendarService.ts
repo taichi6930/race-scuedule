@@ -99,16 +99,24 @@ export class GoogleCalendarService<R extends RaceEntity>
         startDate: Date,
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
-        // orderBy: 'startTime'で開始時刻順に取得
-        const response = await this.calendar.events.list({
-            calendarId: this.calendarId,
-            timeMin: startDate.toISOString(),
-            timeMax: finishDate.toISOString(),
-            singleEvents: true,
-            orderBy: 'startTime',
-            timeZone: 'Asia/Tokyo',
-        });
-        return response.data.items ?? [];
+        try {
+            // orderBy: 'startTime'で開始時刻順に取得
+            const response = await this.calendar.events.list({
+                calendarId: this.calendarId,
+                timeMin: startDate.toISOString(),
+                timeMax: finishDate.toISOString(),
+                singleEvents: true,
+                orderBy: 'startTime',
+                timeZone: 'Asia/Tokyo',
+            });
+            return response.data.items ?? [];
+        } catch (error) {
+            console.error(
+                'Google Calendar APIからのイベント取得に失敗しました',
+                error,
+            );
+            return [];
+        }
     }
 
     /**
@@ -150,56 +158,63 @@ export class GoogleCalendarService<R extends RaceEntity>
      */
     @Logger
     async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
-        await Promise.all(
-            raceEntityList.map(async (raceEntity) => {
-                // イベントIDを生成
-                const eventId = GoogleCalendarService.generateEventId(
-                    this.raceType,
-                    raceEntity,
-                );
-                try {
-                    // イベントを取得
-                    const event = await this.calendar.events.get({
-                        calendarId: this.calendarId,
-                        eventId: eventId,
-                    });
-                    if (
-                        event.data.id !== null &&
-                        event.data.id !== undefined &&
-                        event.data.id.trim() !== ''
-                    ) {
-                        console.log(
-                            `Google Calendar APIにイベントが見つかりました。更新を行います。レース名: ${raceEntity.raceData.name}`,
-                        );
-                        await this.updateEvent(raceEntity, eventId);
-                    } else {
-                        // イベントが見つからなかった場合は新規登録
-                        console.log(
-                            `Google Calendar APIにイベントが見つからなかったため、新規登録します。レース名: ${raceEntity.raceData.name}`,
-                        );
-                        await this.createEvent(
-                            this.translateToCalendarEvent(raceEntity),
-                        );
-                    }
-                } catch (error) {
-                    console.debug(error);
+        try {
+            await Promise.all(
+                raceEntityList.map(async (raceEntity) => {
+                    // イベントIDを生成
+                    const eventId = GoogleCalendarService.generateEventId(
+                        this.raceType,
+                        raceEntity,
+                    );
                     try {
-                        // イベントが見つからなかった場合は新規登録
-                        console.log(
-                            `Google Calendar APIにイベントが見つからなかったため、新規登録します。レース名: ${raceEntity.raceData.name}`,
-                        );
-                        await this.createEvent(
-                            this.translateToCalendarEvent(raceEntity),
-                        );
-                    } catch (_error) {
-                        console.error(
-                            'Google Calendar APIへのイベント新規登録に失敗しました',
-                            _error,
-                        );
+                        // イベントを取得
+                        const event = await this.calendar.events.get({
+                            calendarId: this.calendarId,
+                            eventId: eventId,
+                        });
+                        if (
+                            event.data.id !== null &&
+                            event.data.id !== undefined &&
+                            event.data.id.trim() !== ''
+                        ) {
+                            console.log(
+                                `Google Calendar APIにイベントが見つかりました。更新を行います。レース名: ${raceEntity.raceData.name}`,
+                            );
+                            await this.updateEvent(raceEntity, eventId);
+                        } else {
+                            // イベントが見つからなかった場合は新規登録
+                            console.log(
+                                `Google Calendar APIにイベントが見つからなかったため、新規登録します。レース名: ${raceEntity.raceData.name}`,
+                            );
+                            await this.createEvent(
+                                this.translateToCalendarEvent(raceEntity),
+                            );
+                        }
+                    } catch (error) {
+                        console.debug(error);
+                        try {
+                            // イベントが見つからなかった場合は新規登録
+                            console.log(
+                                `Google Calendar APIにイベントが見つからなかったため、新規登録します。レース名: ${raceEntity.raceData.name}`,
+                            );
+                            await this.createEvent(
+                                this.translateToCalendarEvent(raceEntity),
+                            );
+                        } catch (_error) {
+                            console.error(
+                                'Google Calendar APIへのイベント新規登録に失敗しました',
+                                _error,
+                            );
+                        }
                     }
-                }
-            }),
-        );
+                }),
+            );
+        } catch (error) {
+            console.error(
+                'Google Calendar APIへのイベント登録に失敗しました',
+                error,
+            );
+        }
     }
 
     /**
