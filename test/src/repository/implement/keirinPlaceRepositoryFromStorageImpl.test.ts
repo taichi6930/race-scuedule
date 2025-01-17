@@ -37,7 +37,6 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
                 // filenameから日付を取得 16時からの競輪場にしたい
                 const date = parse('202401', 'yyyyMM', new Date());
                 date.setHours(16);
-                console.log(date);
 
                 // CSVのヘッダーを定義
                 const csvHeaderDataText = [

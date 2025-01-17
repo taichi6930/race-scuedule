@@ -23,6 +23,10 @@ import {
     validateNarRaceDistance,
 } from '../../utility/data/nar/narRaceDistance';
 import {
+    type NarRaceId,
+    validateNarRaceId,
+} from '../../utility/data/nar/narRaceId';
+import {
     type NarRaceName,
     validateNarRaceName,
 } from '../../utility/data/nar/narRaceName';
@@ -30,7 +34,6 @@ import {
     type NarRaceNumber,
     validateNarRaceNumber,
 } from '../../utility/data/nar/narRaceNumber';
-import { type NarRaceId, validateNarRaceId } from '../../utility/raceId';
 
 /**
  * 地方競馬のレース開催データ

@@ -13,6 +13,10 @@ import {
     validateAutoraceRaceDateTime,
 } from '../../utility/data/autorace/autoraceRaceDateTime';
 import {
+    type AutoraceRaceId,
+    validateAutoraceRaceId,
+} from '../../utility/data/autorace/autoraceRaceId';
+import {
     type AutoraceRaceName,
     validateAutoraceRaceName,
 } from '../../utility/data/autorace/autoraceRaceName';
@@ -24,10 +28,6 @@ import {
     type AutoraceRaceStage,
     validateAutoraceRaceStage,
 } from '../../utility/data/autorace/autoraceRaceStage';
-import {
-    type AutoraceRaceId,
-    validateAutoraceRaceId,
-} from '../../utility/raceId';
 
 /**
  * オートレースのレース開催データ

@@ -8,12 +8,10 @@ import {
     type KeirinPositionNumber,
     validateKeirinPositionNumber,
 } from '../../utility/data/keirin/keirinPositionNumber';
-import {
-    type KeirinRaceId,
-    type KeirinRacePlayerId,
-    validateKeirinRaceId,
-    validateKeirinRacePlayerId,
-} from '../../utility/raceId';
+import type { KeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
+import { validateKeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
+import type { KeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePlayerId';
+import { validateKeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePlayerId';
 
 /**
  * 競輪のレース選手データ

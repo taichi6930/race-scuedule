@@ -2,7 +2,7 @@ import '../../utility/format';
 
 import type { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
-import type { WorldRaceId } from '../../utility/raceId';
+import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import { generateWorldRaceId } from '../../utility/raceId';
 
 /**

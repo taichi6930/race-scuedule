@@ -1,5 +1,7 @@
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
+import type { NarPlaceId } from '../../utility/data/nar/narPlaceId';
+import { validateNarPlaceId } from '../../utility/data/nar/narPlaceId';
 import {
     type NarRaceCourse,
     validateNarRaceCourse,
@@ -8,7 +10,6 @@ import {
     type NarRaceDate,
     validateNarRaceDate,
 } from '../../utility/data/nar/narRaceDate';
-import { type NarPlaceId, validateNarPlaceId } from '../../utility/raceId';
 
 /**
  * Repository層のRecord 地方競馬のレース開催場所データ

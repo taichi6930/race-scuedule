@@ -22,6 +22,7 @@ import {
     validateWorldRaceDistance,
     type WorldRaceDistance,
 } from '../../utility/data/world/worldRaceDistance';
+import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
     validateWorldRaceName,
     type WorldRaceName,
@@ -30,7 +31,6 @@ import {
     validateWorldRaceNumber,
     type WorldRaceNumber,
 } from '../../utility/data/world/worldRaceNumber';
-import type { WorldRaceId } from '../../utility/raceId';
 
 /**
  * 地方競馬のレース開催データ

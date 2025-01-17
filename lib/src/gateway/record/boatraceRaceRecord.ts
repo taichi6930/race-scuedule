@@ -13,6 +13,10 @@ import {
     validateBoatraceRaceDateTime,
 } from '../../utility/data/boatrace/boatraceRaceDateTime';
 import {
+    type BoatraceRaceId,
+    validateBoatraceRaceId,
+} from '../../utility/data/boatrace/boatraceRaceId';
+import {
     type BoatraceRaceName,
     validateBoatraceRaceName,
 } from '../../utility/data/boatrace/boatraceRaceName';
@@ -24,10 +28,6 @@ import {
     type BoatraceRaceStage,
     validateBoatraceRaceStage,
 } from '../../utility/data/boatrace/boatraceRaceStage';
-import {
-    type BoatraceRaceId,
-    validateBoatraceRaceId,
-} from '../../utility/raceId';
 
 /**
  * ボートレースのレース開催データ

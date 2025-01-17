@@ -78,12 +78,9 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                 content.find('h3').text(),
                 placeEntity.placeData,
             );
-            console.log(`raceName: ${raceName}`);
             // <div div class="section clearfix">を取得
             const section = content.find('.section');
-            console.log(
-                `raceInfo: ${year.toString()}/${month.toXDigits(2)}/${day.toXDigits(2)} ${placeEntity.placeData.location} ${placeEntity.placeData.grade} ${raceName}`,
-            );
+
             section.each((index, element) => {
                 $(element)
                     .find('.w480px')
@@ -101,7 +98,6 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                             hour,
                             minute,
                         );
-                        console.log(`raceDate: ${raceDate.toString()}`);
 
                         const aTag = $(element).find('.w380px').find('a');
                         const decodedATag = decodeURIComponent(aTag.text());
@@ -142,7 +138,6 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                         }
                     });
             });
-            console.log(autoraceRaceDataList);
             return autoraceRaceDataList;
         } catch (e) {
             console.error('htmlを取得できませんでした', e);

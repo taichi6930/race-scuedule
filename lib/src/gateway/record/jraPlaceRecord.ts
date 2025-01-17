@@ -9,6 +9,10 @@ import {
     validateJraHeldTimes,
 } from '../../utility/data/jra/jraHeldTimes';
 import {
+    type JraPlaceId,
+    validateJraPlaceId,
+} from '../../utility/data/jra/jraPlaceId';
+import {
     type JraRaceCourse,
     validateJraRaceCourse,
 } from '../../utility/data/jra/jraRaceCourse';
@@ -16,7 +20,6 @@ import {
     type JraRaceDate,
     validateJraRaceDate,
 } from '../../utility/data/jra/jraRaceDate';
-import { type JraPlaceId, validateJraPlaceId } from '../../utility/raceId';
 /**
  * Repository層のRecord 中央競馬のレース開催場所データ
  */

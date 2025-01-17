@@ -1,6 +1,6 @@
 import type { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
-import type { BoatracePlaceId } from '../../utility/raceId';
+import type { BoatracePlaceId } from '../../utility/data/boatrace/boatracePlaceId';
 import { generateBoatracePlaceId } from '../../utility/raceId';
 
 /**

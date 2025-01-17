@@ -1,6 +1,6 @@
 import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
-import type { KeirinPlaceId } from '../../utility/raceId';
+import type { KeirinPlaceId } from '../../utility/data/keirin/keirinPlaceId';
 import { generateKeirinPlaceId } from '../../utility/raceId';
 
 /**

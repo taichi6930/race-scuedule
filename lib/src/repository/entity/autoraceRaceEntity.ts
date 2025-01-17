@@ -4,7 +4,7 @@ import type { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import type { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData';
 import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
-import type { AutoraceRaceId } from '../../utility/raceId';
+import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
 import {
     generateAutoraceRaceId,
     generateAutoraceRacePlayerId,

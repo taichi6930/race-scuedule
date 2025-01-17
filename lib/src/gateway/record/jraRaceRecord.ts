@@ -31,6 +31,10 @@ import {
     validateJraRaceDistance,
 } from '../../utility/data/jra/jraRaceDistance';
 import {
+    type JraRaceId,
+    validateJraRaceId,
+} from '../../utility/data/jra/jraRaceId';
+import {
     type JraRaceName,
     validateJraRaceName,
 } from '../../utility/data/jra/jraRaceName';
@@ -38,7 +42,6 @@ import {
     type JraRaceNumber,
     validateJraRaceNumber,
 } from '../../utility/data/jra/jraRaceNumber';
-import { type JraRaceId, validateJraRaceId } from '../../utility/raceId';
 
 /**
  * 中央競馬のレース開催データ

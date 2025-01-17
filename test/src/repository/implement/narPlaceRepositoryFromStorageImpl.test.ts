@@ -35,7 +35,6 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                 // filenameから日付を取得 16時からの競馬場にしたい
                 const date = parse('2024', 'yyyy', new Date());
                 date.setHours(16);
-                console.log(date);
 
                 // CSVのヘッダーを定義
                 const csvHeaderDataText = [
@@ -76,7 +75,6 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
                 // filenameから日付を取得 16時からの競馬場にしたい
                 const date = parse('2024', 'yyyy', new Date());
                 date.setHours(16);
-                console.log(date);
 
                 // CSVのヘッダーを定義
                 const csvHeaderDataText = ['id', 'dateTime', 'location'].join(

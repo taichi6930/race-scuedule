@@ -439,7 +439,6 @@ export class BoatraceRaceController {
                 return;
             }
 
-            console.log('test: updateRaceDataList');
             // レース情報を取得する
             await this.boatraceRaceDataUseCase.updateRaceEntityList(
                 new Date(startDate),

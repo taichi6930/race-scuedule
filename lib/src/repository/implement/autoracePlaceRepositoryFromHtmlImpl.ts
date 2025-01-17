@@ -181,7 +181,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                 });
             });
         });
-        console.log('autoracePlaceEntityList:', autoracePlaceEntityList);
         return autoracePlaceEntityList;
     }
 

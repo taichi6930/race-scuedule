@@ -4,7 +4,7 @@ import { z } from 'zod';
  * JraRaceNumberのzod型定義
  * 1~12の整数
  */
-export const JraRaceNumberSchema = z
+const JraRaceNumberSchema = z
     .number()
     .int()
     .min(1, 'レース番号は1以上である必要があります')

@@ -418,7 +418,6 @@ export class NarRaceController {
     ): Promise<void> {
         try {
             const { startDate, finishDate, raceList } = req.body;
-            console.log(startDate, finishDate, raceList);
 
             // startDateとfinishDate、raceList全て指定されている場合のパターンはないので、エラーを返す
             if (

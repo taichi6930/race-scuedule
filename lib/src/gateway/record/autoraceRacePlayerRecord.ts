@@ -8,12 +8,10 @@ import {
     type AutoracePositionNumber,
     validateAutoracePositionNumber,
 } from '../../utility/data/autorace/autoracePositionNumber';
-import {
-    type AutoraceRaceId,
-    type AutoraceRacePlayerId,
-    validateAutoraceRaceId,
-    validateAutoraceRacePlayerId,
-} from '../../utility/raceId';
+import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
+import { validateAutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
+import type { AutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
+import { validateAutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
 
 /**
  * オートレースのレース選手データ

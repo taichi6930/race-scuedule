@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * AutoracePositionNumberのzod型定義
  */
-export const AutoracePositionNumberSchema = z
+const AutoracePositionNumberSchema = z
     .number()
     .int()
     .min(1, '枠番は1以上である必要があります')

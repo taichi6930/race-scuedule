@@ -4,7 +4,7 @@ import { z } from 'zod';
  * WorldRaceNumberのzod型定義
  * 整数
  */
-export const WorldRaceNumberSchema = z.number().int();
+const WorldRaceNumberSchema = z.number().int();
 /**
  * WorldRaceNumberの型定義
  */

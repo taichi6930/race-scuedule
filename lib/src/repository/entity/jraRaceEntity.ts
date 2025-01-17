@@ -2,7 +2,7 @@ import '../../utility/format';
 
 import type { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
-import type { JraRaceId } from '../../utility/raceId';
+import type { JraRaceId } from '../../utility/data/jra/jraRaceId';
 import { generateJraRaceId } from '../../utility/raceId';
 
 /**
