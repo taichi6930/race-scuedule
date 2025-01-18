@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import type { AutoracePlaceId } from './data/autorace/autoracePlaceId';
 import type { AutoracePositionNumber } from './data/autorace/autoracePositionNumber';
 import type { AutoraceRaceCourse } from './data/autorace/autoraceRaceCourse';
-import { AUTORACE_PLACE_CODE } from './data/autorace/autoraceRaceCourse';
+import { AutoracePlaceCodeMap } from './data/autorace/autoraceRaceCourse';
 import type { AutoraceRaceId } from './data/autorace/autoraceRaceId';
 import type { AutoraceRaceNumber } from './data/autorace/autoraceRaceNumber';
 import type { AutoraceRacePlayerId } from './data/autorace/autoraceRacePlayerId';
@@ -262,6 +262,6 @@ export const generateAutoracePlaceId = (
     location: AutoraceRaceCourse,
 ): AutoracePlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = AUTORACE_PLACE_CODE[location];
+    const locationCode = AutoracePlaceCodeMap[location];
     return `autorace${dateCode}${locationCode}`;
 };
