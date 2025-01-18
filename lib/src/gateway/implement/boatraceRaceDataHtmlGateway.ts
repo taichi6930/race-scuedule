@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 import {
-    BOATRACE_PLACE_CODE,
+    BoatracePlaceCodeMap,
     BoatraceRaceCourse,
 } from '../../utility/data/boatrace/boatraceRaceCourse';
 import { BoatraceRaceNumber } from '../../utility/data/boatrace/boatraceRaceNumber';
@@ -28,7 +28,7 @@ export class BoatraceRaceDataHtmlGateway
         number: BoatraceRaceNumber,
     ): Promise<string> {
         const raceDate = format(date, 'yyyyMMdd');
-        const babacode = BOATRACE_PLACE_CODE[place];
+        const babacode = BoatracePlaceCodeMap[place];
         const url = `https://www.boatrace.jp/owpc/pc/race/racelist?rno=${number.toString()}&hd=${raceDate}&jcd=${babacode}`;
 
         // gokeibaのURLからHTMLを取得する

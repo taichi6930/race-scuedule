@@ -10,7 +10,7 @@ import type { AutoraceRacePlayerId } from './data/autorace/autoraceRacePlayerId'
 import type { BoatracePlaceId } from './data/boatrace/boatracePlaceId';
 import type { BoatracePositionNumber } from './data/boatrace/boatracePositionNumber';
 import type { BoatraceRaceCourse } from './data/boatrace/boatraceRaceCourse';
-import { BOATRACE_PLACE_CODE } from './data/boatrace/boatraceRaceCourse';
+import { BoatracePlaceCodeMap } from './data/boatrace/boatraceRaceCourse';
 import type { BoatraceRaceId } from './data/boatrace/boatraceRaceId';
 import type { BoatraceRaceNumber } from './data/boatrace/boatraceRaceNumber';
 import type { BoatraceRacePlayerId } from './data/boatrace/boatraceRacePlayerId';
@@ -216,7 +216,7 @@ export const generateBoatracePlaceId = (
     location: BoatraceRaceCourse,
 ): BoatracePlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = BOATRACE_PLACE_CODE[location];
+    const locationCode = BoatracePlaceCodeMap[location];
     return `boatrace${dateCode}${locationCode}`;
 };
 
