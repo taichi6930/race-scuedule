@@ -14,7 +14,7 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin/keirinRaceCourse';
+import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
 import {
     CHIHO_KEIBA_LIVE_URL,
     CHIHO_KEIBA_YOUTUBE_USER_ID,
@@ -542,7 +542,7 @@ export class GoogleCalendarService<R extends RaceEntity>
             colorId: this.getColorId(raceEntity.raceData.grade),
             description:
                 `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
-            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
+            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
             更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };

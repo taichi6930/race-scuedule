@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import {
-    KEIRIN_PLACE_CODE,
+    KeirinPlaceCodeMap,
     KeirinRaceCourse,
 } from '../../utility/data/keirin/keirinRaceCourse';
 import { Logger } from '../../utility/logger';
@@ -26,7 +26,7 @@ export class MockKeirinRaceDataHtmlGateway
         place: KeirinRaceCourse,
     ): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[place]}.html`;
+        const testHtmlUrl = `../mockData/html/keirin/race/${format(date, 'yyyyMMdd')}${KeirinPlaceCodeMap[place]}.html`;
         // lib/src/gateway/mockData/html/keirin/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 

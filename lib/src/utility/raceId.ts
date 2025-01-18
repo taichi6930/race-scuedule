@@ -20,7 +20,7 @@ import type { JraRaceNumber } from './data/jra/jraRaceNumber';
 import type { KeirinPlaceId } from './data/keirin/keirinPlaceId';
 import type { KeirinPositionNumber } from './data/keirin/keirinPositionNumber';
 import type { KeirinRaceCourse } from './data/keirin/keirinRaceCourse';
-import { KEIRIN_PLACE_CODE } from './data/keirin/keirinRaceCourse';
+import { KeirinPlaceCodeMap } from './data/keirin/keirinRaceCourse';
 import type { KeirinRaceId } from './data/keirin/keirinRaceId';
 import type { KeirinRaceNumber } from './data/keirin/keirinRaceNumber';
 import type { KeirinRacePlayerId } from './data/keirin/keirinRacePlayerId';
@@ -170,7 +170,7 @@ export const generateKeirinPlaceId = (
     location: KeirinRaceCourse,
 ): KeirinPlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = KEIRIN_PLACE_CODE[location];
+    const locationCode = KeirinPlaceCodeMap[location];
     return `keirin${dateCode}${locationCode}`;
 };
 

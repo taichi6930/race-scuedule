@@ -12,7 +12,7 @@ import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRa
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { KEIRIN_PLACE_CODE } from '../../../../lib/src/utility/data/keirin/keirinRaceCourse';
+import { KeirinPlaceCodeMap } from '../../../../lib/src/utility/data/keirin/keirinRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 import {
@@ -66,7 +66,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         '平塚',
                         'GⅠ',
                         '1',
-                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
@@ -76,7 +76,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         '平塚',
                         'GⅠ',
                         '1',
-                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
@@ -86,7 +86,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         '平塚',
                         'GⅠ',
                         undefined,
-                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                         undefined,
                     ].join(',');
                     const csvDatajoinText: string = [
@@ -115,22 +115,22 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                         'updateDate',
                     ].join(',');
                     const csvDataText: string = [
-                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}0101`,
-                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KeirinPlaceCodeMap['平塚']}0101`,
+                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                         '1',
                         '999999',
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                         '1',
                         '1',
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
-                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}0101`,
-                        `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                        `keirin20240101${KeirinPlaceCodeMap['平塚']}0101`,
+                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                         null,
                         '1',
                         getJSTDate(new Date()).toISOString(),
@@ -246,7 +246,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                     '平塚',
                     'GⅠ',
                     '1',
-                    `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                 ].join(',');
                 const csvDataRameNameUndefinedText: string = [
                     undefined,
@@ -255,7 +255,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                     '平塚',
                     'GⅠ',
                     '1',
-                    `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                 ].join(',');
                 const csvDataNumUndefinedText: string = [
                     `raceName${filename.slice(0, 8)}`,
@@ -264,7 +264,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                     '平塚',
                     'GⅠ',
                     undefined,
-                    `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                 ].join(',');
                 const csvDatajoinText: string = [
                     csvHeaderDataText,
@@ -291,20 +291,20 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                     'playerNumber',
                 ].join(',');
                 const csvDataText: string = [
-                    `keirin20240101${KEIRIN_PLACE_CODE['平塚']}0101`,
-                    `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                    `keirin20240101${KeirinPlaceCodeMap['平塚']}0101`,
+                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                     '1',
                     '999999',
                 ].join(',');
                 const csvDataRameNameUndefinedText: string = [
                     undefined,
-                    `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                     '1',
                     '1',
                 ].join(',');
                 const csvDataNumUndefinedText: string = [
-                    `keirin20240101${KEIRIN_PLACE_CODE['平塚']}0101`,
-                    `keirin20240101${KEIRIN_PLACE_CODE['平塚']}01`,
+                    `keirin20240101${KeirinPlaceCodeMap['平塚']}0101`,
+                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
                     null,
                     '1',
                 ].join(',');

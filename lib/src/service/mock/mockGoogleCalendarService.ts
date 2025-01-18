@@ -7,7 +7,7 @@ import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { AutoracePlaceCodeMap } from '../../utility/data/autorace/autoraceRaceCourse';
 import { BoatracePlaceCodeMap } from '../../utility/data/boatrace/boatraceRaceCourse';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin/keirinRaceCourse';
+import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
 import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
 import { WorldPlaceCodeMap } from '../../utility/data/world/worldRaceCourse';
 import { ENV } from '../../utility/env';
@@ -67,7 +67,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
                                     break;
                                 case 'keirin':
                                     location = '川崎';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${KeirinPlaceCodeMap[location]}${i.toXDigits(2)}`;
                                     break;
                                 case 'autorace':
                                     location = '伊勢崎';
