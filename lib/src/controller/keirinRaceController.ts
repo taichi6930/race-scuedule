@@ -7,8 +7,8 @@ import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
-    KEIRIN_SPECIFIED_GRADE_LIST,
     KeirinGradeType,
+    KeirinSpecifiedGradeList,
 } from '../utility/data/keirin/keirinGradeType';
 import { KeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
 import { KeirinRaceStage } from '../utility/data/keirin/keirinRaceStage';
@@ -227,7 +227,7 @@ export class KeirinRaceController {
             await this.raceCalendarUseCase.updateRacesToCalendar(
                 new Date(startDate),
                 new Date(finishDate),
-                KEIRIN_SPECIFIED_GRADE_LIST,
+                KeirinSpecifiedGradeList,
             );
             res.status(200).send();
         } catch (error) {

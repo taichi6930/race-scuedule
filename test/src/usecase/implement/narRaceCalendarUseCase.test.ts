@@ -8,7 +8,7 @@ import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRac
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
-import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/nar/narGradeType';
+import { NarSpecifiedGradeList } from '../../../../lib/src/utility/data/nar/narGradeType';
 import {
     baseNarCalendarData,
     baseNarRaceEntity,
@@ -124,7 +124,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -171,7 +171,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -222,7 +222,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -283,7 +283,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -343,7 +343,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -376,7 +376,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // コンソールエラーメッセージが出力されることを確認
@@ -413,7 +413,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // コンソールエラーメッセージが出力されることを確認

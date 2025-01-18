@@ -36,7 +36,7 @@ const NarGradeTypeList: string[] = [
 /**
  * 地方競馬の指定グレードリスト
  */
-export const NAR_SPECIFIED_GRADE_LIST: NarGradeType[] = [
+export const NarSpecifiedGradeList: NarGradeType[] = [
     'GⅠ',
     'GⅡ',
     'GⅢ',

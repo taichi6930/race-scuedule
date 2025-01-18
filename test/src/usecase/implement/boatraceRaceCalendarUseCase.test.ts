@@ -8,7 +8,7 @@ import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/b
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { BoatraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceCalendarUseCase';
-import { BOATRACE_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/boatrace/boatraceGradeType';
+import { BoatraceSpecifiedGradeList } from '../../../../lib/src/utility/data/boatrace/boatraceGradeType';
 import {
     baseBoatraceCalendarData,
     baseBoatraceRaceEntity,
@@ -123,7 +123,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                BOATRACE_SPECIFIED_GRADE_LIST,
+                BoatraceSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -179,7 +179,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                BOATRACE_SPECIFIED_GRADE_LIST,
+                BoatraceSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -231,7 +231,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                BOATRACE_SPECIFIED_GRADE_LIST,
+                BoatraceSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -293,7 +293,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                BOATRACE_SPECIFIED_GRADE_LIST,
+                BoatraceSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -353,7 +353,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                BOATRACE_SPECIFIED_GRADE_LIST,
+                BoatraceSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -386,7 +386,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                BOATRACE_SPECIFIED_GRADE_LIST,
+                BoatraceSpecifiedGradeList,
             );
 
             // コンソールエラーメッセージが出力されることを確認
@@ -425,7 +425,7 @@ describe('BoatraceRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                BOATRACE_SPECIFIED_GRADE_LIST,
+                BoatraceSpecifiedGradeList,
             );
 
             // コンソールエラーメッセージが出力されることを確認

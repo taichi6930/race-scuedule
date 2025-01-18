@@ -33,7 +33,7 @@ export const validateBoatraceGradeType = (grade: string): BoatraceGradeType => {
 /**
  * ボートレースのグレード
  */
-export const BOATRACE_SPECIFIED_GRADE_LIST: BoatraceGradeType[] = [
+export const BoatraceSpecifiedGradeList: BoatraceGradeType[] = [
     'SG',
     'GⅠ',
     'GⅡ',

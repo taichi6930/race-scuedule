@@ -33,4 +33,4 @@ export const validateAutoraceGradeType = (grade: string): AutoraceGradeType => {
 /**
  * オートレースの指定グレードリスト
  */
-export const AUTORACE_SPECIFIED_GRADE_LIST: AutoraceGradeType[] = ['SG'];
+export const AutoraceSpecifiedGradeList: AutoraceGradeType[] = ['SG'];
