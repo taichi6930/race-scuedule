@@ -48,5 +48,7 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
-      - name: Run ITA Tests
-        uses: ./.github/actions/test/ita
+      - name: Run ITA Tests For Jra
+        uses: ./.github/actions/test/ita/jra
+      - name: Run ITA Tests For Nar
+        uses: ./.github/actions/test/ita/nar
