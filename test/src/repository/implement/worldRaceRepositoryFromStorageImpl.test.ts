@@ -11,7 +11,7 @@ import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRace
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { WORLD_PLACE_CODE } from '../../../../lib/src/utility/data/world/worldRaceCourse';
+import { WorldPlaceCodeMap } from '../../../../lib/src/utility/data/world/worldRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForWorldRace } from '../../mock/gateway/s3GatewayMock';
 
@@ -56,7 +56,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                     '2400',
                     'GⅠ',
                     '1',
-                    `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                    `world${format(date, 'yyyyMMdd')}${WorldPlaceCodeMap['パリロンシャン']}01`,
                     getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 const csvDataRameNameUndefinedText: string = [
@@ -67,7 +67,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                     '2400',
                     'GⅠ',
                     '1',
-                    `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                    `world${format(date, 'yyyyMMdd')}${WorldPlaceCodeMap['パリロンシャン']}01`,
                     getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 const csvDataNumUndefinedText: string = [
@@ -78,7 +78,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                     '2400',
                     'GⅠ',
                     undefined,
-                    `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                    `world${format(date, 'yyyyMMdd')}${WorldPlaceCodeMap['パリロンシャン']}01`,
                     getJSTDate(new Date()).toISOString(),
                 ].join(',');
                 const csvDatajoinText: string = [
@@ -153,7 +153,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
                     '2400',
                     'GⅠ',
                     '1',
-                    `world${format(date, 'yyyyMMdd')}${WORLD_PLACE_CODE['パリロンシャン']}01`,
+                    `world${format(date, 'yyyyMMdd')}${WorldPlaceCodeMap['パリロンシャン']}01`,
                 ].join(',');
                 const csvDatajoinText: string = [
                     csvHeaderDataText,

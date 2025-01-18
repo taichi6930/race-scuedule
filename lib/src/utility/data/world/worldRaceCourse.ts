@@ -62,7 +62,7 @@ const WorldRaceCourseList: string[] = [
 /**
  * 海外の競馬場のレース場名とコードの対応表
  */
-export const WORLD_PLACE_CODE: Record<string, string> = {
+export const WorldPlaceCodeMap: Record<string, string> = {
     ロンシャン: 'longchamp',
     パリロンシャン: 'longchamp',
     シャンティイ: 'chantilly',

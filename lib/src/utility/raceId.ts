@@ -30,7 +30,7 @@ import type { NarRaceId } from './data/nar/narRaceId';
 import type { NarRaceNumber } from './data/nar/narRaceNumber';
 import { NETKEIBA_BABACODE } from './data/netkeiba';
 import type { WorldRaceCourse } from './data/world/worldRaceCourse';
-import { WORLD_PLACE_CODE } from './data/world/worldRaceCourse';
+import { WorldPlaceCodeMap } from './data/world/worldRaceCourse';
 import type { WorldRaceDateTime } from './data/world/worldRaceDateTime';
 import type { WorldRaceId } from './data/world/worldRaceId';
 import type { WorldRaceNumber } from './data/world/worldRaceNumber';
@@ -124,7 +124,7 @@ export const generateWorldPlaceId = (
     location: WorldRaceCourse,
 ): WorldRaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = WORLD_PLACE_CODE[location];
+    const locationCode = WorldPlaceCodeMap[location];
     return `world${dateCode}${locationCode}`;
 };
 
