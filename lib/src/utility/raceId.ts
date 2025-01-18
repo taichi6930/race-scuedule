@@ -28,7 +28,7 @@ import type { NarPlaceId } from './data/nar/narPlaceId';
 import type { NarRaceCourse } from './data/nar/narRaceCourse';
 import type { NarRaceId } from './data/nar/narRaceId';
 import type { NarRaceNumber } from './data/nar/narRaceNumber';
-import { NETKEIBA_BABACODE } from './data/netkeiba';
+import { NetkeibaBabacodeMap } from './data/netkeiba';
 import type { WorldRaceCourse } from './data/world/worldRaceCourse';
 import { WorldPlaceCodeMap } from './data/world/worldRaceCourse';
 import type { WorldRaceDateTime } from './data/world/worldRaceDateTime';
@@ -60,7 +60,7 @@ export const generateJraPlaceId = (
     location: JraRaceCourse,
 ): JraRaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = NETKEIBA_BABACODE[location];
+    const locationCode = NetkeibaBabacodeMap[location];
     return `jra${dateCode}${locationCode}`;
 };
 
@@ -95,7 +95,7 @@ export const generateNarPlaceId = (
     location: NarRaceCourse,
 ): NarPlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = NETKEIBA_BABACODE[location];
+    const locationCode = NetkeibaBabacodeMap[location];
     return `nar${dateCode}${locationCode}`;
 };
 

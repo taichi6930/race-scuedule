@@ -8,7 +8,7 @@ import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { AutoracePlaceCodeMap } from '../../utility/data/autorace/autoraceRaceCourse';
 import { BoatracePlaceCodeMap } from '../../utility/data/boatrace/boatraceRaceCourse';
 import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { WorldPlaceCodeMap } from '../../utility/data/world/worldRaceCourse';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
@@ -59,7 +59,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
                                     break;
                                 case 'nar':
                                     location = '大井';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NetkeibaBabacodeMap[location]}${i.toXDigits(2)}`;
                                     break;
                                 case 'world':
                                     location = 'ロンシャン';
