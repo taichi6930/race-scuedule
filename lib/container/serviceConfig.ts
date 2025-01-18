@@ -18,6 +18,7 @@ import { GoogleCalendarService } from '../src/service/implement/googleCalendarSe
 import { JraPlaceDataService } from '../src/service/implement/jraPlaceDataService';
 import { JraRaceDataService } from '../src/service/implement/jraRaceDataService';
 import { KeirinPlaceDataService } from '../src/service/implement/keirinPlaceDataService';
+import { KeirinRaceDataService } from '../src/service/implement/keirinRaceDataService';
 import { NarPlaceDataService } from '../src/service/implement/narPlaceDataService';
 import { NarRaceDataService } from '../src/service/implement/narRaceDataService';
 import { WorldRaceDataService } from '../src/service/implement/worldRaceDataService';
@@ -176,6 +177,12 @@ container.register<IPlaceDataService<KeirinPlaceEntity>>(
     'KeirinPlaceDataService',
     {
         useClass: KeirinPlaceDataService,
+    },
+);
+container.register<IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>>(
+    'KeirinRaceDataService',
+    {
+        useClass: KeirinRaceDataService,
     },
 );
 
