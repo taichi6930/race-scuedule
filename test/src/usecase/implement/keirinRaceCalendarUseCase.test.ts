@@ -8,7 +8,7 @@ import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/kei
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/keirinRaceCalendarUseCase';
-import { KEIRIN_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/keirin/keirinGradeType';
+import { KeirinSpecifiedGradeList } from '../../../../lib/src/utility/data/keirin/keirinGradeType';
 import {
     baseKeirinCalendarData,
     baseKeirinRaceEntity,
@@ -97,7 +97,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                KEIRIN_SPECIFIED_GRADE_LIST,
+                KeirinSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -150,7 +150,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                KEIRIN_SPECIFIED_GRADE_LIST,
+                KeirinSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -199,7 +199,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                KEIRIN_SPECIFIED_GRADE_LIST,
+                KeirinSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -258,7 +258,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                KEIRIN_SPECIFIED_GRADE_LIST,
+                KeirinSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -316,7 +316,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                KEIRIN_SPECIFIED_GRADE_LIST,
+                KeirinSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認

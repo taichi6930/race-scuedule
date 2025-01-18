@@ -7,8 +7,8 @@ import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
-    AUTORACE_SPECIFIED_GRADE_LIST,
     AutoraceGradeType,
+    AutoraceSpecifiedGradeList,
 } from '../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceCourse } from '../utility/data/autorace/autoraceRaceCourse';
 import { AutoraceRaceStage } from '../utility/data/autorace/autoraceRaceStage';
@@ -227,7 +227,7 @@ export class AutoraceRaceController {
             await this.raceCalendarUseCase.updateRacesToCalendar(
                 new Date(startDate),
                 new Date(finishDate),
-                AUTORACE_SPECIFIED_GRADE_LIST,
+                AutoraceSpecifiedGradeList,
             );
             res.status(200).send();
         } catch (error) {

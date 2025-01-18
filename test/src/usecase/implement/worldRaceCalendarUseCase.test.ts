@@ -8,7 +8,7 @@ import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worl
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/worldRaceCalendarUseCase';
-import { WORLD_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/world/worldGradeType';
+import { WorldSpecifiedGradeList } from '../../../../lib/src/utility/data/world/worldGradeType';
 import {
     baseWorldCalendarData,
     baseWorldRaceEntity,
@@ -96,7 +96,7 @@ describe('WorldRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                WORLD_SPECIFIED_GRADE_LIST,
+                WorldSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -141,7 +141,7 @@ describe('WorldRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                WORLD_SPECIFIED_GRADE_LIST,
+                WorldSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -190,7 +190,7 @@ describe('WorldRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                WORLD_SPECIFIED_GRADE_LIST,
+                WorldSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -249,7 +249,7 @@ describe('WorldRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                WORLD_SPECIFIED_GRADE_LIST,
+                WorldSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -307,7 +307,7 @@ describe('WorldRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                WORLD_SPECIFIED_GRADE_LIST,
+                WorldSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認

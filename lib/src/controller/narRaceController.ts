@@ -7,8 +7,8 @@ import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
-    NAR_SPECIFIED_GRADE_LIST,
     NarGradeType,
+    NarSpecifiedGradeList,
 } from '../utility/data/nar/narGradeType';
 import { NarRaceCourse } from '../utility/data/nar/narRaceCourse';
 import { Logger } from '../utility/logger';
@@ -224,7 +224,7 @@ export class NarRaceController {
             await this.raceCalendarUseCase.updateRacesToCalendar(
                 new Date(startDate),
                 new Date(finishDate),
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
             res.status(200).send();
         } catch (error) {

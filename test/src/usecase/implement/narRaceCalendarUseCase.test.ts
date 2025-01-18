@@ -8,7 +8,7 @@ import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRac
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { NarRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/narRaceCalendarUseCase';
-import { NAR_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/nar/narGradeType';
+import { NarSpecifiedGradeList } from '../../../../lib/src/utility/data/nar/narGradeType';
 import {
     baseNarCalendarData,
     baseNarRaceEntity,
@@ -98,7 +98,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -143,7 +143,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -192,7 +192,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -251,7 +251,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -309,7 +309,7 @@ describe('NarRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                NAR_SPECIFIED_GRADE_LIST,
+                NarSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認

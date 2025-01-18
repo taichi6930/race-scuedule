@@ -1,4 +1,4 @@
-export const NETKEIBA_BABACODE: Record<string, string> = {
+export const NetkeibaBabacodeMap: Record<string, string> = {
     // 中央競馬
     札幌: '01',
     函館: '02',

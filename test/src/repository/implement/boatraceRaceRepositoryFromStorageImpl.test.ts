@@ -12,7 +12,7 @@ import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatra
 import { BoatraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { BOATRACE_PLACE_CODE } from '../../../../lib/src/utility/data/boatrace/boatraceRaceCourse';
+import { BoatracePlaceCodeMap } from '../../../../lib/src/utility/data/boatrace/boatraceRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceData';
 import {
@@ -66,7 +66,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         '平和島',
                         'GⅠ',
                         '1',
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
@@ -76,7 +76,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         '平和島',
                         'GⅠ',
                         '1',
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
@@ -86,7 +86,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         '平和島',
                         'GⅠ',
                         undefined,
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                         undefined,
                     ].join(',');
                     const csvDatajoinText: string = [
@@ -115,22 +115,22 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                         'updateDate',
                     ].join(',');
                     const csvDataText: string = [
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}0101`,
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}0101`,
+                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                         '1',
                         '999999',
                         undefined,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                         '1',
                         '1',
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}0101`,
-                        `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}0101`,
+                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                         null,
                         '1',
                         getJSTDate(new Date()).toISOString(),
@@ -246,7 +246,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                     '平和島',
                     'GⅠ',
                     '1',
-                    `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                 ].join(',');
                 const csvDataRameNameUndefinedText: string = [
                     undefined,
@@ -255,7 +255,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                     '平和島',
                     'GⅠ',
                     '1',
-                    `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                 ].join(',');
                 const csvDataNumUndefinedText: string = [
                     `raceName${filename.slice(0, 8)}`,
@@ -264,7 +264,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                     '平和島',
                     'GⅠ',
                     undefined,
-                    `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                 ].join(',');
                 const csvDatajoinText: string = [
                     csvHeaderDataText,
@@ -291,20 +291,20 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                     'playerNumber',
                 ].join(',');
                 const csvDataText: string = [
-                    `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}0101`,
-                    `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}0101`,
+                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                     '1',
                     '999999',
                 ].join(',');
                 const csvDataRameNameUndefinedText: string = [
                     undefined,
-                    `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                     '1',
                     '1',
                 ].join(',');
                 const csvDataNumUndefinedText: string = [
-                    `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}0101`,
-                    `boatrace20240101${BOATRACE_PLACE_CODE['平和島']}01`,
+                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}0101`,
+                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
                     null,
                     '1',
                 ].join(',');

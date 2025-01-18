@@ -76,7 +76,7 @@ const KeirinRaceStageList: string[] = [
 /**
  * 競輪の指定グレード・ステージリスト
  */
-export const KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST: {
+export const KeirinSpecifiedGradeAndStageList: {
     grade: KeirinGradeType;
     stage: KeirinRaceStage;
     priority: number;
@@ -159,7 +159,7 @@ export const validateKeirinRaceStage = (stage: string): KeirinRaceStage => {
 /**
  * HTMLのステージ名を正式名称に変換するためのマップ
  */
-export const KEIRIN_STAGE_MAP: Record<string, KeirinRaceStage> = {
+export const KeirinStageMap: Record<string, KeirinRaceStage> = {
     'Ｓ級ＧＰ': 'S級グランプリ',
     'Ｌ級ＧＧＰ': 'L級ガールズグランプリ',
     'ＳＡ混合ＹＧＰ': 'SA混合ヤンググランプリ',

@@ -3,14 +3,14 @@ import { format } from 'date-fns';
 import type { AutoracePlaceId } from './data/autorace/autoracePlaceId';
 import type { AutoracePositionNumber } from './data/autorace/autoracePositionNumber';
 import type { AutoraceRaceCourse } from './data/autorace/autoraceRaceCourse';
-import { AUTORACE_PLACE_CODE } from './data/autorace/autoraceRaceCourse';
+import { AutoracePlaceCodeMap } from './data/autorace/autoraceRaceCourse';
 import type { AutoraceRaceId } from './data/autorace/autoraceRaceId';
 import type { AutoraceRaceNumber } from './data/autorace/autoraceRaceNumber';
 import type { AutoraceRacePlayerId } from './data/autorace/autoraceRacePlayerId';
 import type { BoatracePlaceId } from './data/boatrace/boatracePlaceId';
 import type { BoatracePositionNumber } from './data/boatrace/boatracePositionNumber';
 import type { BoatraceRaceCourse } from './data/boatrace/boatraceRaceCourse';
-import { BOATRACE_PLACE_CODE } from './data/boatrace/boatraceRaceCourse';
+import { BoatracePlaceCodeMap } from './data/boatrace/boatraceRaceCourse';
 import type { BoatraceRaceId } from './data/boatrace/boatraceRaceId';
 import type { BoatraceRaceNumber } from './data/boatrace/boatraceRaceNumber';
 import type { BoatraceRacePlayerId } from './data/boatrace/boatraceRacePlayerId';
@@ -20,7 +20,7 @@ import type { JraRaceNumber } from './data/jra/jraRaceNumber';
 import type { KeirinPlaceId } from './data/keirin/keirinPlaceId';
 import type { KeirinPositionNumber } from './data/keirin/keirinPositionNumber';
 import type { KeirinRaceCourse } from './data/keirin/keirinRaceCourse';
-import { KEIRIN_PLACE_CODE } from './data/keirin/keirinRaceCourse';
+import { KeirinPlaceCodeMap } from './data/keirin/keirinRaceCourse';
 import type { KeirinRaceId } from './data/keirin/keirinRaceId';
 import type { KeirinRaceNumber } from './data/keirin/keirinRaceNumber';
 import type { KeirinRacePlayerId } from './data/keirin/keirinRacePlayerId';
@@ -28,9 +28,9 @@ import type { NarPlaceId } from './data/nar/narPlaceId';
 import type { NarRaceCourse } from './data/nar/narRaceCourse';
 import type { NarRaceId } from './data/nar/narRaceId';
 import type { NarRaceNumber } from './data/nar/narRaceNumber';
-import { NETKEIBA_BABACODE } from './data/netkeiba';
+import { NetkeibaBabacodeMap } from './data/netkeiba';
 import type { WorldRaceCourse } from './data/world/worldRaceCourse';
-import { WORLD_PLACE_CODE } from './data/world/worldRaceCourse';
+import { WorldPlaceCodeMap } from './data/world/worldRaceCourse';
 import type { WorldRaceDateTime } from './data/world/worldRaceDateTime';
 import type { WorldRaceId } from './data/world/worldRaceId';
 import type { WorldRaceNumber } from './data/world/worldRaceNumber';
@@ -60,7 +60,7 @@ export const generateJraPlaceId = (
     location: JraRaceCourse,
 ): JraRaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = NETKEIBA_BABACODE[location];
+    const locationCode = NetkeibaBabacodeMap[location];
     return `jra${dateCode}${locationCode}`;
 };
 
@@ -95,7 +95,7 @@ export const generateNarPlaceId = (
     location: NarRaceCourse,
 ): NarPlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = NETKEIBA_BABACODE[location];
+    const locationCode = NetkeibaBabacodeMap[location];
     return `nar${dateCode}${locationCode}`;
 };
 
@@ -124,7 +124,7 @@ export const generateWorldPlaceId = (
     location: WorldRaceCourse,
 ): WorldRaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = WORLD_PLACE_CODE[location];
+    const locationCode = WorldPlaceCodeMap[location];
     return `world${dateCode}${locationCode}`;
 };
 
@@ -170,7 +170,7 @@ export const generateKeirinPlaceId = (
     location: KeirinRaceCourse,
 ): KeirinPlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = KEIRIN_PLACE_CODE[location];
+    const locationCode = KeirinPlaceCodeMap[location];
     return `keirin${dateCode}${locationCode}`;
 };
 
@@ -216,7 +216,7 @@ export const generateBoatracePlaceId = (
     location: BoatraceRaceCourse,
 ): BoatracePlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = BOATRACE_PLACE_CODE[location];
+    const locationCode = BoatracePlaceCodeMap[location];
     return `boatrace${dateCode}${locationCode}`;
 };
 
@@ -262,6 +262,6 @@ export const generateAutoracePlaceId = (
     location: AutoraceRaceCourse,
 ): AutoracePlaceId => {
     const dateCode = format(dateTime, 'yyyyMMdd');
-    const locationCode = AUTORACE_PLACE_CODE[location];
+    const locationCode = AutoracePlaceCodeMap[location];
     return `autorace${dateCode}${locationCode}`;
 };

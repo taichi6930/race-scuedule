@@ -12,7 +12,7 @@ import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autora
 import { AutoraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { AUTORACE_PLACE_CODE } from '../../../../lib/src/utility/data/autorace/autoraceRaceCourse';
+import { AutoracePlaceCodeMap } from '../../../../lib/src/utility/data/autorace/autoraceRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseAutoraceRacePlayerDataList } from '../../mock/common/baseAutoraceData';
 import {
@@ -66,7 +66,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         '飯塚',
                         'GⅠ',
                         '1',
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         undefined,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
@@ -76,7 +76,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         '飯塚',
                         'GⅠ',
                         '1',
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
@@ -86,7 +86,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         '飯塚',
                         'GⅠ',
                         undefined,
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDatajoinText: string = [
@@ -115,22 +115,22 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'updateDate',
                     ].join(',');
                     const csvDataText: string = [
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}0101`,
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}0101`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         '1',
                         '999999',
                         undefined,
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         '1',
                         '1',
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}0101`,
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}0101`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         null,
                         '1',
                         getJSTDate(new Date()).toISOString(),
@@ -246,7 +246,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         '飯塚',
                         'GⅠ',
                         '1',
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
@@ -256,7 +256,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         '飯塚',
                         'GⅠ',
                         '1',
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
@@ -266,7 +266,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         '飯塚',
                         'GⅠ',
                         undefined,
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         getJSTDate(new Date()).toISOString(),
                     ].join(',');
                     const csvDatajoinText: string = [
@@ -294,20 +294,20 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                         'playerNumber',
                     ].join(',');
                     const csvDataText: string = [
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}0101`,
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}0101`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         '1',
                         '999999',
                     ].join(',');
                     const csvDataRameNameUndefinedText: string = [
                         undefined,
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         '1',
                         '1',
                     ].join(',');
                     const csvDataNumUndefinedText: string = [
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}0101`,
-                        `autorace20240101${AUTORACE_PLACE_CODE['飯塚']}01`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}0101`,
+                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
                         null,
                         '1',
                     ].join(',');

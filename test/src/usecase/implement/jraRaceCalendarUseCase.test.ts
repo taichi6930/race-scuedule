@@ -8,7 +8,7 @@ import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRac
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { JraRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/jraRaceCalendarUseCase';
-import { JRA_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/jra/jraGradeType';
+import { JraSpecifiedGradeList } from '../../../../lib/src/utility/data/jra/jraGradeType';
 import {
     baseJraCalendarData,
     baseJraRaceEntity,
@@ -98,7 +98,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -143,7 +143,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -192,7 +192,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -251,7 +251,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -309,7 +309,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認

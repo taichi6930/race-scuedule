@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace/autoraceRaceCourse';
+import { AutoracePlaceCodeMap } from '../../utility/data/autorace/autoraceRaceCourse';
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import { Logger } from '../../utility/logger';
 import { IAutoraceRaceDataHtmlGateway } from '../interface/iAutoraceRaceDataHtmlGateway';
@@ -24,7 +24,7 @@ export class MockAutoraceRaceDataHtmlGateway
         place: AutoraceRaceCourse,
     ): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[place]}.html`;
+        const testHtmlUrl = `../mockData/html/autorace/race/${format(date, 'yyyyMMdd')}${AutoracePlaceCodeMap[place]}.html`;
         // lib/src/gateway/mockData/html/autorace/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 

@@ -10,7 +10,7 @@ import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequ
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import { BoatracePlayerList } from '../../utility/data/boatrace/boatracePlayerNumber';
-import { BOATRACE_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/boatrace/boatraceRaceStage';
+import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/boatraceRaceStage';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -125,19 +125,15 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
                 );
 
                 const racePriority: number =
-                    BOATRACE_SPECIFIED_GRADE_AND_STAGE_LIST.find(
-                        (raceGradeList) => {
-                            return (
-                                displayGradeList.includes(
-                                    raceEntity.raceData.grade,
-                                ) &&
-                                raceGradeList.grade ===
-                                    raceEntity.raceData.grade &&
-                                raceGradeList.stage ===
-                                    raceEntity.raceData.stage
-                            );
-                        },
-                    )?.priority ?? 0;
+                    BoatraceSpecifiedGradeAndStageList.find((raceGradeList) => {
+                        return (
+                            displayGradeList.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
+                            raceGradeList.grade === raceEntity.raceData.grade &&
+                            raceGradeList.stage === raceEntity.raceData.stage
+                        );
+                    })?.priority ?? 0;
 
                 return racePriority + maxPlayerPriority >= 6;
             });

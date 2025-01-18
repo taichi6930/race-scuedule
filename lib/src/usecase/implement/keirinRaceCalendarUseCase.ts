@@ -9,7 +9,7 @@ import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinPlayerList } from '../../utility/data/keirin/keirinPlayerNumber';
-import { KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST } from '../../utility/data/keirin/keirinRaceStage';
+import { KeirinSpecifiedGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -117,19 +117,15 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                 );
 
                 const racePriority: number =
-                    KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST.find(
-                        (raceGradeList) => {
-                            return (
-                                displayGradeList.includes(
-                                    raceEntity.raceData.grade,
-                                ) &&
-                                raceGradeList.grade ===
-                                    raceEntity.raceData.grade &&
-                                raceGradeList.stage ===
-                                    raceEntity.raceData.stage
-                            );
-                        },
-                    )?.priority ?? 0;
+                    KeirinSpecifiedGradeAndStageList.find((raceGradeList) => {
+                        return (
+                            displayGradeList.includes(
+                                raceEntity.raceData.grade,
+                            ) &&
+                            raceGradeList.grade === raceEntity.raceData.grade &&
+                            raceGradeList.stage === raceEntity.raceData.stage
+                        );
+                    })?.priority ?? 0;
 
                 return racePriority + maxPlayerPriority >= 6;
             });

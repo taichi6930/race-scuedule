@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import {
-    BOATRACE_PLACE_CODE,
+    BoatracePlaceCodeMap,
     BoatraceRaceCourse,
 } from '../../utility/data/boatrace/boatraceRaceCourse';
 import { BoatraceRaceNumber } from '../../utility/data/boatrace/boatraceRaceNumber';
@@ -28,7 +28,7 @@ export class MockBoatraceRaceDataHtmlGateway
         number: BoatraceRaceNumber,
     ): Promise<string> {
         // mockDataフォルダにあるhtmlを取得
-        const testHtmlUrl = `../mockData/html/boatrace/race/${format(date, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[place]}${number.toString()}.html`;
+        const testHtmlUrl = `../mockData/html/boatrace/race/${format(date, 'yyyyMMdd')}${BoatracePlaceCodeMap[place]}${number.toString()}.html`;
         // lib/src/gateway/mockData/html/boatrace/placeの中にあるhtmlを取得
         const htmlFilePath = path.join(__dirname, testHtmlUrl);
 

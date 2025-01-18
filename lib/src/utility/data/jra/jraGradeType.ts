@@ -45,7 +45,7 @@ const JraGradeTypeList: string[] = [
 /**
  * JRAの指定グレードリスト
  */
-export const JRA_SPECIFIED_GRADE_LIST: JraGradeType[] = [
+export const JraSpecifiedGradeList: JraGradeType[] = [
     'GⅠ',
     'GⅡ',
     'GⅢ',

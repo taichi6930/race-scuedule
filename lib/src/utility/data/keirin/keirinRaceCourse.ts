@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * 競輪のレース場名とコードの対応表
  */
-export const KEIRIN_PLACE_CODE: Record<string, string> = {
+export const KeirinPlaceCodeMap: Record<string, string> = {
     函館: '11',
     青森: '12',
     いわき平: '13',

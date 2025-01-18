@@ -46,7 +46,7 @@ const AutoraceRaceStageList: string[] = [
 /**
  * オートレースの指定グレード・ステージリスト
  */
-export const AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST: {
+export const AutoraceSpecifiedGradeAndStageList: {
     grade: AutoraceGradeType;
     stage: AutoraceRaceStage;
     priority: number;
@@ -55,7 +55,7 @@ export const AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST: {
 /**
  * HTMLのステージ名を正式名称に変換するためのマップ
  */
-export const AUTORACE_STAGE_MAP: Record<string, AutoraceRaceStage> = {
+export const AutoraceStageMap: Record<string, AutoraceRaceStage> = {
     優勝戦: '優勝戦',
     特別選抜戦: '特別選抜戦',
     選抜戦: '選抜戦',

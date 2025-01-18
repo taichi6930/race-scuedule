@@ -5,8 +5,8 @@ import { WorldRaceData } from '../domain/worldRaceData';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
-    WORLD_SPECIFIED_GRADE_LIST,
     WorldGradeType,
+    WorldSpecifiedGradeList,
 } from '../utility/data/world/worldGradeType';
 import { WorldRaceCourse } from '../utility/data/world/worldRaceCourse';
 import { Logger } from '../utility/logger';
@@ -217,7 +217,7 @@ export class WorldRaceController {
             await this.raceCalendarUseCase.updateRacesToCalendar(
                 new Date(startDate),
                 new Date(finishDate),
-                WORLD_SPECIFIED_GRADE_LIST,
+                WorldSpecifiedGradeList,
             );
             res.status(200).send();
         } catch (error) {

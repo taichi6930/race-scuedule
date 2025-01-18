@@ -9,8 +9,8 @@ import { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
 import { IBoatraceRaceDataHtmlGateway } from '../../gateway/interface/iBoatraceRaceDataHtmlGateway';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import {
-    BOATRACE_STAGE_MAP,
     BoatraceRaceStage,
+    BoatraceStageMap,
 } from '../../utility/data/boatrace/boatraceRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -135,7 +135,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     private extractRaceStage(
         raceSummaryInfoChild: string,
     ): BoatraceRaceStage | null {
-        for (const [pattern, stage] of Object.entries(BOATRACE_STAGE_MAP)) {
+        for (const [pattern, stage] of Object.entries(BoatraceStageMap)) {
             if (new RegExp(pattern).exec(raceSummaryInfoChild)) {
                 return stage;
             }
