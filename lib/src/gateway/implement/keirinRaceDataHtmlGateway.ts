@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 import {
-    KEIRIN_PLACE_CODE,
+    KeirinPlaceCodeMap,
     KeirinRaceCourse,
 } from '../../utility/data/keirin/keirinRaceCourse';
 import { Logger } from '../../utility/logger';
@@ -22,7 +22,7 @@ export class KeirinRaceDataHtmlGateway implements IKeirinRaceDataHtmlGateway {
         place: KeirinRaceCourse,
     ): Promise<string> {
         const raceDate = format(date, 'yyyyMMdd');
-        const babacode = KEIRIN_PLACE_CODE[place];
+        const babacode = KeirinPlaceCodeMap[place];
         const url = `https://www.oddspark.com/keirin/AllRaceList.do?joCode=${babacode}&kaisaiBi=${raceDate}`;
 
         // gokeibaのURLからHTMLを取得する

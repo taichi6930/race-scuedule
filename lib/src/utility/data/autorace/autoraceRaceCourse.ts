@@ -40,7 +40,7 @@ export const validateAutoraceRaceCourse = (
 /**
  * オートレースのレース場名とコードの対応表
  */
-export const AUTORACE_PLACE_CODE: Record<string, string> = {
+export const AutoracePlaceCodeMap: Record<string, string> = {
     船橋: '01',
     川口: '02',
     伊勢崎: '03',

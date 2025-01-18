@@ -8,7 +8,7 @@ import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRac
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
 import { JraRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/jraRaceCalendarUseCase';
-import { JRA_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/jra/jraGradeType';
+import { JraSpecifiedGradeList } from '../../../../lib/src/utility/data/jra/jraGradeType';
 import {
     baseJraCalendarData,
     baseJraRaceEntity,
@@ -124,7 +124,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -171,7 +171,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -222,7 +222,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -283,7 +283,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -343,7 +343,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // モックが呼び出されたことを確認
@@ -376,7 +376,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // コンソールエラーメッセージが出力されることを確認
@@ -413,7 +413,7 @@ describe('JraRaceCalendarUseCase', () => {
             await useCase.updateRacesToCalendar(
                 startDate,
                 finishDate,
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
 
             // コンソールエラーメッセージが出力されることを確認

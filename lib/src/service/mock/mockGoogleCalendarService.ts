@@ -5,11 +5,11 @@ import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { RaceEntity } from '../../repository/entity/baseEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace/autoraceRaceCourse';
-import { BOATRACE_PLACE_CODE } from '../../utility/data/boatrace/boatraceRaceCourse';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin/keirinRaceCourse';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
-import { WORLD_PLACE_CODE } from '../../utility/data/world/worldRaceCourse';
+import { AutoracePlaceCodeMap } from '../../utility/data/autorace/autoraceRaceCourse';
+import { BoatracePlaceCodeMap } from '../../utility/data/boatrace/boatraceRaceCourse';
+import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
+import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
+import { WorldPlaceCodeMap } from '../../utility/data/world/worldRaceCourse';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { generateJraRaceId } from '../../utility/raceId';
@@ -59,23 +59,23 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
                                     break;
                                 case 'nar':
                                     location = '大井';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NETKEIBA_BABACODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NetkeibaBabacodeMap[location]}${i.toXDigits(2)}`;
                                     break;
                                 case 'world':
                                     location = 'ロンシャン';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WORLD_PLACE_CODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WorldPlaceCodeMap[location]}${i.toXDigits(2)}`;
                                     break;
                                 case 'keirin':
                                     location = '川崎';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${KeirinPlaceCodeMap[location]}${i.toXDigits(2)}`;
                                     break;
                                 case 'autorace':
                                     location = '伊勢崎';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${AUTORACE_PLACE_CODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${AutoracePlaceCodeMap[location]}${i.toXDigits(2)}`;
                                     break;
                                 case 'boatrace':
                                     location = '平和島';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${BOATRACE_PLACE_CODE[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${BoatracePlaceCodeMap[location]}${i.toXDigits(2)}`;
                                     break;
                                 default:
                                     break;

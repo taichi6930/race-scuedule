@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import { AUTORACE_PLACE_CODE } from '../../utility/data/autorace/autoraceRaceCourse';
+import { AutoracePlaceCodeMap } from '../../utility/data/autorace/autoraceRaceCourse';
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import { Logger } from '../../utility/logger';
 import { IAutoraceRaceDataHtmlGateway } from '../interface/iAutoraceRaceDataHtmlGateway';
@@ -22,7 +22,7 @@ export class AutoraceRaceDataHtmlGateway
         place: AutoraceRaceCourse,
     ): Promise<string> {
         const raceDate = format(date, 'yyyyMMdd');
-        const babacode = AUTORACE_PLACE_CODE[place];
+        const babacode = AutoracePlaceCodeMap[place];
         const url = `https://www.oddspark.com/autorace/OneDayRaceList.do?raceDy=${raceDate}&placeCd=${babacode}`;
 
         // gokeibaのURLからHTMLを取得する

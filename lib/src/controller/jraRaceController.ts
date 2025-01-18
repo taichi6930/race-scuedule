@@ -7,8 +7,8 @@ import { IPlaceDataUseCase } from '../usecase/interface/IPlaceDataUseCase';
 import { IRaceCalendarUseCase } from '../usecase/interface/IRaceCalendarUseCase';
 import { IRaceDataUseCase } from '../usecase/interface/IRaceDataUseCase';
 import {
-    JRA_SPECIFIED_GRADE_LIST,
     JraGradeType,
+    JraSpecifiedGradeList,
 } from '../utility/data/jra/jraGradeType';
 import { JraRaceCourse } from '../utility/data/jra/jraRaceCourse';
 import { Logger } from '../utility/logger';
@@ -224,7 +224,7 @@ export class JraRaceController {
             await this.raceCalendarUseCase.updateRacesToCalendar(
                 new Date(startDate),
                 new Date(finishDate),
-                JRA_SPECIFIED_GRADE_LIST,
+                JraSpecifiedGradeList,
             );
             res.status(200).send();
         } catch (error) {

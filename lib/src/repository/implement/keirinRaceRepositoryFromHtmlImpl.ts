@@ -9,8 +9,8 @@ import { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { IKeirinRaceDataHtmlGateway } from '../../gateway/interface/iKeirinRaceDataHtmlGateway';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import {
-    KEIRIN_STAGE_MAP,
     KeirinRaceStage,
+    KeirinStageMap,
 } from '../../utility/data/keirin/keirinRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -247,7 +247,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
     private extractRaceStage(
         raceSummaryInfoChild: string,
     ): KeirinRaceStage | null {
-        for (const [pattern, stage] of Object.entries(KEIRIN_STAGE_MAP)) {
+        for (const [pattern, stage] of Object.entries(KeirinStageMap)) {
             if (new RegExp(pattern).exec(raceSummaryInfoChild)) {
                 return stage;
             }

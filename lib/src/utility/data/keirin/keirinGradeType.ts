@@ -20,7 +20,7 @@ const KeirinGradeTypeList: string[] = ['GP', 'GⅠ', 'GⅡ', 'GⅢ', 'FⅠ', 'F�
 /**
  * 競輪の指定グレードリスト
  */
-export const KEIRIN_SPECIFIED_GRADE_LIST: KeirinGradeType[] = [
+export const KeirinSpecifiedGradeList: KeirinGradeType[] = [
     'GP',
     'GⅠ',
     'GⅡ',

@@ -14,14 +14,14 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { KEIRIN_PLACE_CODE } from '../../utility/data/keirin/keirinRaceCourse';
+import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
 import {
     CHIHO_KEIBA_LIVE_URL,
-    CHIHO_KEIBA_YOUTUBE_USER_ID,
+    ChihoKeibaYoutubeUserIdMap,
     getYoutubeLiveUrl,
 } from '../../utility/data/movie';
-import { NAR_BABACODE } from '../../utility/data/nar/narRaceCourse';
-import { NETKEIBA_BABACODE } from '../../utility/data/netkeiba';
+import { NarBabacodeMap } from '../../utility/data/nar/narRaceCourse';
+import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
@@ -420,7 +420,7 @@ export class GoogleCalendarService<R extends RaceEntity>
             description:
                 `距離: ${raceEntity.raceData.surfaceType}${raceEntity.raceData.distance.toString()}m
             発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
-            ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[raceEntity.raceData.location]}${raceEntity.raceData.heldTimes.toXDigits(2)}${raceEntity.raceData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
+            ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${raceEntity.raceData.heldTimes.toXDigits(2)}${raceEntity.raceData.heldDayTimes.toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
             更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };
@@ -460,9 +460,9 @@ export class GoogleCalendarService<R extends RaceEntity>
                 `距離: ${raceEntity.raceData.surfaceType}${raceEntity.raceData.distance.toString()}m
             発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
             ${createAnchorTag('レース映像（地方競馬LIVE）', CHIHO_KEIBA_LIVE_URL)}
-            ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(CHIHO_KEIBA_YOUTUBE_USER_ID[raceEntity.raceData.location]))}
-            ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NETKEIBA_BABACODE[raceEntity.raceData.location]}${(raceEntity.raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
-            ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${raceEntity.raceData.dateTime.getFullYear().toString()}%2f${raceEntity.raceData.dateTime.getXDigitMonth(2)}%2f${raceEntity.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${raceEntity.raceData.number.toXDigits(2)}&k_babaCode=${NAR_BABACODE[raceEntity.raceData.location]}`)}
+            ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[raceEntity.raceData.location]))}
+            ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${(raceEntity.raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
+            ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${raceEntity.raceData.dateTime.getFullYear().toString()}%2f${raceEntity.raceData.dateTime.getXDigitMonth(2)}%2f${raceEntity.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${raceEntity.raceData.number.toXDigits(2)}&k_babaCode=${NarBabacodeMap[raceEntity.raceData.location]}`)}
             更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };
@@ -542,7 +542,7 @@ export class GoogleCalendarService<R extends RaceEntity>
             colorId: this.getColorId(raceEntity.raceData.grade),
             description:
                 `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
-            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KEIRIN_PLACE_CODE[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
+            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
             更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };

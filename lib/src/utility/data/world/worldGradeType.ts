@@ -20,7 +20,7 @@ const WorldGradeTypeList: string[] = ['GⅠ', 'GⅡ', 'GⅢ', 'Listed', '格付�
 /**
  * 海外競馬の指定グレードリスト
  */
-export const WORLD_SPECIFIED_GRADE_LIST: WorldGradeType[] = [
+export const WorldSpecifiedGradeList: WorldGradeType[] = [
     'GⅠ',
     'GⅡ',
     'GⅢ',

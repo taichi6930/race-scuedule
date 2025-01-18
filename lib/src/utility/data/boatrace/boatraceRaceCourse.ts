@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const BOATRACE_PLACE_CODE: Record<string, string> = {
+export const BoatracePlaceCodeMap: Record<string, string> = {
     桐生: '01',
     戸田: '02',
     江戸川: '03',
