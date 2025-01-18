@@ -14,7 +14,7 @@ export const getYoutubeLiveUrl = (userId: string): string =>
 /**
  * 地方競馬のYoutubeのユーザーID
  */
-export const CHIHO_KEIBA_YOUTUBE_USER_ID: Record<string, string> = {
+export const ChihoKeibaYoutubeUserIdMap: Record<string, string> = {
     門別: 'live2820',
     帯広ば: 'ばんえい十勝公式',
     水沢: 'IwateKeibaITV',
