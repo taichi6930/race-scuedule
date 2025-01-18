@@ -159,30 +159,4 @@ describe('NarRaceDataService', () => {
             expect(consoleSpy).toHaveBeenCalled();
         });
     });
-    //     it('正常にレースデータが更新されること', async () => {
-    //         const mockRaceData: NarRaceData[] = baseNarRaceDataList;
-
-    //         await service.upsertRaceDataList(mockRaceData);
-
-    //         expect(
-    //             narRaceRepositoryFromStorageImpl.registerRaceEntityList,
-    //         ).toHaveBeenCalled();
-    //     });
-
-    //     it('レースデータが取得できない場合、エラーが発生すること', async () => {
-    //         const mockRaceData: NarRaceData[] = baseNarRaceDataList;
-    //         // モックの戻り値を設定（エラーが発生するように設定）
-    //         narRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
-    //             new Error('レースデータの登録に失敗しました'),
-    //         );
-
-    //         const consoleSpy = jest
-    //             .spyOn(console, 'error')
-    //             .mockImplementation();
-
-    //         await service.upsertRaceDataList(mockRaceData);
-
-    //         expect(consoleSpy).toHaveBeenCalled();
-    //     });
-    // });
 });
