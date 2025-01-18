@@ -1,5 +1,7 @@
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
+import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
+import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
@@ -43,6 +45,21 @@ export const mockWorldRaceDataServiceMock = (): jest.Mocked<
         fetchRaceEntityList: jest
             .fn()
             .mockResolvedValue([] as WorldRaceEntity[]),
+        updateRaceEntityList: jest.fn().mockResolvedValue([]),
+    };
+};
+
+/**
+ * KeirinRaceDataServiceのモックを作成する
+ * @returns
+}*/
+export const mockKeirinRaceDataServiceMock = (): jest.Mocked<
+    IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
+> => {
+    return {
+        fetchRaceEntityList: jest
+            .fn()
+            .mockResolvedValue([] as KeirinRaceEntity[]),
         updateRaceEntityList: jest.fn().mockResolvedValue([]),
     };
 };

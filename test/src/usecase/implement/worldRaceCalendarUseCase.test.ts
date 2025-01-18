@@ -5,21 +5,21 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
-import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { WorldRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/worldRaceCalendarUseCase';
 import { WORLD_SPECIFIED_GRADE_LIST } from '../../../../lib/src/utility/data/world/worldGradeType';
 import {
     baseWorldCalendarData,
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
-import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/worldRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { mockWorldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('WorldRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<WorldRaceEntity>>;
-    let worldRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
+    let worldRaceDataService: jest.Mocked<
+        IRaceDataService<WorldRaceEntity, WorldPlaceEntity>
     >;
     let useCase: WorldRaceCalendarUseCase;
 
@@ -32,14 +32,11 @@ describe('WorldRaceCalendarUseCase', () => {
                 useValue: calendarServiceMock,
             },
         );
-
-        // IRaceRepositoryインターフェースの依存関係を登録
-        worldRaceRepositoryFromStorageImpl =
-            mockWorldRaceRepositoryFromStorageImpl();
-        container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
-            'WorldRaceRepositoryFromStorage',
+        worldRaceDataService = mockWorldRaceDataServiceMock();
+        container.register<IRaceDataService<WorldRaceEntity, WorldPlaceEntity>>(
+            'WorldRaceDataService',
             {
-                useValue: worldRaceRepositoryFromStorageImpl,
+                useValue: worldRaceDataService,
             },
         );
 
@@ -68,29 +65,6 @@ describe('WorldRaceCalendarUseCase', () => {
             );
             expect(result).toEqual(mockCalendarData);
         });
-
-        it('エラーが発生した場合、空の配列が返ってくること', async () => {
-            // モックがエラーをスローするよう設定
-            calendarServiceMock.getEvents.mockRejectedValue(
-                new Error('Google Calendar API error'),
-            );
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            const result = await useCase.getRacesFromCalendar(
-                startDate,
-                finishDate,
-            );
-
-            // モックが呼び出されたことを確認
-            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
-                startDate,
-                finishDate,
-            );
-            // モックからエラーが返ってくることを確認
-            expect(result).toEqual([]);
-        });
     });
 
     describe('updateRacesToCalendar', () => {
@@ -112,10 +86,8 @@ describe('WorldRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            worldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -159,10 +131,8 @@ describe('WorldRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            worldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -210,10 +180,8 @@ describe('WorldRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            worldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -271,10 +239,8 @@ describe('WorldRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            worldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -331,10 +297,8 @@ describe('WorldRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            worldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -358,71 +322,6 @@ describe('WorldRaceCalendarUseCase', () => {
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
-        });
-
-        it('fetchRaceListがエラーをスローした場合、エラーメッセージがコンソールに表示されること', async () => {
-            const consoleErrorSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {});
-
-            // fetchRaceListがエラーをスローするようにモック
-            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
-                new Error('Fetch Error'),
-            );
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            await useCase.updateRacesToCalendar(
-                startDate,
-                finishDate,
-                WORLD_SPECIFIED_GRADE_LIST,
-            );
-
-            // コンソールエラーメッセージが出力されることを確認
-            expect(consoleErrorSpy).toHaveBeenCalledWith(
-                'Google Calendar APIへのイベント登録に失敗しました',
-                expect.any(Error),
-            );
-
-            // エラーがスローされた場合に呼び出されるため、upsertEventsは呼び出されていないことを確認
-            consoleErrorSpy.mockRestore();
-        });
-
-        it('updateEventsがエラーをスローした場合、エラーメッセージがコンソールに表示されること', async () => {
-            const consoleErrorSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {});
-
-            // fetchRaceListは正常に動作するように設定
-            const mockRaceEntityList: WorldRaceEntity[] = [baseWorldRaceEntity];
-            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
-            );
-
-            // updateEventsがエラーをスローするようにモック
-            calendarServiceMock.upsertEvents.mockRejectedValue(
-                new Error('Update Error'),
-            );
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            await useCase.updateRacesToCalendar(
-                startDate,
-                finishDate,
-                WORLD_SPECIFIED_GRADE_LIST,
-            );
-
-            // コンソールエラーメッセージが出力されることを確認
-            expect(consoleErrorSpy).toHaveBeenCalledWith(
-                'Google Calendar APIへのイベント登録に失敗しました',
-                expect.any(Error),
-            );
-
-            consoleErrorSpy.mockRestore();
         });
     });
 });
