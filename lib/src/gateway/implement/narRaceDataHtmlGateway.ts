@@ -1,7 +1,7 @@
 import '../../utility/format';
 
 import {
-    NAR_BABACODE,
+    NarBabacodeMap,
     NarRaceCourse,
 } from '../../utility/data/nar/narRaceCourse';
 import { Logger } from '../../utility/logger';
@@ -19,7 +19,7 @@ export class NarRaceDataHtmlGateway implements INarRaceDataHtmlGateway {
     @Logger
     async getRaceDataHtml(date: Date, place: NarRaceCourse): Promise<string> {
         const raceDate = `${date.getFullYear().toString()}%2f${date.getXDigitMonth(2)}%2f${date.getXDigitDays(2)}`;
-        const babacode = NAR_BABACODE[place];
+        const babacode = NarBabacodeMap[place];
         const url = `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/RaceList?k_raceDate=${raceDate}&k_babaCode=${babacode}`;
 
         // gokeibaのURLからHTMLを取得する
