@@ -22,7 +22,7 @@ const BoatraceRaceStageList: string[] = ['優勝戦', '準優勝戦', '一般戦
 /**
  * HTMLのステージ名を正式名称に変換するためのマップ
  */
-export const BOATRACE_STAGE_MAP: Record<string, BoatraceRaceStage> = {
+export const BoatraceStageMap: Record<string, BoatraceRaceStage> = {
     準優勝戦: '準優勝戦',
     優勝戦: '優勝戦',
 };

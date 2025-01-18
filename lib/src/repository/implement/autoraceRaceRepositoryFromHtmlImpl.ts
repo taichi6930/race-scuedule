@@ -6,7 +6,7 @@ import { inject, injectable } from 'tsyringe';
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { IAutoraceRaceDataHtmlGateway } from '../../gateway/interface/iAutoraceRaceDataHtmlGateway';
-import { AUTORACE_STAGE_MAP } from '../../utility/data/autorace/autoraceRaceStage';
+import { AutoraceStageMap } from '../../utility/data/autorace/autoraceRaceStage';
 import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
@@ -147,7 +147,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     private extractRaceStage(
         raceSummaryInfoChild: string,
     ): AutoraceRaceStage | null {
-        for (const [pattern, stage] of Object.entries(AUTORACE_STAGE_MAP)) {
+        for (const [pattern, stage] of Object.entries(AutoraceStageMap)) {
             if (new RegExp(pattern).exec(raceSummaryInfoChild)) {
                 return stage;
             }
