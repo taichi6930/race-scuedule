@@ -2,10 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
-import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
@@ -14,10 +11,8 @@ export class KeirinPlaceDataUseCase
     implements IPlaceDataUseCase<KeirinPlaceData>
 {
     constructor(
-        @inject('KeirinPlaceRepositoryFromStorage')
-        private readonly keirinPlaceRepositoryFromStorage: IPlaceRepository<KeirinPlaceEntity>,
-        @inject('KeirinPlaceRepositoryFromHtml')
-        private readonly keirinPlaceRepositoryFromHtml: IPlaceRepository<KeirinPlaceEntity>,
+        @inject('KeirinPlaceDataService')
+        private readonly keirinPlaceDataService: IPlaceDataService<KeirinPlaceEntity>,
     ) {}
     /**
      * レース開催データを取得する
@@ -31,16 +26,14 @@ export class KeirinPlaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<KeirinPlaceData[]> {
-        const request: FetchPlaceListRequest = new FetchPlaceListRequest(
-            startDate,
-            finishDate,
-        );
-        const response: FetchPlaceListResponse<KeirinPlaceEntity> =
-            await this.keirinPlaceRepositoryFromStorage.fetchPlaceEntityList(
-                request,
+        const placeEntityList: KeirinPlaceEntity[] =
+            await this.keirinPlaceDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
             );
         // placeEntityListをplaceDataListに変換する
-        const placeDataList: KeirinPlaceData[] = response.placeEntityList.map(
+        const placeDataList: KeirinPlaceData[] = placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
@@ -70,19 +63,15 @@ export class KeirinPlaceDataUseCase
             0,
         );
         // HTMLからデータを取得する
-        const fetchPlaceListRequest: FetchPlaceListRequest =
-            new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<KeirinPlaceEntity> =
-            await this.keirinPlaceRepositoryFromHtml.fetchPlaceEntityList(
-                fetchPlaceListRequest,
+        const placeEntityList: KeirinPlaceEntity[] =
+            await this.keirinPlaceDataService.fetchPlaceEntityList(
+                modifyStartDate,
+                modifyFinishDate,
+                'storage',
             );
         // S3にデータを保存する
-        const registerPlaceListRequest =
-            new RegisterPlaceListRequest<KeirinPlaceEntity>(
-                fetchPlaceListResponse.placeEntityList,
-            );
-        await this.keirinPlaceRepositoryFromStorage.registerPlaceEntityList(
-            registerPlaceListRequest,
+        await this.keirinPlaceDataService.updatePlaceEntityList(
+            placeEntityList,
         );
     }
 }

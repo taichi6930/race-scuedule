@@ -4,42 +4,27 @@ import { container } from 'tsyringe';
 
 import type { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import { KeirinPlaceDataUseCase } from '../../../../lib/src/usecase/implement/keirinPlaceDataUseCase';
 import {
     baseKeirinPlaceData,
     baseKeirinPlaceEntity,
 } from '../../mock/common/baseKeirinData';
-import { mockKeirinPlaceRepositoryFromHtmlImpl } from '../../mock/repository/keirinPlaceRepositoryFromHtmlImpl';
-import { mockKeirinPlaceRepositoryFromStorageImpl } from '../../mock/repository/keirinPlaceRepositoryFromStorageImpl';
+import { mockKeirinPlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('KeirinPlaceDataUseCase', () => {
-    let keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<KeirinPlaceEntity>
-    >;
-    let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<KeirinPlaceEntity>
+    let keirinPlaceDataService: jest.Mocked<
+        IPlaceDataService<KeirinPlaceEntity>
     >;
     let useCase: KeirinPlaceDataUseCase;
 
     beforeEach(() => {
-        // keirinPlaceRepositoryFromStorageImplをコンテナに登録
-        keirinPlaceRepositoryFromStorageImpl =
-            mockKeirinPlaceRepositoryFromStorageImpl();
-        container.register<IPlaceRepository<KeirinPlaceEntity>>(
-            'KeirinPlaceRepositoryFromStorage',
+        // KeirinPlaceDataServiceをコンテナに登録
+        keirinPlaceDataService = mockKeirinPlaceDataServiceMock();
+        container.register<IPlaceDataService<KeirinPlaceEntity>>(
+            'KeirinPlaceDataService',
             {
-                useValue: keirinPlaceRepositoryFromStorageImpl,
-            },
-        );
-
-        keirinPlaceRepositoryFromHtmlImpl =
-            mockKeirinPlaceRepositoryFromHtmlImpl();
-        container.register<IPlaceRepository<KeirinPlaceEntity>>(
-            'KeirinPlaceRepositoryFromHtml',
-            {
-                useValue: keirinPlaceRepositoryFromHtmlImpl,
+                useValue: keirinPlaceDataService,
             },
         );
 
@@ -55,12 +40,12 @@ describe('KeirinPlaceDataUseCase', () => {
             ];
 
             // モックの戻り値を設定
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
+            keirinPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
 
             const result = await useCase.fetchPlaceDataList(
                 startDate,
@@ -77,21 +62,21 @@ describe('KeirinPlaceDataUseCase', () => {
                 baseKeirinPlaceEntity,
             ];
 
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
+            keirinPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
             expect(
-                keirinPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,
+                keirinPlaceDataService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                keirinPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                keirinPlaceDataService.updatePlaceEntityList,
             ).toHaveBeenCalled();
         });
     });
