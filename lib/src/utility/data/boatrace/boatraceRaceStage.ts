@@ -30,7 +30,7 @@ export const BoatraceStageMap: Record<string, BoatraceRaceStage> = {
 /**
  * ボートレースの指定グレード・ステージリスト
  */
-export const BOATRACE_SPECIFIED_GRADE_AND_STAGE_LIST: {
+export const BoatraceSpecifiedGradeAndStageList: {
     grade: BoatraceGradeType;
     stage: BoatraceRaceStage;
     priority: number;

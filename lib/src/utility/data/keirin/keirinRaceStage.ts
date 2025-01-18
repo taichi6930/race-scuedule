@@ -76,7 +76,7 @@ const KeirinRaceStageList: string[] = [
 /**
  * 競輪の指定グレード・ステージリスト
  */
-export const KEIRIN_SPECIFIED_GRADE_AND_STAGE_LIST: {
+export const KeirinSpecifiedGradeAndStageList: {
     grade: KeirinGradeType;
     stage: KeirinRaceStage;
     priority: number;

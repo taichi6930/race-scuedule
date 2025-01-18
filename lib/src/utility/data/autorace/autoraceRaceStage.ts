@@ -46,7 +46,7 @@ const AutoraceRaceStageList: string[] = [
 /**
  * オートレースの指定グレード・ステージリスト
  */
-export const AUTORACE_SPECIFIED_GRADE_AND_STAGE_LIST: {
+export const AutoraceSpecifiedGradeAndStageList: {
     grade: AutoraceGradeType;
     stage: AutoraceRaceStage;
     priority: number;
