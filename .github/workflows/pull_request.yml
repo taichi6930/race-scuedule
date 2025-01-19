@@ -52,6 +52,8 @@ jobs:
         uses: ./.github/actions/test/ita/jra
       - name: Run ITA Tests For Nar
         uses: ./.github/actions/test/ita/nar
+      - name: Run ITA Tests For World
+        uses: ./.github/actions/test/ita/world
       - name: Run ITA Tests For Keirin
         uses: ./.github/actions/test/ita/keirin
       - name: Run ITA Tests For Autorace
