@@ -1,0 +1,170 @@
+name: "ITa Test"
+description: "Run ITa tests"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out the repository
+      uses: actions/checkout@v4
+
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: '9.10.0'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+        cache: 'pnpm'  # キャッシュを有効にし、依存関係のインストール時間を短縮
+
+    - name: Install pnpm
+      run: npm install -g pnpm
+      shell: bash
+
+    - name: Install dependencies
+      run: pnpm install
+      shell: bash
+
+    # サーバーが起動したらcurlを叩く
+    - name: Start server in background
+      run: |
+        pnpm run start:ita &  # サーバーをバックグラウンドで起動
+        for i in {1..5}; do
+          curl --silent --head http://localhost:3000/health && break
+          echo "Waiting for server to start..."
+          sleep 10
+        done
+      shell: bash
+
+    - name: Curl API for Keirin Place
+      run: |
+        # Initial GET request
+        response=$(curl -s -X 'GET' \
+          'http://localhost:3000/api/races/keirin/place?startDate=2024-10-01&finishDate=2024-10-31' \
+          -H 'accept: application/json')
+
+        # Initial GET Response Check
+        if [[ "$response" != "[]" ]]; then
+          echo "❌ Initial GET request failed. Expected [], but got $response"
+          exit 1
+        fi
+
+        # POST request
+        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
+          'http://localhost:3000/api/races/keirin/place' \
+          -H 'accept: */*' \
+          -H 'Content-Type: application/json' \
+          -d '{
+                "startDate": "2024-10-01",
+                "finishDate": "2024-10-31"
+              }')
+
+        # POST Response Check
+        if [[ "$post_response" != "200" ]]; then
+          echo "❌ POST request failed with status code $post_response"
+          exit 1
+        fi
+
+        # Updated GET request
+        response=$(curl -s -X 'GET' \
+          'http://localhost:3000/api/races/keirin/place?startDate=2024-10-01&finishDate=2024-10-31' \
+          -H 'accept: application/json')
+
+        # Final GET Response Check: 要素数が31個であることを確認
+        item_count=$(echo "$response" | jq '. | length')
+        if [[ "$item_count" -ne 31 ]]; then
+          echo "❌ Updated GET request failed. Expected 31 items but got $item_count items."
+          exit 1
+        fi
+
+        echo "✅ All checks passed successfully."
+      shell: bash
+
+    - name: Curl API for Keirin Race
+      run: |
+        # Initial GET request
+        response=$(curl -s -X 'GET' \
+          'http://localhost:3000/api/races/keirin/race?startDate=2024-10-01&finishDate=2024-11-01' \
+          -H 'accept: application/json')
+
+        # Initial GET Response Check
+        if [[ "$response" != "[]" ]]; then
+          echo "❌ Initial GET request failed. Expected [], but got $response"
+          exit 1
+        fi
+
+        # POST request
+        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
+          'http://localhost:3000/api/races/keirin/race' \
+          -H 'accept: */*' \
+          -H 'Content-Type: application/json' \
+          -d '{
+                "startDate": "2024-10-01",
+                "finishDate": "2024-11-01"
+              }')
+
+        # POST Response Check
+        if [[ "$post_response" != "200" ]]; then
+          echo "❌ POST request failed with status code $post_response"
+          exit 1
+        fi
+
+        # Updated GET request
+        response=$(curl -s -X 'GET' \
+          'http://localhost:3000/api/races/keirin/race?startDate=2024-10-01&finishDate=2024-11-01' \
+          -H 'accept: application/json')
+
+        # Final GET Response Check: 要素数が372個であることを確認
+        item_count=$(echo "$response" | jq '. | length')
+        if [[ "$item_count" -ne 372 ]]; then
+          echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
+          exit 1
+        fi
+
+        echo "✅ All checks passed successfully."
+      shell: bash
+
+    - name: Curl API for Keirin Calendar
+      run: |
+        # Initial GET request
+        response=$(curl -s -X 'GET' \
+          'http://localhost:3000/api/races/keirin/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
+          -H 'accept: application/json')
+
+        # Initial GET Response Check
+        if [[ "$response" != "[]" ]]; then
+          echo "❌ Initial GET request failed. Expected [], but got $response"
+          exit 1
+        fi
+
+        # POST request
+        post_response=$(curl -s -o /dev/null -w "%{http_code}" -X 'POST' \
+          'http://localhost:3000/api/races/keirin/calendar' \
+          -H 'accept: */*' \
+          -H 'Content-Type: application/json' \
+          -d '{
+                "startDate": "2024-10-01",
+                "finishDate": "2024-11-01"
+              }')
+
+        # POST Response Check
+        if [[ "$post_response" != "200" ]]; then
+          echo "❌ POST request failed with status code $post_response"
+          exit 1
+        fi
+
+        # Updated GET request
+        response=$(curl -s -X 'GET' \
+          'http://localhost:3000/api/races/keirin/calendar?startDate=2024-10-01&finishDate=2024-11-01' \
+          -H 'accept: application/json')
+
+        # Final GET Response Check: 要素数が372個であることを確認
+        item_count=$(echo "$response" | jq '. | length')
+        if [[ "$item_count" -ne 372 ]]; then
+          echo "❌ Updated GET request failed. Expected 372 items but got $item_count items."
+          exit 1
+        fi
+
+        echo "✅ All checks passed successfully."
+      shell: bash

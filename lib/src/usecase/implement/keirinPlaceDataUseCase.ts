@@ -67,7 +67,7 @@ export class KeirinPlaceDataUseCase
             await this.keirinPlaceDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
-                'storage',
+                'web',
             );
         // S3にデータを保存する
         await this.keirinPlaceDataService.updatePlaceEntityList(
