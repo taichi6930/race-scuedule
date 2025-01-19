@@ -1,16 +1,16 @@
 import { inject, injectable } from 'tsyringe';
 
-import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
+import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { BasePlaceDataService } from './basePlaceDataService';
 
 @injectable()
-export class AutoracePlaceDataService extends BasePlaceDataService<AutoracePlaceEntity> {
+export class JraPlaceDataService extends BasePlaceDataService<JraPlaceEntity> {
     constructor(
-        @inject('AutoracePlaceRepositoryFromStorage')
-        protected placeRepositoryFromStorage: IPlaceRepository<AutoracePlaceEntity>,
-        @inject('AutoracePlaceRepositoryFromHtml')
-        protected placeRepositoryFromHtml: IPlaceRepository<AutoracePlaceEntity>,
+        @inject('JraPlaceRepositoryFromStorage')
+        protected placeRepositoryFromStorage: IPlaceRepository<JraPlaceEntity>,
+        @inject('JraPlaceRepositoryFromHtml')
+        protected placeRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
     ) {
         super();
     }
