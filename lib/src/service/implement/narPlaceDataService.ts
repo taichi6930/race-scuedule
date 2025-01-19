@@ -16,7 +16,6 @@ export class NarPlaceDataService implements IPlaceDataService<NarPlaceEntity> {
         @inject('NarPlaceRepositoryFromHtml')
         private readonly narPlaceRepositoryFromHtml: IPlaceRepository<NarPlaceEntity>,
     ) {}
-    updatePlaceDataList: (startDate: Date, finishDate: Date) => Promise<void>;
     /**
      * レース開催データを取得する
      *

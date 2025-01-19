@@ -18,7 +18,6 @@ export class BoatracePlaceDataService
         @inject('BoatracePlaceRepositoryFromHtml')
         private readonly boatracePlaceRepositoryFromHtml: IPlaceRepository<BoatracePlaceEntity>,
     ) {}
-    updatePlaceDataList: (startDate: Date, finishDate: Date) => Promise<void>;
     /**
      * レース開催データを取得する
      *

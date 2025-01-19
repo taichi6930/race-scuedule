@@ -18,7 +18,6 @@ export class AutoracePlaceDataService
         @inject('AutoracePlaceRepositoryFromHtml')
         private readonly autoracePlaceRepositoryFromHtml: IPlaceRepository<AutoracePlaceEntity>,
     ) {}
-    updatePlaceDataList: (startDate: Date, finishDate: Date) => Promise<void>;
     /**
      * レース開催データを取得する
      *

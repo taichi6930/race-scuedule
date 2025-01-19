@@ -18,7 +18,6 @@ export class KeirinPlaceDataService
         @inject('KeirinPlaceRepositoryFromHtml')
         private readonly keirinPlaceRepositoryFromHtml: IPlaceRepository<KeirinPlaceEntity>,
     ) {}
-    updatePlaceDataList: (startDate: Date, finishDate: Date) => Promise<void>;
     /**
      * レース開催データを取得する
      *

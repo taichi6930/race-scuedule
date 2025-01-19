@@ -16,7 +16,6 @@ export class JraPlaceDataService implements IPlaceDataService<JraPlaceEntity> {
         @inject('JraPlaceRepositoryFromHtml')
         private readonly jraPlaceRepositoryFromHtml: IPlaceRepository<JraPlaceEntity>,
     ) {}
-    updatePlaceDataList: (startDate: Date, finishDate: Date) => Promise<void>;
     /**
      * レース開催データを取得する
      *
