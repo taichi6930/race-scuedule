@@ -5,9 +5,8 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { IRaceRepository } from '../../repository/interface/IRaceRepository';
-import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import { BoatracePlayerList } from '../../utility/data/boatrace/boatracePlayerNumber';
 import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/boatraceRaceStage';
@@ -19,8 +18,8 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('BoatraceCalendarService')
         private readonly calendarService: ICalendarService<BoatraceRaceEntity>,
-        @inject('BoatraceRaceRepositoryFromStorage')
-        private readonly boatraceRaceRepositoryFromStorage: IRaceRepository<
+        @inject('BoatraceRaceDataService')
+        private readonly boatraceRaceDataService: IRaceDataService<
             BoatraceRaceEntity,
             BoatracePlaceEntity
         >,
@@ -52,19 +51,12 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
         finishDate: Date,
         displayGradeList: BoatraceGradeType[],
     ): Promise<void> {
-        // startDateからfinishDateまでレース情報を取得
-        const fetchRaceEntityListRequest =
-            new FetchRaceListRequest<BoatracePlaceEntity>(
+        const raceEntityList: BoatraceRaceEntity[] =
+            await this.boatraceRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
+                'storage',
             );
-        const fetchRaceEntityListResponse =
-            await this.boatraceRaceRepositoryFromStorage.fetchRaceEntityList(
-                fetchRaceEntityListRequest,
-            );
-        // レース情報を取得
-        const raceEntityList: BoatraceRaceEntity[] =
-            fetchRaceEntityListResponse.raceEntityList;
 
         const filteredRaceEntityList: BoatraceRaceEntity[] =
             this.filterRaceEntity(raceEntityList, displayGradeList);

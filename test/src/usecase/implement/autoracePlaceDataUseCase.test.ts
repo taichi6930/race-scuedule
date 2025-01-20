@@ -4,42 +4,27 @@ import { container } from 'tsyringe';
 
 import type { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import { AutoracePlaceDataUseCase } from '../../../../lib/src/usecase/implement/autoracePlaceDataUseCase';
 import {
     baseAutoracePlaceData,
     baseAutoracePlaceEntity,
 } from '../../mock/common/baseAutoraceData';
-import { mockAutoracePlaceRepositoryFromHtmlImpl } from '../../mock/repository/autoracePlaceRepositoryFromHtmlImpl';
-import { mockAutoracePlaceRepositoryFromStorageImpl } from '../../mock/repository/autoracePlaceRepositoryFromStorageImpl';
+import { mockAutoracePlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('AutoracePlaceDataUseCase', () => {
-    let autoracePlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<AutoracePlaceEntity>
-    >;
-    let autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<AutoracePlaceEntity>
+    let autoracePlaceDataService: jest.Mocked<
+        IPlaceDataService<AutoracePlaceEntity>
     >;
     let useCase: AutoracePlaceDataUseCase;
 
     beforeEach(() => {
-        // autoracePlaceRepositoryFromStorageImplをコンテナに登録
-        autoracePlaceRepositoryFromStorageImpl =
-            mockAutoracePlaceRepositoryFromStorageImpl();
-        container.register<IPlaceRepository<AutoracePlaceEntity>>(
-            'AutoracePlaceRepositoryFromStorage',
+        // AutoracePlaceDataServiceをコンテナに登録
+        autoracePlaceDataService = mockAutoracePlaceDataServiceMock();
+        container.register<IPlaceDataService<AutoracePlaceEntity>>(
+            'AutoracePlaceDataService',
             {
-                useValue: autoracePlaceRepositoryFromStorageImpl,
-            },
-        );
-
-        autoracePlaceRepositoryFromHtmlImpl =
-            mockAutoracePlaceRepositoryFromHtmlImpl();
-        container.register<IPlaceRepository<AutoracePlaceEntity>>(
-            'AutoracePlaceRepositoryFromHtml',
-            {
-                useValue: autoracePlaceRepositoryFromHtmlImpl,
+                useValue: autoracePlaceDataService,
             },
         );
 
@@ -55,14 +40,12 @@ describe('AutoracePlaceDataUseCase', () => {
             ];
 
             // モックの戻り値を設定
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<AutoracePlaceEntity>(
-                    mockPlaceEntity,
-                ),
+            autoracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
 
             const result = await useCase.fetchPlaceDataList(
                 startDate,
@@ -74,28 +57,26 @@ describe('AutoracePlaceDataUseCase', () => {
     });
 
     describe('updatePlaceDataList', () => {
-        it('正常にオートレース場データが更新されること', async () => {
+        it('正常に競輪場データが更新されること', async () => {
             const mockPlaceEntity: AutoracePlaceEntity[] = [
                 baseAutoracePlaceEntity,
             ];
 
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<AutoracePlaceEntity>(
-                    mockPlaceEntity,
-                ),
+            autoracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
             expect(
-                autoracePlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,
+                autoracePlaceDataService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                autoracePlaceDataService.updatePlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

@@ -2,10 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
-import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
@@ -14,10 +11,8 @@ export class BoatracePlaceDataUseCase
     implements IPlaceDataUseCase<BoatracePlaceData>
 {
     constructor(
-        @inject('BoatracePlaceRepositoryFromStorage')
-        private readonly boatracePlaceRepositoryFromStorage: IPlaceRepository<BoatracePlaceEntity>,
-        @inject('BoatracePlaceRepositoryFromHtml')
-        private readonly boatracePlaceRepositoryFromHtml: IPlaceRepository<BoatracePlaceEntity>,
+        @inject('BoatracePlaceDataService')
+        private readonly boatracePlaceDataService: IPlaceDataService<BoatracePlaceEntity>,
     ) {}
     /**
      * レース開催データを取得する
@@ -31,16 +26,14 @@ export class BoatracePlaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<BoatracePlaceData[]> {
-        const request: FetchPlaceListRequest = new FetchPlaceListRequest(
-            startDate,
-            finishDate,
-        );
-        const response: FetchPlaceListResponse<BoatracePlaceEntity> =
-            await this.boatracePlaceRepositoryFromStorage.fetchPlaceEntityList(
-                request,
+        const placeEntityList: BoatracePlaceEntity[] =
+            await this.boatracePlaceDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
             );
         // placeEntityListをplaceDataListに変換する
-        const placeDataList: BoatracePlaceData[] = response.placeEntityList.map(
+        const placeDataList: BoatracePlaceData[] = placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
         return placeDataList;
@@ -69,20 +62,15 @@ export class BoatracePlaceDataUseCase
             finishDate.getMonth() + 1,
             0,
         );
-        // HTMLからデータを取得する
-        const fetchPlaceListRequest: FetchPlaceListRequest =
-            new FetchPlaceListRequest(modifyStartDate, modifyFinishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<BoatracePlaceEntity> =
-            await this.boatracePlaceRepositoryFromHtml.fetchPlaceEntityList(
-                fetchPlaceListRequest,
+        const placeEntityList: BoatracePlaceEntity[] =
+            await this.boatracePlaceDataService.fetchPlaceEntityList(
+                modifyStartDate,
+                modifyFinishDate,
+                'web',
             );
         // S3にデータを保存する
-        const registerPlaceListRequest =
-            new RegisterPlaceListRequest<BoatracePlaceEntity>(
-                fetchPlaceListResponse.placeEntityList,
-            );
-        await this.boatracePlaceRepositoryFromStorage.registerPlaceEntityList(
-            registerPlaceListRequest,
+        await this.boatracePlaceDataService.updatePlaceEntityList(
+            placeEntityList,
         );
     }
 }

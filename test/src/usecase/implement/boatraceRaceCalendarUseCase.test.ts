@@ -5,21 +5,21 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
-import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { BoatraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceCalendarUseCase';
 import { BoatraceSpecifiedGradeList } from '../../../../lib/src/utility/data/boatrace/boatraceGradeType';
 import {
     baseBoatraceCalendarData,
     baseBoatraceRaceEntity,
 } from '../../mock/common/baseBoatraceData';
-import { mockBoatraceRaceRepositoryFromStorageImpl } from '../../mock/repository/boatraceRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { mockBoatraceRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<BoatraceRaceEntity>>;
-    let boatraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
+    let boatraceRaceDataService: jest.Mocked<
+        IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
     let useCase: BoatraceRaceCalendarUseCase;
 
@@ -34,12 +34,11 @@ describe('BoatraceRaceCalendarUseCase', () => {
         );
 
         // IRaceRepositoryインターフェースの依存関係を登録
-        boatraceRaceRepositoryFromStorageImpl =
-            mockBoatraceRaceRepositoryFromStorageImpl();
+        boatraceRaceDataService = mockBoatraceRaceDataServiceMock();
         container.register<
-            IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
-        >('BoatraceRaceRepositoryFromStorage', {
-            useValue: boatraceRaceRepositoryFromStorageImpl,
+            IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
+        >('BoatraceRaceDataService', {
+            useValue: boatraceRaceDataService,
         });
 
         // BoatraceRaceCalendarUseCaseをコンテナから取得
@@ -88,10 +87,8 @@ describe('BoatraceRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -139,15 +136,12 @@ describe('BoatraceRaceCalendarUseCase', () => {
                     }),
                 ),
             ];
-
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -196,10 +190,8 @@ describe('BoatraceRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -258,10 +250,8 @@ describe('BoatraceRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -318,10 +308,8 @@ describe('BoatraceRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');

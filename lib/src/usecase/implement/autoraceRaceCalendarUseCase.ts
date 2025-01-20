@@ -5,9 +5,8 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { IRaceRepository } from '../../repository/interface/IRaceRepository';
-import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { ICalendarService } from '../../service/interface/ICalendarService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoracePlayerList } from '../../utility/data/autorace/autoracePlayerNumber';
 import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/autoraceRaceStage';
@@ -19,8 +18,8 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
         @inject('AutoraceCalendarService')
         private readonly calendarService: ICalendarService<AutoraceRaceEntity>,
-        @inject('AutoraceRaceRepositoryFromStorage')
-        private readonly autoraceRaceRepositoryFromStorage: IRaceRepository<
+        @inject('AutoraceRaceDataService')
+        private readonly autoraceRaceDataService: IRaceDataService<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >,
@@ -52,19 +51,12 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
         finishDate: Date,
         displayGradeList: AutoraceGradeType[],
     ): Promise<void> {
-        // startDateからfinishDateまでレース情報を取得
-        const fetchRaceEntityListRequest =
-            new FetchRaceListRequest<AutoracePlaceEntity>(
+        const raceEntityList: AutoraceRaceEntity[] =
+            await this.autoraceRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
+                'storage',
             );
-        const fetchRaceEntityListResponse =
-            await this.autoraceRaceRepositoryFromStorage.fetchRaceEntityList(
-                fetchRaceEntityListRequest,
-            );
-        // レース情報を取得
-        const raceEntityList: AutoraceRaceEntity[] =
-            fetchRaceEntityListResponse.raceEntityList;
 
         const filteredRaceEntityList: AutoraceRaceEntity[] =
             this.filterRaceEntity(raceEntityList, displayGradeList);
