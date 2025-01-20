@@ -196,6 +196,74 @@ describe('BoatraceRaceDataUseCase', () => {
                 boatraceRaceDataService.updateRaceEntityList,
             ).toHaveBeenCalled();
         });
+
+        it('競輪場がない時、正常にレースデータが更新されないこと', async () => {
+            const mockPlaceEntity: BoatracePlaceEntity[] = [];
+
+            const startDate = new Date('2025-12-01');
+            const finishDate = new Date('2025-12-31');
+            const searchList = {
+                gradeList: ['SG'],
+                locationList: ['平和島'],
+            };
+
+            // モックの戻り値を設定
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                baseBoatraceRaceEntityList,
+            );
+            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
+            );
+
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
+
+            expect(
+                boatracePlaceDataService.fetchPlaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                boatraceRaceDataService.fetchRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
+                boatraceRaceDataService.updateRaceEntityList,
+            ).not.toHaveBeenCalled();
+        });
+
+        it('検索条件がなく、正常にレースデータが更新されること', async () => {
+            const mockPlaceEntity: BoatracePlaceEntity[] = [
+                baseBoatracePlaceEntity,
+            ];
+            const startDate = new Date('2025-12-01');
+            const finishDate = new Date('2025-12-31');
+            const searchList = {};
+
+            // モックの戻り値を設定
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                baseBoatraceRaceEntityList,
+            );
+            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
+            );
+
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
+
+            expect(
+                boatracePlaceDataService.fetchPlaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                boatraceRaceDataService.fetchRaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                boatraceRaceDataService.updateRaceEntityList,
+            ).toHaveBeenCalled();
+        });
     });
 
     describe('upsertRaceDataList', () => {
