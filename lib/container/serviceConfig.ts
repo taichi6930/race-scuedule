@@ -13,7 +13,9 @@ import type { NarRaceEntity } from '../src/repository/entity/narRaceEntity';
 import type { WorldPlaceEntity } from '../src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../src/repository/entity/worldRaceEntity';
 import { AutoracePlaceDataService } from '../src/service/implement/autoracePlaceDataService';
+import { AutoraceRaceDataService } from '../src/service/implement/autoraceRaceDataService';
 import { BoatracePlaceDataService } from '../src/service/implement/boatracePlaceDataService';
+import { BoatraceRaceDataService } from '../src/service/implement/boatraceRaceDataService';
 import { GoogleCalendarService } from '../src/service/implement/googleCalendarService';
 import { JraPlaceDataService } from '../src/service/implement/jraPlaceDataService';
 import { JraRaceDataService } from '../src/service/implement/jraRaceDataService';
@@ -192,10 +194,22 @@ container.register<IPlaceDataService<AutoracePlaceEntity>>(
         useClass: AutoracePlaceDataService,
     },
 );
+container.register<IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>>(
+    'AutoraceRaceDataService',
+    {
+        useClass: AutoraceRaceDataService,
+    },
+);
 
 container.register<IPlaceDataService<BoatracePlaceEntity>>(
     'BoatracePlaceDataService',
     {
         useClass: BoatracePlaceDataService,
+    },
+);
+container.register<IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>>(
+    'BoatraceRaceDataService',
+    {
+        useClass: BoatraceRaceDataService,
     },
 );
