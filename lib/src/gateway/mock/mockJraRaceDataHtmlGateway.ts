@@ -24,6 +24,4 @@ export class MockJraRaceDataHtmlGateway implements IJraRaceDataHtmlGateway {
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
         return Promise.resolve(htmlContent);
     }
-
-    html = ``;
 }
