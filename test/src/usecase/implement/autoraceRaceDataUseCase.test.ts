@@ -5,63 +5,47 @@ import { container } from 'tsyringe';
 import type { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
-import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { AutoraceRaceDataUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceDataUseCase';
 import {
+    baseAutoracePlaceEntity,
     baseAutoraceRaceDataList,
-    baseAutoraceRaceEntity,
     baseAutoraceRaceEntityList,
 } from '../../mock/common/baseAutoraceData';
-import { mockAutoracePlaceRepositoryFromStorageImpl } from '../../mock/repository/autoracePlaceRepositoryFromStorageImpl';
-import { mockAutoraceRaceRepositoryFromHtmlImpl } from '../../mock/repository/autoraceRaceRepositoryFromHtmlImpl';
-import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';
+import { mockAutoracePlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { mockAutoraceRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceDataUseCase', () => {
-    let autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+    let autoraceRaceDataService: jest.Mocked<
+        IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
     >;
-    let autoraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
-    >;
-    let autoracePlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<AutoracePlaceEntity>
+    let autoracePlaceDataService: jest.Mocked<
+        IPlaceDataService<AutoracePlaceEntity>
     >;
     let useCase: AutoraceRaceDataUseCase;
 
     beforeEach(() => {
-        // IRaceRepositoryインターフェースの依存関係を登録
-        autoraceRaceRepositoryFromStorageImpl =
-            mockAutoraceRaceRepositoryFromStorageImpl();
+        // AutoraceRaceDataServiceをコンテナに登録
+        autoraceRaceDataService = mockAutoraceRaceDataServiceMock();
         container.register<
-            IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
-        >('AutoraceRaceRepositoryFromStorage', {
-            useValue: autoraceRaceRepositoryFromStorageImpl,
-        });
-        autoraceRaceRepositoryFromHtmlImpl =
-            mockAutoraceRaceRepositoryFromHtmlImpl();
-        container.register<
-            IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
-        >('AutoraceRaceRepositoryFromHtml', {
-            useValue: autoraceRaceRepositoryFromHtmlImpl,
+            IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
+        >('AutoraceRaceDataService', {
+            useValue: autoraceRaceDataService,
         });
 
-        // autoracePlaceRepositoryFromStorageImplをコンテナに登録
-        autoracePlaceRepositoryFromStorageImpl =
-            mockAutoracePlaceRepositoryFromStorageImpl();
-        container.register<IPlaceRepository<AutoracePlaceEntity>>(
-            'AutoracePlaceRepositoryFromStorage',
+        // AutoracePlaceDataServiceをコンテナに登録
+        autoracePlaceDataService = mockAutoracePlaceDataServiceMock();
+        container.register<IPlaceDataService<AutoracePlaceEntity>>(
+            'AutoracePlaceDataService',
             {
-                useValue: autoracePlaceRepositoryFromStorageImpl,
+                useValue: autoracePlaceDataService,
             },
         );
 
         // AutoraceRaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(AutoraceRaceDataUseCase);
     });
-
-    const baseRaceEntity = baseAutoraceRaceEntity;
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
@@ -70,8 +54,8 @@ describe('AutoraceRaceDataUseCase', () => {
                 baseAutoraceRaceEntityList;
 
             // モックの戻り値を設定
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<AutoraceRaceEntity>(mockRaceEntity),
+            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -157,10 +141,8 @@ describe('AutoraceRaceDataUseCase', () => {
                     baseAutoraceRaceEntityList;
 
                 // モックの戻り値を設定
-                autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                    new FetchRaceListResponse<AutoraceRaceEntity>(
-                        mockRaceEntity,
-                    ),
+                autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                    mockRaceEntity,
                 );
 
                 const startDate = new Date('2025-12-01');
@@ -179,45 +161,108 @@ describe('AutoraceRaceDataUseCase', () => {
 
     describe('updateRaceDataList', () => {
         it('正常にレースデータが更新されること', async () => {
-            const mockRaceEntity: AutoraceRaceEntity[] = [baseRaceEntity];
+            const mockPlaceEntity: AutoracePlaceEntity[] = [
+                baseAutoracePlaceEntity,
+            ];
 
-            const startDate = new Date('2025-12-01');
+            const startDate = new Date('2024-12-01');
             const finishDate = new Date('2025-12-31');
+            const searchList = {
+                gradeList: ['SG'],
+                locationList: ['飯塚'],
+            };
 
             // モックの戻り値を設定
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<AutoraceRaceEntity>(mockRaceEntity),
+            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                baseAutoraceRaceEntityList,
+            );
+            autoracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
-            await useCase.updateRaceEntityList(startDate, finishDate);
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
 
             expect(
-                autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList,
+                autoracePlaceDataService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                autoraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList,
+                autoraceRaceDataService.fetchRaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                autoraceRaceDataService.updateRaceEntityList,
             ).toHaveBeenCalled();
         });
 
-        it('レースデータが取得できない場合、エラーが発生すること', async () => {
+        it('競輪場がない時、正常にレースデータが更新されないこと', async () => {
+            const mockPlaceEntity: AutoracePlaceEntity[] = [];
+
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
+            const searchList = {
+                gradeList: ['SG'],
+                locationList: ['飯塚'],
+            };
 
-            // モックの戻り値を設定（エラーが発生するように設定）
-            autoraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockRejectedValue(
-                new Error('レースデータの取得に失敗しました'),
+            // モックの戻り値を設定
+            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                baseAutoraceRaceEntityList,
+            );
+            autoracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
-            const consoleSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation();
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
 
-            await useCase.updateRaceEntityList(startDate, finishDate);
+            expect(
+                autoracePlaceDataService.fetchPlaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                autoraceRaceDataService.fetchRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
+                autoraceRaceDataService.updateRaceEntityList,
+            ).not.toHaveBeenCalled();
+        });
 
-            expect(consoleSpy).toHaveBeenCalled();
+        it('検索条件がなく、正常にレースデータが更新されること', async () => {
+            const mockPlaceEntity: AutoracePlaceEntity[] = [
+                baseAutoracePlaceEntity,
+            ];
+            const startDate = new Date('2025-12-01');
+            const finishDate = new Date('2025-12-31');
+            const searchList = {};
+
+            // モックの戻り値を設定
+            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                baseAutoraceRaceEntityList,
+            );
+            autoracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
+            );
+
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
+
+            expect(
+                autoracePlaceDataService.fetchPlaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                autoraceRaceDataService.fetchRaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                autoraceRaceDataService.updateRaceEntityList,
+            ).toHaveBeenCalled();
         });
     });
 
@@ -228,24 +273,8 @@ describe('AutoraceRaceDataUseCase', () => {
             await useCase.upsertRaceDataList(mockRaceData);
 
             expect(
-                autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                autoraceRaceDataService.updateRaceEntityList,
             ).toHaveBeenCalled();
-        });
-
-        it('レースデータが取得できない場合、エラーが発生すること', async () => {
-            const mockRaceData: AutoraceRaceData[] = baseAutoraceRaceDataList;
-            // モックの戻り値を設定（エラーが発生するように設定）
-            autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
-                new Error('レースデータの登録に失敗しました'),
-            );
-
-            const consoleSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation();
-
-            await useCase.upsertRaceDataList(mockRaceData);
-
-            expect(consoleSpy).toHaveBeenCalled();
         });
     });
 });

@@ -206,6 +206,34 @@ describe('GoogleCalendarService', () => {
                 // 結果が0件であることを確認
                 expect(result).toHaveLength(0);
             });
+
+            it(`${key} events.listがエラーを吐く`, async () => {
+                const startDate = new Date('2021-01-01T00:00:00');
+                const finishDate = new Date('2021-01-02T00:00:00');
+
+                // モックの `events.list` メソッドを設定
+                const eventsListMock = google.calendar('v3').events
+                    .list as jest.Mock;
+                eventsListMock.mockImplementation(() => {
+                    const promise: GaxiosPromise<void> = new Promise(
+                        (_, reject) => {
+                            reject(new Error('list error'));
+                        },
+                    );
+                    return promise;
+                });
+
+                const result = await googleCalendarService.getEvents(
+                    startDate,
+                    finishDate,
+                );
+
+                // エラーログが出力されていることを確認
+                expect(console.error).toHaveBeenCalledWith(
+                    `Google Calendar APIからのイベント取得に失敗しました`,
+                    new Error('list error'), // エラーオブジェクトも期待値に含める
+                );
+            });
         });
 
         describe(`${key} upsertEvents`, () => {

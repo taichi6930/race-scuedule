@@ -5,21 +5,21 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { AutoraceRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/autoraceRaceCalendarUseCase';
 import { AutoraceSpecifiedGradeList } from '../../../../lib/src/utility/data/autorace/autoraceGradeType';
 import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntity,
 } from '../../mock/common/baseAutoraceData';
-import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { mockAutoraceRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<AutoraceRaceEntity>>;
-    let autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
+    let autoraceRaceDataService: jest.Mocked<
+        IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
     >;
     let useCase: AutoraceRaceCalendarUseCase;
 
@@ -34,12 +34,11 @@ describe('AutoraceRaceCalendarUseCase', () => {
         );
 
         // IRaceRepositoryインターフェースの依存関係を登録
-        autoraceRaceRepositoryFromStorageImpl =
-            mockAutoraceRaceRepositoryFromStorageImpl();
+        autoraceRaceDataService = mockAutoraceRaceDataServiceMock();
         container.register<
-            IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
-        >('AutoraceRaceRepositoryFromStorage', {
-            useValue: autoraceRaceRepositoryFromStorageImpl,
+            IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
+        >('AutoraceRaceDataService', {
+            useValue: autoraceRaceDataService,
         });
 
         // AutoraceRaceCalendarUseCaseをコンテナから取得
@@ -67,29 +66,6 @@ describe('AutoraceRaceCalendarUseCase', () => {
             );
             expect(result).toEqual(mockCalendarData);
         });
-
-        it('エラーが発生した場合、空の配列が返ってくること', async () => {
-            // モックがエラーをスローするよう設定
-            calendarServiceMock.getEvents.mockRejectedValue(
-                new Error('Google Calendar API error'),
-            );
-
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
-
-            const result = await useCase.getRacesFromCalendar(
-                startDate,
-                finishDate,
-            );
-
-            // モックが呼び出されたことを確認
-            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
-                startDate,
-                finishDate,
-            );
-            // モックからエラーが返ってくることを確認
-            expect(result).toEqual([]);
-        });
     });
 
     describe('updateRacesToCalendar', () => {
@@ -111,10 +87,8 @@ describe('AutoraceRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -162,15 +136,12 @@ describe('AutoraceRaceCalendarUseCase', () => {
                     }),
                 ),
             ];
-
             // モックの戻り値を設定
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -219,10 +190,8 @@ describe('AutoraceRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -281,10 +250,8 @@ describe('AutoraceRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -341,10 +308,8 @@ describe('AutoraceRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -368,73 +333,6 @@ describe('AutoraceRaceCalendarUseCase', () => {
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
-        });
-
-        it('fetchRaceListがエラーをスローした場合、エラーメッセージがコンソールに表示されること', async () => {
-            const consoleErrorSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {});
-
-            // fetchRaceListがエラーをスローするようにモック
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
-                new Error('Fetch Error'),
-            );
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            await useCase.updateRacesToCalendar(
-                startDate,
-                finishDate,
-                AutoraceSpecifiedGradeList,
-            );
-
-            // コンソールエラーメッセージが出力されることを確認
-            expect(consoleErrorSpy).toHaveBeenCalledWith(
-                'Google Calendar APIへのイベント登録に失敗しました',
-                expect.any(Error),
-            );
-
-            // エラーがスローされた場合に呼び出されるため、upsertEventsは呼び出されていないことを確認
-            consoleErrorSpy.mockRestore();
-        });
-
-        it('updateEventsがエラーをスローした場合、エラーメッセージがコンソールに表示されること', async () => {
-            const consoleErrorSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {});
-
-            // fetchRaceListは正常に動作するように設定
-            const mockRaceEntityList: AutoraceRaceEntity[] = [
-                baseAutoraceRaceEntity,
-            ];
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
-            );
-
-            // updateEventsがエラーをスローするようにモック
-            calendarServiceMock.upsertEvents.mockRejectedValue(
-                new Error('Update Error'),
-            );
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            await useCase.updateRacesToCalendar(
-                startDate,
-                finishDate,
-                AutoraceSpecifiedGradeList,
-            );
-
-            // コンソールエラーメッセージが出力されることを確認
-            expect(consoleErrorSpy).toHaveBeenCalledWith(
-                'Google Calendar APIへのイベント登録に失敗しました',
-                expect.any(Error),
-            );
-
-            consoleErrorSpy.mockRestore();
         });
     });
 });

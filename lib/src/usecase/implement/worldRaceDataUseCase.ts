@@ -3,10 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { IRaceRepository } from '../../repository/interface/IRaceRepository';
-import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import { WorldRaceCourse } from '../../utility/data/world/worldRaceCourse';
 import { getJSTDate } from '../../utility/date';
@@ -27,13 +24,8 @@ export class WorldRaceDataUseCase
         >
 {
     constructor(
-        @inject('WorldRaceRepositoryFromStorage')
-        private readonly worldRaceRepositoryFromStorage: IRaceRepository<
-            WorldRaceEntity,
-            WorldPlaceEntity
-        >,
-        @inject('WorldRaceRepositoryFromHtml')
-        private readonly worldRaceRepositoryFromHtml: IRaceRepository<
+        @inject('WorldRaceDataService')
+        private readonly worldRaceDataService: IRaceDataService<
             WorldRaceEntity,
             WorldPlaceEntity
         >,
@@ -52,11 +44,12 @@ export class WorldRaceDataUseCase
         },
     ): Promise<WorldRaceData[]> {
         // レースデータを取得する
-        const raceEntityList: WorldRaceEntity[] = await this.getRaceDataList(
-            startDate,
-            finishDate,
-            'storage',
-        );
+        const raceEntityList: WorldRaceEntity[] =
+            await this.worldRaceDataService.fetchRaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
+            );
 
         // レースデータをWorldRaceDataに変換する
         const raceDataList: WorldRaceData[] = raceEntityList.map(
@@ -94,16 +87,15 @@ export class WorldRaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
-        try {
-            // レースデータを取得する
-            const raceEntityList: WorldRaceEntity[] =
-                await this.getRaceDataList(startDate, finishDate, 'web');
-
-            // S3にデータを保存する
-            await this.registerRaceDataList(raceEntityList);
-        } catch (error) {
-            console.error('レースデータの更新中にエラーが発生しました:', error);
-        }
+        // レースデータを取得する
+        const raceEntityList: WorldRaceEntity[] =
+            await this.worldRaceDataService.fetchRaceEntityList(
+                startDate,
+                finishDate,
+                'web',
+            );
+        // S3にデータを保存する
+        await this.worldRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -112,60 +104,12 @@ export class WorldRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: WorldRaceData[]): Promise<void> {
-        try {
-            // worldRaceDataをworldRaceEntityに変換する
-            const raceEntityList: WorldRaceEntity[] = raceDataList.map(
-                (raceData) =>
-                    new WorldRaceEntity(null, raceData, getJSTDate(new Date())),
-            );
-            // S3にデータを保存する
-            await this.registerRaceDataList(raceEntityList);
-        } catch (error) {
-            console.error('レースデータの更新中にエラーが発生しました:', error);
-        }
-    }
-
-    /**
-     * レースデータを取得する
-     * S3から取得する場合はstorage、Webから取得する場合はwebを指定する
-     *
-     * @param startDate
-     * @param finishDate
-     * @param type
-     */
-    @Logger
-    private async getRaceDataList(
-        startDate: Date,
-        finishDate: Date,
-        type: 'storage' | 'web',
-    ): Promise<WorldRaceEntity[]> {
-        const fetchRaceListRequest = new FetchRaceListRequest<WorldPlaceEntity>(
-            startDate,
-            finishDate,
+        // worldRaceDataをworldRaceEntityに変換する
+        const raceEntityList: WorldRaceEntity[] = raceDataList.map(
+            (raceData) =>
+                new WorldRaceEntity(null, raceData, getJSTDate(new Date())),
         );
-        const repository =
-            type === 'storage'
-                ? this.worldRaceRepositoryFromStorage
-                : this.worldRaceRepositoryFromHtml;
-
-        const fetchRaceListResponse: FetchRaceListResponse<WorldRaceEntity> =
-            await repository.fetchRaceEntityList(fetchRaceListRequest);
-        return fetchRaceListResponse.raceEntityList;
-    }
-
-    /**
-     * レースデータを登録する
-     *
-     * @param raceEntityList
-     */
-    @Logger
-    private async registerRaceDataList(
-        raceEntityList: WorldRaceEntity[],
-    ): Promise<void> {
-        const registerRaceListRequest =
-            new RegisterRaceListRequest<WorldRaceEntity>(raceEntityList);
-        await this.worldRaceRepositoryFromStorage.registerRaceEntityList(
-            registerRaceListRequest,
-        );
+        // S3にデータを保存する
+        await this.worldRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }

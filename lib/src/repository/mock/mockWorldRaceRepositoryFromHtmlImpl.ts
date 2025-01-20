@@ -5,7 +5,7 @@ import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
+import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
@@ -18,28 +18,32 @@ export class MockWorldRaceRepositoryFromHtmlImpl
         request: FetchRaceListRequest<WorldPlaceEntity>,
     ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
         const raceEntityList: WorldRaceEntity[] = [];
-        // 1から12までのレースを作成
-        for (let i = 1; i <= 12; i++) {
-            raceEntityList.push(
-                new WorldRaceEntity(
-                    null,
-                    WorldRaceData.create(
-                        `第${i.toString()}R`,
-                        new Date(
-                            request.startDate.getFullYear(),
-                            request.startDate.getMonth(),
-                            request.startDate.getDate(),
-                            i + 9,
+        const currentDate = new Date(request.startDate);
+        while (currentDate.getMonth() === request.startDate.getMonth()) {
+            // 1から12までのレースを作成
+            for (let i = 1; i <= 12; i++) {
+                raceEntityList.push(
+                    new WorldRaceEntity(
+                        null,
+                        WorldRaceData.create(
+                            `第${i.toString()}R`,
+                            new Date(
+                                currentDate.getFullYear(),
+                                currentDate.getMonth(),
+                                currentDate.getDate(),
+                                i + 9,
+                            ),
+                            'ロンシャン',
+                            '芝',
+                            2400,
+                            'GⅠ',
+                            i,
                         ),
-                        'ロンシャン',
-                        '芝',
-                        2400,
-                        'GⅠ',
-                        12,
+                        getJSTDate(new Date()),
                     ),
-                    getJSTDate(new Date()),
-                ),
-            );
+                );
+            }
+            currentDate.setDate(currentDate.getDate() + 1);
         }
         return Promise.resolve(new FetchRaceListResponse(raceEntityList));
     }

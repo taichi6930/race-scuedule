@@ -3,13 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { IRaceRepository } from '../../repository/interface/IRaceRepository';
-import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
-import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
-import { FetchPlaceListResponse } from '../../repository/response/fetchPlaceListResponse';
-import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
@@ -18,7 +13,7 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * オートレース場開催データUseCase
+ * 競輪場開催データUseCase
  */
 @injectable()
 export class AutoraceRaceDataUseCase
@@ -31,15 +26,10 @@ export class AutoraceRaceDataUseCase
         >
 {
     constructor(
-        @inject('AutoracePlaceRepositoryFromStorage')
-        private readonly autoracePlaceRepositoryFromStorage: IPlaceRepository<AutoracePlaceEntity>,
-        @inject('AutoraceRaceRepositoryFromStorage')
-        private readonly autoraceRaceRepositoryFromStorage: IRaceRepository<
-            AutoraceRaceEntity,
-            AutoracePlaceEntity
-        >,
-        @inject('AutoraceRaceRepositoryFromHtml')
-        private readonly autoraceRaceRepositoryFromHtml: IRaceRepository<
+        @inject('AutoracePlaceDataService')
+        private readonly autoracePlaceDataService: IPlaceDataService<AutoracePlaceEntity>,
+        @inject('AutoraceRaceDataService')
+        private readonly autoraceRaceDataService: IRaceDataService<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >,
@@ -58,17 +48,21 @@ export class AutoraceRaceDataUseCase
             stageList?: AutoraceRaceStage[];
         },
     ): Promise<AutoraceRaceData[]> {
-        // オートレース場データを取得する
+        // 競輪場データを取得する
         const placeEntityList: AutoracePlaceEntity[] =
-            await this.getPlaceEntityList(startDate, finishDate);
+            await this.autoracePlaceDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
+            );
 
         // レースデータを取得する
         const raceEntityList: AutoraceRaceEntity[] =
-            await this.getRaceEntityList(
+            await this.autoraceRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                placeEntityList,
                 'storage',
+                placeEntityList,
             );
 
         // レースデータをRaceDataに変換する
@@ -85,7 +79,7 @@ export class AutoraceRaceDataUseCase
                 }
                 return true;
             })
-            // オートレース場が指定されている場合は、指定されたオートレース場のレースのみを取得する
+            // 競輪場が指定されている場合は、指定された競輪場のレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
@@ -113,26 +107,53 @@ export class AutoraceRaceDataUseCase
     async updateRaceEntityList(
         startDate: Date,
         finishDate: Date,
+        searchList?: {
+            gradeList?: AutoraceGradeType[];
+            locationList?: AutoraceRaceCourse[];
+        },
     ): Promise<void> {
-        try {
-            // オートレース場データを取得する
-            const placeEntityList: AutoracePlaceEntity[] =
-                await this.getPlaceEntityList(startDate, finishDate);
+        // 競輪場データを取得する
+        // フィルタリング処理
+        const placeEntityList: AutoracePlaceEntity[] = (
+            await this.autoracePlaceDataService.fetchPlaceEntityList(
+                startDate,
+                finishDate,
+                'storage',
+            )
+        )
+            ?.filter((placeEntity) => {
+                if (searchList?.gradeList) {
+                    return searchList.gradeList.includes(
+                        placeEntity.placeData.grade,
+                    );
+                }
+                return true;
+            })
+            ?.filter((placeEntity) => {
+                if (searchList?.locationList) {
+                    return searchList.locationList.includes(
+                        placeEntity.placeData.location,
+                    );
+                }
+                return true;
+            });
 
-            // レースデータを取得する
-            const raceEntityList: AutoraceRaceEntity[] =
-                await this.getRaceEntityList(
-                    startDate,
-                    finishDate,
-                    placeEntityList,
-                    'web',
-                );
-
-            // S3にデータを保存する
-            await this.registerRaceEntityList(raceEntityList);
-        } catch (error) {
-            console.error('レースデータの更新中にエラーが発生しました:', error);
+        // placeEntityListが空の場合は処理を終了する
+        if (placeEntityList.length === 0) {
+            return;
         }
+
+        // レースデータを取得する
+        const raceEntityList: AutoraceRaceEntity[] =
+            await this.autoraceRaceDataService.fetchRaceEntityList(
+                startDate,
+                finishDate,
+                'web',
+                placeEntityList,
+            );
+
+        // S3にデータを保存する
+        await this.autoraceRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -141,89 +162,17 @@ export class AutoraceRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: AutoraceRaceData[]): Promise<void> {
-        try {
-            // AutoraceRaceDataをAutoraceRaceEntityに変換する
-            const raceEntityList: AutoraceRaceEntity[] = raceDataList.map(
-                (raceData) =>
-                    new AutoraceRaceEntity(
-                        null,
-                        raceData,
-                        [],
-                        getJSTDate(new Date()),
-                    ),
-            );
-            // S3にデータを保存する
-            await this.registerRaceEntityList(raceEntityList);
-        } catch (error) {
-            console.error('レースデータの更新中にエラーが発生しました:', error);
-        }
-    }
-
-    /**
-     * オートレース場データの取得
-     *
-     * @param startDate
-     * @param finishDate
-     */
-    @Logger
-    private async getPlaceEntityList(
-        startDate: Date,
-        finishDate: Date,
-    ): Promise<AutoracePlaceEntity[]> {
-        const fetchPlaceListRequest: FetchPlaceListRequest =
-            new FetchPlaceListRequest(startDate, finishDate);
-        const fetchPlaceListResponse: FetchPlaceListResponse<AutoracePlaceEntity> =
-            await this.autoracePlaceRepositoryFromStorage.fetchPlaceEntityList(
-                fetchPlaceListRequest,
-            );
-        return fetchPlaceListResponse.placeEntityList;
-    }
-
-    /**
-     * レースデータを取得する
-     * S3から取得する場合はstorage、Webから取得する場合はwebを指定する
-     *
-     * @param startDate
-     * @param finishDate
-     * @param placeEntityList
-     * @param type
-     */
-    @Logger
-    private async getRaceEntityList(
-        startDate: Date,
-        finishDate: Date,
-        placeEntityList: AutoracePlaceEntity[],
-        type: 'storage' | 'web',
-    ): Promise<AutoraceRaceEntity[]> {
-        const fetchRaceListRequest =
-            new FetchRaceListRequest<AutoracePlaceEntity>(
-                startDate,
-                finishDate,
-                placeEntityList,
-            );
-        const repository =
-            type === 'storage'
-                ? this.autoraceRaceRepositoryFromStorage
-                : this.autoraceRaceRepositoryFromHtml;
-
-        const fetchRaceListResponse: FetchRaceListResponse<AutoraceRaceEntity> =
-            await repository.fetchRaceEntityList(fetchRaceListRequest);
-        return fetchRaceListResponse.raceEntityList;
-    }
-
-    /**
-     * レースデータを登録する
-     *
-     * @param raceList
-     */
-    @Logger
-    private async registerRaceEntityList(
-        raceEntityList: AutoraceRaceEntity[],
-    ): Promise<void> {
-        const registerRaceListRequest =
-            new RegisterRaceListRequest<AutoraceRaceEntity>(raceEntityList);
-        await this.autoraceRaceRepositoryFromStorage.registerRaceEntityList(
-            registerRaceListRequest,
+        // AutoraceRaceDataをAutoraceRaceEntityに変換する
+        const raceEntityList: AutoraceRaceEntity[] = raceDataList.map(
+            (raceData) =>
+                new AutoraceRaceEntity(
+                    null,
+                    raceData,
+                    [],
+                    getJSTDate(new Date()),
+                ),
         );
+        // S3にデータを保存する
+        await this.autoraceRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }

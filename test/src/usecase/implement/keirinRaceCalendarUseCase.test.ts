@@ -5,21 +5,21 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
-import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import type { ICalendarService } from '../../../../lib/src/service/interface/ICalendarService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { KeirinRaceCalendarUseCase } from '../../../../lib/src/usecase/implement/keirinRaceCalendarUseCase';
 import { KeirinSpecifiedGradeList } from '../../../../lib/src/utility/data/keirin/keirinGradeType';
 import {
     baseKeirinCalendarData,
     baseKeirinRaceEntity,
 } from '../../mock/common/baseKeirinData';
-import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
+import { mockKeirinRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<KeirinRaceEntity>>;
-    let keirinRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
+    let keirinRaceDataService: jest.Mocked<
+        IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
     >;
     let useCase: KeirinRaceCalendarUseCase;
 
@@ -34,12 +34,11 @@ describe('KeirinRaceCalendarUseCase', () => {
         );
 
         // IRaceRepositoryインターフェースの依存関係を登録
-        keirinRaceRepositoryFromStorageImpl =
-            mockKeirinRaceRepositoryFromStorageImpl();
+        keirinRaceDataService = mockKeirinRaceDataServiceMock();
         container.register<
-            IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
-        >('KeirinRaceRepositoryFromStorage', {
-            useValue: keirinRaceRepositoryFromStorageImpl,
+            IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
+        >('KeirinRaceDataService', {
+            useValue: keirinRaceDataService,
         });
 
         // KeirinRaceCalendarUseCaseをコンテナから取得
@@ -67,29 +66,6 @@ describe('KeirinRaceCalendarUseCase', () => {
             );
             expect(result).toEqual(mockCalendarData);
         });
-
-        it('エラーが発生した場合、空の配列が返ってくること', async () => {
-            // モックがエラーをスローするよう設定
-            calendarServiceMock.getEvents.mockRejectedValue(
-                new Error('Google Calendar API error'),
-            );
-
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
-
-            const result = await useCase.getRacesFromCalendar(
-                startDate,
-                finishDate,
-            );
-
-            // モックが呼び出されたことを確認
-            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
-                startDate,
-                finishDate,
-            );
-            // モックからエラーが返ってくることを確認
-            expect(result).toEqual([]);
-        });
     });
 
     describe('updateRacesToCalendar', () => {
@@ -111,10 +87,8 @@ describe('KeirinRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -166,10 +140,8 @@ describe('KeirinRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -217,10 +189,8 @@ describe('KeirinRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -278,10 +248,8 @@ describe('KeirinRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -338,10 +306,8 @@ describe('KeirinRaceCalendarUseCase', () => {
             calendarServiceMock.getEvents.mockResolvedValue(
                 mockCalendarDataList,
             );
-            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
+            keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntityList,
             );
 
             const startDate = new Date('2024-02-01');
@@ -365,73 +331,6 @@ describe('KeirinRaceCalendarUseCase', () => {
             expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
-        });
-
-        it('fetchRaceListがエラーをスローした場合、エラーメッセージがコンソールに表示されること', async () => {
-            const consoleErrorSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {});
-
-            // fetchRaceListがエラーをスローするようにモック
-            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
-                new Error('Fetch Error'),
-            );
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            await useCase.updateRacesToCalendar(
-                startDate,
-                finishDate,
-                KeirinSpecifiedGradeList,
-            );
-
-            // コンソールエラーメッセージが出力されることを確認
-            expect(consoleErrorSpy).toHaveBeenCalledWith(
-                'Google Calendar APIへのイベント登録に失敗しました',
-                expect.any(Error),
-            );
-
-            // エラーがスローされた場合に呼び出されるため、upsertEventsは呼び出されていないことを確認
-            consoleErrorSpy.mockRestore();
-        });
-
-        it('updateEventsがエラーをスローした場合、エラーメッセージがコンソールに表示されること', async () => {
-            const consoleErrorSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation(() => {});
-
-            // fetchRaceListは正常に動作するように設定
-            const mockRaceEntityList: KeirinRaceEntity[] = [
-                baseKeirinRaceEntity,
-            ];
-            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                {
-                    raceEntityList: mockRaceEntityList,
-                },
-            );
-
-            // updateEventsがエラーをスローするようにモック
-            calendarServiceMock.upsertEvents.mockRejectedValue(
-                new Error('Update Error'),
-            );
-
-            const startDate = new Date('2023-08-01');
-            const finishDate = new Date('2023-08-31');
-
-            await useCase.updateRacesToCalendar(
-                startDate,
-                finishDate,
-                KeirinSpecifiedGradeList,
-            );
-
-            // コンソールエラーメッセージが出力されることを確認
-            expect(consoleErrorSpy).toHaveBeenCalledWith(
-                'Google Calendar APIへのイベント登録に失敗しました',
-                expect.any(Error),
-            );
-
-            consoleErrorSpy.mockRestore();
         });
     });
 });

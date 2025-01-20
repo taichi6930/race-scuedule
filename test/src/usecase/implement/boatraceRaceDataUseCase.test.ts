@@ -5,63 +5,47 @@ import { container } from 'tsyringe';
 import type { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
-import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
+import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 import { BoatraceRaceDataUseCase } from '../../../../lib/src/usecase/implement/boatraceRaceDataUseCase';
 import {
+    baseBoatracePlaceEntity,
     baseBoatraceRaceDataList,
-    baseBoatraceRaceEntity,
     baseBoatraceRaceEntityList,
 } from '../../mock/common/baseBoatraceData';
-import { mockBoatracePlaceRepositoryFromStorageImpl } from '../../mock/repository/boatracePlaceRepositoryFromStorageImpl';
-import { mockBoatraceRaceRepositoryFromHtmlImpl } from '../../mock/repository/boatraceRaceRepositoryFromHtmlImpl';
-import { mockBoatraceRaceRepositoryFromStorageImpl } from '../../mock/repository/boatraceRaceRepositoryFromStorageImpl';
+import { mockBoatracePlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { mockBoatraceRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceDataUseCase', () => {
-    let boatraceRaceRepositoryFromStorageImpl: jest.Mocked<
-        IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
+    let boatraceRaceDataService: jest.Mocked<
+        IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
-    let boatraceRaceRepositoryFromHtmlImpl: jest.Mocked<
-        IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
-    >;
-    let boatracePlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<BoatracePlaceEntity>
+    let boatracePlaceDataService: jest.Mocked<
+        IPlaceDataService<BoatracePlaceEntity>
     >;
     let useCase: BoatraceRaceDataUseCase;
 
     beforeEach(() => {
-        // IRaceRepositoryインターフェースの依存関係を登録
-        boatraceRaceRepositoryFromStorageImpl =
-            mockBoatraceRaceRepositoryFromStorageImpl();
+        // BoatraceRaceDataServiceをコンテナに登録
+        boatraceRaceDataService = mockBoatraceRaceDataServiceMock();
         container.register<
-            IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
-        >('BoatraceRaceRepositoryFromStorage', {
-            useValue: boatraceRaceRepositoryFromStorageImpl,
-        });
-        boatraceRaceRepositoryFromHtmlImpl =
-            mockBoatraceRaceRepositoryFromHtmlImpl();
-        container.register<
-            IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
-        >('BoatraceRaceRepositoryFromHtml', {
-            useValue: boatraceRaceRepositoryFromHtmlImpl,
+            IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
+        >('BoatraceRaceDataService', {
+            useValue: boatraceRaceDataService,
         });
 
-        // boatracePlaceRepositoryFromStorageImplをコンテナに登録
-        boatracePlaceRepositoryFromStorageImpl =
-            mockBoatracePlaceRepositoryFromStorageImpl();
-        container.register<IPlaceRepository<BoatracePlaceEntity>>(
-            'BoatracePlaceRepositoryFromStorage',
+        // BoatracePlaceDataServiceをコンテナに登録
+        boatracePlaceDataService = mockBoatracePlaceDataServiceMock();
+        container.register<IPlaceDataService<BoatracePlaceEntity>>(
+            'BoatracePlaceDataService',
             {
-                useValue: boatracePlaceRepositoryFromStorageImpl,
+                useValue: boatracePlaceDataService,
             },
         );
 
         // BoatraceRaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(BoatraceRaceDataUseCase);
     });
-
-    const baseRaceEntity = baseBoatraceRaceEntity;
 
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
@@ -70,8 +54,8 @@ describe('BoatraceRaceDataUseCase', () => {
                 baseBoatraceRaceEntityList;
 
             // モックの戻り値を設定
-            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<BoatraceRaceEntity>(mockRaceEntity),
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                mockRaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -157,10 +141,8 @@ describe('BoatraceRaceDataUseCase', () => {
                     baseBoatraceRaceEntityList;
 
                 // モックの戻り値を設定
-                boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                    new FetchRaceListResponse<BoatraceRaceEntity>(
-                        mockRaceEntity,
-                    ),
+                boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                    mockRaceEntity,
                 );
 
                 const startDate = new Date('2025-12-01');
@@ -179,45 +161,108 @@ describe('BoatraceRaceDataUseCase', () => {
 
     describe('updateRaceDataList', () => {
         it('正常にレースデータが更新されること', async () => {
-            const mockRaceEntity: BoatraceRaceEntity[] = [baseRaceEntity];
+            const mockPlaceEntity: BoatracePlaceEntity[] = [
+                baseBoatracePlaceEntity,
+            ];
 
-            const startDate = new Date('2025-12-01');
+            const startDate = new Date('2024-12-01');
             const finishDate = new Date('2025-12-31');
+            const searchList = {
+                gradeList: ['SG'],
+                locationList: ['平和島'],
+            };
 
             // モックの戻り値を設定
-            boatraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<BoatraceRaceEntity>(mockRaceEntity),
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                baseBoatraceRaceEntityList,
+            );
+            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
-            await useCase.updateRaceEntityList(startDate, finishDate);
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
 
             expect(
-                boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList,
+                boatracePlaceDataService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                boatraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList,
+                boatraceRaceDataService.fetchRaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                boatraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                boatraceRaceDataService.updateRaceEntityList,
             ).toHaveBeenCalled();
         });
 
-        it('レースデータが取得できない場合、エラーが発生すること', async () => {
+        it('競輪場がない時、正常にレースデータが更新されないこと', async () => {
+            const mockPlaceEntity: BoatracePlaceEntity[] = [];
+
             const startDate = new Date('2025-12-01');
             const finishDate = new Date('2025-12-31');
+            const searchList = {
+                gradeList: ['SG'],
+                locationList: ['平和島'],
+            };
 
-            // モックの戻り値を設定（エラーが発生するように設定）
-            boatraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockRejectedValue(
-                new Error('レースデータの取得に失敗しました'),
+            // モックの戻り値を設定
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                baseBoatraceRaceEntityList,
+            );
+            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
-            const consoleSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation();
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
 
-            await useCase.updateRaceEntityList(startDate, finishDate);
+            expect(
+                boatracePlaceDataService.fetchPlaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                boatraceRaceDataService.fetchRaceEntityList,
+            ).not.toHaveBeenCalled();
+            expect(
+                boatraceRaceDataService.updateRaceEntityList,
+            ).not.toHaveBeenCalled();
+        });
 
-            expect(consoleSpy).toHaveBeenCalled();
+        it('検索条件がなく、正常にレースデータが更新されること', async () => {
+            const mockPlaceEntity: BoatracePlaceEntity[] = [
+                baseBoatracePlaceEntity,
+            ];
+            const startDate = new Date('2025-12-01');
+            const finishDate = new Date('2025-12-31');
+            const searchList = {};
+
+            // モックの戻り値を設定
+            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                baseBoatraceRaceEntityList,
+            );
+            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
+            );
+
+            await useCase.updateRaceEntityList(
+                startDate,
+                finishDate,
+                searchList,
+            );
+
+            expect(
+                boatracePlaceDataService.fetchPlaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                boatraceRaceDataService.fetchRaceEntityList,
+            ).toHaveBeenCalled();
+            expect(
+                boatraceRaceDataService.updateRaceEntityList,
+            ).toHaveBeenCalled();
         });
     });
 
@@ -228,24 +273,8 @@ describe('BoatraceRaceDataUseCase', () => {
             await useCase.upsertRaceDataList(mockRaceData);
 
             expect(
-                boatraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                boatraceRaceDataService.updateRaceEntityList,
             ).toHaveBeenCalled();
-        });
-
-        it('レースデータが取得できない場合、エラーが発生すること', async () => {
-            const mockRaceData: BoatraceRaceData[] = baseBoatraceRaceDataList;
-            // モックの戻り値を設定（エラーが発生するように設定）
-            boatraceRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
-                new Error('レースデータの登録に失敗しました'),
-            );
-
-            const consoleSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation();
-
-            await useCase.upsertRaceDataList(mockRaceData);
-
-            expect(consoleSpy).toHaveBeenCalled();
         });
     });
 });

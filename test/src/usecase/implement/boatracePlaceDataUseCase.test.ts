@@ -4,42 +4,27 @@ import { container } from 'tsyringe';
 
 import type { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
-import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
+import type { IPlaceDataService } from '../../../../lib/src/service/interface/IPlaceDataService';
 import { BoatracePlaceDataUseCase } from '../../../../lib/src/usecase/implement/boatracePlaceDataUseCase';
 import {
     baseBoatracePlaceData,
     baseBoatracePlaceEntity,
 } from '../../mock/common/baseBoatraceData';
-import { mockBoatracePlaceRepositoryFromHtmlImpl } from '../../mock/repository/boatracePlaceRepositoryFromHtmlImpl';
-import { mockBoatracePlaceRepositoryFromStorageImpl } from '../../mock/repository/boatracePlaceRepositoryFromStorageImpl';
+import { mockBoatracePlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('BoatracePlaceDataUseCase', () => {
-    let boatracePlaceRepositoryFromStorageImpl: jest.Mocked<
-        IPlaceRepository<BoatracePlaceEntity>
-    >;
-    let boatracePlaceRepositoryFromHtmlImpl: jest.Mocked<
-        IPlaceRepository<BoatracePlaceEntity>
+    let boatracePlaceDataService: jest.Mocked<
+        IPlaceDataService<BoatracePlaceEntity>
     >;
     let useCase: BoatracePlaceDataUseCase;
 
     beforeEach(() => {
-        // boatracePlaceRepositoryFromStorageImplをコンテナに登録
-        boatracePlaceRepositoryFromStorageImpl =
-            mockBoatracePlaceRepositoryFromStorageImpl();
-        container.register<IPlaceRepository<BoatracePlaceEntity>>(
-            'BoatracePlaceRepositoryFromStorage',
+        // BoatracePlaceDataServiceをコンテナに登録
+        boatracePlaceDataService = mockBoatracePlaceDataServiceMock();
+        container.register<IPlaceDataService<BoatracePlaceEntity>>(
+            'BoatracePlaceDataService',
             {
-                useValue: boatracePlaceRepositoryFromStorageImpl,
-            },
-        );
-
-        boatracePlaceRepositoryFromHtmlImpl =
-            mockBoatracePlaceRepositoryFromHtmlImpl();
-        container.register<IPlaceRepository<BoatracePlaceEntity>>(
-            'BoatracePlaceRepositoryFromHtml',
-            {
-                useValue: boatracePlaceRepositoryFromHtmlImpl,
+                useValue: boatracePlaceDataService,
             },
         );
 
@@ -55,14 +40,12 @@ describe('BoatracePlaceDataUseCase', () => {
             ];
 
             // モックの戻り値を設定
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<BoatracePlaceEntity>(
-                    mockPlaceEntity,
-                ),
+            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
 
             const result = await useCase.fetchPlaceDataList(
                 startDate,
@@ -74,28 +57,26 @@ describe('BoatracePlaceDataUseCase', () => {
     });
 
     describe('updatePlaceDataList', () => {
-        it('正常にボートレース場データが更新されること', async () => {
+        it('正常に競輪場データが更新されること', async () => {
             const mockPlaceEntity: BoatracePlaceEntity[] = [
                 baseBoatracePlaceEntity,
             ];
 
-            const startDate = new Date('2025-12-01');
-            const finishDate = new Date('2025-12-31');
+            const startDate = new Date('2024-06-01');
+            const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<BoatracePlaceEntity>(
-                    mockPlaceEntity,
-                ),
+            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+                mockPlaceEntity,
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
             expect(
-                boatracePlaceRepositoryFromHtmlImpl.fetchPlaceEntityList,
+                boatracePlaceDataService.fetchPlaceEntityList,
             ).toHaveBeenCalled();
             expect(
-                boatracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                boatracePlaceDataService.updatePlaceEntityList,
             ).toHaveBeenCalled();
         });
     });

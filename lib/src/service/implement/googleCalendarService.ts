@@ -99,16 +99,24 @@ export class GoogleCalendarService<R extends RaceEntity>
         startDate: Date,
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
-        // orderBy: 'startTime'で開始時刻順に取得
-        const response = await this.calendar.events.list({
-            calendarId: this.calendarId,
-            timeMin: startDate.toISOString(),
-            timeMax: finishDate.toISOString(),
-            singleEvents: true,
-            orderBy: 'startTime',
-            timeZone: 'Asia/Tokyo',
-        });
-        return response.data.items ?? [];
+        try {
+            // orderBy: 'startTime'で開始時刻順に取得
+            const response = await this.calendar.events.list({
+                calendarId: this.calendarId,
+                timeMin: startDate.toISOString(),
+                timeMax: finishDate.toISOString(),
+                singleEvents: true,
+                orderBy: 'startTime',
+                timeZone: 'Asia/Tokyo',
+            });
+            return response.data.items ?? [];
+        } catch (error) {
+            console.error(
+                'Google Calendar APIからのイベント取得に失敗しました',
+                error,
+            );
+            return [];
+        }
     }
 
     /**
