@@ -92,8 +92,7 @@ export const NarBabacodeMap: Record<string, string> = {
 export const validateNarRaceCourse = (course: string): NarRaceCourse => {
     const result = NarRaceCourseSchema.safeParse(course);
     if (!result.success) {
-        console.error(`地方競馬場名が不正です: ${course}`);
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${course}`);
     }
     return result.data;
 };

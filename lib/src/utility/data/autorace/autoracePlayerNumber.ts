@@ -37,7 +37,7 @@ export const validateAutoracePlayerNumber = (
 ): AutoracePlayerNumber => {
     const result = AutoracePlayerNumberSchema.safeParse(playerNumber);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${playerNumber.toString()}`);
     }
     return result.data;
 };

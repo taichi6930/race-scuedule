@@ -34,8 +34,7 @@ const JraRaceCourseList: string[] = [
 export const validateJraRaceCourse = (course: string): JraRaceCourse => {
     const result = JraRaceCourseSchema.safeParse(course);
     if (!result.success) {
-        console.error(`中央競馬場名が不正です: ${course}`);
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${course}`);
     }
     return result.data;
 };

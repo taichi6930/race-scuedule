@@ -25,7 +25,9 @@ export const validateAutoracePositionNumber = (
 ): AutoracePositionNumber => {
     const result = AutoracePositionNumberSchema.safeParse(positionNumber);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(
+            `${result.error.message}: ${positionNumber.toString()}`,
+        );
     }
     return result.data;
 };

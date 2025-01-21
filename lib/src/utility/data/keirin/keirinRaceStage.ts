@@ -150,8 +150,7 @@ export const KeirinSpecifiedGradeAndStageList: {
 export const validateKeirinRaceStage = (stage: string): KeirinRaceStage => {
     const result = KeirinRaceStageSchema.safeParse(stage);
     if (!result.success) {
-        console.error(`競輪のステージではありません: ${stage}`);
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${stage}`);
     }
     return result.data;
 };

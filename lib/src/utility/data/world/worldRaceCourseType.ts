@@ -27,7 +27,7 @@ export const validateWorldRaceCourseType = (
 ): WorldRaceCourseType => {
     const result = WorldRaceCourseTypeSchema.safeParse(type);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${type}`);
     }
     return result.data;
 };

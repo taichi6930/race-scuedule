@@ -18,7 +18,7 @@ export type NarRaceDistance = z.infer<typeof NarRaceDistanceSchema>;
 export const validateNarRaceDistance = (distance: number): NarRaceDistance => {
     const result = NarRaceDistanceSchema.safeParse(distance);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${distance.toString()}`);
     }
     return result.data;
 };

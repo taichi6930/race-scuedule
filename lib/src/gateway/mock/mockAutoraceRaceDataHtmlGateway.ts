@@ -31,6 +31,4 @@ export class MockAutoraceRaceDataHtmlGateway
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
         return Promise.resolve(htmlContent);
     }
-
-    html = ``;
 }

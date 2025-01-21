@@ -51,7 +51,7 @@ export const validateBoatraceRacePlayerId = (
 ): BoatraceRacePlayerId => {
     const result = BoatraceRacePlayerIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };

@@ -20,7 +20,7 @@ export const validateWorldRaceDistance = (
 ): WorldRaceDistance => {
     const result = WorldRaceDistanceSchema.safeParse(distance);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${distance.toString()}`);
     }
     return result.data;
 };

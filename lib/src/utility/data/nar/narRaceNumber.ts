@@ -21,6 +21,9 @@ export type NarRaceNumber = z.infer<typeof NarRaceNumberSchema>;
  * @returns - バリデーション済みのレース番号
  */
 export const validateNarRaceNumber = (number: number): NarRaceNumber => {
-    const result = NarRaceNumberSchema.parse(number);
-    return result;
+    const result = NarRaceNumberSchema.safeParse(number);
+    if (!result.success) {
+        throw new Error(`${result.error.message}: ${number.toString()}`);
+    }
+    return result.data;
 };

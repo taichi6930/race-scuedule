@@ -68,7 +68,7 @@ export const JraSpecifiedGradeList: JraGradeType[] = [
 export const validateJraGradeType = (grade: string): JraGradeType => {
     const result = JraGradeTypeSchema.safeParse(grade);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${grade}`);
     }
     return result.data;
 };

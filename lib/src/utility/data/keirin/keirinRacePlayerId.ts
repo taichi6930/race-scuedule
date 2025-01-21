@@ -51,7 +51,7 @@ export const validateKeirinRacePlayerId = (
 ): KeirinRacePlayerId => {
     const result = KeirinRacePlayerIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };

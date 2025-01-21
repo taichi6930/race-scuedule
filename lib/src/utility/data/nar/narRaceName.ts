@@ -18,7 +18,7 @@ export type NarRaceName = z.infer<typeof NarRaceNameSchema>;
 export const validateNarRaceName = (name: string): NarRaceName => {
     const result = NarRaceNameSchema.safeParse(name);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${name}`);
     }
     return result.data;
 };

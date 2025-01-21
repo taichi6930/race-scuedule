@@ -149,7 +149,7 @@ export const validateKeirinPlayerNumber = (
 ): KeirinPlayerNumber => {
     const result = KeirinPlayerNumberSchema.safeParse(playerNumber);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${playerNumber.toString()}`);
     }
     return result.data;
 };

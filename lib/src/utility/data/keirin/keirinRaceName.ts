@@ -18,7 +18,7 @@ export type KeirinRaceName = z.infer<typeof KeirinRaceNameSchema>;
 export const validateKeirinRaceName = (name: string): KeirinRaceName => {
     const result = KeirinRaceNameSchema.safeParse(name);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${name}`);
     }
     return result.data;
 };

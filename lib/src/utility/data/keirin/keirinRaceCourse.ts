@@ -113,8 +113,7 @@ const KeirinRaceCourseList: string[] = [
 export const validateKeirinRaceCourse = (course: string): KeirinRaceCourse => {
     const result = KeirinRaceCourseSchema.safeParse(course);
     if (!result.success) {
-        console.error(`競輪場名が不正です: ${course}`);
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${course}`);
     }
     return result.data;
 };

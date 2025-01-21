@@ -25,7 +25,7 @@ export type WorldPlaceId = z.infer<typeof WorldPlaceIdSchema>;
 export const validateWorldPlaceId = (value: string): WorldPlaceId => {
     const result = WorldPlaceIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };

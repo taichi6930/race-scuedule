@@ -39,7 +39,7 @@ export type NarRaceId = z.infer<typeof NarRaceIdSchema>;
 export const validateNarRaceId = (value: string): NarRaceId => {
     const result = NarRaceIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };
