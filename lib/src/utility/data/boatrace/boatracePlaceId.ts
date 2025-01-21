@@ -26,7 +26,7 @@ export type BoatracePlaceId = z.infer<typeof BoatracePlaceIdSchema>;
 export const validateBoatracePlaceId = (value: string): BoatracePlaceId => {
     const result = BoatracePlaceIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };

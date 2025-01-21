@@ -26,7 +26,7 @@ export type AutoracePlaceId = z.infer<typeof AutoracePlaceIdSchema>;
 export const validateAutoracePlaceId = (value: string): AutoracePlaceId => {
     const result = AutoracePlaceIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };

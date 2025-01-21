@@ -26,7 +26,7 @@ export type KeirinPlaceId = z.infer<typeof KeirinPlaceIdSchema>;
 export const validateKeirinPlaceId = (value: string): KeirinPlaceId => {
     const result = KeirinPlaceIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };

@@ -26,7 +26,7 @@ export type NarPlaceId = z.infer<typeof NarPlaceIdSchema>;
 export const validateNarPlaceId = (value: string): NarPlaceId => {
     const result = NarPlaceIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };
