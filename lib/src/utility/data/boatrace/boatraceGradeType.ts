@@ -25,7 +25,7 @@ const BoatraceGradeTypeList: string[] = ['SG', 'GⅠ', 'GⅡ', 'GⅢ', '一般']
 export const validateBoatraceGradeType = (grade: string): BoatraceGradeType => {
     const result = BoatraceGradeTypeSchema.safeParse(grade);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${grade}`);
     }
     return result.data;
 };

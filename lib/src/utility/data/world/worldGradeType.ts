@@ -36,7 +36,7 @@ export const WorldSpecifiedGradeList: WorldGradeType[] = [
 export const validateWorldGradeType = (grade: string): WorldGradeType => {
     const result = WorldGradeTypeSchema.safeParse(grade);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${grade}`);
     }
     return result.data;
 };

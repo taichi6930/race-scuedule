@@ -37,7 +37,7 @@ export const KeirinSpecifiedGradeList: KeirinGradeType[] = [
 export const validateKeirinGradeType = (grade: string): KeirinGradeType => {
     const result = KeirinGradeTypeSchema.safeParse(grade);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${grade}`);
     }
     return result.data;
 };

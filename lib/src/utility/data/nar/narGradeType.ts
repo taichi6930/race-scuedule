@@ -58,7 +58,7 @@ export const NarSpecifiedGradeList: NarGradeType[] = [
 export const validateNarGradeType = (grade: string): NarGradeType => {
     const result = NarGradeTypeSchema.safeParse(grade);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${grade}`);
     }
     return result.data;
 };

@@ -25,7 +25,7 @@ const AutoraceGradeTypeList: string[] = ['SG', '特GⅠ', 'GⅠ', 'GⅡ', '開�
 export const validateAutoraceGradeType = (grade: string): AutoraceGradeType => {
     const result = AutoraceGradeTypeSchema.safeParse(grade);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${grade}`);
     }
     return result.data;
 };
