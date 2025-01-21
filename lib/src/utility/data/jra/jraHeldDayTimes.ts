@@ -19,6 +19,9 @@ export type JraHeldDayTimes = z.infer<typeof JraHeldDayTimesSchema>;
  * @returns - バリデーション済みのレース番号
  */
 export const validateJraHeldDayTimes = (number: number): JraHeldDayTimes => {
-    const result = JraHeldDayTimesSchema.parse(number);
-    return result;
+    const result = JraHeldDayTimesSchema.safeParse(number);
+    if (!result.success) {
+        throw new Error(`${result.error.message}: ${number.toString()}`);
+    }
+    return result.data;
 };

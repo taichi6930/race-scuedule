@@ -21,6 +21,9 @@ export type JraRaceNumber = z.infer<typeof JraRaceNumberSchema>;
  * @returns - バリデーション済みのレース番号
  */
 export const validateJraRaceNumber = (number: number): JraRaceNumber => {
-    const result = JraRaceNumberSchema.parse(number);
-    return result;
+    const result = JraRaceNumberSchema.safeParse(number);
+    if (!result.success) {
+        throw new Error(`${result.error.message}: ${number.toString()}`);
+    }
+    return result.data;
 };
