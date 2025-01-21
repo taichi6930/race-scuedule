@@ -23,7 +23,7 @@ export type KeirinRaceNumber = z.infer<typeof KeirinRaceNumberSchema>;
 export const validateKeirinRaceNumber = (number: number): KeirinRaceNumber => {
     const result = KeirinRaceNumberSchema.safeParse(number);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${number.toString()}`);
     }
     return result.data;
 };

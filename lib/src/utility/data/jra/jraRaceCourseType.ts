@@ -25,7 +25,7 @@ const JraRaceCourseTypeList: string[] = ['芝', 'ダート', '障害'];
 export const validateJraRaceCourseType = (type: string): JraRaceCourseType => {
     const result = JraRaceCourseTypeSchema.safeParse(type);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${type}`);
     }
     return result.data;
 };

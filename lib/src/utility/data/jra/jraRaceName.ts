@@ -18,7 +18,7 @@ export type JraRaceName = z.infer<typeof JraRaceNameSchema>;
 export const validateJraRaceName = (name: string): JraRaceName => {
     const result = JraRaceNameSchema.safeParse(name);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${name}`);
     }
     return result.data;
 };

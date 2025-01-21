@@ -27,7 +27,7 @@ export type WorldRaceId = z.infer<typeof WorldRaceIdSchema>;
 export const validateWorldRaceId = (value: string): WorldRaceId => {
     const result = WorldRaceIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };

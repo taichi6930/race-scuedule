@@ -44,7 +44,7 @@ export const BoatraceSpecifiedGradeAndStageList: {
 export const validateBoatraceRaceStage = (stage: string): BoatraceRaceStage => {
     const result = BoatraceRaceStageSchema.safeParse(stage);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${stage}`);
     }
     return result.data;
 };

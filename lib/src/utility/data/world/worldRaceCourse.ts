@@ -112,8 +112,7 @@ export const WorldPlaceCodeMap: Record<string, string> = {
 export const validateWorldRaceCourse = (course: string): WorldRaceCourse => {
     const result = WorldRaceCourseSchema.safeParse(course);
     if (!result.success) {
-        console.error(`海外競馬場名が不正です: ${course}`);
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${course}`);
     }
     return result.data;
 };

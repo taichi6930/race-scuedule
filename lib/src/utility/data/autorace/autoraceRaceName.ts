@@ -18,7 +18,7 @@ export type AutoraceRaceName = z.infer<typeof AutoraceRaceNameSchema>;
 export const validateAutoraceRaceName = (name: string): AutoraceRaceName => {
     const result = AutoraceRaceNameSchema.safeParse(name);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${name}`);
     }
     return result.data;
 };

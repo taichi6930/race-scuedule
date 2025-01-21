@@ -18,7 +18,7 @@ export type JraRaceDistance = z.infer<typeof JraRaceDistanceSchema>;
 export const validateJraRaceDistance = (distance: number): JraRaceDistance => {
     const result = JraRaceDistanceSchema.safeParse(distance);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${distance.toString()}`);
     }
     return result.data;
 };

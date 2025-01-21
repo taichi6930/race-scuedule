@@ -39,7 +39,7 @@ export type KeirinRaceId = z.infer<typeof KeirinRaceIdSchema>;
 export const validateKeirinRaceId = (value: string): KeirinRaceId => {
     const result = KeirinRaceIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };

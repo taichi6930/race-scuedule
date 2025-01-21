@@ -39,7 +39,7 @@ export type JraRaceId = z.infer<typeof JraRaceIdSchema>;
 export const validateJraRaceId = (value: string): JraRaceId => {
     const result = JraRaceIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };

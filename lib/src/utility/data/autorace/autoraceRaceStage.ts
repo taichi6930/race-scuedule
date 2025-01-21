@@ -22,7 +22,7 @@ export type AutoraceRaceStage = z.infer<typeof AutoraceRaceStageSchema>;
 export const validateAutoraceRaceStage = (stage: string): AutoraceRaceStage => {
     const result = AutoraceRaceStageSchema.safeParse(stage);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${stage}`);
     }
     return result.data;
 };

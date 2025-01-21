@@ -51,7 +51,7 @@ export const validateAutoraceRacePlayerId = (
 ): AutoraceRacePlayerId => {
     const result = AutoraceRacePlayerIdSchema.safeParse(value);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${value}`);
     }
     return result.data;
 };

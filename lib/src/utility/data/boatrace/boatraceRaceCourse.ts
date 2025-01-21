@@ -74,7 +74,7 @@ export const validateBoatraceRaceCourse = (
 ): BoatraceRaceCourse => {
     const result = BoatraceRaceCourseSchema.safeParse(course);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${course}`);
     }
     return result.data;
 };

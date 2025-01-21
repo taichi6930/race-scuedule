@@ -25,7 +25,7 @@ const NarRaceCourseTypeList: string[] = ['芝', 'ダート'];
 export const validateNarRaceCourseType = (type: string): NarRaceCourseType => {
     const result = NarRaceCourseTypeSchema.safeParse(type);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${type}`);
     }
     return result.data;
 };

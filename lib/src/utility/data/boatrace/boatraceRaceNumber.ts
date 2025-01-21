@@ -25,7 +25,7 @@ export const validateBoatraceRaceNumber = (
 ): BoatraceRaceNumber => {
     const result = BoatraceRaceNumberSchema.safeParse(number);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${number.toString()}`);
     }
     return result.data;
 };

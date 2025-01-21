@@ -18,7 +18,7 @@ export type WorldRaceName = z.infer<typeof WorldRaceNameSchema>;
 export const validateWorldRaceName = (name: string): WorldRaceName => {
     const result = WorldRaceNameSchema.safeParse(name);
     if (!result.success) {
-        throw new Error(result.error.message);
+        throw new Error(`${result.error.message}: ${name}`);
     }
     return result.data;
 };
