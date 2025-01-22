@@ -61,13 +61,20 @@ container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
                     'race-schedule-bucket',
                     'keirin/',
                 );
-            case 'ITa':
+            case 'TEST':
+                return new S3Gateway<KeirinPlaceRecord>(
+                    'test-race-schedule-bucket',
+                    'keirin/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<KeirinPlaceRecord>(
                     'race-schedule-bucket',
                     'keirin/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -75,18 +82,24 @@ container.register<IS3Gateway<KeirinRaceRecord>>('KeirinRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
             case 'PRODUCTION':
-                // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
                     'keirin/',
                 );
-            case 'ITa':
+            case 'TEST':
+                return new S3Gateway<KeirinRaceRecord>(
+                    'test-race-schedule-bucket',
+                    'keirin/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
                     'keirin/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -101,13 +114,20 @@ container.register<IS3Gateway<KeirinRacePlayerRecord>>(
                         'race-schedule-bucket',
                         'keirin/',
                     );
-                case 'ITa':
+                case 'TEST':
+                    return new S3Gateway<KeirinRacePlayerRecord>(
+                        'test-race-schedule-bucket',
+                        'keirin/',
+                    );
                 case 'LOCAL':
-                default:
+                case 'LOCAL_NO_INIT_DATA':
+                case 'LOCAL_INIT_MADE_DATA':
                     return new MockS3Gateway<KeirinRacePlayerRecord>(
                         'race-schedule-bucket',
                         'keirin/',
                     );
+                default:
+                    throw new Error('Invalid ENV value');
             }
         },
     },
@@ -117,8 +137,10 @@ container.register<IKeirinPlaceDataHtmlGateway>('KeirinPlaceDataHtmlGateway', {
         switch (ENV) {
             case 'PRODUCTION':
                 return new KeirinPlaceDataHtmlGateway();
-            default:
+            case 'LOCAL':
                 return new MockKeirinPlaceDataHtmlGateway();
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -127,8 +149,10 @@ container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
         switch (ENV) {
             case 'PRODUCTION':
                 return new KeirinRaceDataHtmlGateway();
-            default:
+            case 'LOCAL':
                 return new MockKeirinRaceDataHtmlGateway();
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -142,13 +166,21 @@ container.register<IS3Gateway<NarRaceRecord>>('NarRaceS3Gateway', {
                     'race-schedule-bucket',
                     'nar/',
                 );
-            case 'ITa':
+            case 'TEST':
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<NarRaceRecord>(
+                    'test-race-schedule-bucket',
+                    'nar/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<NarRaceRecord>(
                     'race-schedule-bucket',
                     'nar/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -160,13 +192,20 @@ container.register<IS3Gateway<NarPlaceRecord>>('NarPlaceS3Gateway', {
                     'race-schedule-bucket',
                     'nar/',
                 );
-            case 'ITa':
+            case 'TEST':
+                return new S3Gateway<NarPlaceRecord>(
+                    'test-race-schedule-bucket',
+                    'nar/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
                     'nar/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -175,10 +214,12 @@ container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
         switch (ENV) {
             case 'PRODUCTION':
                 return new NarRaceDataHtmlGateway();
-            case 'ITa':
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockNarRaceDataHtmlGateway();
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -187,10 +228,12 @@ container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
         switch (ENV) {
             case 'PRODUCTION':
                 return new NarPlaceDataHtmlGateway();
-            case 'ITa':
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockNarPlaceDataHtmlGateway();
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -204,13 +247,21 @@ container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
                     'race-schedule-bucket',
                     'jra/',
                 );
-            case 'ITa':
+            case 'TEST':
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<JraRaceRecord>(
+                    'test-race-schedule-bucket',
+                    'jra/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<JraRaceRecord>(
                     'race-schedule-bucket',
                     'jra/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -222,13 +273,21 @@ container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
                     'race-schedule-bucket',
                     'jra/',
                 );
-            case 'ITa':
+            case 'TEST':
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<JraPlaceRecord>(
+                    'test-race-schedule-bucket',
+                    'jra/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<JraPlaceRecord>(
                     'race-schedule-bucket',
                     'jra/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -237,10 +296,12 @@ container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
         switch (ENV) {
             case 'PRODUCTION':
                 return new JraRaceDataHtmlGateway();
-            case 'ITa':
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockJraRaceDataHtmlGateway();
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -249,10 +310,12 @@ container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
         switch (ENV) {
             case 'PRODUCTION':
                 return new JraPlaceDataHtmlGateway();
-            case 'ITa':
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockJraPlaceDataHtmlGateway();
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -266,13 +329,21 @@ container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
                     'race-schedule-bucket',
                     'world/',
                 );
-            case 'ITa':
+            case 'TEST':
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<WorldRaceRecord>(
+                    'test-race-schedule-bucket',
+                    'world/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<WorldRaceRecord>(
                     'race-schedule-bucket',
                     'world/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -281,10 +352,12 @@ container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
         switch (ENV) {
             case 'PRODUCTION':
                 return new WorldRaceDataHtmlGateway();
-            case 'ITa':
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockWorldRaceDataHtmlGateway();
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -298,13 +371,21 @@ container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
                     'race-schedule-bucket',
                     'autorace/',
                 );
-            case 'ITa':
+            case 'TEST':
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<AutoraceRaceRecord>(
+                    'test-race-schedule-bucket',
+                    'autorace/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<AutoraceRaceRecord>(
                     'race-schedule-bucket',
                     'autorace/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -316,13 +397,20 @@ container.register<IS3Gateway<AutoracePlaceRecord>>('AutoracePlaceS3Gateway', {
                     'race-schedule-bucket',
                     'autorace/',
                 );
-            case 'ITa':
+            case 'TEST':
+                return new S3Gateway<AutoracePlaceRecord>(
+                    'test-race-schedule-bucket',
+                    'autorace/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<AutoracePlaceRecord>(
                     'race-schedule-bucket',
                     'autorace/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -337,13 +425,21 @@ container.register<IS3Gateway<AutoraceRacePlayerRecord>>(
                         'race-schedule-bucket',
                         'autorace/',
                     );
-                case 'ITa':
+                case 'TEST':
+                    // ENV が production の場合、S3Gateway を使用
+                    return new S3Gateway<AutoraceRacePlayerRecord>(
+                        'test-race-schedule-bucket',
+                        'autorace/',
+                    );
                 case 'LOCAL':
-                default:
+                case 'LOCAL_NO_INIT_DATA':
+                case 'LOCAL_INIT_MADE_DATA':
                     return new MockS3Gateway<AutoraceRacePlayerRecord>(
                         'race-schedule-bucket',
                         'autorace/',
                     );
+                default:
+                    throw new Error('Invalid ENV value');
             }
         },
     },
@@ -355,10 +451,12 @@ container.register<IAutoracePlaceDataHtmlGateway>(
             switch (ENV) {
                 case 'PRODUCTION':
                     return new AutoracePlaceDataHtmlGateway();
-                case 'ITa':
                 case 'LOCAL':
-                default:
+                case 'LOCAL_NO_INIT_DATA':
+                case 'LOCAL_INIT_MADE_DATA':
                     return new MockAutoracePlaceDataHtmlGateway();
+                default:
+                    throw new Error('Invalid ENV value');
             }
         },
     },
@@ -370,10 +468,12 @@ container.register<IAutoraceRaceDataHtmlGateway>(
             switch (ENV) {
                 case 'PRODUCTION':
                     return new AutoraceRaceDataHtmlGateway();
-                case 'ITa':
                 case 'LOCAL':
-                default:
+                case 'LOCAL_NO_INIT_DATA':
+                case 'LOCAL_INIT_MADE_DATA':
                     return new MockAutoraceRaceDataHtmlGateway();
+                default:
+                    throw new Error('Invalid ENV value');
             }
         },
     },
@@ -387,13 +487,20 @@ container.register<IS3Gateway<BoatracePlaceRecord>>('BoatracePlaceS3Gateway', {
                     'race-schedule-bucket',
                     'boatrace/',
                 );
-            case 'ITa':
+            case 'TEST':
+                return new S3Gateway<BoatracePlaceRecord>(
+                    'test-race-schedule-bucket',
+                    'boatrace/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<BoatracePlaceRecord>(
                     'race-schedule-bucket',
                     'boatrace/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -406,13 +513,21 @@ container.register<IS3Gateway<BoatraceRaceRecord>>('BoatraceRaceS3Gateway', {
                     'race-schedule-bucket',
                     'boatrace/',
                 );
-            case 'ITa':
+            case 'TEST':
+                // ENV が production の場合、S3Gateway を使用
+                return new S3Gateway<BoatraceRaceRecord>(
+                    'test-race-schedule-bucket',
+                    'boatrace/',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 return new MockS3Gateway<BoatraceRaceRecord>(
                     'race-schedule-bucket',
                     'boatrace/',
                 );
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -427,13 +542,21 @@ container.register<IS3Gateway<BoatraceRacePlayerRecord>>(
                         'race-schedule-bucket',
                         'boatrace/',
                     );
-                case 'ITa':
+                case 'TEST':
+                    // ENV が production の場合、S3Gateway を使用
+                    return new S3Gateway<BoatraceRacePlayerRecord>(
+                        'test-race-schedule-bucket',
+                        'boatrace/',
+                    );
                 case 'LOCAL':
-                default:
+                case 'LOCAL_NO_INIT_DATA':
+                case 'LOCAL_INIT_MADE_DATA':
                     return new MockS3Gateway<BoatraceRacePlayerRecord>(
                         'race-schedule-bucket',
                         'boatrace/',
                     );
+                default:
+                    throw new Error('Invalid ENV value');
             }
         },
     },
@@ -445,8 +568,10 @@ container.register<IBoatracePlaceDataHtmlGateway>(
             switch (ENV) {
                 case 'PRODUCTION':
                     return new BoatracePlaceDataHtmlGateway();
-                default:
+                case 'LOCAL':
                     return new MockBoatracePlaceDataHtmlGateway();
+                default:
+                    throw new Error('Invalid ENV value');
             }
         },
     },
@@ -458,8 +583,10 @@ container.register<IBoatraceRaceDataHtmlGateway>(
             switch (ENV) {
                 case 'PRODUCTION':
                     return new BoatraceRaceDataHtmlGateway();
-                default:
+                case 'LOCAL':
                     return new MockBoatraceRaceDataHtmlGateway();
+                default:
+                    throw new Error('Invalid ENV value');
             }
         },
     },

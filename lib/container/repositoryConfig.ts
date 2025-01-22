@@ -163,7 +163,9 @@ switch (ENV) {
             useClass: BoatraceRaceRepositoryFromHtmlImpl,
         });
         break;
-    case 'ITa':
+    case 'TEST':
+    case 'LOCAL_NO_INIT_DATA':
+    case 'LOCAL_INIT_MADE_DATA':
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromHtml',
             { useClass: MockNarRaceRepositoryFromHtmlImpl },
@@ -212,4 +214,6 @@ switch (ENV) {
             useClass: MockBoatraceRaceRepositoryFromHtmlImpl,
         });
         break;
+    default:
+        throw new Error('Invalid ENV value');
 }

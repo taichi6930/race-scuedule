@@ -40,11 +40,19 @@ container.register<ICalendarService<NarRaceEntity>>('NarCalendarService', {
                     'nar',
                     process.env.NAR_CALENDAR_ID ?? '',
                 );
-            case 'ITa':
+            case 'TEST':
+                // ENV が test の場合、GoogleCalendarService を使用
+                return new GoogleCalendarService<NarRaceEntity>(
+                    'nar',
+                    process.env.TEST_CALENDAR_ID ?? '',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 // ENV が指定されていない場合も MockGoogleCalendarService を使用
                 return new MockGoogleCalendarService('nar');
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -58,11 +66,19 @@ container.register<ICalendarService<JraRaceEntity>>('JraCalendarService', {
                     'jra',
                     process.env.JRA_CALENDAR_ID ?? '',
                 );
-            case 'ITa':
+            case 'TEST':
+                // ENV が test の場合、GoogleCalendarService を使用
+                return new GoogleCalendarService<JraRaceEntity>(
+                    'jra',
+                    process.env.TEST_CALENDAR_ID ?? '',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 // ENV が指定されていない場合も MockGoogleCalendarService を使用
                 return new MockGoogleCalendarService('jra');
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -78,11 +94,19 @@ container.register<ICalendarService<KeirinRaceEntity>>(
                         'keirin',
                         process.env.KEIRIN_CALENDAR_ID ?? '',
                     );
-                case 'ITa':
+                case 'TEST':
+                    // ENV が test の場合、GoogleCalendarService を使用
+                    return new GoogleCalendarService<KeirinRaceEntity>(
+                        'keirin',
+                        process.env.TEST_CALENDAR_ID ?? '',
+                    );
                 case 'LOCAL':
-                default:
+                case 'LOCAL_NO_INIT_DATA':
+                case 'LOCAL_INIT_MADE_DATA':
                     // ENV が指定されていない場合も MockGoogleCalendarService を使用
                     return new MockGoogleCalendarService('keirin');
+                default:
+                    throw new Error('Invalid ENV value');
             }
         },
     },
@@ -97,11 +121,19 @@ container.register<ICalendarService<WorldRaceEntity>>('WorldCalendarService', {
                     'world',
                     process.env.WORLD_CALENDAR_ID ?? '',
                 );
-            case 'ITa':
+            case 'TEST':
+                // ENV が test の場合、GoogleCalendarService を使用
+                return new GoogleCalendarService<WorldRaceEntity>(
+                    'world',
+                    process.env.TEST_CALENDAR_ID ?? '',
+                );
             case 'LOCAL':
-            default:
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
                 // ENV が指定されていない場合も MockGoogleCalendarService を使用
                 return new MockGoogleCalendarService('world');
+            default:
+                throw new Error('Invalid ENV value');
         }
     },
 });
@@ -117,11 +149,19 @@ container.register<ICalendarService<AutoraceRaceEntity>>(
                         'autorace',
                         process.env.AUTORACE_CALENDAR_ID ?? '',
                     );
-                case 'ITa':
+                case 'TEST':
+                    // ENV が test の場合、GoogleCalendarService を使用
+                    return new GoogleCalendarService<AutoraceRaceEntity>(
+                        'autorace',
+                        process.env.TEST_CALENDAR_ID ?? '',
+                    );
                 case 'LOCAL':
-                default:
+                case 'LOCAL_NO_INIT_DATA':
+                case 'LOCAL_INIT_MADE_DATA':
                     // ENV が指定されていない場合も MockGoogleCalendarService を使用
                     return new MockGoogleCalendarService('autorace');
+                default:
+                    throw new Error('Invalid ENV value');
             }
         },
     },
@@ -138,11 +178,19 @@ container.register<ICalendarService<BoatraceRaceEntity>>(
                         'boatrace',
                         process.env.BOATRACE_CALENDAR_ID ?? '',
                     );
-                case 'ITa':
+                case 'TEST':
+                    // ENV が test の場合、GoogleCalendarService を使用
+                    return new GoogleCalendarService<BoatraceRaceEntity>(
+                        'boatrace',
+                        process.env.TEST_CALENDAR_ID ?? '',
+                    );
                 case 'LOCAL':
-                default:
+                case 'LOCAL_NO_INIT_DATA':
+                case 'LOCAL_INIT_MADE_DATA':
                     // ENV が指定されていない場合も MockGoogleCalendarService を使用
                     return new MockGoogleCalendarService('boatrace');
+                default:
+                    throw new Error('Invalid ENV value');
             }
         },
     },
