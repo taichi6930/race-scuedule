@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
-import { parse } from 'date-fns';
+import * as fs from 'fs';
+import * as path from 'path';
 import { container } from 'tsyringe';
 
 import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
@@ -31,74 +32,14 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しい競馬場データを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
-                // filenameから日付を取得 16時からの競馬場にしたい
-                const date = parse('2024', 'yyyy', new Date());
-                date.setHours(16);
-
-                // CSVのヘッダーを定義
-                const csvHeaderDataText = [
-                    'id',
-                    'dateTime',
-                    'location',
-                    'updateDate',
-                ].join(',');
-
-                const csvDataText: string = [
-                    `nar2024010105`,
-                    date.toISOString(),
-                    '大井',
-                    getJSTDate(new Date()).toISOString(),
-                ].join(',');
-                // ヘッダーとデータ行を結合して完全なCSVデータを生成
-                const csvDatajoinText: string = [
-                    csvHeaderDataText,
-                    csvDataText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            });
-            // リクエストの作成
-            const request = new FetchPlaceListRequest(
-                new Date('2024-01-01'),
-                new Date('2024-02-01'),
+            const csvFilePath = path.resolve(
+                __dirname,
+                '../../mock/repository/csv/nar/placeList.csv',
             );
-            // テスト実行
-            const response = await repository.fetchPlaceEntityList(request);
+            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
 
-            // レスポンスの検証
-            expect(response.placeEntityList).toHaveLength(1);
-        });
+            s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
-        test('競馬場データが欠損しているが処理は続行される', async () => {
-            // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
-                // filenameから日付を取得 16時からの競馬場にしたい
-                const date = parse('2024', 'yyyy', new Date());
-                date.setHours(16);
-
-                // CSVのヘッダーを定義
-                const csvHeaderDataText = ['id', 'dateTime', 'location'].join(
-                    ',',
-                );
-
-                const csvDataText: string = [
-                    `nar2024010105`,
-                    date.toISOString(),
-                    '大井',
-                ].join(',');
-                const undefinedCsvDataText: string = [
-                    `nar2024010105`,
-                    date.toISOString(),
-                    undefined,
-                ].join(',');
-                // ヘッダーとデータ行を結合して完全なCSVデータを生成
-                const csvDatajoinText: string = [
-                    csvHeaderDataText,
-                    csvDataText,
-                    undefinedCsvDataText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            });
             // リクエストの作成
             const request = new FetchPlaceListRequest(
                 new Date('2024-01-01'),

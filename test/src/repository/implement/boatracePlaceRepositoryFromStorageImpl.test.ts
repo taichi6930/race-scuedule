@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
-import { parse } from 'date-fns';
-import { format } from 'date-fns';
+import * as fs from 'fs';
+import * as path from 'path';
 import { container } from 'tsyringe';
 
 import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData';
@@ -11,7 +11,6 @@ import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatr
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
-import { BoatracePlaceCodeMap } from '../../../../lib/src/utility/data/boatrace/boatraceRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForBoatracePlace } from '../../mock/gateway/s3GatewayMock';
 
@@ -33,45 +32,14 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しいボートレース場データを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
-                // filenameから日付を取得 16時からのボートレース場にしたい
-                const date = parse('202401', 'yyyyMM', new Date());
-                date.setHours(16);
+            const csvFilePath = path.resolve(
+                __dirname,
+                '../../mock/repository/csv/boatrace/placeList.csv',
+            );
+            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
 
-                // CSVのヘッダーを定義
-                const csvHeaderDataText = [
-                    'dateTime',
-                    'location',
-                    'grade',
-                    'id',
-                    'updateDate',
-                ].join(',');
+            s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
-                // データ行を生成
-                const csvDataText: string = [
-                    format(date, 'yyyy-MM-dd HH:mm:ss'),
-                    '平和島',
-                    'SG',
-                    `boatrace${format(date, 'yyyyMMdd')}${BoatracePlaceCodeMap['平和島']}`,
-                    getJSTDate(new Date()).toISOString(),
-                ].join(',');
-                // データ行を生成
-                const csvUndefinedDataText: string = [
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined,
-                ].join(',');
-
-                // ヘッダーとデータ行を結合して完全なCSVデータを生成
-                const csvDatajoinText: string = [
-                    csvHeaderDataText,
-                    csvDataText,
-                    csvUndefinedDataText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            });
             // リクエストの作成
             const request = new FetchPlaceListRequest(
                 new Date('2024-01-01'),
