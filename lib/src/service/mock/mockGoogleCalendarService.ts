@@ -32,10 +32,10 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
     private setCalendarData(): void {
         switch (ENV) {
             case 'PRODUCTION': // ENV が production の場合、GoogleCalendarService を使用
-            case 'ITa': // ENV が ita の場合、データを後で設定したいので何もしない
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA': // ENV が ita の場合、データを後で設定したいので何もしない
                 break;
             case 'LOCAL':
-            default:
                 {
                     // 2024年のデータ366日分を作成
                     const startDate = new Date('2024-01-01');
@@ -108,6 +108,8 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
                     }
                 }
                 break;
+            default:
+                throw new Error('Invalid ENV value');
         }
     }
 
