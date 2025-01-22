@@ -11,6 +11,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.731.1
         version: 3.731.1
+      '@cdktf/provider-aws':
+        specifier: ^19.50.0
+        version: 19.50.0(cdktf@0.20.11(constructs@10.4.2))(constructs@10.4.2)
       '@codegenie/serverless-express':
         specifier: ^4.16.0
         version: 4.16.0
@@ -505,6 +508,13 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+
+  '@cdktf/provider-aws@19.50.0':
+    resolution: {integrity: sha512-7AJHUcYa6iFUpruefnnXA/mj4TQ4iDISdmqV/JPvZVhoMT9qUdVoOZURs1BUgx6kwL9ilPrJP5dEoMx2PjDlFw==}
+    engines: {node: '>= 18.12.0'}
+    peerDependencies:
+      cdktf: ^0.20.0
+      constructs: ^10.3.0
 
   '@codegenie/serverless-express@4.16.0':
     resolution: {integrity: sha512-TlvAHQysphN3OW6Ziz6AD2DnN9IIy/KkKNImZwMJpwGHHqLATi/9hMg8H8VBRg2L15pGt8ad3R6j6mfvHVWrCg==}
@@ -1450,6 +1460,15 @@ packages:
 
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
+
+  cdktf@0.20.11:
+    resolution: {integrity: sha512-YoubhokJ8s60WNrP2+cpQinb0DdMXlaFFDnPPv2A/tcRkzkwO9dWuMiXhhA0XlBJ1qA5pibaonu9Cc4B9JgKuQ==}
+    peerDependencies:
+      constructs: ^10.3.0
+    bundledDependencies:
+      - archiver
+      - json-stable-stringify
+      - semver
 
   chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -4246,6 +4265,11 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
+  '@cdktf/provider-aws@19.50.0(cdktf@0.20.11(constructs@10.4.2))(constructs@10.4.2)':
+    dependencies:
+      cdktf: 0.20.11(constructs@10.4.2)
+      constructs: 10.4.2
+
   '@codegenie/serverless-express@4.16.0': {}
 
   '@cspotcode/source-map-support@0.8.1':
@@ -5480,6 +5504,10 @@ snapshots:
   caniuse-lite@1.0.30001695: {}
 
   ccount@2.0.1: {}
+
+  cdktf@0.20.11(constructs@10.4.2):
+    dependencies:
+      constructs: 10.4.2
 
   chalk@4.1.2:
     dependencies:
