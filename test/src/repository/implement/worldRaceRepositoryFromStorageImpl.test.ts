@@ -1,6 +1,8 @@
 import 'reflect-metadata';
 
-import { format, parse } from 'date-fns';
+import { format } from 'date-fns';
+import * as fs from 'fs';
+import * as path from 'path';
 import { container } from 'tsyringe';
 
 import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
@@ -11,7 +13,6 @@ import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRace
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { WorldPlaceCodeMap } from '../../../../lib/src/utility/data/world/worldRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3GatewayForWorldRace } from '../../mock/gateway/s3GatewayMock';
 
@@ -33,62 +34,14 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('正しいレースデータを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
-                // filenameから日付を取得 16時からのレースにしたい
-                const date = parse('20240101', 'yyyyMMdd', new Date());
-                date.setHours(16);
-                const csvHeaderDataText: string = [
-                    'name',
-                    'dateTime',
-                    'location',
-                    'surfaceType',
-                    'distance',
-                    'grade',
-                    'number',
-                    'id',
-                    'updateDate',
-                ].join(',');
-                const csvDataText: string = [
-                    `raceName20240101`,
-                    date.toISOString(),
-                    'パリロンシャン',
-                    '芝',
-                    '2400',
-                    'GⅠ',
-                    '1',
-                    `world${format(date, 'yyyyMMdd')}${WorldPlaceCodeMap['パリロンシャン']}01`,
-                    getJSTDate(new Date()).toISOString(),
-                ].join(',');
-                const csvDataRameNameUndefinedText: string = [
-                    undefined,
-                    date.toISOString(),
-                    'パリロンシャン',
-                    '芝',
-                    '2400',
-                    'GⅠ',
-                    '1',
-                    `world${format(date, 'yyyyMMdd')}${WorldPlaceCodeMap['パリロンシャン']}01`,
-                    getJSTDate(new Date()).toISOString(),
-                ].join(',');
-                const csvDataNumUndefinedText: string = [
-                    `raceName20240101`,
-                    date.toISOString(),
-                    'パリロンシャン',
-                    '芝',
-                    '2400',
-                    'GⅠ',
-                    undefined,
-                    `world${format(date, 'yyyyMMdd')}${WorldPlaceCodeMap['パリロンシャン']}01`,
-                    getJSTDate(new Date()).toISOString(),
-                ].join(',');
-                const csvDatajoinText: string = [
-                    csvHeaderDataText,
-                    csvDataText,
-                    csvDataRameNameUndefinedText,
-                    csvDataNumUndefinedText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            });
+            const csvFilePath = path.resolve(
+                __dirname,
+                '../../mock/repository/csv/world/raceList.csv',
+            );
+            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+
+            s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
+
             // リクエストの作成
             const request = new FetchRaceListRequest<WorldPlaceEntity>(
                 new Date('2024-01-01'),
@@ -131,36 +84,13 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             ).flat();
 
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
-                // filenameから日付を取得 16時からのレースにしたい
-                const date = parse('20240101', 'yyyyMMdd', new Date());
-                date.setHours(16);
-                const csvHeaderDataText: string = [
-                    'name',
-                    'dateTime',
-                    'location',
-                    'surfaceType',
-                    'distance',
-                    'grade',
-                    'number',
-                    'id',
-                ].join(',');
-                const csvDataText: string = [
-                    `raceName20240101`,
-                    date.toISOString(),
-                    'パリロンシャン',
-                    '芝',
-                    '2400',
-                    'GⅠ',
-                    '1',
-                    `world${format(date, 'yyyyMMdd')}${WorldPlaceCodeMap['パリロンシャン']}01`,
-                ].join(',');
-                const csvDatajoinText: string = [
-                    csvHeaderDataText,
-                    csvDataText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            });
+            const csvFilePath = path.resolve(
+                __dirname,
+                '../../mock/repository/csv/world/raceList.csv',
+            );
+            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+
+            s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // リクエストの作成
             const request = new RegisterRaceListRequest<WorldRaceEntity>(
