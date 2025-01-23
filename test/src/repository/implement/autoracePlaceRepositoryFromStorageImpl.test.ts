@@ -55,24 +55,6 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
 
     describe('registerPlaceList', () => {
         test('正しいオートレース場データを登録できる', async () => {
-            // 1年間のオートレース場データを登録する
-            const placeEntityList: AutoracePlaceEntity[] = Array.from(
-                { length: 366 },
-                (_, day) => {
-                    const date = new Date('2024-01-01');
-                    date.setDate(date.getDate() + day);
-                    return Array.from(
-                        { length: 12 },
-                        () =>
-                            new AutoracePlaceEntity(
-                                null,
-                                AutoracePlaceData.create(date, '飯塚', 'SG'),
-                                getJSTDate(new Date()),
-                            ),
-                    );
-                },
-            ).flat();
-
             // リクエストの作成
             const request = new RegisterPlaceListRequest<AutoracePlaceEntity>(
                 placeEntityList,
@@ -84,4 +66,22 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
+
+    // 1年間のオートレース場データを登録する
+    const placeEntityList: AutoracePlaceEntity[] = Array.from(
+        { length: 366 },
+        (_, day) => {
+            const date = new Date('2024-01-01');
+            date.setDate(date.getDate() + day);
+            return Array.from(
+                { length: 12 },
+                () =>
+                    new AutoracePlaceEntity(
+                        null,
+                        AutoracePlaceData.create(date, '飯塚', 'SG'),
+                        getJSTDate(new Date()),
+                    ),
+            );
+        },
+    ).flat();
 });

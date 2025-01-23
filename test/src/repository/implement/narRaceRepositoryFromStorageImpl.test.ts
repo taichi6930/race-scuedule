@@ -57,32 +57,6 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
 
     describe('registerRaceList', () => {
         test('DBが空データのところに、正しいレースデータを登録できる', async () => {
-            // 1年間のレースデータを登録する
-            const raceEntityList: NarRaceEntity[] = Array.from(
-                { length: 366 },
-                (_, day) => {
-                    const date = new Date('2024-01-01');
-                    date.setDate(date.getDate() + day);
-                    return Array.from(
-                        { length: 12 },
-                        (__, j) =>
-                            new NarRaceEntity(
-                                null,
-                                NarRaceData.create(
-                                    `raceName${format(date, 'yyyyMMdd')}`,
-                                    date,
-                                    '大井',
-                                    'ダート',
-                                    1200,
-                                    'GⅠ',
-                                    j + 1,
-                                ),
-                                getJSTDate(new Date()),
-                            ),
-                    );
-                },
-            ).flat();
-
             // リクエストの作成
             const request = new RegisterRaceListRequest<NarRaceEntity>(
                 raceEntityList,
@@ -96,32 +70,6 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
     });
 
     test('DBにデータの存在するところに、正しいレースデータを登録できる', async () => {
-        // 1年間のレースデータを登録する
-        const raceEntityList: NarRaceEntity[] = Array.from(
-            { length: 366 },
-            (_, day) => {
-                const date = new Date('2024-01-01');
-                date.setDate(date.getDate() + day);
-                return Array.from(
-                    { length: 12 },
-                    (__, j) =>
-                        new NarRaceEntity(
-                            null,
-                            NarRaceData.create(
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                date,
-                                '大井',
-                                'ダート',
-                                1200,
-                                'GⅠ',
-                                j + 1,
-                            ),
-                            getJSTDate(new Date()),
-                        ),
-                );
-            },
-        ).flat();
-
         // モックの戻り値を設定
         const csvFilePath = path.resolve(
             __dirname,
@@ -141,4 +89,30 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
         // uploadDataToS3が366回呼ばれることを検証
         expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
     });
+
+    // 1年間のレースデータを登録する
+    const raceEntityList: NarRaceEntity[] = Array.from(
+        { length: 366 },
+        (_, day) => {
+            const date = new Date('2024-01-01');
+            date.setDate(date.getDate() + day);
+            return Array.from(
+                { length: 12 },
+                (__, j) =>
+                    new NarRaceEntity(
+                        null,
+                        NarRaceData.create(
+                            `raceName${format(date, 'yyyyMMdd')}`,
+                            date,
+                            '大井',
+                            'ダート',
+                            1200,
+                            'GⅠ',
+                            j + 1,
+                        ),
+                        getJSTDate(new Date()),
+                    ),
+            );
+        },
+    ).flat();
 });

@@ -55,24 +55,6 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
 
     describe('registerPlaceList', () => {
         test('正しい競馬場データを登録できる', async () => {
-            // 1年間の競馬場データを登録する
-            const placeEntityList: JraPlaceEntity[] = Array.from(
-                { length: 366 },
-                (_, day) => {
-                    const date = new Date('2024-01-01');
-                    date.setDate(date.getDate() + day);
-                    return Array.from(
-                        { length: 12 },
-                        () =>
-                            new JraPlaceEntity(
-                                null,
-                                JraPlaceData.create(date, '東京', 1, 1),
-                                getJSTDate(new Date()),
-                            ),
-                    );
-                },
-            ).flat();
-
             // リクエストの作成
             const request = new RegisterPlaceListRequest<JraPlaceEntity>(
                 placeEntityList,
@@ -84,4 +66,22 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
+
+    // 1年間の競馬場データを登録する
+    const placeEntityList: JraPlaceEntity[] = Array.from(
+        { length: 366 },
+        (_, day) => {
+            const date = new Date('2024-01-01');
+            date.setDate(date.getDate() + day);
+            return Array.from(
+                { length: 12 },
+                () =>
+                    new JraPlaceEntity(
+                        null,
+                        JraPlaceData.create(date, '東京', 1, 1),
+                        getJSTDate(new Date()),
+                    ),
+            );
+        },
+    ).flat();
 });

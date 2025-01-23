@@ -55,24 +55,6 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
 
     describe('registerPlaceList', () => {
         test('正しいボートレース場データを登録できる', async () => {
-            // 1年間のボートレース場データを登録する
-            const placeEntityList: BoatracePlaceEntity[] = Array.from(
-                { length: 366 },
-                (_, day) => {
-                    const date = new Date('2024-01-01');
-                    date.setDate(date.getDate() + day);
-                    return Array.from(
-                        { length: 12 },
-                        () =>
-                            new BoatracePlaceEntity(
-                                null,
-                                BoatracePlaceData.create(date, '平和島', 'SG'),
-                                getJSTDate(new Date()),
-                            ),
-                    );
-                },
-            ).flat();
-
             // リクエストの作成
             const request = new RegisterPlaceListRequest<BoatracePlaceEntity>(
                 placeEntityList,
@@ -84,4 +66,22 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
+
+    // 1年間のボートレース場データを登録する
+    const placeEntityList: BoatracePlaceEntity[] = Array.from(
+        { length: 366 },
+        (_, day) => {
+            const date = new Date('2024-01-01');
+            date.setDate(date.getDate() + day);
+            return Array.from(
+                { length: 12 },
+                () =>
+                    new BoatracePlaceEntity(
+                        null,
+                        BoatracePlaceData.create(date, '平和島', 'SG'),
+                        getJSTDate(new Date()),
+                    ),
+            );
+        },
+    ).flat();
 });
