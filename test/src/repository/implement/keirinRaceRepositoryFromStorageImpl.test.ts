@@ -1,6 +1,8 @@
 import 'reflect-metadata';
 
-import { format, parse } from 'date-fns';
+import { format } from 'date-fns';
+import * as fs from 'fs';
+import * as path from 'path';
 import { container } from 'tsyringe';
 
 import { KeirinRaceData } from '../../../../lib/src/domain/keirinRaceData';
@@ -12,7 +14,6 @@ import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRa
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { KeirinPlaceCodeMap } from '../../../../lib/src/utility/data/keirin/keirinRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 import {
@@ -44,106 +45,25 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('正しいレースデータを取得できる', async () => {
             // モックの戻り値を設定
-            raceS3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse('20240101', 'yyyyMMdd', new Date());
-                    date.setHours(16);
-                    const csvHeaderDataText: string = [
-                        'name',
-                        'stage',
-                        'dateTime',
-                        'location',
-                        'grade',
-                        'number',
-                        'id',
-                        'updateDate',
-                    ].join(',');
-                    const csvDataText: string = [
-                        `raceName20240101`,
-                        `S級決勝`,
-                        date.toISOString(),
-                        '平塚',
-                        'GⅠ',
-                        '1',
-                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataRameNameUndefinedText: string = [
-                        undefined,
-                        `S級決勝`,
-                        date.toISOString(),
-                        '平塚',
-                        'GⅠ',
-                        '1',
-                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataNumUndefinedText: string = [
-                        `raceName${filename.slice(0, 8)}`,
-                        `S級決勝`,
-                        date.toISOString(),
-                        '平塚',
-                        'GⅠ',
-                        undefined,
-                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                        undefined,
-                    ].join(',');
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                        csvDataRameNameUndefinedText,
-                        csvDataNumUndefinedText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
+            const csvFilePath = path.resolve(
+                __dirname,
+                '../../mock/repository/csv/keirin/raceList.csv',
             );
-            racePlayerS3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse(
-                        filename.slice(0, 8),
-                        'yyyyMMdd',
-                        new Date(),
-                    );
-                    date.setHours(16);
-                    const csvHeaderDataText: string = [
-                        'id',
-                        'raceId',
-                        'positionNumber',
-                        'playerNumber',
-                        'updateDate',
-                    ].join(',');
-                    const csvDataText: string = [
-                        `keirin20240101${KeirinPlaceCodeMap['平塚']}0101`,
-                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                        '1',
-                        '999999',
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataRameNameUndefinedText: string = [
-                        undefined,
-                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                        '1',
-                        '1',
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataNumUndefinedText: string = [
-                        `keirin20240101${KeirinPlaceCodeMap['平塚']}0101`,
-                        `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                        null,
-                        '1',
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                        csvDataRameNameUndefinedText,
-                        csvDataNumUndefinedText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
+            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+
+            raceS3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
+
+            // モックの戻り値を設定
+            racePlayerS3Gateway.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/keirin/racePlayerList.csv',
+                    ),
+                    'utf-8',
+                ),
             );
+
             // リクエストの作成
             const request = new FetchRaceListRequest<KeirinPlaceEntity>(
                 new Date('2024-01-01'),
@@ -225,97 +145,23 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
         ).flat();
 
         // モックの戻り値を設定
-        raceS3Gateway.fetchDataFromS3.mockImplementation(
-            async (filename: string) => {
-                // filenameから日付を取得 16時からのレースにしたい
-                const date = parse('20240101', 'yyyyMMdd', new Date());
-                date.setHours(16);
-                const csvHeaderDataText: string = [
-                    'name',
-                    'stage',
-                    'dateTime',
-                    'location',
-                    'grade',
-                    'number',
-                    'id',
-                ].join(',');
-                const csvDataText: string = [
-                    `raceName20240101`,
-                    `S級決勝`,
-                    date.toISOString(),
-                    '平塚',
-                    'GⅠ',
-                    '1',
-                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                ].join(',');
-                const csvDataRameNameUndefinedText: string = [
-                    undefined,
-                    `S級決勝`,
-                    date.toISOString(),
-                    '平塚',
-                    'GⅠ',
-                    '1',
-                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                ].join(',');
-                const csvDataNumUndefinedText: string = [
-                    `raceName${filename.slice(0, 8)}`,
-                    `S級決勝`,
-                    date.toISOString(),
-                    '平塚',
-                    'GⅠ',
-                    undefined,
-                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                ].join(',');
-                const csvDatajoinText: string = [
-                    csvHeaderDataText,
-                    csvDataText,
-                    csvDataRameNameUndefinedText,
-                    csvDataNumUndefinedText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            },
+        const csvFilePath = path.resolve(
+            __dirname,
+            '../../mock/repository/csv/keirin/raceList.csv',
         );
-        racePlayerS3Gateway.fetchDataFromS3.mockImplementation(
-            async (filename: string) => {
-                // filenameから日付を取得 16時からのレースにしたい
-                const date = parse(
-                    filename.slice(0, 8),
-                    'yyyyMMdd',
-                    new Date(),
-                );
-                date.setHours(16);
-                const csvHeaderDataText: string = [
-                    'id',
-                    'raceId',
-                    'positionNumber',
-                    'playerNumber',
-                ].join(',');
-                const csvDataText: string = [
-                    `keirin20240101${KeirinPlaceCodeMap['平塚']}0101`,
-                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                    '1',
-                    '999999',
-                ].join(',');
-                const csvDataRameNameUndefinedText: string = [
-                    undefined,
-                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                    '1',
-                    '1',
-                ].join(',');
-                const csvDataNumUndefinedText: string = [
-                    `keirin20240101${KeirinPlaceCodeMap['平塚']}0101`,
-                    `keirin20240101${KeirinPlaceCodeMap['平塚']}01`,
-                    null,
-                    '1',
-                ].join(',');
-                const csvDatajoinText: string = [
-                    csvHeaderDataText,
-                    csvDataText,
-                    csvDataRameNameUndefinedText,
-                    csvDataNumUndefinedText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            },
+        const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+
+        raceS3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
+
+        // モックの戻り値を設定
+        racePlayerS3Gateway.fetchDataFromS3.mockResolvedValue(
+            fs.readFileSync(
+                path.resolve(
+                    __dirname,
+                    '../../mock/repository/csv/keirin/racePlayerList.csv',
+                ),
+                'utf-8',
+            ),
         );
 
         // リクエストの作成

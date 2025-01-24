@@ -203,7 +203,6 @@ export class BoatraceRaceRepositoryFromStorageImpl
                 try {
                     const columns = line.split(',');
 
-                    // updateDateが存在しない場合は現在時刻を設定
                     const updateDate = columns[indices.updateDate]
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
@@ -218,8 +217,8 @@ export class BoatraceRaceRepositoryFromStorageImpl
                         parseInt(columns[indices.number]),
                         updateDate,
                     );
-                } catch (e) {
-                    console.error(e);
+                } catch (error) {
+                    console.error('BoatraceRaceRecord create error', error);
                     return undefined;
                 }
             })
@@ -268,7 +267,6 @@ export class BoatraceRaceRepositoryFromStorageImpl
                 try {
                     const columns = line.split(',');
 
-                    // updateDateが存在しない場合は現在時刻を設定
                     const updateDate = columns[indices.updateDate]
                         ? new Date(columns[indices.updateDate])
                         : getJSTDate(new Date());
@@ -280,8 +278,11 @@ export class BoatraceRaceRepositoryFromStorageImpl
                         parseInt(columns[indices.playerNumber]),
                         updateDate,
                     );
-                } catch (e) {
-                    console.error(e);
+                } catch (error) {
+                    console.error(
+                        'BoatraceRacePlayerRecord create error',
+                        error,
+                    );
                     return undefined;
                 }
             })

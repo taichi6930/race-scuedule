@@ -1,6 +1,8 @@
 import 'reflect-metadata';
 
-import { format, parse } from 'date-fns';
+import { format } from 'date-fns';
+import * as fs from 'fs';
+import * as path from 'path';
 import { container } from 'tsyringe';
 
 import { AutoraceRaceData } from '../../../../lib/src/domain/autoraceRaceData';
@@ -12,7 +14,6 @@ import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autora
 import { AutoraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { AutoracePlaceCodeMap } from '../../../../lib/src/utility/data/autorace/autoraceRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseAutoraceRacePlayerDataList } from '../../mock/common/baseAutoraceData';
 import {
@@ -44,106 +45,25 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('正しいレースデータを取得できる', async () => {
             // モックの戻り値を設定
-            raceS3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse('20240101', 'yyyyMMdd', new Date());
-                    date.setHours(16);
-                    const csvHeaderDataText: string = [
-                        'name',
-                        'stage',
-                        'dateTime',
-                        'location',
-                        'grade',
-                        'number',
-                        'id',
-                        'updateDate',
-                    ].join(',');
-                    const csvDataText: string = [
-                        `raceName20240101`,
-                        `優勝戦`,
-                        date.toISOString(),
-                        '飯塚',
-                        'GⅠ',
-                        '1',
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        undefined,
-                    ].join(',');
-                    const csvDataRameNameUndefinedText: string = [
-                        undefined,
-                        `優勝戦`,
-                        date.toISOString(),
-                        '飯塚',
-                        'GⅠ',
-                        '1',
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataNumUndefinedText: string = [
-                        `raceName${filename.slice(0, 8)}`,
-                        `優勝戦`,
-                        date.toISOString(),
-                        '飯塚',
-                        'GⅠ',
-                        undefined,
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                        csvDataRameNameUndefinedText,
-                        csvDataNumUndefinedText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
+            const csvFilePath = path.resolve(
+                __dirname,
+                '../../mock/repository/csv/autorace/raceList.csv',
             );
-            racePlayerS3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse(
-                        filename.slice(0, 8),
-                        'yyyyMMdd',
-                        new Date(),
-                    );
-                    date.setHours(16);
-                    const csvHeaderDataText: string = [
-                        'id',
-                        'raceId',
-                        'positionNumber',
-                        'playerNumber',
-                        'updateDate',
-                    ].join(',');
-                    const csvDataText: string = [
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}0101`,
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        '1',
-                        '999999',
-                        undefined,
-                    ].join(',');
-                    const csvDataRameNameUndefinedText: string = [
-                        undefined,
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        '1',
-                        '1',
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataNumUndefinedText: string = [
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}0101`,
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        null,
-                        '1',
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                        csvDataRameNameUndefinedText,
-                        csvDataNumUndefinedText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
+            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+
+            raceS3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
+
+            // モックの戻り値を設定
+            racePlayerS3Gateway.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/autorace/racePlayerList.csv',
+                    ),
+                    'utf-8',
+                ),
             );
+
             // リクエストの作成
             const request = new FetchRaceListRequest<AutoracePlaceEntity>(
                 new Date('2024-01-01'),
@@ -195,141 +115,63 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
             // uploadDataToS3が1回呼ばれることを検証
             expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
+    });
 
-        test('DBにデータがあるところに、正しいレースデータを登録できる', async () => {
-            // 1年間のレースデータを登録する
-            const raceEntityList: AutoraceRaceEntity[] = Array.from(
-                { length: 366 },
-                (_, day) => {
-                    const date = new Date('2024-01-01');
-                    date.setDate(date.getDate() + day);
-                    return Array.from(
-                        { length: 12 },
-                        (__, j) =>
-                            new AutoraceRaceEntity(
-                                null,
-                                AutoraceRaceData.create(
-                                    `raceName${format(date, 'yyyyMMdd')}`,
-                                    `優勝戦`,
-                                    date,
-                                    '飯塚',
-                                    'GⅠ',
-                                    j + 1,
-                                ),
-                                baseAutoraceRacePlayerDataList,
-                                getJSTDate(new Date()),
+    test('DBにデータの存在するところに、正しいレースデータを登録できる', async () => {
+        // 1年間のレースデータを登録する
+        const raceEntityList: AutoraceRaceEntity[] = Array.from(
+            { length: 366 },
+            (_, day) => {
+                const date = new Date('2024-01-01');
+                date.setDate(date.getDate() + day);
+                return Array.from(
+                    { length: 12 },
+                    (__, j) =>
+                        new AutoraceRaceEntity(
+                            null,
+                            AutoraceRaceData.create(
+                                `raceName${format(date, 'yyyyMMdd')}`,
+                                `優勝戦`,
+                                date,
+                                '飯塚',
+                                'GⅠ',
+                                j + 1,
                             ),
-                    );
-                },
-            ).flat();
+                            baseAutoraceRacePlayerDataList,
+                            getJSTDate(new Date()),
+                        ),
+                );
+            },
+        ).flat();
 
-            // モックの戻り値を設定
-            raceS3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse('20240101', 'yyyyMMdd', new Date());
-                    date.setHours(16);
-                    const csvHeaderDataText: string = [
-                        'name',
-                        'stage',
-                        'dateTime',
-                        'location',
-                        'grade',
-                        'number',
-                        'id',
-                        'updateDate',
-                    ].join(',');
-                    const csvDataText: string = [
-                        `raceName20240101`,
-                        `優勝戦`,
-                        date.toISOString(),
-                        '飯塚',
-                        'GⅠ',
-                        '1',
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataRameNameUndefinedText: string = [
-                        undefined,
-                        `優勝戦`,
-                        date.toISOString(),
-                        '飯塚',
-                        'GⅠ',
-                        '1',
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataNumUndefinedText: string = [
-                        `raceName${filename.slice(0, 8)}`,
-                        `優勝戦`,
-                        date.toISOString(),
-                        '飯塚',
-                        'GⅠ',
-                        undefined,
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                        csvDataRameNameUndefinedText,
-                        csvDataNumUndefinedText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
-            );
-            racePlayerS3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse(
-                        filename.slice(0, 8),
-                        'yyyyMMdd',
-                        new Date(),
-                    );
-                    date.setHours(16);
-                    const csvHeaderDataText: string = [
-                        'id',
-                        'raceId',
-                        'positionNumber',
-                        'playerNumber',
-                    ].join(',');
-                    const csvDataText: string = [
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}0101`,
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        '1',
-                        '999999',
-                    ].join(',');
-                    const csvDataRameNameUndefinedText: string = [
-                        undefined,
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        '1',
-                        '1',
-                    ].join(',');
-                    const csvDataNumUndefinedText: string = [
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}0101`,
-                        `autorace20240101${AutoracePlaceCodeMap['飯塚']}01`,
-                        null,
-                        '1',
-                    ].join(',');
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                        csvDataRameNameUndefinedText,
-                        csvDataNumUndefinedText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
-            );
+        // モックの戻り値を設定
+        const csvFilePath = path.resolve(
+            __dirname,
+            '../../mock/repository/csv/autorace/raceList.csv',
+        );
+        const csvData = fs.readFileSync(csvFilePath, 'utf-8');
 
-            // リクエストの作成
-            const request = new RegisterRaceListRequest<AutoraceRaceEntity>(
-                raceEntityList,
-            );
-            // テスト実行
-            await repository.registerRaceEntityList(request);
+        raceS3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
-            // uploadDataToS3が1回呼ばれることを検証
-            expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
-        });
+        // モックの戻り値を設定
+        racePlayerS3Gateway.fetchDataFromS3.mockResolvedValue(
+            fs.readFileSync(
+                path.resolve(
+                    __dirname,
+                    '../../mock/repository/csv/autorace/racePlayerList.csv',
+                ),
+                'utf-8',
+            ),
+        );
+
+        // リクエストの作成
+        const request = new RegisterRaceListRequest<AutoraceRaceEntity>(
+            raceEntityList,
+        );
+        // テスト実行
+        await repository.registerRaceEntityList(request);
+
+        // uploadDataToS3が1回呼ばれることを検証
+        expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
     });
 });

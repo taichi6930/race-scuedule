@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
-import { parse } from 'date-fns';
+import * as fs from 'fs';
+import * as path from 'path';
 import { container } from 'tsyringe';
 
 import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
@@ -31,44 +32,14 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
     describe('fetchPlaceList', () => {
         test('正しい競馬場データを取得できる', async () => {
             // モックの戻り値を設定
-            s3Gateway.fetchDataFromS3.mockImplementation(async () => {
-                // filenameから日付を取得 16時からの競馬場にしたい
-                const date = parse('2024', 'yyyy', new Date());
-                date.setHours(16);
+            const csvFilePath = path.resolve(
+                __dirname,
+                '../../mock/repository/csv/jra/placeList.csv',
+            );
+            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
 
-                // CSVのヘッダーを定義
-                const csvHeaderDataText = [
-                    'id',
-                    'dateTime',
-                    'location',
-                    'heldTimes',
-                    'heldDayTimes',
-                    'updateDate',
-                ].join(',');
-                const csvDataText: string = [
-                    `jra2024010105`,
-                    date.toISOString(),
-                    '東京',
-                    '1',
-                    '1',
-                    getJSTDate(new Date()).toISOString(),
-                ].join(',');
-                const csvDataIdUndefinedText: string = [
-                    `jra20240101undefined`,
-                    date.toISOString(),
-                    '東京',
-                    '1',
-                    '1',
-                    undefined,
-                ].join(',');
-                // ヘッダーとデータ行を結合して完全なCSVデータを生成
-                const csvDatajoinText: string = [
-                    csvHeaderDataText,
-                    csvDataText,
-                    csvDataIdUndefinedText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            });
+            s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
+
             // リクエストの作成
             const request = new FetchPlaceListRequest(
                 new Date('2024-01-01'),
@@ -84,24 +55,6 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
 
     describe('registerPlaceList', () => {
         test('正しい競馬場データを登録できる', async () => {
-            // 1年間の競馬場データを登録する
-            const placeEntityList: JraPlaceEntity[] = Array.from(
-                { length: 366 },
-                (_, day) => {
-                    const date = new Date('2024-01-01');
-                    date.setDate(date.getDate() + day);
-                    return Array.from(
-                        { length: 12 },
-                        () =>
-                            new JraPlaceEntity(
-                                null,
-                                JraPlaceData.create(date, '東京', 1, 1),
-                                getJSTDate(new Date()),
-                            ),
-                    );
-                },
-            ).flat();
-
             // リクエストの作成
             const request = new RegisterPlaceListRequest<JraPlaceEntity>(
                 placeEntityList,
@@ -113,4 +66,22 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
     });
+
+    // 1年間の競馬場データを登録する
+    const placeEntityList: JraPlaceEntity[] = Array.from(
+        { length: 366 },
+        (_, day) => {
+            const date = new Date('2024-01-01');
+            date.setDate(date.getDate() + day);
+            return Array.from(
+                { length: 12 },
+                () =>
+                    new JraPlaceEntity(
+                        null,
+                        JraPlaceData.create(date, '東京', 1, 1),
+                        getJSTDate(new Date()),
+                    ),
+            );
+        },
+    ).flat();
 });

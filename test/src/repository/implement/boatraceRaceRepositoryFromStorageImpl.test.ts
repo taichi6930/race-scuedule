@@ -1,6 +1,8 @@
 import 'reflect-metadata';
 
-import { format, parse } from 'date-fns';
+import { format } from 'date-fns';
+import * as fs from 'fs';
+import * as path from 'path';
 import { container } from 'tsyringe';
 
 import { BoatraceRaceData } from '../../../../lib/src/domain/boatraceRaceData';
@@ -12,7 +14,6 @@ import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatra
 import { BoatraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
-import { BoatracePlaceCodeMap } from '../../../../lib/src/utility/data/boatrace/boatraceRaceCourse';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceData';
 import {
@@ -44,106 +45,25 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
     describe('fetchRaceList', () => {
         test('正しいレースデータを取得できる', async () => {
             // モックの戻り値を設定
-            raceS3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse('20240101', 'yyyyMMdd', new Date());
-                    date.setHours(16);
-                    const csvHeaderDataText: string = [
-                        'name',
-                        'stage',
-                        'dateTime',
-                        'location',
-                        'grade',
-                        'number',
-                        'id',
-                        'updateDate',
-                    ].join(',');
-                    const csvDataText: string = [
-                        `raceName20240101`,
-                        `優勝戦`,
-                        date.toISOString(),
-                        '平和島',
-                        'GⅠ',
-                        '1',
-                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataRameNameUndefinedText: string = [
-                        undefined,
-                        `優勝戦`,
-                        date.toISOString(),
-                        '平和島',
-                        'GⅠ',
-                        '1',
-                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataNumUndefinedText: string = [
-                        `raceName${filename.slice(0, 8)}`,
-                        `優勝戦`,
-                        date.toISOString(),
-                        '平和島',
-                        'GⅠ',
-                        undefined,
-                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                        undefined,
-                    ].join(',');
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                        csvDataRameNameUndefinedText,
-                        csvDataNumUndefinedText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
+            const csvFilePath = path.resolve(
+                __dirname,
+                '../../mock/repository/csv/boatrace/raceList.csv',
             );
-            racePlayerS3Gateway.fetchDataFromS3.mockImplementation(
-                async (filename: string) => {
-                    // filenameから日付を取得 16時からのレースにしたい
-                    const date = parse(
-                        filename.slice(0, 8),
-                        'yyyyMMdd',
-                        new Date(),
-                    );
-                    date.setHours(16);
-                    const csvHeaderDataText: string = [
-                        'id',
-                        'raceId',
-                        'positionNumber',
-                        'playerNumber',
-                        'updateDate',
-                    ].join(',');
-                    const csvDataText: string = [
-                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}0101`,
-                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                        '1',
-                        '999999',
-                        undefined,
-                    ].join(',');
-                    const csvDataRameNameUndefinedText: string = [
-                        undefined,
-                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                        '1',
-                        '1',
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDataNumUndefinedText: string = [
-                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}0101`,
-                        `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                        null,
-                        '1',
-                        getJSTDate(new Date()).toISOString(),
-                    ].join(',');
-                    const csvDatajoinText: string = [
-                        csvHeaderDataText,
-                        csvDataText,
-                        csvDataRameNameUndefinedText,
-                        csvDataNumUndefinedText,
-                    ].join('\n');
-                    return Promise.resolve(csvDatajoinText);
-                },
+            const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+
+            raceS3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
+
+            // モックの戻り値を設定
+            racePlayerS3Gateway.fetchDataFromS3.mockResolvedValue(
+                fs.readFileSync(
+                    path.resolve(
+                        __dirname,
+                        '../../mock/repository/csv/boatrace/racePlayerList.csv',
+                    ),
+                    'utf-8',
+                ),
             );
+
             // リクエストの作成
             const request = new FetchRaceListRequest<BoatracePlaceEntity>(
                 new Date('2024-01-01'),
@@ -197,7 +117,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
         });
     });
 
-    test('DBにデータの存在するときに、正しいレースデータを登録できる', async () => {
+    test('DBにデータの存在するところに、正しいレースデータを登録できる', async () => {
         // 1年間のレースデータを登録する
         const raceEntityList: BoatraceRaceEntity[] = Array.from(
             { length: 366 },
@@ -225,97 +145,23 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
         ).flat();
 
         // モックの戻り値を設定
-        raceS3Gateway.fetchDataFromS3.mockImplementation(
-            async (filename: string) => {
-                // filenameから日付を取得 16時からのレースにしたい
-                const date = parse('20240101', 'yyyyMMdd', new Date());
-                date.setHours(16);
-                const csvHeaderDataText: string = [
-                    'name',
-                    'stage',
-                    'dateTime',
-                    'location',
-                    'grade',
-                    'number',
-                    'id',
-                ].join(',');
-                const csvDataText: string = [
-                    `raceName20240101`,
-                    `優勝戦`,
-                    date.toISOString(),
-                    '平和島',
-                    'GⅠ',
-                    '1',
-                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                ].join(',');
-                const csvDataRameNameUndefinedText: string = [
-                    undefined,
-                    `優勝戦`,
-                    date.toISOString(),
-                    '平和島',
-                    'GⅠ',
-                    '1',
-                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                ].join(',');
-                const csvDataNumUndefinedText: string = [
-                    `raceName${filename.slice(0, 8)}`,
-                    `優勝戦`,
-                    date.toISOString(),
-                    '平和島',
-                    'GⅠ',
-                    undefined,
-                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                ].join(',');
-                const csvDatajoinText: string = [
-                    csvHeaderDataText,
-                    csvDataText,
-                    csvDataRameNameUndefinedText,
-                    csvDataNumUndefinedText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            },
+        const csvFilePath = path.resolve(
+            __dirname,
+            '../../mock/repository/csv/boatrace/raceList.csv',
         );
-        racePlayerS3Gateway.fetchDataFromS3.mockImplementation(
-            async (filename: string) => {
-                // filenameから日付を取得 16時からのレースにしたい
-                const date = parse(
-                    filename.slice(0, 8),
-                    'yyyyMMdd',
-                    new Date(),
-                );
-                date.setHours(16);
-                const csvHeaderDataText: string = [
-                    'id',
-                    'raceId',
-                    'positionNumber',
-                    'playerNumber',
-                ].join(',');
-                const csvDataText: string = [
-                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}0101`,
-                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                    '1',
-                    '999999',
-                ].join(',');
-                const csvDataRameNameUndefinedText: string = [
-                    undefined,
-                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                    '1',
-                    '1',
-                ].join(',');
-                const csvDataNumUndefinedText: string = [
-                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}0101`,
-                    `boatrace20240101${BoatracePlaceCodeMap['平和島']}01`,
-                    null,
-                    '1',
-                ].join(',');
-                const csvDatajoinText: string = [
-                    csvHeaderDataText,
-                    csvDataText,
-                    csvDataRameNameUndefinedText,
-                    csvDataNumUndefinedText,
-                ].join('\n');
-                return Promise.resolve(csvDatajoinText);
-            },
+        const csvData = fs.readFileSync(csvFilePath, 'utf-8');
+
+        raceS3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
+
+        // モックの戻り値を設定
+        racePlayerS3Gateway.fetchDataFromS3.mockResolvedValue(
+            fs.readFileSync(
+                path.resolve(
+                    __dirname,
+                    '../../mock/repository/csv/boatrace/racePlayerList.csv',
+                ),
+                'utf-8',
+            ),
         );
 
         // リクエストの作成
@@ -325,7 +171,7 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
         // テスト実行
         await repository.registerRaceEntityList(request);
 
-        // uploadDataToS3が366回呼ばれることを検証
+        // uploadDataToS3が1回呼ばれることを検証
         expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
     });
 });
