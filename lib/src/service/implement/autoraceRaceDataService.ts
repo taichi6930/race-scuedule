@@ -71,9 +71,7 @@ export class AutoraceRaceDataService
     ): Promise<void> {
         try {
             // EntityListが空の場合は更新処理を行わない
-            if (raceEntityList.length === 0) {
-                return;
-            }
+            if (raceEntityList.length === 0) return;
             const registerRaceListRequest =
                 new RegisterRaceListRequest<AutoraceRaceEntity>(raceEntityList);
             await this.autoraceRaceRepositoryFromStorage.registerRaceEntityList(

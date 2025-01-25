@@ -69,9 +69,7 @@ export class JraRaceDataService
     async updateRaceEntityList(raceEntityList: JraRaceEntity[]): Promise<void> {
         try {
             // EntityListが空の場合は更新処理を行わない
-            if (raceEntityList.length === 0) {
-                return;
-            }
+            if (raceEntityList.length === 0) return;
             const registerRaceListRequest =
                 new RegisterRaceListRequest<JraRaceEntity>(raceEntityList);
             await this.jraRaceRepositoryFromStorage.registerRaceEntityList(
