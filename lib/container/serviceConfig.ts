@@ -15,6 +15,7 @@ import type { WorldRaceEntity } from '../src/repository/entity/worldRaceEntity';
 import { AutoraceGoogleCalendarService } from '../src/service/implement/autoraceGoogleCalendarService';
 import { AutoracePlaceDataService } from '../src/service/implement/autoracePlaceDataService';
 import { AutoraceRaceDataService } from '../src/service/implement/autoraceRaceDataService';
+import { BoatraceGoogleCalendarService } from '../src/service/implement/boatraceGoogleCalendarService';
 import { BoatracePlaceDataService } from '../src/service/implement/boatracePlaceDataService';
 import { BoatraceRaceDataService } from '../src/service/implement/boatraceRaceDataService';
 import { GoogleCalendarService } from '../src/service/implement/googleCalendarService';
@@ -29,6 +30,7 @@ import type { ICalendarService } from '../src/service/interface/ICalendarService
 import type { IPlaceDataService } from '../src/service/interface/IPlaceDataService';
 import type { IRaceDataService } from '../src/service/interface/IRaceDataService';
 import { MockAutoraceGoogleCalendarService } from '../src/service/mock/mockAutoraceGoogleCalendarService';
+import { MockBoatraceGoogleCalendarService } from '../src/service/mock/mockBoatraceGoogleCalendarService';
 import { MockGoogleCalendarService } from '../src/service/mock/mockGoogleCalendarService';
 import { ENV } from '../src/utility/env';
 
@@ -173,22 +175,20 @@ container.register<ICalendarService<BoatraceRaceEntity>>(
         useFactory: () => {
             switch (ENV) {
                 case 'PRODUCTION':
-                    // ENV が production の場合、GoogleCalendarService を使用
-                    return new GoogleCalendarService<BoatraceRaceEntity>(
-                        'boatrace',
+                    // ENV が production の場合、BoatraceGoogleCalendarService を使用
+                    return new BoatraceGoogleCalendarService(
                         process.env.BOATRACE_CALENDAR_ID ?? '',
                     );
                 case 'TEST':
-                    // ENV が test の場合、GoogleCalendarService を使用
-                    return new GoogleCalendarService<BoatraceRaceEntity>(
-                        'boatrace',
+                    // ENV が test の場合、BoatraceGoogleCalendarService を使用
+                    return new BoatraceGoogleCalendarService(
                         process.env.TEST_CALENDAR_ID ?? '',
                     );
                 case 'LOCAL':
                 case 'LOCAL_NO_INIT_DATA':
                 case 'LOCAL_INIT_MADE_DATA':
                     // ENV が指定されていない場合も MockGoogleCalendarService を使用
-                    return new MockGoogleCalendarService('boatrace');
+                    return new MockBoatraceGoogleCalendarService();
                 default:
                     throw new Error('Invalid ENV value');
             }

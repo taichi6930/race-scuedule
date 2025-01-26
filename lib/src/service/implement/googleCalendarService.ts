@@ -8,7 +8,6 @@ import { injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { RaceEntity } from '../../repository/entity/baseEntity';
-import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
@@ -25,7 +24,6 @@ import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import {
-    generateBoatraceRaceId,
     generateJraRaceId,
     generateKeirinRaceId,
     generateNarRaceId,
@@ -33,7 +31,7 @@ import {
 } from '../../utility/raceId';
 import { ICalendarService } from '../interface/ICalendarService';
 
-export type RaceType = 'jra' | 'nar' | 'world' | 'keirin' | 'boatrace';
+export type RaceType = 'jra' | 'nar' | 'world' | 'keirin';
 @injectable()
 export class GoogleCalendarService<R extends RaceEntity>
     implements ICalendarService<R>
@@ -304,14 +302,6 @@ export class GoogleCalendarService<R extends RaceEntity>
                     keirinRaceEntity.raceData.number,
                 );
             }
-            case 'boatrace': {
-                const boatraceRaceEntity = raceEntity as BoatraceRaceEntity;
-                return generateBoatraceRaceId(
-                    boatraceRaceEntity.raceData.dateTime,
-                    boatraceRaceEntity.raceData.location,
-                    boatraceRaceEntity.raceData.number,
-                );
-            }
         }
     }
 
@@ -367,10 +357,6 @@ export class GoogleCalendarService<R extends RaceEntity>
             case 'keirin':
                 return this.translateToCalendarEventForKeirin(
                     raceEntity as KeirinRaceEntity,
-                );
-            case 'boatrace':
-                return this.translateToCalendarEventForBoatrace(
-                    raceEntity as BoatraceRaceEntity,
                 );
         }
     }
@@ -537,50 +523,12 @@ export class GoogleCalendarService<R extends RaceEntity>
     }
 
     /**
-     * レースデータをGoogleカレンダーのイベントに変換する（ボートレース）
-     * @param raceEntity
-     * @returns
-     */
-    private translateToCalendarEventForBoatrace(
-        raceEntity: BoatraceRaceEntity,
-    ): calendar_v3.Schema$Event {
-        return {
-            id: generateBoatraceRaceId(
-                raceEntity.raceData.dateTime,
-                raceEntity.raceData.location,
-                raceEntity.raceData.number,
-            ),
-            summary: `${raceEntity.raceData.stage} ${raceEntity.raceData.name}`,
-            location: `${raceEntity.raceData.location}ボートレース場`,
-            start: {
-                dateTime: formatDate(raceEntity.raceData.dateTime),
-                timeZone: 'Asia/Tokyo',
-            },
-            end: {
-                // 終了時刻は発走時刻から10分後とする
-                dateTime: formatDate(
-                    new Date(
-                        raceEntity.raceData.dateTime.getTime() + 10 * 60 * 1000,
-                    ),
-                ),
-                timeZone: 'Asia/Tokyo',
-            },
-            colorId: this.getColorId(raceEntity.raceData.grade),
-            description:
-                `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
-                更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
-        `.replace(/\n\s+/g, '\n'),
-        };
-    }
-
-    /**
      * Googleカレンダーのイベントの色IDを取得する
      * @param raceGrade
      * @returns
      */
     private getColorId(raceGrade: string): string {
         const gradeColorMap: Record<string, string> = {
-            'SG': '9',
             'GP': '9',
             'GⅠ': '9',
             'PGⅠ': '9',
