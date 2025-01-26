@@ -7,7 +7,6 @@ import { calendar_v3, google } from 'googleapis';
 import { injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { RaceEntity } from '../../repository/entity/baseEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
@@ -26,7 +25,6 @@ import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import {
-    generateAutoraceRaceId,
     generateBoatraceRaceId,
     generateJraRaceId,
     generateKeirinRaceId,
@@ -40,8 +38,8 @@ export type RaceType =
     | 'nar'
     | 'world'
     | 'keirin'
-    | 'autorace'
-    | 'boatrace';
+    | 'boatrace'
+    | 'autorace';
 @injectable()
 export class GoogleCalendarService<R extends RaceEntity>
     implements ICalendarService<R>
@@ -312,14 +310,6 @@ export class GoogleCalendarService<R extends RaceEntity>
                     keirinRaceEntity.raceData.number,
                 );
             }
-            case 'autorace': {
-                const autoraceRaceEntity = raceEntity as AutoraceRaceEntity;
-                return generateAutoraceRaceId(
-                    autoraceRaceEntity.raceData.dateTime,
-                    autoraceRaceEntity.raceData.location,
-                    autoraceRaceEntity.raceData.number,
-                );
-            }
             case 'boatrace': {
                 const boatraceRaceEntity = raceEntity as BoatraceRaceEntity;
                 return generateBoatraceRaceId(
@@ -328,6 +318,8 @@ export class GoogleCalendarService<R extends RaceEntity>
                     boatraceRaceEntity.raceData.number,
                 );
             }
+            case 'autorace':
+                throw new Error('Not implemented');
         }
     }
 
@@ -384,14 +376,12 @@ export class GoogleCalendarService<R extends RaceEntity>
                 return this.translateToCalendarEventForKeirin(
                     raceEntity as KeirinRaceEntity,
                 );
-            case 'autorace':
-                return this.translateToCalendarEventForAutorace(
-                    raceEntity as AutoraceRaceEntity,
-                );
             case 'boatrace':
                 return this.translateToCalendarEventForBoatrace(
                     raceEntity as BoatraceRaceEntity,
                 );
+            case 'autorace':
+                throw new Error('Not implemented');
         }
     }
 
@@ -552,43 +542,6 @@ export class GoogleCalendarService<R extends RaceEntity>
                 `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
             ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
             更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
-        `.replace(/\n\s+/g, '\n'),
-        };
-    }
-
-    /**
-     * レースデータをGoogleカレンダーのイベントに変換する（オートレース）
-     * @param raceEntity
-     * @returns
-     */
-    private translateToCalendarEventForAutorace(
-        raceEntity: AutoraceRaceEntity,
-    ): calendar_v3.Schema$Event {
-        return {
-            id: generateAutoraceRaceId(
-                raceEntity.raceData.dateTime,
-                raceEntity.raceData.location,
-                raceEntity.raceData.number,
-            ),
-            summary: `${raceEntity.raceData.stage} ${raceEntity.raceData.name}`,
-            location: `${raceEntity.raceData.location}オートレース場`,
-            start: {
-                dateTime: formatDate(raceEntity.raceData.dateTime),
-                timeZone: 'Asia/Tokyo',
-            },
-            end: {
-                // 終了時刻は発走時刻から10分後とする
-                dateTime: formatDate(
-                    new Date(
-                        raceEntity.raceData.dateTime.getTime() + 10 * 60 * 1000,
-                    ),
-                ),
-                timeZone: 'Asia/Tokyo',
-            },
-            colorId: this.getColorId(raceEntity.raceData.grade),
-            description:
-                `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
-                更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };
     }

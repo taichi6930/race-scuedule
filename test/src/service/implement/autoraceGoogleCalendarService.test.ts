@@ -1,38 +1,10 @@
 import type { GaxiosPromise } from 'gaxios';
 import { google } from 'googleapis';
 
-import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
-import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
-import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
-import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
-import { GoogleCalendarService } from '../../../../lib/src/service/implement/googleCalendarService';
-import {
-    baseBoatraceCalendarData,
-    baseBoatraceCalendarDataFromGoogleCalendar,
-    baseBoatraceRaceEntity,
-} from '../../mock/common/baseBoatraceData';
-import {
-    baseJraCalendarData,
-    baseJraCalendarDataFromGoogleCalendar,
-    baseJraRaceEntity,
-} from '../../mock/common/baseJraData';
-import {
-    baseKeirinCalendarData,
-    baseKeirinCalendarDataFromGoogleCalendar,
-    baseKeirinRaceEntity,
-} from '../../mock/common/baseKeirinData';
-import {
-    baseNarCalendarData,
-    baseNarCalendarDataFromGoogleCalendar,
-    baseNarRaceEntity,
-} from '../../mock/common/baseNarData';
-import {
-    baseWorldCalendarData,
-    baseWorldCalendarDataFromGoogleCalendar,
-    baseWorldRaceEntity,
-} from '../../mock/common/baseWorldData';
+import { AutoraceGoogleCalendarService } from '../../../../lib/src/service/implement/autoraceGoogleCalendarService';
+import { baseAutoraceRaceEntity } from '../../mock/common/baseAutoraceData';
+import { baseAutoraceCalendarData } from '../../mock/common/baseAutoraceData';
+import { baseAutoraceCalendarDataFromGoogleCalendar } from '../../mock/common/baseAutoraceData';
 
 // googleapis のモック設定
 jest.mock('googleapis', () => {
@@ -56,53 +28,18 @@ jest.mock('googleapis', () => {
 });
 
 /* eslint-disable */
-describe('GoogleCalendarService', () => {
-    const googleCalendarServiceRecord = {
-        nar: new GoogleCalendarService<NarRaceEntity>(
-            'nar',
-            'testNarCalendarId',
-        ),
-        jra: new GoogleCalendarService<JraRaceEntity>(
-            'jra',
-            'testJraCalendarId',
-        ),
-        keirin: new GoogleCalendarService<KeirinRaceEntity>(
-            'keirin',
-            'testKeirinCalendarId',
-        ),
-        world: new GoogleCalendarService<WorldRaceEntity>(
-            'world',
-            'testWorldCalendarId',
-        ),
-        boatrace: new GoogleCalendarService<BoatraceRaceEntity>(
-            'boatrace',
-            'testBoatraceCalendarId',
-        ),
-    };
+describe('AutoraceGoogleCalendarService', () => {
+    const googleCalendarServiceRecord = new AutoraceGoogleCalendarService(
+        'testAutoraceCalendarId',
+    );
 
-    const calendarDataListRecord: Record<string, CalendarData[]> = {
-        jra: [baseJraCalendarData],
-        nar: [baseNarCalendarData],
-        keirin: [baseKeirinCalendarData],
-        world: [baseWorldCalendarData],
-        boatrace: [baseBoatraceCalendarData],
-    };
+    const calendarDataListRecord = [baseAutoraceCalendarData];
 
-    const calendarDataListFromGoogleCalendarRecord: Record<string, any> = {
-        jra: [baseJraCalendarDataFromGoogleCalendar],
-        nar: [baseNarCalendarDataFromGoogleCalendar],
-        keirin: [baseKeirinCalendarDataFromGoogleCalendar],
-        world: [baseWorldCalendarDataFromGoogleCalendar],
-        boatrace: [baseBoatraceCalendarDataFromGoogleCalendar],
-    };
+    const calendarDataListFromGoogleCalendarRecord = [
+        baseAutoraceCalendarDataFromGoogleCalendar,
+    ];
 
-    const raceEntityRecord: Record<string, any[]> = {
-        jra: [baseJraRaceEntity],
-        nar: [baseNarRaceEntity],
-        keirin: [baseKeirinRaceEntity],
-        world: [baseWorldRaceEntity],
-        boatrace: [baseBoatraceRaceEntity],
-    };
+    const raceEntityRecord = [baseAutoraceRaceEntity];
 
     beforeEach(() => {
         // `events` メソッドをスパイ
@@ -122,20 +59,19 @@ describe('GoogleCalendarService', () => {
         jest.clearAllMocks();
     });
 
-    (['jra', 'nar', 'world', 'keirin', 'boatrace'] as const).forEach((key) => {
-        let googleCalendarService: GoogleCalendarService<any>;
+    (['autorace'] as const).forEach((key) => {
+        let googleCalendarService: AutoraceGoogleCalendarService;
         let raceDataList: any;
         beforeEach(() => {
-            googleCalendarService = googleCalendarServiceRecord[key];
-            raceDataList = raceEntityRecord[key];
+            googleCalendarService = googleCalendarServiceRecord;
+            raceDataList = raceEntityRecord;
         });
         describe(`${key} getEvents`, () => {
             it(`${key} CalendarData[]が返ってくること`, async () => {
                 const startDate = new Date('2024-01-01T00:00:00');
                 const finishDate = new Date('2024-02-01T00:00:00');
-                const calendarList =
-                    calendarDataListFromGoogleCalendarRecord[key];
-                const expected = calendarDataListRecord[key];
+                const calendarList = calendarDataListFromGoogleCalendarRecord;
+                const expected = calendarDataListRecord;
 
                 // モックの `events.list` メソッドを設定
                 const eventsListMock = google.calendar('v3').events
@@ -244,7 +180,7 @@ describe('GoogleCalendarService', () => {
             });
 
             it(`${key} イベントが存在しない場合、新規作成処理が行われるが、events.insertがエラーを吐く`, async () => {
-                const raceDataList = raceEntityRecord[key];
+                const raceDataList = raceEntityRecord;
 
                 // モックの `events.list` メソッドを設定
                 const eventsListMock = google.calendar('v3').events
@@ -276,7 +212,7 @@ describe('GoogleCalendarService', () => {
             });
 
             it(`${key} イベントが存在する場合、更新処理が行われること`, async () => {
-                const mockCalendarData = calendarDataListRecord[key][0];
+                const mockCalendarData = calendarDataListRecord[0];
 
                 const calendarList = [mockCalendarData];
 
@@ -307,7 +243,7 @@ describe('GoogleCalendarService', () => {
             });
 
             it('イベントが存在する場合、更新処理が行われるが、events.updateがエラーを吐く', async () => {
-                const mockCalendarData = calendarDataListRecord[key][0];
+                const mockCalendarData = calendarDataListRecord[0];
                 const calendarList = [mockCalendarData];
 
                 // モックの `events.list` メソッドを設定
@@ -343,7 +279,7 @@ describe('GoogleCalendarService', () => {
 
         describe(`${key} deleteEvents`, () => {
             it('${key} イベントが存在する場合、削除処理が行われること', async () => {
-                const mockCalendarData = calendarDataListRecord[key][0];
+                const mockCalendarData = calendarDataListRecord[0];
 
                 const calendarList = [mockCalendarData];
 
@@ -381,7 +317,7 @@ describe('GoogleCalendarService', () => {
             });
 
             it('イベントが存在する場合で、events.deleteがエラーを吐く', async () => {
-                const calendarList = calendarDataListRecord[key];
+                const calendarList = calendarDataListRecord;
                 // モックの `events.delete` メソッドを設定
                 const eventsDeleteMock = jest.fn().mockImplementation(() => {
                     const promise: GaxiosPromise<void> = new Promise(

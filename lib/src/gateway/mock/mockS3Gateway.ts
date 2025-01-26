@@ -236,6 +236,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
                         );
                     }
                 }
+                return;
             default:
                 throw new Error('Invalid ENV value');
         }
