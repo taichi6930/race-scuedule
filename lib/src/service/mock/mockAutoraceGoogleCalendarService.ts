@@ -1,14 +1,8 @@
-import { format } from 'date-fns';
-
 import { CalendarData } from '../../domain/calendarData';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { RaceEntity } from '../../repository/entity/baseEntity';
-import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import { AutoracePlaceCodeMap } from '../../utility/data/autorace/autoraceRaceCourse';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
-import { GoogleCalendarService } from '../implement/googleCalendarService';
+import { generateAutoraceRaceId } from '../../utility/raceId';
 import type { ICalendarService } from '../interface/ICalendarService';
 
 /**
@@ -16,7 +10,7 @@ import type { ICalendarService } from '../interface/ICalendarService';
  */
 
 export class MockAutoraceGoogleCalendarService
-    implements ICalendarService<RaceEntity>
+    implements ICalendarService<AutoraceRaceEntity>
 {
     constructor() {
         this.setCalendarData();
@@ -40,8 +34,11 @@ export class MockAutoraceGoogleCalendarService
                     ) {
                         for (let i = 1; i <= 12; i++) {
                             const location = '伊勢崎';
-                            const raceId = `autorace${format(currentDate, 'yyyyMMdd')}${AutoracePlaceCodeMap[location]}${i.toXDigits(2)}`;
-
+                            const raceId = generateAutoraceRaceId(
+                                currentDate,
+                                location,
+                                i,
+                            );
                             const calendarData = new CalendarData(
                                 raceId,
                                 `テストレース${raceId}`,
@@ -88,11 +85,12 @@ export class MockAutoraceGoogleCalendarService
     }
 
     @Logger
-    async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
+    async upsertEvents(raceEntityList: AutoraceRaceEntity[]): Promise<void> {
         for (const raceEntity of raceEntityList) {
-            const eventId = GoogleCalendarService.generateEventId(
-                'autorace',
-                raceEntity,
+            const eventId = generateAutoraceRaceId(
+                raceEntity.raceData.dateTime,
+                raceEntity.raceData.location,
+                raceEntity.raceData.number,
             );
             const existingEventIndex =
                 MockAutoraceGoogleCalendarService.mockCalendarData.findIndex(
@@ -121,14 +119,16 @@ export class MockAutoraceGoogleCalendarService
         // モックの動作を記述
     }
 
-    private translateToCalendarEvent(raceEntity: RaceEntity): CalendarData {
+    private translateToCalendarEvent(
+        raceEntity: AutoraceRaceEntity,
+    ): CalendarData {
         return new CalendarData(
-            GoogleCalendarService.generateEventId('autorace', raceEntity),
-            raceEntity instanceof KeirinRaceEntity ||
-            raceEntity instanceof AutoraceRaceEntity ||
-            raceEntity instanceof BoatraceRaceEntity
-                ? `${raceEntity.raceData.name} ${raceEntity.raceData.grade} ${raceEntity.raceData.stage}`
-                : `${raceEntity.raceData.name} ${raceEntity.raceData.grade}`,
+            generateAutoraceRaceId(
+                raceEntity.raceData.dateTime,
+                raceEntity.raceData.location,
+                raceEntity.raceData.number,
+            ),
+            `${raceEntity.raceData.name} ${raceEntity.raceData.grade} ${raceEntity.raceData.stage}`,
             raceEntity.raceData.dateTime,
             new Date(raceEntity.raceData.dateTime.getTime() + 10 * 60 * 1000), // Assuming event duration is 10 minutes
             raceEntity.raceData.location,

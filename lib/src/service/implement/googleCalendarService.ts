@@ -33,13 +33,7 @@ import {
 } from '../../utility/raceId';
 import { ICalendarService } from '../interface/ICalendarService';
 
-export type RaceType =
-    | 'jra'
-    | 'nar'
-    | 'world'
-    | 'keirin'
-    | 'boatrace'
-    | 'autorace';
+export type RaceType = 'jra' | 'nar' | 'world' | 'keirin' | 'boatrace';
 @injectable()
 export class GoogleCalendarService<R extends RaceEntity>
     implements ICalendarService<R>
@@ -318,8 +312,6 @@ export class GoogleCalendarService<R extends RaceEntity>
                     boatraceRaceEntity.raceData.number,
                 );
             }
-            case 'autorace':
-                throw new Error('Not implemented');
         }
     }
 
@@ -380,8 +372,6 @@ export class GoogleCalendarService<R extends RaceEntity>
                 return this.translateToCalendarEventForBoatrace(
                     raceEntity as BoatraceRaceEntity,
                 );
-            case 'autorace':
-                throw new Error('Not implemented');
         }
     }
 
