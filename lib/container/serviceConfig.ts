@@ -21,6 +21,7 @@ import { BoatraceRaceDataService } from '../src/service/implement/boatraceRaceDa
 import { GoogleCalendarService } from '../src/service/implement/googleCalendarService';
 import { JraPlaceDataService } from '../src/service/implement/jraPlaceDataService';
 import { JraRaceDataService } from '../src/service/implement/jraRaceDataService';
+import { KeirinGoogleCalendarService } from '../src/service/implement/keirinGoogleCalendarService';
 import { KeirinPlaceDataService } from '../src/service/implement/keirinPlaceDataService';
 import { KeirinRaceDataService } from '../src/service/implement/keirinRaceDataService';
 import { NarPlaceDataService } from '../src/service/implement/narPlaceDataService';
@@ -32,6 +33,7 @@ import type { IRaceDataService } from '../src/service/interface/IRaceDataService
 import { MockAutoraceGoogleCalendarService } from '../src/service/mock/mockAutoraceGoogleCalendarService';
 import { MockBoatraceGoogleCalendarService } from '../src/service/mock/mockBoatraceGoogleCalendarService';
 import { MockGoogleCalendarService } from '../src/service/mock/mockGoogleCalendarService';
+import { MockKeirinGoogleCalendarService } from '../src/service/mock/mockKeirinGoogleCalendarService';
 import { ENV } from '../src/utility/env';
 
 // ICalendarServiceの実装クラスをDIコンテナに登錄する
@@ -93,22 +95,20 @@ container.register<ICalendarService<KeirinRaceEntity>>(
         useFactory: () => {
             switch (ENV) {
                 case 'PRODUCTION':
-                    // ENV が production の場合、GoogleCalendarService を使用
-                    return new GoogleCalendarService<KeirinRaceEntity>(
-                        'keirin',
+                    // ENV が production の場合、KeirinGoogleCalendarService を使用
+                    return new KeirinGoogleCalendarService(
                         process.env.KEIRIN_CALENDAR_ID ?? '',
                     );
                 case 'TEST':
-                    // ENV が test の場合、GoogleCalendarService を使用
-                    return new GoogleCalendarService<KeirinRaceEntity>(
-                        'keirin',
+                    // ENV が test の場合、KeirinGoogleCalendarService を使用
+                    return new KeirinGoogleCalendarService(
                         process.env.TEST_CALENDAR_ID ?? '',
                     );
                 case 'LOCAL':
                 case 'LOCAL_NO_INIT_DATA':
                 case 'LOCAL_INIT_MADE_DATA':
                     // ENV が指定されていない場合も MockGoogleCalendarService を使用
-                    return new MockGoogleCalendarService('keirin');
+                    return new MockKeirinGoogleCalendarService();
                 default:
                     throw new Error('Invalid ENV value');
             }

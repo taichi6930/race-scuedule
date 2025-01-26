@@ -9,10 +9,8 @@ import { injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { RaceEntity } from '../../repository/entity/baseEntity';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
 import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
-import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
 import {
     CHIHO_KEIBA_LIVE_URL,
     ChihoKeibaYoutubeUserIdMap,
@@ -25,13 +23,12 @@ import { createAnchorTag, formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import {
     generateJraRaceId,
-    generateKeirinRaceId,
     generateNarRaceId,
     generateWorldRaceId,
 } from '../../utility/raceId';
 import { ICalendarService } from '../interface/ICalendarService';
 
-export type RaceType = 'jra' | 'nar' | 'world' | 'keirin';
+export type RaceType = 'jra' | 'nar' | 'world';
 @injectable()
 export class GoogleCalendarService<R extends RaceEntity>
     implements ICalendarService<R>
@@ -294,14 +291,6 @@ export class GoogleCalendarService<R extends RaceEntity>
                     .replace('y', 'v')
                     .replace('z', 's');
             }
-            case 'keirin': {
-                const keirinRaceEntity = raceEntity as KeirinRaceEntity;
-                return generateKeirinRaceId(
-                    keirinRaceEntity.raceData.dateTime,
-                    keirinRaceEntity.raceData.location,
-                    keirinRaceEntity.raceData.number,
-                );
-            }
         }
     }
 
@@ -353,10 +342,6 @@ export class GoogleCalendarService<R extends RaceEntity>
             case 'world':
                 return this.translateToCalendarEventForWorld(
                     raceEntity as WorldRaceEntity,
-                );
-            case 'keirin':
-                return this.translateToCalendarEventForKeirin(
-                    raceEntity as KeirinRaceEntity,
                 );
         }
     }
@@ -485,54 +470,13 @@ export class GoogleCalendarService<R extends RaceEntity>
     }
 
     /**
-     * レースデータをGoogleカレンダーのイベントに変換する（競輪）
-     * @param raceEntity
-     * @returns
-     */
-    private translateToCalendarEventForKeirin(
-        raceEntity: KeirinRaceEntity,
-    ): calendar_v3.Schema$Event {
-        return {
-            id: generateKeirinRaceId(
-                raceEntity.raceData.dateTime,
-                raceEntity.raceData.location,
-                raceEntity.raceData.number,
-            ),
-            summary: `${raceEntity.raceData.stage} ${raceEntity.raceData.name}`,
-            location: `${raceEntity.raceData.location}競輪場`,
-            start: {
-                dateTime: formatDate(raceEntity.raceData.dateTime),
-                timeZone: 'Asia/Tokyo',
-            },
-            end: {
-                // 終了時刻は発走時刻から10分後とする
-                dateTime: formatDate(
-                    new Date(
-                        raceEntity.raceData.dateTime.getTime() + 10 * 60 * 1000,
-                    ),
-                ),
-                timeZone: 'Asia/Tokyo',
-            },
-            colorId: this.getColorId(raceEntity.raceData.grade),
-            description:
-                `発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
-            ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(raceEntity.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[raceEntity.raceData.location]}${raceEntity.raceData.number.toXDigits(2)}`)}
-            更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
-        `.replace(/\n\s+/g, '\n'),
-        };
-    }
-
-    /**
      * Googleカレンダーのイベントの色IDを取得する
      * @param raceGrade
      * @returns
      */
     private getColorId(raceGrade: string): string {
         const gradeColorMap: Record<string, string> = {
-            'GP': '9',
             'GⅠ': '9',
-            'PGⅠ': '9',
-            '特GⅠ': '9',
             'J.GⅠ': '9',
             'GⅡ': '11',
             'J.GⅡ': '11',
