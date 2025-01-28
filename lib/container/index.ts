@@ -1,4 +1,4 @@
 import './gatewayConfig';
 import './repositoryConfig';
-import './serviceConfig';
+import './service/index';
 import './usecaseConfig';

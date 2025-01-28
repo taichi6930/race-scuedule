@@ -1,40 +1,21 @@
 import { container } from 'tsyringe';
 
-import type { AutoracePlaceEntity } from '../src/repository/entity/autoracePlaceEntity';
-import type { AutoraceRaceEntity } from '../src/repository/entity/autoraceRaceEntity';
-import type { BoatracePlaceEntity } from '../src/repository/entity/boatracePlaceEntity';
-import type { BoatraceRaceEntity } from '../src/repository/entity/boatraceRaceEntity';
-import type { JraPlaceEntity } from '../src/repository/entity/jraPlaceEntity';
-import type { JraRaceEntity } from '../src/repository/entity/jraRaceEntity';
-import type { KeirinPlaceEntity } from '../src/repository/entity/keirinPlaceEntity';
-import type { KeirinRaceEntity } from '../src/repository/entity/keirinRaceEntity';
-import type { NarPlaceEntity } from '../src/repository/entity/narPlaceEntity';
-import type { NarRaceEntity } from '../src/repository/entity/narRaceEntity';
-import type { WorldPlaceEntity } from '../src/repository/entity/worldPlaceEntity';
-import type { WorldRaceEntity } from '../src/repository/entity/worldRaceEntity';
-import { AutoraceGoogleCalendarService } from '../src/service/implement/autoraceGoogleCalendarService';
-import { AutoracePlaceDataService } from '../src/service/implement/autoracePlaceDataService';
-import { AutoraceRaceDataService } from '../src/service/implement/autoraceRaceDataService';
-import { BoatraceGoogleCalendarService } from '../src/service/implement/boatraceGoogleCalendarService';
-import { BoatracePlaceDataService } from '../src/service/implement/boatracePlaceDataService';
-import { BoatraceRaceDataService } from '../src/service/implement/boatraceRaceDataService';
-import { GoogleCalendarService } from '../src/service/implement/googleCalendarService';
-import { JraPlaceDataService } from '../src/service/implement/jraPlaceDataService';
-import { JraRaceDataService } from '../src/service/implement/jraRaceDataService';
-import { KeirinGoogleCalendarService } from '../src/service/implement/keirinGoogleCalendarService';
-import { KeirinPlaceDataService } from '../src/service/implement/keirinPlaceDataService';
-import { KeirinRaceDataService } from '../src/service/implement/keirinRaceDataService';
-import { NarPlaceDataService } from '../src/service/implement/narPlaceDataService';
-import { NarRaceDataService } from '../src/service/implement/narRaceDataService';
-import { WorldRaceDataService } from '../src/service/implement/worldRaceDataService';
-import type { ICalendarService } from '../src/service/interface/ICalendarService';
-import type { IPlaceDataService } from '../src/service/interface/IPlaceDataService';
-import type { IRaceDataService } from '../src/service/interface/IRaceDataService';
-import { MockAutoraceGoogleCalendarService } from '../src/service/mock/mockAutoraceGoogleCalendarService';
-import { MockBoatraceGoogleCalendarService } from '../src/service/mock/mockBoatraceGoogleCalendarService';
-import { MockGoogleCalendarService } from '../src/service/mock/mockGoogleCalendarService';
-import { MockKeirinGoogleCalendarService } from '../src/service/mock/mockKeirinGoogleCalendarService';
-import { ENV } from '../src/utility/env';
+import type { AutoraceRaceEntity } from '../../src/repository/entity/autoraceRaceEntity';
+import type { BoatraceRaceEntity } from '../../src/repository/entity/boatraceRaceEntity';
+import type { JraRaceEntity } from '../../src/repository/entity/jraRaceEntity';
+import type { KeirinRaceEntity } from '../../src/repository/entity/keirinRaceEntity';
+import type { NarRaceEntity } from '../../src/repository/entity/narRaceEntity';
+import type { WorldRaceEntity } from '../../src/repository/entity/worldRaceEntity';
+import { AutoraceGoogleCalendarService } from '../../src/service/implement/autoraceGoogleCalendarService';
+import { BoatraceGoogleCalendarService } from '../../src/service/implement/boatraceGoogleCalendarService';
+import { GoogleCalendarService } from '../../src/service/implement/googleCalendarService';
+import { KeirinGoogleCalendarService } from '../../src/service/implement/keirinGoogleCalendarService';
+import type { ICalendarService } from '../../src/service/interface/ICalendarService';
+import { MockAutoraceGoogleCalendarService } from '../../src/service/mock/mockAutoraceGoogleCalendarService';
+import { MockBoatraceGoogleCalendarService } from '../../src/service/mock/mockBoatraceGoogleCalendarService';
+import { MockGoogleCalendarService } from '../../src/service/mock/mockGoogleCalendarService';
+import { MockKeirinGoogleCalendarService } from '../../src/service/mock/mockKeirinGoogleCalendarService';
+import { ENV } from '../../src/utility/env';
 
 // ICalendarServiceの実装クラスをDIコンテナに登錄する
 container.register<ICalendarService<NarRaceEntity>>('NarCalendarService', {
@@ -193,71 +174,5 @@ container.register<ICalendarService<BoatraceRaceEntity>>(
                     throw new Error('Invalid ENV value');
             }
         },
-    },
-);
-
-container.register<IPlaceDataService<JraPlaceEntity>>('JraPlaceDataService', {
-    useClass: JraPlaceDataService,
-});
-container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
-    'JraRaceDataService',
-    {
-        useClass: JraRaceDataService,
-    },
-);
-
-container.register<IPlaceDataService<NarPlaceEntity>>('NarPlaceDataService', {
-    useClass: NarPlaceDataService,
-});
-container.register<IRaceDataService<NarRaceEntity, NarPlaceEntity>>(
-    'NarRaceDataService',
-    {
-        useClass: NarRaceDataService,
-    },
-);
-
-container.register<IRaceDataService<WorldRaceEntity, WorldPlaceEntity>>(
-    'WorldRaceDataService',
-    {
-        useClass: WorldRaceDataService,
-    },
-);
-
-container.register<IPlaceDataService<KeirinPlaceEntity>>(
-    'KeirinPlaceDataService',
-    {
-        useClass: KeirinPlaceDataService,
-    },
-);
-container.register<IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>>(
-    'KeirinRaceDataService',
-    {
-        useClass: KeirinRaceDataService,
-    },
-);
-
-container.register<IPlaceDataService<AutoracePlaceEntity>>(
-    'AutoracePlaceDataService',
-    {
-        useClass: AutoracePlaceDataService,
-    },
-);
-container.register<IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>>(
-    'AutoraceRaceDataService',
-    {
-        useClass: AutoraceRaceDataService,
-    },
-);
-
-container.register<IPlaceDataService<BoatracePlaceEntity>>(
-    'BoatracePlaceDataService',
-    {
-        useClass: BoatracePlaceDataService,
-    },
-);
-container.register<IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>>(
-    'BoatraceRaceDataService',
-    {
-        useClass: BoatraceRaceDataService,
     },
 );
