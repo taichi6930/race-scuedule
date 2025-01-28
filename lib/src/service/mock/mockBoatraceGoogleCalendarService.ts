@@ -1,27 +1,18 @@
-import { format } from 'date-fns';
-
 import { CalendarData } from '../../domain/calendarData';
-import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
-import { RaceEntity } from '../../repository/entity/baseEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
-import { KeirinRaceEntity } from '../../repository/entity/keirinRaceEntity';
-import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
-import { WorldPlaceCodeMap } from '../../utility/data/world/worldRaceCourse';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
-import { generateJraRaceId } from '../../utility/raceId';
-import {
-    GoogleCalendarService,
-    RaceType,
-} from '../implement/googleCalendarService';
+import { generateBoatraceRaceId } from '../../utility/raceId';
 import type { ICalendarService } from '../interface/ICalendarService';
 
 /**
- * Googleカレンダーのモックサービス
+ * GoogleカレンダーのBoatrace用モックサービス
  */
 
-export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
-    constructor(private readonly raceType: RaceType) {
+export class MockBoatraceGoogleCalendarService
+    implements ICalendarService<BoatraceRaceEntity>
+{
+    constructor() {
         this.setCalendarData();
     }
 
@@ -42,29 +33,12 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
                         currentDate.getFullYear() === startDate.getFullYear()
                     ) {
                         for (let i = 1; i <= 12; i++) {
-                            let location = '';
-                            let raceId = '';
-
-                            switch (this.raceType) {
-                                case 'jra':
-                                    location = '東京';
-                                    raceId = generateJraRaceId(
-                                        currentDate,
-                                        location,
-                                        i,
-                                    );
-                                    break;
-                                case 'nar':
-                                    location = '大井';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${NetkeibaBabacodeMap[location]}${i.toXDigits(2)}`;
-                                    break;
-                                case 'world':
-                                    location = 'ロンシャン';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WorldPlaceCodeMap[location]}${i.toXDigits(2)}`;
-                                    break;
-                                default:
-                                    break;
-                            }
+                            const location = '平和島';
+                            const raceId = generateBoatraceRaceId(
+                                currentDate,
+                                location,
+                                i,
+                            );
                             const calendarData = new CalendarData(
                                 raceId,
                                 `テストレース${raceId}`,
@@ -85,9 +59,9 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
                                 location,
                                 'testDescription',
                             );
-                            MockGoogleCalendarService.mockCalendarData[
-                                this.raceType
-                            ].push(calendarData);
+                            MockBoatraceGoogleCalendarService.mockCalendarData.push(
+                                calendarData,
+                            );
                         }
                         currentDate.setDate(currentDate.getDate() + 1);
                     }
@@ -98,18 +72,12 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
         }
     }
 
-    private static mockCalendarData: Record<string, CalendarData[]> = {
-        jra: [],
-        nar: [],
-        world: [],
-        keirin: [],
-        autorace: [],
-        boatrace: [],
-    };
+    private static mockCalendarData: CalendarData[] = [];
+
     @Logger
     getEvents(startDate: Date, finishDate: Date): Promise<CalendarData[]> {
         return Promise.resolve(
-            MockGoogleCalendarService.mockCalendarData[this.raceType].filter(
+            MockBoatraceGoogleCalendarService.mockCalendarData.filter(
                 (data) =>
                     data.startTime >= startDate && data.startTime <= finishDate,
             ),
@@ -117,27 +85,28 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
     }
 
     @Logger
-    async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
+    async upsertEvents(raceEntityList: BoatraceRaceEntity[]): Promise<void> {
         for (const raceEntity of raceEntityList) {
-            const eventId = GoogleCalendarService.generateEventId(
-                this.raceType,
-                raceEntity,
+            const eventId = generateBoatraceRaceId(
+                raceEntity.raceData.dateTime,
+                raceEntity.raceData.location,
+                raceEntity.raceData.number,
             );
             const existingEventIndex =
-                MockGoogleCalendarService.mockCalendarData[
-                    this.raceType
-                ].findIndex((data) => data.id === eventId);
+                MockBoatraceGoogleCalendarService.mockCalendarData.findIndex(
+                    (data) => data.id === eventId,
+                );
 
             const calendarEvent = this.translateToCalendarEvent(raceEntity);
 
             if (existingEventIndex !== -1) {
                 // Update existing event
-                MockGoogleCalendarService.mockCalendarData[this.raceType][
+                MockBoatraceGoogleCalendarService.mockCalendarData[
                     existingEventIndex
                 ] = calendarEvent;
             } else {
                 // Insert new event
-                MockGoogleCalendarService.mockCalendarData[this.raceType].push(
+                MockBoatraceGoogleCalendarService.mockCalendarData.push(
                     calendarEvent,
                 );
             }
@@ -150,14 +119,16 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
         // モックの動作を記述
     }
 
-    private translateToCalendarEvent(raceEntity: RaceEntity): CalendarData {
+    private translateToCalendarEvent(
+        raceEntity: BoatraceRaceEntity,
+    ): CalendarData {
         return new CalendarData(
-            GoogleCalendarService.generateEventId(this.raceType, raceEntity),
-            raceEntity instanceof KeirinRaceEntity ||
-            raceEntity instanceof AutoraceRaceEntity ||
-            raceEntity instanceof BoatraceRaceEntity
-                ? `${raceEntity.raceData.name} ${raceEntity.raceData.grade} ${raceEntity.raceData.stage}`
-                : `${raceEntity.raceData.name} ${raceEntity.raceData.grade}`,
+            generateBoatraceRaceId(
+                raceEntity.raceData.dateTime,
+                raceEntity.raceData.location,
+                raceEntity.raceData.number,
+            ),
+            `${raceEntity.raceData.name} ${raceEntity.raceData.grade} ${raceEntity.raceData.stage}`,
             raceEntity.raceData.dateTime,
             new Date(raceEntity.raceData.dateTime.getTime() + 10 * 60 * 1000), // Assuming event duration is 10 minutes
             raceEntity.raceData.location,

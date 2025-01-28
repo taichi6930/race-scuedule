@@ -2,33 +2,15 @@ import type { GaxiosPromise } from 'gaxios';
 import { google } from 'googleapis';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
-import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import { GoogleCalendarService } from '../../../../lib/src/service/implement/googleCalendarService';
-import {
-    baseAutoraceCalendarData,
-    baseAutoraceCalendarDataFromGoogleCalendar,
-    baseAutoraceRaceEntity,
-} from '../../mock/common/baseAutoraceData';
-import {
-    baseBoatraceCalendarData,
-    baseBoatraceCalendarDataFromGoogleCalendar,
-    baseBoatraceRaceEntity,
-} from '../../mock/common/baseBoatraceData';
 import {
     baseJraCalendarData,
     baseJraCalendarDataFromGoogleCalendar,
     baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
-import {
-    baseKeirinCalendarData,
-    baseKeirinCalendarDataFromGoogleCalendar,
-    baseKeirinRaceEntity,
-} from '../../mock/common/baseKeirinData';
 import {
     baseNarCalendarData,
     baseNarCalendarDataFromGoogleCalendar,
@@ -72,49 +54,28 @@ describe('GoogleCalendarService', () => {
             'jra',
             'testJraCalendarId',
         ),
-        keirin: new GoogleCalendarService<KeirinRaceEntity>(
-            'keirin',
-            'testKeirinCalendarId',
-        ),
         world: new GoogleCalendarService<WorldRaceEntity>(
             'world',
             'testWorldCalendarId',
-        ),
-        autorace: new GoogleCalendarService<AutoraceRaceEntity>(
-            'autorace',
-            'testAutoraceCalendarId',
-        ),
-        boatrace: new GoogleCalendarService<BoatraceRaceEntity>(
-            'boatrace',
-            'testBoatraceCalendarId',
         ),
     };
 
     const calendarDataListRecord: Record<string, CalendarData[]> = {
         jra: [baseJraCalendarData],
         nar: [baseNarCalendarData],
-        keirin: [baseKeirinCalendarData],
         world: [baseWorldCalendarData],
-        autorace: [baseAutoraceCalendarData],
-        boatrace: [baseBoatraceCalendarData],
     };
 
     const calendarDataListFromGoogleCalendarRecord: Record<string, any> = {
         jra: [baseJraCalendarDataFromGoogleCalendar],
         nar: [baseNarCalendarDataFromGoogleCalendar],
-        keirin: [baseKeirinCalendarDataFromGoogleCalendar],
         world: [baseWorldCalendarDataFromGoogleCalendar],
-        autorace: [baseAutoraceCalendarDataFromGoogleCalendar],
-        boatrace: [baseBoatraceCalendarDataFromGoogleCalendar],
     };
 
     const raceEntityRecord: Record<string, any[]> = {
         jra: [baseJraRaceEntity],
         nar: [baseNarRaceEntity],
-        keirin: [baseKeirinRaceEntity],
         world: [baseWorldRaceEntity],
-        autorace: [baseAutoraceRaceEntity],
-        boatrace: [baseBoatraceRaceEntity],
     };
 
     beforeEach(() => {
@@ -135,9 +96,7 @@ describe('GoogleCalendarService', () => {
         jest.clearAllMocks();
     });
 
-    (
-        ['jra', 'nar', 'world', 'keirin', 'autorace', 'boatrace'] as const
-    ).forEach((key) => {
+    (['jra', 'nar', 'world'] as const).forEach((key) => {
         let googleCalendarService: GoogleCalendarService<any>;
         let raceDataList: any;
         beforeEach(() => {
