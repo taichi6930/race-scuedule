@@ -26,6 +26,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
         this.calendarId = calendarId;
     }
 
+    @Logger
     async fetchCalendarDataList(
         startDate: Date,
         finishDate: Date,
@@ -46,6 +47,51 @@ export class GoogleCalendarGateway implements ICalendarGateway {
                 error,
             );
             return [];
+        }
+    }
+
+    @Logger
+    async updateCalendarData(
+        calendarData: calendar_v3.Schema$Event,
+    ): Promise<void> {
+        try {
+            const eventId = calendarData.id;
+            if (!eventId) {
+                throw new Error('イベントIDが指定されていません');
+            }
+            await this.calendar.events.update({
+                calendarId: this.calendarId,
+                eventId: eventId,
+                requestBody: calendarData,
+            });
+        } catch (error) {
+            console.error(
+                'Google Calendar APIからのイベント更新に失敗しました',
+                error,
+            );
+            throw new Error(
+                'Google Calendar APIからのイベント更新に失敗しました',
+            );
+        }
+    }
+
+    @Logger
+    async insertCalendarData(
+        calendarData: calendar_v3.Schema$Event,
+    ): Promise<void> {
+        try {
+            await this.calendar.events.insert({
+                calendarId: this.calendarId,
+                requestBody: calendarData,
+            });
+        } catch (error) {
+            console.error(
+                'Google Calendar APIへのイベント新規登録に失敗しました',
+                error,
+            );
+            throw new Error(
+                'Google Calendar APIへのイベント新規登録に失敗しました',
+            );
         }
     }
 

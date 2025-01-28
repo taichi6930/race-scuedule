@@ -15,7 +15,7 @@ import { ICalendarService } from '../interface/ICalendarService';
 export class JraCalendarService implements ICalendarService<JraRaceEntity> {
     constructor(
         @inject('JraCalendarRepository')
-        private readonly calendarRepository: ICalendarRepository,
+        private readonly calendarRepository: ICalendarRepository<JraRaceEntity>,
     ) {}
     /**
      * カレンダーのイベントの取得を行う

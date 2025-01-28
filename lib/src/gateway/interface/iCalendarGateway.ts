@@ -15,6 +15,22 @@ export interface ICalendarGateway {
     ) => Promise<calendar_v3.Schema$Event[]>;
 
     /**
+     * カレンダーデータの更新を行う
+     * @param calendarData
+     */
+    updateCalendarData: (
+        calendarData: calendar_v3.Schema$Event,
+    ) => Promise<void>;
+
+    /**
+     * イベントの追加を行う
+     * @param calendarData
+     */
+    insertCalendarData: (
+        calendarData: calendar_v3.Schema$Event,
+    ) => Promise<void>;
+
+    /**
      * イベントの削除を行う
      * @param events
      */
