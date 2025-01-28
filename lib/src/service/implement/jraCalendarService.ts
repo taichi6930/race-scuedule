@@ -1,0 +1,52 @@
+import 'reflect-metadata';
+import '../../utility/format';
+
+import { inject, injectable } from 'tsyringe';
+
+import { CalendarData } from '../../domain/calendarData';
+import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
+import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
+import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
+import { Logger } from '../../utility/logger';
+import { ICalendarService } from '../interface/ICalendarService';
+
+@injectable()
+export class JraCalendarService implements ICalendarService<JraRaceEntity> {
+    constructor(
+        @inject('JraCalendarRepository')
+        private readonly calendarRepository: ICalendarRepository,
+    ) {}
+    /**
+     * カレンダーのイベントの取得を行う
+     * @param startDate
+     * @param finishDate
+     * @returns
+     */
+    @Logger
+    async getEvents(
+        startDate: Date,
+        finishDate: Date,
+    ): Promise<CalendarData[]> {
+        const request = new FetchCalendarListRequest(startDate, finishDate);
+        const response = await this.calendarRepository.getEvents(request);
+        return response.calendarDataList;
+    }
+
+    /**
+     * イベントの更新を行う
+     * @param raceEntityList
+     */
+    upsertEvents(raceEntityList: JraRaceEntity[]): Promise<void> {
+        console.log(raceEntityList);
+        throw new Error('Method not implemented.');
+    }
+
+    /**
+     * イベントの削除を行う
+     * @param calendarDataList
+     */
+    deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
+        console.log(calendarDataList);
+        throw new Error('Method not implemented.');
+    }
+}
