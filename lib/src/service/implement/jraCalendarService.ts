@@ -6,6 +6,7 @@ import { inject, injectable } from 'tsyringe';
 import { CalendarData } from '../../domain/calendarData';
 import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
+import { DeleteCalendarListRequest } from '../../repository/request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
@@ -33,7 +34,7 @@ export class JraCalendarService implements ICalendarService<JraRaceEntity> {
     }
 
     /**
-     * イベントの更新を行う
+     * カレンダーのイベントの更新を行う
      * @param raceEntityList
      */
     upsertEvents(raceEntityList: JraRaceEntity[]): Promise<void> {
@@ -45,8 +46,13 @@ export class JraCalendarService implements ICalendarService<JraRaceEntity> {
      * イベントの削除を行う
      * @param calendarDataList
      */
-    deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
-        console.log(calendarDataList);
-        throw new Error('Method not implemented.');
+    async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
+        const events = calendarDataList;
+        if (events.length === 0) {
+            console.debug('指定された期間にイベントが見つかりませんでした。');
+            return;
+        }
+        const request = new DeleteCalendarListRequest(events);
+        await this.calendarRepository.deleteEvents(request);
     }
 }

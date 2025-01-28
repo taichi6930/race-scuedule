@@ -13,4 +13,10 @@ export interface ICalendarGateway {
         startDate: Date,
         finishDate: Date,
     ) => Promise<calendar_v3.Schema$Event[]>;
+
+    /**
+     * イベントの削除を行う
+     * @param events
+     */
+    deleteCalendarData: (eventId: string) => Promise<void>;
 }

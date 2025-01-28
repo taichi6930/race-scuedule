@@ -2,6 +2,7 @@ import type { JWT } from 'google-auth-library';
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
 
+import { Logger } from '../../utility/logger';
 import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
 export class GoogleCalendarGateway implements ICalendarGateway {
@@ -45,6 +46,24 @@ export class GoogleCalendarGateway implements ICalendarGateway {
                 error,
             );
             return [];
+        }
+    }
+
+    @Logger
+    async deleteCalendarData(eventId: string): Promise<void> {
+        try {
+            await this.calendar.events.delete({
+                calendarId: this.calendarId,
+                eventId,
+            });
+        } catch (error) {
+            console.error(
+                'Google Calendar APIからのイベント削除に失敗しました',
+                error,
+            );
+            throw new Error(
+                'Google Calendar APIからのイベント削除に失敗しました',
+            );
         }
     }
 }
