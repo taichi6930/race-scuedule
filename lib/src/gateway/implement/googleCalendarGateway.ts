@@ -1,7 +1,3 @@
-/**
- * JRAの競馬場データのHTMLを取得するGatewayの実装
- */
-
 import type { JWT } from 'google-auth-library';
 import type { calendar_v3 } from 'googleapis';
 import { google } from 'googleapis';
