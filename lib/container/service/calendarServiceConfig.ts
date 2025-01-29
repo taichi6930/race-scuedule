@@ -9,7 +9,6 @@ import type { WorldRaceEntity } from '../../src/repository/entity/worldRaceEntit
 import { AutoraceGoogleCalendarService } from '../../src/service/implement/autoraceGoogleCalendarService';
 import { BoatraceGoogleCalendarService } from '../../src/service/implement/boatraceGoogleCalendarService';
 import { GoogleCalendarService } from '../../src/service/implement/googleCalendarService';
-import { JraCalendarService } from '../../src/service/implement/jraCalendarService';
 import { KeirinGoogleCalendarService } from '../../src/service/implement/keirinGoogleCalendarService';
 import type { ICalendarService } from '../../src/service/interface/ICalendarService';
 import { MockAutoraceGoogleCalendarService } from '../../src/service/mock/mockAutoraceGoogleCalendarService';
@@ -46,7 +45,29 @@ container.register<ICalendarService<NarRaceEntity>>('NarCalendarService', {
 });
 
 container.register<ICalendarService<JraRaceEntity>>('JraCalendarService', {
-    useClass: JraCalendarService,
+    useFactory: () => {
+        switch (ENV) {
+            case 'PRODUCTION':
+                // ENV が production の場合、GoogleCalendarService を使用
+                return new GoogleCalendarService<JraRaceEntity>(
+                    'jra',
+                    process.env.JRA_CALENDAR_ID ?? '',
+                );
+            case 'TEST':
+                // ENV が test の場合、GoogleCalendarService を使用
+                return new GoogleCalendarService<JraRaceEntity>(
+                    'jra',
+                    process.env.TEST_CALENDAR_ID ?? '',
+                );
+            case 'LOCAL':
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
+                // ENV が指定されていない場合も MockGoogleCalendarService を使用
+                return new MockGoogleCalendarService('jra');
+            default:
+                throw new Error('Invalid ENV value');
+        }
+    },
 });
 
 container.register<ICalendarService<KeirinRaceEntity>>(

@@ -4,7 +4,7 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
+import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { DeleteCalendarListRequest } from '../../repository/request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
@@ -13,10 +13,10 @@ import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
 @injectable()
-export class JraCalendarService implements ICalendarService<JraRaceEntity> {
+export class WorldCalendarService implements ICalendarService<WorldRaceEntity> {
     constructor(
-        @inject('JraCalendarRepository')
-        private readonly calendarRepository: ICalendarRepository<JraRaceEntity>,
+        @inject('WorldCalendarRepository')
+        private readonly calendarRepository: ICalendarRepository<WorldRaceEntity>,
     ) {}
     /**
      * カレンダーのイベントの取得を行う
@@ -39,7 +39,7 @@ export class JraCalendarService implements ICalendarService<JraRaceEntity> {
      * @param raceEntityList
      */
     @Logger
-    async upsertEvents(raceEntityList: JraRaceEntity[]): Promise<void> {
+    async upsertEvents(raceEntityList: WorldRaceEntity[]): Promise<void> {
         if (raceEntityList.length === 0) {
             console.debug('更新対象のイベントが見つかりませんでした。');
             return;
@@ -54,12 +54,11 @@ export class JraCalendarService implements ICalendarService<JraRaceEntity> {
      */
     @Logger
     async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
-        const events = calendarDataList;
-        if (events.length === 0) {
+        if (calendarDataList.length === 0) {
             console.debug('指定された期間にイベントが見つかりませんでした。');
             return;
         }
-        const request = new DeleteCalendarListRequest(events);
+        const request = new DeleteCalendarListRequest(calendarDataList);
         await this.calendarRepository.deleteEvents(request);
     }
 }
