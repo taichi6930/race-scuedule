@@ -8,6 +8,7 @@ import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { DeleteCalendarListRequest } from '../../repository/request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
+import { UpsertCalendarListRequest } from '../../repository/request/upsertCalendarListRequest';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
@@ -37,15 +38,21 @@ export class JraCalendarService implements ICalendarService<JraRaceEntity> {
      * カレンダーのイベントの更新を行う
      * @param raceEntityList
      */
-    upsertEvents(raceEntityList: JraRaceEntity[]): Promise<void> {
-        console.log(raceEntityList);
-        throw new Error('Method not implemented.');
+    @Logger
+    async upsertEvents(raceEntityList: JraRaceEntity[]): Promise<void> {
+        if (raceEntityList.length === 0) {
+            console.debug('更新対象のイベントが見つかりませんでした。');
+            return;
+        }
+        const request = new UpsertCalendarListRequest(raceEntityList);
+        await this.calendarRepository.upsertEvents(request);
     }
 
     /**
      * イベントの削除を行う
      * @param calendarDataList
      */
+    @Logger
     async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
         const events = calendarDataList;
         if (events.length === 0) {

@@ -27,7 +27,7 @@ export class JraGoogleCalendarRepository
     implements ICalendarRepository<JraRaceEntity>
 {
     constructor(
-        @inject('GoogleCalendarGateway')
+        @inject('JraGoogleCalendarGateway')
         private readonly googleCalendarGateway: ICalendarGateway,
     ) {}
 
