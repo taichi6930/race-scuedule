@@ -5,6 +5,7 @@ import type { RaceType } from '../../service/implement/googleCalendarService';
 import { WorldPlaceCodeMap } from '../../utility/data/world/worldRaceCourse';
 import { ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
+import { Logger } from '../../utility/logger';
 import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
 /**
@@ -38,9 +39,9 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
             case 'PRODUCTION': // ENV が production の場合、GoogleCalendarGateway を使用
             case 'TEST':
             case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA': // ENV が ita の場合、データを後で設定したいので何もしない
-                break;
             case 'LOCAL':
+                break;
+            case 'LOCAL_INIT_MADE_DATA': // ENV が LOCAL_INIT_MADE_DATA の場合、データを後で設定したいので何もしない
                 {
                     // 2024年のデータ366日分を作成
                     const startDate = new Date('2024-01-01');
@@ -61,42 +62,41 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                                 default:
                                     break;
                             }
-                            const calendarDataTranslated: calendar_v3.Schema$Event =
-                                {
-                                    id: raceId,
-                                    summary: `テストレース${raceId}`,
-                                    location: location,
-                                    start: {
-                                        dateTime: formatDate(
-                                            new Date(
-                                                currentDate.getFullYear(),
-                                                currentDate.getMonth(),
-                                                currentDate.getDate(),
-                                                i + 6,
-                                                0,
-                                            ),
+                            const calendarData: calendar_v3.Schema$Event = {
+                                id: raceId,
+                                summary: `テストレース${raceId}`,
+                                location: location,
+                                start: {
+                                    dateTime: formatDate(
+                                        new Date(
+                                            currentDate.getFullYear(),
+                                            currentDate.getMonth(),
+                                            currentDate.getDate(),
+                                            i + 6,
+                                            0,
                                         ),
-                                        timeZone: 'Asia/Tokyo',
-                                    },
-                                    end: {
-                                        // 終了時刻は発走時刻から10分後とする
-                                        dateTime: formatDate(
-                                            new Date(
-                                                currentDate.getFullYear(),
-                                                currentDate.getMonth(),
-                                                currentDate.getDate(),
-                                                i + 6,
-                                                10,
-                                            ),
+                                    ),
+                                    timeZone: 'Asia/Tokyo',
+                                },
+                                end: {
+                                    // 終了時刻は発走時刻から10分後とする
+                                    dateTime: formatDate(
+                                        new Date(
+                                            currentDate.getFullYear(),
+                                            currentDate.getMonth(),
+                                            currentDate.getDate(),
+                                            i + 6,
+                                            10,
                                         ),
-                                        timeZone: 'Asia/Tokyo',
-                                    },
-                                    colorId: '8',
-                                    description: 'testDescription',
-                                };
+                                    ),
+                                    timeZone: 'Asia/Tokyo',
+                                },
+                                colorId: '8',
+                                description: 'testDescription',
+                            };
                             MockGoogleCalendarGateway.mockCalendarData[
                                 this.raceType
-                            ].push(calendarDataTranslated);
+                            ].push(calendarData);
                         }
                         currentDate.setDate(currentDate.getDate() + 1);
                     }
@@ -107,23 +107,95 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         }
     }
 
+    @Logger
     fetchCalendarDataList(
         startDate: Date,
         finishDate: Date,
     ): Promise<calendar_v3.Schema$Event[]> {
-        return Promise.resolve(
-            MockGoogleCalendarGateway.mockCalendarData[this.raceType].filter(
+        console.log(MockGoogleCalendarGateway.mockCalendarData[this.raceType]);
+        console.log(startDate);
+        console.log(finishDate);
+        const raceData = MockGoogleCalendarGateway.mockCalendarData[
+            this.raceType
+        ]
+            .filter(
                 (data) =>
                     new Date(data.start?.dateTime ?? '') >= startDate &&
                     new Date(data.start?.dateTime ?? '') <= finishDate,
-            ),
-        );
+            )
+            // 日付順に並び替え
+            .sort(
+                (a, b) =>
+                    new Date(a.start?.dateTime ?? '').getTime() -
+                    new Date(b.start?.dateTime ?? '').getTime(),
+            );
+        return Promise.resolve(raceData);
     }
-    updateCalendarData: (
-        calendarData: calendar_v3.Schema$Event,
-    ) => Promise<void>;
-    insertCalendarData: (
-        calendarData: calendar_v3.Schema$Event,
-    ) => Promise<void>;
-    deleteCalendarData: (eventId: string) => Promise<void>;
+
+    @Logger
+    updateCalendarData(calendarData: calendar_v3.Schema$Event): Promise<void> {
+        try {
+            // mockCalendarDataに存在するかどうかの判定
+            const index = MockGoogleCalendarGateway.mockCalendarData[
+                this.raceType
+            ].findIndex((data) => data.id === calendarData.id);
+            // 存在しない場合は新規追加
+            if (index === -1) {
+                throw new Error('Event already exists');
+            }
+            MockGoogleCalendarGateway.mockCalendarData[this.raceType][index] =
+                calendarData;
+        } catch (error) {
+            console.error(
+                'Google Calendar APIからのイベント取得に失敗しました',
+                error,
+            );
+        }
+        return Promise.resolve();
+    }
+
+    insertCalendarData(calendarData: calendar_v3.Schema$Event): Promise<void> {
+        try {
+            // mockCalendarDataに存在するかどうかの判定
+            const index = MockGoogleCalendarGateway.mockCalendarData[
+                this.raceType
+            ].findIndex((data) => data.id === calendarData.id);
+            // 存在しない場合は新規追加
+            if (index !== -1) {
+                throw new Error('Not found');
+            }
+            MockGoogleCalendarGateway.mockCalendarData[this.raceType].push(
+                calendarData,
+            );
+        } catch (error) {
+            console.error(
+                'Google Calendar APIからのイベント取得に失敗しました',
+                error,
+            );
+        }
+        return Promise.resolve();
+    }
+
+    deleteCalendarData(eventId: string): Promise<void> {
+        try {
+            // mockCalendarDataに存在するかどうかの判定
+            const index = MockGoogleCalendarGateway.mockCalendarData[
+                this.raceType
+            ].findIndex((data) => data.id === eventId);
+            // 存在しない場合はエラー
+            if (index === -1) {
+                throw new Error('Not found');
+            }
+            MockGoogleCalendarGateway.mockCalendarData[this.raceType].splice(
+                index,
+                1,
+            );
+        } catch (error) {
+            console.error(
+                'Google Calendar APIからのイベント取得に失敗しました',
+                error,
+            );
+        }
+        return Promise.resolve();
+    }
 }

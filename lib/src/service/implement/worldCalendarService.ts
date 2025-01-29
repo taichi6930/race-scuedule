@@ -4,11 +4,13 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
+import { WorldGoogleCalendarData } from '../../domain/worldGoogleCalendarData';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { DeleteCalendarListRequest } from '../../repository/request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../../repository/request/upsertCalendarListRequest';
+import { FetchCalendarListResponse } from '../../repository/response/fetchCalendarListResponse';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
@@ -16,7 +18,10 @@ import { ICalendarService } from '../interface/ICalendarService';
 export class WorldCalendarService implements ICalendarService<WorldRaceEntity> {
     constructor(
         @inject('WorldCalendarRepository')
-        private readonly calendarRepository: ICalendarRepository<WorldRaceEntity>,
+        private readonly calendarRepository: ICalendarRepository<
+            WorldRaceEntity,
+            WorldGoogleCalendarData
+        >,
     ) {}
     /**
      * カレンダーのイベントの取得を行う
@@ -30,8 +35,11 @@ export class WorldCalendarService implements ICalendarService<WorldRaceEntity> {
         finishDate: Date,
     ): Promise<CalendarData[]> {
         const request = new FetchCalendarListRequest(startDate, finishDate);
-        const response = await this.calendarRepository.getEvents(request);
-        return response.calendarDataList;
+        const response: FetchCalendarListResponse<WorldGoogleCalendarData> =
+            await this.calendarRepository.getEvents(request);
+        return response.calendarDataList.map(
+            (calendarData) => calendarData.calendarData,
+        );
     }
 
     /**

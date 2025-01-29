@@ -9,10 +9,10 @@ import type { UpsertCalendarListResponse } from '../response/upsertCalendarListR
 /**
  * カレンダーリポジトリインターフェース
  */
-export interface ICalendarRepository<R extends RaceEntity> {
+export interface ICalendarRepository<R extends RaceEntity, C> {
     getEvents: (
         request: FetchCalendarListRequest,
-    ) => Promise<FetchCalendarListResponse>;
+    ) => Promise<FetchCalendarListResponse<C>>;
 
     upsertEvents: (
         request: UpsertCalendarListRequest<R>,
