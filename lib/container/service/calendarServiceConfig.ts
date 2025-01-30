@@ -19,32 +19,6 @@ import { MockGoogleCalendarService } from '../../src/service/mock/mockGoogleCale
 import { MockKeirinGoogleCalendarService } from '../../src/service/mock/mockKeirinGoogleCalendarService';
 import { ENV } from '../../src/utility/env';
 
-// ICalendarServiceの実装クラスをDIコンテナに登錄する
-// container.register<ICalendarService<NarRaceEntity>>('NarCalendarService', {
-//     useFactory: () => {
-//         switch (ENV) {
-//             case 'PRODUCTION':
-//                 // ENV が production の場合、GoogleCalendarService を使用
-//                 return new GoogleCalendarService<NarRaceEntity>(
-//                     'nar',
-//                     process.env.NAR_CALENDAR_ID ?? '',
-//                 );
-//             case 'TEST':
-//                 // ENV が test の場合、GoogleCalendarService を使用
-//                 return new GoogleCalendarService<NarRaceEntity>(
-//                     'nar',
-//                     process.env.TEST_CALENDAR_ID ?? '',
-//                 );
-//             case 'LOCAL':
-//             case 'LOCAL_NO_INIT_DATA':
-//             case 'LOCAL_INIT_MADE_DATA':
-//                 // ENV が指定されていない場合も MockGoogleCalendarService を使用
-//                 return new MockGoogleCalendarService('nar');
-//             default:
-//                 throw new Error('Invalid ENV value');
-//         }
-//     },
-// });
 container.register<ICalendarService<NarRaceEntity>>('NarCalendarService', {
     useClass: NarCalendarService,
 });
