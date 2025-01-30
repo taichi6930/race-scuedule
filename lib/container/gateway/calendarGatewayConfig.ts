@@ -16,6 +16,8 @@ container.register<ICalendarGateway>('WorldGoogleCalendarGateway', {
                 return new GoogleCalendarGateway(
                     process.env.TEST_CALENDAR_ID ?? '',
                 );
+            case 'LOCAL_NO_INIT_DATA':
+            case 'LOCAL_INIT_MADE_DATA':
             case 'LOCAL':
                 return new MockGoogleCalendarGateway('world');
             default:
