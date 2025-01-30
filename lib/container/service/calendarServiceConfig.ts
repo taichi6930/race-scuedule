@@ -15,8 +15,8 @@ import { WorldGoogleCalendarService } from '../../src/service/implement/worldGoo
 import type { ICalendarService } from '../../src/service/interface/ICalendarService';
 import { MockAutoraceGoogleCalendarService } from '../../src/service/mock/mockAutoraceGoogleCalendarService';
 import { MockBoatraceGoogleCalendarService } from '../../src/service/mock/mockBoatraceGoogleCalendarService';
-import { MockGoogleCalendarService } from '../../src/service/mock/mockGoogleCalendarService';
 import { MockKeirinGoogleCalendarService } from '../../src/service/mock/mockKeirinGoogleCalendarService';
+import { MockWorldGoogleCalendarService } from '../../src/service/mock/mockWorldGoogleCalendarService';
 import { ENV } from '../../src/utility/env';
 
 container.register<ICalendarService<NarRaceEntity>>('NarCalendarService', {
@@ -70,7 +70,7 @@ container.register<ICalendarService<WorldRaceEntity>>('WorldCalendarService', {
             case 'LOCAL_NO_INIT_DATA':
             case 'LOCAL_INIT_MADE_DATA':
                 // ENV が指定されていない場合も MockGoogleCalendarService を使用
-                return new MockGoogleCalendarService('world');
+                return new MockWorldGoogleCalendarService('world');
             default:
                 throw new Error('Invalid ENV value');
         }

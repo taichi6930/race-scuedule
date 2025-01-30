@@ -4,16 +4,6 @@ import { google } from 'googleapis';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { WorldGoogleCalendarService } from '../../../../lib/src/service/implement/worldGoogleCalendarService';
 import {
-    baseJraCalendarData,
-    baseJraCalendarDataFromGoogleCalendar,
-    baseJraRaceEntity,
-} from '../../mock/common/baseJraData';
-import {
-    baseNarCalendarData,
-    baseNarCalendarDataFromGoogleCalendar,
-    baseNarRaceEntity,
-} from '../../mock/common/baseNarData';
-import {
     baseWorldCalendarData,
     baseWorldCalendarDataFromGoogleCalendar,
     baseWorldRaceEntity,
@@ -47,20 +37,14 @@ describe('GoogleCalendarService', () => {
     };
 
     const calendarDataListRecord: Record<string, CalendarData[]> = {
-        jra: [baseJraCalendarData],
-        nar: [baseNarCalendarData],
         world: [baseWorldCalendarData],
     };
 
     const calendarDataListFromGoogleCalendarRecord: Record<string, any> = {
-        jra: [baseJraCalendarDataFromGoogleCalendar],
-        nar: [baseNarCalendarDataFromGoogleCalendar],
         world: [baseWorldCalendarDataFromGoogleCalendar],
     };
 
     const raceEntityRecord: Record<string, any[]> = {
-        jra: [baseJraRaceEntity],
-        nar: [baseNarRaceEntity],
         world: [baseWorldRaceEntity],
     };
 
