@@ -129,7 +129,7 @@ export class WorldRaceEntity {
         };
     }
 
-    fronGoogleCalendarDataToCalendarData(
+    static fronGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
         return new CalendarData(
@@ -142,7 +142,7 @@ export class WorldRaceEntity {
         );
     }
 
-    fromGoogleCalendarDataToRaceEntity(
+    static fromGoogleCalendarDataToRaceEntity(
         event: calendar_v3.Schema$Event,
     ): WorldRaceEntity {
         return new WorldRaceEntity(
