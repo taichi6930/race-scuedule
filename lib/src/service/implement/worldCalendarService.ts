@@ -4,7 +4,6 @@ import '../../utility/format';
 import { inject, injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
-import { WorldGoogleCalendarData } from '../../domain/worldGoogleCalendarData';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { DeleteCalendarListRequest } from '../../repository/request/deleteCalendarListRequest';
@@ -18,10 +17,7 @@ import { ICalendarService } from '../interface/ICalendarService';
 export class WorldCalendarService implements ICalendarService<WorldRaceEntity> {
     constructor(
         @inject('WorldCalendarRepository')
-        private readonly calendarRepository: ICalendarRepository<
-            WorldRaceEntity,
-            WorldGoogleCalendarData
-        >,
+        private readonly calendarRepository: ICalendarRepository<WorldRaceEntity>,
     ) {}
     /**
      * カレンダーのイベントの取得を行う
@@ -35,11 +31,9 @@ export class WorldCalendarService implements ICalendarService<WorldRaceEntity> {
         finishDate: Date,
     ): Promise<CalendarData[]> {
         const request = new FetchCalendarListRequest(startDate, finishDate);
-        const response: FetchCalendarListResponse<WorldGoogleCalendarData> =
+        const response: FetchCalendarListResponse =
             await this.calendarRepository.getEvents(request);
-        return response.calendarDataList.map(
-            (calendarData) => calendarData.calendarData,
-        );
+        return response.calendarDataList;
     }
 
     /**
