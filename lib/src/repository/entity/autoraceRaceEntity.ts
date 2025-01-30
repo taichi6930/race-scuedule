@@ -1,10 +1,17 @@
 import '../../utility/format';
 
-import type { AutoraceRaceData } from '../../domain/autoraceRaceData';
+import { format } from 'date-fns';
+import type { calendar_v3 } from 'googleapis';
+
+import { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import type { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData';
+import { CalendarData } from '../../domain/calendarData';
 import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
+import type { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
+import { getJSTDate } from '../../utility/date';
+import { formatDate } from '../../utility/format';
 import {
     generateAutoraceRaceId,
     generateAutoraceRacePlayerId,
@@ -77,6 +84,70 @@ export class AutoraceRaceEntity {
     }
 
     /**
+     * レースデータをGoogleカレンダーのイベントに変換する
+     * @param raceEntity
+     * @returns
+     */
+    toGoogleCalendarData(): calendar_v3.Schema$Event {
+        return {
+            id: generateAutoraceRaceId(
+                this.raceData.dateTime,
+                this.raceData.location,
+                this.raceData.number,
+            ),
+            summary: `${this.raceData.stage} ${this.raceData.name}`,
+            location: `${this.raceData.location}オートレース場`,
+            start: {
+                dateTime: formatDate(this.raceData.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(
+                    new Date(this.raceData.dateTime.getTime() + 10 * 60 * 1000),
+                ),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(this.raceData.grade),
+            description:
+                `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
+                          更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
+                  `.replace(/\n\s+/g, '\n'),
+        };
+    }
+
+    static fronGoogleCalendarDataToCalendarData(
+        event: calendar_v3.Schema$Event,
+    ): CalendarData {
+        return new CalendarData(
+            event.id ?? '',
+            event.summary ?? '',
+            new Date(event.start?.dateTime ?? ''),
+            new Date(event.end?.dateTime ?? ''),
+            event.location ?? '',
+            event.description ?? '',
+        );
+    }
+
+    static fromGoogleCalendarDataToRaceEntity(
+        event: calendar_v3.Schema$Event,
+    ): AutoraceRaceEntity {
+        return new AutoraceRaceEntity(
+            event.extendedProperties?.private?.raceId ?? '',
+            AutoraceRaceData.create(
+                event.extendedProperties?.private?.name ?? '',
+                event.extendedProperties?.private?.stage ?? '',
+                new Date(event.extendedProperties?.private?.dateTime ?? ''),
+                event.extendedProperties?.private?.location ?? '',
+                event.extendedProperties?.private?.grade ?? '',
+                Number(event.extendedProperties?.private?.number ?? -1),
+            ),
+            [],
+            new Date(event.extendedProperties?.private?.updateDate ?? ''),
+        );
+    }
+
+    /**
      * AutoraceRacePlayerRecordに変換する
      * @returns
      */
@@ -95,5 +166,21 @@ export class AutoraceRaceEntity {
                 this.updateDate,
             ),
         );
+    }
+
+    /**
+     * Googleカレンダーのイベントの色IDを取得する
+     * @param raceGrade
+     * @returns
+     */
+    private getColorId(raceGrade: AutoraceGradeType): string {
+        const gradeColorMap: Record<AutoraceGradeType, string> = {
+            SG: '9',
+            GⅠ: '9',
+            特GⅠ: '9',
+            GⅡ: '11',
+            開催: '8',
+        };
+        return gradeColorMap[raceGrade];
     }
 }

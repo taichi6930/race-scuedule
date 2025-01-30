@@ -1,10 +1,17 @@
 import '../../utility/format';
 
-import type { BoatraceRaceData } from '../../domain/boatraceRaceData';
+import { format } from 'date-fns';
+import type { calendar_v3 } from 'googleapis';
+
+import { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import type { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
+import { CalendarData } from '../../domain/calendarData';
 import { BoatraceRacePlayerRecord } from '../../gateway/record/boatraceRacePlayerRecord';
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
+import type { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
+import { getJSTDate } from '../../utility/date';
+import { formatDate } from '../../utility/format';
 import {
     generateBoatraceRaceId,
     generateBoatraceRacePlayerId,
@@ -77,6 +84,70 @@ export class BoatraceRaceEntity {
     }
 
     /**
+     * レースデータをGoogleカレンダーのイベントに変換する
+     * @param raceEntity
+     * @returns
+     */
+    toGoogleCalendarData(): calendar_v3.Schema$Event {
+        return {
+            id: generateBoatraceRaceId(
+                this.raceData.dateTime,
+                this.raceData.location,
+                this.raceData.number,
+            ),
+            summary: `${this.raceData.stage} ${this.raceData.name}`,
+            location: `${this.raceData.location}ボートレース場`,
+            start: {
+                dateTime: formatDate(this.raceData.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(
+                    new Date(this.raceData.dateTime.getTime() + 10 * 60 * 1000),
+                ),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(this.raceData.grade),
+            description:
+                `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
+                          更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
+                  `.replace(/\n\s+/g, '\n'),
+        };
+    }
+
+    static fronGoogleCalendarDataToCalendarData(
+        event: calendar_v3.Schema$Event,
+    ): CalendarData {
+        return new CalendarData(
+            event.id ?? '',
+            event.summary ?? '',
+            new Date(event.start?.dateTime ?? ''),
+            new Date(event.end?.dateTime ?? ''),
+            event.location ?? '',
+            event.description ?? '',
+        );
+    }
+
+    static fromGoogleCalendarDataToRaceEntity(
+        event: calendar_v3.Schema$Event,
+    ): BoatraceRaceEntity {
+        return new BoatraceRaceEntity(
+            event.extendedProperties?.private?.raceId ?? '',
+            BoatraceRaceData.create(
+                event.extendedProperties?.private?.name ?? '',
+                event.extendedProperties?.private?.stage ?? '',
+                new Date(event.extendedProperties?.private?.dateTime ?? ''),
+                event.extendedProperties?.private?.location ?? '',
+                event.extendedProperties?.private?.grade ?? '',
+                Number(event.extendedProperties?.private?.number ?? -1),
+            ),
+            [],
+            new Date(event.extendedProperties?.private?.updateDate ?? ''),
+        );
+    }
+
+    /**
      * BoatraceRacePlayerRecordに変換する
      * @returns
      */
@@ -95,5 +166,21 @@ export class BoatraceRaceEntity {
                 this.updateDate,
             ),
         );
+    }
+
+    /**
+     * Googleカレンダーのイベントの色IDを取得する
+     * @param raceGrade
+     * @returns
+     */
+    private getColorId(raceGrade: BoatraceGradeType): string {
+        const gradeColorMap: Record<BoatraceGradeType, string> = {
+            SG: '9',
+            GⅠ: '9',
+            GⅡ: '11',
+            GⅢ: '10',
+            一般: '8',
+        };
+        return gradeColorMap[raceGrade];
     }
 }
