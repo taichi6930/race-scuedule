@@ -340,9 +340,7 @@ export class GoogleCalendarService<R extends RaceEntity>
                     raceEntity as NarRaceEntity,
                 );
             case 'world':
-                return this.translateToCalendarEventForWorld(
-                    raceEntity as WorldRaceEntity,
-                );
+                return (raceEntity as WorldRaceEntity).toGoogleCalendarData();
         }
     }
 
@@ -422,48 +420,6 @@ export class GoogleCalendarService<R extends RaceEntity>
             ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[raceEntity.raceData.location]))}
             ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${raceEntity.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[raceEntity.raceData.location]}${(raceEntity.raceData.dateTime.getMonth() + 1).toXDigits(2)}${raceEntity.raceData.dateTime.getDate().toXDigits(2)}${raceEntity.raceData.number.toXDigits(2)}`)}
             ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${raceEntity.raceData.dateTime.getFullYear().toString()}%2f${raceEntity.raceData.dateTime.getXDigitMonth(2)}%2f${raceEntity.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${raceEntity.raceData.number.toXDigits(2)}&k_babaCode=${NarBabacodeMap[raceEntity.raceData.location]}`)}
-            更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
-        `.replace(/\n\s+/g, '\n'),
-        };
-    }
-
-    /**
-     * レースデータをGoogleカレンダーのイベントに変換する（海外競馬）
-     * @param raceEntity
-     * @returns
-     */
-    private translateToCalendarEventForWorld(
-        raceEntity: WorldRaceEntity,
-    ): calendar_v3.Schema$Event {
-        return {
-            id: generateWorldRaceId(
-                raceEntity.raceData.dateTime,
-                raceEntity.raceData.location,
-                raceEntity.raceData.number,
-            )
-                .replace('w', 'vv')
-                .replace('x', 'cs')
-                .replace('y', 'v')
-                .replace('z', 's'),
-            summary: raceEntity.raceData.name,
-            location: `${raceEntity.raceData.location}競馬場`,
-            start: {
-                dateTime: formatDate(raceEntity.raceData.dateTime),
-                timeZone: 'Asia/Tokyo',
-            },
-            end: {
-                // 終了時刻は発走時刻から10分後とする
-                dateTime: formatDate(
-                    new Date(
-                        raceEntity.raceData.dateTime.getTime() + 10 * 60 * 1000,
-                    ),
-                ),
-                timeZone: 'Asia/Tokyo',
-            },
-            colorId: this.getColorId(raceEntity.raceData.grade),
-            description:
-                `距離: ${raceEntity.raceData.surfaceType}${raceEntity.raceData.distance.toString()}m
-            発走: ${raceEntity.raceData.dateTime.getXDigitHours(2)}:${raceEntity.raceData.dateTime.getXDigitMinutes(2)}
             更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
         `.replace(/\n\s+/g, '\n'),
         };

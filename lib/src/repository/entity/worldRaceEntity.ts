@@ -74,21 +74,6 @@ export class WorldRaceEntity {
         );
     }
 
-    // toGoogleCalendarData(): calendar_v3.Schema$Event {
-    //     return {
-    //         id: this.id,
-    //         summary: this.raceData.name,
-    //         start: {
-    //             dateTime: this.raceData.dateTime.toISOString(),
-    //         },
-    //         end: {
-    //             dateTime: this.raceData.dateTime.toISOString(),
-    //         },
-    //         location: this.raceData.location,
-    //         description: this.raceData.grade,
-    //     };
-    // }
-
     /**
      * レースデータをGoogleカレンダーのイベントに変換する（海外競馬）
      * @param raceEntity
