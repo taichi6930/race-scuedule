@@ -51,6 +51,27 @@ export class GoogleCalendarGateway implements ICalendarGateway {
     }
 
     @Logger
+    async fetchCalendarData(
+        eventId: string,
+    ): Promise<calendar_v3.Schema$Event> {
+        try {
+            const response = await this.calendar.events.get({
+                calendarId: this.calendarId,
+                eventId,
+            });
+            return response.data;
+        } catch (error) {
+            console.error(
+                'Google Calendar APIからのイベント取得に失敗しました',
+                error,
+            );
+            throw new Error(
+                'Google Calendar APIからのイベント取得に失敗しました',
+            );
+        }
+    }
+
+    @Logger
     async updateCalendarData(
         calendarData: calendar_v3.Schema$Event,
     ): Promise<void> {

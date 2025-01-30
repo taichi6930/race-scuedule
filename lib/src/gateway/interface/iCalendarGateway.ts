@@ -15,6 +15,12 @@ export interface ICalendarGateway {
     ) => Promise<calendar_v3.Schema$Event[]>;
 
     /**
+     * カレンダーデータを取得する
+     * @param eventId
+     */
+    fetchCalendarData: (eventId: string) => Promise<calendar_v3.Schema$Event>;
+
+    /**
      * カレンダーデータの更新を行う
      * @param calendarData
      */

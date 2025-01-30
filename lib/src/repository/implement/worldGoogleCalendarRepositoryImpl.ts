@@ -1,10 +1,8 @@
 import 'reflect-metadata';
 
-import { format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
-import { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import { Logger } from '../../utility/logger';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { ICalendarRepository } from '../interface/ICalendarRepository';
@@ -58,55 +56,40 @@ export class WorldGoogleCalendarRepositoryImpl
     async upsertEvents(
         request: UpsertCalendarListRequest<WorldRaceEntity>,
     ): Promise<UpsertCalendarListResponse> {
-        const calendarIdMap = new Map<string, WorldRaceId[]>();
+        // Googleカレンダーから取得する
         await Promise.all(
             request.raceEntityList.map(async (raceEntity) => {
-                // keyに日付（yyyyMMdd）が存在する場合は追加
-                if (
-                    calendarIdMap.has(
-                        format(raceEntity.raceData.dateTime, 'yyyyMMdd'),
-                    )
-                ) {
-                    return;
-                }
-                // カレンダーListを取得
-                const calendarIdList = (
-                    await this.googleCalendarGateway.fetchCalendarDataList(
-                        new Date(
-                            raceEntity.raceData.dateTime.getFullYear(),
-                            raceEntity.raceData.dateTime.getMonth(),
-                            raceEntity.raceData.dateTime.getDate(),
-                        ),
-                        new Date(
-                            raceEntity.raceData.dateTime.getFullYear(),
-                            raceEntity.raceData.dateTime.getMonth(),
-                            raceEntity.raceData.dateTime.getDate() + 1,
-                        ),
-                    )
-                )
-                    .map((event) => event.id)
-                    .filter((id) => id !== undefined && id !== null);
-
-                // カレンダーIDをMapに格納
-                calendarIdMap.set(
-                    format(raceEntity.raceData.dateTime, 'yyyyMMdd'),
-                    calendarIdList,
-                );
-
-                // 既に登録されているかどうか判定
-                const isExist = calendarIdMap
-                    .get(format(raceEntity.raceData.dateTime, 'yyyyMMdd'))
-                    ?.some((id) => raceEntity.id.includes(id));
-
-                if (isExist) {
-                    // 既に登録されている場合は更新
-                    await this.googleCalendarGateway.updateCalendarData(
-                        raceEntity.toGoogleCalendarData(),
-                    );
-                } else {
-                    // 新規登録
-                    await this.googleCalendarGateway.insertCalendarData(
-                        raceEntity.toGoogleCalendarData(),
+                try {
+                    // 既に登録されているかどうか判定
+                    let isExist = false;
+                    try {
+                        await this.googleCalendarGateway
+                            .fetchCalendarData(raceEntity.id)
+                            .then((calendarData) => {
+                                console.debug('calendarData', calendarData);
+                                isExist = true;
+                            });
+                    } catch (error) {
+                        console.error(
+                            'Google Calendar APIからのイベント取得に失敗しました',
+                            error,
+                        );
+                    }
+                    if (isExist) {
+                        // 既に登録されている場合は更新
+                        await this.googleCalendarGateway.updateCalendarData(
+                            raceEntity.toGoogleCalendarData(),
+                        );
+                    } else {
+                        // 新規登録
+                        await this.googleCalendarGateway.insertCalendarData(
+                            raceEntity.toGoogleCalendarData(),
+                        );
+                    }
+                } catch (error) {
+                    console.error(
+                        'Google Calendar APIへのイベント登録に失敗しました',
+                        error,
                     );
                 }
             }),
@@ -114,7 +97,16 @@ export class WorldGoogleCalendarRepositoryImpl
         return new UpsertCalendarListResponse(200);
     }
 
-    deleteEvents: (
+    async deleteEvents(
         request: DeleteCalendarListRequest,
-    ) => Promise<DeleteCalendarListResponse>;
+    ): Promise<DeleteCalendarListResponse> {
+        await Promise.all(
+            request.calendarDataList.map(async (calendarData) => {
+                await this.googleCalendarGateway.deleteCalendarData(
+                    calendarData.id,
+                );
+            }),
+        );
+        return new DeleteCalendarListResponse(200);
+    }
 }
