@@ -1,8 +1,21 @@
 import '../../utility/format';
 
+import { format } from 'date-fns';
+import type { calendar_v3 } from 'googleapis';
+
 import type { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
+import {
+    CHIHO_KEIBA_LIVE_URL,
+    ChihoKeibaYoutubeUserIdMap,
+    getYoutubeLiveUrl,
+} from '../../utility/data/movie';
+import type { NarGradeType } from '../../utility/data/nar/narGradeType';
+import { NarBabacodeMap } from '../../utility/data/nar/narRaceCourse';
 import type { NarRaceId } from '../../utility/data/nar/narRaceId';
+import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
+import { getJSTDate } from '../../utility/date';
+import { createAnchorTag, formatDate } from '../../utility/format';
 import { generateNarRaceId } from '../../utility/raceId';
 
 /**
@@ -65,5 +78,75 @@ export class NarRaceEntity {
             this.raceData.number,
             this.updateDate,
         );
+    }
+
+    /**
+     * レースデータをGoogleカレンダーのイベントに変換する
+     * @param raceEntity
+     * @returns
+     */
+    toGoogleCalendarData(): calendar_v3.Schema$Event {
+        return {
+            id: generateNarRaceId(
+                this.raceData.dateTime,
+                this.raceData.location,
+                this.raceData.number,
+            ),
+            summary: this.raceData.name,
+            location: `${this.raceData.location}競馬場`,
+            start: {
+                dateTime: formatDate(this.raceData.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(
+                    new Date(this.raceData.dateTime.getTime() + 10 * 60 * 1000),
+                ),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(this.raceData.grade),
+            description:
+                `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
+                発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
+                ${createAnchorTag('レース映像（地方競馬LIVE）', CHIHO_KEIBA_LIVE_URL)}
+                ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[this.raceData.location]))}
+                ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${this.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[this.raceData.location]}${(this.raceData.dateTime.getMonth() + 1).toXDigits(2)}${this.raceData.dateTime.getDate().toXDigits(2)}${this.raceData.number.toXDigits(2)}`)}
+                ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${this.raceData.dateTime.getFullYear().toString()}%2f${this.raceData.dateTime.getXDigitMonth(2)}%2f${this.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${this.raceData.number.toXDigits(2)}&k_babaCode=${NarBabacodeMap[this.raceData.location]}`)}
+                更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
+            `.replace(/\n\s+/g, '\n'),
+        };
+    }
+
+    /**
+     * Googleカレンダーのイベントの色IDを取得する
+     * @param raceGrade
+     * @returns
+     */
+    private getColorId(raceGrade: NarGradeType): string {
+        switch (raceGrade) {
+            case 'GⅠ':
+                return '9';
+            case 'GⅡ':
+                return '11';
+            case 'GⅢ':
+                return '10';
+            case 'JpnⅠ':
+                return '1';
+            case 'JpnⅡ':
+                return '4';
+            case 'JpnⅢ':
+                return '2';
+            case 'Listed':
+            case '重賞':
+                return '5';
+            case 'オープン':
+            case 'オープン特別':
+                return '6';
+            case '地方重賞':
+                return '3';
+            default:
+                return '8';
+        }
     }
 }
