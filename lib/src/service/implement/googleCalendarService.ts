@@ -322,7 +322,7 @@ export class GoogleCalendarService<R extends RaceEntity>
     ): calendar_v3.Schema$Event {
         switch (this.raceType) {
             case 'jra':
-                return (raceEntity as JraRaceEntity).toGoogleCalendarEvent();
+                return (raceEntity as JraRaceEntity).toGoogleCalendarData();
             case 'nar':
                 return (raceEntity as NarRaceEntity).toGoogleCalendarData();
             case 'world':
