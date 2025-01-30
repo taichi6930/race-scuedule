@@ -7,29 +7,20 @@ import { injectable } from 'tsyringe';
 
 import { CalendarData } from '../../domain/calendarData';
 import { RaceEntity } from '../../repository/entity/baseEntity';
-import { JraRaceEntity } from '../../repository/entity/jraRaceEntity';
-import { NarRaceEntity } from '../../repository/entity/narRaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { Logger } from '../../utility/logger';
-import {
-    generateJraRaceId,
-    generateNarRaceId,
-    generateWorldRaceId,
-} from '../../utility/raceId';
+import { generateWorldRaceId } from '../../utility/raceId';
 import { ICalendarService } from '../interface/ICalendarService';
 
-export type RaceType = 'jra' | 'nar' | 'world';
 @injectable()
-export class GoogleCalendarService<R extends RaceEntity>
-    implements ICalendarService<R>
+export class WorldGoogleCalendarService
+    implements ICalendarService<WorldRaceEntity>
 {
     private readonly credentials: JWT;
     private readonly calendar: calendar_v3.Calendar;
-    private readonly raceType: RaceType;
     private readonly calendarId: string;
 
-    constructor(raceType: RaceType, calendarId: string) {
-        this.raceType = raceType;
+    constructor(calendarId: string) {
         this.credentials = new google.auth.JWT(
             // client_emailは環境変数から取得
             process.env.GOOGLE_CLIENT_EMAIL,
@@ -134,14 +125,12 @@ export class GoogleCalendarService<R extends RaceEntity>
      * @param raceEntityList
      */
     @Logger
-    async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
+    async upsertEvents(raceEntityList: WorldRaceEntity[]): Promise<void> {
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {
                 // イベントIDを生成
-                const eventId = GoogleCalendarService.generateEventId(
-                    this.raceType,
-                    raceEntity,
-                );
+                const eventId =
+                    WorldGoogleCalendarService.generateEventId(raceEntity);
                 try {
                     // イベントを取得
                     const event = await this.calendar.events.get({
@@ -249,39 +238,19 @@ export class GoogleCalendarService<R extends RaceEntity>
      * @param raceEntity
      * @returns
      */
-    static generateEventId(raceType: RaceType, raceEntity: RaceEntity): string {
-        switch (raceType) {
-            case 'jra': {
-                const jraRaceEntity = raceEntity as JraRaceEntity;
-                return generateJraRaceId(
-                    jraRaceEntity.raceData.dateTime,
-                    jraRaceEntity.raceData.location,
-                    jraRaceEntity.raceData.number,
-                );
-            }
-            case 'nar': {
-                const narRaceEntity = raceEntity as NarRaceEntity;
-                return generateNarRaceId(
-                    narRaceEntity.raceData.dateTime,
-                    narRaceEntity.raceData.location,
-                    narRaceEntity.raceData.number,
-                );
-            }
-            case 'world': {
-                // w, x, y, zはGoogle Calendar APIのIDで使用できないため、置換
-                // https://developers.google.com/calendar/api/v3/reference/events/insert?hl=ja
-                const worldRaceEntity = raceEntity as WorldRaceEntity;
-                return generateWorldRaceId(
-                    worldRaceEntity.raceData.dateTime,
-                    worldRaceEntity.raceData.location,
-                    worldRaceEntity.raceData.number,
-                )
-                    .replace('w', 'vv')
-                    .replace('x', 'cs')
-                    .replace('y', 'v')
-                    .replace('z', 's');
-            }
-        }
+    static generateEventId(raceEntity: RaceEntity): string {
+        // w, x, y, zはGoogle Calendar APIのIDで使用できないため、置換
+        // https://developers.google.com/calendar/api/v3/reference/events/insert?hl=ja
+        const worldRaceEntity = raceEntity as WorldRaceEntity;
+        return generateWorldRaceId(
+            worldRaceEntity.raceData.dateTime,
+            worldRaceEntity.raceData.location,
+            worldRaceEntity.raceData.number,
+        )
+            .replace('w', 'vv')
+            .replace('x', 'cs')
+            .replace('y', 'v')
+            .replace('z', 's');
     }
 
     /**
@@ -292,7 +261,7 @@ export class GoogleCalendarService<R extends RaceEntity>
      */
     @Logger
     private async updateEvent(
-        raceEntity: RaceEntity,
+        raceEntity: WorldRaceEntity,
         eventId: string,
     ): Promise<void> {
         try {
@@ -318,15 +287,8 @@ export class GoogleCalendarService<R extends RaceEntity>
      * @returns
      */
     private translateToCalendarEvent(
-        raceEntity: RaceEntity,
+        raceEntity: WorldRaceEntity,
     ): calendar_v3.Schema$Event {
-        switch (this.raceType) {
-            case 'jra':
-                return (raceEntity as JraRaceEntity).toGoogleCalendarEvent();
-            case 'nar':
-                return (raceEntity as NarRaceEntity).toGoogleCalendarData();
-            case 'world':
-                return (raceEntity as WorldRaceEntity).toGoogleCalendarData();
-        }
+        return raceEntity.toGoogleCalendarData();
     }
 }

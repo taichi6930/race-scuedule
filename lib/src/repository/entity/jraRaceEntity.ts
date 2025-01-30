@@ -3,7 +3,8 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import type { JraRaceData } from '../../domain/jraRaceData';
+import { CalendarData } from '../../domain/calendarData';
+import { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import type { JraRaceId } from '../../utility/data/jra/jraRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
@@ -81,7 +82,7 @@ export class JraRaceEntity {
      * @param raceEntity
      * @returns
      */
-    toGoogleCalendarEvent(): calendar_v3.Schema$Event {
+    toGoogleCalendarData(): calendar_v3.Schema$Event {
         return {
             id: generateJraRaceId(
                 this.raceData.dateTime,
@@ -108,7 +109,55 @@ export class JraRaceEntity {
                     ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${this.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[this.raceData.location]}${this.raceData.heldTimes.toXDigits(2)}${this.raceData.heldDayTimes.toXDigits(2)}${this.raceData.number.toXDigits(2)}`)}
                     更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
                 `.replace(/\n\s+/g, '\n'),
+            extendedProperties: {
+                private: {
+                    raceId: this.id,
+                    name: this.raceData.name,
+                    dateTime: this.raceData.dateTime.toISOString(),
+                    location: this.raceData.location,
+                    distance: this.raceData.distance.toString(),
+                    surfaceType: this.raceData.surfaceType,
+                    grade: this.raceData.grade,
+                    number: this.raceData.number.toString(),
+                    heldTimes: this.raceData.heldTimes.toString(),
+                    heldDayTimes: this.raceData.heldDayTimes.toString(),
+                    updateDate: this.updateDate.toISOString(),
+                },
+            },
         };
+    }
+
+    static fronGoogleCalendarDataToCalendarData(
+        event: calendar_v3.Schema$Event,
+    ): CalendarData {
+        return new CalendarData(
+            event.id ?? '',
+            event.summary ?? '',
+            new Date(event.start?.dateTime ?? ''),
+            new Date(event.end?.dateTime ?? ''),
+            event.location ?? '',
+            event.description ?? '',
+        );
+    }
+
+    static fromGoogleCalendarDataToRaceEntity(
+        event: calendar_v3.Schema$Event,
+    ): JraRaceEntity {
+        return new JraRaceEntity(
+            event.extendedProperties?.private?.raceId ?? '',
+            JraRaceData.create(
+                event.extendedProperties?.private?.name ?? '',
+                new Date(event.extendedProperties?.private?.dateTime ?? ''),
+                event.extendedProperties?.private?.location ?? '',
+                event.extendedProperties?.private?.surfaceType ?? '',
+                Number(event.extendedProperties?.private?.distance ?? -1),
+                event.extendedProperties?.private?.grade ?? '',
+                Number(event.extendedProperties?.private?.number ?? -1),
+                Number(event.extendedProperties?.private?.heldTimes ?? -1),
+                Number(event.extendedProperties?.private?.heldDayTimes ?? -1),
+            ),
+            new Date(event.extendedProperties?.private?.updateDate ?? ''),
+        );
     }
 
     /**
