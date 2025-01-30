@@ -3,7 +3,8 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import type { NarRaceData } from '../../domain/narRaceData';
+import { CalendarData } from '../../domain/calendarData';
+import { NarRaceData } from '../../domain/narRaceData';
 import { NarRaceRecord } from '../../gateway/record/narRaceRecord';
 import {
     CHIHO_KEIBA_LIVE_URL,
@@ -115,7 +116,51 @@ export class NarRaceEntity {
                 ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${this.raceData.dateTime.getFullYear().toString()}%2f${this.raceData.dateTime.getXDigitMonth(2)}%2f${this.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${this.raceData.number.toXDigits(2)}&k_babaCode=${NarBabacodeMap[this.raceData.location]}`)}
                 更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
             `.replace(/\n\s+/g, '\n'),
+            extendedProperties: {
+                private: {
+                    raceId: this.id,
+                    name: this.raceData.name,
+                    dateTime: this.raceData.dateTime.toISOString(),
+                    location: this.raceData.location,
+                    distance: this.raceData.distance.toString(),
+                    surfaceType: this.raceData.surfaceType,
+                    grade: this.raceData.grade,
+                    number: this.raceData.number.toString(),
+                    updateDate: this.updateDate.toISOString(),
+                },
+            },
         };
+    }
+
+    static fronGoogleCalendarDataToCalendarData(
+        event: calendar_v3.Schema$Event,
+    ): CalendarData {
+        return new CalendarData(
+            event.id ?? '',
+            event.summary ?? '',
+            new Date(event.start?.dateTime ?? ''),
+            new Date(event.end?.dateTime ?? ''),
+            event.location ?? '',
+            event.description ?? '',
+        );
+    }
+
+    static fromGoogleCalendarDataToRaceEntity(
+        event: calendar_v3.Schema$Event,
+    ): NarRaceEntity {
+        return new NarRaceEntity(
+            event.extendedProperties?.private?.raceId ?? '',
+            NarRaceData.create(
+                event.extendedProperties?.private?.name ?? '',
+                new Date(event.extendedProperties?.private?.dateTime ?? ''),
+                event.extendedProperties?.private?.location ?? '',
+                event.extendedProperties?.private?.surfaceType ?? '',
+                Number(event.extendedProperties?.private?.distance ?? -1),
+                event.extendedProperties?.private?.grade ?? '',
+                Number(event.extendedProperties?.private?.number ?? -1),
+            ),
+            new Date(event.extendedProperties?.private?.updateDate ?? ''),
+        );
     }
 
     /**

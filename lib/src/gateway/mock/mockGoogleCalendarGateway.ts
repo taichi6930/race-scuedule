@@ -15,7 +15,6 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
     constructor(private readonly raceType: RaceType) {
         this.setCalendarData();
     }
-
     private static mockCalendarData: Record<
         string,
         calendar_v3.Schema$Event[]
@@ -129,6 +128,16 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                     new Date(a.start?.dateTime ?? '').getTime() -
                     new Date(b.start?.dateTime ?? '').getTime(),
             );
+        return Promise.resolve(raceData);
+    }
+
+    fetchCalendarData(eventId: string): Promise<calendar_v3.Schema$Event> {
+        const raceData = MockGoogleCalendarGateway.mockCalendarData[
+            this.raceType
+        ].find((data) => data.id === eventId);
+        if (!raceData) {
+            throw new Error('Not found');
+        }
         return Promise.resolve(raceData);
     }
 
