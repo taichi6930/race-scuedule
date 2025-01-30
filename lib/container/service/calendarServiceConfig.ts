@@ -70,7 +70,7 @@ container.register<ICalendarService<WorldRaceEntity>>('WorldCalendarService', {
             case 'LOCAL_NO_INIT_DATA':
             case 'LOCAL_INIT_MADE_DATA':
                 // ENV が指定されていない場合も MockGoogleCalendarService を使用
-                return new MockWorldGoogleCalendarService('world');
+                return new MockWorldGoogleCalendarService();
             default:
                 throw new Error('Invalid ENV value');
         }
