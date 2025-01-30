@@ -70,13 +70,6 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        console.log(
-            `filteredRaceEntityList: ${JSON.stringify(filteredRaceEntityList)}`,
-        );
-        console.log(`calendarDataList: ${JSON.stringify(calendarDataList)}`);
-        console.log(
-            `deleteCalendarDataList: ${JSON.stringify(deleteCalendarDataList)}`,
-        );
         if (deleteCalendarDataList.length > 0) {
             await this.calendarService.deleteEvents(deleteCalendarDataList);
         }
