@@ -1,5 +1,4 @@
 import '../../utility/format';
-import '../../utility/format';
 
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
