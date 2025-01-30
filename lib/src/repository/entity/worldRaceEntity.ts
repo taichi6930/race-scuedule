@@ -3,7 +3,8 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import type { WorldRaceData } from '../../domain/worldRaceData';
+import { CalendarData } from '../../domain/calendarData';
+import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
 import type { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
@@ -126,6 +127,37 @@ export class WorldRaceEntity {
                 },
             },
         };
+    }
+
+    fronGoogleCalendarDataToCalendarData(
+        event: calendar_v3.Schema$Event,
+    ): CalendarData {
+        return new CalendarData(
+            event.id ?? '',
+            event.summary ?? '',
+            new Date(event.start?.dateTime ?? ''),
+            new Date(event.end?.dateTime ?? ''),
+            event.location ?? '',
+            event.description ?? '',
+        );
+    }
+
+    fromGoogleCalendarDataToRaceEntity(
+        event: calendar_v3.Schema$Event,
+    ): WorldRaceEntity {
+        return new WorldRaceEntity(
+            event.extendedProperties?.private?.raceId ?? '',
+            WorldRaceData.create(
+                event.extendedProperties?.private?.name ?? '',
+                new Date(event.extendedProperties?.private?.dateTime ?? ''),
+                event.extendedProperties?.private?.location ?? '',
+                event.extendedProperties?.private?.surfaceType ?? '',
+                Number(event.extendedProperties?.private?.distance ?? -1),
+                event.extendedProperties?.private?.grade ?? '',
+                Number(event.extendedProperties?.private?.number ?? -1),
+            ),
+            new Date(event.extendedProperties?.private?.updateDate ?? ''),
+        );
     }
 
     /**
