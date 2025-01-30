@@ -1,8 +1,15 @@
 import '../../utility/format';
+import '../../utility/format';
+
+import { format } from 'date-fns';
+import type { calendar_v3 } from 'googleapis';
 
 import type { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
 import type { JraRaceId } from '../../utility/data/jra/jraRaceId';
+import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
+import { getJSTDate } from '../../utility/date';
+import { createAnchorTag, formatDate } from '../../utility/format';
 import { generateJraRaceId } from '../../utility/raceId';
 
 /**
@@ -68,5 +75,73 @@ export class JraRaceEntity {
             this.raceData.heldDayTimes,
             this.updateDate,
         );
+    }
+
+    /**
+     * レースデータをGoogleカレンダーのイベントに変換する
+     * @param raceEntity
+     * @returns
+     */
+    toGoogleCalendarEvent(): calendar_v3.Schema$Event {
+        return {
+            id: generateJraRaceId(
+                this.raceData.dateTime,
+                this.raceData.location,
+                this.raceData.number,
+            ),
+            summary: this.raceData.name,
+            location: `${this.raceData.location}競馬場`,
+            start: {
+                dateTime: formatDate(this.raceData.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(
+                    new Date(this.raceData.dateTime.getTime() + 10 * 60 * 1000),
+                ),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(this.raceData.grade),
+            description:
+                `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
+                    発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
+                    ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${this.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[this.raceData.location]}${this.raceData.heldTimes.toXDigits(2)}${this.raceData.heldDayTimes.toXDigits(2)}${this.raceData.number.toXDigits(2)}`)}
+                    更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
+                `.replace(/\n\s+/g, '\n'),
+        };
+    }
+
+    /**
+     * Googleカレンダーのイベントの色IDを取得する
+     * @param raceGrade
+     * @returns
+     */
+    private getColorId(raceGrade: string): string {
+        switch (raceGrade) {
+            case 'GⅠ':
+            case 'J.GⅠ':
+                return '9';
+            case 'GⅡ':
+            case 'J.GⅡ':
+                return '11';
+            case 'GⅢ':
+            case 'J.GⅢ':
+                return '10';
+            case 'JpnⅠ':
+                return '1';
+            case 'JpnⅡ':
+                return '4';
+            case 'JpnⅢ':
+                return '2';
+            case 'Listed':
+                return '5';
+            case 'オープン':
+                return '6';
+            case 'オープン特別':
+                return '6';
+            default:
+                return '8';
+        }
     }
 }

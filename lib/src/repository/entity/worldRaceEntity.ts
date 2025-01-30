@@ -1,8 +1,15 @@
 import '../../utility/format';
 
-import type { WorldRaceData } from '../../domain/worldRaceData';
+import { format } from 'date-fns';
+import type { calendar_v3 } from 'googleapis';
+
+import { CalendarData } from '../../domain/calendarData';
+import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
+import type { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
+import { getJSTDate } from '../../utility/date';
+import { formatDate } from '../../utility/format';
 import { generateWorldRaceId } from '../../utility/raceId';
 
 /**
@@ -66,5 +73,112 @@ export class WorldRaceEntity {
             this.raceData.number,
             this.updateDate,
         );
+    }
+
+    /**
+     * レースデータをGoogleカレンダーのイベントに変換する（海外競馬）
+     * @param raceEntity
+     * @returns
+     */
+    toGoogleCalendarData(): calendar_v3.Schema$Event {
+        return {
+            id: generateWorldRaceId(
+                this.raceData.dateTime,
+                this.raceData.location,
+                this.raceData.number,
+            )
+                // GoogleカレンダーのIDにwxyzは入れられない
+                // そのため、wxyzを置換する
+                // TODO: 正しい置換方法を検討する
+                .replace('w', 'vv')
+                .replace('x', 'cs')
+                .replace('y', 'v')
+                .replace('z', 's'),
+            summary: this.raceData.name,
+            location: `${this.raceData.location}競馬場`,
+            start: {
+                dateTime: formatDate(this.raceData.dateTime),
+                timeZone: 'Asia/Tokyo',
+            },
+            end: {
+                // 終了時刻は発走時刻から10分後とする
+                dateTime: formatDate(
+                    new Date(this.raceData.dateTime.getTime() + 10 * 60 * 1000),
+                ),
+                timeZone: 'Asia/Tokyo',
+            },
+            colorId: this.getColorId(this.raceData.grade),
+            description:
+                `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
+                発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
+                更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
+            `.replace(/\n\s+/g, '\n'),
+            extendedProperties: {
+                private: {
+                    raceId: this.id,
+                    name: this.raceData.name,
+                    dateTime: this.raceData.dateTime.toISOString(),
+                    location: this.raceData.location,
+                    distance: this.raceData.distance.toString(),
+                    surfaceType: this.raceData.surfaceType,
+                    grade: this.raceData.grade,
+                    number: this.raceData.number.toString(),
+                    updateDate: this.updateDate.toISOString(),
+                },
+            },
+        };
+    }
+
+    fronGoogleCalendarDataToCalendarData(
+        event: calendar_v3.Schema$Event,
+    ): CalendarData {
+        return new CalendarData(
+            event.id ?? '',
+            event.summary ?? '',
+            new Date(event.start?.dateTime ?? ''),
+            new Date(event.end?.dateTime ?? ''),
+            event.location ?? '',
+            event.description ?? '',
+        );
+    }
+
+    fromGoogleCalendarDataToRaceEntity(
+        event: calendar_v3.Schema$Event,
+    ): WorldRaceEntity {
+        return new WorldRaceEntity(
+            event.extendedProperties?.private?.raceId ?? '',
+            WorldRaceData.create(
+                event.extendedProperties?.private?.name ?? '',
+                new Date(event.extendedProperties?.private?.dateTime ?? ''),
+                event.extendedProperties?.private?.location ?? '',
+                event.extendedProperties?.private?.surfaceType ?? '',
+                Number(event.extendedProperties?.private?.distance ?? -1),
+                event.extendedProperties?.private?.grade ?? '',
+                Number(event.extendedProperties?.private?.number ?? -1),
+            ),
+            new Date(event.extendedProperties?.private?.updateDate ?? ''),
+        );
+    }
+
+    /**
+     * Googleカレンダーのイベントの色IDを取得する
+     * @param raceGrade
+     * @returns
+     */
+    private getColorId(raceGrade: WorldGradeType): string {
+        switch (raceGrade) {
+            case 'GⅠ':
+                return '9';
+            case 'GⅡ':
+                return '11';
+            case 'GⅢ':
+                return '10';
+            case 'Listed':
+                return '5';
+            case '格付けなし':
+                return '6';
+            default:
+                return '8';
+        }
     }
 }
