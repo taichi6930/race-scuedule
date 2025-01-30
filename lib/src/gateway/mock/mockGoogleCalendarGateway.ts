@@ -1,13 +1,19 @@
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import type { RaceType } from '../../service/implement/googleCalendarService';
 import { WorldPlaceCodeMap } from '../../utility/data/world/worldRaceCourse';
 import { ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
+export type RaceType =
+    | 'jra'
+    | 'nar'
+    | 'world'
+    | 'keirin'
+    | 'autorace'
+    | 'boatrace';
 /**
  * Googleカレンダーのモックサービス
  */

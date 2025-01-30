@@ -2,10 +2,7 @@ import type { GaxiosPromise } from 'gaxios';
 import { google } from 'googleapis';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
-import type { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
-import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
-import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
-import { GoogleCalendarService } from '../../../../lib/src/service/implement/googleCalendarService';
+import { WorldGoogleCalendarService } from '../../../../lib/src/service/implement/worldGoogleCalendarService';
 import {
     baseJraCalendarData,
     baseJraCalendarDataFromGoogleCalendar,
@@ -46,18 +43,7 @@ jest.mock('googleapis', () => {
 /* eslint-disable */
 describe('GoogleCalendarService', () => {
     const googleCalendarServiceRecord = {
-        nar: new GoogleCalendarService<NarRaceEntity>(
-            'nar',
-            'testNarCalendarId',
-        ),
-        jra: new GoogleCalendarService<JraRaceEntity>(
-            'jra',
-            'testJraCalendarId',
-        ),
-        world: new GoogleCalendarService<WorldRaceEntity>(
-            'world',
-            'testWorldCalendarId',
-        ),
+        world: new WorldGoogleCalendarService('testWorldCalendarId'),
     };
 
     const calendarDataListRecord: Record<string, CalendarData[]> = {
@@ -96,8 +82,8 @@ describe('GoogleCalendarService', () => {
         jest.clearAllMocks();
     });
 
-    (['jra', 'nar', 'world'] as const).forEach((key) => {
-        let googleCalendarService: GoogleCalendarService<any>;
+    (['world'] as const).forEach((key) => {
+        let googleCalendarService: WorldGoogleCalendarService;
         let raceDataList: any;
         beforeEach(() => {
             googleCalendarService = googleCalendarServiceRecord[key];

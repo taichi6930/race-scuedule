@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 
 import { CalendarData } from '../../domain/calendarData';
+import { RaceType } from '../../gateway/mock/mockGoogleCalendarGateway';
 import { AutoraceRaceEntity } from '../../repository/entity/autoraceRaceEntity';
 import { RaceEntity } from '../../repository/entity/baseEntity';
 import { BoatraceRaceEntity } from '../../repository/entity/boatraceRaceEntity';
@@ -10,10 +11,7 @@ import { WorldPlaceCodeMap } from '../../utility/data/world/worldRaceCourse';
 import { ENV } from '../../utility/env';
 import { Logger } from '../../utility/logger';
 import { generateJraRaceId } from '../../utility/raceId';
-import {
-    GoogleCalendarService,
-    RaceType,
-} from '../implement/googleCalendarService';
+import { WorldGoogleCalendarService } from '../implement/worldGoogleCalendarService';
 import type { ICalendarService } from '../interface/ICalendarService';
 
 /**
@@ -119,10 +117,8 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
     @Logger
     async upsertEvents(raceEntityList: RaceEntity[]): Promise<void> {
         for (const raceEntity of raceEntityList) {
-            const eventId = GoogleCalendarService.generateEventId(
-                this.raceType,
-                raceEntity,
-            );
+            const eventId =
+                WorldGoogleCalendarService.generateEventId(raceEntity);
             const existingEventIndex =
                 MockGoogleCalendarService.mockCalendarData[
                     this.raceType
@@ -152,7 +148,7 @@ export class MockGoogleCalendarService implements ICalendarService<RaceEntity> {
 
     private translateToCalendarEvent(raceEntity: RaceEntity): CalendarData {
         return new CalendarData(
-            GoogleCalendarService.generateEventId(this.raceType, raceEntity),
+            WorldGoogleCalendarService.generateEventId(raceEntity),
             raceEntity instanceof KeirinRaceEntity ||
             raceEntity instanceof AutoraceRaceEntity ||
             raceEntity instanceof BoatraceRaceEntity

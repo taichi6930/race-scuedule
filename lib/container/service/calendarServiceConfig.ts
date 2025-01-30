@@ -8,10 +8,10 @@ import type { NarRaceEntity } from '../../src/repository/entity/narRaceEntity';
 import type { WorldRaceEntity } from '../../src/repository/entity/worldRaceEntity';
 import { AutoraceGoogleCalendarService } from '../../src/service/implement/autoraceGoogleCalendarService';
 import { BoatraceGoogleCalendarService } from '../../src/service/implement/boatraceGoogleCalendarService';
-import { GoogleCalendarService } from '../../src/service/implement/googleCalendarService';
 import { JraCalendarService } from '../../src/service/implement/jraCalendarService';
 import { KeirinGoogleCalendarService } from '../../src/service/implement/keirinGoogleCalendarService';
 import { NarCalendarService } from '../../src/service/implement/narCalendarService';
+import { WorldGoogleCalendarService } from '../../src/service/implement/worldGoogleCalendarService';
 import type { ICalendarService } from '../../src/service/interface/ICalendarService';
 import { MockAutoraceGoogleCalendarService } from '../../src/service/mock/mockAutoraceGoogleCalendarService';
 import { MockBoatraceGoogleCalendarService } from '../../src/service/mock/mockBoatraceGoogleCalendarService';
@@ -58,14 +58,12 @@ container.register<ICalendarService<WorldRaceEntity>>('WorldCalendarService', {
         switch (ENV) {
             case 'PRODUCTION':
                 // ENV が production の場合、WorldGoogleCalendarService を使用
-                return new GoogleCalendarService(
-                    'world',
+                return new WorldGoogleCalendarService(
                     process.env.WORLD_CALENDAR_ID ?? '',
                 );
             case 'TEST':
                 // ENV が test の場合、KeirinGoogleCalendarService を使用
-                return new GoogleCalendarService(
-                    'world',
+                return new WorldGoogleCalendarService(
                     process.env.TEST_CALENDAR_ID ?? '',
                 );
             case 'LOCAL':
