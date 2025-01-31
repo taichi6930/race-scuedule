@@ -32,7 +32,6 @@ describe('JraRaceEntityクラスのテスト', () => {
         expect(raceData).toEqual(baseJraRaceData);
     });
 
-    // toGoogleCalendarDataメソッドのテスト
     it('JraRaceEntityのインスタンスをGoogleカレンダーのイベントに変換できることを確認', () => {
         const raceEntity = baseRaceEntity;
         const googleCalendarData = raceEntity.toGoogleCalendarData(
