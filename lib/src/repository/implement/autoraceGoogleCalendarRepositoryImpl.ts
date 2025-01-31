@@ -37,7 +37,7 @@ export class AutoraceGoogleCalendarRepositoryImpl
             return new FetchCalendarListResponse(
                 calendarDataList.map
                     ? calendarDataList.map((calendarData) =>
-                          AutoraceRaceEntity.fronGoogleCalendarDataToCalendarData(
+                          AutoraceRaceEntity.fromGoogleCalendarDataToCalendarData(
                               calendarData,
                           ),
                       )

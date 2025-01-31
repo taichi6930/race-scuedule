@@ -38,7 +38,7 @@ export class WorldGoogleCalendarRepositoryImpl
             return new FetchCalendarListResponse(
                 calendarDataList.map
                     ? calendarDataList.map((calendarData) =>
-                          WorldRaceEntity.fronGoogleCalendarDataToCalendarData(
+                          WorldRaceEntity.fromGoogleCalendarDataToCalendarData(
                               calendarData,
                           ),
                       )

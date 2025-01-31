@@ -37,7 +37,7 @@ export class JraGoogleCalendarRepositoryImpl
             return new FetchCalendarListResponse(
                 calendarDataList.map
                     ? calendarDataList.map((calendarData) =>
-                          JraRaceEntity.fronGoogleCalendarDataToCalendarData(
+                          JraRaceEntity.fromGoogleCalendarDataToCalendarData(
                               calendarData,
                           ),
                       )

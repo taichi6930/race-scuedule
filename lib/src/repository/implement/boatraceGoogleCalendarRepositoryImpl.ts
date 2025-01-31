@@ -37,7 +37,7 @@ export class BoatraceGoogleCalendarRepositoryImpl
             return new FetchCalendarListResponse(
                 calendarDataList.map
                     ? calendarDataList.map((calendarData) =>
-                          BoatraceRaceEntity.fronGoogleCalendarDataToCalendarData(
+                          BoatraceRaceEntity.fromGoogleCalendarDataToCalendarData(
                               calendarData,
                           ),
                       )

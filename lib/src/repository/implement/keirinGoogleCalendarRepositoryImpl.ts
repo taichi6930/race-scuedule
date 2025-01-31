@@ -37,7 +37,7 @@ export class KeirinGoogleCalendarRepositoryImpl
             return new FetchCalendarListResponse(
                 calendarDataList.map
                     ? calendarDataList.map((calendarData) =>
-                          KeirinRaceEntity.fronGoogleCalendarDataToCalendarData(
+                          KeirinRaceEntity.fromGoogleCalendarDataToCalendarData(
                               calendarData,
                           ),
                       )

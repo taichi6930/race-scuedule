@@ -116,7 +116,7 @@ export class AutoraceRaceEntity {
         };
     }
 
-    static fronGoogleCalendarDataToCalendarData(
+    static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
         return new CalendarData(
