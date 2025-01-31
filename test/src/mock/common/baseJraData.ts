@@ -1,3 +1,5 @@
+import type { calendar_v3 } from 'googleapis';
+
 import { CalendarData } from '../../../../lib/src/domain/calendarData';
 import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import { JraRaceData } from '../../../../lib/src/domain/jraRaceData';
@@ -82,6 +84,51 @@ export const baseJraRaceEntity = new JraRaceEntity(
     baseJraRaceData,
     baseJraRaceUpdateDate,
 );
+
+export const baseJraGoogleCalendarData: calendar_v3.Schema$Event = {
+    id: generateJraRaceId(
+        baseJraPlaceDateTime,
+        baseJraPlaceCourse,
+        baseJraRaceNumber,
+    ),
+    summary: baseJraRaceName,
+    start: {
+        dateTime: baseJraRaceDateTime.toISOString().replace('Z', '+09:00'),
+        timeZone: 'Asia/Tokyo',
+    },
+    end: {
+        dateTime: new Date(baseJraRaceDateTime.getTime() + 10 * 60 * 1000)
+            .toISOString()
+            .replace('Z', '+09:00'),
+        timeZone: 'Asia/Tokyo',
+    },
+    location: `${baseJraPlaceCourse}競馬場`,
+    colorId: '9',
+    description: `距離: 芝2500m
+発走: 15:40
+<a href="https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D202406050811">レース情報</a>
+更新日時: 2025/01/01 21:00:00
+`,
+    extendedProperties: {
+        private: {
+            dateTime: baseJraRaceDateTime.toISOString(),
+            distance: baseJraRaceDistance.toString(),
+            grade: baseJraRaceGrade,
+            heldDayTimes: baseJraRaceHeldDayTimes.toString(),
+            heldTimes: baseJraRaceHeldTimes.toString(),
+            location: baseJraPlaceCourse,
+            name: baseJraRaceName,
+            number: baseJraRaceNumber.toString(),
+            raceId: generateJraRaceId(
+                baseJraPlaceDateTime,
+                baseJraPlaceCourse,
+                baseJraRaceNumber,
+            ),
+            surfaceType: baseJraRaceSurfaceType,
+            updateDate: baseJraRaceUpdateDate.toISOString(),
+        },
+    },
+};
 
 export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatMap(
     (location) => {

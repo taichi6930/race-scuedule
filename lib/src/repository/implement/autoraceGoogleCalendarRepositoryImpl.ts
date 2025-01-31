@@ -4,7 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { Logger } from '../../utility/logger';
-import { JraRaceEntity } from '../entity/jraRaceEntity';
+import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { ICalendarRepository } from '../interface/ICalendarRepository';
 import { DeleteCalendarListRequest } from '../request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
@@ -14,14 +14,14 @@ import { FetchCalendarListResponse } from '../response/fetchCalendarListResponse
 import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
 
 /**
- * 競馬場開催データリポジトリの実装
+ * オートレース場開催データリポジトリの実装
  */
 @injectable()
-export class JraGoogleCalendarRepositoryImpl
-    implements ICalendarRepository<JraRaceEntity>
+export class AutoraceGoogleCalendarRepositoryImpl
+    implements ICalendarRepository<AutoraceRaceEntity>
 {
     constructor(
-        @inject('JraGoogleCalendarGateway')
+        @inject('AutoraceGoogleCalendarGateway')
         private readonly googleCalendarGateway: ICalendarGateway,
     ) {}
     async getEvents(
@@ -37,7 +37,7 @@ export class JraGoogleCalendarRepositoryImpl
             return new FetchCalendarListResponse(
                 calendarDataList.map
                     ? calendarDataList.map((calendarData) =>
-                          JraRaceEntity.fromGoogleCalendarDataToCalendarData(
+                          AutoraceRaceEntity.fromGoogleCalendarDataToCalendarData(
                               calendarData,
                           ),
                       )
@@ -54,7 +54,7 @@ export class JraGoogleCalendarRepositoryImpl
 
     @Logger
     async upsertEvents(
-        request: UpsertCalendarListRequest<JraRaceEntity>,
+        request: UpsertCalendarListRequest<AutoraceRaceEntity>,
     ): Promise<UpsertCalendarListResponse> {
         // Googleカレンダーから取得する
         await Promise.all(
