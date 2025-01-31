@@ -174,13 +174,19 @@ export class AutoraceRaceEntity {
      * @returns
      */
     private getColorId(raceGrade: AutoraceGradeType): string {
-        const gradeColorMap: Record<AutoraceGradeType, string> = {
-            SG: '9',
-            GⅠ: '9',
-            特GⅠ: '9',
-            GⅡ: '11',
-            開催: '8',
-        };
-        return gradeColorMap[raceGrade];
+        switch (raceGrade) {
+            case 'SG':
+                return '9';
+            case 'GⅠ':
+                return '9';
+            case '特GⅠ':
+                return '9';
+            case 'GⅡ':
+                return '11';
+            case '開催':
+                return '8';
+            default:
+                return '8';
+        }
     }
 }

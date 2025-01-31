@@ -174,13 +174,19 @@ export class BoatraceRaceEntity {
      * @returns
      */
     private getColorId(raceGrade: BoatraceGradeType): string {
-        const gradeColorMap: Record<BoatraceGradeType, string> = {
-            SG: '9',
-            GⅠ: '9',
-            GⅡ: '11',
-            GⅢ: '10',
-            一般: '8',
-        };
-        return gradeColorMap[raceGrade];
+        switch (raceGrade) {
+            case 'SG':
+                return '9';
+            case 'GⅠ':
+                return '9';
+            case 'GⅡ':
+                return '11';
+            case 'GⅢ':
+                return '10';
+            case '一般':
+                return '8';
+            default:
+                return '8';
+        }
     }
 }

@@ -188,14 +188,21 @@ export class KeirinRaceEntity {
      * @returns
      */
     private getColorId(raceGrade: KeirinGradeType): string {
-        const gradeColorMap: Record<KeirinGradeType, string> = {
-            GP: '9',
-            GⅠ: '9',
-            GⅡ: '11',
-            GⅢ: '10',
-            FⅠ: '8',
-            FⅡ: '8',
-        };
-        return gradeColorMap[raceGrade];
+        switch (raceGrade) {
+            case 'GP':
+                return '9';
+            case 'GⅠ':
+                return '9';
+            case 'GⅡ':
+                return '11';
+            case 'GⅢ':
+                return '10';
+            case 'FⅠ':
+                return '8';
+            case 'FⅡ':
+                return '8';
+            default:
+                return '8';
+        }
     }
 }
