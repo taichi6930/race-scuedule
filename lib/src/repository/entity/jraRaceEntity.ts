@@ -82,7 +82,9 @@ export class JraRaceEntity {
      * @param raceEntity
      * @returns
      */
-    toGoogleCalendarData(): calendar_v3.Schema$Event {
+    toGoogleCalendarData(
+        updateDate: Date = new Date(),
+    ): calendar_v3.Schema$Event {
         return {
             id: generateJraRaceId(
                 this.raceData.dateTime,
@@ -107,7 +109,7 @@ export class JraRaceEntity {
                 `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
                     発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                     ${createAnchorTag('レース情報', `https://netkeiba.page.link/?link=https%3A%2F%2Frace.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${this.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[this.raceData.location]}${this.raceData.heldTimes.toXDigits(2)}${this.raceData.heldDayTimes.toXDigits(2)}${this.raceData.number.toXDigits(2)}`)}
-                    更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
+                    更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}
                 `.replace(/\n\s+/g, '\n'),
             extendedProperties: {
                 private: {

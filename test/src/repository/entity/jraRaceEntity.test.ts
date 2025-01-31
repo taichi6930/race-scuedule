@@ -1,4 +1,5 @@
 import {
+    baseJraGoogleCalendarData,
     baseJraRaceData,
     baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
@@ -29,5 +30,15 @@ describe('JraRaceEntityクラスのテスト', () => {
         const raceData = raceEntity.raceData;
         // インスタンスが変更されていないか確認
         expect(raceData).toEqual(baseJraRaceData);
+    });
+
+    // toGoogleCalendarDataメソッドのテスト
+    it('JraRaceEntityのインスタンスをGoogleカレンダーのイベントに変換できることを確認', () => {
+        const raceEntity = baseRaceEntity;
+        const googleCalendarData = raceEntity.toGoogleCalendarData(
+            new Date('2025-01-01T12:00:00.000Z'),
+        );
+        // Googleカレンダーのイベントが正しいか確認
+        expect(googleCalendarData).toEqual(baseJraGoogleCalendarData);
     });
 });
