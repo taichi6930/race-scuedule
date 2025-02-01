@@ -150,7 +150,7 @@ export const baseAutoraceRaceDataList = baseAutoraceRaceEntityList.map(
 );
 
 export const baseAutoraceCalendarData = new CalendarData(
-    'test202412310511',
+    'autorace202412310511',
     '優勝戦 スーパースター王座決定戦',
     new Date('2024-12-31T16:30:00Z'),
     new Date('2024-12-31T16:40:00Z'),
@@ -159,7 +159,7 @@ export const baseAutoraceCalendarData = new CalendarData(
 );
 
 export const baseAutoraceCalendarDataFromGoogleCalendar = {
-    id: 'test202412310511',
+    id: 'autorace202412310511',
     summary: '優勝戦 スーパースター王座決定戦',
     start: {
         dateTime: '2024-12-31T16:30:00Z',

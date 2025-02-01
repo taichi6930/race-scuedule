@@ -103,9 +103,16 @@ export class WorldGoogleCalendarRepositoryImpl
     ): Promise<DeleteCalendarListResponse> {
         await Promise.all(
             request.calendarDataList.map(async (calendarData) => {
-                await this.googleCalendarGateway.deleteCalendarData(
-                    calendarData.id,
-                );
+                try {
+                    await this.googleCalendarGateway.deleteCalendarData(
+                        calendarData.id,
+                    );
+                } catch (error) {
+                    console.error(
+                        'Google Calendar APIからのイベント削除に失敗しました',
+                        error,
+                    );
+                }
             }),
         );
         return new DeleteCalendarListResponse(200);

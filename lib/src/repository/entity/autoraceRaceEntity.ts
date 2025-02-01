@@ -88,7 +88,9 @@ export class AutoraceRaceEntity {
      * @param raceEntity
      * @returns
      */
-    toGoogleCalendarData(): calendar_v3.Schema$Event {
+    toGoogleCalendarData(
+        updateDate: Date = new Date(),
+    ): calendar_v3.Schema$Event {
         return {
             id: generateAutoraceRaceId(
                 this.raceData.dateTime,
@@ -111,7 +113,7 @@ export class AutoraceRaceEntity {
             colorId: getAutoraceGoogleCalendarColorId(this.raceData.grade),
             description:
                 `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
-                          更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
+                          更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}
                   `.replace(/\n\s+/g, '\n'),
         };
     }
