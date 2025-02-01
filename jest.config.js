@@ -1,6 +1,7 @@
 /* eslint-disable */
 module.exports = {
     collectCoverage: true,
+    coverageProvider: 'v8',
     collectCoverageFrom: ['lib/src/**/*.ts'],
     coverageDirectory: 'coverage',
     coveragePathIgnorePatterns: [
@@ -13,6 +14,7 @@ module.exports = {
         'lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl.ts',
         'lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl.ts',
     ],
+    coverageReporters: ['text', 'lcov'],
     testEnvironment: 'node',
     roots: ['<rootDir>/test'],
     testMatch: ['**/*.test.ts'],
