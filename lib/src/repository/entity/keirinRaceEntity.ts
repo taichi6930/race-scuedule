@@ -8,11 +8,11 @@ import { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { KeirinRacePlayerRecord } from '../../gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
-import type { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
 import type { KeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
+import { getKeirinGoogleCalendarColorId } from '../../utility/googleCalendar';
 import {
     generateKeirinRaceId,
     generateKeirinRacePlayerId,
@@ -109,7 +109,7 @@ export class KeirinRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(this.raceData.grade),
+            colorId: getKeirinGoogleCalendarColorId(this.raceData.grade),
             description:
                 `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                 ${createAnchorTag('レース情報（netkeirin）', `https://netkeirin.page.link/?link=https%3A%2F%2Fkeirin.netkeiba.com%2Frace%2Fentry%2F%3Frace_id%3D${format(this.raceData.dateTime, 'yyyyMMdd')}${KeirinPlaceCodeMap[this.raceData.location]}${this.raceData.number.toXDigits(2)}`)}
@@ -180,29 +180,5 @@ export class KeirinRaceEntity {
                 this.updateDate,
             ),
         );
-    }
-
-    /**
-     * Googleカレンダーのイベントの色IDを取得する
-     * @param raceGrade
-     * @returns
-     */
-    private getColorId(raceGrade: KeirinGradeType): string {
-        switch (raceGrade) {
-            case 'GP':
-                return '9';
-            case 'GⅠ':
-                return '9';
-            case 'GⅡ':
-                return '11';
-            case 'GⅢ':
-                return '10';
-            case 'FⅠ':
-                return '8';
-            case 'FⅡ':
-                return '8';
-            default:
-                return '8';
-        }
     }
 }
