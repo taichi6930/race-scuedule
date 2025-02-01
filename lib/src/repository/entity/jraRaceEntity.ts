@@ -10,7 +10,7 @@ import type { JraRaceId } from '../../utility/data/jra/jraRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
-import { getGoogleCalendarColorId } from '../../utility/googleCalendar';
+import { getGoogleJraCalendarColorId } from '../../utility/googleCalendar';
 import { generateJraRaceId } from '../../utility/raceId';
 
 /**
@@ -105,7 +105,7 @@ export class JraRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: getGoogleCalendarColorId(this.raceData.grade),
+            colorId: getGoogleJraCalendarColorId(this.raceData.grade),
             description:
                 `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
                     発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
