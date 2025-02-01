@@ -1,7 +1,6 @@
 /* eslint-disable */
 module.exports = {
     collectCoverage: true,
-    coverageProvider: 'v8',
     collectCoverageFrom: ['lib/src/**/*.ts'],
     coverageDirectory: 'coverage',
     coveragePathIgnorePatterns: [
