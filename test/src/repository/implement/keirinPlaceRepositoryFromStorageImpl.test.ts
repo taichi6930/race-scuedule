@@ -12,7 +12,7 @@ import { KeirinPlaceRepositoryFromStorageImpl } from '../../../../lib/src/reposi
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { mockS3GatewayForKeirinPlace } from '../../mock/gateway/s3GatewayMock';
+import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
 
 describe('KeirinPlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<KeirinPlaceRecord>>;
@@ -20,7 +20,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3GatewayForKeirinPlace();
+        s3Gateway = mockS3Gateway<KeirinPlaceRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('KeirinPlaceS3Gateway', s3Gateway);

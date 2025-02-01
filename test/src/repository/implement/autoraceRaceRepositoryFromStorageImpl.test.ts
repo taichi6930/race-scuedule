@@ -16,10 +16,7 @@ import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fet
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseAutoraceRacePlayerDataList } from '../../mock/common/baseAutoraceData';
-import {
-    mockS3GatewayForAutoraceRace,
-    mockS3GatewayForAutoraceRacePlayer,
-} from '../../mock/gateway/s3GatewayMock';
+import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
 
 describe('AutoraceRaceRepositoryFromStorageImpl', () => {
     let raceS3Gateway: jest.Mocked<IS3Gateway<AutoraceRaceRecord>>;
@@ -28,8 +25,8 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        raceS3Gateway = mockS3GatewayForAutoraceRace();
-        racePlayerS3Gateway = mockS3GatewayForAutoraceRacePlayer();
+        raceS3Gateway = mockS3Gateway<AutoraceRaceRecord>();
+        racePlayerS3Gateway = mockS3Gateway<AutoraceRacePlayerRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('AutoraceRaceS3Gateway', raceS3Gateway);

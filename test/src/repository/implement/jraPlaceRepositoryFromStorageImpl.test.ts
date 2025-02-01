@@ -12,7 +12,7 @@ import { JraPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repositor
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { mockS3GatewayForJraPlace } from '../../mock/gateway/s3GatewayMock';
+import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
 
 describe('JraPlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<JraPlaceRecord>>;
@@ -20,7 +20,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3GatewayForJraPlace();
+        s3Gateway = mockS3Gateway<JraPlaceRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('JraPlaceS3Gateway', s3Gateway);

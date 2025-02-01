@@ -14,7 +14,7 @@ import { NarRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { mockS3GatewayForNarRace } from '../../mock/gateway/s3GatewayMock';
+import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
 
 describe('NarRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<NarRaceRecord>>;
@@ -22,7 +22,7 @@ describe('NarRaceRepositoryFromStorageImpl', () => {
 
     beforeEach(() => {
         // S3Gatewayのモックを作成
-        s3Gateway = mockS3GatewayForNarRace();
+        s3Gateway = mockS3Gateway<NarRaceRecord>();
 
         // DIコンテナにモックを登録
         container.registerInstance('NarRaceS3Gateway', s3Gateway);
