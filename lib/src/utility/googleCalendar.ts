@@ -3,7 +3,7 @@ import type { JraGradeType } from './data/jra/jraGradeType';
 /**
  * Google Calendar APIの色ID
  */
-export const GoogleCalendarColorId = {
+const GoogleCalendarColorId = {
     LAVENDER: '1', // #7986CB
     SAGE: '2', // #33B679
     GRAPE: '3', // #8E24AA
@@ -20,13 +20,13 @@ export const GoogleCalendarColorId = {
 /**
  * Google Calendar APIの色IDの型
  */
-export type GoogleCalendarColorIdType =
+type GoogleCalendarColorIdType =
     (typeof GoogleCalendarColorId)[keyof typeof GoogleCalendarColorId];
 
 /**
  * 中央競馬のGoogleカレンダーの色ID
  */
-export const JraGoogleCalendarColorIdMap: Record<
+const JraGoogleCalendarColorIdMap: Record<
     JraGradeType,
     GoogleCalendarColorIdType
 > = {
