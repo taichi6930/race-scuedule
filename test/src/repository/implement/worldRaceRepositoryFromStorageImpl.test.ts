@@ -14,7 +14,7 @@ import { WorldRaceRepositoryFromStorageImpl } from '../../../../lib/src/reposito
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
+import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('WorldRaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<WorldRaceRecord>>;

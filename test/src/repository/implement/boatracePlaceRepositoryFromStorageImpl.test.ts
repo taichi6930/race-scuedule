@@ -12,7 +12,7 @@ import { BoatracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repo
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
+import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('BoatracePlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<BoatracePlaceRecord>>;

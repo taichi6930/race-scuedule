@@ -16,7 +16,7 @@ import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fet
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
-import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
+import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('KeirinRaceRepositoryFromStorageImpl', () => {
     let raceS3Gateway: jest.Mocked<IS3Gateway<KeirinRaceRecord>>;

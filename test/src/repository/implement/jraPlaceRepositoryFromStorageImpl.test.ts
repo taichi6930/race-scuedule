@@ -12,7 +12,7 @@ import { JraPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repositor
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { mockS3Gateway } from '../../mock/gateway/s3GatewayMock';
+import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('JraPlaceRepositoryFromStorageImpl', () => {
     let s3Gateway: jest.Mocked<IS3Gateway<JraPlaceRecord>>;
