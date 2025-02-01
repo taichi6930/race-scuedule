@@ -1,6 +1,9 @@
+import { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import {
+    baseNarGoogleCalendarData,
     baseNarRaceData,
     baseNarRaceEntity,
+    baseNarRaceRecord,
 } from '../../mock/common/baseNarData';
 
 describe('NarRaceEntityクラスのテスト', () => {
@@ -29,5 +32,56 @@ describe('NarRaceEntityクラスのテスト', () => {
         const raceData = raceEntity.raceData;
         // インスタンスが変更されていないか確認
         expect(raceData).toEqual(baseNarRaceData);
+    });
+
+    it('NarRaceEntityのインスタンスをGoogleカレンダーのイベントに変換できることを確認', () => {
+        const raceEntity = baseRaceEntity;
+        const googleCalendarData = raceEntity.toGoogleCalendarData(
+            new Date('2025-01-01T12:00:00.000Z'),
+        );
+        // Googleカレンダーのイベントが正しいか確認
+        expect(googleCalendarData).toEqual(baseNarGoogleCalendarData);
+    });
+
+    it('NarRaceEntityのインスタンスをNarRaceRecordに変換できることを確認', () => {
+        const raceEntity = baseNarRaceEntity;
+        const raceRecord = raceEntity.toRecord();
+        // NarRaceRecordが正しいか確認
+        expect(raceRecord).toEqual(baseNarRaceRecord);
+    });
+
+    it('GoogleカレンダーのイベントからNarRaceEntityのインスタンスを作成できることを確認', () => {
+        const raceEntity = baseNarRaceEntity;
+        const googleCalendarData = raceEntity.toGoogleCalendarData(
+            new Date('2025-01-01T12:00:00.000Z'),
+        );
+        const newRaceEntity =
+            NarRaceEntity.fromGoogleCalendarDataToRaceEntity(
+                googleCalendarData,
+            );
+        // インスタンスが正しいか確認
+        expect(newRaceEntity).toEqual(raceEntity);
+    });
+
+    it('GoogleカレンダーのイベントからCalendarDataのインスタンスを作成できることを確認', () => {
+        const raceEntity = baseNarRaceEntity;
+        const googleCalendarData = raceEntity.toGoogleCalendarData(
+            new Date('2025-01-01T12:00:00.000Z'),
+        );
+        const calendarData =
+            NarRaceEntity.fromGoogleCalendarDataToCalendarData(
+                googleCalendarData,
+            );
+        // CalendarDataが正しいか確認
+        expect(calendarData.id).toBe(googleCalendarData.id);
+        expect(calendarData.title).toBe(googleCalendarData.summary);
+        expect(calendarData.startTime).toEqual(
+            new Date(googleCalendarData.start?.dateTime ?? ''),
+        );
+        expect(calendarData.endTime).toEqual(
+            new Date(googleCalendarData.end?.dateTime ?? ''),
+        );
+        expect(calendarData.location).toBe(googleCalendarData.location);
+        expect(calendarData.description).toBe(googleCalendarData.description);
     });
 });
