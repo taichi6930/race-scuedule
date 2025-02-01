@@ -14,17 +14,14 @@ import {
     baseKeirinCalendarData,
     baseKeirinRaceEntity,
 } from '../../mock/common/baseKeirinData';
+import { mockCalendarRepository } from '../../mock/repository/mockCalendarRepository';
 
 describe('KeirinCalendarService', () => {
     let service: KeirinCalendarService;
     let calendarRepository: ICalendarRepository<KeirinRaceEntity>;
 
     beforeEach(() => {
-        calendarRepository = {
-            getEvents: jest.fn(),
-            upsertEvents: jest.fn(),
-            deleteEvents: jest.fn(),
-        } as unknown as ICalendarRepository<KeirinRaceEntity>;
+        calendarRepository = mockCalendarRepository<KeirinRaceEntity>();
 
         container.registerInstance(
             'KeirinCalendarRepository',

@@ -14,17 +14,14 @@ import {
     baseNarCalendarData,
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
+import { mockCalendarRepository } from '../../mock/repository/mockCalendarRepository';
 
 describe('NarCalendarService', () => {
     let service: NarCalendarService;
     let calendarRepository: ICalendarRepository<NarRaceEntity>;
 
     beforeEach(() => {
-        calendarRepository = {
-            getEvents: jest.fn(),
-            upsertEvents: jest.fn(),
-            deleteEvents: jest.fn(),
-        } as unknown as ICalendarRepository<NarRaceEntity>;
+        calendarRepository = mockCalendarRepository<NarRaceEntity>();
 
         container.registerInstance('NarCalendarRepository', calendarRepository);
         service = container.resolve(NarCalendarService);

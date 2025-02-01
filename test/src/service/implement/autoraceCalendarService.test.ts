@@ -14,17 +14,14 @@ import {
     baseAutoraceCalendarData,
     baseAutoraceRaceEntity,
 } from '../../mock/common/baseAutoraceData';
+import { mockCalendarRepository } from '../../mock/repository/mockCalendarRepository';
 
 describe('AutoraceCalendarService', () => {
     let service: AutoraceCalendarService;
     let calendarRepository: ICalendarRepository<AutoraceRaceEntity>;
 
     beforeEach(() => {
-        calendarRepository = {
-            getEvents: jest.fn(),
-            upsertEvents: jest.fn(),
-            deleteEvents: jest.fn(),
-        } as unknown as ICalendarRepository<AutoraceRaceEntity>;
+        calendarRepository = mockCalendarRepository<AutoraceRaceEntity>();
 
         container.registerInstance(
             'AutoraceCalendarRepository',
