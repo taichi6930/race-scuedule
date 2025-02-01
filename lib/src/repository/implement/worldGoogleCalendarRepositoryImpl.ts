@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { Logger } from '../../utility/logger';
+import { generateWorldRaceId } from '../../utility/raceId';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { ICalendarRepository } from '../interface/ICalendarRepository';
 import { DeleteCalendarListRequest } from '../request/deleteCalendarListRequest';
@@ -37,7 +38,7 @@ export class WorldGoogleCalendarRepositoryImpl
             return new FetchCalendarListResponse(
                 calendarDataList.map
                     ? calendarDataList.map((calendarData) =>
-                          WorldRaceEntity.fronGoogleCalendarDataToCalendarData(
+                          WorldRaceEntity.fromGoogleCalendarDataToCalendarData(
                               calendarData,
                           ),
                       )
@@ -63,12 +64,12 @@ export class WorldGoogleCalendarRepositoryImpl
                     // 既に登録されているかどうか判定
                     let isExist = false;
                     try {
-                        await this.googleCalendarGateway
-                            .fetchCalendarData(raceEntity.id)
-                            .then((calendarData) => {
-                                console.debug('calendarData', calendarData);
-                                isExist = true;
-                            });
+                        const calendarData =
+                            await this.googleCalendarGateway.fetchCalendarData(
+                                this.generateEventId(raceEntity),
+                            );
+                        console.debug('calendarData', calendarData);
+                        isExist = true;
                     } catch (error) {
                         console.error(
                             'Google Calendar APIからのイベント取得に失敗しました',
@@ -108,5 +109,25 @@ export class WorldGoogleCalendarRepositoryImpl
             }),
         );
         return new DeleteCalendarListResponse(200);
+    }
+
+    /**
+     * イベントIDを生成する
+     * netkeiba、netkeirinのレースIDを元に生成
+     * @param raceEntity
+     * @returns
+     */
+    private generateEventId(raceEntity: WorldRaceEntity): string {
+        // w, x, y, zはGoogle Calendar APIのIDで使用できないため、置換
+        // https://developers.google.com/calendar/api/v3/reference/events/insert?hl=ja
+        return generateWorldRaceId(
+            raceEntity.raceData.dateTime,
+            raceEntity.raceData.location,
+            raceEntity.raceData.number,
+        )
+            .replace('w', 'vv')
+            .replace('x', 'cs')
+            .replace('y', 'v')
+            .replace('z', 's');
     }
 }

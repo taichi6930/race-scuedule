@@ -37,7 +37,7 @@ export class NarGoogleCalendarRepositoryImpl
             return new FetchCalendarListResponse(
                 calendarDataList.map
                     ? calendarDataList.map((calendarData) =>
-                          NarRaceEntity.fronGoogleCalendarDataToCalendarData(
+                          NarRaceEntity.fromGoogleCalendarDataToCalendarData(
                               calendarData,
                           ),
                       )

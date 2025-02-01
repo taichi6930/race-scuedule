@@ -86,7 +86,9 @@ export class NarRaceEntity {
      * @param raceEntity
      * @returns
      */
-    toGoogleCalendarData(): calendar_v3.Schema$Event {
+    toGoogleCalendarData(
+        updateDate: Date = new Date(),
+    ): calendar_v3.Schema$Event {
         return {
             id: generateNarRaceId(
                 this.raceData.dateTime,
@@ -114,7 +116,7 @@ export class NarRaceEntity {
                 ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[this.raceData.location]))}
                 ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${this.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[this.raceData.location]}${(this.raceData.dateTime.getMonth() + 1).toXDigits(2)}${this.raceData.dateTime.getDate().toXDigits(2)}${this.raceData.number.toXDigits(2)}`)}
                 ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${this.raceData.dateTime.getFullYear().toString()}%2f${this.raceData.dateTime.getXDigitMonth(2)}%2f${this.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${this.raceData.number.toXDigits(2)}&k_babaCode=${NarBabacodeMap[this.raceData.location]}`)}
-                更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
+                更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}
             `.replace(/\n\s+/g, '\n'),
             extendedProperties: {
                 private: {
@@ -132,7 +134,7 @@ export class NarRaceEntity {
         };
     }
 
-    static fronGoogleCalendarDataToCalendarData(
+    static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
         return new CalendarData(
