@@ -8,7 +8,7 @@
         "preinstall": "npx only-allow pnpm",
         "build": "tsc",
         "watch": "tsc -w",
-        "test": "TZ=jst jest --coverage --no-cache --maxWorkers=49%",
+        "test": "TZ=jst jest --coverage --maxWorkers=49%",
         "test:watch": "TZ=jst jest --coverage --maxWorkers=49% --watchAll",
         "cdk-deploy": "npm install -g aws-cdk & cdk deploy",
         "start": "ts-node lib/src/index.ts",
