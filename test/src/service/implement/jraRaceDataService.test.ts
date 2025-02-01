@@ -9,9 +9,8 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { JraRaceDataService } from '../../../../lib/src/service/implement/jraRaceDataService';
 import { baseJraRaceEntityList } from '../../mock/common/baseJraData';
-import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/jraPlaceRepositoryFromStorageImpl';
-import { mockJraRaceRepositoryFromHtmlImpl } from '../../mock/repository/jraRaceRepositoryFromHtmlImpl';
-import { mockJraRaceRepositoryFromStorageImpl } from '../../mock/repository/jraRaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
+import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
 describe('JraRaceDataService', () => {
     let jraRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -27,15 +26,20 @@ describe('JraRaceDataService', () => {
 
     beforeEach(() => {
         // IRaceRepositoryインターフェースの依存関係を登録
-        jraRaceRepositoryFromStorageImpl =
-            mockJraRaceRepositoryFromStorageImpl();
+        jraRaceRepositoryFromStorageImpl = mockRaceRepository<
+            JraRaceEntity,
+            JraPlaceEntity
+        >();
         container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
             'JraRaceRepositoryFromStorage',
             {
                 useValue: jraRaceRepositoryFromStorageImpl,
             },
         );
-        jraRaceRepositoryFromHtmlImpl = mockJraRaceRepositoryFromHtmlImpl();
+        jraRaceRepositoryFromHtmlImpl = mockRaceRepository<
+            JraRaceEntity,
+            JraPlaceEntity
+        >();
         container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
             'JraRaceRepositoryFromHtml',
             {
@@ -45,7 +49,7 @@ describe('JraRaceDataService', () => {
 
         // jraPlaceRepositoryFromStorageImplをコンテナに登録
         jraPlaceRepositoryFromStorageImpl =
-            mockJraPlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<JraPlaceEntity>();
         container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromStorage',
             {

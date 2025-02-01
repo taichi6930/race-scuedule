@@ -9,9 +9,8 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { KeirinRaceDataService } from '../../../../lib/src/service/implement/keirinRaceDataService';
 import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
-import { mockKeirinPlaceRepositoryFromStorageImpl } from '../../mock/repository/keirinPlaceRepositoryFromStorageImpl';
-import { mockKeirinRaceRepositoryFromHtmlImpl } from '../../mock/repository/keirinRaceRepositoryFromHtmlImpl';
-import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
+import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
 describe('KeirinRaceDataService', () => {
     let keirinRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -27,15 +26,19 @@ describe('KeirinRaceDataService', () => {
 
     beforeEach(() => {
         // IRaceRepositoryインターフェースの依存関係を登録
-        keirinRaceRepositoryFromStorageImpl =
-            mockKeirinRaceRepositoryFromStorageImpl();
+        keirinRaceRepositoryFromStorageImpl = mockRaceRepository<
+            KeirinRaceEntity,
+            KeirinPlaceEntity
+        >();
         container.register<
             IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceRepositoryFromStorage', {
             useValue: keirinRaceRepositoryFromStorageImpl,
         });
-        keirinRaceRepositoryFromHtmlImpl =
-            mockKeirinRaceRepositoryFromHtmlImpl();
+        keirinRaceRepositoryFromHtmlImpl = mockRaceRepository<
+            KeirinRaceEntity,
+            KeirinPlaceEntity
+        >();
         container.register<
             IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceRepositoryFromHtml', {
@@ -44,7 +47,7 @@ describe('KeirinRaceDataService', () => {
 
         // keirinPlaceRepositoryFromStorageImplをコンテナに登録
         keirinPlaceRepositoryFromStorageImpl =
-            mockKeirinPlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<KeirinPlaceEntity>();
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromStorage',
             {

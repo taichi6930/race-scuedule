@@ -7,8 +7,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { BoatracePlaceDataService } from '../../../../lib/src/service/implement/boatracePlaceDataService';
 import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
-import { mockBoatracePlaceRepositoryFromHtmlImpl } from '../../mock/repository/boatracePlaceRepositoryFromHtmlImpl';
-import { mockBoatracePlaceRepositoryFromStorageImpl } from '../../mock/repository/boatracePlaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('BoatracePlaceDataService', () => {
     let boatracePlaceRepositoryFromStorageImpl: jest.Mocked<
@@ -22,7 +21,7 @@ describe('BoatracePlaceDataService', () => {
     beforeEach(() => {
         // boatracePlaceRepositoryFromStorageImplをコンテナに登録
         boatracePlaceRepositoryFromStorageImpl =
-            mockBoatracePlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<BoatracePlaceEntity>();
         container.register<IPlaceRepository<BoatracePlaceEntity>>(
             'BoatracePlaceRepositoryFromStorage',
             {
@@ -30,8 +29,7 @@ describe('BoatracePlaceDataService', () => {
             },
         );
 
-        boatracePlaceRepositoryFromHtmlImpl =
-            mockBoatracePlaceRepositoryFromHtmlImpl();
+        boatracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
         container.register<IPlaceRepository<BoatracePlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
             {

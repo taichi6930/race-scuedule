@@ -14,17 +14,14 @@ import {
     baseWorldCalendarData,
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
+import { mockCalendarRepository } from '../../mock/repository/mockCalendarRepository';
 
 describe('WorldCalendarService', () => {
     let service: WorldCalendarService;
     let calendarRepository: ICalendarRepository<WorldRaceEntity>;
 
     beforeEach(() => {
-        calendarRepository = {
-            getEvents: jest.fn(),
-            upsertEvents: jest.fn(),
-            deleteEvents: jest.fn(),
-        } as unknown as ICalendarRepository<WorldRaceEntity>;
+        calendarRepository = mockCalendarRepository<WorldRaceEntity>();
 
         container.registerInstance(
             'WorldCalendarRepository',

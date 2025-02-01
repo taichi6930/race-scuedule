@@ -7,8 +7,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { NarPlaceDataService } from '../../../../lib/src/service/implement/narPlaceDataService';
 import { baseNarPlaceEntity } from '../../mock/common/baseNarData';
-import { mockNarPlaceRepositoryFromHtmlImpl } from '../../mock/repository/narPlaceRepositoryFromHtmlImpl';
-import { mockNarPlaceRepositoryFromStorageImpl } from '../../mock/repository/narPlaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('NarPlaceDataService', () => {
     let narPlaceRepositoryFromStorageImpl: jest.Mocked<
@@ -22,7 +21,7 @@ describe('NarPlaceDataService', () => {
     beforeEach(() => {
         // narPlaceRepositoryFromStorageImplをコンテナに登録
         narPlaceRepositoryFromStorageImpl =
-            mockNarPlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<NarPlaceEntity>();
         container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromStorage',
             {
@@ -30,7 +29,7 @@ describe('NarPlaceDataService', () => {
             },
         );
 
-        narPlaceRepositoryFromHtmlImpl = mockNarPlaceRepositoryFromHtmlImpl();
+        narPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
         container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromHtml',
             {

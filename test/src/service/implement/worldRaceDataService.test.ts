@@ -8,8 +8,7 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { WorldRaceDataService } from '../../../../lib/src/service/implement/worldRaceDataService';
 import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
-import { mockWorldRaceRepositoryFromHtmlImpl } from '../../mock/repository/worldRaceRepositoryFromHtmlImpl';
-import { mockWorldRaceRepositoryFromStorageImpl } from '../../mock/repository/worldRaceRepositoryFromStorageImpl';
+import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
 describe('WorldRaceDataService', () => {
     let worldRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -22,15 +21,20 @@ describe('WorldRaceDataService', () => {
 
     beforeEach(() => {
         // IRaceRepositoryインターフェースの依存関係を登録
-        worldRaceRepositoryFromStorageImpl =
-            mockWorldRaceRepositoryFromStorageImpl();
+        worldRaceRepositoryFromStorageImpl = mockRaceRepository<
+            WorldRaceEntity,
+            WorldPlaceEntity
+        >();
         container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
             'WorldRaceRepositoryFromStorage',
             {
                 useValue: worldRaceRepositoryFromStorageImpl,
             },
         );
-        worldRaceRepositoryFromHtmlImpl = mockWorldRaceRepositoryFromHtmlImpl();
+        worldRaceRepositoryFromHtmlImpl = mockRaceRepository<
+            WorldRaceEntity,
+            WorldPlaceEntity
+        >();
         container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
             'WorldRaceRepositoryFromHtml',
             {

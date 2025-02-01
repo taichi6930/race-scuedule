@@ -9,9 +9,8 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { AutoraceRaceDataService } from '../../../../lib/src/service/implement/autoraceRaceDataService';
 import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
-import { mockAutoracePlaceRepositoryFromStorageImpl } from '../../mock/repository/autoracePlaceRepositoryFromStorageImpl';
-import { mockAutoraceRaceRepositoryFromHtmlImpl } from '../../mock/repository/autoraceRaceRepositoryFromHtmlImpl';
-import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
+import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
 describe('AutoraceRaceDataService', () => {
     let autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -27,15 +26,19 @@ describe('AutoraceRaceDataService', () => {
 
     beforeEach(() => {
         // IRaceRepositoryインターフェースの依存関係を登録
-        autoraceRaceRepositoryFromStorageImpl =
-            mockAutoraceRaceRepositoryFromStorageImpl();
+        autoraceRaceRepositoryFromStorageImpl = mockRaceRepository<
+            AutoraceRaceEntity,
+            AutoracePlaceEntity
+        >();
         container.register<
             IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
         >('AutoraceRaceRepositoryFromStorage', {
             useValue: autoraceRaceRepositoryFromStorageImpl,
         });
-        autoraceRaceRepositoryFromHtmlImpl =
-            mockAutoraceRaceRepositoryFromHtmlImpl();
+        autoraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
+            AutoraceRaceEntity,
+            AutoracePlaceEntity
+        >();
         container.register<
             IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
         >('AutoraceRaceRepositoryFromHtml', {
@@ -44,7 +47,7 @@ describe('AutoraceRaceDataService', () => {
 
         // autoracePlaceRepositoryFromStorageImplをコンテナに登録
         autoracePlaceRepositoryFromStorageImpl =
-            mockAutoracePlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<AutoracePlaceEntity>();
         container.register<IPlaceRepository<AutoracePlaceEntity>>(
             'AutoracePlaceRepositoryFromStorage',
             {

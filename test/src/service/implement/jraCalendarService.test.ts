@@ -14,17 +14,14 @@ import {
     baseJraCalendarData,
     baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
+import { mockCalendarRepository } from '../../mock/repository/mockCalendarRepository';
 
 describe('JraCalendarService', () => {
     let service: JraCalendarService;
     let calendarRepository: ICalendarRepository<JraRaceEntity>;
 
     beforeEach(() => {
-        calendarRepository = {
-            getEvents: jest.fn(),
-            upsertEvents: jest.fn(),
-            deleteEvents: jest.fn(),
-        } as unknown as ICalendarRepository<JraRaceEntity>;
+        calendarRepository = mockCalendarRepository<JraRaceEntity>();
 
         container.registerInstance('JraCalendarRepository', calendarRepository);
         service = container.resolve(JraCalendarService);
