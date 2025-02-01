@@ -9,9 +9,9 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { AutoraceRaceDataService } from '../../../../lib/src/service/implement/autoraceRaceDataService';
 import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
-import { mockAutoracePlaceRepositoryFromStorageImpl } from '../../mock/repository/autoracePlaceRepositoryFromStorageImpl';
 import { mockAutoraceRaceRepositoryFromHtmlImpl } from '../../mock/repository/autoraceRaceRepositoryFromHtmlImpl';
 import { mockAutoraceRaceRepositoryFromStorageImpl } from '../../mock/repository/autoraceRaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('AutoraceRaceDataService', () => {
     let autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -44,7 +44,7 @@ describe('AutoraceRaceDataService', () => {
 
         // autoracePlaceRepositoryFromStorageImplをコンテナに登録
         autoracePlaceRepositoryFromStorageImpl =
-            mockAutoracePlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<AutoracePlaceEntity>();
         container.register<IPlaceRepository<AutoracePlaceEntity>>(
             'AutoracePlaceRepositoryFromStorage',
             {

@@ -7,8 +7,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { JraPlaceDataService } from '../../../../lib/src/service/implement/jraPlaceDataService';
 import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
-import { mockJraPlaceRepositoryFromHtmlImpl } from '../../mock/repository/jraPlaceRepositoryFromHtmlImpl';
-import { mockJraPlaceRepositoryFromStorageImpl } from '../../mock/repository/jraPlaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('JraPlaceDataService', () => {
     let jraPlaceRepositoryFromStorageImpl: jest.Mocked<
@@ -22,7 +21,7 @@ describe('JraPlaceDataService', () => {
     beforeEach(() => {
         // jraPlaceRepositoryFromStorageImplをコンテナに登録
         jraPlaceRepositoryFromStorageImpl =
-            mockJraPlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<JraPlaceEntity>();
         container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromStorage',
             {
@@ -30,7 +29,7 @@ describe('JraPlaceDataService', () => {
             },
         );
 
-        jraPlaceRepositoryFromHtmlImpl = mockJraPlaceRepositoryFromHtmlImpl();
+        jraPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
         container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
             {

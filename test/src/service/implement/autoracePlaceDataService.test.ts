@@ -7,8 +7,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { AutoracePlaceDataService } from '../../../../lib/src/service/implement/autoracePlaceDataService';
 import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
-import { mockAutoracePlaceRepositoryFromHtmlImpl } from '../../mock/repository/autoracePlaceRepositoryFromHtmlImpl';
-import { mockAutoracePlaceRepositoryFromStorageImpl } from '../../mock/repository/autoracePlaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('AutoracePlaceDataService', () => {
     let autoracePlaceRepositoryFromStorageImpl: jest.Mocked<
@@ -22,7 +21,7 @@ describe('AutoracePlaceDataService', () => {
     beforeEach(() => {
         // autoracePlaceRepositoryFromStorageImplをコンテナに登録
         autoracePlaceRepositoryFromStorageImpl =
-            mockAutoracePlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<AutoracePlaceEntity>();
         container.register<IPlaceRepository<AutoracePlaceEntity>>(
             'AutoracePlaceRepositoryFromStorage',
             {
@@ -30,8 +29,7 @@ describe('AutoracePlaceDataService', () => {
             },
         );
 
-        autoracePlaceRepositoryFromHtmlImpl =
-            mockAutoracePlaceRepositoryFromHtmlImpl();
+        autoracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
         container.register<IPlaceRepository<AutoracePlaceEntity>>(
             'AutoracePlaceRepositoryFromHtml',
             {

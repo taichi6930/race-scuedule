@@ -7,8 +7,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { KeirinPlaceDataService } from '../../../../lib/src/service/implement/keirinPlaceDataService';
 import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
-import { mockKeirinPlaceRepositoryFromHtmlImpl } from '../../mock/repository/keirinPlaceRepositoryFromHtmlImpl';
-import { mockKeirinPlaceRepositoryFromStorageImpl } from '../../mock/repository/keirinPlaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('KeirinPlaceDataService', () => {
     let keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
@@ -22,7 +21,7 @@ describe('KeirinPlaceDataService', () => {
     beforeEach(() => {
         // keirinPlaceRepositoryFromStorageImplをコンテナに登録
         keirinPlaceRepositoryFromStorageImpl =
-            mockKeirinPlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<KeirinPlaceEntity>();
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromStorage',
             {
@@ -30,8 +29,7 @@ describe('KeirinPlaceDataService', () => {
             },
         );
 
-        keirinPlaceRepositoryFromHtmlImpl =
-            mockKeirinPlaceRepositoryFromHtmlImpl();
+        keirinPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
             {

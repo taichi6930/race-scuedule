@@ -9,9 +9,9 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { KeirinRaceDataService } from '../../../../lib/src/service/implement/keirinRaceDataService';
 import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
-import { mockKeirinPlaceRepositoryFromStorageImpl } from '../../mock/repository/keirinPlaceRepositoryFromStorageImpl';
 import { mockKeirinRaceRepositoryFromHtmlImpl } from '../../mock/repository/keirinRaceRepositoryFromHtmlImpl';
 import { mockKeirinRaceRepositoryFromStorageImpl } from '../../mock/repository/keirinRaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('KeirinRaceDataService', () => {
     let keirinRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -44,7 +44,7 @@ describe('KeirinRaceDataService', () => {
 
         // keirinPlaceRepositoryFromStorageImplをコンテナに登録
         keirinPlaceRepositoryFromStorageImpl =
-            mockKeirinPlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<KeirinPlaceEntity>();
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromStorage',
             {

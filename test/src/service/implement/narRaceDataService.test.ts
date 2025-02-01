@@ -9,7 +9,7 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { NarRaceDataService } from '../../../../lib/src/service/implement/narRaceDataService';
 import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
-import { mockNarPlaceRepositoryFromStorageImpl } from '../../mock/repository/narPlaceRepositoryFromStorageImpl';
+import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 import { mockNarRaceRepositoryFromHtmlImpl } from '../../mock/repository/narRaceRepositoryFromHtmlImpl';
 import { mockNarRaceRepositoryFromStorageImpl } from '../../mock/repository/narRaceRepositoryFromStorageImpl';
 
@@ -45,7 +45,7 @@ describe('NarRaceDataService', () => {
 
         // narPlaceRepositoryFromStorageImplをコンテナに登録
         narPlaceRepositoryFromStorageImpl =
-            mockNarPlaceRepositoryFromStorageImpl();
+            mockPlaceRepository<NarPlaceEntity>();
         container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromStorage',
             {
