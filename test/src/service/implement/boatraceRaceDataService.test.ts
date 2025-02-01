@@ -9,9 +9,8 @@ import type { IRaceRepository } from '../../../../lib/src/repository/interface/I
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { BoatraceRaceDataService } from '../../../../lib/src/service/implement/boatraceRaceDataService';
 import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
-import { mockBoatraceRaceRepositoryFromHtmlImpl } from '../../mock/repository/boatraceRaceRepositoryFromHtmlImpl';
-import { mockBoatraceRaceRepositoryFromStorageImpl } from '../../mock/repository/boatraceRaceRepositoryFromStorageImpl';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
+import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
 describe('BoatraceRaceDataService', () => {
     let boatraceRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -27,15 +26,19 @@ describe('BoatraceRaceDataService', () => {
 
     beforeEach(() => {
         // IRaceRepositoryインターフェースの依存関係を登録
-        boatraceRaceRepositoryFromStorageImpl =
-            mockBoatraceRaceRepositoryFromStorageImpl();
+        boatraceRaceRepositoryFromStorageImpl = mockRaceRepository<
+            BoatraceRaceEntity,
+            BoatracePlaceEntity
+        >();
         container.register<
             IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
         >('BoatraceRaceRepositoryFromStorage', {
             useValue: boatraceRaceRepositoryFromStorageImpl,
         });
-        boatraceRaceRepositoryFromHtmlImpl =
-            mockBoatraceRaceRepositoryFromHtmlImpl();
+        boatraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
+            BoatraceRaceEntity,
+            BoatracePlaceEntity
+        >();
         container.register<
             IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
         >('BoatraceRaceRepositoryFromHtml', {

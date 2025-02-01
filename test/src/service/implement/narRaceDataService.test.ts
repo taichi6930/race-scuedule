@@ -10,8 +10,7 @@ import { FetchRaceListResponse } from '../../../../lib/src/repository/response/f
 import { NarRaceDataService } from '../../../../lib/src/service/implement/narRaceDataService';
 import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
-import { mockNarRaceRepositoryFromHtmlImpl } from '../../mock/repository/narRaceRepositoryFromHtmlImpl';
-import { mockNarRaceRepositoryFromStorageImpl } from '../../mock/repository/narRaceRepositoryFromStorageImpl';
+import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
 describe('NarRaceDataService', () => {
     let narRaceRepositoryFromStorageImpl: jest.Mocked<
@@ -27,15 +26,20 @@ describe('NarRaceDataService', () => {
 
     beforeEach(() => {
         // IRaceRepositoryインターフェースの依存関係を登録
-        narRaceRepositoryFromStorageImpl =
-            mockNarRaceRepositoryFromStorageImpl();
+        narRaceRepositoryFromStorageImpl = mockRaceRepository<
+            NarRaceEntity,
+            NarPlaceEntity
+        >();
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromStorage',
             {
                 useValue: narRaceRepositoryFromStorageImpl,
             },
         );
-        narRaceRepositoryFromHtmlImpl = mockNarRaceRepositoryFromHtmlImpl();
+        narRaceRepositoryFromHtmlImpl = mockRaceRepository<
+            NarRaceEntity,
+            NarPlaceEntity
+        >();
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromHtml',
             {
