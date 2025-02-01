@@ -88,7 +88,9 @@ describe('KeirinGoogleCalendarRepositoryImpl', () => {
     });
 
     it('should insert events successfully', async () => {
-        googleCalendarGateway.updateCalendarData.mockResolvedValue();
+        googleCalendarGateway.fetchCalendarData.mockRejectedValue(
+            new Error('API Error'),
+        );
 
         const request = new UpsertCalendarListRequest<KeirinRaceEntity>([
             baseKeirinRaceEntity,
