@@ -10,6 +10,7 @@ import type { JraRaceId } from '../../utility/data/jra/jraRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
+import { getGoogleJraCalendarColorId } from '../../utility/googleCalendar';
 import { generateJraRaceId } from '../../utility/raceId';
 
 /**
@@ -104,7 +105,7 @@ export class JraRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(this.raceData.grade),
+            colorId: getGoogleJraCalendarColorId(this.raceData.grade),
             description:
                 `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
                     発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
@@ -160,38 +161,5 @@ export class JraRaceEntity {
             ),
             new Date(event.extendedProperties?.private?.updateDate ?? ''),
         );
-    }
-
-    /**
-     * Googleカレンダーのイベントの色IDを取得する
-     * @param raceGrade
-     * @returns
-     */
-    private getColorId(raceGrade: string): string {
-        switch (raceGrade) {
-            case 'GⅠ':
-            case 'J.GⅠ':
-                return '9';
-            case 'GⅡ':
-            case 'J.GⅡ':
-                return '11';
-            case 'GⅢ':
-            case 'J.GⅢ':
-                return '10';
-            case 'JpnⅠ':
-                return '1';
-            case 'JpnⅡ':
-                return '4';
-            case 'JpnⅢ':
-                return '2';
-            case 'Listed':
-                return '5';
-            case 'オープン':
-                return '6';
-            case 'オープン特別':
-                return '6';
-            default:
-                return '8';
-        }
     }
 }

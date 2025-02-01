@@ -8,10 +8,10 @@ import type { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData
 import { CalendarData } from '../../domain/calendarData';
 import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
-import type { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
+import { getAutoraceGoogleCalendarColorId } from '../../utility/googleCalendar';
 import {
     generateAutoraceRaceId,
     generateAutoraceRacePlayerId,
@@ -108,7 +108,7 @@ export class AutoraceRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(this.raceData.grade),
+            colorId: getAutoraceGoogleCalendarColorId(this.raceData.grade),
             description:
                 `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                           更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
@@ -166,27 +166,5 @@ export class AutoraceRaceEntity {
                 this.updateDate,
             ),
         );
-    }
-
-    /**
-     * Googleカレンダーのイベントの色IDを取得する
-     * @param raceGrade
-     * @returns
-     */
-    private getColorId(raceGrade: AutoraceGradeType): string {
-        switch (raceGrade) {
-            case 'SG':
-                return '9';
-            case 'GⅠ':
-                return '9';
-            case '特GⅠ':
-                return '9';
-            case 'GⅡ':
-                return '11';
-            case '開催':
-                return '8';
-            default:
-                return '8';
-        }
     }
 }

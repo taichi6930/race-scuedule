@@ -8,10 +8,10 @@ import type { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData
 import { CalendarData } from '../../domain/calendarData';
 import { BoatraceRacePlayerRecord } from '../../gateway/record/boatraceRacePlayerRecord';
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
-import type { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
+import { getBoatGoogleCalendarColorId } from '../../utility/googleCalendar';
 import {
     generateBoatraceRaceId,
     generateBoatraceRacePlayerId,
@@ -108,7 +108,7 @@ export class BoatraceRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(this.raceData.grade),
+            colorId: getBoatGoogleCalendarColorId(this.raceData.grade),
             description:
                 `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                           更新日時: ${format(getJSTDate(new Date()), 'yyyy/MM/dd HH:mm:ss')}
@@ -166,27 +166,5 @@ export class BoatraceRaceEntity {
                 this.updateDate,
             ),
         );
-    }
-
-    /**
-     * Googleカレンダーのイベントの色IDを取得する
-     * @param raceGrade
-     * @returns
-     */
-    private getColorId(raceGrade: BoatraceGradeType): string {
-        switch (raceGrade) {
-            case 'SG':
-                return '9';
-            case 'GⅠ':
-                return '9';
-            case 'GⅡ':
-                return '11';
-            case 'GⅢ':
-                return '10';
-            case '一般':
-                return '8';
-            default:
-                return '8';
-        }
     }
 }

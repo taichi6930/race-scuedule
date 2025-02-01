@@ -11,12 +11,12 @@ import {
     ChihoKeibaYoutubeUserIdMap,
     getYoutubeLiveUrl,
 } from '../../utility/data/movie';
-import type { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { NarBabacodeMap } from '../../utility/data/nar/narRaceCourse';
 import type { NarRaceId } from '../../utility/data/nar/narRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
+import { getNarGoogleNarCalendarColorId as getGoogleNarCalendarColorId } from '../../utility/googleCalendar';
 import { generateNarRaceId } from '../../utility/raceId';
 
 /**
@@ -108,7 +108,7 @@ export class NarRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(this.raceData.grade),
+            colorId: getGoogleNarCalendarColorId(this.raceData.grade),
             description:
                 `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
                 発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
@@ -163,37 +163,5 @@ export class NarRaceEntity {
             ),
             new Date(event.extendedProperties?.private?.updateDate ?? ''),
         );
-    }
-
-    /**
-     * Googleカレンダーのイベントの色IDを取得する
-     * @param raceGrade
-     * @returns
-     */
-    private getColorId(raceGrade: NarGradeType): string {
-        switch (raceGrade) {
-            case 'GⅠ':
-                return '9';
-            case 'GⅡ':
-                return '11';
-            case 'GⅢ':
-                return '10';
-            case 'JpnⅠ':
-                return '1';
-            case 'JpnⅡ':
-                return '4';
-            case 'JpnⅢ':
-                return '2';
-            case 'Listed':
-            case '重賞':
-                return '5';
-            case 'オープン':
-            case 'オープン特別':
-                return '6';
-            case '地方重賞':
-                return '3';
-            default:
-                return '8';
-        }
     }
 }

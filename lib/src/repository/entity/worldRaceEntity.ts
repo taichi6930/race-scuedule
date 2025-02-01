@@ -6,10 +6,10 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
-import type { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
+import { getWorldGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateWorldRaceId } from '../../utility/raceId';
 
 /**
@@ -107,7 +107,7 @@ export class WorldRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: this.getColorId(this.raceData.grade),
+            colorId: getWorldGoogleCalendarColorId(this.raceData.grade),
             description:
                 `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
                 発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
@@ -158,27 +158,5 @@ export class WorldRaceEntity {
             ),
             new Date(event.extendedProperties?.private?.updateDate ?? ''),
         );
-    }
-
-    /**
-     * Googleカレンダーのイベントの色IDを取得する
-     * @param raceGrade
-     * @returns
-     */
-    private getColorId(raceGrade: WorldGradeType): string {
-        switch (raceGrade) {
-            case 'GⅠ':
-                return '9';
-            case 'GⅡ':
-                return '11';
-            case 'GⅢ':
-                return '10';
-            case 'Listed':
-                return '5';
-            case '格付けなし':
-                return '6';
-            default:
-                return '8';
-        }
     }
 }
