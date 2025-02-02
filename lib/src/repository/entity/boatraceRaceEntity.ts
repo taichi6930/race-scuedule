@@ -3,7 +3,7 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import { BoatraceRaceData } from '../../domain/boatraceRaceData';
+import type { BoatraceRaceData } from '../../domain/boatraceRaceData';
 import type { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData';
 import { CalendarData } from '../../domain/calendarData';
 import { BoatraceRacePlayerRecord } from '../../gateway/record/boatraceRacePlayerRecord';
@@ -128,24 +128,6 @@ export class BoatraceRaceEntity {
             new Date(event.end?.dateTime ?? ''),
             event.location ?? '',
             event.description ?? '',
-        );
-    }
-
-    static fromGoogleCalendarDataToRaceEntity(
-        event: calendar_v3.Schema$Event,
-    ): BoatraceRaceEntity {
-        return new BoatraceRaceEntity(
-            event.extendedProperties?.private?.raceId ?? '',
-            BoatraceRaceData.create(
-                event.extendedProperties?.private?.name ?? '',
-                event.extendedProperties?.private?.stage ?? '',
-                new Date(event.extendedProperties?.private?.dateTime ?? ''),
-                event.extendedProperties?.private?.location ?? '',
-                event.extendedProperties?.private?.grade ?? '',
-                Number(event.extendedProperties?.private?.number ?? -1),
-            ),
-            [],
-            new Date(event.extendedProperties?.private?.updateDate ?? ''),
         );
     }
 

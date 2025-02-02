@@ -117,6 +117,9 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
     });
 
     it('should handle error when upserting events', async () => {
+        googleCalendarGateway.fetchCalendarData.mockRejectedValue(
+            new Error('API Error'),
+        );
         googleCalendarGateway.insertCalendarData.mockRejectedValue(
             new Error('API Error'),
         );
@@ -126,6 +129,6 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
         ]);
 
         await repository.upsertEvents(request);
-        // expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
+        expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 });
