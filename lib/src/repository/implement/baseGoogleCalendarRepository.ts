@@ -8,7 +8,7 @@ import type { FetchCalendarListRequest } from '../request/fetchCalendarListReque
 import type { UpsertCalendarListRequest } from '../request/upsertCalendarListRequest';
 import { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
 import type { FetchCalendarListResponse } from '../response/fetchCalendarListResponse';
-import type { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
+import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
 
 /**
  * 開催データリポジトリの基底クラス
@@ -22,9 +22,49 @@ export abstract class BaseGoogleCalendarRepository<R extends RaceEntity>
         request: FetchCalendarListRequest,
     ): Promise<FetchCalendarListResponse>;
 
-    abstract upsertEvents(
+    async upsertEvents(
         request: UpsertCalendarListRequest<R>,
-    ): Promise<UpsertCalendarListResponse>;
+    ): Promise<UpsertCalendarListResponse> {
+        // Googleカレンダーから取得する
+        await Promise.all(
+            request.raceEntityList.map(async (raceEntity) => {
+                try {
+                    // 既に登録されているかどうか判定
+                    let isExist = false;
+                    try {
+                        await this.googleCalendarGateway
+                            .fetchCalendarData(raceEntity.id)
+                            .then((calendarData) => {
+                                console.debug('calendarData', calendarData);
+                                isExist = true;
+                            });
+                    } catch (error) {
+                        console.error(
+                            'Google Calendar APIからのイベント取得に失敗しました',
+                            error,
+                        );
+                    }
+                    if (isExist) {
+                        // 既に登録されている場合は更新
+                        await this.googleCalendarGateway.updateCalendarData(
+                            raceEntity.toGoogleCalendarData(),
+                        );
+                    } else {
+                        // 新規登録
+                        await this.googleCalendarGateway.insertCalendarData(
+                            raceEntity.toGoogleCalendarData(),
+                        );
+                    }
+                } catch (error) {
+                    console.error(
+                        'Google Calendar APIへのイベント登録に失敗しました',
+                        error,
+                    );
+                }
+            }),
+        );
+        return new UpsertCalendarListResponse(200);
+    }
 
     async deleteEvents(
         request: DeleteCalendarListRequest,
