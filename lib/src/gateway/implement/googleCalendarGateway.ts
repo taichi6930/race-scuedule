@@ -42,11 +42,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             });
             return response.data.items ?? [];
         } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベント取得に失敗しました',
-                error,
-            );
-            return [];
+            throw new Error((error as Error).message);
         }
     }
 
@@ -61,13 +57,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
             });
             return response.data;
         } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベント取得に失敗しました',
-                error,
-            );
-            throw new Error(
-                'Google Calendar APIからのイベント取得に失敗しました',
-            );
+            throw new Error((error as Error).message);
         }
     }
 
@@ -86,13 +76,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
                 requestBody: calendarData,
             });
         } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベント更新に失敗しました',
-                error,
-            );
-            throw new Error(
-                'Google Calendar APIからのイベント更新に失敗しました',
-            );
+            throw new Error((error as Error).message);
         }
     }
 
@@ -106,13 +90,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
                 requestBody: calendarData,
             });
         } catch (error) {
-            console.error(
-                'Google Calendar APIへのイベント新規登録に失敗しました',
-                error,
-            );
-            throw new Error(
-                'Google Calendar APIへのイベント新規登録に失敗しました',
-            );
+            throw new Error((error as Error).message);
         }
     }
 
@@ -124,13 +102,7 @@ export class GoogleCalendarGateway implements ICalendarGateway {
                 eventId,
             });
         } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベント削除に失敗しました',
-                error,
-            );
-            throw new Error(
-                'Google Calendar APIからのイベント削除に失敗しました',
-            );
+            throw new Error((error as Error).message);
         }
     }
 }
