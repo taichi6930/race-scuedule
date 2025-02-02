@@ -3,7 +3,7 @@ import '../../utility/format';
 import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
-import { AutoraceRaceData } from '../../domain/autoraceRaceData';
+import type { AutoraceRaceData } from '../../domain/autoraceRaceData';
 import type { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData';
 import { CalendarData } from '../../domain/calendarData';
 import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlayerRecord';
@@ -128,24 +128,6 @@ export class AutoraceRaceEntity {
             new Date(event.end?.dateTime ?? ''),
             event.location ?? '',
             event.description ?? '',
-        );
-    }
-
-    static fromGoogleCalendarDataToRaceEntity(
-        event: calendar_v3.Schema$Event,
-    ): AutoraceRaceEntity {
-        return new AutoraceRaceEntity(
-            event.extendedProperties?.private?.raceId ?? '',
-            AutoraceRaceData.create(
-                event.extendedProperties?.private?.name ?? '',
-                event.extendedProperties?.private?.stage ?? '',
-                new Date(event.extendedProperties?.private?.dateTime ?? ''),
-                event.extendedProperties?.private?.location ?? '',
-                event.extendedProperties?.private?.grade ?? '',
-                Number(event.extendedProperties?.private?.number ?? -1),
-            ),
-            [],
-            new Date(event.extendedProperties?.private?.updateDate ?? ''),
         );
     }
 

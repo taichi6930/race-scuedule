@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { CalendarData } from '../../domain/calendarData';
-import { KeirinRaceData } from '../../domain/keirinRaceData';
+import type { KeirinRaceData } from '../../domain/keirinRaceData';
 import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { KeirinRacePlayerRecord } from '../../gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
@@ -142,24 +142,6 @@ export class KeirinRaceEntity {
             new Date(event.end?.dateTime ?? ''),
             event.location ?? '',
             event.description ?? '',
-        );
-    }
-
-    static fromGoogleCalendarDataToRaceEntity(
-        event: calendar_v3.Schema$Event,
-    ): KeirinRaceEntity {
-        return new KeirinRaceEntity(
-            event.extendedProperties?.private?.raceId ?? '',
-            KeirinRaceData.create(
-                event.extendedProperties?.private?.name ?? '',
-                event.extendedProperties?.private?.stage ?? '',
-                new Date(event.extendedProperties?.private?.dateTime ?? ''),
-                event.extendedProperties?.private?.location ?? '',
-                event.extendedProperties?.private?.grade ?? '',
-                Number(event.extendedProperties?.private?.number ?? -1),
-            ),
-            [],
-            new Date(event.extendedProperties?.private?.updateDate ?? ''),
         );
     }
 
