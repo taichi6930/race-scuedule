@@ -5,25 +5,23 @@ import { inject, injectable } from 'tsyringe';
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { Logger } from '../../utility/logger';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
-import { ICalendarRepository } from '../interface/ICalendarRepository';
-import { DeleteCalendarListRequest } from '../request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../request/upsertCalendarListRequest';
-import { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
 import { FetchCalendarListResponse } from '../response/fetchCalendarListResponse';
 import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
+import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
 
 /**
  * ボートレース場開催データリポジトリの実装
  */
 @injectable()
-export class BoatraceGoogleCalendarRepositoryImpl
-    implements ICalendarRepository<BoatraceRaceEntity>
-{
+export class BoatraceGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepository<BoatraceRaceEntity> {
     constructor(
         @inject('BoatraceGoogleCalendarGateway')
-        private readonly googleCalendarGateway: ICalendarGateway,
-    ) {}
+        protected readonly googleCalendarGateway: ICalendarGateway,
+    ) {
+        super();
+    }
     async getEvents(
         request: FetchCalendarListRequest,
     ): Promise<FetchCalendarListResponse> {
@@ -95,25 +93,5 @@ export class BoatraceGoogleCalendarRepositoryImpl
             }),
         );
         return new UpsertCalendarListResponse(200);
-    }
-
-    async deleteEvents(
-        request: DeleteCalendarListRequest,
-    ): Promise<DeleteCalendarListResponse> {
-        await Promise.all(
-            request.calendarDataList.map(async (calendarData) => {
-                try {
-                    await this.googleCalendarGateway.deleteCalendarData(
-                        calendarData.id,
-                    );
-                } catch (error) {
-                    console.error(
-                        'Google Calendar APIからのイベント削除に失敗しました',
-                        error,
-                    );
-                }
-            }),
-        );
-        return new DeleteCalendarListResponse(200);
     }
 }
