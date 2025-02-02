@@ -2,13 +2,12 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import { CalendarData } from '../../domain/calendarData';
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { Logger } from '../../utility/logger';
 import { generateWorldRaceId } from '../../utility/raceId';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
-import { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../request/upsertCalendarListRequest';
-import { FetchCalendarListResponse } from '../response/fetchCalendarListResponse';
 import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
 import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
 
@@ -22,33 +21,6 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
         protected readonly googleCalendarGateway: ICalendarGateway,
     ) {
         super();
-    }
-    async getEvents(
-        request: FetchCalendarListRequest,
-    ): Promise<FetchCalendarListResponse> {
-        // GoogleカレンダーAPIからイベントを取得
-        try {
-            const calendarDataList =
-                await this.googleCalendarGateway.fetchCalendarDataList(
-                    request.startDate,
-                    request.finishDate,
-                );
-            return new FetchCalendarListResponse(
-                calendarDataList.map
-                    ? calendarDataList.map((calendarData) =>
-                          WorldRaceEntity.fromGoogleCalendarDataToCalendarData(
-                              calendarData,
-                          ),
-                      )
-                    : [],
-            );
-        } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベント取得に失敗しました',
-                error,
-            );
-            return new FetchCalendarListResponse([]);
-        }
     }
 
     @Logger
@@ -114,5 +86,10 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
             .replace('x', 'cs')
             .replace('y', 'v')
             .replace('z', 's');
+    }
+    protected fromGoogleCalendarDataToCalendarData(
+        event: object,
+    ): CalendarData {
+        return WorldRaceEntity.fromGoogleCalendarDataToCalendarData(event);
     }
 }
