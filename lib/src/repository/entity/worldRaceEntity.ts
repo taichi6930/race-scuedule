@@ -134,7 +134,7 @@ export class WorldRaceEntity {
     static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
-        return new CalendarData(
+        return CalendarData.create(
             event.id ?? '',
             event.summary ?? '',
             new Date(event.start?.dateTime ?? ''),

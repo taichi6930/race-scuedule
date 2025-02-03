@@ -158,7 +158,7 @@ export const baseNarRaceDataList = baseNarRaceEntityList.map(
     (raceEntity) => raceEntity.raceData,
 );
 
-export const baseNarCalendarData = new CalendarData(
+export const baseNarCalendarData = CalendarData.create(
     'test202412292011',
     '東京大賞典',
     new Date('2024-12-29T15:40:00Z'),

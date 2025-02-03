@@ -153,7 +153,7 @@ export const baseBoatraceRaceDataList = baseBoatraceRaceEntityList.map(
     (raceEntity) => raceEntity.raceData,
 );
 
-export const baseBoatraceCalendarData = new CalendarData(
+export const baseBoatraceCalendarData = CalendarData.create(
     'test202412310511',
     '優勝戦 グランプリ',
     new Date('2024-12-31T16:30:00Z'),

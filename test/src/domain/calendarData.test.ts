@@ -2,7 +2,7 @@ import { CalendarData } from '../../../lib/src/domain/calendarData';
 
 describe('CalendarDataクラスのテスト', () => {
     it('正しい入力でCalendarDataのインスタンスを作成できることを確認', () => {
-        const calendarData = new CalendarData(
+        const calendarData = CalendarData.create(
             'event1',
             'イベントタイトル',
             new Date('2024-08-12T09:00:00'),
@@ -20,7 +20,7 @@ describe('CalendarDataクラスのテスト', () => {
     });
 
     it('copyメソッドが正常に動作することを確認', () => {
-        const calendarData = new CalendarData(
+        const calendarData = CalendarData.create(
             'event1',
             'イベントタイトル',
             new Date('2024-08-12T09:00:00'),
@@ -45,7 +45,7 @@ describe('CalendarDataクラスのテスト', () => {
     });
 
     it('copyメソッドが正常に動作することを確認2', () => {
-        const calendarData = new CalendarData(
+        const calendarData = CalendarData.create(
             'event1',
             'イベントタイトル',
             new Date('2024-08-12T09:00:00'),

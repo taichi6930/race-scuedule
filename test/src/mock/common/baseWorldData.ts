@@ -100,7 +100,7 @@ export const baseWorldRaceDataList = baseWorldRaceEntityList.map(
     (raceEntity) => raceEntity.raceData,
 );
 
-export const baseWorldCalendarData = new CalendarData(
+export const baseWorldCalendarData = CalendarData.create(
     'test20241001longchamp01',
     '凱旋門賞',
     new Date('2024-10-01T16:30:00Z'),

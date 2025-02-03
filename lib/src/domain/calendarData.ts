@@ -14,7 +14,7 @@ export class CalendarData {
      * @param location - イベント場所
      * @param description - イベント説明
      */
-    constructor(
+    private constructor(
         public readonly id: string,
         public readonly title: string,
         public readonly startTime: Date,
@@ -24,12 +24,40 @@ export class CalendarData {
     ) {}
 
     /**
+     * インスタンスを生成する
+     * @param id
+     * @param title
+     * @param startTime
+     * @param endTime
+     * @param location
+     * @param description
+     * @returns
+     */
+    static create(
+        id: string,
+        title: string,
+        startTime: Date,
+        endTime: Date,
+        location: string,
+        description: string,
+    ): CalendarData {
+        return new CalendarData(
+            id,
+            title,
+            startTime,
+            endTime,
+            location,
+            description,
+        );
+    }
+
+    /**
      * データのコピー
      * @param partial
      * @returns
      */
     copy(partial: Partial<CalendarData> = {}): CalendarData {
-        return new CalendarData(
+        return CalendarData.create(
             partial.id ?? this.id,
             partial.title ?? this.title,
             partial.startTime ?? this.startTime,
