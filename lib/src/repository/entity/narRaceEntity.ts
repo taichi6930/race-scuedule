@@ -138,12 +138,12 @@ export class NarRaceEntity {
         event: calendar_v3.Schema$Event,
     ): CalendarData {
         return CalendarData.create(
-            event.id ?? '',
-            event.summary ?? '',
+            event.id,
+            event.summary,
             new Date(event.start?.dateTime ?? ''),
             new Date(event.end?.dateTime ?? ''),
-            event.location ?? '',
-            event.description ?? '',
+            event.location,
+            event.description,
         );
     }
 

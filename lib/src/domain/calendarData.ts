@@ -34,20 +34,20 @@ export class CalendarData {
      * @returns
      */
     static create(
-        id: string,
-        title: string,
+        id: string | null | undefined,
+        title: string | null | undefined,
         startTime: Date,
         endTime: Date,
-        location: string,
-        description: string,
+        location: string | null | undefined,
+        description: string | null | undefined,
     ): CalendarData {
         return new CalendarData(
-            id,
-            title,
+            id ?? '',
+            title ?? '',
             startTime,
             endTime,
-            location,
-            description,
+            location ?? '',
+            description ?? '',
         );
     }
 
