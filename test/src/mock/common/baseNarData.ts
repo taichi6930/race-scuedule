@@ -161,8 +161,8 @@ export const baseNarRaceDataList = baseNarRaceEntityList.map(
 export const baseNarCalendarData = CalendarData.create(
     'test202412292011',
     '東京大賞典',
-    new Date('2024-12-29T15:40:00Z'),
-    new Date('2024-12-29T15:50:00Z'),
+    '2024-12-29T15:40:00Z',
+    '2024-12-29T15:50:00Z',
     '大井競馬場',
     'テスト',
 );

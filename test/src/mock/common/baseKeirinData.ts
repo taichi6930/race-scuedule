@@ -154,8 +154,8 @@ export const baseKeirinRaceDataList = baseKeirinRaceEntityList.map(
 export const baseKeirinCalendarData = CalendarData.create(
     'test202512303511',
     'S級グランプリ KEIRINグランプリ',
-    new Date('2024-12-31T16:30:00Z'),
-    new Date('2024-12-31T16:40:00Z'),
+    '2024-12-31T16:30:00Z',
+    '2024-12-31T16:40:00Z',
     '平塚競輪場',
     'テスト',
 );

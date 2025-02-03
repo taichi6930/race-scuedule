@@ -5,8 +5,8 @@ describe('CalendarDataクラスのテスト', () => {
         const calendarData = CalendarData.create(
             'event1',
             'イベントタイトル',
-            new Date('2024-08-12T09:00:00'),
-            new Date('2024-08-12T10:00:00'),
+            '2024-08-12T09:00:00',
+            '2024-08-12T10:00:00',
             '東京',
             'イベントの説明',
         );
@@ -23,8 +23,8 @@ describe('CalendarDataクラスのテスト', () => {
         const calendarData = CalendarData.create(
             'event1',
             'イベントタイトル',
-            new Date('2024-08-12T09:00:00'),
-            new Date('2024-08-12T10:00:00'),
+            '2024-08-12T09:00:00',
+            '2024-08-12T10:00:00',
             '東京',
             'イベントの説明',
         );
@@ -48,8 +48,8 @@ describe('CalendarDataクラスのテスト', () => {
         const calendarData = CalendarData.create(
             'event1',
             'イベントタイトル',
-            new Date('2024-08-12T09:00:00'),
-            new Date('2024-08-12T10:00:00'),
+            '2024-08-12T09:00:00',
+            '2024-08-12T10:00:00',
             '東京',
             'イベントの説明',
         );

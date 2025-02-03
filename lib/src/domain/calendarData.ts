@@ -36,16 +36,16 @@ export class CalendarData {
     static create(
         id: string | null | undefined,
         title: string | null | undefined,
-        startTime: Date,
-        endTime: Date,
+        startTime: string | null | undefined,
+        endTime: string | null | undefined,
         location: string | null | undefined,
         description: string | null | undefined,
     ): CalendarData {
         return new CalendarData(
             id ?? '',
             title ?? '',
-            startTime,
-            endTime,
+            new Date(startTime ?? ''),
+            new Date(endTime ?? ''),
             location ?? '',
             description ?? '',
         );
@@ -57,7 +57,7 @@ export class CalendarData {
      * @returns
      */
     copy(partial: Partial<CalendarData> = {}): CalendarData {
-        return CalendarData.create(
+        return new CalendarData(
             partial.id ?? this.id,
             partial.title ?? this.title,
             partial.startTime ?? this.startTime,

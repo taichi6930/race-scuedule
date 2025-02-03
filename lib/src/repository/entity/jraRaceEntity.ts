@@ -136,8 +136,8 @@ export class JraRaceEntity {
         return CalendarData.create(
             event.id,
             event.summary,
-            new Date(event.start?.dateTime ?? ''),
-            new Date(event.end?.dateTime ?? ''),
+            event.start?.dateTime,
+            event.end?.dateTime,
             event.location,
             event.description,
         );
