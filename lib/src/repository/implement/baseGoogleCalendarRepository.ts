@@ -33,13 +33,9 @@ export abstract class BaseGoogleCalendarRepository<R extends RaceEntity>
                     request.finishDate,
                 );
             return new FetchCalendarListResponse(
-                calendarDataList.map
-                    ? calendarDataList.map((calendarData) =>
-                          this.fromGoogleCalendarDataToCalendarData(
-                              calendarData,
-                          ),
-                      )
-                    : [],
+                calendarDataList.map((calendarData) =>
+                    this.fromGoogleCalendarDataToCalendarData(calendarData),
+                ),
             );
         } catch (error) {
             console.error(
