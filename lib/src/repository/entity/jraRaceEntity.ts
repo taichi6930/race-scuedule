@@ -6,7 +6,10 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
-import type { JraRaceId } from '../../utility/data/jra/jraRaceId';
+import {
+    type JraRaceId,
+    validateJraRaceId,
+} from '../../utility/data/jra/jraRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
@@ -147,17 +150,17 @@ export class JraRaceEntity {
         event: calendar_v3.Schema$Event,
     ): JraRaceEntity {
         return new JraRaceEntity(
-            event.extendedProperties?.private?.raceId ?? '',
+            validateJraRaceId(event.extendedProperties?.private?.raceId),
             JraRaceData.create(
-                event.extendedProperties?.private?.name ?? '',
-                new Date(event.extendedProperties?.private?.dateTime ?? ''),
-                event.extendedProperties?.private?.location ?? '',
-                event.extendedProperties?.private?.surfaceType ?? '',
-                Number(event.extendedProperties?.private?.distance ?? -1),
-                event.extendedProperties?.private?.grade ?? '',
-                Number(event.extendedProperties?.private?.number ?? -1),
-                Number(event.extendedProperties?.private?.heldTimes ?? -1),
-                Number(event.extendedProperties?.private?.heldDayTimes ?? -1),
+                event.extendedProperties?.private?.name,
+                event.extendedProperties?.private?.dateTime,
+                event.extendedProperties?.private?.location,
+                event.extendedProperties?.private?.surfaceType,
+                Number(event.extendedProperties?.private?.distance),
+                event.extendedProperties?.private?.grade,
+                Number(event.extendedProperties?.private?.number),
+                Number(event.extendedProperties?.private?.heldTimes),
+                Number(event.extendedProperties?.private?.heldDayTimes),
             ),
             new Date(event.extendedProperties?.private?.updateDate ?? ''),
         );

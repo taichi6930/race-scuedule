@@ -36,7 +36,10 @@ export type JraRaceId = z.infer<typeof JraRaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのJraRaceId
  */
-export const validateJraRaceId = (value: string): JraRaceId => {
+export const validateJraRaceId = (value: string | undefined): JraRaceId => {
+    if (value === undefined) {
+        throw new Error('JRAのレースIDがundefinedです');
+    }
     const result = JraRaceIdSchema.safeParse(value);
     if (!result.success) {
         throw new Error(`${result.error.message}: ${value}`);

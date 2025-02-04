@@ -16,4 +16,11 @@ describe('NarRaceNumber', () => {
             'レース番号は1以上である必要があります',
         );
     });
+
+    it('異常系: レース番号がundefinedの場合', () => {
+        const raceNumber = undefined;
+        expect(() => validateNarRaceNumber(raceNumber)).toThrow(
+            'レース番号がundefinedです',
+        );
+    });
 });

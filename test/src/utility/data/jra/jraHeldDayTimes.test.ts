@@ -16,4 +16,11 @@ describe('JraHeldDayTimes', () => {
             '開催日数は1以上である必要があります',
         );
     });
+
+    it('異常系: レース番号がundefinedの場合', () => {
+        const raceNumber = undefined;
+        expect(() => validateJraHeldDayTimes(raceNumber)).toThrow(
+            '開催日数がundefinedです',
+        );
+    });
 });

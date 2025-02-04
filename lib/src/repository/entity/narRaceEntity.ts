@@ -12,7 +12,10 @@ import {
     getYoutubeLiveUrl,
 } from '../../utility/data/movie';
 import { NarBabacodeMap } from '../../utility/data/nar/narRaceCourse';
-import type { NarRaceId } from '../../utility/data/nar/narRaceId';
+import {
+    type NarRaceId,
+    validateNarRaceId,
+} from '../../utility/data/nar/narRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
@@ -151,15 +154,15 @@ export class NarRaceEntity {
         event: calendar_v3.Schema$Event,
     ): NarRaceEntity {
         return new NarRaceEntity(
-            event.extendedProperties?.private?.raceId ?? '',
+            validateNarRaceId(event.extendedProperties?.private?.raceId),
             NarRaceData.create(
-                event.extendedProperties?.private?.name ?? '',
-                new Date(event.extendedProperties?.private?.dateTime ?? ''),
-                event.extendedProperties?.private?.location ?? '',
-                event.extendedProperties?.private?.surfaceType ?? '',
-                Number(event.extendedProperties?.private?.distance ?? -1),
-                event.extendedProperties?.private?.grade ?? '',
-                Number(event.extendedProperties?.private?.number ?? -1),
+                event.extendedProperties?.private?.name,
+                event.extendedProperties?.private?.dateTime,
+                event.extendedProperties?.private?.location,
+                event.extendedProperties?.private?.surfaceType,
+                Number(event.extendedProperties?.private?.distance),
+                event.extendedProperties?.private?.grade,
+                Number(event.extendedProperties?.private?.number),
             ),
             new Date(event.extendedProperties?.private?.updateDate ?? ''),
         );

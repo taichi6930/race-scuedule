@@ -22,7 +22,12 @@ const NarRaceCourseTypeList: string[] = ['芝', 'ダート'];
  * @param type - 地方競馬の馬場種別
  * @returns - バリデーション済みの地方競馬の馬場種別
  */
-export const validateNarRaceCourseType = (type: string): NarRaceCourseType => {
+export const validateNarRaceCourseType = (
+    type: string | undefined,
+): NarRaceCourseType => {
+    if (type === undefined) {
+        throw new Error('地方競馬の馬場種別がundefinedです');
+    }
     const result = NarRaceCourseTypeSchema.safeParse(type);
     if (!result.success) {
         throw new Error(`${result.error.message}: ${type}`);

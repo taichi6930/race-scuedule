@@ -10,8 +10,10 @@ import {
     type NarRaceCourseType,
     validateNarRaceCourseType,
 } from '../utility/data/nar/narRaceCourseType';
-import { validateNarRaceDate } from '../utility/data/nar/narRaceDate';
-import type { NarRaceDateTime } from '../utility/data/nar/narRaceDateTime';
+import {
+    type NarRaceDateTime,
+    validateNarRaceDateTime,
+} from '../utility/data/nar/narRaceDateTime';
 import {
     type NarRaceDistance,
     validateNarRaceDistance,
@@ -87,17 +89,17 @@ export class NarRaceData {
      * @param number - レース番号
      */
     static create(
-        name: string,
-        dateTime: Date,
-        location: string,
-        surfaceType: string,
-        distance: number,
-        grade: string,
-        number: number,
+        name: string | undefined,
+        dateTime: Date | string | undefined,
+        location: string | undefined,
+        surfaceType: string | undefined,
+        distance: number | undefined,
+        grade: string | undefined,
+        number: number | undefined,
     ): NarRaceData {
         return new NarRaceData(
             validateNarRaceName(name),
-            validateNarRaceDate(dateTime),
+            validateNarRaceDateTime(dateTime),
             validateNarRaceCourse(location),
             validateNarRaceCourseType(surfaceType),
             validateNarRaceDistance(distance),

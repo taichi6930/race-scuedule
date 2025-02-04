@@ -16,4 +16,11 @@ describe('JraRaceCourse', () => {
             '中央の競馬場ではありません',
         );
     });
+
+    it('異常系: 中央競馬場がundefinedの場合', () => {
+        const course = undefined;
+        expect(() => validateJraRaceCourse(course)).toThrow(
+            '中央競馬の競馬場がundefinedです',
+        );
+    });
 });

@@ -8,15 +8,17 @@ import {
 } from '../utility/data/jra/jraHeldTimes';
 import type { JraRaceCourse } from '../utility/data/jra/jraRaceCourse';
 import { validateJraRaceCourse } from '../utility/data/jra/jraRaceCourse';
-import type { JraRaceDate } from '../utility/data/jra/jraRaceDate';
-import { validateJraRaceDate } from '../utility/data/jra/jraRaceDate';
+import {
+    type JraRaceDateTime,
+    validateJraRaceDateTime,
+} from '../utility/data/jra/jraRaceDateTime';
 
 /**
  * 中央競馬のレース開催場所データ
  */
 export class JraPlaceData {
     // 開催日時
-    public readonly dateTime: JraRaceDate;
+    public readonly dateTime: JraRaceDateTime;
     // 開催場所
     public readonly location: JraRaceCourse;
     // 開催回数
@@ -25,7 +27,7 @@ export class JraPlaceData {
     public readonly heldDayTimes: JraHeldDayTimes;
 
     private constructor(
-        dateTime: JraRaceDate,
+        dateTime: JraRaceDateTime,
         location: JraRaceCourse,
         heldTimes: JraHeldTimes,
         heldDayTimes: JraHeldDayTimes,
@@ -52,7 +54,7 @@ export class JraPlaceData {
         heldDayTimes: number,
     ): JraPlaceData {
         return new JraPlaceData(
-            validateJraRaceDate(dateTime),
+            validateJraRaceDateTime(dateTime),
             validateJraRaceCourse(location),
             validateJraHeldTimes(heldTimes),
             validateJraHeldDayTimes(heldDayTimes),

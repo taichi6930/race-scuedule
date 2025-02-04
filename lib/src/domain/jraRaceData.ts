@@ -18,8 +18,10 @@ import {
     type JraRaceCourseType,
     validateJraRaceCourseType,
 } from '../utility/data/jra/jraRaceCourseType';
-import { validateJraRaceDate } from '../utility/data/jra/jraRaceDate';
-import type { JraRaceDateTime } from '../utility/data/jra/jraRaceDateTime';
+import {
+    type JraRaceDateTime,
+    validateJraRaceDateTime,
+} from '../utility/data/jra/jraRaceDateTime';
 import {
     type JraRaceDistance,
     validateJraRaceDistance,
@@ -103,19 +105,19 @@ export class JraRaceData {
      * @param number - レース番号
      */
     static create(
-        name: string,
-        dateTime: Date,
-        location: string,
-        surfaceType: string,
-        distance: number,
-        grade: string,
-        number: number,
-        heldTimes: number,
-        heldDayTimes: number,
+        name: string | undefined,
+        dateTime: Date | string | undefined,
+        location: string | undefined,
+        surfaceType: string | undefined,
+        distance: number | undefined,
+        grade: string | undefined,
+        number: number | undefined,
+        heldTimes: number | undefined,
+        heldDayTimes: number | undefined,
     ): JraRaceData {
         return new JraRaceData(
             validateJraRaceName(name),
-            validateJraRaceDate(dateTime),
+            validateJraRaceDateTime(dateTime),
             validateJraRaceCourse(location),
             validateJraRaceCourseType(surfaceType),
             validateJraRaceDistance(distance),
