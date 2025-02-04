@@ -11,7 +11,7 @@ import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
 import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
-import { getBoatGoogleCalendarColorId } from '../../utility/googleCalendar';
+import { getBoatraceGoogleCalendarColorId } from '../../utility/googleCalendar';
 import {
     generateBoatraceRaceId,
     generateBoatraceRacePlayerId,
@@ -110,7 +110,7 @@ export class BoatraceRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: getBoatGoogleCalendarColorId(this.raceData.grade),
+            colorId: getBoatraceGoogleCalendarColorId(this.raceData.grade),
             description:
                 `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                           更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}

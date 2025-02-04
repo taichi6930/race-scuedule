@@ -55,7 +55,7 @@ const JraGoogleCalendarColorIdMap: Record<
  * @param raceGrade
  * @returns
  */
-export const getGoogleJraCalendarColorId = (
+export const getJraGoogleCalendarColorId = (
     raceGrade: JraGradeType,
 ): GoogleCalendarColorIdType => {
     return (
@@ -88,7 +88,7 @@ const NarGoogleCalendarColorIdMap: Record<
  * @param raceGrade
  * @returns
  */
-export const getNarGoogleNarCalendarColorId = (
+export const getNarGoogleCalendarColorId = (
     raceGrade: NarGradeType,
 ): GoogleCalendarColorIdType => {
     return (
@@ -150,7 +150,7 @@ export const getKeirinGoogleCalendarColorId = (
 /**
  * 競艇のGoogleカレンダーの色ID
  */
-const BoatGoogleCalendarColorIdMap: Record<
+const BoatraceGoogleCalendarColorIdMap: Record<
     BoatraceGradeType,
     GoogleCalendarColorIdType
 > = {
@@ -166,10 +166,10 @@ const BoatGoogleCalendarColorIdMap: Record<
  * @param raceGrade
  * @returns
  */
-export const getBoatGoogleCalendarColorId = (
+export const getBoatraceGoogleCalendarColorId = (
     raceGrade: BoatraceGradeType,
 ): GoogleCalendarColorIdType => {
-    return BoatGoogleCalendarColorIdMap[raceGrade];
+    return BoatraceGoogleCalendarColorIdMap[raceGrade];
 };
 
 /**

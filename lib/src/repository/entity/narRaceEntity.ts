@@ -16,7 +16,7 @@ import type { NarRaceId } from '../../utility/data/nar/narRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
-import { getNarGoogleNarCalendarColorId as getGoogleNarCalendarColorId } from '../../utility/googleCalendar';
+import { getNarGoogleCalendarColorId as getNarGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateNarRaceId } from '../../utility/raceId';
 
 /**
@@ -108,7 +108,7 @@ export class NarRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: getGoogleNarCalendarColorId(this.raceData.grade),
+            colorId: getNarGoogleCalendarColorId(this.raceData.grade),
             description:
                 `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
                 発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
