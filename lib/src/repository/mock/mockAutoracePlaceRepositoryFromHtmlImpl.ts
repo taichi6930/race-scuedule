@@ -1,6 +1,7 @@
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { generateAutoracePlaceId } from '../../utility/raceId';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -25,10 +26,12 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
         const currentDate = new Date(request.startDate);
 
         while (currentDate <= request.finishDate) {
+            const datetime = new Date(currentDate);
+            const place = '伊勢崎';
             // オートレース場データを作成
-            const autoracePlaceEntity = new AutoracePlaceEntity(
-                null,
-                AutoracePlaceData.create(new Date(currentDate), '伊勢崎', 'SG'),
+            const autoracePlaceEntity = AutoracePlaceEntity.create(
+                generateAutoracePlaceId(datetime, place),
+                AutoracePlaceData.create(datetime, place, 'SG'),
                 getJSTDate(new Date()),
             );
             fetchPlaceEntityList.push(autoracePlaceEntity);

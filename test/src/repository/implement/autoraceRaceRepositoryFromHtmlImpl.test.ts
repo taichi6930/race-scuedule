@@ -12,6 +12,7 @@ import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fet
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { ENV } from '../../../../lib/src/utility/env';
+import { generateAutoracePlaceId } from '../../../../lib/src/utility/raceId';
 
 if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
@@ -39,8 +40,11 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                         [
-                            new AutoracePlaceEntity(
-                                null,
+                            AutoracePlaceEntity.create(
+                                generateAutoracePlaceId(
+                                    new Date('2024-11-04'),
+                                    '川口',
+                                ),
                                 AutoracePlaceData.create(
                                     new Date('2024-11-04'),
                                     '川口',

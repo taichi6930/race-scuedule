@@ -90,7 +90,7 @@ export class AutoracePlaceRecord {
      * @returns
      */
     toEntity(): AutoracePlaceEntity {
-        return new AutoracePlaceEntity(
+        return AutoracePlaceEntity.create(
             this.id,
             AutoracePlaceData.create(this.dateTime, this.location, this.grade),
             this.updateDate,
