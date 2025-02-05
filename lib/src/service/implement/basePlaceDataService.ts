@@ -12,6 +12,13 @@ export abstract class BasePlaceDataService<P extends PlaceEntity>
     protected abstract placeRepositoryFromStorage: IPlaceRepository<P>;
     protected abstract placeRepositoryFromHtml: IPlaceRepository<P>;
 
+    /**
+     * レース開催地のデータを取得する
+     * @param startDate
+     * @param finishDate
+     * @param type
+     * @returns
+     */
     @Logger
     async fetchPlaceEntityList(
         startDate: Date,
@@ -20,10 +27,7 @@ export abstract class BasePlaceDataService<P extends PlaceEntity>
     ): Promise<P[]> {
         try {
             const request = new FetchPlaceListRequest(startDate, finishDate);
-            const repository =
-                type === DataLocation.Storage
-                    ? this.placeRepositoryFromStorage
-                    : this.placeRepositoryFromHtml;
+            const repository = this.getPlaceRepository(type);
 
             const response = await repository.fetchPlaceEntityList(request);
             return response.placeEntityList;
@@ -33,6 +37,11 @@ export abstract class BasePlaceDataService<P extends PlaceEntity>
         }
     }
 
+    /**
+     * レース開催地のデータを更新する
+     * @param placeEntityList
+     * @returns
+     */
     @Logger
     async updatePlaceEntityList(placeEntityList: P[]): Promise<void> {
         try {
@@ -46,6 +55,20 @@ export abstract class BasePlaceDataService<P extends PlaceEntity>
             );
         } catch (error) {
             console.error('開催場データの更新に失敗しました', error);
+        }
+    }
+
+    /**
+     * リポジトリを取得する
+     * @param type
+     * @returns
+     */
+    private getPlaceRepository(type: DataLocationType): IPlaceRepository<P> {
+        switch (type) {
+            case DataLocation.Storage:
+                return this.placeRepositoryFromStorage;
+            case DataLocation.Web:
+                return this.placeRepositoryFromHtml;
         }
     }
 }
