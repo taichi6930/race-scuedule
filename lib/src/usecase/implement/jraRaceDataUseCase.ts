@@ -7,6 +7,7 @@ import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { JraGradeType } from '../../utility/data/jra/jraGradeType';
 import { JraRaceCourse } from '../../utility/data/jra/jraRaceCourse';
+import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
@@ -46,7 +47,7 @@ export class JraRaceDataUseCase
             await this.jraPlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         // レースデータを取得する
@@ -54,7 +55,7 @@ export class JraRaceDataUseCase
             await this.jraRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
                 placeEntityList,
             );
 
@@ -99,7 +100,7 @@ export class JraRaceDataUseCase
             await this.jraPlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         // レースデータを取得する
@@ -107,7 +108,7 @@ export class JraRaceDataUseCase
             await this.jraRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
                 placeEntityList,
             );
 

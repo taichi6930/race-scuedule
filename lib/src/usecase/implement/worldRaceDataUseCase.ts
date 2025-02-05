@@ -6,6 +6,7 @@ import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { WorldGradeType } from '../../utility/data/world/worldGradeType';
 import { WorldRaceCourse } from '../../utility/data/world/worldRaceCourse';
+import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
@@ -48,7 +49,7 @@ export class WorldRaceDataUseCase
             await this.worldRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         // レースデータをWorldRaceDataに変換する
@@ -92,7 +93,7 @@ export class WorldRaceDataUseCase
             await this.worldRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
             );
         // S3にデータを保存する
         await this.worldRaceDataService.updateRaceEntityList(raceEntityList);

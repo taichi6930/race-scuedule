@@ -6,6 +6,7 @@ import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPl
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { NarPlaceDataService } from '../../../../lib/src/service/implement/narPlaceDataService';
+import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseNarPlaceEntity } from '../../mock/common/baseNarData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
@@ -56,7 +57,7 @@ describe('NarPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -76,7 +77,7 @@ describe('NarPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -98,7 +99,7 @@ describe('NarPlaceDataService', () => {
             await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(consoleSpy).toHaveBeenCalled();

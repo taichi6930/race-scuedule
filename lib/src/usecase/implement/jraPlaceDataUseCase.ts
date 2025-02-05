@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceEntity } from '../../repository/entity/jraPlaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
@@ -28,7 +29,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
             await this.jraPlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         const placeDataList: JraPlaceData[] = placeEntityList.map(
@@ -57,7 +58,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
             await this.jraPlaceDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
-                'web',
+                DataLocation.Web,
             );
 
         // データを更新する

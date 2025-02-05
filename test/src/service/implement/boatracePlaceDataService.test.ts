@@ -6,6 +6,7 @@ import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { BoatracePlaceDataService } from '../../../../lib/src/service/implement/boatracePlaceDataService';
+import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
@@ -60,7 +61,7 @@ describe('BoatracePlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -84,7 +85,7 @@ describe('BoatracePlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -106,7 +107,7 @@ describe('BoatracePlaceDataService', () => {
             await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(consoleSpy).toHaveBeenCalled();

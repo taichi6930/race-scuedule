@@ -6,6 +6,7 @@ import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/ke
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { KeirinPlaceDataService } from '../../../../lib/src/service/implement/keirinPlaceDataService';
+import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
@@ -58,7 +59,7 @@ describe('KeirinPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -80,7 +81,7 @@ describe('KeirinPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -102,7 +103,7 @@ describe('KeirinPlaceDataService', () => {
             await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(consoleSpy).toHaveBeenCalled();

@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceEntity } from '../../repository/entity/boatracePlaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
@@ -30,7 +31,7 @@ export class BoatracePlaceDataUseCase
             await this.boatracePlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
         // placeEntityListをplaceDataListに変換する
         const placeDataList: BoatracePlaceData[] = placeEntityList.map(
@@ -66,7 +67,7 @@ export class BoatracePlaceDataUseCase
             await this.boatracePlaceDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
-                'web',
+                DataLocation.Web,
             );
         // S3にデータを保存する
         await this.boatracePlaceDataService.updatePlaceEntityList(

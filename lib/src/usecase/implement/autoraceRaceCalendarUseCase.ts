@@ -10,6 +10,7 @@ import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoracePlayerList } from '../../utility/data/autorace/autoracePlayerNumber';
 import { AutoraceSpecifiedGradeAndStageList } from '../../utility/data/autorace/autoraceRaceStage';
+import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -55,7 +56,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
             await this.autoraceRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         const filteredRaceEntityList: AutoraceRaceEntity[] =
