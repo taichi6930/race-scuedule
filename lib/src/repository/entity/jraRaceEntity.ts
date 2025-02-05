@@ -15,6 +15,8 @@ import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getJraGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateJraRaceId } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * 中央競馬のレース開催データ
@@ -37,7 +39,7 @@ export class JraRaceEntity {
     constructor(
         id: JraRaceId | null,
         public readonly raceData: JraRaceData,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??
@@ -162,7 +164,7 @@ export class JraRaceEntity {
                 Number(event.extendedProperties?.private?.heldTimes),
                 Number(event.extendedProperties?.private?.heldDayTimes),
             ),
-            new Date(event.extendedProperties?.private?.updateDate ?? ''),
+            validateUpdateDate(event.extendedProperties?.private?.updateDate),
         );
     }
 }

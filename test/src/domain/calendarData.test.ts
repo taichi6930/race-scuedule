@@ -66,4 +66,22 @@ describe('CalendarDataクラスのテスト', () => {
         expect(copiedCalendarData.location).toBe('東京');
         expect(copiedCalendarData.description).toBe('イベントの説明');
     });
+
+    it('文字列がundefinedの場合、空文字列に変換されることを確認', () => {
+        const calendarData = CalendarData.create(
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+        );
+
+        expect(calendarData.id).toBe('');
+        expect(calendarData.title).toBe('');
+        // expect(calendarData.startTime).toEqual(new Date(''));
+        // expect(calendarData.endTime).toEqual(new Date(''));
+        expect(calendarData.location).toBe('');
+        expect(calendarData.description).toBe('');
+    });
 });

@@ -28,6 +28,7 @@ import {
     type AutoraceRaceStage,
     validateAutoraceRaceStage,
 } from '../../utility/data/autorace/autoraceRaceStage';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * オートレースのレース開催データ
@@ -56,7 +57,7 @@ export class AutoraceRaceRecord {
         public readonly location: AutoraceRaceCourse,
         public readonly grade: AutoraceGradeType,
         public readonly number: AutoraceRaceNumber,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -89,7 +90,7 @@ export class AutoraceRaceRecord {
                 validateAutoraceRaceCourse(location),
                 validateAutoraceGradeType(grade),
                 validateAutoraceRaceNumber(number),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (error) {
             throw new Error(`AutoraceRaceRecord: ${(error as Error).message}`);

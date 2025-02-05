@@ -21,6 +21,8 @@ import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getNarGoogleCalendarColorId as getNarGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateNarRaceId } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * 地方競馬のレース開催データ
@@ -42,7 +44,7 @@ export class NarRaceEntity {
     constructor(
         id: NarRaceId | null,
         public readonly raceData: NarRaceData,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??
@@ -164,7 +166,7 @@ export class NarRaceEntity {
                 event.extendedProperties?.private?.grade,
                 Number(event.extendedProperties?.private?.number),
             ),
-            new Date(event.extendedProperties?.private?.updateDate ?? ''),
+            validateUpdateDate(event.extendedProperties?.private?.updateDate),
         );
     }
 }

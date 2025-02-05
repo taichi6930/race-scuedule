@@ -12,6 +12,8 @@ import type { KeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import { validateKeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
 import type { KeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePlayerId';
 import { validateKeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePlayerId';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * 競輪のレース選手データ
@@ -34,7 +36,7 @@ export class KeirinRacePlayerRecord {
         public readonly raceId: KeirinRaceId,
         public readonly positionNumber: KeirinPositionNumber,
         public readonly playerNumber: KeirinPlayerNumber,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -58,7 +60,7 @@ export class KeirinRacePlayerRecord {
                 validateKeirinRaceId(raceId),
                 validateKeirinPositionNumber(positionNumber),
                 validateKeirinPlayerNumber(playerNumber),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (e) {
             throw new Error(`KeirinRacePlayerRecord: ${(e as Error).message}`);

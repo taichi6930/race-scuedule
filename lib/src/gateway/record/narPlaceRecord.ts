@@ -10,6 +10,7 @@ import {
     type NarRaceDateTime,
     validateNarRaceDateTime,
 } from '../../utility/data/nar/narRaceDateTime';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のRecord 地方競馬のレース開催場所データ
@@ -29,7 +30,7 @@ export class NarPlaceRecord {
         public readonly id: NarPlaceId,
         public readonly dateTime: NarRaceDateTime,
         public readonly location: NarRaceCourse,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -50,7 +51,7 @@ export class NarPlaceRecord {
                 validateNarPlaceId(id),
                 validateNarRaceDateTime(dateTime),
                 validateNarRaceCourse(location),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (e) {
             throw new Error(

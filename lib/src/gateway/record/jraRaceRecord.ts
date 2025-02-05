@@ -42,6 +42,7 @@ import {
     type JraRaceNumber,
     validateJraRaceNumber,
 } from '../../utility/data/jra/jraRaceNumber';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * 中央競馬のレース開催データ
@@ -76,7 +77,7 @@ export class JraRaceRecord {
         public readonly number: JraRaceNumber,
         public readonly heldTimes: JraHeldTimes,
         public readonly heldDayTimes: JraHeldDayTimes,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -118,7 +119,7 @@ export class JraRaceRecord {
                 validateJraRaceNumber(number),
                 validateJraHeldTimes(heldTimes),
                 validateJraHeldDayTimes(heldDayTimes),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (e) {
             throw new Error(

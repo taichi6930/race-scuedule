@@ -31,6 +31,7 @@ import {
     validateWorldRaceNumber,
     type WorldRaceNumber,
 } from '../../utility/data/world/worldRaceNumber';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * 地方競馬のレース開催データ
@@ -61,7 +62,7 @@ export class WorldRaceRecord {
         public readonly distance: WorldRaceDistance,
         public readonly grade: WorldGradeType,
         public readonly number: WorldRaceNumber,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**

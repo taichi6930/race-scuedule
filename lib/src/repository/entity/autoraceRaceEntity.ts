@@ -16,6 +16,7 @@ import {
     generateAutoraceRaceId,
     generateAutoraceRacePlayerId,
 } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * オートレースのレース開催データ
@@ -41,7 +42,7 @@ export class AutoraceRaceEntity {
         id: AutoraceRaceId | null,
         public readonly raceData: AutoraceRaceData,
         public readonly racePlayerDataList: AutoraceRacePlayerData[],
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??

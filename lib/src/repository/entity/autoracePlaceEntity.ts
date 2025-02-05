@@ -2,6 +2,7 @@ import type { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
 import type { AutoracePlaceId } from '../../utility/data/autorace/autoracePlaceId';
 import { generateAutoracePlaceId } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のEntity オートレースのレース開催場所データ
@@ -25,7 +26,7 @@ export class AutoracePlaceEntity {
     constructor(
         id: AutoracePlaceId | null,
         public readonly placeData: AutoracePlaceData,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??

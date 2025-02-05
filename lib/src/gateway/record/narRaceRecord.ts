@@ -34,6 +34,8 @@ import {
     type NarRaceNumber,
     validateNarRaceNumber,
 } from '../../utility/data/nar/narRaceNumber';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * 地方競馬のレース開催データ
@@ -64,7 +66,7 @@ export class NarRaceRecord {
         public readonly distance: NarRaceDistance,
         public readonly grade: NarGradeType,
         public readonly number: NarRaceNumber,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -100,7 +102,7 @@ export class NarRaceRecord {
                 validateNarRaceDistance(distance),
                 validateNarGradeType(grade),
                 validateNarRaceNumber(number),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (e) {
             console.error(e);

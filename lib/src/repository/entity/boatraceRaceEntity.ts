@@ -16,6 +16,7 @@ import {
     generateBoatraceRaceId,
     generateBoatraceRacePlayerId,
 } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * ボートレースのレース開催データ
@@ -41,7 +42,7 @@ export class BoatraceRaceEntity {
         id: BoatraceRaceId | null,
         public readonly raceData: BoatraceRaceData,
         public readonly racePlayerDataList: BoatraceRacePlayerData[],
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??

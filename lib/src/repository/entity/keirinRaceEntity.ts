@@ -17,6 +17,7 @@ import {
     generateKeirinRaceId,
     generateKeirinRacePlayerId,
 } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * 競輪のレース開催データ
@@ -42,7 +43,7 @@ export class KeirinRaceEntity {
         id: KeirinRaceId | null,
         public readonly raceData: KeirinRaceData,
         public readonly racePlayerDataList: KeirinRacePlayerData[],
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??

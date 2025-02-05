@@ -12,6 +12,7 @@ import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId'
 import { validateBoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
 import type { BoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
 import { validateBoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * ボートレースのレース選手データ
@@ -34,7 +35,7 @@ export class BoatraceRacePlayerRecord {
         public readonly raceId: BoatraceRaceId,
         public readonly positionNumber: BoatracePositionNumber,
         public readonly playerNumber: BoatracePlayerNumber,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -58,7 +59,7 @@ export class BoatraceRacePlayerRecord {
                 validateBoatraceRaceId(raceId),
                 validateBoatracePositionNumber(positionNumber),
                 validateBoatracePlayerNumber(playerNumber),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (e) {
             throw new Error(

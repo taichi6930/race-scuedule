@@ -2,6 +2,7 @@ import type { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
 import type { BoatracePlaceId } from '../../utility/data/boatrace/boatracePlaceId';
 import { generateBoatracePlaceId } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のEntity ボートレースのレース開催場所データ
@@ -25,7 +26,7 @@ export class BoatracePlaceEntity {
     constructor(
         id: BoatracePlaceId | null,
         public readonly placeData: BoatracePlaceData,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??

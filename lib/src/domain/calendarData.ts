@@ -44,8 +44,8 @@ export class CalendarData {
         return new CalendarData(
             id ?? '',
             title ?? '',
-            new Date(startTime ?? ''),
-            new Date(endTime ?? ''),
+            startTime ? new Date(startTime) : new Date(0),
+            endTime ? new Date(endTime) : new Date(0),
             location ?? '',
             description ?? '',
         );

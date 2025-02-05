@@ -28,6 +28,8 @@ import {
     type BoatraceRaceStage,
     validateBoatraceRaceStage,
 } from '../../utility/data/boatrace/boatraceRaceStage';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * ボートレースのレース開催データ
@@ -56,7 +58,7 @@ export class BoatraceRaceRecord {
         public readonly location: BoatraceRaceCourse,
         public readonly grade: BoatraceGradeType,
         public readonly number: BoatraceRaceNumber,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -89,7 +91,7 @@ export class BoatraceRaceRecord {
                 validateBoatraceRaceCourse(location),
                 validateBoatraceGradeType(grade),
                 validateBoatraceRaceNumber(number),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (error) {
             throw new Error(`BoatraceRaceRecord: ${(error as Error).message}`);

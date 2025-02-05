@@ -18,6 +18,7 @@ import {
 } from '../../utility/data/jra/jraRaceCourse';
 import type { JraRaceDateTime } from '../../utility/data/jra/jraRaceDateTime';
 import { validateJraRaceDateTime } from '../../utility/data/jra/jraRaceDateTime';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 /**
  * Repository層のRecord 中央競馬のレース開催場所データ
  */
@@ -40,7 +41,7 @@ export class JraPlaceRecord {
         public readonly location: JraRaceCourse,
         public readonly heldTimes: JraHeldTimes,
         public readonly heldDayTimes: JraHeldDayTimes,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -67,7 +68,7 @@ export class JraPlaceRecord {
                 validateJraRaceCourse(location),
                 validateJraHeldTimes(heldTimes),
                 validateJraHeldDayTimes(heldDayTimes),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (e) {
             throw new Error(
