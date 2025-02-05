@@ -15,7 +15,10 @@ export type JraRaceName = z.infer<typeof JraRaceNameSchema>;
  * @param name - 中央競馬のレース名
  * @returns - バリデーション済みの中央競馬のレース名
  */
-export const validateJraRaceName = (name: string): JraRaceName => {
+export const validateJraRaceName = (name: string | undefined): JraRaceName => {
+    if (name === undefined) {
+        throw new Error('中央競馬のレース名がundefinedです');
+    }
     const result = JraRaceNameSchema.safeParse(name);
     if (!result.success) {
         throw new Error(`${result.error.message}: ${name}`);

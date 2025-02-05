@@ -17,6 +17,7 @@ import {
     generateKeirinRaceId,
     generateKeirinRacePlayerId,
 } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * 競輪のレース開催データ
@@ -42,7 +43,7 @@ export class KeirinRaceEntity {
         id: KeirinRaceId | null,
         public readonly raceData: KeirinRaceData,
         public readonly racePlayerDataList: KeirinRacePlayerData[],
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??
@@ -135,13 +136,13 @@ export class KeirinRaceEntity {
     static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
-        return new CalendarData(
-            event.id ?? '',
-            event.summary ?? '',
-            new Date(event.start?.dateTime ?? ''),
-            new Date(event.end?.dateTime ?? ''),
-            event.location ?? '',
-            event.description ?? '',
+        return CalendarData.create(
+            event.id,
+            event.summary,
+            event.start?.dateTime,
+            event.end?.dateTime,
+            event.location,
+            event.description,
         );
     }
 

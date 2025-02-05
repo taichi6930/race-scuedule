@@ -16,4 +16,11 @@ describe('JraRaceCourseType', () => {
             '中央競馬の馬場種別ではありません',
         );
     });
+
+    it('異常系: 中央競馬場タイプがundefinedの場合', () => {
+        const courseType = undefined;
+        expect(() => validateJraRaceCourseType(courseType)).toThrow(
+            '中央競馬の馬場種別がundefinedです',
+        );
+    });
 });

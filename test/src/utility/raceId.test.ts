@@ -46,6 +46,7 @@ describe('JraRaceIdSchema', () => {
             ['jra202108010', 'JraRaceIdの形式ではありません'],
             ['nar202108010101', 'jraから始まる必要があります'],
             ['jra202108010113', 'レース番号は1~12の範囲である必要があります'],
+            [undefined, 'JRAのレースIDがundefinedです'],
         ];
         invalidJraRaceIdAndMessage.forEach(([invalidId, message]) => {
             expect(() => validateJraRaceId(invalidId)).toThrow(message);
@@ -85,6 +86,7 @@ describe('NarRaceIdSchema', () => {
             ['nar202108010', 'NarRaceIdの形式ではありません'],
             ['jra202108010101', 'narから始まる必要があります'],
             ['nar202108010113', 'レース番号は1~12の範囲である必要があります'],
+            [undefined, 'NarRaceIdがundefinedです'],
         ];
         invalidNarRaceIdAndMessage.forEach(([invalidId, message]) => {
             expect(() => validateNarRaceId(invalidId)).toThrow(message);

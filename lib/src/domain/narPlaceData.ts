@@ -1,18 +1,18 @@
 import type { NarRaceCourse } from '../utility/data/nar/narRaceCourse';
 import { validateNarRaceCourse } from '../utility/data/nar/narRaceCourse';
-import type { NarRaceDate } from '../utility/data/nar/narRaceDate';
-import { validateNarRaceDate } from '../utility/data/nar/narRaceDate';
+import type { NarRaceDateTime } from '../utility/data/nar/narRaceDateTime';
+import { validateNarRaceDateTime } from '../utility/data/nar/narRaceDateTime';
 
 /**
  * 地方競馬のレース開催場所データ
  */
 export class NarPlaceData {
     // 開催日時
-    public readonly dateTime: NarRaceDate;
+    public readonly dateTime: NarRaceDateTime;
     // 開催場所
     public readonly location: NarRaceCourse;
 
-    private constructor(dateTime: NarRaceDate, location: NarRaceCourse) {
+    private constructor(dateTime: NarRaceDateTime, location: NarRaceCourse) {
         this.dateTime = dateTime;
         this.location = location;
     }
@@ -26,7 +26,7 @@ export class NarPlaceData {
      */
     static create(dateTime: Date, location: string): NarPlaceData {
         return new NarPlaceData(
-            validateNarRaceDate(dateTime),
+            validateNarRaceDateTime(dateTime),
             validateNarRaceCourse(location),
         );
     }

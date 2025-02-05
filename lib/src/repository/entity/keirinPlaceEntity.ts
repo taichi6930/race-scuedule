@@ -2,6 +2,7 @@ import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
 import type { KeirinPlaceId } from '../../utility/data/keirin/keirinPlaceId';
 import { generateKeirinPlaceId } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のEntity 競輪のレース開催場所データ
@@ -24,7 +25,7 @@ export class KeirinPlaceEntity {
     constructor(
         id: KeirinPlaceId | null,
         public readonly placeData: KeirinPlaceData,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ?? generateKeirinPlaceId(placeData.dateTime, placeData.location);

@@ -18,7 +18,12 @@ export type JraHeldDayTimes = z.infer<typeof JraHeldDayTimesSchema>;
  * @param number - レース番号
  * @returns - バリデーション済みのレース番号
  */
-export const validateJraHeldDayTimes = (number: number): JraHeldDayTimes => {
+export const validateJraHeldDayTimes = (
+    number: number | undefined,
+): JraHeldDayTimes => {
+    if (number === undefined) {
+        throw new Error('開催日数がundefinedです');
+    }
     const result = JraHeldDayTimesSchema.safeParse(number);
     if (!result.success) {
         throw new Error(`${result.error.message}: ${number.toString()}`);

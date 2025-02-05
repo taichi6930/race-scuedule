@@ -28,6 +28,8 @@ import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
 } from '../../utility/data/keirin/keirinRaceStage';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * 競輪のレース開催データ
@@ -56,7 +58,7 @@ export class KeirinRaceRecord {
         public readonly location: KeirinRaceCourse,
         public readonly grade: KeirinGradeType,
         public readonly number: KeirinRaceNumber,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -89,7 +91,7 @@ export class KeirinRaceRecord {
                 validateKeirinRaceCourse(location),
                 validateKeirinGradeType(grade),
                 validateKeirinRaceNumber(number),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (e) {
             throw new Error(

@@ -11,11 +11,12 @@ import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
 import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
-import { getBoatGoogleCalendarColorId } from '../../utility/googleCalendar';
+import { getBoatraceGoogleCalendarColorId } from '../../utility/googleCalendar';
 import {
     generateBoatraceRaceId,
     generateBoatraceRacePlayerId,
 } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * ボートレースのレース開催データ
@@ -41,7 +42,7 @@ export class BoatraceRaceEntity {
         id: BoatraceRaceId | null,
         public readonly raceData: BoatraceRaceData,
         public readonly racePlayerDataList: BoatraceRacePlayerData[],
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??
@@ -110,7 +111,7 @@ export class BoatraceRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: getBoatGoogleCalendarColorId(this.raceData.grade),
+            colorId: getBoatraceGoogleCalendarColorId(this.raceData.grade),
             description:
                 `発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
                           更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}
@@ -121,13 +122,13 @@ export class BoatraceRaceEntity {
     static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
-        return new CalendarData(
-            event.id ?? '',
-            event.summary ?? '',
-            new Date(event.start?.dateTime ?? ''),
-            new Date(event.end?.dateTime ?? ''),
-            event.location ?? '',
-            event.description ?? '',
+        return CalendarData.create(
+            event.id,
+            event.summary,
+            event.start?.dateTime,
+            event.end?.dateTime,
+            event.location,
+            event.description,
         );
     }
 

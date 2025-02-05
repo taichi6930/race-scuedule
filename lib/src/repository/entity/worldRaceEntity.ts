@@ -11,6 +11,7 @@ import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getWorldGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateWorldRaceId } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * 海外競馬のレース開催データ
@@ -33,7 +34,7 @@ export class WorldRaceEntity {
     constructor(
         id: WorldRaceId | null,
         public readonly raceData: WorldRaceData,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??
@@ -134,13 +135,13 @@ export class WorldRaceEntity {
     static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
-        return new CalendarData(
-            event.id ?? '',
-            event.summary ?? '',
-            new Date(event.start?.dateTime ?? ''),
-            new Date(event.end?.dateTime ?? ''),
-            event.location ?? '',
-            event.description ?? '',
+        return CalendarData.create(
+            event.id,
+            event.summary,
+            event.start?.dateTime,
+            event.end?.dateTime,
+            event.location,
+            event.description,
         );
     }
 }

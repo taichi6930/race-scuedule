@@ -16,4 +16,11 @@ describe('JraGradeType', () => {
             'JRAのグレードではありません',
         );
     });
+
+    it('異常系: グレードがundefinedの場合', () => {
+        const grade = undefined;
+        expect(() => validateJraGradeType(grade)).toThrow(
+            'JRAのグレードがundefinedです',
+        );
+    });
 });

@@ -2,11 +2,11 @@ import { CalendarData } from '../../../lib/src/domain/calendarData';
 
 describe('CalendarDataクラスのテスト', () => {
     it('正しい入力でCalendarDataのインスタンスを作成できることを確認', () => {
-        const calendarData = new CalendarData(
+        const calendarData = CalendarData.create(
             'event1',
             'イベントタイトル',
-            new Date('2024-08-12T09:00:00'),
-            new Date('2024-08-12T10:00:00'),
+            '2024-08-12T09:00:00',
+            '2024-08-12T10:00:00',
             '東京',
             'イベントの説明',
         );
@@ -20,11 +20,11 @@ describe('CalendarDataクラスのテスト', () => {
     });
 
     it('copyメソッドが正常に動作することを確認', () => {
-        const calendarData = new CalendarData(
+        const calendarData = CalendarData.create(
             'event1',
             'イベントタイトル',
-            new Date('2024-08-12T09:00:00'),
-            new Date('2024-08-12T10:00:00'),
+            '2024-08-12T09:00:00',
+            '2024-08-12T10:00:00',
             '東京',
             'イベントの説明',
         );
@@ -45,11 +45,11 @@ describe('CalendarDataクラスのテスト', () => {
     });
 
     it('copyメソッドが正常に動作することを確認2', () => {
-        const calendarData = new CalendarData(
+        const calendarData = CalendarData.create(
             'event1',
             'イベントタイトル',
-            new Date('2024-08-12T09:00:00'),
-            new Date('2024-08-12T10:00:00'),
+            '2024-08-12T09:00:00',
+            '2024-08-12T10:00:00',
             '東京',
             'イベントの説明',
         );
@@ -65,5 +65,23 @@ describe('CalendarDataクラスのテスト', () => {
         );
         expect(copiedCalendarData.location).toBe('東京');
         expect(copiedCalendarData.description).toBe('イベントの説明');
+    });
+
+    it('文字列がundefinedの場合、空文字列に変換されることを確認', () => {
+        const calendarData = CalendarData.create(
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+        );
+
+        expect(calendarData.id).toBe('');
+        expect(calendarData.title).toBe('');
+        // expect(calendarData.startTime).toEqual(new Date(''));
+        // expect(calendarData.endTime).toEqual(new Date(''));
+        expect(calendarData.location).toBe('');
+        expect(calendarData.description).toBe('');
     });
 });

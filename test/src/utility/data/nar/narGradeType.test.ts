@@ -16,4 +16,11 @@ describe('NarGradeType', () => {
             '地方競馬のグレードではありません',
         );
     });
+
+    it('異常系: グレードがundefinedの場合', () => {
+        const grade = undefined;
+        expect(() => validateNarGradeType(grade)).toThrow(
+            '地方競馬のグレードがundefinedです',
+        );
+    });
 });

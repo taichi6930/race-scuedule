@@ -1,28 +1,28 @@
-import { validateNarRaceDateTime } from '../../../../../lib/src/utility/data/nar/narRaceDateTime';
+import { validateUpdateDate } from '../../../lib/src/utility/updateDate';
 
 /**
- * NarRaceDateTimeのテスト
+ * UpdateDateのテスト
  */
-describe('NarRaceDateTime', () => {
+describe('UpdateDate', () => {
     it('正常系', () => {
         const dateTime = new Date();
-        const result = validateNarRaceDateTime(dateTime);
+        const result = validateUpdateDate(dateTime);
         expect(result).toStrictEqual(dateTime);
     });
 
     it('正常系 文字列', () => {
         const dateTime = '2021-01-01';
-        const result = validateNarRaceDateTime(dateTime);
+        const result = validateUpdateDate(dateTime);
         expect(result).toStrictEqual(new Date(dateTime));
     });
 
     it('異常系', () => {
         const dateTime = '2021-01-500';
-        expect(() => validateNarRaceDateTime(dateTime)).toThrow();
+        expect(() => validateUpdateDate(dateTime)).toThrow();
     });
 
     it('異常系 undefined', () => {
         const dateTime = undefined;
-        expect(() => validateNarRaceDateTime(dateTime)).toThrow();
+        expect(() => validateUpdateDate(dateTime)).toThrow();
     });
 });

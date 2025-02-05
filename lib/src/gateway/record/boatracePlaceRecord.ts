@@ -16,6 +16,7 @@ import {
     type BoatraceRaceDate,
     validateBoatraceRaceDate,
 } from '../../utility/data/boatrace/boatraceRaceDate';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のRecord ボートレースのレース開催場所データ
@@ -37,7 +38,7 @@ export class BoatracePlaceRecord {
         public readonly dateTime: BoatraceRaceDate,
         public readonly location: BoatraceRaceCourse,
         public readonly grade: BoatraceGradeType,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -61,7 +62,7 @@ export class BoatracePlaceRecord {
                 validateBoatraceRaceDate(dateTime),
                 validateBoatraceRaceCourse(location),
                 validateBoatraceGradeType(grade),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (e) {
             throw new Error(

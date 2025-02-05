@@ -14,6 +14,8 @@ import {
     type AutoraceRaceDate,
     validateAutoraceRaceDate,
 } from '../../utility/data/autorace/autoraceRaceDate';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のRecord オートレースのレース開催場所データ
@@ -35,7 +37,7 @@ export class AutoracePlaceRecord {
         public readonly dateTime: AutoraceRaceDate,
         public readonly location: AutoraceRaceCourse,
         public readonly grade: AutoraceGradeType,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -59,7 +61,7 @@ export class AutoracePlaceRecord {
                 validateAutoraceRaceDate(dateTime),
                 validateAutoraceRaceCourse(location),
                 validateAutoraceGradeType(grade),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (e) {
             throw new Error(

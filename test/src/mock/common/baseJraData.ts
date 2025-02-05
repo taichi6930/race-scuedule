@@ -169,11 +169,11 @@ export const baseJraRaceDataList = baseJraRaceEntityList.map(
     (raceEntity) => raceEntity.raceData,
 );
 
-export const baseJraCalendarData = new CalendarData(
+export const baseJraCalendarData = CalendarData.create(
     'test202412220611',
     '有馬記念',
-    new Date('2024-12-22T15:40:00Z'),
-    new Date('2024-12-22T15:50:00Z'),
+    '2024-12-22T15:40:00Z',
+    '2024-12-22T15:50:00Z',
     '中山競馬場',
     'テスト',
 );

@@ -12,6 +12,7 @@ import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId'
 import { validateAutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
 import type { AutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
 import { validateAutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * オートレースのレース選手データ
@@ -35,7 +36,7 @@ export class AutoraceRacePlayerRecord {
         public readonly raceId: AutoraceRaceId,
         public readonly positionNumber: AutoracePositionNumber,
         public readonly playerNumber: AutoracePlayerNumber,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {}
 
     /**
@@ -59,7 +60,7 @@ export class AutoraceRacePlayerRecord {
                 validateAutoraceRaceId(raceId),
                 validateAutoracePositionNumber(positionNumber),
                 validateAutoracePlayerNumber(playerNumber),
-                updateDate,
+                validateUpdateDate(updateDate),
             );
         } catch (error) {
             throw new Error(

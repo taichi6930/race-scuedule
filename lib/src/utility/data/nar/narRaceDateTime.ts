@@ -15,7 +15,15 @@ export type NarRaceDateTime = z.infer<typeof NarRaceDateTimeSchema>;
  * @param dateTime - 開催日時
  * @returns - バリデーション済みの開催日時
  */
-export const validateNarRaceDateTime = (dateTime: unknown): NarRaceDateTime => {
+export const validateNarRaceDateTime = (
+    dateTime: string | Date | undefined,
+): NarRaceDateTime => {
+    if (dateTime === undefined) {
+        throw new Error('dateTime is undefined');
+    }
+    if (typeof dateTime === 'string') {
+        dateTime = new Date(dateTime);
+    }
     const result = NarRaceDateTimeSchema.safeParse(dateTime);
     if (!result.success) {
         throw new Error(result.error.message);

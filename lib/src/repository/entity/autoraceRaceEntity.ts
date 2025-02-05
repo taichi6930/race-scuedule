@@ -16,6 +16,7 @@ import {
     generateAutoraceRaceId,
     generateAutoraceRacePlayerId,
 } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * オートレースのレース開催データ
@@ -41,7 +42,7 @@ export class AutoraceRaceEntity {
         id: AutoraceRaceId | null,
         public readonly raceData: AutoraceRaceData,
         public readonly racePlayerDataList: AutoraceRacePlayerData[],
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??
@@ -121,13 +122,13 @@ export class AutoraceRaceEntity {
     static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
-        return new CalendarData(
-            event.id ?? '',
-            event.summary ?? '',
-            new Date(event.start?.dateTime ?? ''),
-            new Date(event.end?.dateTime ?? ''),
-            event.location ?? '',
-            event.description ?? '',
+        return CalendarData.create(
+            event.id,
+            event.summary,
+            event.start?.dateTime,
+            event.end?.dateTime,
+            event.location,
+            event.description,
         );
     }
 

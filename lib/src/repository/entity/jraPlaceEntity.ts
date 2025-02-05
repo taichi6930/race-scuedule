@@ -2,6 +2,7 @@ import type { JraPlaceData } from '../../domain/jraPlaceData';
 import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import type { JraPlaceId } from '../../utility/data/jra/jraPlaceId';
 import { generateJraPlaceId } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のEntity 中央競馬のレース開催場所データ
@@ -24,7 +25,7 @@ export class JraPlaceEntity {
     constructor(
         id: JraPlaceId | null,
         public readonly placeData: JraPlaceData,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ?? generateJraPlaceId(placeData.dateTime, placeData.location);

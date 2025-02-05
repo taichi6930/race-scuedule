@@ -2,55 +2,25 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'tsyringe';
 
+import { CalendarData } from '../../domain/calendarData';
 import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { Logger } from '../../utility/logger';
 import { generateWorldRaceId } from '../../utility/raceId';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
-import { ICalendarRepository } from '../interface/ICalendarRepository';
-import { DeleteCalendarListRequest } from '../request/deleteCalendarListRequest';
-import { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../request/upsertCalendarListRequest';
-import { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
-import { FetchCalendarListResponse } from '../response/fetchCalendarListResponse';
 import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
+import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
 
 /**
  * 競馬場開催データリポジトリの実装
  */
 @injectable()
-export class WorldGoogleCalendarRepositoryImpl
-    implements ICalendarRepository<WorldRaceEntity>
-{
+export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarRepository<WorldRaceEntity> {
     constructor(
         @inject('WorldGoogleCalendarGateway')
-        private readonly googleCalendarGateway: ICalendarGateway,
-    ) {}
-    async getEvents(
-        request: FetchCalendarListRequest,
-    ): Promise<FetchCalendarListResponse> {
-        // GoogleカレンダーAPIからイベントを取得
-        try {
-            const calendarDataList =
-                await this.googleCalendarGateway.fetchCalendarDataList(
-                    request.startDate,
-                    request.finishDate,
-                );
-            return new FetchCalendarListResponse(
-                calendarDataList.map
-                    ? calendarDataList.map((calendarData) =>
-                          WorldRaceEntity.fromGoogleCalendarDataToCalendarData(
-                              calendarData,
-                          ),
-                      )
-                    : [],
-            );
-        } catch (error) {
-            console.error(
-                'Google Calendar APIからのイベント取得に失敗しました',
-                error,
-            );
-            return new FetchCalendarListResponse([]);
-        }
+        protected readonly googleCalendarGateway: ICalendarGateway,
+    ) {
+        super();
     }
 
     @Logger
@@ -98,26 +68,6 @@ export class WorldGoogleCalendarRepositoryImpl
         return new UpsertCalendarListResponse(200);
     }
 
-    async deleteEvents(
-        request: DeleteCalendarListRequest,
-    ): Promise<DeleteCalendarListResponse> {
-        await Promise.all(
-            request.calendarDataList.map(async (calendarData) => {
-                try {
-                    await this.googleCalendarGateway.deleteCalendarData(
-                        calendarData.id,
-                    );
-                } catch (error) {
-                    console.error(
-                        'Google Calendar APIからのイベント削除に失敗しました',
-                        error,
-                    );
-                }
-            }),
-        );
-        return new DeleteCalendarListResponse(200);
-    }
-
     /**
      * イベントIDを生成する
      * netkeiba、netkeirinのレースIDを元に生成
@@ -136,5 +86,10 @@ export class WorldGoogleCalendarRepositoryImpl
             .replace('x', 'cs')
             .replace('y', 'v')
             .replace('z', 's');
+    }
+    protected fromGoogleCalendarDataToCalendarData(
+        event: object,
+    ): CalendarData {
+        return WorldRaceEntity.fromGoogleCalendarDataToCalendarData(event);
     }
 }

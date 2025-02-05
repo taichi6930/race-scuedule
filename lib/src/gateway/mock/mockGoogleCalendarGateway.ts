@@ -7,13 +7,7 @@ import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import type { ICalendarGateway } from '../interface/iCalendarGateway';
 
-export type RaceType =
-    | 'jra'
-    | 'nar'
-    | 'world'
-    | 'keirin'
-    | 'autorace'
-    | 'boatrace';
+type RaceType = 'jra' | 'nar' | 'world' | 'keirin' | 'autorace' | 'boatrace';
 /**
  * Googleカレンダーのモックサービス
  */

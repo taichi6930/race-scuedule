@@ -149,11 +149,11 @@ export const baseAutoraceRaceDataList = baseAutoraceRaceEntityList.map(
     (raceEntity) => raceEntity.raceData,
 );
 
-export const baseAutoraceCalendarData = new CalendarData(
+export const baseAutoraceCalendarData = CalendarData.create(
     'autorace202412310511',
     '優勝戦 スーパースター王座決定戦',
-    new Date('2024-12-31T16:30:00Z'),
-    new Date('2024-12-31T16:40:00Z'),
+    '2024-12-31T16:30:00Z',
+    '2024-12-31T16:40:00Z',
     '飯塚オートレース場',
     'テスト',
 );

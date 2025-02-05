@@ -2,6 +2,7 @@ import type { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
 import type { NarPlaceId } from '../../utility/data/nar/narPlaceId';
 import { generateNarPlaceId } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のEntity 地方競馬のレース開催場所データ
@@ -24,7 +25,7 @@ export class NarPlaceEntity {
     constructor(
         id: NarPlaceId | null,
         public readonly placeData: NarPlaceData,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ?? generateNarPlaceId(placeData.dateTime, placeData.location);

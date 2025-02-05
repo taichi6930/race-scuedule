@@ -16,4 +16,11 @@ describe('NarRaceCourse', () => {
             '地方の競馬場ではありません',
         );
     });
+
+    it('異常系: 地方競馬場がundefinedの場合', () => {
+        const course = undefined;
+        expect(() => validateNarRaceCourse(course)).toThrow(
+            '地方競馬の競馬場がundefinedです',
+        );
+    });
 });

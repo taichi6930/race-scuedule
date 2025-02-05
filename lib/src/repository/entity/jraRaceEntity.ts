@@ -6,12 +6,17 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import { JraRaceData } from '../../domain/jraRaceData';
 import { JraRaceRecord } from '../../gateway/record/jraRaceRecord';
-import type { JraRaceId } from '../../utility/data/jra/jraRaceId';
+import {
+    type JraRaceId,
+    validateJraRaceId,
+} from '../../utility/data/jra/jraRaceId';
 import { NetkeibaBabacodeMap } from '../../utility/data/netkeiba';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
-import { getGoogleJraCalendarColorId } from '../../utility/googleCalendar';
+import { getJraGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateJraRaceId } from '../../utility/raceId';
+import type { UpdateDate } from '../../utility/updateDate';
+import { validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * 中央競馬のレース開催データ
@@ -34,7 +39,7 @@ export class JraRaceEntity {
     constructor(
         id: JraRaceId | null,
         public readonly raceData: JraRaceData,
-        public readonly updateDate: Date,
+        public readonly updateDate: UpdateDate,
     ) {
         this.id =
             id ??
@@ -105,7 +110,7 @@ export class JraRaceEntity {
                 ),
                 timeZone: 'Asia/Tokyo',
             },
-            colorId: getGoogleJraCalendarColorId(this.raceData.grade),
+            colorId: getJraGoogleCalendarColorId(this.raceData.grade),
             description:
                 `距離: ${this.raceData.surfaceType}${this.raceData.distance.toString()}m
                     発走: ${this.raceData.dateTime.getXDigitHours(2)}:${this.raceData.dateTime.getXDigitMinutes(2)}
@@ -133,13 +138,13 @@ export class JraRaceEntity {
     static fromGoogleCalendarDataToCalendarData(
         event: calendar_v3.Schema$Event,
     ): CalendarData {
-        return new CalendarData(
-            event.id ?? '',
-            event.summary ?? '',
-            new Date(event.start?.dateTime ?? ''),
-            new Date(event.end?.dateTime ?? ''),
-            event.location ?? '',
-            event.description ?? '',
+        return CalendarData.create(
+            event.id,
+            event.summary,
+            event.start?.dateTime,
+            event.end?.dateTime,
+            event.location,
+            event.description,
         );
     }
 
@@ -147,19 +152,19 @@ export class JraRaceEntity {
         event: calendar_v3.Schema$Event,
     ): JraRaceEntity {
         return new JraRaceEntity(
-            event.extendedProperties?.private?.raceId ?? '',
+            validateJraRaceId(event.extendedProperties?.private?.raceId),
             JraRaceData.create(
-                event.extendedProperties?.private?.name ?? '',
-                new Date(event.extendedProperties?.private?.dateTime ?? ''),
-                event.extendedProperties?.private?.location ?? '',
-                event.extendedProperties?.private?.surfaceType ?? '',
-                Number(event.extendedProperties?.private?.distance ?? -1),
-                event.extendedProperties?.private?.grade ?? '',
-                Number(event.extendedProperties?.private?.number ?? -1),
-                Number(event.extendedProperties?.private?.heldTimes ?? -1),
-                Number(event.extendedProperties?.private?.heldDayTimes ?? -1),
+                event.extendedProperties?.private?.name,
+                event.extendedProperties?.private?.dateTime,
+                event.extendedProperties?.private?.location,
+                event.extendedProperties?.private?.surfaceType,
+                Number(event.extendedProperties?.private?.distance),
+                event.extendedProperties?.private?.grade,
+                Number(event.extendedProperties?.private?.number),
+                Number(event.extendedProperties?.private?.heldTimes),
+                Number(event.extendedProperties?.private?.heldDayTimes),
             ),
-            new Date(event.extendedProperties?.private?.updateDate ?? ''),
+            validateUpdateDate(event.extendedProperties?.private?.updateDate),
         );
     }
 }
