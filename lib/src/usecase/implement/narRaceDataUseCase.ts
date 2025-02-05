@@ -7,6 +7,7 @@ import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { NarGradeType } from '../../utility/data/nar/narGradeType';
 import { NarRaceCourse } from '../../utility/data/nar/narRaceCourse';
+import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
@@ -46,7 +47,7 @@ export class NarRaceDataUseCase
             await this.narPlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         // レースデータを取得する
@@ -54,7 +55,7 @@ export class NarRaceDataUseCase
             await this.narRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
                 placeEntityList,
             );
 
@@ -99,7 +100,7 @@ export class NarRaceDataUseCase
             await this.narPlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         // レースデータを取得する
@@ -107,7 +108,7 @@ export class NarRaceDataUseCase
             await this.narRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
                 placeEntityList,
             );
 

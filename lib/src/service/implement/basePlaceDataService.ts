@@ -2,6 +2,7 @@ import { PlaceEntity } from '../../repository/entity/baseEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
+import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
 
@@ -15,12 +16,12 @@ export abstract class BasePlaceDataService<P extends PlaceEntity>
     async fetchPlaceEntityList(
         startDate: Date,
         finishDate: Date,
-        type: 'storage' | 'web',
+        type: DataLocationType,
     ): Promise<P[]> {
         try {
             const request = new FetchPlaceListRequest(startDate, finishDate);
             const repository =
-                type === 'storage'
+                type === DataLocation.Storage
                     ? this.placeRepositoryFromStorage
                     : this.placeRepositoryFromHtml;
 

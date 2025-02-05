@@ -1,4 +1,5 @@
 import type { PlaceEntity } from '../../repository/entity/baseEntity';
+import type { DataLocationType } from '../../utility/dataType';
 
 /**
  * IPlaceDataService
@@ -12,7 +13,7 @@ export interface IPlaceDataService<P extends PlaceEntity> {
     fetchPlaceEntityList: (
         startDate: Date,
         finishDate: Date,
-        type: 'storage' | 'web',
+        type: DataLocationType,
     ) => Promise<P[]>;
 
     /**

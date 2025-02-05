@@ -6,6 +6,7 @@ import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPl
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { JraPlaceDataService } from '../../../../lib/src/service/implement/jraPlaceDataService';
+import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
@@ -56,7 +57,7 @@ describe('JraPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -76,7 +77,7 @@ describe('JraPlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -98,7 +99,7 @@ describe('JraPlaceDataService', () => {
             await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(consoleSpy).toHaveBeenCalled();

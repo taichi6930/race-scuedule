@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceEntity } from '../../repository/entity/narPlaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
@@ -28,7 +29,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
             await this.narPlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         const placeDataList: NarPlaceData[] = placeEntityList.map(
@@ -65,7 +66,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
             await this.narPlaceDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
-                'web',
+                DataLocation.Web,
             );
 
         // データを更新する

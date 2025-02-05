@@ -7,6 +7,7 @@ import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { ICalendarService } from '../../service/interface/ICalendarService';
 import { IRaceDataService } from '../../service/interface/IRaceDataService';
+import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -53,7 +54,7 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
             await this.worldRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             )
         ).filter((raceEntity) =>
             displayGradeList.includes(raceEntity.raceData.grade),

@@ -8,6 +8,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { KeirinRaceDataService } from '../../../../lib/src/service/implement/keirinRaceDataService';
+import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
@@ -74,7 +75,7 @@ describe('KeirinRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(result).toEqual(mockRaceEntity);
@@ -93,7 +94,7 @@ describe('KeirinRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
             );
 
             expect(result).toEqual(mockRaceEntity);

@@ -10,6 +10,7 @@ import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { BoatraceGradeType } from '../../utility/data/boatrace/boatraceGradeType';
 import { BoatracePlayerList } from '../../utility/data/boatrace/boatracePlayerNumber';
 import { BoatraceSpecifiedGradeAndStageList } from '../../utility/data/boatrace/boatraceRaceStage';
+import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -55,7 +56,7 @@ export class BoatraceRaceCalendarUseCase implements IRaceCalendarUseCase {
             await this.boatraceRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         const filteredRaceEntityList: BoatraceRaceEntity[] =

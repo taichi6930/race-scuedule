@@ -8,6 +8,7 @@ import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType';
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import { AutoraceRaceStage } from '../../utility/data/autorace/autoraceRaceStage';
+import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
@@ -53,7 +54,7 @@ export class AutoraceRaceDataUseCase
             await this.autoracePlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         // レースデータを取得する
@@ -61,7 +62,7 @@ export class AutoraceRaceDataUseCase
             await this.autoraceRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
                 placeEntityList,
             );
 
@@ -118,7 +119,7 @@ export class AutoraceRaceDataUseCase
             await this.autoracePlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             )
         )
             ?.filter((placeEntity) => {
@@ -148,7 +149,7 @@ export class AutoraceRaceDataUseCase
             await this.autoraceRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
                 placeEntityList,
             );
 

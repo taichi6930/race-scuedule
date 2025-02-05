@@ -7,6 +7,7 @@ import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worl
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { WorldRaceDataService } from '../../../../lib/src/service/implement/worldRaceDataService';
+import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
 import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
@@ -61,7 +62,7 @@ describe('WorldRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(result).toEqual(mockRaceEntity);
@@ -80,7 +81,7 @@ describe('WorldRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
             );
 
             expect(result).toEqual(mockRaceEntity);

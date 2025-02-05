@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceEntity } from '../../repository/entity/keirinPlaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
@@ -30,7 +31,7 @@ export class KeirinPlaceDataUseCase
             await this.keirinPlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
         // placeEntityListをplaceDataListに変換する
         const placeDataList: KeirinPlaceData[] = placeEntityList.map(
@@ -67,7 +68,7 @@ export class KeirinPlaceDataUseCase
             await this.keirinPlaceDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
-                'web',
+                DataLocation.Web,
             );
         // S3にデータを保存する
         await this.keirinPlaceDataService.updatePlaceEntityList(

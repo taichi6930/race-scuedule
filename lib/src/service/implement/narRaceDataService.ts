@@ -6,6 +6,7 @@ import { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
+import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceDataService } from '../interface/IRaceDataService';
 
@@ -37,7 +38,7 @@ export class NarRaceDataService
     async fetchRaceEntityList(
         startDate: Date,
         finishDate: Date,
-        type: 'storage' | 'web',
+        type: DataLocationType,
         placeEntityList?: NarPlaceEntity[],
     ): Promise<NarRaceEntity[]> {
         try {
@@ -48,7 +49,7 @@ export class NarRaceDataService
                     placeEntityList,
                 );
             const repository =
-                type === 'storage'
+                type === DataLocation.Storage
                     ? this.narRaceRepositoryFromStorage
                     : this.narRaceRepositoryFromHtml;
 
