@@ -2,6 +2,7 @@ import type {
     PlaceEntity,
     RaceEntity,
 } from '../../repository/entity/baseEntity';
+import type { DataLocationType } from '../../utility/dataType';
 
 /**
  * IRaceDataService
@@ -15,7 +16,7 @@ export interface IRaceDataService<R extends RaceEntity, P extends PlaceEntity> {
     fetchRaceEntityList: (
         startDate: Date,
         finishDate: Date,
-        type: 'storage' | 'web',
+        type: DataLocationType,
         placeEntityList?: P[],
     ) => Promise<R[]>;
 

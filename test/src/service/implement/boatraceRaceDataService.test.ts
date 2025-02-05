@@ -8,6 +8,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { BoatraceRaceDataService } from '../../../../lib/src/service/implement/boatraceRaceDataService';
+import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseBoatraceRaceEntityList } from '../../mock/common/baseBoatraceData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
@@ -75,7 +76,7 @@ describe('BoatraceRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(result).toEqual(mockRaceEntity);
@@ -95,7 +96,7 @@ describe('BoatraceRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
             );
 
             expect(result).toEqual(mockRaceEntity);

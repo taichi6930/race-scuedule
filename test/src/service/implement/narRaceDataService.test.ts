@@ -8,6 +8,7 @@ import type { IPlaceRepository } from '../../../../lib/src/repository/interface/
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
 import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { NarRaceDataService } from '../../../../lib/src/service/implement/narRaceDataService';
+import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
@@ -76,7 +77,7 @@ describe('NarRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(result).toEqual(mockRaceEntity);
@@ -95,7 +96,7 @@ describe('NarRaceDataService', () => {
             const result = await service.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
             );
 
             expect(result).toEqual(mockRaceEntity);

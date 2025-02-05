@@ -8,6 +8,7 @@ import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinRaceCourse } from '../../utility/data/keirin/keirinRaceCourse';
 import { KeirinRaceStage } from '../../utility/data/keirin/keirinRaceStage';
+import { DataLocation } from '../../utility/dataType';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
@@ -53,7 +54,7 @@ export class KeirinRaceDataUseCase
             await this.keirinPlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         // レースデータを取得する
@@ -61,7 +62,7 @@ export class KeirinRaceDataUseCase
             await this.keirinRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
                 placeEntityList,
             );
 
@@ -118,7 +119,7 @@ export class KeirinRaceDataUseCase
             await this.keirinPlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             )
         )
             ?.filter((placeEntity) => {
@@ -148,7 +149,7 @@ export class KeirinRaceDataUseCase
             await this.keirinRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
                 placeEntityList,
             );
 

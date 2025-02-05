@@ -10,6 +10,7 @@ import { IRaceDataService } from '../../service/interface/IRaceDataService';
 import { KeirinGradeType } from '../../utility/data/keirin/keirinGradeType';
 import { KeirinPlayerList } from '../../utility/data/keirin/keirinPlayerNumber';
 import { KeirinSpecifiedGradeAndStageList } from '../../utility/data/keirin/keirinRaceStage';
+import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
@@ -55,7 +56,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
             await this.keirinRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
         const filteredRaceEntityList: KeirinRaceEntity[] =

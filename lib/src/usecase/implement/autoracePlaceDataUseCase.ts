@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceEntity } from '../../repository/entity/autoracePlaceEntity';
 import { IPlaceDataService } from '../../service/interface/IPlaceDataService';
+import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
@@ -30,7 +31,7 @@ export class AutoracePlaceDataUseCase
             await this.autoracePlaceDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
         // placeEntityListをplaceDataListに変換する
         const placeDataList: AutoracePlaceData[] = placeEntityList.map(
@@ -66,7 +67,7 @@ export class AutoracePlaceDataUseCase
             await this.autoracePlaceDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
-                'web',
+                DataLocation.Web,
             );
         // S3にデータを保存する
         await this.autoracePlaceDataService.updatePlaceEntityList(

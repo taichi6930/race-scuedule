@@ -6,6 +6,7 @@ import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { AutoracePlaceDataService } from '../../../../lib/src/service/implement/autoracePlaceDataService';
+import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
@@ -60,7 +61,7 @@ describe('AutoracePlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -84,7 +85,7 @@ describe('AutoracePlaceDataService', () => {
             const result = await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'web',
+                DataLocation.Web,
             );
 
             expect(result).toEqual(mockPlaceEntity);
@@ -106,7 +107,7 @@ describe('AutoracePlaceDataService', () => {
             await service.fetchPlaceEntityList(
                 startDate,
                 finishDate,
-                'storage',
+                DataLocation.Storage,
             );
 
             expect(consoleSpy).toHaveBeenCalled();
