@@ -58,81 +58,6 @@ export class JraRaceController {
      * @param req リクエスト
      * @param res レスポンス
      * @returns
-     * @swagger
-     * /api/races/jra/calendar:
-     *   get:
-     *     description: カレンダーからレース情報を取得する
-     *     parameters:
-     *       - name: startDate
-     *         in: query
-     *         description: レース情報の開始日
-     *         required: true
-     *         schema:
-     *           type: string
-     *           format: date
-     *       - name: finishDate
-     *         in: query
-     *         description: レース情報の終了日
-     *         required: true
-     *         schema:
-     *           type: string
-     *           format: date
-     *     responses:
-     *       200:
-     *         description: レース情報を取得
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: array
-     *               items:
-     *                 type: object
-     *                 properties:
-     *                   id:
-     *                     type: string
-     *                     description: レースID
-     *                   title:
-     *                     type: string
-     *                     description: レースタイトル
-     *                   startTime:
-     *                     type: string
-     *                     format: date-time
-     *                     description: レース開始時刻
-     *                   endTime:
-     *                     type: string
-     *                     format: date-time
-     *                     description: レース終了時刻
-     *                   location:
-     *                     type: string
-     *                     description: 競馬場の名称
-     *                   description:
-     *                     type: string
-     *                     description: レースの説明
-     *       400:
-     *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 error:
-     *                   type: string
-     *                   description: エラーメッセージ `startDate`、`finishDate` は必須です
-     *                 details:
-     *                   type: string
-     *                   description: エラーの詳細（任意でより具体的な説明を提供することができます）
-     *       500:
-     *         description: サーバーエラー。カレンダーからのレース情報取得中にエラーが発生した場合
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 error:
-     *                   type: string
-     *                   description: エラーメッセージ サーバーエラーが発生しました
-     *                 details:
-     *                   type: string
-     *                   description: エラーの詳細（任意でより具体的な説明を提供することができます）
      */
     @Logger
     private async getRacesFromCalendar(
@@ -176,32 +101,6 @@ export class JraRaceController {
      * @param req
      * @param res
      * @returns
-     * @swagger
-     * /api/races/jra/calendar:
-     *   post:
-     *     description: カレンダーにレース情報を更新する
-     *     requestBody:
-     *       required: true
-     *       content:
-     *         application/json:
-     *           schema:
-     *             type: object
-     *             properties:
-     *               startDate:
-     *                 type: string
-     *                 format: date-time
-     *                 description: レース情報の開始日
-     *               finishDate:
-     *                 type: string
-     *                 format: date-time
-     *                 description: レース情報の終了日
-     *     responses:
-     *       200:
-     *         description: レース情報を更新
-     *       400:
-     *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
-     *       500:
-     *         description: サーバーエラー。カレンダーへのレース情報更新中にエラーが発生した場合
      */
     @Logger
     private async updateRacesToCalendar(
@@ -245,99 +144,6 @@ export class JraRaceController {
      * @param req
      * @param res
      * @returns
-     * @swagger
-     * /api/races/jra/race:
-     *   get:
-     *     description: レース情報を取得する
-     *     parameters:
-     *       - name: startDate
-     *         in: query
-     *         description: レース情報の開始日
-     *         required: true
-     *         schema:
-     *           type: string
-     *           format: date
-     *       - name: finishDate
-     *         in: query
-     *         description: レース情報の終了日
-     *         required: true
-     *         schema:
-     *           type: string
-     *           format: date
-     *       - name: grade
-     *         in: query
-     *         description: レースのグレード
-     *         required: false
-     *         schema:
-     *           type: array
-     *           items:
-     *             type: string
-     *       - name: location
-     *         in: query
-     *         description: 競馬場の名称
-     *         required: false
-     *         schema:
-     *           type: array
-     *           items:
-     *             type: string
-     *     responses:
-     *       200:
-     *         description: レース情報を取得
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: array
-     *               items:
-     *                 type: object
-     *                 properties:
-     *                   name:
-     *                     type: string
-     *                     description: レース名
-     *                   dateTime:
-     *                     type: string
-     *                     format: date-time
-     *                     description: レース開始時刻
-     *                   location:
-     *                     type: string
-     *                     description: 競馬場の名称
-     *                   surfaceType:
-     *                     type: string
-     *                     description: 馬場の種類
-     *                   distance:
-     *                     type: number
-     *                     description: 距離
-     *                   grade:
-     *                     type: string
-     *                     description: レースのグレード
-     *                   number:
-     *                     type: number
-     *                     description: レース番号
-     *       400:
-     *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 error:
-     *                   type: string
-     *                   description: エラーメッセージ `startDate`、`finishDate` は必須です
-     *                 details:
-     *                   type: string
-     *                   description: エラーの詳細（任意でより具体的な説明を提供することができます）
-     *       500:
-     *         description: サーバーエラー。カレンダーからのレース情報取得中にエラーが発生した場合
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 error:
-     *                   type: string
-     *                   description: エラーメッセージ サーバーエラーが発生しました
-     *                 details:
-     *                   type: string
-     *                   description: エラーの詳細（任意でより具体的な説明を提供することができます）
      */
     @Logger
     private async getRaceDataList(req: Request, res: Response): Promise<void> {
@@ -400,32 +206,6 @@ export class JraRaceController {
      * レース情報を更新する
      * @param req
      * @param res
-     * @swagger
-     * /api/races/jra/race:
-     *   post:
-     *     description: レース情報を更新する
-     *     requestBody:
-     *       required: true
-     *       content:
-     *         application/json:
-     *           schema:
-     *             type: object
-     *             properties:
-     *               startDate:
-     *                 type: string
-     *                 format: date-time
-     *                 description: レース情報の開始日
-     *               finishDate:
-     *                 type: string
-     *                 format: date-time
-     *                 description: レース情報の終了日
-     *     responses:
-     *       200:
-     *         description: レース情報を更新
-     *       400:
-     *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
-     *       500:
-     *         description: サーバーエラー。カレンダーへのレース情報更新中にエラーが発生した場合
      */
     @Logger
     private async updateRaceDataList(
@@ -533,68 +313,6 @@ export class JraRaceController {
      * @param req
      * @param res
      * @returns
-     * @swagger
-     * /api/races/jra/place:
-     *   get:
-     *     description: 競馬場情報を取得する
-     *     parameters:
-     *       - name: startDate
-     *         in: query
-     *         description: レース情報の開始日
-     *         required: true
-     *         schema:
-     *           type: string
-     *           format: date
-     *       - name: finishDate
-     *         in: query
-     *         description: レース情報の終了日
-     *         required: true
-     *         schema:
-     *           type: string
-     *           format: date
-     *     responses:
-     *       200:
-     *         description: レース情報を取得
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: array
-     *               items:
-     *                 type: object
-     *                 properties:
-     *                   dateTime:
-     *                     type: string
-     *                     format: date-time
-     *                     description: レース開始時刻
-     *                   location:
-     *                     type: string
-     *                     description: 競馬場の名称
-     *       400:
-     *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 error:
-     *                   type: string
-     *                   description: エラーメッセージ `startDate`、`finishDate` は必須です
-     *                 details:
-     *                   type: string
-     *                   description: エラーの詳細（任意でより具体的な説明を提供することができます）
-     *       500:
-     *         description: サーバーエラー。カレンダーからのレース情報取得中にエラーが発生した場合
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 error:
-     *                   type: string
-     *                   description: エラーメッセージ サーバーエラーが発生しました
-     *                 details:
-     *                   type: string
-     *                   description: エラーの詳細（任意でより具体的な説明を提供することができます）
      */
     @Logger
     private async getPlaceDataList(req: Request, res: Response): Promise<void> {
@@ -630,32 +348,6 @@ export class JraRaceController {
      * 競馬場情報を更新する
      * @param req
      * @param res
-     * @swagger
-     * /api/races/jra/place:
-     *   post:
-     *     description: 競馬場情報を更新する
-     *     requestBody:
-     *       required: true
-     *       content:
-     *         application/json:
-     *           schema:
-     *             type: object
-     *             properties:
-     *               startDate:
-     *                 type: string
-     *                 format: date-time
-     *                 description: レース情報の開始日
-     *               finishDate:
-     *                 type: string
-     *                 format: date-time
-     *                 description: レース情報の終了日
-     *     responses:
-     *       200:
-     *         description: 競馬場情報を更新
-     *       400:
-     *         description: 不正なリクエスト。`startDate` または `finishDate` が指定されていない場合
-     *       500:
-     *         description: サーバーエラー。カレンダーへのレース情報更新中にエラーが発生した場合
      */
     @Logger
     private async updatePlaceDataList(
