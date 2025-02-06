@@ -20,11 +20,12 @@ import {
     type BoatraceRaceStage,
     validateBoatraceRaceStage,
 } from '../utility/data/boatrace/boatraceRaceStage';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * ボートレースのレース開催データ
  */
-export class BoatraceRaceData {
+export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
     /**
      * レース名
      *

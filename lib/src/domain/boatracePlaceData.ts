@@ -4,11 +4,12 @@ import type { BoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCo
 import { validateBoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
 import type { BoatraceRaceDate } from '../utility/data/boatrace/boatraceRaceDate';
 import { validateBoatraceRaceDate } from '../utility/data/boatrace/boatraceRaceDate';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * ボートレースのレース開催場所データ
  */
-export class BoatracePlaceData {
+export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
     /**
      * 開催日時
      *

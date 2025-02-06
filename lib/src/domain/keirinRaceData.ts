@@ -20,11 +20,12 @@ import {
     type KeirinRaceStage,
     validateKeirinRaceStage,
 } from '../utility/data/keirin/keirinRaceStage';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * 競輪のレース開催データ
  */
-export class KeirinRaceData {
+export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
     /**
      * レース名
      *

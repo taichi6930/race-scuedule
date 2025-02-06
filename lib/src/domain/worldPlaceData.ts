@@ -2,11 +2,12 @@ import type { WorldRaceCourse } from '../utility/data/world/worldRaceCourse';
 import { validateWorldRaceCourse } from '../utility/data/world/worldRaceCourse';
 import type { WorldRaceDate } from '../utility/data/world/worldRaceDate';
 import { validateWorldRaceDate } from '../utility/data/world/worldRaceDate';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * 海外競馬のレース開催場所データ
  */
-export class WorldPlaceData {
+export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
     /**
      * 開催日
      *

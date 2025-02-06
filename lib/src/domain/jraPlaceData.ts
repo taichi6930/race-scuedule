@@ -12,11 +12,12 @@ import {
     type JraRaceDateTime,
     validateJraRaceDateTime,
 } from '../utility/data/jra/jraRaceDateTime';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * 中央競馬のレース開催場所データ
  */
-export class JraPlaceData {
+export class JraPlaceData implements IPlaceData<JraPlaceData> {
     /**
      * 開催日時
      *
