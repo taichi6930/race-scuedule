@@ -1,11 +1,11 @@
-import type { RaceData } from '../../domain/baseData';
+import type { IRaceData } from '../../domain/iRaceData';
 import type { GradeType, RaceCourse, RaceStage } from '../../utility/data/base';
 
 /**
  * レースデータUseCaseのインターフェース
  */
 export interface IRaceDataUseCase<
-    R extends RaceData,
+    R extends IRaceData<R>,
     G extends GradeType,
     C extends RaceCourse,
     S extends RaceStage | undefined,

@@ -26,11 +26,12 @@ import {
     type NarRaceNumber,
     validateNarRaceNumber,
 } from '../utility/data/nar/narRaceNumber';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * 地方競馬のレース開催データ
  */
-export class NarRaceData {
+export class NarRaceData implements IPlaceData<NarRaceData> {
     /**
      * レース名
      *

@@ -34,11 +34,12 @@ import {
     type JraRaceNumber,
     validateJraRaceNumber,
 } from '../utility/data/jra/jraRaceNumber';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * 中央競馬のレース開催データ
  */
-export class JraRaceData {
+export class JraRaceData implements IPlaceData<JraRaceData> {
     /**
      * レース名
      *

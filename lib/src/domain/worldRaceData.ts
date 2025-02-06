@@ -24,11 +24,12 @@ import {
     validateWorldRaceNumber,
     type WorldRaceNumber,
 } from '../utility/data/world/worldRaceNumber';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * 海外競馬のレース開催データ
  */
-export class WorldRaceData {
+export class WorldRaceData implements IPlaceData<WorldRaceData> {
     /**
      * レース名
      *

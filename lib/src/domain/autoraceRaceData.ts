@@ -20,11 +20,12 @@ import {
     type AutoraceRaceStage,
     validateAutoraceRaceStage,
 } from '../utility/data/autorace/autoraceRaceStage';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * オートレースのレース開催データ
  */
-export class AutoraceRaceData {
+export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
     /**
      * レース名
      *
