@@ -12,6 +12,7 @@ import { KeirinPlaceRepositoryFromStorageImpl } from '../../../../lib/src/reposi
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
+import { generateKeirinPlaceId } from '../../../../lib/src/utility/raceId';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('KeirinPlaceRepositoryFromStorageImpl', () => {
@@ -73,14 +74,12 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from(
-                { length: 12 },
-                () =>
-                    new KeirinPlaceEntity(
-                        null,
-                        KeirinPlaceData.create(date, '平塚', 'GP'),
-                        getJSTDate(new Date()),
-                    ),
+            return Array.from({ length: 12 }, () =>
+                KeirinPlaceEntity.create(
+                    generateKeirinPlaceId(date, '平塚'),
+                    KeirinPlaceData.create(date, '平塚', 'GP'),
+                    getJSTDate(new Date()),
+                ),
             );
         },
     ).flat();

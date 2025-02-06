@@ -13,6 +13,7 @@ import {
 } from '../../utility/data/keirin/keirinRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { generateKeirinPlaceId } from '../../utility/raceId';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -158,18 +159,20 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                                     .replace('3', 'Ⅲ');
                             }
                         });
+                        const datetime = new Date(
+                            date.getFullYear(),
+                            date.getMonth(),
+                            index + 1,
+                        );
+                        const placeId = generateKeirinPlaceId(datetime, place);
 
                         // alt属性を出力
                         if (grade) {
                             keirinPlaceEntityList.push(
-                                new KeirinPlaceEntity(
-                                    null,
+                                KeirinPlaceEntity.create(
+                                    placeId,
                                     KeirinPlaceData.create(
-                                        new Date(
-                                            date.getFullYear(),
-                                            date.getMonth(),
-                                            index + 1,
-                                        ),
+                                        datetime,
                                         place,
                                         grade,
                                     ),

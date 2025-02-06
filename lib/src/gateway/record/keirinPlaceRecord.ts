@@ -91,7 +91,7 @@ export class KeirinPlaceRecord {
      * @returns
      */
     toEntity(): KeirinPlaceEntity {
-        return new KeirinPlaceEntity(
+        return KeirinPlaceEntity.create(
             this.id,
             KeirinPlaceData.create(this.dateTime, this.location, this.grade),
             this.updateDate,

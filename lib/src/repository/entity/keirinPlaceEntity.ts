@@ -1,18 +1,15 @@
 import type { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
-import type { KeirinPlaceId } from '../../utility/data/keirin/keirinPlaceId';
-import { generateKeirinPlaceId } from '../../utility/raceId';
-import type { UpdateDate } from '../../utility/updateDate';
+import {
+    type KeirinPlaceId,
+    validateKeirinPlaceId,
+} from '../../utility/data/keirin/keirinPlaceId';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のEntity 競輪のレース開催場所データ
  */
 export class KeirinPlaceEntity {
-    /**
-     * ID
-     */
-    public readonly id: KeirinPlaceId;
-
     /**
      * コンストラクタ
      *
@@ -22,13 +19,28 @@ export class KeirinPlaceEntity {
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    constructor(
-        id: KeirinPlaceId | null,
+    private constructor(
+        public readonly id: KeirinPlaceId,
         public readonly placeData: KeirinPlaceData,
         public readonly updateDate: UpdateDate,
-    ) {
-        this.id =
-            id ?? generateKeirinPlaceId(placeData.dateTime, placeData.location);
+    ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param placeData - レース開催場所データ
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        placeData: KeirinPlaceData,
+        updateDate: Date,
+    ): KeirinPlaceEntity {
+        return new KeirinPlaceEntity(
+            validateKeirinPlaceId(id),
+            placeData,
+            validateUpdateDate(updateDate),
+        );
     }
 
     /**
@@ -37,8 +49,8 @@ export class KeirinPlaceEntity {
      * @returns
      */
     copy(partial: Partial<KeirinPlaceEntity> = {}): KeirinPlaceEntity {
-        return new KeirinPlaceEntity(
-            partial.id ?? null,
+        return KeirinPlaceEntity.create(
+            partial.id ?? this.id,
             partial.placeData ?? this.placeData,
             partial.updateDate ?? this.updateDate,
         );
