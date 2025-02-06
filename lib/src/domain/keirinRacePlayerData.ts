@@ -11,16 +11,26 @@ import {
  * 競輪のレースの選手データ
  */
 export class KeirinRacePlayerData {
-    // 枠番
+    /**
+     * 枠番
+     *
+     * @type {KeirinPositionNumber}
+     * @memberof KeirinRacePlayerData
+     */
     public readonly positionNumber: KeirinPositionNumber;
-    // 選手番号
+    /**
+     * 選手番号
+     *
+     * @type {KeirinPlayerNumber}
+     * @memberof KeirinRacePlayerData
+     */
     public readonly playerNumber: KeirinPlayerNumber;
 
     /**
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレースの選手データを生成する
+     * レースの選手データを生成する
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
      */

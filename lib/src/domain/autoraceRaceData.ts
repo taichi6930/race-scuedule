@@ -25,24 +25,54 @@ import {
  * オートレースのレース開催データ
  */
 export class AutoraceRaceData {
-    // レース名
+    /**
+     * レース名
+     *
+     * @type {AutoraceRaceName}
+     * @memberof AutoraceRaceData
+     */
     public readonly name: AutoraceRaceName;
-    // 開催ステージ
+    /**
+     * 開催ステージ
+     *
+     * @type {AutoraceRaceStage}
+     * @memberof AutoraceRaceData
+     */
     public readonly stage: AutoraceRaceStage;
-    // 開催日程
+    /**
+     * 開催日時
+     *
+     * @type {AutoraceRaceDateTime}
+     * @memberof AutoraceRaceData
+     */
     public readonly dateTime: AutoraceRaceDateTime;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {AutoraceRaceCourse}
+     * @memberof AutoraceRaceData
+     */
     public readonly location: AutoraceRaceCourse;
-    // グレード
+    /**
+     * グレード
+     *
+     * @type {AutoraceGradeType}
+     * @memberof AutoraceRaceData
+     */
     public readonly grade: AutoraceGradeType;
-    // レース番号
+    /**
+     * レース番号
+     *
+     * @type {AutoraceRaceNumber}
+     * @memberof AutoraceRaceData
+     */
     public readonly number: AutoraceRaceNumber;
 
     /**
      * コンストラクタ
      *
      * @remarks
-     * オートレースのレース開催データを生成する
+     * レース開催データを生成する
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時

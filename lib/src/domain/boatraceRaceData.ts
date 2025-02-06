@@ -25,24 +25,54 @@ import {
  * ボートレースのレース開催データ
  */
 export class BoatraceRaceData {
-    // レース名
+    /**
+     * レース名
+     *
+     * @type {BoatraceRaceName}
+     * @memberof BoatraceRaceData
+     */
     public readonly name: BoatraceRaceName;
-    // 開催ステージ
+    /**
+     * 開催ステージ
+     *
+     * @type {BoatraceRaceStage}
+     * @memberof BoatraceRaceData
+     */
     public readonly stage: BoatraceRaceStage;
-    // 開催日程
+    /**
+     * 開催日時
+     *
+     * @type {BoatraceRaceDateTime}
+     * @memberof BoatraceRaceData
+     */
     public readonly dateTime: BoatraceRaceDateTime;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {BoatraceRaceCourse}
+     * @memberof BoatraceRaceData
+     */
     public readonly location: BoatraceRaceCourse;
-    // グレード
+    /**
+     * グレード
+     *
+     * @type {BoatraceGradeType}
+     * @memberof BoatraceRaceData
+     */
     public readonly grade: BoatraceGradeType;
-    // レース番号
+    /**
+     * レース番号
+     *
+     * @type {BoatraceRaceNumber}
+     * @memberof BoatraceRaceData
+     */
     public readonly number: BoatraceRaceNumber;
 
     /**
      * コンストラクタ
      *
      * @remarks
-     * ボートレースのレース開催データを生成する
+     * レース開催データを生成する
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時

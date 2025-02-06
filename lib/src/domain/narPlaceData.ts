@@ -7,11 +7,27 @@ import { validateNarRaceDateTime } from '../utility/data/nar/narRaceDateTime';
  * 地方競馬のレース開催場所データ
  */
 export class NarPlaceData {
-    // 開催日時
+    /**
+     * 開催日
+     *
+     * @type {NarRaceDateTime}
+     * @memberof NarPlaceData
+     */
     public readonly dateTime: NarRaceDateTime;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {NarRaceCourse}
+     * @memberof NarPlaceData
+     */
     public readonly location: NarRaceCourse;
 
+    /**
+     * コンストラクタ
+     *
+     * @param dateTime - 開催日時
+     * @param location - 開催場所
+     */
     private constructor(dateTime: NarRaceDateTime, location: NarRaceCourse) {
         this.dateTime = dateTime;
         this.location = location;
@@ -21,8 +37,8 @@ export class NarPlaceData {
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
      * @param dateTime - 開催日時
-     * @param location - 開催場所 (バリデーション対象)
-     * @param grade - オートレースのグレード (バリデーション対象)
+     * @param location - 開催場所
+     * @param grade - グレード
      */
     static create(dateTime: Date, location: string): NarPlaceData {
         return new NarPlaceData(

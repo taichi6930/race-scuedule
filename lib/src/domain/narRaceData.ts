@@ -31,26 +31,61 @@ import {
  * 地方競馬のレース開催データ
  */
 export class NarRaceData {
-    // レース名
+    /**
+     * レース名
+     *
+     * @type {NarRaceName}
+     * @memberof NarRaceData
+     */
     public readonly name: NarRaceName;
-    // 開催日程
+    /**
+     * 開催日時
+     *
+     * @type {NarRaceDateTime}
+     * @memberof NarRaceData
+     */
     public readonly dateTime: NarRaceDateTime;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {NarRaceCourse}
+     * @memberof NarRaceData
+     */
     public readonly location: NarRaceCourse;
-    // 馬場種別
+    /**
+     * 馬場種別
+     *
+     * @type {NarRaceCourseType}
+     * @memberof NarRaceData
+     */
     public readonly surfaceType: NarRaceCourseType;
-    // 距離
+    /**
+     * 距離
+     *
+     * @type {NarRaceDistance}
+     * @memberof NarRaceData
+     */
     public readonly distance: NarRaceDistance;
-    // グレード
+    /**
+     * グレード
+     *
+     * @type {NarGradeType}
+     * @memberof NarRaceData
+     */
     public readonly grade: NarGradeType;
-    // レース番号
+    /**
+     * レース番号
+     *
+     * @type {NarRaceNumber}
+     * @memberof NarRaceData
+     */
     public readonly number: NarRaceNumber;
 
     /**
      * コンストラクタ
      *
      * @remarks
-     * 地方競馬のレース開催データを生成する
+     * レース開催データを生成する
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所

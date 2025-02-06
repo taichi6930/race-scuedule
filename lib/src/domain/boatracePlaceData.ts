@@ -9,13 +9,37 @@ import { validateBoatraceRaceDate } from '../utility/data/boatrace/boatraceRaceD
  * ボートレースのレース開催場所データ
  */
 export class BoatracePlaceData {
-    // 開催日時
+    /**
+     * 開催日時
+     *
+     * @type {BoatraceRaceDate}
+     * @memberof BoatracePlaceData
+     */
     public readonly dateTime: BoatraceRaceDate;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {BoatraceRaceCourse}
+     * @memberof BoatracePlaceData
+     */
     public readonly location: BoatraceRaceCourse;
-    // ボートレースのグレード
+    /**
+     * グレード
+     *
+     * @type {BoatraceGradeType}
+     * @memberof BoatracePlaceData
+     */
     public readonly grade: BoatraceGradeType;
 
+    /**
+     * コンストラクタ
+     *
+     * @remarks
+     * レース開催場所データを生成する
+     * @param dateTime - 開催日時
+     * @param location - 開催場所
+     * @param grade - グレード
+     */
     private constructor(
         dateTime: BoatraceRaceDate,
         location: BoatraceRaceCourse,
@@ -30,8 +54,8 @@ export class BoatracePlaceData {
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
      * @param dateTime - 開催日時
-     * @param location - 開催場所 (バリデーション対象)
-     * @param grade - ボートレースのグレード (バリデーション対象)
+     * @param location - 開催場所
+     * @param grade - グレード
      */
     static create(
         dateTime: Date,

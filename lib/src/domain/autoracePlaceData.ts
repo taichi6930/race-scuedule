@@ -13,9 +13,18 @@ export class AutoracePlaceData {
     public readonly dateTime: AutoraceRaceDate;
     // 開催場所
     public readonly location: AutoraceRaceCourse;
-    // オートレースのグレード
+    // グレード
     public readonly grade: AutoraceGradeType;
 
+    /**
+     * コンストラクタ
+     *
+     * @remarks
+     * レース開催場所データを生成する
+     * @param dateTime - 開催日時
+     * @param location - 開催場所
+     * @param grade - グレード
+     */
     private constructor(
         dateTime: AutoraceRaceDate,
         location: AutoraceRaceCourse,
@@ -30,8 +39,8 @@ export class AutoracePlaceData {
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
      * @param dateTime - 開催日時
-     * @param location - 開催場所 (バリデーション対象)
-     * @param grade - オートレースのグレード (バリデーション対象)
+     * @param location - 開催場所
+     * @param grade - グレード
      */
     static create(
         dateTime: Date,

@@ -17,15 +17,43 @@ import {
  * 中央競馬のレース開催場所データ
  */
 export class JraPlaceData {
-    // 開催日時
+    /**
+     * 開催日時
+     *
+     * @type {JraRaceDateTime}
+     * @memberof JraPlaceData
+     */
     public readonly dateTime: JraRaceDateTime;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {JraRaceCourse}
+     * @memberof JraPlaceData
+     */
     public readonly location: JraRaceCourse;
-    // 開催回数
+    /**
+     * 開催回数
+     *
+     * @type {JraHeldTimes}
+     * @memberof JraPlaceData
+     */
     public readonly heldTimes: JraHeldTimes;
-    // 開催日数
+    /**
+     * 開催日数
+     *
+     * @type {JraHeldDayTimes}
+     * @memberof JraPlaceData
+     */
     public readonly heldDayTimes: JraHeldDayTimes;
 
+    /**
+     * コンストラクタ
+     *
+     * @param dateTime - 開催日時
+     * @param location - 開催場所
+     * @param heldTimes - 開催回数
+     * @param heldDayTimes - 開催日数
+     */
     private constructor(
         dateTime: JraRaceDateTime,
         location: JraRaceCourse,
@@ -42,10 +70,9 @@ export class JraPlaceData {
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
      * @param dateTime - 開催日時
-     * @param location - 開催場所 (バリデーション対象)
+     * @param location - 開催場所
      * @param heldTimes - 開催回数
      * @param heldDayTimes - 開催日数
-     * @param grade - オートレースのグレード (バリデーション対象)
      */
     static create(
         dateTime: Date,

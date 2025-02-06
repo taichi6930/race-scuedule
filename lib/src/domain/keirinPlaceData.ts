@@ -9,13 +9,34 @@ import { validateKeirinRaceDate } from '../utility/data/keirin/keirinRaceDate';
  * 競輪のレース開催場所データ
  */
 export class KeirinPlaceData {
-    // 開催日時
+    /**
+     * 開催日
+     *
+     * @type {KeirinRaceDate}
+     * @memberof KeirinPlaceData
+     */
     public readonly dateTime: KeirinRaceDate;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {KeirinRaceCourse}
+     * @memberof KeirinPlaceData
+     */
     public readonly location: KeirinRaceCourse;
-    // けいりnのグレード
+    /**
+     * グレード
+     *
+     * @type {KeirinGradeType}
+     * @memberof KeirinPlaceData
+     */
     public readonly grade: KeirinGradeType;
 
+    /**
+     * コンストラクタ
+     * @param dateTime
+     * @param location
+     * @param grade
+     */
     private constructor(
         dateTime: KeirinRaceDate,
         location: KeirinRaceCourse,
@@ -30,8 +51,8 @@ export class KeirinPlaceData {
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
      * @param dateTime - 開催日時
-     * @param location - 開催場所 (バリデーション対象)
-     * @param grade - 競輪のグレード (バリデーション対象)
+     * @param location - 開催場所
+     * @param grade - グレード
      */
     static create(
         dateTime: Date,

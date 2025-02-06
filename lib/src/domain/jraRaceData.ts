@@ -39,30 +39,75 @@ import {
  * 中央競馬のレース開催データ
  */
 export class JraRaceData {
-    // レース名
+    /**
+     * レース名
+     *
+     * @type {JraRaceName}
+     * @memberof JraRaceData
+     */
     public readonly name: JraRaceName;
-    // 開催日程
+    /**
+     * 開催日時
+     *
+     * @type {JraRaceDateTime}
+     * @memberof JraRaceData
+     */
     public readonly dateTime: JraRaceDateTime;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {JraRaceCourse}
+     * @memberof JraRaceData
+     */
     public readonly location: JraRaceCourse;
-    // 馬場種別
+    /**
+     * 馬場種別
+     *
+     * @type {JraRaceCourseType}
+     * @memberof JraRaceData
+     */
     public readonly surfaceType: JraRaceCourseType;
-    // 距離
+    /**
+     * 距離
+     *
+     * @type {JraRaceDistance}
+     * @memberof JraRaceData
+     */
     public readonly distance: JraRaceDistance;
-    // グレード
+    /**
+     * グレード
+     *
+     * @type {JraGradeType}
+     * @memberof JraRaceData
+     */
     public readonly grade: JraGradeType;
-    // レース番号
+    /**
+     * レース番号
+     *
+     * @type {JraRaceNumber}
+     * @memberof JraRaceData
+     */
     public readonly number: JraRaceNumber;
-    // 開催回数
+    /**
+     * 開催回数
+     *
+     * @type {JraHeldTimes}
+     * @memberof JraRaceData
+     */
     public readonly heldTimes: JraHeldTimes;
-    // 開催日数
+    /**
+     * 開催日数
+     *
+     * @type {JraHeldDayTimes}
+     * @memberof JraRaceData
+     */
     public readonly heldDayTimes: JraHeldDayTimes;
 
     /**
      * コンストラクタ
      *
      * @remarks
-     * 海外競馬のレース開催データを生成する
+     * レース開催データを生成する
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -70,6 +115,8 @@ export class JraRaceData {
      * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
+     * @param heldTimes - 開催回数
+     * @param heldDayTimes - 開催日数
      */
     private constructor(
         name: JraRaceName,
@@ -103,6 +150,8 @@ export class JraRaceData {
      * @param distance - 距離
      * @param grade - グレード
      * @param number - レース番号
+     * @param heldTimes - 開催回数
+     * @param heldDayTimes - 開催日数
      */
     static create(
         name: string | undefined,
