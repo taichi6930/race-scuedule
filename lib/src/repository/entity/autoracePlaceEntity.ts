@@ -49,7 +49,7 @@ export class AutoracePlaceEntity {
      * @returns
      */
     copy(partial: Partial<AutoracePlaceEntity> = {}): AutoracePlaceEntity {
-        return new AutoracePlaceEntity(
+        return AutoracePlaceEntity.create(
             partial.id ?? this.id,
             partial.placeData ?? this.placeData,
             partial.updateDate ?? this.updateDate,

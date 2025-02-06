@@ -49,7 +49,7 @@ export class BoatracePlaceEntity {
      * @returns
      */
     copy(partial: Partial<BoatracePlaceEntity> = {}): BoatracePlaceEntity {
-        return new BoatracePlaceEntity(
+        return BoatracePlaceEntity.create(
             partial.id ?? this.id,
             partial.placeData ?? this.placeData,
             partial.updateDate ?? this.updateDate,
