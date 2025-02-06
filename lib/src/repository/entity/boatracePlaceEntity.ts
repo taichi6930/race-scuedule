@@ -1,36 +1,46 @@
 import type { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
-import type { BoatracePlaceId } from '../../utility/data/boatrace/boatracePlaceId';
-import { generateBoatracePlaceId } from '../../utility/raceId';
-import type { UpdateDate } from '../../utility/updateDate';
+import {
+    type BoatracePlaceId,
+    validateBoatracePlaceId,
+} from '../../utility/data/boatrace/boatracePlaceId';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のEntity ボートレースのレース開催場所データ
  */
 export class BoatracePlaceEntity {
     /**
-     * ID
-     */
-    public readonly id: BoatracePlaceId;
-
-    /**
      * コンストラクタ
      *
      * @remarks
      * ボートレースのレース開催場所データを生成する
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - ボートレースのグレード
+     * @param id - ID
+     * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    constructor(
-        id: BoatracePlaceId | null,
+    private constructor(
+        public readonly id: BoatracePlaceId,
         public readonly placeData: BoatracePlaceData,
         public readonly updateDate: UpdateDate,
-    ) {
-        this.id =
-            id ??
-            generateBoatracePlaceId(placeData.dateTime, placeData.location);
+    ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param placeData - レース開催場所データ
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        placeData: BoatracePlaceData,
+        updateDate: Date,
+    ): BoatracePlaceEntity {
+        return new BoatracePlaceEntity(
+            validateBoatracePlaceId(id),
+            placeData,
+            validateUpdateDate(updateDate),
+        );
     }
 
     /**
@@ -40,7 +50,7 @@ export class BoatracePlaceEntity {
      */
     copy(partial: Partial<BoatracePlaceEntity> = {}): BoatracePlaceEntity {
         return new BoatracePlaceEntity(
-            partial.id ?? null,
+            partial.id ?? this.id,
             partial.placeData ?? this.placeData,
             partial.updateDate ?? this.updateDate,
         );
