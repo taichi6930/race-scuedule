@@ -1,13 +1,14 @@
-import type {
-    PlaceEntity,
-    RaceEntity,
-} from '../../repository/entity/baseEntity';
+import type { RaceEntity } from '../../repository/entity/baseEntity';
+import type { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
 /**
  * IRaceDataService
  */
-export interface IRaceDataService<R extends RaceEntity, P extends PlaceEntity> {
+export interface IRaceDataService<
+    R extends RaceEntity,
+    P extends IPlaceEntity<P>,
+> {
     /**
      * レース開催のデータを取得する
      * @param startDate

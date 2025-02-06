@@ -1,11 +1,12 @@
 import type { WorldPlaceData } from '../../domain/worldPlaceData';
 import type { WorldPlaceId } from '../../utility/data/world/worldPlaceId';
 import { generateWorldPlaceId } from '../../utility/raceId';
+import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
  * Repository層のEntity 海外競馬のレース開催場所データ
  */
-export class WorldPlaceEntity {
+export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
     /**
      * ID
      */
@@ -36,5 +37,9 @@ export class WorldPlaceEntity {
             partial.id ?? null,
             partial.placeData ?? this.placeData,
         );
+    }
+
+    toRecord(): object {
+        throw new Error('Method not implemented.');
     }
 }

@@ -1,7 +1,5 @@
-import type {
-    PlaceEntity,
-    RaceEntity,
-} from '../../repository/entity/baseEntity';
+import type { RaceEntity } from '../../repository/entity/baseEntity';
+import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import type { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
@@ -12,7 +10,7 @@ import type { IRaceDataService } from '../interface/IRaceDataService';
 
 export abstract class BaseRaceDataService<
     R extends RaceEntity,
-    P extends PlaceEntity,
+    P extends IPlaceEntity<P>,
 > implements IRaceDataService<R, P>
 {
     protected abstract raceRepositoryFromStorage: IRaceRepository<R, P>;

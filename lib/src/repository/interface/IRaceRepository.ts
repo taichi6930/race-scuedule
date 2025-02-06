@@ -1,4 +1,5 @@
-import type { PlaceEntity, RaceEntity } from '../entity/baseEntity';
+import type { RaceEntity } from '../entity/baseEntity';
+import type { IPlaceEntity } from '../entity/iPlaceEntity';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import type { FetchRaceListResponse } from '../response/fetchRaceListResponse';
@@ -9,7 +10,10 @@ import type { RegisterRaceListResponse } from '../response/registerRaceListRespo
  * @param <R> レースデータ
  * @param <P> 開催データ
  */
-export interface IRaceRepository<R extends RaceEntity, P extends PlaceEntity> {
+export interface IRaceRepository<
+    R extends RaceEntity,
+    P extends IPlaceEntity<P>,
+> {
     /**
      * 開催データを取得する
      * @param request

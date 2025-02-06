@@ -1,4 +1,4 @@
-import type { PlaceEntity } from '../entity/baseEntity';
+import type { IPlaceEntity } from '../entity/iPlaceEntity';
 import type { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import type { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import type { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
@@ -8,7 +8,7 @@ import type { RegisterPlaceListResponse } from '../response/registerPlaceListRes
  * 開催データリポジトリ
  * @param <P> 開催データ
  */
-export interface IPlaceRepository<P extends PlaceEntity> {
+export interface IPlaceRepository<P extends IPlaceEntity<P>> {
     /**
      * 開催データを取得する
      * @param request

@@ -1,10 +1,10 @@
-import type { PlaceEntity } from '../../repository/entity/baseEntity';
+import type { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
 /**
  * IPlaceDataService
  */
-export interface IPlaceDataService<P extends PlaceEntity> {
+export interface IPlaceDataService<P extends IPlaceEntity<P>> {
     /**
      * レース開催地のデータを取得する
      * @param startDate

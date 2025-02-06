@@ -1,5 +1,5 @@
 /**
- * 競馬場一覧取得リクエスト
+ * 開催場所一覧取得リクエスト
  */
 export class FetchPlaceListRequest {
     constructor(

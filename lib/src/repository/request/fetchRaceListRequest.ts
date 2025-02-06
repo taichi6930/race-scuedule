@@ -1,9 +1,9 @@
-import type { PlaceEntity } from '../entity/baseEntity';
+import type { IPlaceEntity } from '../entity/iPlaceEntity';
 
 /**
  * レース一覧取得リクエスト
  */
-export class FetchRaceListRequest<P extends PlaceEntity> {
+export class FetchRaceListRequest<P extends IPlaceEntity<P>> {
     constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,

@@ -6,11 +6,12 @@ import {
 } from '../../utility/data/keirin/keirinPlaceId';
 import { generateKeirinPlaceId } from '../../utility/raceId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
  * Repository層のEntity 競輪のレース開催場所データ
  */
-export class KeirinPlaceEntity {
+export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
     /**
      * コンストラクタ
      *
