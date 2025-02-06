@@ -20,6 +20,10 @@ import {
 const baseKeirinPlaceCourse: KeirinRaceCourse = '平塚';
 const baseKeirinPlaceDateTime = new Date('2025-12-30');
 const baseKeirinPlaceGrade: KeirinGradeType = 'GP';
+const baseKeirinPlaceId = generateKeirinPlaceId(
+    baseKeirinPlaceDateTime,
+    baseKeirinPlaceCourse,
+);
 
 const baseKeirinRaceName = 'KEIRINグランプリ';
 const baseKeirinRaceDateTime = new Date('2025-12-30 16:30');
@@ -43,7 +47,7 @@ export const baseKeirinRaceData = KeirinRaceData.create(
 );
 
 export const baseKeirinPlaceRecord = KeirinPlaceRecord.create(
-    generateKeirinPlaceId(baseKeirinPlaceDateTime, baseKeirinPlaceCourse),
+    baseKeirinPlaceId,
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
@@ -65,8 +69,7 @@ export const baseKeirinRaceRecord = KeirinRaceRecord.create(
     baseKeirinRaceUpdateDate,
 );
 
-export const baseKeirinPlaceEntity = new KeirinPlaceEntity(
-    null,
+export const baseKeirinPlaceEntity = KeirinPlaceEntity.createWithoutId(
     baseKeirinPlaceData,
     baseKeirinRaceUpdateDate,
 );

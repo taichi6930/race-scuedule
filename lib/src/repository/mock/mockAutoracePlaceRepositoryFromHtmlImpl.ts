@@ -25,10 +25,11 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
         const currentDate = new Date(request.startDate);
 
         while (currentDate <= request.finishDate) {
+            const datetime = new Date(currentDate);
+            const place = '伊勢崎';
             // オートレース場データを作成
-            const autoracePlaceEntity = new AutoracePlaceEntity(
-                null,
-                AutoracePlaceData.create(new Date(currentDate), '伊勢崎', 'SG'),
+            const autoracePlaceEntity = AutoracePlaceEntity.createWithoutId(
+                AutoracePlaceData.create(datetime, place, 'SG'),
                 getJSTDate(new Date()),
             );
             fetchPlaceEntityList.push(autoracePlaceEntity);

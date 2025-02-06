@@ -16,6 +16,10 @@ import {
 
 const baseJraPlaceCourse: JraRaceCourse = '中山';
 const baseJraPlaceDateTime = new Date('2024-12-22');
+const baseJraPlaceId = generateJraPlaceId(
+    baseJraPlaceDateTime,
+    baseJraPlaceCourse,
+);
 
 const baseJraRaceName = '有馬記念';
 const baseJraRaceDateTime = new Date('2024-12-22 15:40');
@@ -47,7 +51,7 @@ export const baseJraRaceData = JraRaceData.create(
 );
 
 export const baseJraPlaceRecord = JraPlaceRecord.create(
-    generateJraPlaceId(baseJraPlaceDateTime, baseJraPlaceCourse),
+    baseJraPlaceId,
     baseJraPlaceDateTime,
     baseJraPlaceCourse,
     baseJraRaceHeldTimes,
@@ -73,8 +77,7 @@ export const baseJraRaceRecord = JraRaceRecord.create(
     baseJraRaceUpdateDate,
 );
 
-export const baseJraPlaceEntity = new JraPlaceEntity(
-    null,
+export const baseJraPlaceEntity = JraPlaceEntity.createWithoutId(
     baseJraPlaceData,
     baseJraRaceUpdateDate,
 );

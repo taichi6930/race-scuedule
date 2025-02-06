@@ -29,19 +29,54 @@ import {
  * 海外競馬のレース開催データ
  */
 export class WorldRaceData {
-    // レース名
+    /**
+     * レース名
+     *
+     * @type {WorldRaceName}
+     * @memberof WorldRaceData
+     */
     public readonly name: WorldRaceName;
-    // 開催日程
+    /**
+     * 開催日時
+     *
+     * @type {WorldRaceDateTime}
+     * @memberof WorldRaceData
+     */
     public readonly dateTime: WorldRaceDateTime;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {WorldRaceCourse}
+     * @memberof WorldRaceData
+     */
     public readonly location: WorldRaceCourse;
-    // 馬場種別
+    /**
+     * 馬場種別
+     *
+     * @type {WorldRaceCourseType}
+     * @memberof WorldRaceData
+     */
     public readonly surfaceType: WorldRaceCourseType;
-    // 距離
+    /**
+     * 距離
+     *
+     * @type {WorldRaceDistance}
+     * @memberof WorldRaceData
+     */
     public readonly distance: WorldRaceDistance;
-    // グレード
+    /**
+     * グレード
+     *
+     * @type {WorldGradeType}
+     * @memberof WorldRaceData
+     */
     public readonly grade: WorldGradeType;
-    // レース番号
+    /**
+     * レース番号
+     *
+     * @type {WorldRaceNumber}
+     * @memberof WorldRaceData
+     */
     public readonly number: WorldRaceNumber;
 
     /**

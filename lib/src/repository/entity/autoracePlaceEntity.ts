@@ -1,36 +1,65 @@
 import type { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
-import type { AutoracePlaceId } from '../../utility/data/autorace/autoracePlaceId';
+import {
+    type AutoracePlaceId,
+    validateAutoracePlaceId,
+} from '../../utility/data/autorace/autoracePlaceId';
 import { generateAutoracePlaceId } from '../../utility/raceId';
-import type { UpdateDate } from '../../utility/updateDate';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のEntity オートレースのレース開催場所データ
  */
 export class AutoracePlaceEntity {
     /**
-     * ID
-     */
-    public readonly id: AutoracePlaceId;
-
-    /**
      * コンストラクタ
      *
      * @remarks
      * オートレースのレース開催場所データを生成する
-     * @param dateTime - 開催日時
-     * @param location - 開催場所
-     * @param grade - オートレースのグレード
+     * @param id - ID
+     * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    constructor(
-        id: AutoracePlaceId | null,
+    private constructor(
+        public readonly id: AutoracePlaceId,
         public readonly placeData: AutoracePlaceData,
         public readonly updateDate: UpdateDate,
-    ) {
-        this.id =
-            id ??
-            generateAutoracePlaceId(placeData.dateTime, placeData.location);
+    ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param placeData - レース開催場所データ
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        placeData: AutoracePlaceData,
+        updateDate: Date,
+    ): AutoracePlaceEntity {
+        return new AutoracePlaceEntity(
+            validateAutoracePlaceId(id),
+            placeData,
+            validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     * idがない場合でのcreate
+     *
+     * @param placeData
+     * @param updateDate
+     * @returns
+     */
+    static createWithoutId(
+        placeData: AutoracePlaceData,
+        updateDate: Date,
+    ): AutoracePlaceEntity {
+        return AutoracePlaceEntity.create(
+            generateAutoracePlaceId(placeData.dateTime, placeData.location),
+            placeData,
+            updateDate,
+        );
     }
 
     /**
@@ -39,8 +68,8 @@ export class AutoracePlaceEntity {
      * @returns
      */
     copy(partial: Partial<AutoracePlaceEntity> = {}): AutoracePlaceEntity {
-        return new AutoracePlaceEntity(
-            partial.id ?? null,
+        return AutoracePlaceEntity.create(
+            partial.id ?? this.id,
             partial.placeData ?? this.placeData,
             partial.updateDate ?? this.updateDate,
         );

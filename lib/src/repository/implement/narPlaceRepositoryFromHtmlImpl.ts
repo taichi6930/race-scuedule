@@ -151,8 +151,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         for (const [place, raceDays] of Object.entries(narPlaceDataDict)) {
             raceDays.forEach((raceDay) => {
                 narPlaceDataList.push(
-                    new NarPlaceEntity(
-                        null,
+                    NarPlaceEntity.createWithoutId(
                         NarPlaceData.create(
                             new Date(
                                 date.getFullYear(),

@@ -26,8 +26,7 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
 
         while (currentDate <= request.finishDate) {
             // ボートレース場データを作成
-            const boatracePlaceEntity = new BoatracePlaceEntity(
-                null,
+            const boatracePlaceEntity = BoatracePlaceEntity.createWithoutId(
                 BoatracePlaceData.create(new Date(currentDate), '平和島', 'SG'),
                 getJSTDate(new Date()),
             );

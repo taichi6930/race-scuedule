@@ -7,11 +7,26 @@ import { validateWorldRaceDate } from '../utility/data/world/worldRaceDate';
  * 海外競馬のレース開催場所データ
  */
 export class WorldPlaceData {
-    // 開催日時
+    /**
+     * 開催日
+     *
+     * @type {WorldRaceDate}
+     * @memberof WorldPlaceData
+     */
     public readonly dateTime: WorldRaceDate;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {WorldRaceCourse}
+     * @memberof WorldPlaceData
+     */
     public readonly location: WorldRaceCourse;
 
+    /**
+     * コンストラクタ
+     * @param dateTime
+     * @param location
+     */
     private constructor(dateTime: WorldRaceDate, location: WorldRaceCourse) {
         this.dateTime = dateTime;
         this.location = location;
@@ -21,8 +36,8 @@ export class WorldPlaceData {
      * インスタンス生成メソッド
      * バリデーション済みデータを元にインスタンスを生成する
      * @param dateTime - 開催日時
-     * @param location - 開催場所 (バリデーション対象)
-     * @param grade - オートレースのグレード (バリデーション対象)
+     * @param location - 開催場所
+     * @param grade - グレード
      */
     static create(dateTime: Date, location: string): WorldPlaceData {
         return new WorldPlaceData(
@@ -30,6 +45,7 @@ export class WorldPlaceData {
             validateWorldRaceCourse(location),
         );
     }
+
     /**
      * データのコピー
      * @param partial - 上書きする部分データ

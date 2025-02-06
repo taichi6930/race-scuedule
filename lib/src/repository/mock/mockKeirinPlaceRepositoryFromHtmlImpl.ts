@@ -26,8 +26,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
 
         while (currentDate <= request.finishDate) {
             // 競輪場データを作成
-            const keirinPlaceEntity = new KeirinPlaceEntity(
-                null,
+            const keirinPlaceEntity = KeirinPlaceEntity.createWithoutId(
                 KeirinPlaceData.create(new Date(currentDate), '川崎', 'GⅠ'),
                 getJSTDate(new Date()),
             );

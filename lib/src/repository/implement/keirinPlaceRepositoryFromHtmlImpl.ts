@@ -158,18 +158,17 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                                     .replace('3', 'Ⅲ');
                             }
                         });
-
+                        const datetime = new Date(
+                            date.getFullYear(),
+                            date.getMonth(),
+                            index + 1,
+                        );
                         // alt属性を出力
                         if (grade) {
                             keirinPlaceEntityList.push(
-                                new KeirinPlaceEntity(
-                                    null,
+                                KeirinPlaceEntity.createWithoutId(
                                     KeirinPlaceData.create(
-                                        new Date(
-                                            date.getFullYear(),
-                                            date.getMonth(),
-                                            index + 1,
-                                        ),
+                                        datetime,
                                         place,
                                         grade,
                                     ),

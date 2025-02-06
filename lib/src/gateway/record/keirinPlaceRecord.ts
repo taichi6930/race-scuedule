@@ -30,7 +30,7 @@ export class KeirinPlaceRecord {
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param grade - 競輪のグレード
+     * @param grade - グレード
      * @param updateDate - 更新日時
      */
     private constructor(
@@ -46,7 +46,7 @@ export class KeirinPlaceRecord {
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param grade - 競輪のグレード
+     * @param grade - グレード
      * @param updateDate - 更新日時
      */
     static create(
@@ -91,7 +91,7 @@ export class KeirinPlaceRecord {
      * @returns
      */
     toEntity(): KeirinPlaceEntity {
-        return new KeirinPlaceEntity(
+        return KeirinPlaceEntity.create(
             this.id,
             KeirinPlaceData.create(this.dateTime, this.location, this.grade),
             this.updateDate,

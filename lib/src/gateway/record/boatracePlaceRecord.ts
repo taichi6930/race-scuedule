@@ -91,7 +91,7 @@ export class BoatracePlaceRecord {
      * @returns
      */
     toEntity(): BoatracePlaceEntity {
-        return new BoatracePlaceEntity(
+        return BoatracePlaceEntity.create(
             this.id,
             BoatracePlaceData.create(this.dateTime, this.location, this.grade),
             this.updateDate,

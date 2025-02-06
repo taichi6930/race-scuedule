@@ -63,8 +63,7 @@ export const baseNarRaceRecord = NarRaceRecord.create(
     baseNarRaceUpdateDate,
 );
 
-export const baseNarPlaceEntity = new NarPlaceEntity(
-    null,
+export const baseNarPlaceEntity = NarPlaceEntity.createWithoutId(
     baseNarPlaceData,
     baseNarRaceUpdateDate,
 );

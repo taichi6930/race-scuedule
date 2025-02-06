@@ -73,14 +73,11 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from(
-                { length: 12 },
-                () =>
-                    new BoatracePlaceEntity(
-                        null,
-                        BoatracePlaceData.create(date, '平和島', 'SG'),
-                        getJSTDate(new Date()),
-                    ),
+            return Array.from({ length: 12 }, () =>
+                BoatracePlaceEntity.createWithoutId(
+                    BoatracePlaceData.create(date, '平和島', 'SG'),
+                    getJSTDate(new Date()),
+                ),
             );
         },
     ).flat();

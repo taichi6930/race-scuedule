@@ -176,8 +176,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 currentDate <= finishDate;
                 currentDate.setDate(currentDate.getDate() + 1)
             ) {
-                const boatracePlaceEntity = new BoatracePlaceEntity(
-                    null,
+                const boatracePlaceEntity = BoatracePlaceEntity.createWithoutId(
                     BoatracePlaceData.create(
                         new Date(currentDate),
                         place,

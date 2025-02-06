@@ -160,17 +160,17 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                             grade = 'GⅡ';
                             break;
                     }
+                    const datetime = new Date(
+                        date.getFullYear(),
+                        date.getMonth(),
+                        index + 1,
+                    );
                     // alt属性を出力
                     if (grade) {
                         autoracePlaceEntityList.push(
-                            new AutoracePlaceEntity(
-                                null,
+                            AutoracePlaceEntity.createWithoutId(
                                 AutoracePlaceData.create(
-                                    new Date(
-                                        date.getFullYear(),
-                                        date.getMonth(),
-                                        index + 1,
-                                    ),
+                                    datetime,
                                     place,
                                     grade,
                                 ),

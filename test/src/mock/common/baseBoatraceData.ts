@@ -20,6 +20,10 @@ import {
 const baseBoatracePlaceCourse: BoatraceRaceCourse = '平和島';
 const baseBoatracePlaceDateTime = new Date('2024-12-31');
 const baseBoatracePlaceGrade: BoatraceGradeType = 'SG';
+const baseBoatracePlaceId = generateBoatracePlaceId(
+    baseBoatracePlaceDateTime,
+    baseBoatracePlaceCourse,
+);
 
 const baseBoatraceRaceName = 'グランプリ';
 const baseBoatraceRaceDateTime = new Date('2024-12-31 16:30');
@@ -43,7 +47,7 @@ export const baseBoatraceRaceData = BoatraceRaceData.create(
 );
 
 export const baseBoatracePlaceRecord = BoatracePlaceRecord.create(
-    generateBoatracePlaceId(baseBoatracePlaceDateTime, baseBoatracePlaceCourse),
+    baseBoatracePlaceId,
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
@@ -65,8 +69,7 @@ export const baseBoatraceRaceRecord = BoatraceRaceRecord.create(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatracePlaceEntity = new BoatracePlaceEntity(
-    null,
+export const baseBoatracePlaceEntity = BoatracePlaceEntity.createWithoutId(
     baseBoatracePlaceData,
     baseBoatraceRaceUpdateDate,
 );

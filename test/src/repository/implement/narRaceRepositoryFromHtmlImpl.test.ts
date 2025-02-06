@@ -12,6 +12,7 @@ import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fet
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { ENV } from '../../../../lib/src/utility/env';
+import { generateNarPlaceId } from '../../../../lib/src/utility/raceId';
 
 if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('NarRaceRepositoryFromHtmlImpl', () => {
@@ -39,8 +40,11 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [
-                            new NarPlaceEntity(
-                                null,
+                            NarPlaceEntity.create(
+                                generateNarPlaceId(
+                                    new Date('2024-10-02'),
+                                    '大井',
+                                ),
                                 NarPlaceData.create(
                                     new Date('2024-10-02'),
                                     '大井',
@@ -58,8 +62,11 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         new Date('2023-10-08'),
                         new Date('2023-10-08'),
                         [
-                            new NarPlaceEntity(
-                                null,
+                            NarPlaceEntity.create(
+                                generateNarPlaceId(
+                                    new Date('2023-10-08'),
+                                    '盛岡',
+                                ),
                                 NarPlaceData.create(
                                     new Date('2023-10-08'),
                                     '盛岡',
@@ -77,8 +84,11 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [
-                            new NarPlaceEntity(
-                                null,
+                            NarPlaceEntity.create(
+                                generateNarPlaceId(
+                                    new Date('2024-10-02'),
+                                    '大井',
+                                ),
                                 NarPlaceData.create(
                                     new Date('2024-10-02'),
                                     '大井',
@@ -96,8 +106,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         new Date('2024-09-01'),
                         new Date('2024-09-02'),
                         [
-                            new NarPlaceEntity(
-                                null,
+                            NarPlaceEntity.createWithoutId(
                                 NarPlaceData.create(
                                     new Date('2024-09-02'),
                                     '大井',

@@ -25,24 +25,54 @@ import {
  * 競輪のレース開催データ
  */
 export class KeirinRaceData {
-    // レース名
+    /**
+     * レース名
+     *
+     * @type {KeirinRaceName}
+     * @memberof KeirinRaceData
+     */
     public readonly name: KeirinRaceName;
-    // 開催ステージ
+    /**
+     * 開催ステージ
+     *
+     * @type {KeirinRaceStage}
+     * @memberof KeirinRaceData
+     */
     public readonly stage: KeirinRaceStage;
-    // 開催日程
+    /**
+     * 開催日時
+     *
+     * @type {KeirinRaceDateTime}
+     * @memberof KeirinRaceData
+     */
     public readonly dateTime: KeirinRaceDateTime;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {KeirinRaceCourse}
+     * @memberof KeirinRaceData
+     */
     public readonly location: KeirinRaceCourse;
-    // グレード
+    /**
+     * グレード
+     *
+     * @type {KeirinGradeType}
+     * @memberof KeirinRaceData
+     */
     public readonly grade: KeirinGradeType;
-    // レース番号
+    /**
+     * レース番号
+     *
+     * @type {KeirinRaceNumber}
+     * @memberof KeirinRaceData
+     */
     public readonly number: KeirinRaceNumber;
 
     /**
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催データを生成する
+     * レース開催データを生成する
      * @param name - レース名
      * @param stage - 開催ステージ
      * @param dateTime - 開催日時

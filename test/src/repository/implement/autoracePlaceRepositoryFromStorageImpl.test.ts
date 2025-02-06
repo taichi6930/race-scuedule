@@ -73,14 +73,11 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from(
-                { length: 12 },
-                () =>
-                    new AutoracePlaceEntity(
-                        null,
-                        AutoracePlaceData.create(date, '飯塚', 'SG'),
-                        getJSTDate(new Date()),
-                    ),
+            return Array.from({ length: 12 }, () =>
+                AutoracePlaceEntity.createWithoutId(
+                    AutoracePlaceData.create(date, '飯塚', 'SG'),
+                    getJSTDate(new Date()),
+                ),
             );
         },
     ).flat();
