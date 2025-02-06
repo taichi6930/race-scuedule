@@ -1,18 +1,16 @@
 import type { NarPlaceData } from '../../domain/narPlaceData';
 import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
-import type { NarPlaceId } from '../../utility/data/nar/narPlaceId';
+import {
+    type NarPlaceId,
+    validateNarPlaceId,
+} from '../../utility/data/nar/narPlaceId';
 import { generateNarPlaceId } from '../../utility/raceId';
-import type { UpdateDate } from '../../utility/updateDate';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
  * Repository層のEntity 地方競馬のレース開催場所データ
  */
 export class NarPlaceEntity {
-    /**
-     * ID
-     */
-    public readonly id: NarPlaceId;
-
     /**
      * コンストラクタ
      *
@@ -22,13 +20,46 @@ export class NarPlaceEntity {
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時
      */
-    constructor(
-        id: NarPlaceId | null,
+    private constructor(
+        public readonly id: NarPlaceId,
         public readonly placeData: NarPlaceData,
         public readonly updateDate: UpdateDate,
-    ) {
-        this.id =
-            id ?? generateNarPlaceId(placeData.dateTime, placeData.location);
+    ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param placeData - レース開催場所データ
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        placeData: NarPlaceData,
+        updateDate: Date,
+    ): NarPlaceEntity {
+        return new NarPlaceEntity(
+            validateNarPlaceId(id),
+            placeData,
+            validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     * idがない場合でのcreate
+     *
+     * @param placeData
+     * @param updateDate
+     * @returns
+     */
+    static createWithoutId(
+        placeData: NarPlaceData,
+        updateDate: Date,
+    ): NarPlaceEntity {
+        return NarPlaceEntity.create(
+            generateNarPlaceId(placeData.dateTime, placeData.location),
+            placeData,
+            updateDate,
+        );
     }
 
     /**
@@ -37,8 +68,8 @@ export class NarPlaceEntity {
      * @returns
      */
     copy(partial: Partial<NarPlaceEntity> = {}): NarPlaceEntity {
-        return new NarPlaceEntity(
-            partial.id ?? null,
+        return NarPlaceEntity.create(
+            partial.id ?? this.id,
             partial.placeData ?? this.placeData,
             partial.updateDate ?? this.updateDate,
         );

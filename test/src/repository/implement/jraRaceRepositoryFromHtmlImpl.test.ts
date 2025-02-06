@@ -39,8 +39,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         new Date('2024-05-26'),
                         new Date('2024-05-26'),
                         [
-                            new JraPlaceEntity(
-                                null,
+                            JraPlaceEntity.createWithoutId(
                                 JraPlaceData.create(
                                     new Date('2024-05-26'),
                                     '東京',

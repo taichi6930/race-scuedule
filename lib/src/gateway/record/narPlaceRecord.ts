@@ -79,7 +79,7 @@ export class NarPlaceRecord {
      * @returns
      */
     toEntity(): NarPlaceEntity {
-        return new NarPlaceEntity(
+        return NarPlaceEntity.create(
             this.id,
             NarPlaceData.create(this.dateTime, this.location),
             this.updateDate,

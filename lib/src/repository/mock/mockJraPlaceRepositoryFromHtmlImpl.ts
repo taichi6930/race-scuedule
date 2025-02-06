@@ -26,8 +26,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
 
         while (currentDate <= request.finishDate) {
             // 中央競馬場データを作成
-            const jraPlaceEntity = new JraPlaceEntity(
-                null,
+            const jraPlaceEntity = JraPlaceEntity.createWithoutId(
                 JraPlaceData.create(new Date(currentDate), '東京', 1, 1),
                 getJSTDate(new Date()),
             );

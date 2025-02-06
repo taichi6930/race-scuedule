@@ -73,14 +73,11 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from(
-                { length: 12 },
-                () =>
-                    new JraPlaceEntity(
-                        null,
-                        JraPlaceData.create(date, '東京', 1, 1),
-                        getJSTDate(new Date()),
-                    ),
+            return Array.from({ length: 12 }, () =>
+                JraPlaceEntity.createWithoutId(
+                    JraPlaceData.create(date, '東京', 1, 1),
+                    getJSTDate(new Date()),
+                ),
             );
         },
     ).flat();

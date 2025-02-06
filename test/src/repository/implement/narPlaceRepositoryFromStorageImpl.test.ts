@@ -73,14 +73,11 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from(
-                { length: 12 },
-                () =>
-                    new NarPlaceEntity(
-                        null,
-                        NarPlaceData.create(date, '大井'),
-                        getJSTDate(new Date()),
-                    ),
+            return Array.from({ length: 12 }, () =>
+                NarPlaceEntity.createWithoutId(
+                    NarPlaceData.create(date, '大井'),
+                    getJSTDate(new Date()),
+                ),
             );
         },
     ).flat();
