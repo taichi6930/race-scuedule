@@ -10,11 +10,26 @@ import type { IPlaceData } from './iPlaceData';
  * オートレースのレース開催場所データ
  */
 export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
-    // 開催日時
+    /**
+     * 開催日時
+     *
+     * @type {AutoraceRaceDate}
+     * @memberof AutoracePlaceData
+     */
     public readonly dateTime: AutoraceRaceDate;
-    // 開催場所
+    /**
+     * 開催場所
+     *
+     * @type {AutoraceRaceCourse}
+     * @memberof AutoracePlaceData
+     */
     public readonly location: AutoraceRaceCourse;
-    // グレード
+    /**
+     * グレード
+     *
+     * @type {AutoraceGradeType}
+     * @memberof AutoracePlaceData
+     */
     public readonly grade: AutoraceGradeType;
 
     /**
