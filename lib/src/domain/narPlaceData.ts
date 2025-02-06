@@ -2,11 +2,12 @@ import type { NarRaceCourse } from '../utility/data/nar/narRaceCourse';
 import { validateNarRaceCourse } from '../utility/data/nar/narRaceCourse';
 import type { NarRaceDateTime } from '../utility/data/nar/narRaceDateTime';
 import { validateNarRaceDateTime } from '../utility/data/nar/narRaceDateTime';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * 地方競馬のレース開催場所データ
  */
-export class NarPlaceData {
+export class NarPlaceData implements IPlaceData<NarPlaceData> {
     /**
      * 開催日
      *

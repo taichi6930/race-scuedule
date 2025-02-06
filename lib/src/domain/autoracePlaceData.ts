@@ -4,11 +4,12 @@ import type { AutoraceRaceCourse } from '../utility/data/autorace/autoraceRaceCo
 import { validateAutoraceRaceCourse } from '../utility/data/autorace/autoraceRaceCourse';
 import type { AutoraceRaceDate } from '../utility/data/autorace/autoraceRaceDate';
 import { validateAutoraceRaceDate } from '../utility/data/autorace/autoraceRaceDate';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * オートレースのレース開催場所データ
  */
-export class AutoracePlaceData {
+export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
     // 開催日時
     public readonly dateTime: AutoraceRaceDate;
     // 開催場所

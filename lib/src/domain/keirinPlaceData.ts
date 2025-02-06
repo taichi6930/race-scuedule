@@ -4,11 +4,12 @@ import type { KeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
 import { validateKeirinRaceCourse } from '../utility/data/keirin/keirinRaceCourse';
 import type { KeirinRaceDate } from '../utility/data/keirin/keirinRaceDate';
 import { validateKeirinRaceDate } from '../utility/data/keirin/keirinRaceDate';
+import type { IPlaceData } from './iPlaceData';
 
 /**
  * 競輪のレース開催場所データ
  */
-export class KeirinPlaceData {
+export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
     /**
      * 開催日
      *
