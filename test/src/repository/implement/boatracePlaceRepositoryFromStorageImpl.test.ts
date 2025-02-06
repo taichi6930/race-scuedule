@@ -12,7 +12,6 @@ import { BoatracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repo
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { generateBoatracePlaceId } from '../../../../lib/src/utility/raceId';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('BoatracePlaceRepositoryFromStorageImpl', () => {
@@ -75,8 +74,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                BoatracePlaceEntity.create(
-                    generateBoatracePlaceId(date, '平和島'),
+                BoatracePlaceEntity.createWithoutId(
                     BoatracePlaceData.create(date, '平和島', 'SG'),
                     getJSTDate(new Date()),
                 ),

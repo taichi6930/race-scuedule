@@ -47,7 +47,7 @@ export const baseKeirinRaceData = KeirinRaceData.create(
 );
 
 export const baseKeirinPlaceRecord = KeirinPlaceRecord.create(
-    generateKeirinPlaceId(baseKeirinPlaceDateTime, baseKeirinPlaceCourse),
+    baseKeirinPlaceId,
     baseKeirinPlaceDateTime,
     baseKeirinPlaceCourse,
     baseKeirinPlaceGrade,
@@ -69,8 +69,7 @@ export const baseKeirinRaceRecord = KeirinRaceRecord.create(
     baseKeirinRaceUpdateDate,
 );
 
-export const baseKeirinPlaceEntity = KeirinPlaceEntity.create(
-    baseKeirinPlaceId,
+export const baseKeirinPlaceEntity = KeirinPlaceEntity.createWithoutId(
     baseKeirinPlaceData,
     baseKeirinRaceUpdateDate,
 );

@@ -4,6 +4,7 @@ import {
     type AutoracePlaceId,
     validateAutoracePlaceId,
 } from '../../utility/data/autorace/autoracePlaceId';
+import { generateAutoracePlaceId } from '../../utility/raceId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
@@ -40,6 +41,24 @@ export class AutoracePlaceEntity {
             validateAutoracePlaceId(id),
             placeData,
             validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     * idがない場合でのcreate
+     *
+     * @param placeData
+     * @param updateDate
+     * @returns
+     */
+    static createWithoutId(
+        placeData: AutoracePlaceData,
+        updateDate: Date,
+    ): AutoracePlaceEntity {
+        return AutoracePlaceEntity.create(
+            generateAutoracePlaceId(placeData.dateTime, placeData.location),
+            placeData,
+            updateDate,
         );
     }
 

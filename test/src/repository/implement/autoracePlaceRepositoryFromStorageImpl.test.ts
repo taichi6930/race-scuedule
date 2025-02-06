@@ -12,7 +12,6 @@ import { AutoracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repo
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { generateAutoracePlaceId } from '../../../../lib/src/utility/raceId';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
 describe('AutoracePlaceRepositoryFromStorageImpl', () => {
@@ -75,8 +74,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
             return Array.from({ length: 12 }, () =>
-                AutoracePlaceEntity.create(
-                    generateAutoracePlaceId(date, '飯塚'),
+                AutoracePlaceEntity.createWithoutId(
                     AutoracePlaceData.create(date, '飯塚', 'SG'),
                     getJSTDate(new Date()),
                 ),

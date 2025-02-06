@@ -1,7 +1,6 @@
 import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { generateKeirinPlaceId } from '../../utility/raceId';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -27,8 +26,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
 
         while (currentDate <= request.finishDate) {
             // 競輪場データを作成
-            const keirinPlaceEntity = KeirinPlaceEntity.create(
-                generateKeirinPlaceId(new Date(currentDate), '川崎'),
+            const keirinPlaceEntity = KeirinPlaceEntity.createWithoutId(
                 KeirinPlaceData.create(new Date(currentDate), '川崎', 'GⅠ'),
                 getJSTDate(new Date()),
             );

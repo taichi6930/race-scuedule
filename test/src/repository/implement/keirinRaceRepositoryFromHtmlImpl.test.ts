@@ -12,7 +12,6 @@ import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fet
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { ENV } from '../../../../lib/src/utility/env';
-import { generateKeirinPlaceId } from '../../../../lib/src/utility/raceId';
 
 if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('KeirinRaceRepositoryFromHtmlImpl', () => {
@@ -40,11 +39,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         new Date('2024-10-20'),
                         new Date('2024-10-20'),
                         [
-                            KeirinPlaceEntity.create(
-                                generateKeirinPlaceId(
-                                    new Date('2024-10-20'),
-                                    '弥彦',
-                                ),
+                            KeirinPlaceEntity.createWithoutId(
                                 KeirinPlaceData.create(
                                     new Date('2024-10-20'),
                                     '弥彦',

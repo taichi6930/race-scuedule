@@ -4,6 +4,7 @@ import {
     type KeirinPlaceId,
     validateKeirinPlaceId,
 } from '../../utility/data/keirin/keirinPlaceId';
+import { generateKeirinPlaceId } from '../../utility/raceId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
@@ -40,6 +41,22 @@ export class KeirinPlaceEntity {
             validateKeirinPlaceId(id),
             placeData,
             validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     *
+     * @param placeData - レース開催場所データ
+     * @param updateDate - 更新日時
+     */
+    static createWithoutId(
+        placeData: KeirinPlaceData,
+        updateDate: Date,
+    ): KeirinPlaceEntity {
+        return KeirinPlaceEntity.create(
+            generateKeirinPlaceId(placeData.dateTime, placeData.location),
+            placeData,
+            updateDate,
         );
     }
 

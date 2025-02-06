@@ -47,7 +47,7 @@ export const baseBoatraceRaceData = BoatraceRaceData.create(
 );
 
 export const baseBoatracePlaceRecord = BoatracePlaceRecord.create(
-    generateBoatracePlaceId(baseBoatracePlaceDateTime, baseBoatracePlaceCourse),
+    baseBoatracePlaceId,
     baseBoatracePlaceDateTime,
     baseBoatracePlaceCourse,
     baseBoatracePlaceGrade,
@@ -69,8 +69,7 @@ export const baseBoatraceRaceRecord = BoatraceRaceRecord.create(
     baseBoatraceRaceUpdateDate,
 );
 
-export const baseBoatracePlaceEntity = BoatracePlaceEntity.create(
-    baseBoatracePlaceId,
+export const baseBoatracePlaceEntity = BoatracePlaceEntity.createWithoutId(
     baseBoatracePlaceData,
     baseBoatraceRaceUpdateDate,
 );

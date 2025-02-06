@@ -10,7 +10,6 @@ import { AutoraceGradeType } from '../../utility/data/autorace/autoraceGradeType
 import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCourse';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { generateAutoracePlaceId } from '../../utility/raceId';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -166,12 +165,10 @@ export class AutoracePlaceRepositoryFromHtmlImpl
                         date.getMonth(),
                         index + 1,
                     );
-                    const placeId = generateAutoracePlaceId(datetime, place);
                     // alt属性を出力
                     if (grade) {
                         autoracePlaceEntityList.push(
-                            AutoracePlaceEntity.create(
-                                placeId,
+                            AutoracePlaceEntity.createWithoutId(
                                 AutoracePlaceData.create(
                                     datetime,
                                     place,

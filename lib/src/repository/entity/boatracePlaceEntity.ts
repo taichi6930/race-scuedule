@@ -4,6 +4,7 @@ import {
     type BoatracePlaceId,
     validateBoatracePlaceId,
 } from '../../utility/data/boatrace/boatracePlaceId';
+import { generateBoatracePlaceId } from '../../utility/raceId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 
 /**
@@ -40,6 +41,22 @@ export class BoatracePlaceEntity {
             validateBoatracePlaceId(id),
             placeData,
             validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     * idがない場合でのcreate
+     * @param placeData - レース開催場所データ
+     * @param updateDate - 更新日時
+     */
+    static createWithoutId(
+        placeData: BoatracePlaceData,
+        updateDate: Date,
+    ): BoatracePlaceEntity {
+        return BoatracePlaceEntity.create(
+            generateBoatracePlaceId(placeData.dateTime, placeData.location),
+            placeData,
+            updateDate,
         );
     }
 

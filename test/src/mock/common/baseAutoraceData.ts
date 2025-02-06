@@ -48,7 +48,7 @@ export const baseAutoraceRaceData = AutoraceRaceData.create(
 );
 
 export const baseAutoracePlaceRecord = AutoracePlaceRecord.create(
-    generateAutoracePlaceId(baseAutoracePlaceDateTime, baseAutoracePlaceCourse),
+    baseAutoracePlaceId,
     baseAutoracePlaceDateTime,
     baseAutoracePlaceCourse,
     baseAutoracePlaceGrade,
@@ -70,8 +70,7 @@ export const baseAutoraceRaceRecord = AutoraceRaceRecord.create(
     baseAutoraceRaceUpdateDate,
 );
 
-export const baseAutoracePlaceEntity = AutoracePlaceEntity.create(
-    baseAutoracePlaceId,
+export const baseAutoracePlaceEntity = AutoracePlaceEntity.createWithoutId(
     baseAutoracePlaceData,
     baseAutoraceRaceUpdateDate,
 );

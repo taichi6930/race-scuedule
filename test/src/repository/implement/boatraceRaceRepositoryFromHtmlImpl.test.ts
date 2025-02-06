@@ -12,7 +12,6 @@ import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fet
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { ENV } from '../../../../lib/src/utility/env';
-import { generateBoatracePlaceId } from '../../../../lib/src/utility/raceId';
 
 if (ENV !== 'GITHUB_ACTIONS_CI') {
     describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
@@ -40,11 +39,7 @@ if (ENV !== 'GITHUB_ACTIONS_CI') {
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                         [
-                            BoatracePlaceEntity.create(
-                                generateBoatracePlaceId(
-                                    new Date('2024-11-24'),
-                                    '下関',
-                                ),
+                            BoatracePlaceEntity.createWithoutId(
                                 BoatracePlaceData.create(
                                     new Date('2024-11-24'),
                                     '下関',

@@ -8,7 +8,6 @@ import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatracePlaceDataHtmlGateway';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
-import { generateBoatracePlaceId } from '../../utility/raceId';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
@@ -177,8 +176,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 currentDate <= finishDate;
                 currentDate.setDate(currentDate.getDate() + 1)
             ) {
-                const boatracePlaceEntity = BoatracePlaceEntity.create(
-                    generateBoatracePlaceId(new Date(currentDate), place),
+                const boatracePlaceEntity = BoatracePlaceEntity.createWithoutId(
                     BoatracePlaceData.create(
                         new Date(currentDate),
                         place,
