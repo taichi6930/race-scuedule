@@ -22,10 +22,7 @@ import {
     validateWorldRaceDistance,
     type WorldRaceDistance,
 } from '../../utility/data/world/worldRaceDistance';
-import {
-    validateWorldRaceId,
-    type WorldRaceId,
-} from '../../utility/data/world/worldRaceId';
+import { type WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
     validateWorldRaceName,
     type WorldRaceName,
@@ -93,7 +90,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
         updateDate: Date,
     ): WorldRaceRecord {
         return new WorldRaceRecord(
-            validateWorldRaceId(id),
+            id,
             validateWorldRaceName(name),
             validateWorldRaceDateTime(dateTime),
             validateWorldRaceCourse(location),
