@@ -45,7 +45,7 @@ describe('NarRaceEntityクラスのテスト', () => {
 
     it('NarRaceEntityのインスタンスをNarRaceRecordに変換できることを確認', () => {
         const raceEntity = baseNarRaceEntity;
-        const raceRecord = raceEntity.toRecord();
+        const raceRecord = raceEntity.toRaceRecord();
         // NarRaceRecordが正しいか確認
         expect(raceRecord).toEqual(baseNarRaceRecord);
     });

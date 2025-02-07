@@ -69,7 +69,7 @@ export class WorldRaceRepositoryFromStorageImpl
 
         // RaceEntityをRaceRecordに変換する
         const raceRecordList: WorldRaceRecord[] = request.raceEntityList.map(
-            (raceEntity) => raceEntity.toRecord(),
+            (raceEntity) => raceEntity.toRaceRecord(),
         );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する

@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import '../../utility/format';
 
 import { CalendarData } from '../../domain/calendarData';
-import { RaceEntity } from '../../repository/entity/baseEntity';
+import { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { DeleteCalendarListRequest } from '../../repository/request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
@@ -11,7 +11,7 @@ import { FetchCalendarListResponse } from '../../repository/response/fetchCalend
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
-export abstract class BaseCalendarService<R extends RaceEntity>
+export abstract class BaseCalendarService<R extends IRaceEntity<R>>
     implements ICalendarService<R>
 {
     protected abstract calendarRepository: ICalendarRepository<R>;

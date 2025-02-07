@@ -17,16 +17,17 @@ import {
     validateKeirinRaceDate,
 } from '../../utility/data/keirin/keirinRaceDate';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * Repository層のRecord 競輪のレース開催場所データ
  */
-export class KeirinPlaceRecord {
+export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
     /**
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催場所データを生成する
+     * レース開催場所データを生成する
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -87,7 +88,7 @@ export class KeirinPlaceRecord {
     }
 
     /**
-     * KeirinPlaceEntityに変換する
+     * Entityに変換する
      * @returns
      */
     toEntity(): KeirinPlaceEntity {

@@ -1,4 +1,4 @@
-import { PlaceEntity } from '../../repository/entity/baseEntity';
+import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
@@ -6,7 +6,7 @@ import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
 
-export abstract class BasePlaceDataService<P extends PlaceEntity>
+export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
     implements IPlaceDataService<P>
 {
     protected abstract placeRepositoryFromStorage: IPlaceRepository<P>;

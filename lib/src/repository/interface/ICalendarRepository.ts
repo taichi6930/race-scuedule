@@ -1,4 +1,4 @@
-import type { RaceEntity } from '../entity/baseEntity';
+import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { DeleteCalendarListRequest } from '../request/deleteCalendarListRequest';
 import type { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
 import type { UpsertCalendarListRequest } from '../request/upsertCalendarListRequest';
@@ -9,7 +9,7 @@ import type { UpsertCalendarListResponse } from '../response/upsertCalendarListR
 /**
  * カレンダーリポジトリインターフェース
  */
-export interface ICalendarRepository<R extends RaceEntity> {
+export interface ICalendarRepository<R extends IRaceEntity<R>> {
     getEvents: (
         request: FetchCalendarListRequest,
     ) => Promise<FetchCalendarListResponse>;

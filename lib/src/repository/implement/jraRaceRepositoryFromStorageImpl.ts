@@ -137,7 +137,7 @@ export class JraRaceRepositoryFromStorageImpl
 
         // RaceEntityをRaceRecordに変換する
         const raceRecordList: JraRaceRecord[] = request.raceEntityList.map(
-            (raceEntity) => raceEntity.toRecord(),
+            (raceEntity) => raceEntity.toRaceRecord(),
         );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する

@@ -11,16 +11,17 @@ import {
     validateNarRaceDateTime,
 } from '../../utility/data/nar/narRaceDateTime';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * Repository層のRecord 地方競馬のレース開催場所データ
  */
-export class NarPlaceRecord {
+export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
     /**
      * コンストラクタ
      *
      * @remarks
-     * 地方競馬のレース開催場所データを生成する
+     * レース開催場所データを生成する
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
@@ -75,7 +76,7 @@ export class NarPlaceRecord {
     }
 
     /**
-     * NarPlaceEntityに変換する
+     * Entityに変換する
      * @returns
      */
     toEntity(): NarPlaceEntity {

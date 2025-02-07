@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
-import type { RaceEntity } from '../entity/baseEntity';
+import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 import type { DeleteCalendarListRequest } from '../request/deleteCalendarListRequest';
 import type { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
@@ -14,7 +14,7 @@ import { UpsertCalendarListResponse } from '../response/upsertCalendarListRespon
 /**
  * 開催データリポジトリの基底クラス
  */
-export abstract class BaseGoogleCalendarRepository<R extends RaceEntity>
+export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
     implements ICalendarRepository<R>
 {
     protected abstract googleCalendarGateway: ICalendarGateway;

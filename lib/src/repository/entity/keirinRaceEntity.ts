@@ -18,11 +18,12 @@ import {
     generateKeirinRacePlayerId,
 } from '../../utility/raceId';
 import type { UpdateDate } from '../../utility/updateDate';
+import type { IRaceEntity } from './iRaceEntity';
 
 /**
  * 競輪のレース開催データ
  */
-export class KeirinRaceEntity {
+export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
      * ID
      */

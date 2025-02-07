@@ -6,11 +6,12 @@ import {
 } from '../../utility/data/boatrace/boatracePlaceId';
 import { generateBoatracePlaceId } from '../../utility/raceId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
  * Repository層のEntity ボートレースのレース開催場所データ
  */
-export class BoatracePlaceEntity {
+export class BoatracePlaceEntity implements IPlaceEntity<BoatracePlaceEntity> {
     /**
      * コンストラクタ
      *

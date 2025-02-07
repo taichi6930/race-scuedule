@@ -43,16 +43,17 @@ import {
     validateJraRaceNumber,
 } from '../../utility/data/jra/jraRaceNumber';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * 中央競馬のレース開催データ
  */
-export class JraRaceRecord {
+export class JraRaceRecord implements IRecord<JraRaceRecord> {
     /**
      * コンストラクタ
      *
      * @remarks
-     * 中央競馬のレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param dateTime - 開催日時

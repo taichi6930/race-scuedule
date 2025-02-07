@@ -1,7 +1,7 @@
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
-import type { Record } from '../../../../lib/src/gateway/interface/iS3Gateway';
+import type { IRecord } from '../../../../lib/src/gateway/record/iRecord';
 
-export const mockS3Gateway = <T extends Record>(): jest.Mocked<
+export const mockS3Gateway = <T extends IRecord<T>>(): jest.Mocked<
     IS3Gateway<T>
 > => {
     return {

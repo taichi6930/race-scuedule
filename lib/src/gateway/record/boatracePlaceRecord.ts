@@ -17,20 +17,21 @@ import {
     validateBoatraceRaceDate,
 } from '../../utility/data/boatrace/boatraceRaceDate';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * Repository層のRecord ボートレースのレース開催場所データ
  */
-export class BoatracePlaceRecord {
+export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
     /**
      * コンストラクタ
      *
      * @remarks
-     * ボートレースのレース開催場所データを生成する
+     * レース開催場所データを生成する
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param grade - ボートレースのグレード
+     * @param grade - グレード
      * @param updateDate - 更新日時
      */
     private constructor(
@@ -46,7 +47,7 @@ export class BoatracePlaceRecord {
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param grade - ボートレースのグレード
+     * @param grade - グレード
      * @param updateDate - 更新日時
      */
     static create(

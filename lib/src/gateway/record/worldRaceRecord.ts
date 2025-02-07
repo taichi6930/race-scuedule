@@ -22,7 +22,7 @@ import {
     validateWorldRaceDistance,
     type WorldRaceDistance,
 } from '../../utility/data/world/worldRaceDistance';
-import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
+import { type WorldRaceId } from '../../utility/data/world/worldRaceId';
 import {
     validateWorldRaceName,
     type WorldRaceName,
@@ -31,17 +31,18 @@ import {
     validateWorldRaceNumber,
     type WorldRaceNumber,
 } from '../../utility/data/world/worldRaceNumber';
-import type { UpdateDate } from '../../utility/updateDate';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * 地方競馬のレース開催データ
  */
-export class WorldRaceRecord {
+export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     /**
      * コンストラクタ
      *
      * @remarks
-     * 地方競馬のレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param dateTime - 開催日時
@@ -97,7 +98,7 @@ export class WorldRaceRecord {
             validateWorldRaceDistance(distance),
             validateWorldGradeType(grade),
             validateWorldRaceNumber(number),
-            updateDate,
+            validateUpdateDate(updateDate),
         );
     }
 
@@ -121,7 +122,7 @@ export class WorldRaceRecord {
     }
 
     /**
-     * WorldRaceEntityに変換する
+     * Entityに変換する
      * @returns
      */
     toEntity(): WorldRaceEntity {
