@@ -84,7 +84,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
      * コンストラクタ
      *
      * @remarks
-     * 海外競馬のレース開催データを生成する
+     * レース開催データを生成する
      * @param name - レース名
      * @param dateTime - 開催日時
      * @param location - 開催場所

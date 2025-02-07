@@ -40,7 +40,7 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
      * コンストラクタ
      *
      * @remarks
-     * ボートレースのレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param stage - 開催ステージ
