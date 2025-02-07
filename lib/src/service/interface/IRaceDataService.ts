@@ -1,12 +1,12 @@
-import type { RaceEntity } from '../../repository/entity/baseEntity';
 import type { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
+import type { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import type { DataLocationType } from '../../utility/dataType';
 
 /**
  * IRaceDataService
  */
 export interface IRaceDataService<
-    R extends RaceEntity,
+    R extends IRaceEntity<R>,
     P extends IPlaceEntity<P>,
 > {
     /**

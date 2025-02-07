@@ -1,7 +1,7 @@
-import type { RaceEntity } from '../../../../lib/src/repository/entity/baseEntity';
+import type { IRaceEntity } from '../../../../lib/src/repository/entity/iRaceEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
 
-export const mockCalendarRepository = <R extends RaceEntity>(): jest.Mocked<
+export const mockCalendarRepository = <R extends IRaceEntity<R>>(): jest.Mocked<
     ICalendarRepository<R>
 > => {
     return {

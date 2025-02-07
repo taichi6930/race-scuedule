@@ -17,11 +17,12 @@ import {
     generateAutoraceRacePlayerId,
 } from '../../utility/raceId';
 import type { UpdateDate } from '../../utility/updateDate';
+import type { IRaceEntity } from './iRaceEntity';
 
 /**
  * オートレースのレース開催データ
  */
-export class AutoraceRaceEntity {
+export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     /**
      * ID
      */
@@ -31,7 +32,7 @@ export class AutoraceRaceEntity {
      * コンストラクタ
      *
      * @remarks
-     * オートレースのレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
      * @param racePlayerDataList - レースの選手データ

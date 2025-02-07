@@ -1,5 +1,5 @@
-import type { RaceEntity } from '../../repository/entity/baseEntity';
 import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
+import { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import type { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
@@ -9,7 +9,7 @@ import { Logger } from '../../utility/logger';
 import type { IRaceDataService } from '../interface/IRaceDataService';
 
 export abstract class BaseRaceDataService<
-    R extends RaceEntity,
+    R extends IRaceEntity<R>,
     P extends IPlaceEntity<P>,
 > implements IRaceDataService<R, P>
 {

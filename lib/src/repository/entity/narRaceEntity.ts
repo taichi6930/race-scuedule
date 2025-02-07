@@ -72,7 +72,7 @@ export class NarRaceEntity {
      * NarRaceRecordに変換する
      * @returns
      */
-    toRecord(): NarRaceRecord {
+    toRaceRecord(): NarRaceRecord {
         return NarRaceRecord.create(
             this.id,
             this.raceData.name,

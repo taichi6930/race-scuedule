@@ -12,11 +12,12 @@ import { formatDate } from '../../utility/format';
 import { getWorldGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateWorldRaceId } from '../../utility/raceId';
 import type { UpdateDate } from '../../utility/updateDate';
+import type { IRaceEntity } from './iRaceEntity';
 
 /**
  * 海外競馬のレース開催データ
  */
-export class WorldRaceEntity {
+export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     /**
      * ID
      */
@@ -62,7 +63,7 @@ export class WorldRaceEntity {
      * WorldRaceRecordに変換する
      * @returns
      */
-    toRecord(): WorldRaceRecord {
+    toRaceRecord(): WorldRaceRecord {
         return WorldRaceRecord.create(
             this.id,
             this.raceData.name,

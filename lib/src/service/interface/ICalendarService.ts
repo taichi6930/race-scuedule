@@ -1,11 +1,11 @@
 import type { CalendarData } from '../../domain/calendarData';
-import type { RaceEntity } from '../../repository/entity/baseEntity';
+import type { IRaceEntity } from '../../repository/entity/iRaceEntity';
 
 /**
  * CalendarServiceのインターフェース
  * Googleカレンダーなどの操作を行う
  */
-export interface ICalendarService<R extends RaceEntity> {
+export interface ICalendarService<R extends IRaceEntity<R>> {
     /**
      * カレンダーのイベントの取得を行う
      * @param startDate

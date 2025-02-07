@@ -25,7 +25,7 @@ export class AutoracePlaceRecord {
      * コンストラクタ
      *
      * @remarks
-     * オートレースのレース開催場所データを生成する
+     * レース開催場所データを生成する
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所

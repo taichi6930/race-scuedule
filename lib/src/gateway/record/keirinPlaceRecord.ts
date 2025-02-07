@@ -26,7 +26,7 @@ export class KeirinPlaceRecord {
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催場所データを生成する
+     * レース開催場所データを生成する
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所

@@ -45,7 +45,7 @@ describe('JraRaceEntityクラスのテスト', () => {
 
     it('JraRaceEntityのインスタンスをJraRaceRecordに変換できることを確認', () => {
         const raceEntity = baseJraRaceEntity;
-        const raceRecord = raceEntity.toRecord();
+        const raceRecord = raceEntity.toRaceRecord();
         // JraRaceRecordが正しいか確認
         expect(raceRecord).toEqual(baseJraRaceRecord);
     });
