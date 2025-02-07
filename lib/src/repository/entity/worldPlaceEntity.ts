@@ -38,8 +38,4 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
             partial.placeData ?? this.placeData,
         );
     }
-
-    toRecord(): object {
-        throw new Error('Method not implemented.');
-    }
 }
