@@ -16,11 +16,12 @@ import {
 } from '../../utility/data/autorace/autoraceRaceDate';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * Repository層のRecord オートレースのレース開催場所データ
  */
-export class AutoracePlaceRecord {
+export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
     /**
      * コンストラクタ
      *

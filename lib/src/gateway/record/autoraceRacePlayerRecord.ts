@@ -13,11 +13,14 @@ import { validateAutoraceRaceId } from '../../utility/data/autorace/autoraceRace
 import type { AutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
 import { validateAutoraceRacePlayerId } from '../../utility/data/autorace/autoraceRacePlayerId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * オートレースのレース選手データ
  */
-export class AutoraceRacePlayerRecord {
+export class AutoraceRacePlayerRecord
+    implements IRecord<AutoraceRacePlayerRecord>
+{
     /**
      * コンストラクタ
      *

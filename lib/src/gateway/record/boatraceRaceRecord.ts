@@ -30,11 +30,12 @@ import {
 } from '../../utility/data/boatrace/boatraceRaceStage';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * ボートレースのレース開催データ
  */
-export class BoatraceRaceRecord {
+export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
     /**
      * コンストラクタ
      *

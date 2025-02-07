@@ -36,16 +36,17 @@ import {
 } from '../../utility/data/nar/narRaceNumber';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * 地方競馬のレース開催データ
  */
-export class NarRaceRecord {
+export class NarRaceRecord implements IRecord<NarRaceRecord> {
     /**
      * コンストラクタ
      *
      * @remarks
-     * 地方競馬のレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param dateTime - 開催日時

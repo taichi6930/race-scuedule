@@ -14,11 +14,12 @@ import type { KeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePla
 import { validateKeirinRacePlayerId } from '../../utility/data/keirin/keirinRacePlayerId';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * 競輪のレース選手データ
  */
-export class KeirinRacePlayerRecord {
+export class KeirinRacePlayerRecord implements IRecord<KeirinRacePlayerRecord> {
     /**
      * コンストラクタ
      *

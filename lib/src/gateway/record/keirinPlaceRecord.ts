@@ -17,11 +17,12 @@ import {
     validateKeirinRaceDate,
 } from '../../utility/data/keirin/keirinRaceDate';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * Repository層のRecord 競輪のレース開催場所データ
  */
-export class KeirinPlaceRecord {
+export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
     /**
      * コンストラクタ
      *

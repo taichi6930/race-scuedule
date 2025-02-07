@@ -19,10 +19,11 @@ import {
 import type { JraRaceDateTime } from '../../utility/data/jra/jraRaceDateTime';
 import { validateJraRaceDateTime } from '../../utility/data/jra/jraRaceDateTime';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 /**
  * Repository層のRecord 中央競馬のレース開催場所データ
  */
-export class JraPlaceRecord {
+export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     /**
      * コンストラクタ
      *

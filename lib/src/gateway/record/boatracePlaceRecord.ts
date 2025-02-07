@@ -17,11 +17,12 @@ import {
     validateBoatraceRaceDate,
 } from '../../utility/data/boatrace/boatraceRaceDate';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * Repository層のRecord ボートレースのレース開催場所データ
  */
-export class BoatracePlaceRecord {
+export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
     /**
      * コンストラクタ
      *
