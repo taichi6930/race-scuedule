@@ -30,16 +30,17 @@ import {
 } from '../../utility/data/keirin/keirinRaceStage';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * 競輪のレース開催データ
  */
-export class KeirinRaceRecord {
+export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
     /**
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param stage - 開催ステージ

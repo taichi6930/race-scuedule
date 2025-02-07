@@ -146,7 +146,7 @@ export class NarRaceRepositoryFromStorageImpl
 
         // RaceEntityをRaceRecordに変換する
         const raceRecordList: NarRaceRecord[] = request.raceEntityList.map(
-            (raceEntity) => raceEntity.toRecord(),
+            (raceEntity) => raceEntity.toRaceRecord(),
         );
 
         // idをキーとしたMapを作成し、既存データを上書きまたは追加する

@@ -6,16 +6,17 @@ import {
 } from '../../utility/data/autorace/autoracePlaceId';
 import { generateAutoracePlaceId } from '../../utility/raceId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
  * Repository層のEntity オートレースのレース開催場所データ
  */
-export class AutoracePlaceEntity {
+export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
     /**
      * コンストラクタ
      *
      * @remarks
-     * オートレースのレース開催場所データを生成する
+     * レース開催場所データを生成する
      * @param id - ID
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時

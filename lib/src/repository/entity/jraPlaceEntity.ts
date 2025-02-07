@@ -6,11 +6,12 @@ import {
 } from '../../utility/data/jra/jraPlaceId';
 import { generateJraPlaceId } from '../../utility/raceId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
  * Repository層のEntity 中央競馬のレース開催場所データ
  */
-export class JraPlaceEntity {
+export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     /**
      * コンストラクタ
      *

@@ -1,5 +1,5 @@
-import type { RaceEntity } from '../entity/baseEntity';
+import type { IRaceEntity } from '../entity/iRaceEntity';
 
-export class UpsertCalendarListRequest<R extends RaceEntity> {
+export class UpsertCalendarListRequest<R extends IRaceEntity<R>> {
     constructor(public readonly raceEntityList: R[]) {}
 }

@@ -13,16 +13,19 @@ import { validateBoatraceRaceId } from '../../utility/data/boatrace/boatraceRace
 import type { BoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
 import { validateBoatraceRacePlayerId } from '../../utility/data/boatrace/boatraceRacePlayerId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * ボートレースのレース選手データ
  */
-export class BoatraceRacePlayerRecord {
+export class BoatraceRacePlayerRecord
+    implements IRecord<BoatraceRacePlayerRecord>
+{
     /**
      * コンストラクタ
      *
      * @remarks
-     * ボートレースのレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param raceId - レースID
      * @param positionNumber - 枠番

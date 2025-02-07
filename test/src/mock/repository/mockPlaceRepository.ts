@@ -1,7 +1,7 @@
-import type { PlaceEntity } from '../../../../lib/src/repository/entity/baseEntity';
+import type { IPlaceEntity } from '../../../../lib/src/repository/entity/iPlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 
-export const mockPlaceRepository = <P extends PlaceEntity>(): jest.Mocked<
+export const mockPlaceRepository = <P extends IPlaceEntity<P>>(): jest.Mocked<
     IPlaceRepository<P>
 > => {
     return {

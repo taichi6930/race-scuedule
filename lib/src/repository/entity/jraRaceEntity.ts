@@ -17,11 +17,12 @@ import { getJraGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateJraRaceId } from '../../utility/raceId';
 import type { UpdateDate } from '../../utility/updateDate';
 import { validateUpdateDate } from '../../utility/updateDate';
+import type { IRaceEntity } from './iRaceEntity';
 
 /**
  * 中央競馬のレース開催データ
  */
-export class JraRaceEntity {
+export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     /**
      * ID
      */
@@ -67,7 +68,7 @@ export class JraRaceEntity {
      * JraRaceRecordに変換する
      * @returns
      */
-    toRecord(): JraRaceRecord {
+    toRaceRecord(): JraRaceRecord {
         return JraRaceRecord.create(
             this.id,
             this.raceData.name,

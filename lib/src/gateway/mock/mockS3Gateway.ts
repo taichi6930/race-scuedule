@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { injectable } from 'tsyringe';
-import { IS3Gateway, Record } from '../interface/iS3Gateway';
+import { IS3Gateway } from '../interface/iS3Gateway';
 import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
 import { ENV } from '../../utility/env';
@@ -19,12 +19,15 @@ import {
     generateNarRaceId,
     generateWorldRaceId,
 } from '../../utility/raceId';
+import { IRecord } from '../record/iRecord';
 
 /**
  * MockS3Gateway
  */
 @injectable()
-export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
+export class MockS3Gateway<T extends IRecord<T>>
+    implements IS3Gateway<IRecord<T>>
+{
     /**
      * モックデータを保存するためのマップ
      *
@@ -90,7 +93,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
      * @param fileName
      */
     @Logger
-    async uploadDataToS3(data: Record[], fileName: string): Promise<void> {
+    async uploadDataToS3(data: IRecord<T>[], fileName: string): Promise<void> {
         try {
             const csvContent = this.convertToCsv(data);
             const key = `${this.folderPath}${fileName}`;
@@ -127,7 +130,7 @@ export class MockS3Gateway<T extends object> implements IS3Gateway<Record> {
      * @returns {string}
      */
     @Logger
-    private convertToCsv(data: Record[]): string {
+    private convertToCsv(data: IRecord<T>[]): string {
         if (data.length === 0) return '';
 
         const keys = Object.keys(data[0]);

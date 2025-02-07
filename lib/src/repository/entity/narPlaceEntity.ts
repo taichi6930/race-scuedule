@@ -6,11 +6,12 @@ import {
 } from '../../utility/data/nar/narPlaceId';
 import { generateNarPlaceId } from '../../utility/raceId';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IPlaceEntity } from './iPlaceEntity';
 
 /**
  * Repository層のEntity 地方競馬のレース開催場所データ
  */
-export class NarPlaceEntity {
+export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
     /**
      * コンストラクタ
      *

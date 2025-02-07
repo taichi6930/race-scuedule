@@ -29,16 +29,17 @@ import {
     validateAutoraceRaceStage,
 } from '../../utility/data/autorace/autoraceRaceStage';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
+import type { IRecord } from './iRecord';
 
 /**
  * オートレースのレース開催データ
  */
-export class AutoraceRaceRecord {
+export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
     /**
      * コンストラクタ
      *
      * @remarks
-     * オートレースのレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param name - レース名
      * @param stage - 開催ステージ
