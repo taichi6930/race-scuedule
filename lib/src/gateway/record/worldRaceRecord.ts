@@ -122,7 +122,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     }
 
     /**
-     * WorldRaceEntityに変換する
+     * Entityに変換する
      * @returns
      */
     toEntity(): WorldRaceEntity {

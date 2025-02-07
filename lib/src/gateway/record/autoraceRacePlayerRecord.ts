@@ -25,7 +25,7 @@ export class AutoraceRacePlayerRecord
      * コンストラクタ
      *
      * @remarks
-     * オートレースのレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param raceId - レースID
      * @param positionNumber - 枠番

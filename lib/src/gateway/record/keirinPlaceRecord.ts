@@ -88,7 +88,7 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
     }
 
     /**
-     * KeirinPlaceEntityに変換する
+     * Entityに変換する
      * @returns
      */
     toEntity(): KeirinPlaceEntity {

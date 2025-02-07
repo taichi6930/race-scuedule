@@ -95,7 +95,7 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     }
 
     /**
-     * JraPlaceEntityに変換する
+     * Entityに変換する
      * @returns
      */
     toEntity(): JraPlaceEntity {

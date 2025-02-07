@@ -30,7 +30,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param grade - オートレースのグレード
+     * @param grade - グレード
      * @param updateDate - 更新日時
      */
     private constructor(
@@ -46,7 +46,7 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
      * @param id - ID
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param grade - オートレースのグレード
+     * @param grade - グレード
      * @param updateDate - 更新日時
      */
     static create(

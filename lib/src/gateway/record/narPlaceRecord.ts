@@ -76,7 +76,7 @@ export class NarPlaceRecord implements IRecord<NarPlaceRecord> {
     }
 
     /**
-     * NarPlaceEntityに変換する
+     * Entityに変換する
      * @returns
      */
     toEntity(): NarPlaceEntity {
