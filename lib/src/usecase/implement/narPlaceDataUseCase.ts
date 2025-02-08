@@ -7,6 +7,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
+/**
+ * Narの開催場所情報ユースケース
+ */
 @injectable()
 export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
     constructor(
@@ -14,11 +17,10 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
         private readonly narPlaceDataService: IPlaceDataService<NarPlaceEntity>,
     ) {}
     /**
-     * レース開催データを取得する
+     * PlaceDataリストを取得する
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     async fetchPlaceDataList(
@@ -39,7 +41,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
     }
 
     /**
-     * レース開催データを更新する
+     * PlaceDataリストを更新する
      *
      * @param startDate
      * @param finishDate
@@ -61,15 +63,12 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
             finishDate.getMonth() + 1,
             0,
         );
-        // HTMLからデータを取得する
         const placeEntityList: NarPlaceEntity[] =
             await this.narPlaceDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
                 DataLocation.Web,
             );
-
-        // データを更新する
         await this.narPlaceDataService.updatePlaceEntityList(placeEntityList);
     }
 }

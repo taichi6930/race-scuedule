@@ -7,6 +7,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
+/**
+ * Keirinの開催場所情報ユースケース
+ */
 @injectable()
 export class KeirinPlaceDataUseCase
     implements IPlaceDataUseCase<KeirinPlaceData>
@@ -16,11 +19,10 @@ export class KeirinPlaceDataUseCase
         private readonly keirinPlaceDataService: IPlaceDataService<KeirinPlaceEntity>,
     ) {}
     /**
-     * レース開催データを取得する
+     * PlaceDataリストを取得する
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     async fetchPlaceDataList(
@@ -33,7 +35,6 @@ export class KeirinPlaceDataUseCase
                 finishDate,
                 DataLocation.Storage,
             );
-        // placeEntityListをplaceDataListに変換する
         const placeDataList: KeirinPlaceData[] = placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
@@ -41,7 +42,7 @@ export class KeirinPlaceDataUseCase
     }
 
     /**
-     * レース開催データを更新する
+     * PlaceDataリストを更新する
      *
      * @param startDate
      * @param finishDate
@@ -63,14 +64,12 @@ export class KeirinPlaceDataUseCase
             finishDate.getMonth() + 1,
             0,
         );
-        // HTMLからデータを取得する
         const placeEntityList: KeirinPlaceEntity[] =
             await this.keirinPlaceDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
                 DataLocation.Web,
             );
-        // S3にデータを保存する
         await this.keirinPlaceDataService.updatePlaceEntityList(
             placeEntityList,
         );

@@ -7,6 +7,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
+/**
+ * Boatraceの開催場所情報ユースケース
+ */
 @injectable()
 export class BoatracePlaceDataUseCase
     implements IPlaceDataUseCase<BoatracePlaceData>
@@ -16,11 +19,10 @@ export class BoatracePlaceDataUseCase
         private readonly boatracePlaceDataService: IPlaceDataService<BoatracePlaceEntity>,
     ) {}
     /**
-     * レース開催データを取得する
+     * PlaceDataリストを取得する
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     async fetchPlaceDataList(
@@ -33,7 +35,6 @@ export class BoatracePlaceDataUseCase
                 finishDate,
                 DataLocation.Storage,
             );
-        // placeEntityListをplaceDataListに変換する
         const placeDataList: BoatracePlaceData[] = placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
@@ -41,7 +42,7 @@ export class BoatracePlaceDataUseCase
     }
 
     /**
-     * レース開催データを更新する
+     * PlaceDataリストを更新する
      *
      * @param startDate
      * @param finishDate
@@ -69,7 +70,6 @@ export class BoatracePlaceDataUseCase
                 modifyFinishDate,
                 DataLocation.Web,
             );
-        // S3にデータを保存する
         await this.boatracePlaceDataService.updatePlaceEntityList(
             placeEntityList,
         );

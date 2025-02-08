@@ -7,6 +7,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
+/**
+ * Jraの開催場所情報ユースケース
+ */
 @injectable()
 export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
     constructor(
@@ -14,11 +17,10 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         private readonly jraPlaceDataService: IPlaceDataService<JraPlaceEntity>,
     ) {}
     /**
-     * レース開催データを取得する
+     * PlaceDataリストを取得する
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     async fetchPlaceDataList(
@@ -39,7 +41,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
     }
 
     /**
-     * レース開催データを更新する
+     * PlaceDataリストを更新する
      *
      * @param startDate
      * @param finishDate
@@ -53,15 +55,12 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         const modifyStartDate = new Date(startDate.getFullYear(), 0, 1);
         // finishDateは年の最終日に設定する
         const modifyFinishDate = new Date(finishDate.getFullYear() + 1, 0, 0);
-        // HTMLからデータを取得する
         const placeEntityList: JraPlaceEntity[] =
             await this.jraPlaceDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
                 DataLocation.Web,
             );
-
-        // データを更新する
         await this.jraPlaceDataService.updatePlaceEntityList(placeEntityList);
     }
 }
