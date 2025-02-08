@@ -12,6 +12,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
+/**
+ * カレンダーからNarのレース情報を取得するユースケース
+ */
 @injectable()
 export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
@@ -28,7 +31,6 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
      * カレンダーからレース情報の取得を行う
      * @param startDate
      * @param finishDate
-     * @returns CalendarData[]
      */
     @Logger
     async getRacesFromCalendar(
@@ -74,9 +76,8 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        if (deleteCalendarDataList.length > 0) {
-            await this.calendarService.deleteEvents(deleteCalendarDataList);
-        }
+        await this.calendarService.deleteEvents(deleteCalendarDataList);
+
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: NarRaceEntity[] =
             filteredRaceEntityList.filter(
@@ -86,8 +87,6 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        if (upsertRaceEntityList.length > 0) {
-            await this.calendarService.upsertEvents(upsertRaceEntityList);
-        }
+        await this.calendarService.upsertEvents(upsertRaceEntityList);
     }
 }

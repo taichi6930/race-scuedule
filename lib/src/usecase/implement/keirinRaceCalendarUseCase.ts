@@ -14,6 +14,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
+/**
+ * カレンダーからKeirinのレース情報を取得するユースケース
+ */
 @injectable()
 export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
@@ -30,7 +33,6 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      * カレンダーからレース情報の取得を行う
      * @param startDate
      * @param finishDate
-     * @returns CalendarData[]
      */
     @Logger
     async getRacesFromCalendar(
@@ -42,6 +44,11 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
 
     /**
      * カレンダーの更新を行う
+     *
+     * - カレンダーに存在しないレースデータを削除
+     * - レースデータに存在しないカレンダーを追加
+     * - 6以上の優先度を持つレースデータを表示対象とする
+     *
      * @param startDate
      * @param finishDate
      * @param displayGradeList
@@ -73,9 +80,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        if (deleteCalendarDataList.length > 0) {
-            await this.calendarService.deleteEvents(deleteCalendarDataList);
-        }
+        await this.calendarService.deleteEvents(deleteCalendarDataList);
 
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: KeirinRaceEntity[] =
@@ -86,17 +91,15 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        if (upsertRaceEntityList.length > 0) {
-            await this.calendarService.upsertEvents(upsertRaceEntityList);
-        }
+        await this.calendarService.upsertEvents(upsertRaceEntityList);
     }
 
     /**
      * 表示対象のレースデータのみに絞り込む
+     *
      * - 6以上の優先度を持つレースデータを表示対象とする
-     * - raceEntityList.racePlayerDataListの中に選手データ（KeirinPlayerDict）が存在するかを確認する
+     * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
      * @param raceEntity[]
-     * @return raceEntity[]
      */
     private filterRaceEntity(
         raceEntityList: KeirinRaceEntity[],
