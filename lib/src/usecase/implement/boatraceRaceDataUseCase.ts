@@ -14,7 +14,7 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 競輪場開催データUseCase
+ * Boatraceのレース情報を取得するユースケース
  */
 @injectable()
 export class BoatraceRaceDataUseCase
@@ -49,7 +49,6 @@ export class BoatraceRaceDataUseCase
             stageList?: BoatraceRaceStage[];
         },
     ): Promise<BoatraceRaceData[]> {
-        // 競輪場データを取得する
         const placeEntityList: BoatracePlaceEntity[] =
             await this.boatracePlaceDataService.fetchPlaceEntityList(
                 startDate,
@@ -57,7 +56,6 @@ export class BoatraceRaceDataUseCase
                 DataLocation.Storage,
             );
 
-        // レースデータを取得する
         const raceEntityList: BoatraceRaceEntity[] =
             await this.boatraceRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -66,7 +64,6 @@ export class BoatraceRaceDataUseCase
                 placeEntityList,
             );
 
-        // レースデータをRaceDataに変換する
         const raceDataList: BoatraceRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
@@ -80,7 +77,7 @@ export class BoatraceRaceDataUseCase
                 }
                 return true;
             })
-            // 競輪場が指定されている場合は、指定された競輪場のレースのみを取得する
+            // 開催場所が指定されている場合は、指定された開催場所のレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
@@ -113,8 +110,6 @@ export class BoatraceRaceDataUseCase
             locationList?: BoatraceRaceCourse[];
         },
     ): Promise<void> {
-        // 競輪場データを取得する
-        // フィルタリング処理
         const placeEntityList: BoatracePlaceEntity[] = (
             await this.boatracePlaceDataService.fetchPlaceEntityList(
                 startDate,
@@ -122,6 +117,7 @@ export class BoatraceRaceDataUseCase
                 DataLocation.Storage,
             )
         )
+            // 検索条件に合致する場所のみを取得する
             ?.filter((placeEntity) => {
                 if (searchList?.gradeList) {
                     return searchList.gradeList.includes(
@@ -144,7 +140,6 @@ export class BoatraceRaceDataUseCase
             return;
         }
 
-        // レースデータを取得する
         const raceEntityList: BoatraceRaceEntity[] =
             await this.boatraceRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -153,7 +148,6 @@ export class BoatraceRaceDataUseCase
                 placeEntityList,
             );
 
-        // S3にデータを保存する
         await this.boatraceRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
@@ -163,7 +157,6 @@ export class BoatraceRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: BoatraceRaceData[]): Promise<void> {
-        // BoatraceRaceDataをBoatraceRaceEntityに変換する
         const raceEntityList: BoatraceRaceEntity[] = raceDataList.map(
             (raceData) =>
                 new BoatraceRaceEntity(
@@ -173,7 +166,6 @@ export class BoatraceRaceDataUseCase
                     getJSTDate(new Date()),
                 ),
         );
-        // S3にデータを保存する
         await this.boatraceRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }

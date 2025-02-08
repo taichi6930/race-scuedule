@@ -14,7 +14,7 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 競輪場開催データUseCase
+ * Keirinのレース情報を取得するユースケース
  */
 @injectable()
 export class KeirinRaceDataUseCase
@@ -49,7 +49,6 @@ export class KeirinRaceDataUseCase
             stageList?: KeirinRaceStage[];
         },
     ): Promise<KeirinRaceData[]> {
-        // 競輪場データを取得する
         const placeEntityList: KeirinPlaceEntity[] =
             await this.keirinPlaceDataService.fetchPlaceEntityList(
                 startDate,
@@ -57,7 +56,6 @@ export class KeirinRaceDataUseCase
                 DataLocation.Storage,
             );
 
-        // レースデータを取得する
         const raceEntityList: KeirinRaceEntity[] =
             await this.keirinRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -66,7 +64,6 @@ export class KeirinRaceDataUseCase
                 placeEntityList,
             );
 
-        // レースデータをRaceDataに変換する
         const raceDataList: KeirinRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
@@ -80,7 +77,7 @@ export class KeirinRaceDataUseCase
                 }
                 return true;
             })
-            // 競輪場が指定されている場合は、指定された競輪場のレースのみを取得する
+            // 開催場所が指定されている場合は、指定された開催場所のレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
@@ -113,8 +110,6 @@ export class KeirinRaceDataUseCase
             locationList?: KeirinRaceCourse[];
         },
     ): Promise<void> {
-        // 競輪場データを取得する
-        // フィルタリング処理
         const placeEntityList: KeirinPlaceEntity[] = (
             await this.keirinPlaceDataService.fetchPlaceEntityList(
                 startDate,
@@ -122,6 +117,7 @@ export class KeirinRaceDataUseCase
                 DataLocation.Storage,
             )
         )
+            // 検索条件に合致する場所のみを取得する
             ?.filter((placeEntity) => {
                 if (searchList?.gradeList) {
                     return searchList.gradeList.includes(
@@ -144,7 +140,6 @@ export class KeirinRaceDataUseCase
             return;
         }
 
-        // レースデータを取得する
         const raceEntityList: KeirinRaceEntity[] =
             await this.keirinRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -153,7 +148,6 @@ export class KeirinRaceDataUseCase
                 placeEntityList,
             );
 
-        // S3にデータを保存する
         await this.keirinRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
@@ -163,7 +157,6 @@ export class KeirinRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: KeirinRaceData[]): Promise<void> {
-        // KeirinRaceDataをKeirinRaceEntityに変換する
         const raceEntityList: KeirinRaceEntity[] = raceDataList.map(
             (raceData) =>
                 new KeirinRaceEntity(
@@ -173,7 +166,6 @@ export class KeirinRaceDataUseCase
                     getJSTDate(new Date()),
                 ),
         );
-        // S3にデータを保存する
         await this.keirinRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }
