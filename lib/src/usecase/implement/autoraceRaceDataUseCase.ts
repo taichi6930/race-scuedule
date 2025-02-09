@@ -14,7 +14,7 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 競輪場開催データUseCase
+ * Autoraceレース開催データユースケース
  */
 @injectable()
 export class AutoraceRaceDataUseCase
@@ -49,7 +49,6 @@ export class AutoraceRaceDataUseCase
             stageList?: AutoraceRaceStage[];
         },
     ): Promise<AutoraceRaceData[]> {
-        // 競輪場データを取得する
         const placeEntityList: AutoracePlaceEntity[] =
             await this.autoracePlaceDataService.fetchPlaceEntityList(
                 startDate,
@@ -57,7 +56,6 @@ export class AutoraceRaceDataUseCase
                 DataLocation.Storage,
             );
 
-        // レースデータを取得する
         const raceEntityList: AutoraceRaceEntity[] =
             await this.autoraceRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -66,7 +64,6 @@ export class AutoraceRaceDataUseCase
                 placeEntityList,
             );
 
-        // レースデータをRaceDataに変換する
         const raceDataList: AutoraceRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
@@ -80,7 +77,7 @@ export class AutoraceRaceDataUseCase
                 }
                 return true;
             })
-            // 競輪場が指定されている場合は、指定された競輪場のレースのみを取得する
+            // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
@@ -113,7 +110,6 @@ export class AutoraceRaceDataUseCase
             locationList?: AutoraceRaceCourse[];
         },
     ): Promise<void> {
-        // 競輪場データを取得する
         // フィルタリング処理
         const placeEntityList: AutoracePlaceEntity[] = (
             await this.autoracePlaceDataService.fetchPlaceEntityList(
@@ -144,7 +140,6 @@ export class AutoraceRaceDataUseCase
             return;
         }
 
-        // レースデータを取得する
         const raceEntityList: AutoraceRaceEntity[] =
             await this.autoraceRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -153,7 +148,6 @@ export class AutoraceRaceDataUseCase
                 placeEntityList,
             );
 
-        // S3にデータを保存する
         await this.autoraceRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
@@ -163,7 +157,6 @@ export class AutoraceRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: AutoraceRaceData[]): Promise<void> {
-        // AutoraceRaceDataをAutoraceRaceEntityに変換する
         const raceEntityList: AutoraceRaceEntity[] = raceDataList.map(
             (raceData) =>
                 new AutoraceRaceEntity(
@@ -173,7 +166,6 @@ export class AutoraceRaceDataUseCase
                     getJSTDate(new Date()),
                 ),
         );
-        // S3にデータを保存する
         await this.autoraceRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }
