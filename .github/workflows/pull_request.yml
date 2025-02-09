@@ -59,4 +59,4 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
       - name: Run ITA Tests For ${{ matrix.test }}
-        run: ./.github/actions/test/ita/${{ matrix.test }}
+        uses: ./.github/actions/test/ita/${{ matrix.test }}
