@@ -41,8 +41,8 @@ import { ENV } from '../../src/utility/env';
 
 // 環境ごとの設定
 switch (ENV) {
-    case 'PRODUCTION':
-    case 'LOCAL':
+    case allowedEnvs.production:
+    case allowedEnvs.local:
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromHtml',
             { useClass: NarRaceRepositoryFromHtmlImpl },
@@ -96,9 +96,9 @@ switch (ENV) {
             useClass: BoatraceRaceRepositoryFromHtmlImpl,
         });
         break;
-    case 'TEST':
-    case 'LOCAL_NO_INIT_DATA':
-    case 'LOCAL_INIT_MADE_DATA':
+    case allowedEnvs.test:
+    case allowedEnvs.localNoInitData:
+    case allowedEnvs.localInitMadeData:
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromHtml',
             { useClass: MockNarRaceRepositoryFromHtmlImpl },

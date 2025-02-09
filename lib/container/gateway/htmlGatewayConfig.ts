@@ -40,9 +40,9 @@ import { ENV } from '../../src/utility/env';
 container.register<IKeirinPlaceDataHtmlGateway>('KeirinPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new KeirinPlaceDataHtmlGateway();
-            case 'LOCAL':
+            case allowedEnvs.local:
                 return new MockKeirinPlaceDataHtmlGateway();
             default:
                 throw new Error('Invalid ENV value');
@@ -52,9 +52,9 @@ container.register<IKeirinPlaceDataHtmlGateway>('KeirinPlaceDataHtmlGateway', {
 container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new KeirinRaceDataHtmlGateway();
-            case 'LOCAL':
+            case allowedEnvs.local:
                 return new MockKeirinRaceDataHtmlGateway();
             default:
                 throw new Error('Invalid ENV value');
@@ -65,11 +65,11 @@ container.register<IKeirinRaceDataHtmlGateway>('KeirinRaceDataHtmlGateway', {
 container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new NarRaceDataHtmlGateway();
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockNarRaceDataHtmlGateway();
             default:
                 throw new Error('Invalid ENV value');
@@ -79,11 +79,11 @@ container.register<INarRaceDataHtmlGateway>('NarRaceDataHtmlGateway', {
 container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new NarPlaceDataHtmlGateway();
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockNarPlaceDataHtmlGateway();
             default:
                 throw new Error('Invalid ENV value');
@@ -93,11 +93,11 @@ container.register<INarPlaceDataHtmlGateway>('NarPlaceDataHtmlGateway', {
 container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new JraRaceDataHtmlGateway();
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockJraRaceDataHtmlGateway();
             default:
                 throw new Error('Invalid ENV value');
@@ -107,11 +107,11 @@ container.register<IJraRaceDataHtmlGateway>('JraRaceDataHtmlGateway', {
 container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new JraPlaceDataHtmlGateway();
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockJraPlaceDataHtmlGateway();
             default:
                 throw new Error('Invalid ENV value');
@@ -122,11 +122,11 @@ container.register<IJraPlaceDataHtmlGateway>('JraPlaceDataHtmlGateway', {
 container.register<IWorldRaceDataHtmlGateway>('WorldRaceDataHtmlGateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new WorldRaceDataHtmlGateway();
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockWorldRaceDataHtmlGateway();
             default:
                 throw new Error('Invalid ENV value');
@@ -139,11 +139,11 @@ container.register<IAutoracePlaceDataHtmlGateway>(
     {
         useFactory: () => {
             switch (ENV) {
-                case 'PRODUCTION':
+                case allowedEnvs.production:
                     return new AutoracePlaceDataHtmlGateway();
-                case 'LOCAL':
-                case 'LOCAL_NO_INIT_DATA':
-                case 'LOCAL_INIT_MADE_DATA':
+                case allowedEnvs.local:
+                case allowedEnvs.localNoInitData:
+                case allowedEnvs.localInitMadeData:
                     return new MockAutoracePlaceDataHtmlGateway();
                 default:
                     throw new Error('Invalid ENV value');
@@ -156,11 +156,11 @@ container.register<IAutoraceRaceDataHtmlGateway>(
     {
         useFactory: () => {
             switch (ENV) {
-                case 'PRODUCTION':
+                case allowedEnvs.production:
                     return new AutoraceRaceDataHtmlGateway();
-                case 'LOCAL':
-                case 'LOCAL_NO_INIT_DATA':
-                case 'LOCAL_INIT_MADE_DATA':
+                case allowedEnvs.local:
+                case allowedEnvs.localNoInitData:
+                case allowedEnvs.localInitMadeData:
                     return new MockAutoraceRaceDataHtmlGateway();
                 default:
                     throw new Error('Invalid ENV value');
@@ -174,9 +174,9 @@ container.register<IBoatracePlaceDataHtmlGateway>(
     {
         useFactory: () => {
             switch (ENV) {
-                case 'PRODUCTION':
+                case allowedEnvs.production:
                     return new BoatracePlaceDataHtmlGateway();
-                case 'LOCAL':
+                case allowedEnvs.local:
                     return new MockBoatracePlaceDataHtmlGateway();
                 default:
                     throw new Error('Invalid ENV value');
@@ -189,9 +189,9 @@ container.register<IBoatraceRaceDataHtmlGateway>(
     {
         useFactory: () => {
             switch (ENV) {
-                case 'PRODUCTION':
+                case allowedEnvs.production:
                     return new BoatraceRaceDataHtmlGateway();
-                case 'LOCAL':
+                case allowedEnvs.local:
                     return new MockBoatraceRaceDataHtmlGateway();
                 default:
                     throw new Error('Invalid ENV value');

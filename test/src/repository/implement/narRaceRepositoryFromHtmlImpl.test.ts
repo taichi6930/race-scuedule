@@ -11,10 +11,10 @@ import { NarRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/im
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { ENV } from '../../../../lib/src/utility/env';
+import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 import { generateNarPlaceId } from '../../../../lib/src/utility/raceId';
 
-if (ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== allowedEnvs.githubActionsCi) {
     describe('NarRaceRepositoryFromHtmlImpl', () => {
         let narRaceDataHtmlGateway: INarRaceDataHtmlGateway;
         let repository: NarRaceRepositoryFromHtmlImpl;

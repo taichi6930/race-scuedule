@@ -3,7 +3,7 @@ import { injectable } from 'tsyringe';
 import { IS3Gateway } from '../interface/iS3Gateway';
 import { format } from 'date-fns';
 import { Logger } from '../../utility/logger';
-import { ENV } from '../../utility/env';
+import { allowedEnvs, ENV } from '../../utility/env';
 import fs from 'fs';
 import path from 'path';
 import {
@@ -148,9 +148,9 @@ export class MockS3Gateway<T extends IRecord<T>>
     @Logger
     private async setPlaceMockData() {
         switch (ENV) {
-            case 'LOCAL_NO_INIT_DATA':
+            case allowedEnvs.localNoInitData:
                 return;
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.localInitMadeData:
                 // 最初にmockStorageに値を入れておく
                 // 2024年のデータ366日分を作成
                 await Promise.all([
@@ -161,7 +161,7 @@ export class MockS3Gateway<T extends IRecord<T>>
                     this.setBoatracePlaceMockData(),
                 ]);
                 return;
-            case 'LOCAL':
+            case allowedEnvs.local:
                 const csvPathList = [
                     'nar/placeList.csv', // nar
                     'jra/placeList.csv', // jra
@@ -200,9 +200,9 @@ export class MockS3Gateway<T extends IRecord<T>>
     @Logger
     private async setRaceMockData() {
         switch (ENV) {
-            case 'LOCAL_NO_INIT_DATA':
+            case allowedEnvs.localNoInitData:
                 return;
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.localInitMadeData:
                 // 最初にmockStorageに値を入れておく
                 // 2024年のデータ366日分を作成
                 await Promise.all([
@@ -214,7 +214,7 @@ export class MockS3Gateway<T extends IRecord<T>>
                     this.setWorldRaceMockData(),
                 ]);
                 return;
-            case 'LOCAL':
+            case allowedEnvs.local:
                 const csvPathList = [
                     'world/raceList.csv', // world
                     'nar/raceList.csv', // nar

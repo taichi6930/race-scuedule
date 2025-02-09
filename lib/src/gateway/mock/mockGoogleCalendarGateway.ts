@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import type { calendar_v3 } from 'googleapis';
 
 import { WorldPlaceCodeMap } from '../../utility/data/world/worldRaceCourse';
-import { ENV } from '../../utility/env';
+import { allowedEnvs, ENV } from '../../utility/env';
 import { formatDate } from '../../utility/format';
 import { Logger } from '../../utility/logger';
 import type { ICalendarGateway } from '../interface/iCalendarGateway';
@@ -35,12 +35,12 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
         }
         MockGoogleCalendarGateway.isInitialized = true;
         switch (ENV) {
-            case 'PRODUCTION': // ENV が production の場合、GoogleCalendarGateway を使用
-            case 'TEST':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL':
+            case allowedEnvs.production: // ENV が production の場合、GoogleCalendarGateway を使用
+            case allowedEnvs.test:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.local:
                 break;
-            case 'LOCAL_INIT_MADE_DATA': // ENV が LOCAL_INIT_MADE_DATA の場合、データを後で設定したいので何もしない
+            case allowedEnvs.localInitMadeData: // ENV が LOCAL_INIT_MADE_DATA の場合、データを後で設定したいので何もしない
                 {
                     // 2024年のデータ366日分を作成
                     const startDate = new Date('2024-01-01');

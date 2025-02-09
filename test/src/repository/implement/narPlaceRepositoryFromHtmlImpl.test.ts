@@ -8,9 +8,9 @@ import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPl
 import { NarPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
-import { ENV } from '../../../../lib/src/utility/env';
+import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== allowedEnvs.githubActionsCi) {
     describe('NarPlaceRepositoryFromHtmlImpl', () => {
         let narPlaceDataHtmlgateway: INarPlaceDataHtmlGateway;
         let repository: NarPlaceRepositoryFromHtmlImpl;

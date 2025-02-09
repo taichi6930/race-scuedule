@@ -8,9 +8,9 @@ import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPl
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
-import { ENV } from '../../../../lib/src/utility/env';
+import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== allowedEnvs.githubActionsCi) {
     describe('JraPlaceRepositoryFromHtmlImpl', () => {
         let jraPlaceDataHtmlgateway: IJraPlaceDataHtmlGateway;
         let repository: JraPlaceRepositoryFromHtmlImpl;

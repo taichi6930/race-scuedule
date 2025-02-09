@@ -8,9 +8,9 @@ import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/ke
 import { KeirinPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
-import { ENV } from '../../../../lib/src/utility/env';
+import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== allowedEnvs.githubActionsCi) {
     describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
         let keirinPlaceDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
         let repository: KeirinPlaceRepositoryFromHtmlImpl;
