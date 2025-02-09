@@ -33,7 +33,7 @@ import { MockKeirinRaceDataHtmlGateway } from '../../src/gateway/mock/mockKeirin
 import { MockNarPlaceDataHtmlGateway } from '../../src/gateway/mock/mockNarPlaceDataHtmlGateway';
 import { MockNarRaceDataHtmlGateway } from '../../src/gateway/mock/mockNarRaceDataHtmlGateway';
 import { MockWorldRaceDataHtmlGateway } from '../../src/gateway/mock/mockWorldRaceDataHtmlGateway';
-import { ENV } from '../../src/utility/env';
+import { allowedEnvs, ENV } from '../../src/utility/env';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
 
