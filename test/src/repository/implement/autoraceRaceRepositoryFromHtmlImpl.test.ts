@@ -11,9 +11,9 @@ import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/reposito
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
-import { ENV } from '../../../../lib/src/utility/env';
+import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== allowedEnvs.githubActionsCi) {
     describe('AutoraceRaceRepositoryFromHtmlImpl', () => {
         let autoraceRaceDataHtmlGateway: IAutoraceRaceDataHtmlGateway;
         let repository: AutoraceRaceRepositoryFromHtmlImpl;

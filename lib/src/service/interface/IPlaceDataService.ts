@@ -6,7 +6,7 @@ import type { DataLocationType } from '../../utility/dataType';
  */
 export interface IPlaceDataService<P extends IPlaceEntity<P>> {
     /**
-     * レース開催地のデータを取得する
+     * 開催場データを取得する
      * @param startDate
      * @param finishDate
      */
@@ -17,7 +17,7 @@ export interface IPlaceDataService<P extends IPlaceEntity<P>> {
     ) => Promise<P[]>;
 
     /**
-     * レース開催地のデータを更新する
+     * 開催場データを更新する
      * @param startDate
      * @param finishDate
      */

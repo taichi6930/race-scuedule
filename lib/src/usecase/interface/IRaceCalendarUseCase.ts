@@ -16,7 +16,6 @@ export interface IRaceCalendarUseCase {
      * @param startDate
      * @param finishDate
      * @param displayGradeList
-     * @returns void
      */
     updateRacesToCalendar: (
         startDate: Date,

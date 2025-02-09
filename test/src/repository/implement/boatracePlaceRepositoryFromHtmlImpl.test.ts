@@ -8,9 +8,9 @@ import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/
 import { BoatracePlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
-import { ENV } from '../../../../lib/src/utility/env';
+import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
-if (ENV !== 'GITHUB_ACTIONS_CI') {
+if (ENV !== allowedEnvs.githubActionsCi) {
     describe('BoatracePlaceRepositoryFromHtmlImpl', () => {
         let boatracePlaceDataHtmlgateway: IBoatracePlaceDataHtmlGateway;
         let repository: BoatracePlaceRepositoryFromHtmlImpl;

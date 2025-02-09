@@ -6,6 +6,9 @@ import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
 
+/**
+ * BasePlaceDataService
+ */
 export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
     implements IPlaceDataService<P>
 {
@@ -13,11 +16,10 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
     protected abstract placeRepositoryFromHtml: IPlaceRepository<P>;
 
     /**
-     * レース開催地のデータを取得する
+     * 開催場データを取得する
      * @param startDate
      * @param finishDate
      * @param type
-     * @returns
      */
     @Logger
     async fetchPlaceEntityList(
@@ -38,9 +40,8 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
     }
 
     /**
-     * レース開催地のデータを更新する
+     * 開催場データを更新する
      * @param placeEntityList
-     * @returns
      */
     @Logger
     async updatePlaceEntityList(placeEntityList: P[]): Promise<void> {

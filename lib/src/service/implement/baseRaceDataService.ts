@@ -8,6 +8,9 @@ import { DataLocation, type DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import type { IRaceDataService } from '../interface/IRaceDataService';
 
+/**
+ * BaseRaceDataService
+ */
 export abstract class BaseRaceDataService<
     R extends IRaceEntity<R>,
     P extends IPlaceEntity<P>,
@@ -22,7 +25,6 @@ export abstract class BaseRaceDataService<
      * @param finishDate
      * @param type
      * @param placeEntityList
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
@@ -51,7 +53,6 @@ export abstract class BaseRaceDataService<
     /**
      * レース開催地のデータを更新する
      * @param raceEntityList
-     * @returns
      */
     @Logger
     async updateRaceEntityList(raceEntityList: R[]): Promise<void> {
@@ -71,7 +72,6 @@ export abstract class BaseRaceDataService<
     /**
      * リポジトリを取得する
      * @param type
-     * @returns
      */
     private getRaceRepository(type: DataLocationType): IRaceRepository<R, P> {
         switch (type) {

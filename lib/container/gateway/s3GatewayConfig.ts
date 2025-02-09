@@ -17,25 +17,25 @@ import type { KeirinRaceRecord } from '../../src/gateway/record/keirinRaceRecord
 import type { NarPlaceRecord } from '../../src/gateway/record/narPlaceRecord';
 import type { NarRaceRecord } from '../../src/gateway/record/narRaceRecord';
 import type { WorldRaceRecord } from '../../src/gateway/record/worldRaceRecord';
-import { ENV } from '../../src/utility/env';
+import { allowedEnvs, ENV } from '../../src/utility/env';
 
 // s3Gatewayの実装クラスをDIコンテナに登錄する
 container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new S3Gateway<KeirinPlaceRecord>(
                     'race-schedule-bucket',
                     'keirin/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 return new S3Gateway<KeirinPlaceRecord>(
                     'test-race-schedule-bucket',
                     'keirin/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<KeirinPlaceRecord>(
                     'race-schedule-bucket',
                     'keirin/',
@@ -48,19 +48,19 @@ container.register<IS3Gateway<KeirinPlaceRecord>>('KeirinPlaceS3Gateway', {
 container.register<IS3Gateway<KeirinRaceRecord>>('KeirinRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new S3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
                     'keirin/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 return new S3Gateway<KeirinRaceRecord>(
                     'test-race-schedule-bucket',
                     'keirin/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<KeirinRaceRecord>(
                     'race-schedule-bucket',
                     'keirin/',
@@ -75,20 +75,20 @@ container.register<IS3Gateway<KeirinRacePlayerRecord>>(
     {
         useFactory: () => {
             switch (ENV) {
-                case 'PRODUCTION':
+                case allowedEnvs.production:
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<KeirinRacePlayerRecord>(
                         'race-schedule-bucket',
                         'keirin/',
                     );
-                case 'TEST':
+                case allowedEnvs.test:
                     return new S3Gateway<KeirinRacePlayerRecord>(
                         'test-race-schedule-bucket',
                         'keirin/',
                     );
-                case 'LOCAL':
-                case 'LOCAL_NO_INIT_DATA':
-                case 'LOCAL_INIT_MADE_DATA':
+                case allowedEnvs.local:
+                case allowedEnvs.localNoInitData:
+                case allowedEnvs.localInitMadeData:
                     return new MockS3Gateway<KeirinRacePlayerRecord>(
                         'race-schedule-bucket',
                         'keirin/',
@@ -103,21 +103,21 @@ container.register<IS3Gateway<KeirinRacePlayerRecord>>(
 container.register<IS3Gateway<NarRaceRecord>>('NarRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<NarRaceRecord>(
                     'race-schedule-bucket',
                     'nar/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<NarRaceRecord>(
                     'test-race-schedule-bucket',
                     'nar/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<NarRaceRecord>(
                     'race-schedule-bucket',
                     'nar/',
@@ -130,19 +130,19 @@ container.register<IS3Gateway<NarRaceRecord>>('NarRaceS3Gateway', {
 container.register<IS3Gateway<NarPlaceRecord>>('NarPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new S3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
                     'nar/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 return new S3Gateway<NarPlaceRecord>(
                     'test-race-schedule-bucket',
                     'nar/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<NarPlaceRecord>(
                     'race-schedule-bucket',
                     'nar/',
@@ -155,21 +155,21 @@ container.register<IS3Gateway<NarPlaceRecord>>('NarPlaceS3Gateway', {
 container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<JraRaceRecord>(
                     'race-schedule-bucket',
                     'jra/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<JraRaceRecord>(
                     'test-race-schedule-bucket',
                     'jra/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<JraRaceRecord>(
                     'race-schedule-bucket',
                     'jra/',
@@ -182,20 +182,20 @@ container.register<IS3Gateway<JraRaceRecord>>('JraRaceS3Gateway', {
 container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new S3Gateway<JraPlaceRecord>(
                     'race-schedule-bucket',
                     'jra/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<JraPlaceRecord>(
                     'test-race-schedule-bucket',
                     'jra/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<JraPlaceRecord>(
                     'race-schedule-bucket',
                     'jra/',
@@ -208,21 +208,21 @@ container.register<IS3Gateway<JraPlaceRecord>>('JraPlaceS3Gateway', {
 container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<WorldRaceRecord>(
                     'race-schedule-bucket',
                     'world/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<WorldRaceRecord>(
                     'test-race-schedule-bucket',
                     'world/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<WorldRaceRecord>(
                     'race-schedule-bucket',
                     'world/',
@@ -236,21 +236,21 @@ container.register<IS3Gateway<WorldRaceRecord>>('WorldRaceS3Gateway', {
 container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<AutoraceRaceRecord>(
                     'race-schedule-bucket',
                     'autorace/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<AutoraceRaceRecord>(
                     'test-race-schedule-bucket',
                     'autorace/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<AutoraceRaceRecord>(
                     'race-schedule-bucket',
                     'autorace/',
@@ -263,19 +263,19 @@ container.register<IS3Gateway<AutoraceRaceRecord>>('AutoraceRaceS3Gateway', {
 container.register<IS3Gateway<AutoracePlaceRecord>>('AutoracePlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new S3Gateway<AutoracePlaceRecord>(
                     'race-schedule-bucket',
                     'autorace/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 return new S3Gateway<AutoracePlaceRecord>(
                     'test-race-schedule-bucket',
                     'autorace/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<AutoracePlaceRecord>(
                     'race-schedule-bucket',
                     'autorace/',
@@ -290,21 +290,21 @@ container.register<IS3Gateway<AutoraceRacePlayerRecord>>(
     {
         useFactory: () => {
             switch (ENV) {
-                case 'PRODUCTION':
+                case allowedEnvs.production:
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<AutoraceRacePlayerRecord>(
                         'race-schedule-bucket',
                         'autorace/',
                     );
-                case 'TEST':
+                case allowedEnvs.test:
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<AutoraceRacePlayerRecord>(
                         'test-race-schedule-bucket',
                         'autorace/',
                     );
-                case 'LOCAL':
-                case 'LOCAL_NO_INIT_DATA':
-                case 'LOCAL_INIT_MADE_DATA':
+                case allowedEnvs.local:
+                case allowedEnvs.localNoInitData:
+                case allowedEnvs.localInitMadeData:
                     return new MockS3Gateway<AutoraceRacePlayerRecord>(
                         'race-schedule-bucket',
                         'autorace/',
@@ -318,19 +318,19 @@ container.register<IS3Gateway<AutoraceRacePlayerRecord>>(
 container.register<IS3Gateway<BoatracePlaceRecord>>('BoatracePlaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 return new S3Gateway<BoatracePlaceRecord>(
                     'race-schedule-bucket',
                     'boatrace/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 return new S3Gateway<BoatracePlaceRecord>(
                     'test-race-schedule-bucket',
                     'boatrace/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<BoatracePlaceRecord>(
                     'race-schedule-bucket',
                     'boatrace/',
@@ -343,21 +343,21 @@ container.register<IS3Gateway<BoatracePlaceRecord>>('BoatracePlaceS3Gateway', {
 container.register<IS3Gateway<BoatraceRaceRecord>>('BoatraceRaceS3Gateway', {
     useFactory: () => {
         switch (ENV) {
-            case 'PRODUCTION':
+            case allowedEnvs.production:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<BoatraceRaceRecord>(
                     'race-schedule-bucket',
                     'boatrace/',
                 );
-            case 'TEST':
+            case allowedEnvs.test:
                 // ENV が production の場合、S3Gateway を使用
                 return new S3Gateway<BoatraceRaceRecord>(
                     'test-race-schedule-bucket',
                     'boatrace/',
                 );
-            case 'LOCAL':
-            case 'LOCAL_NO_INIT_DATA':
-            case 'LOCAL_INIT_MADE_DATA':
+            case allowedEnvs.local:
+            case allowedEnvs.localNoInitData:
+            case allowedEnvs.localInitMadeData:
                 return new MockS3Gateway<BoatraceRaceRecord>(
                     'race-schedule-bucket',
                     'boatrace/',
@@ -372,21 +372,21 @@ container.register<IS3Gateway<BoatraceRacePlayerRecord>>(
     {
         useFactory: () => {
             switch (ENV) {
-                case 'PRODUCTION':
+                case allowedEnvs.production:
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<BoatraceRacePlayerRecord>(
                         'race-schedule-bucket',
                         'boatrace/',
                     );
-                case 'TEST':
+                case allowedEnvs.test:
                     // ENV が production の場合、S3Gateway を使用
                     return new S3Gateway<BoatraceRacePlayerRecord>(
                         'test-race-schedule-bucket',
                         'boatrace/',
                     );
-                case 'LOCAL':
-                case 'LOCAL_NO_INIT_DATA':
-                case 'LOCAL_INIT_MADE_DATA':
+                case allowedEnvs.local:
+                case allowedEnvs.localNoInitData:
+                case allowedEnvs.localInitMadeData:
                     return new MockS3Gateway<BoatraceRacePlayerRecord>(
                         'race-schedule-bucket',
                         'boatrace/',
