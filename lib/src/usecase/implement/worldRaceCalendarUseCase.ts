@@ -11,6 +11,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
+/**
+ * Worldレースカレンダーユースケース
+ */
 @injectable()
 export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(

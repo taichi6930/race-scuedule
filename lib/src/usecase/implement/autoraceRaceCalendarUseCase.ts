@@ -14,6 +14,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
+/**
+ * Autoraceレースカレンダーユースケース
+ */
 @injectable()
 export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
@@ -93,7 +96,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
     /**
      * 表示対象のレースデータのみに絞り込む
      * - 6以上の優先度を持つレースデータを表示対象とする
-     * - raceEntityList.racePlayerDataListの中に選手データ（AutoracePlayerDict）が存在するかを確認する
+     * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
      * @param raceEntity[]
      */
     private filterRaceEntity(
