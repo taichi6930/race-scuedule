@@ -14,6 +14,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
+/**
+ * Keirinレースカレンダーユースケース
+ */
 @injectable()
 export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
@@ -30,7 +33,6 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      * カレンダーからレース情報の取得を行う
      * @param startDate
      * @param finishDate
-     * @returns CalendarData[]
      */
     @Logger
     async getRacesFromCalendar(
@@ -94,9 +96,8 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
     /**
      * 表示対象のレースデータのみに絞り込む
      * - 6以上の優先度を持つレースデータを表示対象とする
-     * - raceEntityList.racePlayerDataListの中に選手データ（KeirinPlayerDict）が存在するかを確認する
+     * - raceEntityList.racePlayerDataListの中に選手データが存在するかを確認する
      * @param raceEntity[]
-     * @return raceEntity[]
      */
     private filterRaceEntity(
         raceEntityList: KeirinRaceEntity[],

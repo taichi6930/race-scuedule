@@ -13,7 +13,7 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 競馬場開催データUseCase
+ * Narレース開催データユースケース
  */
 @injectable()
 export class NarRaceDataUseCase
@@ -42,7 +42,6 @@ export class NarRaceDataUseCase
             locationList?: NarRaceCourse[];
         },
     ): Promise<NarRaceData[]> {
-        // 競馬場データを取得する
         const placeEntityList: NarPlaceEntity[] =
             await this.narPlaceDataService.fetchPlaceEntityList(
                 startDate,
@@ -50,7 +49,6 @@ export class NarRaceDataUseCase
                 DataLocation.Storage,
             );
 
-        // レースデータを取得する
         const raceEntityList: NarRaceEntity[] =
             await this.narRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -59,7 +57,6 @@ export class NarRaceDataUseCase
                 placeEntityList,
             );
 
-        // レースデータをNarRaceDataに変換する
         const raceDataList: NarRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
@@ -73,7 +70,7 @@ export class NarRaceDataUseCase
                 }
                 return true;
             })
-            // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
+            // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
@@ -95,7 +92,6 @@ export class NarRaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
-        // 競馬場データを取得する
         const placeEntityList: NarPlaceEntity[] =
             await this.narPlaceDataService.fetchPlaceEntityList(
                 startDate,
@@ -103,7 +99,6 @@ export class NarRaceDataUseCase
                 DataLocation.Storage,
             );
 
-        // レースデータを取得する
         const raceEntityList: NarRaceEntity[] =
             await this.narRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -112,7 +107,6 @@ export class NarRaceDataUseCase
                 placeEntityList,
             );
 
-        // S3にデータを保存する
         await this.narRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
@@ -122,12 +116,10 @@ export class NarRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: NarRaceData[]): Promise<void> {
-        // NarRaceDataをNarRaceEntityに変換する
         const raceEntityList: NarRaceEntity[] = raceDataList.map(
             (raceData) =>
                 new NarRaceEntity(null, raceData, getJSTDate(new Date())),
         );
-        // S3にデータを保存する
         await this.narRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }

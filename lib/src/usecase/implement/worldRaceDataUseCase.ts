@@ -12,7 +12,7 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 海外競馬場開催データUseCase
+ * Worldレース開催データユースケース
  */
 @injectable()
 export class WorldRaceDataUseCase
@@ -44,7 +44,6 @@ export class WorldRaceDataUseCase
             locationList?: WorldRaceCourse[];
         },
     ): Promise<WorldRaceData[]> {
-        // レースデータを取得する
         const raceEntityList: WorldRaceEntity[] =
             await this.worldRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -52,7 +51,6 @@ export class WorldRaceDataUseCase
                 DataLocation.Storage,
             );
 
-        // レースデータをWorldRaceDataに変換する
         const raceDataList: WorldRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
@@ -66,7 +64,7 @@ export class WorldRaceDataUseCase
                 }
                 return true;
             })
-            // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
+            // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
@@ -88,14 +86,12 @@ export class WorldRaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
-        // レースデータを取得する
         const raceEntityList: WorldRaceEntity[] =
             await this.worldRaceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Web,
             );
-        // S3にデータを保存する
         await this.worldRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
@@ -105,12 +101,10 @@ export class WorldRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: WorldRaceData[]): Promise<void> {
-        // worldRaceDataをworldRaceEntityに変換する
         const raceEntityList: WorldRaceEntity[] = raceDataList.map(
             (raceData) =>
                 new WorldRaceEntity(null, raceData, getJSTDate(new Date())),
         );
-        // S3にデータを保存する
         await this.worldRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }

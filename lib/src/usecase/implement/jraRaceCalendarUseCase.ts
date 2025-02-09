@@ -12,6 +12,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IRaceCalendarUseCase } from '../interface/IRaceCalendarUseCase';
 
+/**
+ * Jraレースカレンダーユースケース
+ */
 @injectable()
 export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
     constructor(
@@ -28,7 +31,6 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
      * カレンダーからレース情報の取得を行う
      * @param startDate
      * @param finishDate
-     * @returns CalendarData[]
      */
     @Logger
     async getRacesFromCalendar(

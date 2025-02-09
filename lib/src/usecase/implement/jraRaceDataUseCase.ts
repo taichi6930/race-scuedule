@@ -13,7 +13,7 @@ import { Logger } from '../../utility/logger';
 import { IRaceDataUseCase } from '../interface/IRaceDataUseCase';
 
 /**
- * 競馬場開催データUseCase
+ * Jraレース開催データユースケース
  */
 @injectable()
 export class JraRaceDataUseCase
@@ -42,7 +42,6 @@ export class JraRaceDataUseCase
             locationList?: JraRaceCourse[];
         },
     ): Promise<JraRaceData[]> {
-        // 競馬場データを取得する
         const placeEntityList: JraPlaceEntity[] =
             await this.jraPlaceDataService.fetchPlaceEntityList(
                 startDate,
@@ -50,7 +49,6 @@ export class JraRaceDataUseCase
                 DataLocation.Storage,
             );
 
-        // レースデータを取得する
         const raceEntityList: JraRaceEntity[] =
             await this.jraRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -59,7 +57,6 @@ export class JraRaceDataUseCase
                 placeEntityList,
             );
 
-        // レースデータをJraRaceDataに変換する
         const raceDataList: JraRaceData[] = raceEntityList.map(
             (raceEntity) => raceEntity.raceData,
         );
@@ -73,7 +70,7 @@ export class JraRaceDataUseCase
                 }
                 return true;
             })
-            // 競馬場が指定されている場合は、指定された競馬場のレースのみを取得する
+            // 開催場が指定されている場合は、指定された開催場のレースのみを取得する
             .filter((raceData) => {
                 if (searchList?.locationList) {
                     return searchList.locationList.includes(raceData.location);
@@ -95,7 +92,6 @@ export class JraRaceDataUseCase
         startDate: Date,
         finishDate: Date,
     ): Promise<void> {
-        // 競馬場データを取得する
         const placeEntityList: JraPlaceEntity[] =
             await this.jraPlaceDataService.fetchPlaceEntityList(
                 startDate,
@@ -103,7 +99,6 @@ export class JraRaceDataUseCase
                 DataLocation.Storage,
             );
 
-        // レースデータを取得する
         const raceEntityList: JraRaceEntity[] =
             await this.jraRaceDataService.fetchRaceEntityList(
                 startDate,
@@ -112,7 +107,6 @@ export class JraRaceDataUseCase
                 placeEntityList,
             );
 
-        // S3にデータを保存する
         await this.jraRaceDataService.updateRaceEntityList(raceEntityList);
     }
 
@@ -122,12 +116,10 @@ export class JraRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: JraRaceData[]): Promise<void> {
-        // JraRaceDataをJraRaceEntityに変換する
         const raceEntityList: JraRaceEntity[] = raceDataList.map(
             (raceData) =>
                 new JraRaceEntity(null, raceData, getJSTDate(new Date())),
         );
-        // S3にデータを保存する
         await this.jraRaceDataService.updateRaceEntityList(raceEntityList);
     }
 }
