@@ -11,6 +11,9 @@ import { FetchCalendarListResponse } from '../../repository/response/fetchCalend
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
+/**
+ * BaseCalendarService
+ */
 export abstract class BaseCalendarService<R extends IRaceEntity<R>>
     implements ICalendarService<R>
 {
@@ -20,7 +23,6 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
      * カレンダーのイベントの取得を行う
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     async getEvents(
