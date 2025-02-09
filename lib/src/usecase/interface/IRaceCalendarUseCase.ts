@@ -6,7 +6,6 @@ export interface IRaceCalendarUseCase {
      * カレンダーからレース情報の取得を行う
      * @param startDate
      * @param finishDate
-     * @returns CalendarData[]
      */
     getRacesFromCalendar: (
         startDate: Date,

@@ -30,7 +30,6 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      * カレンダーからレース情報の取得を行う
      * @param startDate
      * @param finishDate
-     * @returns CalendarData[]
      */
     @Logger
     async getRacesFromCalendar(
@@ -96,7 +95,6 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
      * - 6以上の優先度を持つレースデータを表示対象とする
      * - raceEntityList.racePlayerDataListの中に選手データ（KeirinPlayerDict）が存在するかを確認する
      * @param raceEntity[]
-     * @return raceEntity[]
      */
     private filterRaceEntity(
         raceEntityList: KeirinRaceEntity[],
