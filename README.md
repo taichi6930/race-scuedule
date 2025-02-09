@@ -31,15 +31,3 @@ curl -X POST \
   "finishDate": "2024-09-13"
 }'
 ```
-
-### OpenAPI
-
-・次のコマンドを実行する
-
-```bash
-pnpm run dev
-```
-
-・次のURLにアクセスする
-
-`http://localhost:3000/api-docs`
