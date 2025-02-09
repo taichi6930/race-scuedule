@@ -1,10 +1,6 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-// export const DataLocation = {
-//     Storage: 'storage',
-//     Web: 'web',
-// } as const;
 export const allowedEnvs = {
     production: 'PRODUCTION', // 本番環境 html:webと接続, s3:webと接続
     test: 'TEST', // テスト環境 html:mockRepositoryと接続, s3:webと接続
