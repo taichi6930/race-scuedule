@@ -1,4 +1,5 @@
 import {
+    aws_ec2,
     aws_lambda_nodejs,
     aws_s3,
     CfnOutput,
@@ -7,6 +8,14 @@ import {
     type StackProps,
 } from 'aws-cdk-lib';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import { Vpc } from 'aws-cdk-lib/aws-ec2';
+import {
+    AccessPoint,
+    FileSystem,
+    LifecyclePolicy,
+    PerformanceMode,
+    ThroughputMode,
+} from 'aws-cdk-lib/aws-efs';
 import {
     Effect,
     PolicyStatement,
@@ -25,6 +34,11 @@ export class CdkRaceScheduleAppStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
         super(scope, id, props);
 
+        // VPCの作成
+        const vpc = new Vpc(this, 'RaceScheduleVpc', {
+            maxAzs: 3, // 使用するアベイラビリティゾーンの数
+        });
+
         // S3バケットの参照
         const bucket = aws_s3.Bucket.fromBucketName(
             this,
@@ -33,7 +47,7 @@ export class CdkRaceScheduleAppStack extends Stack {
         );
 
         // Lambda実行に必要なIAMロールを作成
-        const role = new Role(scope, 'LambdaExecutionRole', {
+        const role = new Role(this, 'LambdaExecutionRole', {
             assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
         });
 
@@ -85,9 +99,48 @@ export class CdkRaceScheduleAppStack extends Stack {
             }),
         );
 
+        // EFSファイルシステムの作成
+        const fileSystem = new FileSystem(this, 'RaceScheduleEfsFileSystem', {
+            vpc: vpc, // 作成したVPCを指定
+            lifecyclePolicy: LifecyclePolicy.AFTER_7_DAYS, // 7日後にライフサイクルポリシーを適用
+            performanceMode: PerformanceMode.GENERAL_PURPOSE,
+            throughputMode: ThroughputMode.BURSTING,
+        });
+
+        // LambdaとEFSの間のセキュリティグループ
+        const lambdaSecurityGroup = new aws_ec2.SecurityGroup(
+            this,
+            'LambdaSG',
+            {
+                vpc,
+            },
+        );
+
+        // Lambda から EFS へのアクセスを許可
+        fileSystem.connections.allowDefaultPortFrom(lambdaSecurityGroup);
+
+        // EFSアクセスポイントの作成
+        const accessPoint = new AccessPoint(
+            this,
+            'RaceScheduleEfsAccessPoint',
+            {
+                fileSystem,
+                path: '/lambda',
+                posixUser: {
+                    uid: '1001',
+                    gid: '1001',
+                },
+                createAcl: {
+                    ownerUid: '1001',
+                    ownerGid: '1001',
+                    permissions: '750',
+                },
+            },
+        );
+
         // Lambda関数を作成
         const lambdaFunction = new aws_lambda_nodejs.NodejsFunction(
-            scope,
+            this,
             'RaceScheduleAppLambda',
             {
                 architecture: lambda.Architecture.ARM_64,
@@ -112,11 +165,17 @@ export class CdkRaceScheduleAppStack extends Stack {
                 },
                 timeout: Duration.seconds(90),
                 memorySize: 1024,
+                vpc: vpc,
+                securityGroups: [lambdaSecurityGroup],
+                filesystem: lambda.FileSystem.fromEfsAccessPoint(
+                    accessPoint,
+                    '/mnt/efs',
+                ),
             },
         );
 
         // API Gatewayの設定
-        const api = new apigateway.LambdaRestApi(scope, 'RaceScheduleAppApi', {
+        const api = new apigateway.LambdaRestApi(this, 'RaceScheduleAppApi', {
             handler: lambdaFunction,
             defaultCorsPreflightOptions: {
                 // すべてのオリジンを許可
