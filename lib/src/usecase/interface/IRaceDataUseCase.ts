@@ -11,7 +11,7 @@ export interface IRaceDataUseCase<
     S extends RaceStage | undefined,
 > {
     /**
-     * レースデータを取得する
+     * レース開催データを取得する
      * @param startDate
      * @param finishDate
      */
@@ -23,7 +23,7 @@ export interface IRaceDataUseCase<
     ) => Promise<R[]>;
 
     /**
-     * レースデータのリストを更新する
+     * レース開催データを更新する
      * @param startDate
      * @param finishDate
      */
@@ -35,7 +35,7 @@ export interface IRaceDataUseCase<
     ) => Promise<void>;
 
     /**
-     * レースデータのリストを更新する
+     * レース開催データを更新する
      * @param raceDataList
      */
     upsertRaceDataList: (raceDataList: R[]) => Promise<void>;

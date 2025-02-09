@@ -20,7 +20,6 @@ export class AutoracePlaceDataUseCase
     ) {}
     /**
      * 開催場データを取得する
-     *
      * @param startDate
      * @param finishDate
      * @returns
@@ -44,7 +43,6 @@ export class AutoracePlaceDataUseCase
 
     /**
      * 開催場データを更新する
-     *
      * @param startDate
      * @param finishDate
      */

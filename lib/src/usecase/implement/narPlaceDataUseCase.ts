@@ -17,8 +17,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
         private readonly narPlaceDataService: IPlaceDataService<NarPlaceEntity>,
     ) {}
     /**
-     * レース開催データを取得する
-     *
+     * 開催場データを取得する
      * @param startDate
      * @param finishDate
      * @returns
@@ -42,7 +41,6 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
 
     /**
      * 開催場データを更新する
-     *
      * @param startDate
      * @param finishDate
      */

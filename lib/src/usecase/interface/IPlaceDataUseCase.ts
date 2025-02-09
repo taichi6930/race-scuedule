@@ -5,13 +5,13 @@ import type { IPlaceData } from '../../domain/iPlaceData';
  */
 export interface IPlaceDataUseCase<P extends IPlaceData<P>> {
     /**
-     * レース開催地のデータを取得する
+     * 開催場データを取得する
      * @param startDate
      * @param finishDate
      */
     fetchPlaceDataList: (startDate: Date, finishDate: Date) => Promise<P[]>;
     /**
-     * レース開催地のデータを更新する
+     * 開催場データを更新する
      * @param startDate
      * @param finishDate
      */

@@ -18,7 +18,6 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
     ) {}
     /**
      * 開催場データを取得する
-     *
      * @param startDate
      * @param finishDate
      * @returns
@@ -42,7 +41,6 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
 
     /**
      * 開催場データを更新する
-     *
      * @param startDate
      * @param finishDate
      */
