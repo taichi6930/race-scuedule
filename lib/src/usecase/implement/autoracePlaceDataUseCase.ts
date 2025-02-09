@@ -7,6 +7,9 @@ import { DataLocation } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 
+/**
+ * Autorace開催場データユースケース
+ */
 @injectable()
 export class AutoracePlaceDataUseCase
     implements IPlaceDataUseCase<AutoracePlaceData>
@@ -16,7 +19,7 @@ export class AutoracePlaceDataUseCase
         private readonly autoracePlaceDataService: IPlaceDataService<AutoracePlaceEntity>,
     ) {}
     /**
-     * レース開催データを取得する
+     * 開催場データを取得する
      *
      * @param startDate
      * @param finishDate
@@ -33,7 +36,6 @@ export class AutoracePlaceDataUseCase
                 finishDate,
                 DataLocation.Storage,
             );
-        // placeEntityListをplaceDataListに変換する
         const placeDataList: AutoracePlaceData[] = placeEntityList.map(
             (placeEntity) => placeEntity.placeData,
         );
@@ -41,7 +43,7 @@ export class AutoracePlaceDataUseCase
     }
 
     /**
-     * レース開催データを更新する
+     * 開催場データを更新する
      *
      * @param startDate
      * @param finishDate
@@ -69,7 +71,6 @@ export class AutoracePlaceDataUseCase
                 modifyFinishDate,
                 DataLocation.Web,
             );
-        // S3にデータを保存する
         await this.autoracePlaceDataService.updatePlaceEntityList(
             placeEntityList,
         );
