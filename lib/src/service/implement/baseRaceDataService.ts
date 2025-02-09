@@ -8,6 +8,9 @@ import { DataLocation, type DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import type { IRaceDataService } from '../interface/IRaceDataService';
 
+/**
+ * BaseRaceDataService
+ */
 export abstract class BaseRaceDataService<
     R extends IRaceEntity<R>,
     P extends IPlaceEntity<P>,
