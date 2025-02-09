@@ -25,7 +25,8 @@
         "lint:check": "eslint --quiet '**/*.{ts,tsx}'",
         "prepare": "husky install",
         "type-check": "tsc --noEmit",
-        "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check"
+        "pre-commit": "pnpm run type-check && pnpm run lint:check && pnpm run format:check",
+        "update:csv": "aws s3 cp s3://race-schedule-bucket/ ./lib/src/gateway/mockData/csv --recursive"
     },
     "lint-staged": {
         "*.{ts,tsx}": [
