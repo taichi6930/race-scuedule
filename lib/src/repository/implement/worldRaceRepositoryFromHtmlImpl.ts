@@ -225,8 +225,7 @@ export class WorldRaceRepositoryFromHtmlImpl
                                 distance: distance,
                             });
                             worldRaceDataList.push(
-                                new WorldRaceEntity(
-                                    null,
+                                WorldRaceEntity.createWithoutId(
                                     WorldRaceData.create(
                                         raceName,
                                         date,

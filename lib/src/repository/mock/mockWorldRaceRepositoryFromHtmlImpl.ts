@@ -23,8 +23,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
             // 1から12までのレースを作成
             for (let i = 1; i <= 12; i++) {
                 raceEntityList.push(
-                    new WorldRaceEntity(
-                        null,
+                    WorldRaceEntity.createWithoutId(
                         WorldRaceData.create(
                             `第${i.toString()}R`,
                             new Date(

@@ -56,8 +56,7 @@ export const baseWorldPlaceEntity = new WorldPlaceEntity(
     baseWorldPlaceData,
 );
 
-export const baseWorldRaceEntity = new WorldRaceEntity(
-    null,
+export const baseWorldRaceEntity = WorldRaceEntity.createWithoutId(
     baseWorldRaceData,
     baseWorldRaceUpdateDate,
 );
@@ -80,8 +79,7 @@ export const baseWorldRaceEntityList: WorldRaceEntity[] = [
         'GⅠ',
         '格付けなし',
     ].map((grade, index) => {
-        return new WorldRaceEntity(
-            null,
+        return WorldRaceEntity.createWithoutId(
             WorldRaceData.create(
                 `テスト${location}${grade}${(index + 1).toString()}レース`,
                 new Date(2024, 10 - 1, 1, 7 + index, 0),

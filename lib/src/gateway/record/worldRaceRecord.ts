@@ -126,7 +126,7 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
      * @returns
      */
     toEntity(): WorldRaceEntity {
-        return new WorldRaceEntity(
+        return WorldRaceEntity.create(
             this.id,
             WorldRaceData.create(
                 this.name,

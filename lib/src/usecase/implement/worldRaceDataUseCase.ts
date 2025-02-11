@@ -101,9 +101,8 @@ export class WorldRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: WorldRaceData[]): Promise<void> {
-        const raceEntityList: WorldRaceEntity[] = raceDataList.map(
-            (raceData) =>
-                new WorldRaceEntity(null, raceData, getJSTDate(new Date())),
+        const raceEntityList: WorldRaceEntity[] = raceDataList.map((raceData) =>
+            WorldRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
         await this.worldRaceDataService.updateRaceEntityList(raceEntityList);
     }
