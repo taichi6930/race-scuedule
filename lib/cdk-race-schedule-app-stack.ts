@@ -20,6 +20,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import type { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import type { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
+import path from 'path';
 
 import { allowedEnvs, ENV } from './src/utility/env';
 
@@ -61,6 +62,29 @@ export class CdkRaceScheduleAppStack extends Stack {
             vpc,
         });
         fileSystem.connections.allowDefaultPortFrom(lambdaSecurityGroup);
+
+        // sqlite3を扱うライブラリをlayerに保存
+        new lambda.LayerVersion(this, 'nodeLayer', {
+            // layerディレクトリ内の構成は下記を参照
+            code: lambda.Code.fromAsset(path.join(__dirname, './src/layer')),
+            compatibleRuntimes: [lambda.Runtime.NODEJS_20_X],
+            description: 'node layer',
+            layerVersionName: 'node-layer',
+        });
+
+        new lambda.Function(this, 'createDb', {
+            // マウントするfilesystemを設定
+            filesystem: lambda.FileSystem.fromEfsAccessPoint(
+                accessPoint,
+                '/mnt/db',
+            ),
+            runtime: lambda.Runtime.NODEJS_20_X,
+            handler: 'index.handler',
+            code: lambda.Code.fromAsset(
+                path.join(__dirname, '../lambda/function/createDb'),
+            ),
+            vpc: vpc,
+        });
 
         // S3バケットの参照
         const bucket = aws_s3.Bucket.fromBucketName(

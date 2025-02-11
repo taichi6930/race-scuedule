@@ -59,6 +59,8 @@
         "puppeteer": "^24.2.0",
         "reflect-metadata": "^0.2.2",
         "source-map-support": "^0.5.21",
+        "sqlite": "^5.1.1",
+        "sqlite3": "^5.1.7",
         "swagger-autogen": "^2.23.7",
         "swagger-jsdoc": "^6.2.8",
         "swagger-ui-express": "^5.0.1",
