@@ -116,9 +116,8 @@ export class JraRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: JraRaceData[]): Promise<void> {
-        const raceEntityList: JraRaceEntity[] = raceDataList.map(
-            (raceData) =>
-                new JraRaceEntity(null, raceData, getJSTDate(new Date())),
+        const raceEntityList: JraRaceEntity[] = raceDataList.map((raceData) =>
+            JraRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
         await this.jraRaceDataService.updateRaceEntityList(raceEntityList);
     }

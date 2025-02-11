@@ -82,8 +82,7 @@ export const baseAutoraceRacePlayerDataList = Array.from(
     },
 );
 
-export const baseAutoraceRaceEntity = new AutoraceRaceEntity(
-    null,
+export const baseAutoraceRaceEntity = AutoraceRaceEntity.createWithoutId(
     baseAutoraceRaceData,
     baseAutoraceRacePlayerDataList,
     baseAutoraceRaceUpdateDate,
@@ -133,8 +132,7 @@ export const baseAutoraceRaceEntityList: AutoraceRaceEntity[] = [
         '一般戦',
         '優勝戦',
     ].map((stage, index) => {
-        return new AutoraceRaceEntity(
-            null,
+        return AutoraceRaceEntity.createWithoutId(
             AutoraceRaceData.create(
                 `テスト${location}${grade}${stage}${(index + 1).toString()}レース`,
                 stage,

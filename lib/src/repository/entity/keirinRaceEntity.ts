@@ -9,7 +9,10 @@ import type { KeirinRacePlayerData } from '../../domain/keirinRacePlayerData';
 import { KeirinRacePlayerRecord } from '../../gateway/record/keirinRacePlayerRecord';
 import { KeirinRaceRecord } from '../../gateway/record/keirinRaceRecord';
 import { KeirinPlaceCodeMap } from '../../utility/data/keirin/keirinRaceCourse';
-import type { KeirinRaceId } from '../../utility/data/keirin/keirinRaceId';
+import {
+    type KeirinRaceId,
+    validateKeirinRaceId,
+} from '../../utility/data/keirin/keirinRaceId';
 import { getJSTDate } from '../../utility/date';
 import { createAnchorTag, formatDate } from '../../utility/format';
 import { getKeirinGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -17,7 +20,7 @@ import {
     generateKeirinRaceId,
     generateKeirinRacePlayerId,
 } from '../../utility/raceId';
-import type { UpdateDate } from '../../utility/updateDate';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
 /**
@@ -25,34 +28,66 @@ import type { IRaceEntity } from './iRaceEntity';
  */
 export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
-     * ID
-     */
-    public readonly id: KeirinRaceId;
-
-    /**
      * コンストラクタ
      *
      * @remarks
-     * 競輪のレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
      *
      */
-    constructor(
-        id: KeirinRaceId | null,
+    private constructor(
+        public readonly id: KeirinRaceId,
         public readonly raceData: KeirinRaceData,
         public readonly racePlayerDataList: KeirinRacePlayerData[],
         public readonly updateDate: UpdateDate,
-    ) {
-        this.id =
-            id ??
+    ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param raceData - レースデータ
+     * @param racePlayerDataList - レースの選手データ
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        raceData: KeirinRaceData,
+        racePlayerDataList: KeirinRacePlayerData[],
+        updateDate: Date,
+    ): KeirinRaceEntity {
+        return new KeirinRaceEntity(
+            validateKeirinRaceId(id),
+            raceData,
+            racePlayerDataList,
+            validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     * idがない場合でのcreate
+     *
+     * @param raceData
+     * @param racePlayerDataList
+     * @param updateDate
+     */
+    static createWithoutId(
+        raceData: KeirinRaceData,
+        racePlayerDataList: KeirinRacePlayerData[],
+        updateDate: Date,
+    ): KeirinRaceEntity {
+        return KeirinRaceEntity.create(
             generateKeirinRaceId(
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
-            );
+            ),
+            raceData,
+            racePlayerDataList,
+            updateDate,
+        );
     }
 
     /**
@@ -61,7 +96,7 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * @returns
      */
     copy(partial: Partial<KeirinRaceEntity> = {}): KeirinRaceEntity {
-        return new KeirinRaceEntity(
+        return KeirinRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.racePlayerDataList ?? this.racePlayerDataList,

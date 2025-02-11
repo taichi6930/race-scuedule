@@ -96,22 +96,19 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);
-            return Array.from(
-                { length: 12 },
-                (__, j) =>
-                    new WorldRaceEntity(
-                        null,
-                        WorldRaceData.create(
-                            `raceName${format(date, 'yyyyMMdd')}`,
-                            date,
-                            'パリロンシャン',
-                            '芝',
-                            2400,
-                            'GⅠ',
-                            j + 1,
-                        ),
-                        getJSTDate(new Date()),
+            return Array.from({ length: 12 }, (__, j) =>
+                WorldRaceEntity.createWithoutId(
+                    WorldRaceData.create(
+                        `raceName${format(date, 'yyyyMMdd')}`,
+                        date,
+                        'パリロンシャン',
+                        '芝',
+                        2400,
+                        'GⅠ',
+                        j + 1,
                     ),
+                    getJSTDate(new Date()),
+                ),
             );
         },
     ).flat();

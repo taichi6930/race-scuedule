@@ -29,30 +29,57 @@ import { validateUpdateDate } from '../../utility/updateDate';
  */
 export class NarRaceEntity {
     /**
-     * ID
-     */
-    public readonly id: NarRaceId;
-
-    /**
      * コンストラクタ
      *
      * @remarks
-     * 地方競馬のレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
+     * @param updateDate - 更新日時
      */
-    constructor(
-        id: NarRaceId | null,
+    private constructor(
+        public readonly id: NarRaceId,
         public readonly raceData: NarRaceData,
         public readonly updateDate: UpdateDate,
-    ) {
-        this.id =
-            id ??
+    ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param raceData - レースデータ
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        raceData: NarRaceData,
+        updateDate: Date,
+    ): NarRaceEntity {
+        return new NarRaceEntity(
+            validateNarRaceId(id),
+            raceData,
+            validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     * idがない場合でのcreate
+     *
+     * @param raceData
+     * @param updateDate
+     */
+    static createWithoutId(
+        raceData: NarRaceData,
+        updateDate: Date,
+    ): NarRaceEntity {
+        return NarRaceEntity.create(
             generateNarRaceId(
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
-            );
+            ),
+            raceData,
+            updateDate,
+        );
     }
 
     /**

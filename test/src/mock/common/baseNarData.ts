@@ -68,8 +68,7 @@ export const baseNarPlaceEntity = NarPlaceEntity.createWithoutId(
     baseNarRaceUpdateDate,
 );
 
-export const baseNarRaceEntity = new NarRaceEntity(
-    null,
+export const baseNarRaceEntity = NarRaceEntity.createWithoutId(
     baseNarRaceData,
     baseNarRaceUpdateDate,
 );
@@ -136,8 +135,7 @@ export const baseNarRaceEntityList: NarRaceEntity[] = ['大井', '高知'].flatM
             'GⅠ',
             '地方重賞',
         ].map((grade, index) => {
-            return new NarRaceEntity(
-                null,
+            return NarRaceEntity.createWithoutId(
                 NarRaceData.create(
                     `テスト${location}${grade}${(index + 1).toString()}レース`,
                     new Date(2024, 6 - 1, 1, 7 + index, 0),

@@ -24,8 +24,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
-                        new NarRaceEntity(
-                            null,
+                        NarRaceEntity.createWithoutId(
                             NarRaceData.create(
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 new Date(

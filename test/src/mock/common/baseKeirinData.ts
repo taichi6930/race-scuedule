@@ -81,8 +81,7 @@ export const baseKeirinRacePlayerDataList = Array.from(
     },
 );
 
-export const baseKeirinRaceEntity = new KeirinRaceEntity(
-    null,
+export const baseKeirinRaceEntity = KeirinRaceEntity.createWithoutId(
     baseKeirinRaceData,
     baseKeirinRacePlayerDataList,
     baseKeirinRaceUpdateDate,
@@ -122,8 +121,7 @@ export const baseKeirinRaceEntityList: KeirinRaceEntity[] = [
         const racePlayerDataList = Array.from({ length: 9 }, (_, i) => {
             return KeirinRacePlayerData.create(i + 1, i + 1);
         });
-        return new KeirinRaceEntity(
-            null,
+        return KeirinRaceEntity.createWithoutId(
             raceData,
             racePlayerDataList,
             baseKeirinRaceUpdateDate,

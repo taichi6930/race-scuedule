@@ -82,22 +82,19 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                 (_, day) => {
                     const date = new Date('2024-01-01');
                     date.setDate(date.getDate() + day);
-                    return Array.from(
-                        { length: 12 },
-                        (__, j) =>
-                            new BoatraceRaceEntity(
-                                null,
-                                BoatraceRaceData.create(
-                                    `raceName${format(date, 'yyyyMMdd')}`,
-                                    `優勝戦`,
-                                    date,
-                                    '平和島',
-                                    'GⅠ',
-                                    j + 1,
-                                ),
-                                baseBoatraceRacePlayerDataList,
-                                getJSTDate(new Date()),
+                    return Array.from({ length: 12 }, (__, j) =>
+                        BoatraceRaceEntity.createWithoutId(
+                            BoatraceRaceData.create(
+                                `raceName${format(date, 'yyyyMMdd')}`,
+                                `優勝戦`,
+                                date,
+                                '平和島',
+                                'GⅠ',
+                                j + 1,
                             ),
+                            baseBoatraceRacePlayerDataList,
+                            getJSTDate(new Date()),
+                        ),
                     );
                 },
             ).flat();
@@ -121,22 +118,19 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
             (_, day) => {
                 const date = new Date('2024-01-01');
                 date.setDate(date.getDate() + day);
-                return Array.from(
-                    { length: 12 },
-                    (__, j) =>
-                        new BoatraceRaceEntity(
-                            null,
-                            BoatraceRaceData.create(
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                `優勝戦`,
-                                date,
-                                '平和島',
-                                'GⅠ',
-                                j + 1,
-                            ),
-                            baseBoatraceRacePlayerDataList,
-                            getJSTDate(new Date()),
+                return Array.from({ length: 12 }, (__, j) =>
+                    BoatraceRaceEntity.createWithoutId(
+                        BoatraceRaceData.create(
+                            `raceName${format(date, 'yyyyMMdd')}`,
+                            `優勝戦`,
+                            date,
+                            '平和島',
+                            'GⅠ',
+                            j + 1,
                         ),
+                        baseBoatraceRacePlayerDataList,
+                        getJSTDate(new Date()),
+                    ),
                 );
             },
         ).flat();

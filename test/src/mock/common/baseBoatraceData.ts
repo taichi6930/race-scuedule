@@ -86,8 +86,7 @@ export const baseBoatraceRacePlayerDataList = Array.from(
     },
 );
 
-export const baseBoatraceRaceEntity = new BoatraceRaceEntity(
-    null,
+export const baseBoatraceRaceEntity = BoatraceRaceEntity.createWithoutId(
     baseBoatraceRaceData,
     baseBoatraceRacePlayerDataList,
     baseBoatraceRaceUpdateDate,
@@ -143,8 +142,7 @@ export const baseBoatraceRaceEntityList: BoatraceRaceEntity[] = [
         const racePlayerDataList = Array.from({ length: 6 }, (_, i) => {
             return BoatraceRacePlayerData.create(i + 1, i + 1);
         });
-        return new BoatraceRaceEntity(
-            null,
+        return BoatraceRaceEntity.createWithoutId(
             raceData,
             racePlayerDataList,
             baseBoatraceRaceUpdateDate,

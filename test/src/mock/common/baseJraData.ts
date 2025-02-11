@@ -82,8 +82,7 @@ export const baseJraPlaceEntity = JraPlaceEntity.createWithoutId(
     baseJraRaceUpdateDate,
 );
 
-export const baseJraRaceEntity = new JraRaceEntity(
-    null,
+export const baseJraRaceEntity = JraRaceEntity.createWithoutId(
     baseJraRaceData,
     baseJraRaceUpdateDate,
 );
@@ -149,8 +148,7 @@ export const baseJraRaceEntityList: JraRaceEntity[] = ['東京', '京都'].flatM
             'GⅠ',
             '2勝クラス',
         ].map((grade, index) => {
-            return new JraRaceEntity(
-                null,
+            return JraRaceEntity.createWithoutId(
                 JraRaceData.create(
                     `テスト${location}${grade}${(index + 1).toString()}レース`,
                     new Date(2024, 6 - 1, 1, 7 + index, 0),

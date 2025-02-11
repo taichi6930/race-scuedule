@@ -75,7 +75,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                     raceRecord.grade,
                     raceRecord.number,
                 );
-                return new BoatraceRaceEntity(
+                return BoatraceRaceEntity.create(
                     raceRecord.id,
                     raceData,
                     racePlayerDataList,

@@ -82,22 +82,19 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                 (_, day) => {
                     const date = new Date('2024-01-01');
                     date.setDate(date.getDate() + day);
-                    return Array.from(
-                        { length: 12 },
-                        (__, j) =>
-                            new KeirinRaceEntity(
-                                null,
-                                KeirinRaceData.create(
-                                    `raceName${format(date, 'yyyyMMdd')}`,
-                                    `S級決勝`,
-                                    date,
-                                    '平塚',
-                                    'GⅠ',
-                                    j + 1,
-                                ),
-                                baseKeirinRacePlayerDataList,
-                                getJSTDate(new Date()),
+                    return Array.from({ length: 12 }, (__, j) =>
+                        KeirinRaceEntity.createWithoutId(
+                            KeirinRaceData.create(
+                                `raceName${format(date, 'yyyyMMdd')}`,
+                                `S級決勝`,
+                                date,
+                                '平塚',
+                                'GⅠ',
+                                j + 1,
                             ),
+                            baseKeirinRacePlayerDataList,
+                            getJSTDate(new Date()),
+                        ),
                     );
                 },
             ).flat();
@@ -121,22 +118,19 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             (_, day) => {
                 const date = new Date('2024-01-01');
                 date.setDate(date.getDate() + day);
-                return Array.from(
-                    { length: 12 },
-                    (__, j) =>
-                        new KeirinRaceEntity(
-                            null,
-                            KeirinRaceData.create(
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                `S級決勝`,
-                                date,
-                                '平塚',
-                                'GⅠ',
-                                j + 1,
-                            ),
-                            baseKeirinRacePlayerDataList,
-                            getJSTDate(new Date()),
+                return Array.from({ length: 12 }, (__, j) =>
+                    KeirinRaceEntity.createWithoutId(
+                        KeirinRaceData.create(
+                            `raceName${format(date, 'yyyyMMdd')}`,
+                            `S級決勝`,
+                            date,
+                            '平塚',
+                            'GⅠ',
+                            j + 1,
                         ),
+                        baseKeirinRacePlayerDataList,
+                        getJSTDate(new Date()),
+                    ),
                 );
             },
         ).flat();

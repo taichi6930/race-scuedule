@@ -178,8 +178,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                             racePlayerDataList.length !== 0
                         ) {
                             keirinRaceEntityList.push(
-                                new KeirinRaceEntity(
-                                    null,
+                                KeirinRaceEntity.createWithoutId(
                                     keirinRaceData,
                                     racePlayerDataList,
                                     getJSTDate(new Date()),

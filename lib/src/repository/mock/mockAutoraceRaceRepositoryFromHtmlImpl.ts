@@ -25,8 +25,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
                 for (let i = 1; i <= 12; i++) {
                     const raceStage = i === 12 ? '優勝戦' : '予選';
                     raceEntityList.push(
-                        new AutoraceRaceEntity(
-                            null,
+                        AutoraceRaceEntity.createWithoutId(
                             AutoraceRaceData.create(
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 raceStage,

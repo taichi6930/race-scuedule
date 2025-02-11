@@ -6,12 +6,12 @@ import type { calendar_v3 } from 'googleapis';
 import { CalendarData } from '../../domain/calendarData';
 import type { WorldRaceData } from '../../domain/worldRaceData';
 import { WorldRaceRecord } from '../../gateway/record/worldRaceRecord';
-import type { WorldRaceId } from '../../utility/data/world/worldRaceId';
+import { type WorldRaceId } from '../../utility/data/world/worldRaceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getWorldGoogleCalendarColorId } from '../../utility/googleCalendar';
 import { generateWorldRaceId } from '../../utility/raceId';
-import type { UpdateDate } from '../../utility/updateDate';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
 /**
@@ -19,31 +19,57 @@ import type { IRaceEntity } from './iRaceEntity';
  */
 export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     /**
-     * ID
-     */
-    public readonly id: WorldRaceId;
-
-    /**
      * コンストラクタ
      *
      * @remarks
-     * 海外競馬のレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
      * @param updateDate - 更新日時
      */
-    constructor(
-        id: WorldRaceId | null,
+    private constructor(
+        public readonly id: WorldRaceId,
         public readonly raceData: WorldRaceData,
         public readonly updateDate: UpdateDate,
-    ) {
-        this.id =
-            id ??
+    ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param raceData - レースデータ
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        raceData: WorldRaceData,
+        updateDate: Date,
+    ): WorldRaceEntity {
+        return new WorldRaceEntity(
+            id,
+            raceData,
+            validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     * idがない場合でのcreate
+     *
+     * @param raceData
+     * @param updateDate
+     */
+    static createWithoutId(
+        raceData: WorldRaceData,
+        updateDate: Date,
+    ): WorldRaceEntity {
+        return WorldRaceEntity.create(
             generateWorldRaceId(
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
-            );
+            ),
+            raceData,
+            updateDate,
+        );
     }
 
     /**
@@ -78,7 +104,7 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     }
 
     /**
-     * レースデータをGoogleカレンダーのイベントに変換する（海外競馬）
+     * レースデータをGoogleカレンダーのイベントに変換する
      * @param raceEntity
      * @returns
      */

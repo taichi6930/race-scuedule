@@ -74,7 +74,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 { length: 5 },
                 (_, i: number) =>
                     baseAutoraceCalendarData.copy({
-                        id: `autorace2024122920${i.toXDigits(2)}`,
+                        id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             // RaceEntityListは空
@@ -119,7 +119,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
             const mockRaceEntityList: AutoraceRaceEntity[] = [
                 ...Array.from({ length: 5 }, (_, i: number) =>
                     baseAutoraceRaceEntity.copy({
-                        id: `autorace2024122920${i.toXDigits(2)}`,
+                        id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
                 ),
                 baseAutoraceRaceEntity.copy({
@@ -132,7 +132,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
             const expectRaceEntityList: AutoraceRaceEntity[] = [
                 ...Array.from({ length: 5 }, (_, i: number) =>
                     baseAutoraceRaceEntity.copy({
-                        id: `autorace2024122920${i.toXDigits(2)}`,
+                        id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
                 ),
             ];
@@ -171,14 +171,14 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 { length: 5 },
                 (_, i: number) =>
                     baseAutoraceCalendarData.copy({
-                        id: `autorace2024122920${i.toXDigits(2)}`,
+                        id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             const mockRaceEntityList: AutoraceRaceEntity[] = Array.from(
                 { length: 5 },
                 (_, i: number) =>
                     baseAutoraceRaceEntity.copy({
-                        id: `autorace2024122921${i.toXDigits(2)}`,
+                        id: `autorace2024122921${(i + 1).toXDigits(2)}`,
                     }),
             );
 
@@ -225,14 +225,14 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 { length: 8 },
                 (_, i: number) =>
                     baseAutoraceCalendarData.copy({
-                        id: `autorace2024122920${i.toXDigits(2)}`,
+                        id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             const mockRaceEntityList: AutoraceRaceEntity[] = Array.from(
                 { length: 5 },
                 (_, i: number) =>
                     baseAutoraceRaceEntity.copy({
-                        id: `autorace2024122920${i.toXDigits(2)}`,
+                        id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
 
@@ -240,7 +240,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 { length: 3 },
                 (_, i: number) =>
                     baseAutoraceCalendarData.copy({
-                        id: `autorace2024122920${(i + 5).toXDigits(2)}`,
+                        id: `autorace2024122920${(i + 6).toXDigits(2)}`,
                     }),
             );
             const expectRaceEntityList: AutoraceRaceEntity[] =
@@ -285,14 +285,14 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 { length: 5 },
                 (_, i: number) =>
                     baseAutoraceCalendarData.copy({
-                        id: `autorace2024122920${i.toXDigits(2)}`,
+                        id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             const mockRaceEntityList: AutoraceRaceEntity[] = Array.from(
                 { length: 8 },
                 (_, i: number) =>
                     baseAutoraceRaceEntity.copy({
-                        id: `autorace2024122920${i.toXDigits(2)}`,
+                        id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
 
@@ -300,7 +300,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 { length: 8 },
                 (_, i: number) =>
                     baseAutoraceRaceEntity.copy({
-                        id: `autorace2024122920${i.toXDigits(2)}`,
+                        id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
 

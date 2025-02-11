@@ -28,8 +28,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                 for (let i = 1; i <= 12; i++) {
                     const raceStage = i === 12 ? 'S級決勝' : 'S級予選';
                     raceEntityList.push(
-                        new KeirinRaceEntity(
-                            null,
+                        KeirinRaceEntity.createWithoutId(
                             KeirinRaceData.create(
                                 `keirin第${i.toString()}R`,
                                 raceStage,

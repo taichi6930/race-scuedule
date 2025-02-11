@@ -116,9 +116,8 @@ export class NarRaceDataUseCase
      */
     @Logger
     async upsertRaceDataList(raceDataList: NarRaceData[]): Promise<void> {
-        const raceEntityList: NarRaceEntity[] = raceDataList.map(
-            (raceData) =>
-                new NarRaceEntity(null, raceData, getJSTDate(new Date())),
+        const raceEntityList: NarRaceEntity[] = raceDataList.map((raceData) =>
+            NarRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
         await this.narRaceDataService.updateRaceEntityList(raceEntityList);
     }
