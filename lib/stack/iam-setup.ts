@@ -1,3 +1,4 @@
+import type { aws_s3tables } from 'aws-cdk-lib';
 import {
     Effect,
     PolicyStatement,
@@ -10,6 +11,7 @@ import type { Construct } from 'constructs';
 export function createLambdaExecutionRole(
     scope: Construct,
     bucket: aws_s3.IBucket,
+    s3TableBucket: aws_s3tables.CfnTableBucket,
 ): Role {
     // Lambda 実行に必要な IAM ロールを作成
     const role = new Role(scope, 'LambdaExecutionRole', {
@@ -21,6 +23,19 @@ export function createLambdaExecutionRole(
         new PolicyStatement({
             actions: ['s3:GetObject', 's3:PutObject'],
             resources: [bucket.bucketArn + '/*'],
+        }),
+    );
+
+    // Lambda が S3 テーブルバケットにアクセスできるようにするポリシーステートメントを追加
+    role.addToPolicy(
+        new PolicyStatement({
+            actions: [
+                's3:GetObject',
+                's3:PutObject',
+                's3:ListBucket',
+                's3:DeleteObject',
+            ],
+            resources: [s3TableBucket.attrTableBucketArn + '/*'],
         }),
     );
 
