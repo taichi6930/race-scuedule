@@ -24,8 +24,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
                 // 1から12までのレースを作成
                 for (let i = 1; i <= 12; i++) {
                     raceEntityList.push(
-                        new JraRaceEntity(
-                            null,
+                        JraRaceEntity.createWithoutId(
                             JraRaceData.create(
                                 `${placeEntity.placeData.location}第${i.toString()}R`,
                                 new Date(

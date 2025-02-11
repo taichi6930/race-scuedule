@@ -159,8 +159,7 @@ export class KeirinRaceDataUseCase
     async upsertRaceDataList(raceDataList: KeirinRaceData[]): Promise<void> {
         const raceEntityList: KeirinRaceEntity[] = raceDataList.map(
             (raceData) =>
-                new KeirinRaceEntity(
-                    null,
+                KeirinRaceEntity.createWithoutId(
                     raceData,
                     [],
                     getJSTDate(new Date()),

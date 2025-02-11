@@ -24,31 +24,57 @@ import type { IRaceEntity } from './iRaceEntity';
  */
 export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     /**
-     * ID
-     */
-    public readonly id: JraRaceId;
-
-    /**
      * コンストラクタ
      *
      * @remarks
-     * 中央競馬のレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
      * @param updateDate - 更新日時
      */
-    constructor(
-        id: JraRaceId | null,
+    private constructor(
+        public readonly id: JraRaceId,
         public readonly raceData: JraRaceData,
         public readonly updateDate: UpdateDate,
-    ) {
-        this.id =
-            id ??
+    ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param raceData - レースデータ
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        raceData: JraRaceData,
+        updateDate: Date,
+    ): JraRaceEntity {
+        return new JraRaceEntity(
+            validateJraRaceId(id),
+            raceData,
+            validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     * idがない場合でのcreate
+     *
+     * @param raceData
+     * @param updateDate
+     */
+    static createWithoutId(
+        raceData: JraRaceData,
+        updateDate: Date,
+    ): JraRaceEntity {
+        return JraRaceEntity.create(
             generateJraRaceId(
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
-            );
+            ),
+            raceData,
+            updateDate,
+        );
     }
 
     /**

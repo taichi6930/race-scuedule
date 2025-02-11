@@ -135,7 +135,7 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
      * @returns
      */
     toEntity(): NarRaceEntity {
-        return new NarRaceEntity(
+        return NarRaceEntity.create(
             this.id,
             NarRaceData.create(
                 this.name,

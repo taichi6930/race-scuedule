@@ -121,8 +121,7 @@ export class NarRaceRepositoryFromHtmlImpl
                         grade: grade,
                     });
                     narRaceDataList.push(
-                        new NarRaceEntity(
-                            null,
+                        NarRaceEntity.createWithoutId(
                             NarRaceData.create(
                                 newRaceName,
                                 raceDateTime,

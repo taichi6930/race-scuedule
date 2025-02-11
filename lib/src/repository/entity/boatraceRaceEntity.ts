@@ -8,7 +8,10 @@ import type { BoatraceRacePlayerData } from '../../domain/boatraceRacePlayerData
 import { CalendarData } from '../../domain/calendarData';
 import { BoatraceRacePlayerRecord } from '../../gateway/record/boatraceRacePlayerRecord';
 import { BoatraceRaceRecord } from '../../gateway/record/boatraceRaceRecord';
-import type { BoatraceRaceId } from '../../utility/data/boatrace/boatraceRaceId';
+import {
+    type BoatraceRaceId,
+    validateBoatraceRaceId,
+} from '../../utility/data/boatrace/boatraceRaceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getBoatraceGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -16,7 +19,7 @@ import {
     generateBoatraceRaceId,
     generateBoatraceRacePlayerId,
 } from '../../utility/raceId';
-import type { UpdateDate } from '../../utility/updateDate';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
 /**
@@ -24,34 +27,66 @@ import type { IRaceEntity } from './iRaceEntity';
  */
 export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     /**
-     * ID
-     */
-    public readonly id: BoatraceRaceId;
-
-    /**
      * コンストラクタ
      *
      * @remarks
-     * ボートレースのレース開催データを生成する
+     * レース開催データを生成する
      * @param id - ID
      * @param raceData - レースデータ
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
      *
      */
-    constructor(
-        id: BoatraceRaceId | null,
+    private constructor(
+        public readonly id: BoatraceRaceId,
         public readonly raceData: BoatraceRaceData,
         public readonly racePlayerDataList: BoatraceRacePlayerData[],
         public readonly updateDate: UpdateDate,
-    ) {
-        this.id =
-            id ??
+    ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param raceData - レースデータ
+     * @param racePlayerDataList - レースの選手データ
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        raceData: BoatraceRaceData,
+        racePlayerDataList: BoatraceRacePlayerData[],
+        updateDate: Date,
+    ): BoatraceRaceEntity {
+        return new BoatraceRaceEntity(
+            validateBoatraceRaceId(id),
+            raceData,
+            racePlayerDataList,
+            validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     * idがない場合でのcreate
+     *
+     * @param raceData
+     * @param racePlayerDataList
+     * @param updateDate
+     */
+    static createWithoutId(
+        raceData: BoatraceRaceData,
+        racePlayerDataList: BoatraceRacePlayerData[],
+        updateDate: Date,
+    ): BoatraceRaceEntity {
+        return BoatraceRaceEntity.create(
             generateBoatraceRaceId(
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
-            );
+            ),
+            raceData,
+            racePlayerDataList,
+            updateDate,
+        );
     }
 
     /**
@@ -60,7 +95,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
      * @returns
      */
     copy(partial: Partial<BoatraceRaceEntity> = {}): BoatraceRaceEntity {
-        return new BoatraceRaceEntity(
+        return BoatraceRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.racePlayerDataList ?? this.racePlayerDataList,

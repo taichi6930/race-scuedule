@@ -112,8 +112,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             const racePlayerDataList: BoatraceRacePlayerData[] = [];
 
             boatraceRaceEntityList.push(
-                new BoatraceRaceEntity(
-                    null,
+                BoatraceRaceEntity.createWithoutId(
                     BoatraceRaceData.create(
                         raceName,
                         raceStage,

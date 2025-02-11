@@ -74,7 +74,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                 { length: 5 },
                 (_, i: number) =>
                     baseKeirinCalendarData.copy({
-                        id: `keirin2024122920${i.toXDigits(2)}`,
+                        id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             // RaceEntityListは空
@@ -119,7 +119,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             const mockRaceEntityList: KeirinRaceEntity[] = [
                 ...Array.from({ length: 5 }, (_, i: number) =>
                     baseKeirinRaceEntity.copy({
-                        id: `keirin2024122920${i.toXDigits(2)}`,
+                        id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
                 ),
                 baseKeirinRaceEntity.copy({
@@ -132,7 +132,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             const expectRaceEntityList: KeirinRaceEntity[] = [
                 ...Array.from({ length: 5 }, (_, i: number) =>
                     baseKeirinRaceEntity.copy({
-                        id: `keirin2024122920${i.toXDigits(2)}`,
+                        id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
                 ),
             ];
@@ -171,14 +171,14 @@ describe('KeirinRaceCalendarUseCase', () => {
                 { length: 5 },
                 (_, i: number) =>
                     baseKeirinCalendarData.copy({
-                        id: `keirin2024122920${i.toXDigits(2)}`,
+                        id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             const mockRaceEntityList: KeirinRaceEntity[] = Array.from(
                 { length: 5 },
                 (_, i: number) =>
                     baseKeirinRaceEntity.copy({
-                        id: `keirin2024122921${i.toXDigits(2)}`,
+                        id: `keirin2024122921${(i + 1).toXDigits(2)}`,
                     }),
             );
 
@@ -224,14 +224,14 @@ describe('KeirinRaceCalendarUseCase', () => {
                 { length: 8 },
                 (_, i: number) =>
                     baseKeirinCalendarData.copy({
-                        id: `keirin2024122920${i.toXDigits(2)}`,
+                        id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             const mockRaceEntityList: KeirinRaceEntity[] = Array.from(
                 { length: 5 },
                 (_, i: number) =>
                     baseKeirinRaceEntity.copy({
-                        id: `keirin2024122920${i.toXDigits(2)}`,
+                        id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
 
@@ -239,7 +239,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                 { length: 3 },
                 (_, i: number) =>
                     baseKeirinCalendarData.copy({
-                        id: `keirin2024122920${(i + 5).toXDigits(2)}`,
+                        id: `keirin2024122920${(i + 6).toXDigits(2)}`,
                     }),
             );
             const expectRaceEntityList: KeirinRaceEntity[] = mockRaceEntityList;
@@ -283,14 +283,14 @@ describe('KeirinRaceCalendarUseCase', () => {
                 { length: 5 },
                 (_, i: number) =>
                     baseKeirinCalendarData.copy({
-                        id: `keirin2024122920${i.toXDigits(2)}`,
+                        id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             const mockRaceEntityList: KeirinRaceEntity[] = Array.from(
                 { length: 8 },
                 (_, i: number) =>
                     baseKeirinRaceEntity.copy({
-                        id: `keirin2024122920${i.toXDigits(2)}`,
+                        id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
 
@@ -298,7 +298,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                 { length: 8 },
                 (_, i: number) =>
                     baseKeirinRaceEntity.copy({
-                        id: `keirin2024122920${i.toXDigits(2)}`,
+                        id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
 

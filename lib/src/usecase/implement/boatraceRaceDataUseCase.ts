@@ -159,8 +159,7 @@ export class BoatraceRaceDataUseCase
     async upsertRaceDataList(raceDataList: BoatraceRaceData[]): Promise<void> {
         const raceEntityList: BoatraceRaceEntity[] = raceDataList.map(
             (raceData) =>
-                new BoatraceRaceEntity(
-                    null,
+                BoatraceRaceEntity.createWithoutId(
                     raceData,
                     [],
                     getJSTDate(new Date()),

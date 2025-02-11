@@ -75,7 +75,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     raceRecord.grade,
                     raceRecord.number,
                 );
-                return new KeirinRaceEntity(
+                return KeirinRaceEntity.create(
                     raceRecord.id,
                     raceData,
                     racePlayerDataList,

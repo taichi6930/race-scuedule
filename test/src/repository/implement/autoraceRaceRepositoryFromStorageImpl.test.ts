@@ -82,22 +82,19 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
                 (_, day) => {
                     const date = new Date('2024-01-01');
                     date.setDate(date.getDate() + day);
-                    return Array.from(
-                        { length: 12 },
-                        (__, j) =>
-                            new AutoraceRaceEntity(
-                                null,
-                                AutoraceRaceData.create(
-                                    `raceName${format(date, 'yyyyMMdd')}`,
-                                    `優勝戦`,
-                                    date,
-                                    '飯塚',
-                                    'GⅠ',
-                                    j + 1,
-                                ),
-                                baseAutoraceRacePlayerDataList,
-                                getJSTDate(new Date()),
+                    return Array.from({ length: 12 }, (__, j) =>
+                        AutoraceRaceEntity.createWithoutId(
+                            AutoraceRaceData.create(
+                                `raceName${format(date, 'yyyyMMdd')}`,
+                                `優勝戦`,
+                                date,
+                                '飯塚',
+                                'GⅠ',
+                                j + 1,
                             ),
+                            baseAutoraceRacePlayerDataList,
+                            getJSTDate(new Date()),
+                        ),
                     );
                 },
             ).flat();
@@ -121,22 +118,19 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
             (_, day) => {
                 const date = new Date('2024-01-01');
                 date.setDate(date.getDate() + day);
-                return Array.from(
-                    { length: 12 },
-                    (__, j) =>
-                        new AutoraceRaceEntity(
-                            null,
-                            AutoraceRaceData.create(
-                                `raceName${format(date, 'yyyyMMdd')}`,
-                                `優勝戦`,
-                                date,
-                                '飯塚',
-                                'GⅠ',
-                                j + 1,
-                            ),
-                            baseAutoraceRacePlayerDataList,
-                            getJSTDate(new Date()),
+                return Array.from({ length: 12 }, (__, j) =>
+                    AutoraceRaceEntity.createWithoutId(
+                        AutoraceRaceData.create(
+                            `raceName${format(date, 'yyyyMMdd')}`,
+                            `優勝戦`,
+                            date,
+                            '飯塚',
+                            'GⅠ',
+                            j + 1,
                         ),
+                        baseAutoraceRacePlayerDataList,
+                        getJSTDate(new Date()),
+                    ),
                 );
             },
         ).flat();

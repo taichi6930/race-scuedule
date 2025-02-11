@@ -28,8 +28,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                 for (let i = 1; i <= 12; i++) {
                     const raceStage = i === 12 ? '優勝戦' : '';
                     raceEntityList.push(
-                        new BoatraceRaceEntity(
-                            null,
+                        BoatraceRaceEntity.createWithoutId(
                             BoatraceRaceData.create(
                                 `${placeData.location}第${i.toString()}R`,
                                 raceStage,

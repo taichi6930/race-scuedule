@@ -75,7 +75,7 @@ describe('JraRaceCalendarUseCase', () => {
                 { length: 5 },
                 (_, i: number) =>
                     baseJraCalendarData.copy({
-                        id: `jra2024122920${i.toXDigits(2)}`,
+                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             // RaceEntityListは空
@@ -122,7 +122,7 @@ describe('JraRaceCalendarUseCase', () => {
                 { length: 5 },
                 (_, i: number) =>
                     baseJraRaceEntity.copy({
-                        id: `jra2024122920${i.toXDigits(2)}`,
+                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
 
@@ -164,14 +164,14 @@ describe('JraRaceCalendarUseCase', () => {
                 { length: 5 },
                 (_, i: number) =>
                     baseJraCalendarData.copy({
-                        id: `jra2024122920${i.toXDigits(2)}`,
+                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             const mockRaceEntityList: JraRaceEntity[] = Array.from(
                 { length: 5 },
                 (_, i: number) =>
                     baseJraRaceEntity.copy({
-                        id: `jra2024122921${i.toXDigits(2)}`,
+                        id: `jra2024122921${(i + 1).toXDigits(2)}`,
                     }),
             );
 
@@ -217,14 +217,14 @@ describe('JraRaceCalendarUseCase', () => {
                 { length: 8 },
                 (_, i: number) =>
                     baseJraCalendarData.copy({
-                        id: `jra2024122920${i.toXDigits(2)}`,
+                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             const mockRaceEntityList: JraRaceEntity[] = Array.from(
                 { length: 5 },
                 (_, i: number) =>
                     baseJraRaceEntity.copy({
-                        id: `jra2024122920${i.toXDigits(2)}`,
+                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
 
@@ -232,7 +232,7 @@ describe('JraRaceCalendarUseCase', () => {
                 { length: 3 },
                 (_, i: number) =>
                     baseJraCalendarData.copy({
-                        id: `jra2024122920${(i + 5).toXDigits(2)}`,
+                        id: `jra2024122920${(i + 6).toXDigits(2)}`,
                     }),
             );
             const expectRaceEntityList: JraRaceEntity[] = mockRaceEntityList;
@@ -276,14 +276,14 @@ describe('JraRaceCalendarUseCase', () => {
                 { length: 5 },
                 (_, i: number) =>
                     baseJraCalendarData.copy({
-                        id: `jra2024122920${i.toXDigits(2)}`,
+                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
             const mockRaceEntityList: JraRaceEntity[] = Array.from(
                 { length: 8 },
                 (_, i: number) =>
                     baseJraRaceEntity.copy({
-                        id: `jra2024122920${i.toXDigits(2)}`,
+                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
 
@@ -291,7 +291,7 @@ describe('JraRaceCalendarUseCase', () => {
                 { length: 8 },
                 (_, i: number) =>
                     baseJraRaceEntity.copy({
-                        id: `jra2024122920${i.toXDigits(2)}`,
+                        id: `jra2024122920${(i + 1).toXDigits(2)}`,
                     }),
             );
 

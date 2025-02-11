@@ -162,8 +162,7 @@ export class JraRaceRepositoryFromHtmlImpl
                             grade: raceGrade,
                         });
 
-                        const jradata = new JraRaceEntity(
-                            null,
+                        const jradata = JraRaceEntity.createWithoutId(
                             JraRaceData.create(
                                 raceName,
                                 raceDateTime,

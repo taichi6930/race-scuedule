@@ -56,7 +56,7 @@ export class MockGoogleCalendarGateway implements ICalendarGateway {
                             switch (this.raceType) {
                                 case 'world':
                                     location = 'パリロンシャン';
-                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WorldPlaceCodeMap[location]}${i.toXDigits(2)}`;
+                                    raceId = `${this.raceType}${format(currentDate, 'yyyyMMdd')}${WorldPlaceCodeMap[location]}${(i + 1).toXDigits(2)}`;
                                     break;
                                 default:
                                     break;

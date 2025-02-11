@@ -121,8 +121,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                             raceStage.trim() !== ''
                         ) {
                             autoraceRaceDataList.push(
-                                new AutoraceRaceEntity(
-                                    null,
+                                AutoraceRaceEntity.createWithoutId(
                                     AutoraceRaceData.create(
                                         raceName,
                                         raceStage,

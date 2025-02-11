@@ -8,7 +8,10 @@ import type { AutoraceRacePlayerData } from '../../domain/autoraceRacePlayerData
 import { CalendarData } from '../../domain/calendarData';
 import { AutoraceRacePlayerRecord } from '../../gateway/record/autoraceRacePlayerRecord';
 import { AutoraceRaceRecord } from '../../gateway/record/autoraceRaceRecord';
-import type { AutoraceRaceId } from '../../utility/data/autorace/autoraceRaceId';
+import {
+    type AutoraceRaceId,
+    validateAutoraceRaceId,
+} from '../../utility/data/autorace/autoraceRaceId';
 import { getJSTDate } from '../../utility/date';
 import { formatDate } from '../../utility/format';
 import { getAutoraceGoogleCalendarColorId } from '../../utility/googleCalendar';
@@ -16,18 +19,13 @@ import {
     generateAutoraceRaceId,
     generateAutoraceRacePlayerId,
 } from '../../utility/raceId';
-import type { UpdateDate } from '../../utility/updateDate';
+import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRaceEntity } from './iRaceEntity';
 
 /**
  * オートレースのレース開催データ
  */
 export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
-    /**
-     * ID
-     */
-    public readonly id: AutoraceRaceId;
-
     /**
      * コンストラクタ
      *
@@ -39,19 +37,56 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      * @param updateDate - 更新日時
      *
      */
-    constructor(
-        id: AutoraceRaceId | null,
+    private constructor(
+        public readonly id: AutoraceRaceId,
         public readonly raceData: AutoraceRaceData,
         public readonly racePlayerDataList: AutoraceRacePlayerData[],
         public readonly updateDate: UpdateDate,
-    ) {
-        this.id =
-            id ??
+    ) {}
+
+    /**
+     * インスタンス生成メソッド
+     * @param id - ID
+     * @param raceData - レースデータ
+     * @param racePlayerDataList - レースの選手データ
+     * @param updateDate - 更新日時
+     */
+    static create(
+        id: string,
+        raceData: AutoraceRaceData,
+        racePlayerDataList: AutoraceRacePlayerData[],
+        updateDate: Date,
+    ): AutoraceRaceEntity {
+        return new AutoraceRaceEntity(
+            validateAutoraceRaceId(id),
+            raceData,
+            racePlayerDataList,
+            validateUpdateDate(updateDate),
+        );
+    }
+
+    /**
+     * idがない場合でのcreate
+     *
+     * @param raceData
+     * @param racePlayerDataList
+     * @param updateDate
+     */
+    static createWithoutId(
+        raceData: AutoraceRaceData,
+        racePlayerDataList: AutoraceRacePlayerData[],
+        updateDate: Date,
+    ): AutoraceRaceEntity {
+        return AutoraceRaceEntity.create(
             generateAutoraceRaceId(
                 raceData.dateTime,
                 raceData.location,
                 raceData.number,
-            );
+            ),
+            raceData,
+            racePlayerDataList,
+            updateDate,
+        );
     }
 
     /**
@@ -60,7 +95,7 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      * @returns
      */
     copy(partial: Partial<AutoraceRaceEntity> = {}): AutoraceRaceEntity {
-        return new AutoraceRaceEntity(
+        return AutoraceRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.racePlayerDataList ?? this.racePlayerDataList,
