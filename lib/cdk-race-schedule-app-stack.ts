@@ -1,12 +1,15 @@
 import {
+    aws_efs,
     aws_s3,
     aws_s3tables,
     CfnOutput,
+    RemovalPolicy,
     Stack,
     type StackProps,
 } from 'aws-cdk-lib';
 import { aws_lambda_nodejs, Duration } from 'aws-cdk-lib';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import {
     Effect,
     PolicyStatement,
@@ -25,6 +28,39 @@ dotenv.config({ path: './.env' });
 export class CdkRaceScheduleAppStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
         super(scope, id, props);
+
+        // VPCの作成
+        const vpc = new ec2.Vpc(this, 'RaceScheduleVpc', {
+            maxAzs: 2,
+        });
+
+        // EFSの作成
+        const fileSystem = new aws_efs.FileSystem(this, 'RaceScheduleEFS', {
+            vpc,
+            lifecyclePolicy: aws_efs.LifecyclePolicy.AFTER_7_DAYS, // コスト削減のため
+            removalPolicy: RemovalPolicy.DESTROY, // 修正
+        });
+
+        // EFSのアクセスポイント
+        const accessPoint = new aws_efs.AccessPoint(this, 'EfsAccessPoint', {
+            fileSystem,
+            path: '/sqlite',
+            posixUser: {
+                uid: '1001',
+                gid: '1001',
+            },
+            createAcl: {
+                ownerUid: '1001',
+                ownerGid: '1001',
+                permissions: '755',
+            },
+        });
+
+        // Lambdaのセキュリティグループ
+        const lambdaSecurityGroup = new ec2.SecurityGroup(this, 'LambdaSG', {
+            vpc,
+        });
+        fileSystem.connections.allowDefaultPortFrom(lambdaSecurityGroup);
 
         // S3バケットの参照
         const bucket = aws_s3.Bucket.fromBucketName(
@@ -53,10 +89,45 @@ export class CdkRaceScheduleAppStack extends Stack {
             this,
             bucket,
             s3TableBucket,
+            fileSystem,
         );
 
         // Lambda関数を作成
-        const lambdaFunction = createLambdaFunction(this, lambdaRole);
+        const lambdaFunction = new aws_lambda_nodejs.NodejsFunction(
+            this,
+            'RaceScheduleAppLambda',
+            {
+                architecture: lambda.Architecture.ARM_64,
+                runtime: lambda.Runtime.NODEJS_20_X,
+                entry: 'lib/src/index.ts',
+                role: lambdaRole,
+                vpc: vpc,
+                environment: {
+                    ENV: ENV ?? allowedEnvs.local,
+                    JRA_CALENDAR_ID: process.env.JRA_CALENDAR_ID ?? '',
+                    NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID ?? '',
+                    KEIRIN_CALENDAR_ID: process.env.KEIRIN_CALENDAR_ID ?? '',
+                    WORLD_CALENDAR_ID: process.env.WORLD_CALENDAR_ID ?? '',
+                    AUTORACE_CALENDAR_ID:
+                        process.env.AUTORACE_CALENDAR_ID ?? '',
+                    BOATRACE_CALENDAR_ID:
+                        process.env.BOATRACE_CALENDAR_ID ?? '',
+                    TEST_CALENDAR_ID: process.env.TEST_CALENDAR_ID ?? '',
+                    GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL ?? '',
+                    GOOGLE_PRIVATE_KEY: (
+                        process.env.GOOGLE_PRIVATE_KEY ?? ''
+                    ).replace(/\\n/g, '\n'),
+                    SQLITE_DB_PATH: '/mnt/sqlite/database.db',
+                },
+                securityGroups: [lambdaSecurityGroup],
+                filesystem: lambda.FileSystem.fromEfsAccessPoint(
+                    accessPoint,
+                    '/mnt/sqlite',
+                ),
+                timeout: Duration.seconds(90),
+                memorySize: 1024,
+            },
+        );
 
         // API Gatewayの設定
         const api = createApiGateway(this, lambdaFunction);
@@ -95,6 +166,7 @@ function createLambdaExecutionRole(
     scope: Construct,
     bucket: aws_s3.IBucket,
     s3TableBucket: aws_s3tables.CfnTableBucket,
+    fileSystem: aws_efs.IFileSystem,
 ): Role {
     // Lambda 実行に必要な IAM ロールを作成
     const role = new Role(scope, 'LambdaExecutionRole', {
@@ -162,37 +234,12 @@ function createLambdaExecutionRole(
         }),
     );
 
-    return role;
-}
-
-function createLambdaFunction(
-    scope: Construct,
-    role: Role,
-): aws_lambda_nodejs.NodejsFunction {
-    return new aws_lambda_nodejs.NodejsFunction(
-        scope,
-        'RaceScheduleAppLambda',
-        {
-            architecture: lambda.Architecture.ARM_64,
-            runtime: lambda.Runtime.NODEJS_20_X,
-            entry: 'lib/src/index.ts',
-            role: role,
-            environment: {
-                ENV: ENV ?? allowedEnvs.local,
-                JRA_CALENDAR_ID: process.env.JRA_CALENDAR_ID ?? '',
-                NAR_CALENDAR_ID: process.env.NAR_CALENDAR_ID ?? '',
-                KEIRIN_CALENDAR_ID: process.env.KEIRIN_CALENDAR_ID ?? '',
-                WORLD_CALENDAR_ID: process.env.WORLD_CALENDAR_ID ?? '',
-                AUTORACE_CALENDAR_ID: process.env.AUTORACE_CALENDAR_ID ?? '',
-                BOATRACE_CALENDAR_ID: process.env.BOATRACE_CALENDAR_ID ?? '',
-                TEST_CALENDAR_ID: process.env.TEST_CALENDAR_ID ?? '',
-                GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL ?? '',
-                GOOGLE_PRIVATE_KEY: (
-                    process.env.GOOGLE_PRIVATE_KEY ?? ''
-                ).replace(/\\n/g, '\n'),
-            },
-            timeout: Duration.seconds(90),
-            memorySize: 1024,
-        },
+    role.addToPolicy(
+        new PolicyStatement({
+            actions: ['elasticfilesystem:ClientMount'],
+            resources: [fileSystem.fileSystemArn],
+        }),
     );
+
+    return role;
 }
