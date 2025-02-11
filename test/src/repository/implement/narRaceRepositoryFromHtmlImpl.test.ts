@@ -12,7 +12,6 @@ import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fet
 import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
-import { generateNarPlaceId } from '../../../../lib/src/utility/raceId';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('NarRaceRepositoryFromHtmlImpl', () => {
@@ -40,11 +39,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [
-                            NarPlaceEntity.create(
-                                generateNarPlaceId(
-                                    new Date('2024-10-02'),
-                                    '大井',
-                                ),
+                            NarPlaceEntity.createWithoutId(
                                 NarPlaceData.create(
                                     new Date('2024-10-02'),
                                     '大井',
@@ -62,11 +57,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         new Date('2023-10-08'),
                         new Date('2023-10-08'),
                         [
-                            NarPlaceEntity.create(
-                                generateNarPlaceId(
-                                    new Date('2023-10-08'),
-                                    '盛岡',
-                                ),
+                            NarPlaceEntity.createWithoutId(
                                 NarPlaceData.create(
                                     new Date('2023-10-08'),
                                     '盛岡',
@@ -84,11 +75,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [
-                            NarPlaceEntity.create(
-                                generateNarPlaceId(
-                                    new Date('2024-10-02'),
-                                    '大井',
-                                ),
+                            NarPlaceEntity.createWithoutId(
                                 NarPlaceData.create(
                                     new Date('2024-10-02'),
                                     '大井',
