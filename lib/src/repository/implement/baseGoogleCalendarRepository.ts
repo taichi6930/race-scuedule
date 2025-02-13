@@ -3,13 +3,8 @@ import 'reflect-metadata';
 import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import type { IRaceEntity } from '../entity/iRaceEntity';
+import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
-import type { DeleteCalendarListRequest } from '../request/deleteCalendarListRequest';
-import type { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
-import type { UpsertCalendarListRequest } from '../request/upsertCalendarListRequest';
-import { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
-import { FetchCalendarListResponse } from '../response/fetchCalendarListResponse';
-import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
 
 /**
  * 開催データリポジトリの基底クラス
@@ -23,35 +18,31 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
     ): CalendarData;
 
     async getEvents(
-        request: FetchCalendarListRequest,
-    ): Promise<FetchCalendarListResponse> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<CalendarData[]> {
         // GoogleカレンダーAPIからイベントを取得
         try {
             const calendarDataList =
                 await this.googleCalendarGateway.fetchCalendarDataList(
-                    request.startDate,
-                    request.finishDate,
+                    searchFilter.startDate,
+                    searchFilter.finishDate,
                 );
-            return new FetchCalendarListResponse(
-                calendarDataList.map((calendarData) =>
-                    this.fromGoogleCalendarDataToCalendarData(calendarData),
-                ),
+            return calendarDataList.map((calendarData) =>
+                this.fromGoogleCalendarDataToCalendarData(calendarData),
             );
         } catch (error) {
             console.error(
                 'Google Calendar APIからのイベント取得に失敗しました',
                 error,
             );
-            return new FetchCalendarListResponse([]);
+            return [];
         }
     }
 
-    async upsertEvents(
-        request: UpsertCalendarListRequest<R>,
-    ): Promise<UpsertCalendarListResponse> {
+    async upsertEvents(raceEntityList: R[]): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
-            request.raceEntityList.map(async (raceEntity) => {
+            raceEntityList.map(async (raceEntity) => {
                 try {
                     // 既に登録されているかどうか判定
                     let isExist = false;
@@ -87,14 +78,11 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
                 }
             }),
         );
-        return new UpsertCalendarListResponse(200);
     }
 
-    async deleteEvents(
-        request: DeleteCalendarListRequest,
-    ): Promise<DeleteCalendarListResponse> {
+    async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
         await Promise.all(
-            request.calendarDataList.map(async (calendarData) => {
+            calendarDataList.map(async (calendarData) => {
                 try {
                     await this.googleCalendarGateway.deleteCalendarData(
                         calendarData.id,
@@ -107,6 +95,5 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
                 }
             }),
         );
-        return new DeleteCalendarListResponse(200);
     }
 }

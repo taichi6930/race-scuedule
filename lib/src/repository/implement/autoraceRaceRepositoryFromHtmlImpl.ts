@@ -12,11 +12,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * オートレース場開催データリポジトリの実装
@@ -31,15 +28,15 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     ) {}
     /**
      * オートレース場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<AutoracePlaceEntity>,
-    ): Promise<FetchRaceListResponse<AutoraceRaceEntity>> {
+        searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
+    ): Promise<AutoraceRaceEntity[]> {
         const autoraceRaceDataList: AutoraceRaceEntity[] = [];
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 autoraceRaceDataList.push(
@@ -52,7 +49,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                 console.debug('0.8秒経ちました');
             }
         }
-        return new FetchRaceListResponse(autoraceRaceDataList);
+        return autoraceRaceDataList;
     }
 
     @Logger
@@ -210,9 +207,9 @@ export class AutoraceRaceRepositoryFromHtmlImpl
      */
     @Logger
     registerRaceEntityList(
-        request: RegisterRaceListRequest<AutoraceRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+        raceEntityList: AutoraceRaceEntity[],
+    ): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

@@ -14,11 +14,8 @@ import { Logger } from '../../utility/logger';
 import { processJraRaceName } from '../../utility/raceName';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
 export class JraRaceRepositoryFromHtmlImpl
@@ -30,15 +27,15 @@ export class JraRaceRepositoryFromHtmlImpl
     ) {}
     /**
      * 競馬場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<JraPlaceEntity>,
-    ): Promise<FetchRaceListResponse<JraRaceEntity>> {
+        searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
+    ): Promise<JraRaceEntity[]> {
         const jraRaceEntityList: JraRaceEntity[] = [];
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
         const dateList = placeEntityList
             ?.map((place) => place.placeData.dateTime)
@@ -50,7 +47,7 @@ export class JraRaceRepositoryFromHtmlImpl
                 );
             }
         }
-        return new FetchRaceListResponse(jraRaceEntityList);
+        return jraRaceEntityList;
     }
 
     @Logger
@@ -432,10 +429,8 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceEntityList(
-        request: RegisterRaceListRequest<JraRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+    registerRaceEntityList(raceEntityList: JraRaceEntity[]): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

@@ -3,11 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { ICalendarGateway } from '../../../../lib/src/gateway/interface/iCalendarGateway';
-import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
+import { SearchCalendarFilterEntity } from '../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { WorldGoogleCalendarRepositoryImpl } from '../../../../lib/src/repository/implement/worldGoogleCalendarRepositoryImpl';
-import { DeleteCalendarListRequest } from '../../../../lib/src/repository/request/deleteCalendarListRequest';
-import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import {
     baseWorldCalendarData,
     baseWorldCalendarDataFromGoogleCalendar,
@@ -39,14 +36,14 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
             baseWorldCalendarDataFromGoogleCalendar,
         ]);
 
-        const request = new FetchCalendarListRequest(
+        const request = new SearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
         );
-        const response = await repository.getEvents(request);
+        const calendarDataList = await repository.getEvents(request);
 
-        expect(response.calendarDataList).toHaveLength(1);
-        expect(response.calendarDataList[0]).toEqual(baseWorldCalendarData);
+        expect(calendarDataList).toHaveLength(1);
+        expect(calendarDataList[0]).toEqual(baseWorldCalendarData);
         expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
     });
 
@@ -55,24 +52,22 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new FetchCalendarListRequest(
+        const request = new SearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
         );
-        const response = await repository.getEvents(request);
+        const calendarDataList = await repository.getEvents(request);
 
-        expect(response.calendarDataList).toHaveLength(0);
+        expect(calendarDataList).toHaveLength(0);
         expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
     });
 
     it('should delete events successfully', async () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        const request = new DeleteCalendarListRequest([baseWorldCalendarData]);
-        const response = await repository.deleteEvents(request);
+        const calendarDataList = [baseWorldCalendarData];
+        await repository.deleteEvents(calendarDataList);
 
-        // レスポンスが200で帰ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
@@ -81,9 +76,9 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new DeleteCalendarListRequest([baseWorldCalendarData]);
+        const calendarDataList = [baseWorldCalendarData];
 
-        await repository.deleteEvents(request);
+        await repository.deleteEvents(calendarDataList);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
@@ -91,13 +86,8 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
         googleCalendarGateway.fetchCalendarData.mockRejectedValue(
             new Error('API Error'),
         );
-        const request = new UpsertCalendarListRequest<WorldRaceEntity>([
-            baseWorldRaceEntity,
-        ]);
-        const response = await repository.upsertEvents(request);
+        await repository.upsertEvents([baseWorldRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 
@@ -106,13 +96,8 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
             baseWorldCalendarDataFromGoogleCalendar,
         );
 
-        const request = new UpsertCalendarListRequest<WorldRaceEntity>([
-            baseWorldRaceEntity,
-        ]);
-        const response = await repository.upsertEvents(request);
+        await repository.upsertEvents([baseWorldRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
     });
 
@@ -124,11 +109,7 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new UpsertCalendarListRequest<WorldRaceEntity>([
-            baseWorldRaceEntity,
-        ]);
-
-        await repository.upsertEvents(request);
+        await repository.upsertEvents([baseWorldRaceEntity]);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 });

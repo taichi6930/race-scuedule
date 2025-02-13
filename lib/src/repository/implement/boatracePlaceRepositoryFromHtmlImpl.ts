@@ -9,11 +9,8 @@ import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatrace
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * ボートレース場データリポジトリの実装
@@ -33,15 +30,15 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定してボートレース場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<BoatracePlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<BoatracePlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<BoatracePlaceEntity[]> {
         const quarters: Record<string, Date> = await this.generateQuarterList(
-            request.startDate,
-            request.finishDate,
+            searchFilter.startDate,
+            searchFilter.finishDate,
         );
 
         // quartersの月リストを取得
@@ -57,11 +54,11 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         const filteredPlaceEntityList: BoatracePlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     /**
@@ -197,9 +194,9 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     registerPlaceEntityList(
-        request: RegisterPlaceListRequest<BoatracePlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
-        console.debug(request);
+        placeEntityList: BoatracePlaceEntity[],
+    ): Promise<void> {
+        console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

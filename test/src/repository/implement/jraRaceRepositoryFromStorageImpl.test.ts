@@ -10,9 +10,8 @@ import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gatewa
 import type { JraRaceRecord } from '../../../../lib/src/gateway/record/jraRaceRecord';
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraRaceEntity } from '../../../../lib/src/repository/entity/jraRaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromStorageImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
@@ -43,26 +42,23 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // リクエストの作成
-            const request = new FetchRaceListRequest<JraPlaceEntity>(
+            const request = new SearchRaceFilterEntity<JraPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );
             // テスト実行
-            const response = await repository.fetchRaceEntityList(request);
+            const raceEntityList =
+                await repository.fetchRaceEntityList(request);
 
             // レスポンスの検証
-            expect(response.raceEntityList).toHaveLength(1);
+            expect(raceEntityList).toHaveLength(1);
         });
     });
 
     describe('registerRaceList', () => {
         test('DBが空データのところに、正しいレースデータを登録できる', async () => {
-            // リクエストの作成
-            const request = new RegisterRaceListRequest<JraRaceEntity>(
-                raceEntityList,
-            );
             // テスト実行
-            await repository.registerRaceEntityList(request);
+            await repository.registerRaceEntityList(raceEntityList);
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -78,12 +74,8 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
-            // リクエストの作成
-            const request = new RegisterRaceListRequest<JraRaceEntity>(
-                raceEntityList,
-            );
             // テスト実行
-            await repository.registerRaceEntityList(request);
+            await repository.registerRaceEntityList(raceEntityList);
 
             // uploadDataToS3が366回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

@@ -1,24 +1,16 @@
+import type { CalendarData } from '../../domain/calendarData';
 import type { IRaceEntity } from '../entity/iRaceEntity';
-import type { DeleteCalendarListRequest } from '../request/deleteCalendarListRequest';
-import type { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
-import type { UpsertCalendarListRequest } from '../request/upsertCalendarListRequest';
-import type { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
-import type { FetchCalendarListResponse } from '../response/fetchCalendarListResponse';
-import type { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
+import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 
 /**
  * カレンダーリポジトリインターフェース
  */
 export interface ICalendarRepository<R extends IRaceEntity<R>> {
     getEvents: (
-        request: FetchCalendarListRequest,
-    ) => Promise<FetchCalendarListResponse>;
+        searchFilter: SearchPlaceFilterEntity,
+    ) => Promise<CalendarData[]>;
 
-    upsertEvents: (
-        request: UpsertCalendarListRequest<R>,
-    ) => Promise<UpsertCalendarListResponse>;
+    upsertEvents: (raceEntityList: R[]) => Promise<void>;
 
-    deleteEvents: (
-        request: DeleteCalendarListRequest,
-    ) => Promise<DeleteCalendarListResponse>;
+    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
 }

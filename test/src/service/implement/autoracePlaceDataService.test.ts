@@ -4,7 +4,6 @@ import { container } from 'tsyringe';
 
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { AutoracePlaceDataService } from '../../../../lib/src/service/implement/autoracePlaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
@@ -50,9 +49,7 @@ describe('AutoracePlaceDataService', () => {
 
             // モックの戻り値を設定
             autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<AutoracePlaceEntity>(
-                    mockPlaceEntity,
-                ),
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -74,9 +71,7 @@ describe('AutoracePlaceDataService', () => {
 
             // モックの戻り値を設定
             autoracePlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<AutoracePlaceEntity>(
-                    mockPlaceEntity,
-                ),
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -122,9 +117,7 @@ describe('AutoracePlaceDataService', () => {
 
             // モックの戻り値を設定
             autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<AutoracePlaceEntity>(
-                    mockPlaceEntity,
-                ),
+                mockPlaceEntity,
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);

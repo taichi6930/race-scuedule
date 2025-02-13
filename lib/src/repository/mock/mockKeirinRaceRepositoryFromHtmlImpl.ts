@@ -5,11 +5,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
-import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
 export class MockKeirinRaceRepositoryFromHtmlImpl
@@ -17,9 +14,9 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
 {
     @Logger
     fetchRaceEntityList(
-        request: FetchRaceListRequest<KeirinPlaceEntity>,
-    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
-        const placeEntityList = request.placeEntityList;
+        searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
+    ): Promise<KeirinRaceEntity[]> {
+        const placeEntityList = searchFilter.placeEntityList;
         const raceEntityList: KeirinRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {
@@ -49,14 +46,12 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
                 }
             });
         }
-        return Promise.resolve(new FetchRaceListResponse(raceEntityList));
+        return Promise.resolve(raceEntityList);
     }
 
     @Logger
-    registerRaceEntityList(
-        request: RegisterRaceListRequest<KeirinRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+    registerRaceEntityList(raceEntityList: KeirinRaceEntity[]): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

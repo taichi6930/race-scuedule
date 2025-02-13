@@ -1,7 +1,6 @@
 import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
+import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../repository/request/registerPlaceListRequest';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
@@ -28,11 +27,15 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
         type: DataLocationType,
     ): Promise<P[]> {
         try {
-            const request = new FetchPlaceListRequest(startDate, finishDate);
+            const searchFilter = new SearchPlaceFilterEntity(
+                startDate,
+                finishDate,
+            );
             const repository = this.getPlaceRepository(type);
 
-            const response = await repository.fetchPlaceEntityList(request);
-            return response.placeEntityList;
+            const placeEntityList =
+                await repository.fetchPlaceEntityList(searchFilter);
+            return placeEntityList;
         } catch (error) {
             console.error('レースデータの取得に失敗しました', error);
             return [];
@@ -48,11 +51,8 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
         try {
             if (placeEntityList.length === 0) return;
 
-            const registerRequest = new RegisterPlaceListRequest(
-                placeEntityList,
-            );
             await this.placeRepositoryFromStorage.registerPlaceEntityList(
-                registerRequest,
+                placeEntityList,
             );
         } catch (error) {
             console.error('開催場データの更新に失敗しました', error);

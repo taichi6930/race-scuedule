@@ -8,11 +8,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { generateJraPlaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
 export class JraPlaceRepositoryFromHtmlImpl
@@ -29,16 +26,16 @@ export class JraPlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<JraPlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<JraPlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<JraPlaceEntity[]> {
         // startDateからfinishDateまでの年のリストを生成する
         const yearList: Date[] = await this.generateYearList(
-            request.startDate,
-            request.finishDate,
+            searchFilter.startDate,
+            searchFilter.finishDate,
         );
 
         // 年ごとの競馬場開催データを取得
@@ -57,11 +54,11 @@ export class JraPlaceRepositoryFromHtmlImpl
         const filteredPlaceEntityList: JraPlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     /**
@@ -205,10 +202,8 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceEntityList(
-        request: RegisterPlaceListRequest<JraPlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
-        console.debug(request);
+    registerPlaceEntityList(placeEntityList: JraPlaceEntity[]): Promise<void> {
+        console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

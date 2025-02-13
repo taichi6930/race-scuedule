@@ -11,11 +11,8 @@ import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCour
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * オートレースデータリポジトリの実装
@@ -35,15 +32,15 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定してオートレース開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<AutoracePlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<AutoracePlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<AutoracePlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<AutoracePlaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
-            request.startDate,
-            request.finishDate,
+            searchFilter.startDate,
+            searchFilter.finishDate,
         );
         const placeEntityList: AutoracePlaceEntity[] = (
             await Promise.all(
@@ -57,10 +54,10 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         const filteredPlaceEntityList: AutoracePlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     /**
@@ -191,9 +188,9 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     registerPlaceEntityList(
-        request: RegisterPlaceListRequest<AutoracePlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
-        console.debug(request);
+        placeEntityList: AutoracePlaceEntity[],
+    ): Promise<void> {
+        console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

@@ -6,10 +6,8 @@ import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { INarRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarRaceDataHtmlGateway';
 import { MockNarRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarRaceDataHtmlGateway';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -34,8 +32,8 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
-                const response = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<NarPlaceEntity>(
+                const raceEntityList = await repository.fetchRaceEntityList(
+                    new SearchRaceFilterEntity<NarPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [
@@ -49,11 +47,11 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         ],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(12);
+                expect(raceEntityList).toHaveLength(12);
             });
             test('正しい競馬場データを取得できる（データが足りてないこともある）', async () => {
-                const response = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<NarPlaceEntity>(
+                const raceEntityList = await repository.fetchRaceEntityList(
+                    new SearchRaceFilterEntity<NarPlaceEntity>(
                         new Date('2023-10-08'),
                         new Date('2023-10-08'),
                         [
@@ -67,11 +65,11 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         ],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(12);
+                expect(raceEntityList).toHaveLength(12);
             });
             test('正しい競馬場データを取得できる', async () => {
-                const response = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<NarPlaceEntity>(
+                const raceEntityList = await repository.fetchRaceEntityList(
+                    new SearchRaceFilterEntity<NarPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [
@@ -85,11 +83,11 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         ],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(12);
+                expect(raceEntityList).toHaveLength(12);
             });
             test('データがない場合は空のリストを返す', async () => {
-                const response = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<NarPlaceEntity>(
+                const raceEntityList = await repository.fetchRaceEntityList(
+                    new SearchRaceFilterEntity<NarPlaceEntity>(
                         new Date('2024-09-01'),
                         new Date('2024-09-02'),
                         [
@@ -105,17 +103,15 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                 );
 
                 // データがない場合は空のリストを返す
-                expect(response.raceEntityList).toHaveLength(0);
+                expect(raceEntityList).toHaveLength(0);
             });
         });
 
         describe('registerRaceList', () => {
             test('htmlなので登録できない', async () => {
-                // リクエストの作成
-                const request = new RegisterRaceListRequest<NarRaceEntity>([]);
                 // テスト実行
                 await expect(
-                    repository.registerRaceEntityList(request),
+                    repository.registerRaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
         });

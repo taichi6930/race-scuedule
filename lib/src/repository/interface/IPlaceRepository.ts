@@ -1,8 +1,5 @@
 import type { IPlaceEntity } from '../entity/iPlaceEntity';
-import type { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import type { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import type { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import type { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
+import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 
 /**
  * 開催データリポジトリ
@@ -15,14 +12,12 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
      * @returns 開催データ
      */
     fetchPlaceEntityList: (
-        request: FetchPlaceListRequest,
-    ) => Promise<FetchPlaceListResponse<P>>;
+        searchFilter: SearchPlaceFilterEntity,
+    ) => Promise<P[]>;
 
     /**
      * 開催データを登録する
      * @param request
      */
-    registerPlaceEntityList: (
-        request: RegisterPlaceListRequest<P>,
-    ) => Promise<RegisterPlaceListResponse>;
+    registerPlaceEntityList: (placeEntityList: P[]) => Promise<void>;
 }

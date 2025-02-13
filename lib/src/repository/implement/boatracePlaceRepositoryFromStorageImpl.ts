@@ -8,11 +8,8 @@ import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * ボートレースデータリポジトリの実装
@@ -34,12 +31,12 @@ export class BoatracePlaceRepositoryFromStorageImpl
      * このメソッドで日付の範囲を指定してボートレース開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<BoatracePlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<BoatracePlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<BoatracePlaceEntity[]> {
         // ファイル名リストからボートレース開催データを取得する
         const placeRecordList: BoatracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -53,26 +50,25 @@ export class BoatracePlaceRepositoryFromStorageImpl
         const filteredPlaceEntityList: BoatracePlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     @Logger
     async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<BoatracePlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
+        placeEntityList: BoatracePlaceEntity[],
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: BoatracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: BoatracePlaceRecord[] =
-            request.placeEntityList.map((placeEntity) =>
-                placeEntity.toRecord(),
-            );
+        const placeRecordList: BoatracePlaceRecord[] = placeEntityList.map(
+            (placeEntity) => placeEntity.toRecord(),
+        );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
         placeRecordList.forEach((placeRecord) => {
@@ -97,8 +93,6 @@ export class BoatracePlaceRepositoryFromStorageImpl
             existFetchPlaceRecordList,
             this.fileName,
         );
-
-        return new RegisterPlaceListResponse(200);
     }
 
     /**

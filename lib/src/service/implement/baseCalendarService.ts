@@ -3,11 +3,8 @@ import '../../utility/format';
 
 import { CalendarData } from '../../domain/calendarData';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
+import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
-import { DeleteCalendarListRequest } from '../../repository/request/deleteCalendarListRequest';
-import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../repository/request/upsertCalendarListRequest';
-import { FetchCalendarListResponse } from '../../repository/response/fetchCalendarListResponse';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
@@ -29,10 +26,8 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {
-        const request = new FetchCalendarListRequest(startDate, finishDate);
-        const response: FetchCalendarListResponse =
-            await this.calendarRepository.getEvents(request);
-        return response.calendarDataList;
+        const request = new SearchCalendarFilterEntity(startDate, finishDate);
+        return await this.calendarRepository.getEvents(request);
     }
 
     /**
@@ -45,8 +40,7 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
             console.debug('更新対象のイベントが見つかりませんでした。');
             return;
         }
-        const request = new UpsertCalendarListRequest(raceEntityList);
-        await this.calendarRepository.upsertEvents(request);
+        await this.calendarRepository.upsertEvents(raceEntityList);
     }
 
     /**
@@ -59,7 +53,6 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
             console.debug('指定された期間にイベントが見つかりませんでした。');
             return;
         }
-        const request = new DeleteCalendarListRequest(calendarDataList);
-        await this.calendarRepository.deleteEvents(request);
+        await this.calendarRepository.deleteEvents(calendarDataList);
     }
 }

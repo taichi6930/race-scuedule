@@ -2,11 +2,8 @@ import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // BoatraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockBoatracePlaceRepositoryFromHtmlImpl
@@ -18,13 +15,13 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<BoatracePlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのボートレース場データを取得する
         const fetchPlaceEntityList = [];
-        const currentDate = new Date(request.startDate);
+        const currentDate = new Date(searchFilter.startDate);
 
-        while (currentDate <= request.finishDate) {
+        while (currentDate <= searchFilter.finishDate) {
             // ボートレース場データを作成
             const boatracePlaceEntity = BoatracePlaceEntity.createWithoutId(
                 BoatracePlaceData.create(new Date(currentDate), '平和島', 'SG'),
@@ -35,9 +32,7 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(
-            new FetchPlaceListResponse(fetchPlaceEntityList),
-        );
+        return Promise.resolve(fetchPlaceEntityList);
     }
 
     /**
@@ -47,9 +42,9 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     registerPlaceEntityList(
-        request: RegisterPlaceListRequest<BoatracePlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
-        console.debug(request);
+        placeEntityList: BoatracePlaceEntity[],
+    ): Promise<void> {
+        console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

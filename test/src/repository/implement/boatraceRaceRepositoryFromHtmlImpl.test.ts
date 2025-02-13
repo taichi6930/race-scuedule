@@ -6,10 +6,8 @@ import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData'
 import type { IBoatraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iBoatraceRaceDataHtmlGateway';
 import { MockBoatraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockBoatraceRaceDataHtmlGateway';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
-import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { BoatraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -34,8 +32,8 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('fetchPlaceList', () => {
             test('正しいボートレースデータを取得できる', async () => {
-                const response = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<BoatracePlaceEntity>(
+                const raceEntityList = await repository.fetchRaceEntityList(
+                    new SearchRaceFilterEntity<BoatracePlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                         [
@@ -50,19 +48,15 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         ],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(1);
+                expect(raceEntityList).toHaveLength(1);
             });
         });
 
         describe('registerRaceList', () => {
             test('htmlなので登録できない', async () => {
-                // リクエストの作成
-                const request = new RegisterRaceListRequest<BoatraceRaceEntity>(
-                    [],
-                );
                 // テスト実行
                 await expect(
-                    repository.registerRaceEntityList(request),
+                    repository.registerRaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
         });

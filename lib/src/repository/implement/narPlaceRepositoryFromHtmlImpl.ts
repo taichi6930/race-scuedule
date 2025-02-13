@@ -9,11 +9,8 @@ import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataH
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * 競馬場データリポジトリの実装
@@ -33,15 +30,15 @@ export class NarPlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<NarPlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<NarPlaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
-            request.startDate,
-            request.finishDate,
+            searchFilter.startDate,
+            searchFilter.finishDate,
         );
         const placeEntityList: NarPlaceEntity[] = (
             await Promise.all(
@@ -55,11 +52,11 @@ export class NarPlaceRepositoryFromHtmlImpl
         const filteredPlaceEntityList: NarPlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     /**
@@ -174,10 +171,8 @@ export class NarPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceEntityList(
-        request: RegisterPlaceListRequest<NarPlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
-        console.debug(request);
+    registerPlaceEntityList(placeEntityList: NarPlaceEntity[]): Promise<void> {
+        console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

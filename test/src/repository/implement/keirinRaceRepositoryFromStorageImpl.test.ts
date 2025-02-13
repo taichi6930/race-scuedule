@@ -11,9 +11,8 @@ import type { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/
 import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -62,15 +61,16 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             );
 
             // リクエストの作成
-            const request = new FetchRaceListRequest<KeirinPlaceEntity>(
+            const request = new SearchRaceFilterEntity<KeirinPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );
             // テスト実行
-            const response = await repository.fetchRaceEntityList(request);
+            const raceEntityList =
+                await repository.fetchRaceEntityList(request);
 
             // レスポンスの検証
-            expect(response.raceEntityList).toHaveLength(1);
+            expect(raceEntityList).toHaveLength(1);
         });
     });
 
@@ -99,12 +99,8 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                 },
             ).flat();
 
-            // リクエストの作成
-            const request = new RegisterRaceListRequest<KeirinRaceEntity>(
-                raceEntityList,
-            );
             // テスト実行
-            await repository.registerRaceEntityList(request);
+            await repository.registerRaceEntityList(raceEntityList);
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -155,12 +151,8 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             ),
         );
 
-        // リクエストの作成
-        const request = new RegisterRaceListRequest<KeirinRaceEntity>(
-            raceEntityList,
-        );
         // テスト実行
-        await repository.registerRaceEntityList(request);
+        await repository.registerRaceEntityList(raceEntityList);
 
         // uploadDataToS3が1回呼ばれることを検証
         expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

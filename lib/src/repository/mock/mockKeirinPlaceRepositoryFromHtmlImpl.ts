@@ -2,11 +2,8 @@ import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
 export class MockKeirinPlaceRepositoryFromHtmlImpl
@@ -18,13 +15,13 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<KeirinPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの競輪場データを取得する
         const fetchPlaceEntityList = [];
-        const currentDate = new Date(request.startDate);
+        const currentDate = new Date(searchFilter.startDate);
 
-        while (currentDate <= request.finishDate) {
+        while (currentDate <= searchFilter.finishDate) {
             // 競輪場データを作成
             const keirinPlaceEntity = KeirinPlaceEntity.createWithoutId(
                 KeirinPlaceData.create(new Date(currentDate), '川崎', 'GⅠ'),
@@ -35,9 +32,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(
-            new FetchPlaceListResponse(fetchPlaceEntityList),
-        );
+        return Promise.resolve(fetchPlaceEntityList);
     }
 
     /**
@@ -47,9 +42,9 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      */
     @Logger
     registerPlaceEntityList(
-        request: RegisterPlaceListRequest<KeirinPlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
-        console.debug(request);
+        placeEntityList: KeirinPlaceEntity[],
+    ): Promise<void> {
+        console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

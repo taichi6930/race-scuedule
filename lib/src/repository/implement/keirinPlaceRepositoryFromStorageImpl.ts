@@ -8,11 +8,8 @@ import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * 競輪データリポジトリの実装
@@ -34,12 +31,12 @@ export class KeirinPlaceRepositoryFromStorageImpl
      * このメソッドで日付の範囲を指定して競輪開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<KeirinPlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<KeirinPlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<KeirinPlaceEntity[]> {
         // ファイル名リストから競輪開催データを取得する
         const placeRecordList: KeirinPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -53,26 +50,25 @@ export class KeirinPlaceRepositoryFromStorageImpl
         const filteredPlaceEntityList: KeirinPlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     @Logger
     async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<KeirinPlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
+        placeEntityList: KeirinPlaceEntity[],
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: KeirinPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: KeirinPlaceRecord[] =
-            request.placeEntityList.map((placeEntity) =>
-                placeEntity.toRecord(),
-            );
+        const placeRecordList: KeirinPlaceRecord[] = placeEntityList.map(
+            (placeEntity) => placeEntity.toRecord(),
+        );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
         placeRecordList.forEach((placeRecord) => {
@@ -97,8 +93,6 @@ export class KeirinPlaceRepositoryFromStorageImpl
             existFetchPlaceRecordList,
             this.fileName,
         );
-
-        return new RegisterPlaceListResponse(200);
     }
 
     /**

@@ -4,11 +4,8 @@ import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
+import { SearchCalendarFilterEntity } from '../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
-import { DeleteCalendarListRequest } from '../../../../lib/src/repository/request/deleteCalendarListRequest';
-import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
-import { FetchCalendarListResponse } from '../../../../lib/src/repository/response/fetchCalendarListResponse';
 import { NarCalendarService } from '../../../../lib/src/service/implement/narCalendarService';
 import {
     baseNarCalendarData,
@@ -31,14 +28,14 @@ describe('NarCalendarService', () => {
         const startDate = new Date('2023-01-01');
         const finishDate = new Date('2023-01-31');
         const calendarDataList: CalendarData[] = [baseNarCalendarData];
-        const response = new FetchCalendarListResponse(calendarDataList);
 
-        (calendarRepository.getEvents as jest.Mock).mockResolvedValue(response);
-
+        (calendarRepository.getEvents as jest.Mock).mockResolvedValue(
+            calendarDataList,
+        );
         const result = await service.getEvents(startDate, finishDate);
 
         expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-            new FetchCalendarListRequest(startDate, finishDate),
+            new SearchCalendarFilterEntity(startDate, finishDate),
         );
         expect(result).toEqual(calendarDataList);
     });
@@ -49,7 +46,7 @@ describe('NarCalendarService', () => {
         await service.upsertEvents(raceEntityList);
 
         expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-            new UpsertCalendarListRequest(raceEntityList),
+            raceEntityList,
         );
     });
 
@@ -72,7 +69,7 @@ describe('NarCalendarService', () => {
         await service.deleteEvents(calendarDataList);
 
         expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-            new DeleteCalendarListRequest(calendarDataList),
+            calendarDataList,
         );
     });
 

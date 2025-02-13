@@ -16,11 +16,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * ボートレース場開催データリポジトリの実装
@@ -35,15 +32,15 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     ) {}
     /**
      * ボートレース場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<BoatracePlaceEntity>,
-    ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
+        searchFilter: SearchRaceFilterEntity<BoatracePlaceEntity>,
+    ): Promise<BoatraceRaceEntity[]> {
         const boatraceRaceDataList: BoatraceRaceEntity[] = [];
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 boatraceRaceDataList.push(
@@ -56,7 +53,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
                 console.debug('0.8秒経ちました');
             }
         }
-        return new FetchRaceListResponse(boatraceRaceDataList);
+        return boatraceRaceDataList;
     }
 
     @Logger
@@ -185,9 +182,9 @@ export class BoatraceRaceRepositoryFromHtmlImpl
      */
     @Logger
     registerRaceEntityList(
-        request: RegisterRaceListRequest<BoatraceRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+        raceEntityList: BoatraceRaceEntity[],
+    ): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

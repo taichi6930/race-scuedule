@@ -7,11 +7,8 @@ import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
 export class JraPlaceRepositoryFromStorageImpl
@@ -30,12 +27,12 @@ export class JraPlaceRepositoryFromStorageImpl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<JraPlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<JraPlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<JraPlaceEntity[]> {
         // 年ごとの競馬場開催データを取得
         const placeRecordList: JraPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -48,23 +45,23 @@ export class JraPlaceRepositoryFromStorageImpl
         // filterで日付の範囲を指定
         const filteredPlaceEntityList = placeEntityList.filter(
             (placeEntity) =>
-                placeEntity.placeData.dateTime >= request.startDate &&
-                placeEntity.placeData.dateTime <= request.finishDate,
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
         );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     @Logger
     async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<JraPlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
+        placeEntityList: JraPlaceEntity[],
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: JraPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: JraPlaceRecord[] = request.placeEntityList.map(
+        const placeRecordList: JraPlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
 
@@ -91,8 +88,6 @@ export class JraPlaceRepositoryFromStorageImpl
             existFetchPlaceRecordList,
             this.fileName,
         );
-
-        return new RegisterPlaceListResponse(200);
     }
 
     /**

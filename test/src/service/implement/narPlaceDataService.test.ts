@@ -4,7 +4,6 @@ import { container } from 'tsyringe';
 
 import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { NarPlaceDataService } from '../../../../lib/src/service/implement/narPlaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseNarPlaceEntity } from '../../mock/common/baseNarData';
@@ -48,7 +47,7 @@ describe('NarPlaceDataService', () => {
 
             // モックの戻り値を設定
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceEntity),
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -68,7 +67,7 @@ describe('NarPlaceDataService', () => {
 
             // モックの戻り値を設定
             narPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceEntity),
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -112,7 +111,7 @@ describe('NarPlaceDataService', () => {
 
             // モックの戻り値を設定
             narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<NarPlaceEntity>(mockPlaceEntity),
+                mockPlaceEntity,
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);

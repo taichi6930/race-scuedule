@@ -4,11 +4,8 @@ import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import { SearchCalendarFilterEntity } from '../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
-import { DeleteCalendarListRequest } from '../../../../lib/src/repository/request/deleteCalendarListRequest';
-import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
-import { FetchCalendarListResponse } from '../../../../lib/src/repository/response/fetchCalendarListResponse';
 import { KeirinCalendarService } from '../../../../lib/src/service/implement/keirinCalendarService';
 import {
     baseKeirinCalendarData,
@@ -34,14 +31,14 @@ describe('KeirinCalendarService', () => {
         const startDate = new Date('2023-01-01');
         const finishDate = new Date('2023-01-31');
         const calendarDataList: CalendarData[] = [baseKeirinCalendarData];
-        const response = new FetchCalendarListResponse(calendarDataList);
 
-        (calendarRepository.getEvents as jest.Mock).mockResolvedValue(response);
-
+        (calendarRepository.getEvents as jest.Mock).mockResolvedValue(
+            calendarDataList,
+        );
         const result = await service.getEvents(startDate, finishDate);
 
         expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-            new FetchCalendarListRequest(startDate, finishDate),
+            new SearchCalendarFilterEntity(startDate, finishDate),
         );
         expect(result).toEqual(calendarDataList);
     });
@@ -52,7 +49,7 @@ describe('KeirinCalendarService', () => {
         await service.upsertEvents(raceEntityList);
 
         expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-            new UpsertCalendarListRequest(raceEntityList),
+            raceEntityList,
         );
     });
 
@@ -75,7 +72,7 @@ describe('KeirinCalendarService', () => {
         await service.deleteEvents(calendarDataList);
 
         expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-            new DeleteCalendarListRequest(calendarDataList),
+            calendarDataList,
         );
     });
 

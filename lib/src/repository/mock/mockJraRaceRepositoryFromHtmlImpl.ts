@@ -3,11 +3,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
+import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
-import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
 export class MockJraRaceRepositoryFromHtmlImpl
@@ -15,9 +12,9 @@ export class MockJraRaceRepositoryFromHtmlImpl
 {
     @Logger
     fetchRaceEntityList(
-        request: FetchRaceListRequest<JraPlaceEntity>,
-    ): Promise<FetchRaceListResponse<JraRaceEntity>> {
-        const placeEntityList = request.placeEntityList;
+        searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
+    ): Promise<JraRaceEntity[]> {
+        const placeEntityList = searchFilter.placeEntityList;
         const raceEntityList: JraRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {
@@ -47,14 +44,12 @@ export class MockJraRaceRepositoryFromHtmlImpl
                 }
             });
         }
-        return Promise.resolve(new FetchRaceListResponse(raceEntityList));
+        return Promise.resolve(raceEntityList);
     }
 
     @Logger
-    registerRaceEntityList(
-        request: RegisterRaceListRequest<JraRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+    registerRaceEntityList(raceEntityList: JraRaceEntity[]): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

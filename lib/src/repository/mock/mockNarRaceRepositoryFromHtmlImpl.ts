@@ -3,11 +3,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
+import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
-import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
 export class MockNarRaceRepositoryFromHtmlImpl
@@ -15,9 +12,9 @@ export class MockNarRaceRepositoryFromHtmlImpl
 {
     @Logger
     fetchRaceEntityList(
-        request: FetchRaceListRequest<NarPlaceEntity>,
-    ): Promise<FetchRaceListResponse<NarRaceEntity>> {
-        const placeEntityList = request.placeEntityList;
+        searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
+    ): Promise<NarRaceEntity[]> {
+        const placeEntityList = searchFilter.placeEntityList;
         const raceEntityList: NarRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {
@@ -45,14 +42,12 @@ export class MockNarRaceRepositoryFromHtmlImpl
                 }
             });
         }
-        return Promise.resolve(new FetchRaceListResponse(raceEntityList));
+        return Promise.resolve(raceEntityList);
     }
 
     @Logger
-    registerRaceEntityList(
-        request: RegisterRaceListRequest<NarRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+    registerRaceEntityList(raceEntityList: NarRaceEntity[]): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

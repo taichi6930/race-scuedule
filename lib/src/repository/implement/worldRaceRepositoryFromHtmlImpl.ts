@@ -16,13 +16,10 @@ import { validateWorldRaceDistance } from '../../utility/data/world/worldRaceDis
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processWorldRaceName } from '../../utility/raceName';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * 競馬場開催データリポジトリの実装
@@ -37,16 +34,16 @@ export class WorldRaceRepositoryFromHtmlImpl
     ) {}
     /**
      * 競馬場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<WorldPlaceEntity>,
-    ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
+        searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
+    ): Promise<WorldRaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
-            request.startDate,
-            request.finishDate,
+            searchFilter.startDate,
+            searchFilter.finishDate,
         );
         const worldRaceDataList: WorldRaceEntity[] = [];
         for (const month of monthList) {
@@ -57,7 +54,7 @@ export class WorldRaceRepositoryFromHtmlImpl
             await new Promise((resolve) => setTimeout(resolve, 800));
             console.debug('0.8秒経ちました');
         }
-        return new FetchRaceListResponse(worldRaceDataList);
+        return worldRaceDataList;
     }
 
     /**
@@ -258,10 +255,8 @@ export class WorldRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceEntityList(
-        request: RegisterRaceListRequest<WorldRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+    registerRaceEntityList(raceEntityList: WorldRaceEntity[]): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

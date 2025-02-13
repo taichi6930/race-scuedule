@@ -8,9 +8,8 @@ import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
+import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
-import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
@@ -40,27 +39,23 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
-            // リクエストの作成
-            const request = new FetchPlaceListRequest(
-                new Date('2024-01-01'),
-                new Date('2024-02-01'),
-            );
             // テスト実行
-            const response = await repository.fetchPlaceEntityList(request);
+            const placeEntityList = await repository.fetchPlaceEntityList(
+                new SearchPlaceFilterEntity(
+                    new Date('2024-01-01'),
+                    new Date('2024-02-01'),
+                ),
+            );
 
             // レスポンスの検証
-            expect(response.placeEntityList).toHaveLength(1);
+            expect(placeEntityList).toHaveLength(1);
         });
     });
 
     describe('registerPlaceList', () => {
         test('正しい競輪場データを登録できる', async () => {
-            // リクエストの作成
-            const request = new RegisterPlaceListRequest<KeirinPlaceEntity>(
-                placeEntityList,
-            );
             // テスト実行
-            await repository.registerPlaceEntityList(request);
+            await repository.registerPlaceEntityList(placeEntityList);
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

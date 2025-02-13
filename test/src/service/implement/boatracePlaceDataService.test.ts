@@ -4,7 +4,6 @@ import { container } from 'tsyringe';
 
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { BoatracePlaceDataService } from '../../../../lib/src/service/implement/boatracePlaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
@@ -50,9 +49,7 @@ describe('BoatracePlaceDataService', () => {
 
             // モックの戻り値を設定
             boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<BoatracePlaceEntity>(
-                    mockPlaceEntity,
-                ),
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -74,9 +71,7 @@ describe('BoatracePlaceDataService', () => {
 
             // モックの戻り値を設定
             boatracePlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<BoatracePlaceEntity>(
-                    mockPlaceEntity,
-                ),
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -122,9 +117,7 @@ describe('BoatracePlaceDataService', () => {
 
             // モックの戻り値を設定
             boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<BoatracePlaceEntity>(
-                    mockPlaceEntity,
-                ),
+                mockPlaceEntity,
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);

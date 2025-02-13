@@ -14,11 +14,8 @@ import {
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * 競輪場データリポジトリの実装
@@ -38,15 +35,15 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定して競輪場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<KeirinPlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<KeirinPlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<KeirinPlaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
-            request.startDate,
-            request.finishDate,
+            searchFilter.startDate,
+            searchFilter.finishDate,
         );
         const placeEntityList: KeirinPlaceEntity[] = (
             await Promise.all(
@@ -60,11 +57,11 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         const filteredPlaceEntityList: KeirinPlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     /**
@@ -192,9 +189,9 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      */
     @Logger
     registerPlaceEntityList(
-        request: RegisterPlaceListRequest<KeirinPlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
-        console.debug(request);
+        placeEntityList: KeirinPlaceEntity[],
+    ): Promise<void> {
+        console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

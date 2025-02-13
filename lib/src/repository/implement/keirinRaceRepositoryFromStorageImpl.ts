@@ -11,11 +11,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * 競輪場開催データリポジトリの実装
@@ -35,13 +32,13 @@ export class KeirinRaceRepositoryFromStorageImpl
     ) {}
     /**
      * 競輪場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<KeirinPlaceEntity>,
-    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
+        searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
+    ): Promise<KeirinRaceEntity[]> {
         // ファイル名リストから競輪選手データを取得する
         const racePlayerRecordList: KeirinRacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
@@ -87,11 +84,11 @@ export class KeirinRaceRepositoryFromStorageImpl
         const filteredRaceEntityList: KeirinRaceEntity[] =
             raceEntityList.filter(
                 (raceEntity) =>
-                    raceEntity.raceData.dateTime >= request.startDate &&
-                    raceEntity.raceData.dateTime <= request.finishDate,
+                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
             );
 
-        return new FetchRaceListResponse(filteredRaceEntityList);
+        return filteredRaceEntityList;
     }
 
     /**
@@ -100,8 +97,8 @@ export class KeirinRaceRepositoryFromStorageImpl
      */
     @Logger
     async registerRaceEntityList(
-        request: RegisterRaceListRequest<KeirinRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
+        raceEntityList: KeirinRaceEntity[],
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: KeirinRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -110,12 +107,12 @@ export class KeirinRaceRepositoryFromStorageImpl
             await this.getRacePlayerRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: KeirinRaceRecord[] = request.raceEntityList.map(
+        const raceRecordList: KeirinRaceRecord[] = raceEntityList.map(
             (raceEntity) => raceEntity.toRaceRecord(),
         );
 
         // RaceEntityをRacePlayerRecordに変換する
-        const racePlayerRecordList = request.raceEntityList
+        const racePlayerRecordList = raceEntityList
             .map((raceEntity) => raceEntity.toPlayerRecordList())
             .flat();
 
@@ -159,7 +156,6 @@ export class KeirinRaceRepositoryFromStorageImpl
             existFetchRacePlayerRecordList,
             this.racePlayerListFileName,
         );
-        return new RegisterRaceListResponse(200);
     }
 
     /**

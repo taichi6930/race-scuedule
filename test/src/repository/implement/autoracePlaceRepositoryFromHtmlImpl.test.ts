@@ -4,10 +4,8 @@ import { container } from 'tsyringe';
 
 import type { IAutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iAutoracePlaceDataHtmlGateway';
 import { MockAutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockAutoracePlaceDataHtmlGateway';
-import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
-import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
@@ -32,24 +30,21 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('fetchPlaceList', () => {
             test('正しいオートレース場データを取得できる', async () => {
-                const response = await repository.fetchPlaceEntityList(
-                    new FetchPlaceListRequest(
+                const placeEntityList = await repository.fetchPlaceEntityList(
+                    new SearchPlaceFilterEntity(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                     ),
                 );
-                expect(response.placeEntityList).toHaveLength(60);
+                expect(placeEntityList).toHaveLength(60);
             });
         });
 
         describe('registerPlaceList', () => {
             test('htmlなので登録できない', async () => {
-                // リクエストの作成
-                const request =
-                    new RegisterPlaceListRequest<AutoracePlaceEntity>([]);
                 // テスト実行
                 await expect(
-                    repository.registerPlaceEntityList(request),
+                    repository.registerPlaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
         });

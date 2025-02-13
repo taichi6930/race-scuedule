@@ -8,11 +8,8 @@ import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * オートレースデータリポジトリの実装
@@ -33,13 +30,13 @@ export class AutoracePlaceRepositoryFromStorageImpl
      *
      * このメソッドで日付の範囲を指定してオートレース開催データを取得する
      *
-     * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<AutoracePlaceEntity>> - 開催データ取得レスポンス
+     * @param searchFilter - 開催データ取得リクエスト
+     * @returns Promise<AutoracePlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<AutoracePlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<AutoracePlaceEntity[]> {
         // ファイル名リストからオートレース開催データを取得する
         const placeRecordList: AutoracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -53,26 +50,25 @@ export class AutoracePlaceRepositoryFromStorageImpl
         const filteredPlaceEntityList: AutoracePlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     @Logger
     async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<AutoracePlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
+        placeEntityList: AutoracePlaceEntity[],
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: AutoracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: AutoracePlaceRecord[] =
-            request.placeEntityList.map((placeEntity) =>
-                placeEntity.toRecord(),
-            );
+        const placeRecordList: AutoracePlaceRecord[] = placeEntityList.map(
+            (placeEntity) => placeEntity.toRecord(),
+        );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
         placeRecordList.forEach((placeRecord) => {
@@ -97,8 +93,6 @@ export class AutoracePlaceRepositoryFromStorageImpl
             existFetchPlaceRecordList,
             this.fileName,
         );
-
-        return new RegisterPlaceListResponse(200);
     }
 
     /**

@@ -16,11 +16,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * 競輪場開催データリポジトリの実装
@@ -35,15 +32,15 @@ export class KeirinRaceRepositoryFromHtmlImpl
     ) {}
     /**
      * 競輪場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<KeirinPlaceEntity>,
-    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
+        searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
+    ): Promise<KeirinRaceEntity[]> {
         const keirinRaceDataList: KeirinRaceEntity[] = [];
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 keirinRaceDataList.push(
@@ -56,7 +53,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 console.debug('0.8秒経ちました');
             }
         }
-        return new FetchRaceListResponse(keirinRaceDataList);
+        return keirinRaceDataList;
     }
 
     @Logger
@@ -299,10 +296,8 @@ export class KeirinRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceEntityList(
-        request: RegisterRaceListRequest<KeirinRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+    registerRaceEntityList(raceEntityList: KeirinRaceEntity[]): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

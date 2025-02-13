@@ -5,11 +5,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
+import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
-import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // BoatraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockBoatraceRaceRepositoryFromHtmlImpl
@@ -17,9 +14,9 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
 {
     @Logger
     fetchRaceEntityList(
-        request: FetchRaceListRequest<BoatracePlaceEntity>,
-    ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
-        const placeEntityList = request.placeEntityList;
+        searchFilter: SearchRaceFilterEntity<BoatracePlaceEntity>,
+    ): Promise<BoatraceRaceEntity[]> {
+        const placeEntityList = searchFilter.placeEntityList;
         const raceEntityList: BoatraceRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {
@@ -49,14 +46,14 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                 }
             });
         }
-        return Promise.resolve(new FetchRaceListResponse(raceEntityList));
+        return Promise.resolve(raceEntityList);
     }
 
     @Logger
     registerRaceEntityList(
-        request: RegisterRaceListRequest<BoatraceRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+        raceEntityList: BoatraceRaceEntity[],
+    ): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

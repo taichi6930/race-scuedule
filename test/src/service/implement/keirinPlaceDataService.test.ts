@@ -4,7 +4,6 @@ import { container } from 'tsyringe';
 
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { KeirinPlaceDataService } from '../../../../lib/src/service/implement/keirinPlaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
@@ -50,7 +49,7 @@ describe('KeirinPlaceDataService', () => {
 
             // モックの戻り値を設定
             keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -72,7 +71,7 @@ describe('KeirinPlaceDataService', () => {
 
             // モックの戻り値を設定
             keirinPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -118,7 +117,7 @@ describe('KeirinPlaceDataService', () => {
 
             // モックの戻り値を設定
             keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<KeirinPlaceEntity>(mockPlaceEntity),
+                mockPlaceEntity,
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);

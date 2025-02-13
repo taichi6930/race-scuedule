@@ -6,10 +6,8 @@ import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData'
 import type { IAutoraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iAutoraceRaceDataHtmlGateway';
 import { MockAutoraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockAutoraceRaceDataHtmlGateway';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
-import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -34,8 +32,8 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('fetchPlaceList', () => {
             test('正しいオートレース場データを取得できる', async () => {
-                const response = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<AutoracePlaceEntity>(
+                const raceEntityList = await repository.fetchRaceEntityList(
+                    new SearchRaceFilterEntity<AutoracePlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                         [
@@ -50,19 +48,15 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         ],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(12);
+                expect(raceEntityList).toHaveLength(12);
             });
         });
 
         describe('registerRaceList', () => {
             test('htmlなので登録できない', async () => {
-                // リクエストの作成
-                const request = new RegisterRaceListRequest<AutoraceRaceEntity>(
-                    [],
-                );
                 // テスト実行
                 await expect(
-                    repository.registerRaceEntityList(request),
+                    repository.registerRaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
         });

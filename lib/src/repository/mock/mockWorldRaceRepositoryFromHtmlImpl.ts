@@ -1,13 +1,10 @@
 import { WorldRaceData } from '../../domain/worldRaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
-import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // WorldRaceRepositoryFromHtmlImplのモックを作成
 export class MockWorldRaceRepositoryFromHtmlImpl
@@ -15,11 +12,11 @@ export class MockWorldRaceRepositoryFromHtmlImpl
 {
     @Logger
     fetchRaceEntityList(
-        request: FetchRaceListRequest<WorldPlaceEntity>,
-    ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
+        searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
+    ): Promise<WorldRaceEntity[]> {
         const raceEntityList: WorldRaceEntity[] = [];
-        const currentDate = new Date(request.startDate);
-        while (currentDate.getMonth() === request.startDate.getMonth()) {
+        const currentDate = new Date(searchFilter.startDate);
+        while (currentDate.getMonth() === searchFilter.startDate.getMonth()) {
             // 1から12までのレースを作成
             for (let i = 1; i <= 12; i++) {
                 raceEntityList.push(
@@ -44,14 +41,12 @@ export class MockWorldRaceRepositoryFromHtmlImpl
             }
             currentDate.setDate(currentDate.getDate() + 1);
         }
-        return Promise.resolve(new FetchRaceListResponse(raceEntityList));
+        return Promise.resolve(raceEntityList);
     }
 
     @Logger
-    registerRaceEntityList(
-        request: RegisterRaceListRequest<WorldRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+    registerRaceEntityList(raceEntityList: WorldRaceEntity[]): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

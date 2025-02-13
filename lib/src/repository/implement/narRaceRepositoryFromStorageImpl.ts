@@ -8,11 +8,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
 export class NarRaceRepositoryFromStorageImpl
@@ -26,13 +23,13 @@ export class NarRaceRepositoryFromStorageImpl
     ) {}
     /**
      * 競馬場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<NarPlaceEntity>,
-    ): Promise<FetchRaceListResponse<NarRaceEntity>> {
+        searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
+    ): Promise<NarRaceEntity[]> {
         // ファイル名リストから海外競馬場開催データを取得する
         const raceRecordList: NarRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -46,10 +43,10 @@ export class NarRaceRepositoryFromStorageImpl
         const filteredRaceEntityList: NarRaceEntity[] =
             newRaceEntityList.filter(
                 (raceEntity) =>
-                    raceEntity.raceData.dateTime >= request.startDate &&
-                    raceEntity.raceData.dateTime <= request.finishDate,
+                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
             );
-        return new FetchRaceListResponse<NarRaceEntity>(filteredRaceEntityList);
+        return filteredRaceEntityList;
     }
 
     /**
@@ -138,14 +135,14 @@ export class NarRaceRepositoryFromStorageImpl
      */
     @Logger
     async registerRaceEntityList(
-        request: RegisterRaceListRequest<NarRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
+        raceEntityList: NarRaceEntity[],
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: NarRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: NarRaceRecord[] = request.raceEntityList.map(
+        const raceRecordList: NarRaceRecord[] = raceEntityList.map(
             (raceEntity) => raceEntity.toRaceRecord(),
         );
 
@@ -168,6 +165,5 @@ export class NarRaceRepositoryFromStorageImpl
             updatedRaceRecordList,
             this.fileName,
         );
-        return new RegisterRaceListResponse(200);
     }
 }

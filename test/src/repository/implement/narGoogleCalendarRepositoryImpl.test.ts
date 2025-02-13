@@ -3,11 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { ICalendarGateway } from '../../../../lib/src/gateway/interface/iCalendarGateway';
-import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
+import { SearchCalendarFilterEntity } from '../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { NarGoogleCalendarRepositoryImpl } from '../../../../lib/src/repository/implement/narGoogleCalendarRepositoryImpl';
-import { DeleteCalendarListRequest } from '../../../../lib/src/repository/request/deleteCalendarListRequest';
-import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import {
     baseNarCalendarData,
     baseNarCalendarDataFromGoogleCalendar,
@@ -39,14 +36,14 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             baseNarCalendarDataFromGoogleCalendar,
         ]);
 
-        const request = new FetchCalendarListRequest(
+        const request = new SearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
         );
-        const response = await repository.getEvents(request);
+        const calendarDataList = await repository.getEvents(request);
 
-        expect(response.calendarDataList).toHaveLength(1);
-        expect(response.calendarDataList[0]).toEqual(baseNarCalendarData);
+        expect(calendarDataList).toHaveLength(1);
+        expect(calendarDataList[0]).toEqual(baseNarCalendarData);
         expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
     });
 
@@ -55,24 +52,21 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new FetchCalendarListRequest(
+        const request = new SearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
         );
-        const response = await repository.getEvents(request);
+        const calendarDataList = await repository.getEvents(request);
 
-        expect(response.calendarDataList).toHaveLength(0);
+        expect(calendarDataList).toHaveLength(0);
         expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
     });
 
     it('should delete events successfully', async () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        const request = new DeleteCalendarListRequest([baseNarCalendarData]);
-        const response = await repository.deleteEvents(request);
+        await repository.deleteEvents([baseNarCalendarData]);
 
-        // レスポンスが200で帰ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
@@ -81,9 +75,7 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new DeleteCalendarListRequest([baseNarCalendarData]);
-
-        await repository.deleteEvents(request);
+        await repository.deleteEvents([baseNarCalendarData]);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
@@ -92,13 +84,8 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new UpsertCalendarListRequest<NarRaceEntity>([
-            baseNarRaceEntity,
-        ]);
-        const response = await repository.upsertEvents(request);
+        await repository.upsertEvents([baseNarRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 
@@ -107,13 +94,8 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             baseNarCalendarDataFromGoogleCalendar,
         );
 
-        const request = new UpsertCalendarListRequest<NarRaceEntity>([
-            baseNarRaceEntity,
-        ]);
-        const response = await repository.upsertEvents(request);
+        await repository.upsertEvents([baseNarRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
     });
 
@@ -122,11 +104,7 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new UpsertCalendarListRequest<NarRaceEntity>([
-            baseNarRaceEntity,
-        ]);
-
-        await repository.upsertEvents(request);
+        await repository.upsertEvents([baseNarRaceEntity]);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 });

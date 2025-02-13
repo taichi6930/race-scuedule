@@ -11,11 +11,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * オートレース場開催データリポジトリの実装
@@ -35,13 +32,13 @@ export class AutoraceRaceRepositoryFromStorageImpl
     ) {}
     /**
      * オートレース場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<AutoracePlaceEntity>,
-    ): Promise<FetchRaceListResponse<AutoraceRaceEntity>> {
+        searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
+    ): Promise<AutoraceRaceEntity[]> {
         // ファイル名リストからオートレース選手データを取得する
         const racePlayerRecordList: AutoraceRacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
@@ -87,21 +84,21 @@ export class AutoraceRaceRepositoryFromStorageImpl
         const filteredRaceEntityList: AutoraceRaceEntity[] =
             raceEntityList.filter(
                 (raceEntity) =>
-                    raceEntity.raceData.dateTime >= request.startDate &&
-                    raceEntity.raceData.dateTime <= request.finishDate,
+                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
             );
 
-        return new FetchRaceListResponse(filteredRaceEntityList);
+        return filteredRaceEntityList;
     }
 
     /**
      * レースデータを登録する
-     * @param request
+     * @param searchFilter
      */
     @Logger
     async registerRaceEntityList(
-        request: RegisterRaceListRequest<AutoraceRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
+        raceEntityList: AutoraceRaceEntity[],
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: AutoraceRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -110,12 +107,12 @@ export class AutoraceRaceRepositoryFromStorageImpl
             await this.getRacePlayerRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: AutoraceRaceRecord[] = request.raceEntityList.map(
+        const raceRecordList: AutoraceRaceRecord[] = raceEntityList.map(
             (raceEntity) => raceEntity.toRaceRecord(),
         );
 
         // RaceEntityをRacePlayerRecordに変換する
-        const racePlayerRecordList = request.raceEntityList
+        const racePlayerRecordList = raceEntityList
             .map((raceEntity) => raceEntity.toPlayerRecordList())
             .flat();
 
@@ -159,12 +156,11 @@ export class AutoraceRaceRepositoryFromStorageImpl
             existFetchRacePlayerRecordList,
             this.racePlayerListFileName,
         );
-        return new RegisterRaceListResponse(200);
     }
 
     /**
      * レースデータをS3から取得する
-     * @param request
+     * @param searchFilter
      */
     @Logger
     private async getRaceRecordListFromS3(): Promise<AutoraceRaceRecord[]> {
@@ -230,7 +226,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
 
     /**
      * レースプレイヤーデータをS3から取得する
-     * @param request
+     * @param searchFilter
      */
     @Logger
     private async getRacePlayerRecordListFromS3(): Promise<

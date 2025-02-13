@@ -7,11 +7,8 @@ import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
 export class NarPlaceRepositoryFromStorageImpl
@@ -30,12 +27,12 @@ export class NarPlaceRepositoryFromStorageImpl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<NarPlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
+        searchFilter: SearchPlaceFilterEntity,
+    ): Promise<NarPlaceEntity[]> {
         // 年ごとの競馬場開催データを取得
         const placeRecordList: NarPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -48,23 +45,23 @@ export class NarPlaceRepositoryFromStorageImpl
         // filterで日付の範囲を指定
         const filteredPlaceEntityList = placeEntityList.filter(
             (placeEntity) =>
-                placeEntity.placeData.dateTime >= request.startDate &&
-                placeEntity.placeData.dateTime <= request.finishDate,
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
         );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     @Logger
     async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<NarPlaceEntity>,
-    ): Promise<RegisterPlaceListResponse> {
+        placeEntityList: NarPlaceEntity[],
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: NarPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: NarPlaceRecord[] = request.placeEntityList.map(
+        const placeRecordList: NarPlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
 
@@ -91,8 +88,6 @@ export class NarPlaceRepositoryFromStorageImpl
             existFetchPlaceRecordList,
             this.fileName,
         );
-
-        return new RegisterPlaceListResponse(200);
     }
 
     /**

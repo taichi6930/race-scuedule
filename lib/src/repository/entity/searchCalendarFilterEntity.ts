@@ -1,7 +1,4 @@
-/**
- * カレンダー一覧取得リクエスト
- */
-export class FetchCalendarListRequest {
+export class SearchCalendarFilterEntity {
     constructor(
         public readonly startDate: Date,
         public readonly finishDate: Date,

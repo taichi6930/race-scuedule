@@ -13,11 +13,8 @@ import { Logger } from '../../utility/logger';
 import { processNarRaceName } from '../../utility/raceName';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * 競馬場開催データリポジトリの実装
@@ -32,15 +29,15 @@ export class NarRaceRepositoryFromHtmlImpl
     ) {}
     /**
      * 競馬場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<NarPlaceEntity>,
-    ): Promise<FetchRaceListResponse<NarRaceEntity>> {
+        searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
+    ): Promise<NarRaceEntity[]> {
         const narRaceDataList: NarRaceEntity[] = [];
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 narRaceDataList.push(
@@ -50,7 +47,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 );
             }
         }
-        return new FetchRaceListResponse(narRaceDataList);
+        return narRaceDataList;
     }
 
     @Logger
@@ -238,10 +235,8 @@ export class NarRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceEntityList(
-        request: RegisterRaceListRequest<NarRaceEntity>,
-    ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+    registerRaceEntityList(raceEntityList: NarRaceEntity[]): Promise<void> {
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

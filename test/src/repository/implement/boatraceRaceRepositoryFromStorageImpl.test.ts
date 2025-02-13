@@ -11,9 +11,8 @@ import type { BoatraceRacePlayerRecord } from '../../../../lib/src/gateway/recor
 import type { BoatraceRaceRecord } from '../../../../lib/src/gateway/record/boatraceRaceRecord';
 import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { BoatraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromStorageImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceData';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -62,15 +61,16 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
             );
 
             // リクエストの作成
-            const request = new FetchRaceListRequest<BoatracePlaceEntity>(
+            const request = new SearchRaceFilterEntity<BoatracePlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );
             // テスト実行
-            const response = await repository.fetchRaceEntityList(request);
+            const raceEntityList =
+                await repository.fetchRaceEntityList(request);
 
             // レスポンスの検証
-            expect(response.raceEntityList).toHaveLength(1);
+            expect(raceEntityList).toHaveLength(1);
         });
     });
 
@@ -99,12 +99,8 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                 },
             ).flat();
 
-            // リクエストの作成
-            const request = new RegisterRaceListRequest<BoatraceRaceEntity>(
-                raceEntityList,
-            );
             // テスト実行
-            await repository.registerRaceEntityList(request);
+            await repository.registerRaceEntityList(raceEntityList);
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -155,12 +151,8 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
             ),
         );
 
-        // リクエストの作成
-        const request = new RegisterRaceListRequest<BoatraceRaceEntity>(
-            raceEntityList,
-        );
         // テスト実行
-        await repository.registerRaceEntityList(request);
+        await repository.registerRaceEntityList(raceEntityList);
 
         // uploadDataToS3が1回呼ばれることを検証
         expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

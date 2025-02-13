@@ -6,7 +6,6 @@ import type { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPl
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
-import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { NarRaceDataService } from '../../../../lib/src/service/implement/narRaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseNarRaceEntityList } from '../../mock/common/baseNarData';
@@ -68,7 +67,7 @@ describe('NarRaceDataService', () => {
 
             // モックの戻り値を設定
             narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<NarRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -87,7 +86,7 @@ describe('NarRaceDataService', () => {
 
             // モックの戻り値を設定
             narRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<NarRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -127,7 +126,7 @@ describe('NarRaceDataService', () => {
 
             // モックの戻り値を設定
             narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<NarRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             await service.updateRaceEntityList(mockRaceEntity);
