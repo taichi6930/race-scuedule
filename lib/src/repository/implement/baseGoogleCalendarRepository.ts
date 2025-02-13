@@ -5,7 +5,6 @@ import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway'
 import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
 import type { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
-import type { UpsertCalendarListRequest } from '../request/upsertCalendarListRequest';
 import { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
 import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
 
@@ -43,11 +42,11 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
     }
 
     async upsertEvents(
-        request: UpsertCalendarListRequest<R>,
+        raceEntityList: R[],
     ): Promise<UpsertCalendarListResponse> {
         // Googleカレンダーから取得する
         await Promise.all(
-            request.raceEntityList.map(async (raceEntity) => {
+            raceEntityList.map(async (raceEntity) => {
                 try {
                     // 既に登録されているかどうか判定
                     let isExist = false;

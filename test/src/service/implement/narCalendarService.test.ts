@@ -6,7 +6,6 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import { NarCalendarService } from '../../../../lib/src/service/implement/narCalendarService';
 import {
     baseNarCalendarData,
@@ -47,7 +46,7 @@ describe('NarCalendarService', () => {
         await service.upsertEvents(raceEntityList);
 
         expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-            new UpsertCalendarListRequest(raceEntityList),
+            raceEntityList,
         );
     });
 

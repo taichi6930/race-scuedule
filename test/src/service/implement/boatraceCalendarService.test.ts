@@ -6,7 +6,6 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import { BoatraceCalendarService } from '../../../../lib/src/service/implement/boatraceCalendarService';
 import {
     baseBoatraceCalendarData,
@@ -51,7 +50,7 @@ describe('BoatraceCalendarService', () => {
         await service.upsertEvents(raceEntityList);
 
         expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-            new UpsertCalendarListRequest(raceEntityList),
+            raceEntityList,
         );
     });
 

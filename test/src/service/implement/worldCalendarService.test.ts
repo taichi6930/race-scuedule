@@ -6,7 +6,6 @@ import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import { WorldCalendarService } from '../../../../lib/src/service/implement/worldCalendarService';
 import {
     baseWorldCalendarData,
@@ -50,7 +49,7 @@ describe('WorldCalendarService', () => {
         await service.upsertEvents(raceEntityList);
 
         expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-            new UpsertCalendarListRequest(raceEntityList),
+            raceEntityList,
         );
     });
 

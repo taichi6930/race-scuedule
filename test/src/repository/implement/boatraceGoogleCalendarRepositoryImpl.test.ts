@@ -3,10 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { ICalendarGateway } from '../../../../lib/src/gateway/interface/iCalendarGateway';
-import type { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import { BoatraceGoogleCalendarRepositoryImpl } from '../../../../lib/src/repository/implement/boatraceGoogleCalendarRepositoryImpl';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import {
     baseBoatraceCalendarData,
     baseBoatraceCalendarDataFromGoogleCalendar,
@@ -90,10 +88,9 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new UpsertCalendarListRequest<BoatraceRaceEntity>([
+        const response = await repository.upsertEvents([
             baseBoatraceRaceEntity,
         ]);
-        const response = await repository.upsertEvents(request);
 
         // レスポンスが200で返ってくることを確認
         expect(response.code).toEqual(200);
@@ -105,10 +102,9 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
             baseBoatraceCalendarDataFromGoogleCalendar,
         );
 
-        const request = new UpsertCalendarListRequest<BoatraceRaceEntity>([
+        const response = await repository.upsertEvents([
             baseBoatraceRaceEntity,
         ]);
-        const response = await repository.upsertEvents(request);
 
         // レスポンスが200で返ってくることを確認
         expect(response.code).toEqual(200);
@@ -120,11 +116,7 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new UpsertCalendarListRequest<BoatraceRaceEntity>([
-            baseBoatraceRaceEntity,
-        ]);
-
-        await repository.upsertEvents(request);
+        await repository.upsertEvents([baseBoatraceRaceEntity]);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 });

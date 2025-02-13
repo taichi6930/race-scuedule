@@ -3,10 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { ICalendarGateway } from '../../../../lib/src/gateway/interface/iCalendarGateway';
-import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import { NarGoogleCalendarRepositoryImpl } from '../../../../lib/src/repository/implement/narGoogleCalendarRepositoryImpl';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import {
     baseNarCalendarData,
     baseNarCalendarDataFromGoogleCalendar,
@@ -88,10 +86,7 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new UpsertCalendarListRequest<NarRaceEntity>([
-            baseNarRaceEntity,
-        ]);
-        const response = await repository.upsertEvents(request);
+        const response = await repository.upsertEvents([baseNarRaceEntity]);
 
         // レスポンスが200で返ってくることを確認
         expect(response.code).toEqual(200);
@@ -103,10 +98,7 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             baseNarCalendarDataFromGoogleCalendar,
         );
 
-        const request = new UpsertCalendarListRequest<NarRaceEntity>([
-            baseNarRaceEntity,
-        ]);
-        const response = await repository.upsertEvents(request);
+        const response = await repository.upsertEvents([baseNarRaceEntity]);
 
         // レスポンスが200で返ってくることを確認
         expect(response.code).toEqual(200);
@@ -118,11 +110,7 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new UpsertCalendarListRequest<NarRaceEntity>([
-            baseNarRaceEntity,
-        ]);
-
-        await repository.upsertEvents(request);
+        await repository.upsertEvents([baseNarRaceEntity]);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 });

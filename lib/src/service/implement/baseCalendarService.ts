@@ -5,7 +5,6 @@ import { CalendarData } from '../../domain/calendarData';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../repository/request/upsertCalendarListRequest';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
@@ -41,8 +40,7 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
             console.debug('更新対象のイベントが見つかりませんでした。');
             return;
         }
-        const request = new UpsertCalendarListRequest(raceEntityList);
-        await this.calendarRepository.upsertEvents(request);
+        await this.calendarRepository.upsertEvents(raceEntityList);
     }
 
     /**

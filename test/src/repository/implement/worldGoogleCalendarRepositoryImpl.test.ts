@@ -3,10 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { ICalendarGateway } from '../../../../lib/src/gateway/interface/iCalendarGateway';
-import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldGoogleCalendarRepositoryImpl } from '../../../../lib/src/repository/implement/worldGoogleCalendarRepositoryImpl';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
-import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import {
     baseWorldCalendarData,
     baseWorldCalendarDataFromGoogleCalendar,
@@ -90,10 +88,7 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
         googleCalendarGateway.fetchCalendarData.mockRejectedValue(
             new Error('API Error'),
         );
-        const request = new UpsertCalendarListRequest<WorldRaceEntity>([
-            baseWorldRaceEntity,
-        ]);
-        const response = await repository.upsertEvents(request);
+        const response = await repository.upsertEvents([baseWorldRaceEntity]);
 
         // レスポンスが200で返ってくることを確認
         expect(response.code).toEqual(200);
@@ -105,10 +100,7 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
             baseWorldCalendarDataFromGoogleCalendar,
         );
 
-        const request = new UpsertCalendarListRequest<WorldRaceEntity>([
-            baseWorldRaceEntity,
-        ]);
-        const response = await repository.upsertEvents(request);
+        const response = await repository.upsertEvents([baseWorldRaceEntity]);
 
         // レスポンスが200で返ってくることを確認
         expect(response.code).toEqual(200);
@@ -123,11 +115,7 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new UpsertCalendarListRequest<WorldRaceEntity>([
-            baseWorldRaceEntity,
-        ]);
-
-        await repository.upsertEvents(request);
+        await repository.upsertEvents([baseWorldRaceEntity]);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 });
