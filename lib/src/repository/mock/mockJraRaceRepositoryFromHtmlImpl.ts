@@ -5,7 +5,6 @@ import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
@@ -51,9 +50,9 @@ export class MockJraRaceRepositoryFromHtmlImpl
 
     @Logger
     registerRaceEntityList(
-        request: RegisterRaceListRequest<JraRaceEntity>,
+        raceEntityList: JraRaceEntity[],
     ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

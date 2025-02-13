@@ -14,7 +14,6 @@ import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -209,9 +208,9 @@ export class AutoraceRaceRepositoryFromHtmlImpl
      */
     @Logger
     registerRaceEntityList(
-        request: RegisterRaceListRequest<AutoraceRaceEntity>,
+        raceEntityList: AutoraceRaceEntity[],
     ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

@@ -10,7 +10,6 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -60,14 +59,14 @@ export class WorldRaceRepositoryFromStorageImpl
      */
     @Logger
     async registerRaceEntityList(
-        request: RegisterRaceListRequest<WorldRaceEntity>,
+        raceEntityList: WorldRaceEntity[],
     ): Promise<RegisterRaceListResponse> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: WorldRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: WorldRaceRecord[] = request.raceEntityList.map(
+        const raceRecordList: WorldRaceRecord[] = raceEntityList.map(
             (raceEntity) => raceEntity.toRaceRecord(),
         );
 

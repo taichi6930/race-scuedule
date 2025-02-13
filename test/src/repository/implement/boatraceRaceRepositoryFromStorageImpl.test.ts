@@ -13,7 +13,6 @@ import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/
 import { BoatraceRaceEntity } from '../../../../lib/src/repository/entity/boatraceRaceEntity';
 import { BoatraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseBoatraceRacePlayerDataList } from '../../mock/common/baseBoatraceData';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -100,12 +99,8 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
                 },
             ).flat();
 
-            // リクエストの作成
-            const request = new RegisterRaceListRequest<BoatraceRaceEntity>(
-                raceEntityList,
-            );
             // テスト実行
-            await repository.registerRaceEntityList(request);
+            await repository.registerRaceEntityList(raceEntityList);
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
@@ -156,12 +151,8 @@ describe('BoatraceRaceRepositoryFromStorageImpl', () => {
             ),
         );
 
-        // リクエストの作成
-        const request = new RegisterRaceListRequest<BoatraceRaceEntity>(
-            raceEntityList,
-        );
         // テスト実行
-        await repository.registerRaceEntityList(request);
+        await repository.registerRaceEntityList(raceEntityList);
 
         // uploadDataToS3が1回呼ばれることを検証
         expect(raceS3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

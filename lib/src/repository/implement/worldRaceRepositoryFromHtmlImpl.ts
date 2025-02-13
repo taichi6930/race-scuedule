@@ -20,7 +20,6 @@ import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -258,9 +257,9 @@ export class WorldRaceRepositoryFromHtmlImpl
      */
     @Logger
     registerRaceEntityList(
-        request: RegisterRaceListRequest<WorldRaceEntity>,
+        raceEntityList: WorldRaceEntity[],
     ): Promise<RegisterRaceListResponse> {
-        console.debug(request);
+        console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

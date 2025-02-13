@@ -13,7 +13,6 @@ import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -99,7 +98,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
      */
     @Logger
     async registerRaceEntityList(
-        request: RegisterRaceListRequest<BoatraceRaceEntity>,
+        raceEntityList: BoatraceRaceEntity[],
     ): Promise<RegisterRaceListResponse> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: BoatraceRaceRecord[] =
@@ -109,12 +108,12 @@ export class BoatraceRaceRepositoryFromStorageImpl
             await this.getRacePlayerRecordListFromS3();
 
         // RaceEntityをRaceRecordに変換する
-        const raceRecordList: BoatraceRaceRecord[] = request.raceEntityList.map(
+        const raceRecordList: BoatraceRaceRecord[] = raceEntityList.map(
             (raceEntity) => raceEntity.toRaceRecord(),
         );
 
         // RaceEntityをRacePlayerRecordに変換する
-        const racePlayerRecordList = request.raceEntityList
+        const racePlayerRecordList = raceEntityList
             .map((raceEntity) => raceEntity.toPlayerRecordList())
             .flat();
 

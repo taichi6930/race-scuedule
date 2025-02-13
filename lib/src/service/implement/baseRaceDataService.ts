@@ -2,7 +2,6 @@ import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import type { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
 import { DataLocation, type DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import type { IRaceDataService } from '../interface/IRaceDataService';
@@ -57,11 +56,8 @@ export abstract class BaseRaceDataService<
     async updateRaceEntityList(raceEntityList: R[]): Promise<void> {
         try {
             if (raceEntityList.length === 0) return;
-            const registerRequest = new RegisterRaceListRequest<R>(
-                raceEntityList,
-            );
             await this.raceRepositoryFromStorage.registerRaceEntityList(
-                registerRequest,
+                raceEntityList,
             );
         } catch (error) {
             console.error('開催場データの更新に失敗しました', error);

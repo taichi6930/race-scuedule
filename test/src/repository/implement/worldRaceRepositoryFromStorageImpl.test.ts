@@ -12,7 +12,6 @@ import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/wor
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
 import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
-import { RegisterRaceListRequest } from '../../../../lib/src/repository/request/registerRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
@@ -67,24 +66,16 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
-            // リクエストの作成
-            const request = new RegisterRaceListRequest<WorldRaceEntity>(
-                raceEntityList,
-            );
             // テスト実行
-            await repository.registerRaceEntityList(request);
+            await repository.registerRaceEntityList(raceEntityList);
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
 
         test('正しいレースデータを登録できる（既存データなし）', async () => {
-            // リクエストの作成
-            const request = new RegisterRaceListRequest<WorldRaceEntity>(
-                raceEntityList,
-            );
             // テスト実行
-            await repository.registerRaceEntityList(request);
+            await repository.registerRaceEntityList(raceEntityList);
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
