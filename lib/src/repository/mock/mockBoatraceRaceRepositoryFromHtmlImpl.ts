@@ -8,7 +8,6 @@ import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // BoatraceRaceRepositoryFromHtmlImplのモックを作成
@@ -49,7 +48,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
                 }
             });
         }
-        return Promise.resolve(new FetchRaceListResponse(raceEntityList));
+        return Promise.resolve(raceEntityList);
     }
 
     @Logger
