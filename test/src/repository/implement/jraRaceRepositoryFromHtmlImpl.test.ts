@@ -34,7 +34,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
-                const response = await repository.fetchRaceEntityList(
+                const raceEntityList = await repository.fetchRaceEntityList(
                     new FetchRaceListRequest<JraPlaceEntity>(
                         new Date('2024-05-26'),
                         new Date('2024-05-26'),
@@ -51,7 +51,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         ],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(24);
+                expect(raceEntityList).toHaveLength(24);
             });
         });
 

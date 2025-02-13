@@ -6,7 +6,6 @@ import { NarRaceEntity } from '../entity/narRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
@@ -16,7 +15,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
     @Logger
     fetchRaceEntityList(
         request: FetchRaceListRequest<NarPlaceEntity>,
-    ): Promise<FetchRaceListResponse<NarRaceEntity>> {
+    ): Promise<NarRaceEntity[]> {
         const placeEntityList = request.placeEntityList;
         const raceEntityList: NarRaceEntity[] = [];
         if (placeEntityList) {
@@ -45,7 +44,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
                 }
             });
         }
-        return Promise.resolve(new FetchRaceListResponse(raceEntityList));
+        return Promise.resolve(raceEntityList);
     }
 
     @Logger

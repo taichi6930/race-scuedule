@@ -6,7 +6,6 @@ import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
-import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { AutoraceRaceDataService } from '../../../../lib/src/service/implement/autoraceRaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseAutoraceRaceEntityList } from '../../mock/common/baseAutoraceData';
@@ -67,7 +66,7 @@ describe('AutoraceRaceDataService', () => {
 
             // モックの戻り値を設定
             autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<AutoraceRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -87,7 +86,7 @@ describe('AutoraceRaceDataService', () => {
 
             // モックの戻り値を設定
             autoraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<AutoraceRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -128,7 +127,7 @@ describe('AutoraceRaceDataService', () => {
 
             // モックの戻り値を設定
             autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<AutoraceRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             await service.updateRaceEntityList(mockRaceEntity);

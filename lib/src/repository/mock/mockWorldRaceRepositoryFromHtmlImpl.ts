@@ -6,7 +6,6 @@ import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // WorldRaceRepositoryFromHtmlImplのモックを作成
@@ -16,7 +15,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
     @Logger
     fetchRaceEntityList(
         request: FetchRaceListRequest<WorldPlaceEntity>,
-    ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
+    ): Promise<WorldRaceEntity[]> {
         const raceEntityList: WorldRaceEntity[] = [];
         const currentDate = new Date(request.startDate);
         while (currentDate.getMonth() === request.startDate.getMonth()) {
@@ -44,7 +43,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
             }
             currentDate.setDate(currentDate.getDate() + 1);
         }
-        return Promise.resolve(new FetchRaceListResponse(raceEntityList));
+        return Promise.resolve(raceEntityList);
     }
 
     @Logger

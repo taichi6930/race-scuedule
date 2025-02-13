@@ -19,7 +19,6 @@ import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -41,7 +40,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
     @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<KeirinPlaceEntity>,
-    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
+    ): Promise<KeirinRaceEntity[]> {
         const keirinRaceDataList: KeirinRaceEntity[] = [];
         const placeEntityList = request.placeEntityList;
         if (placeEntityList) {
@@ -56,7 +55,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 console.debug('0.8秒経ちました');
             }
         }
-        return new FetchRaceListResponse(keirinRaceDataList);
+        return keirinRaceDataList;
     }
 
     @Logger

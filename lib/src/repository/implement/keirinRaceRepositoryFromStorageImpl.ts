@@ -14,7 +14,6 @@ import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -41,7 +40,7 @@ export class KeirinRaceRepositoryFromStorageImpl
     @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<KeirinPlaceEntity>,
-    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
+    ): Promise<KeirinRaceEntity[]> {
         // ファイル名リストから競輪選手データを取得する
         const racePlayerRecordList: KeirinRacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
@@ -91,7 +90,7 @@ export class KeirinRaceRepositoryFromStorageImpl
                     raceEntity.raceData.dateTime <= request.finishDate,
             );
 
-        return new FetchRaceListResponse(filteredRaceEntityList);
+        return filteredRaceEntityList;
     }
 
     /**

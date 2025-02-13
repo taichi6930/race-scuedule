@@ -5,7 +5,6 @@ import { container } from 'tsyringe';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
-import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { WorldRaceDataService } from '../../../../lib/src/service/implement/worldRaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
@@ -53,7 +52,7 @@ describe('WorldRaceDataService', () => {
 
             // モックの戻り値を設定
             worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<WorldRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -72,7 +71,7 @@ describe('WorldRaceDataService', () => {
 
             // モックの戻り値を設定
             worldRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<WorldRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -112,7 +111,7 @@ describe('WorldRaceDataService', () => {
 
             // モックの戻り値を設定
             worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<WorldRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             await service.updateRaceEntityList(mockRaceEntity);

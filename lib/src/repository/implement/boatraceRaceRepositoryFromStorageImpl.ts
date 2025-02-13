@@ -14,7 +14,6 @@ import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -41,7 +40,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
     @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<BoatracePlaceEntity>,
-    ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
+    ): Promise<BoatraceRaceEntity[]> {
         // ファイル名リストからボートレース選手データを取得する
         const racePlayerRecordList: BoatraceRacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
@@ -91,7 +90,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
                     raceEntity.raceData.dateTime <= request.finishDate,
             );
 
-        return new FetchRaceListResponse(filteredRaceEntityList);
+        return filteredRaceEntityList;
     }
 
     /**

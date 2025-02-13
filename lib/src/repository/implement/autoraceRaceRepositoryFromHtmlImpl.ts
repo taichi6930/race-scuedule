@@ -15,7 +15,6 @@ import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -37,7 +36,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<AutoracePlaceEntity>,
-    ): Promise<FetchRaceListResponse<AutoraceRaceEntity>> {
+    ): Promise<AutoraceRaceEntity[]> {
         const autoraceRaceDataList: AutoraceRaceEntity[] = [];
         const placeEntityList = request.placeEntityList;
         if (placeEntityList) {
@@ -52,7 +51,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                 console.debug('0.8秒経ちました');
             }
         }
-        return new FetchRaceListResponse(autoraceRaceDataList);
+        return autoraceRaceDataList;
     }
 
     @Logger

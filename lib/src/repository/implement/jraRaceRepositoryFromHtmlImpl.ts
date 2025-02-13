@@ -17,7 +17,6 @@ import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
@@ -36,7 +35,7 @@ export class JraRaceRepositoryFromHtmlImpl
     @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<JraPlaceEntity>,
-    ): Promise<FetchRaceListResponse<JraRaceEntity>> {
+    ): Promise<JraRaceEntity[]> {
         const jraRaceEntityList: JraRaceEntity[] = [];
         const placeEntityList = request.placeEntityList;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
@@ -50,7 +49,7 @@ export class JraRaceRepositoryFromHtmlImpl
                 );
             }
         }
-        return new FetchRaceListResponse(jraRaceEntityList);
+        return jraRaceEntityList;
     }
 
     @Logger

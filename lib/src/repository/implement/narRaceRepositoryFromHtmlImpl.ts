@@ -16,7 +16,6 @@ import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -38,7 +37,7 @@ export class NarRaceRepositoryFromHtmlImpl
     @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<NarPlaceEntity>,
-    ): Promise<FetchRaceListResponse<NarRaceEntity>> {
+    ): Promise<NarRaceEntity[]> {
         const narRaceDataList: NarRaceEntity[] = [];
         const placeEntityList = request.placeEntityList;
         if (placeEntityList) {
@@ -50,7 +49,7 @@ export class NarRaceRepositoryFromHtmlImpl
                 );
             }
         }
-        return new FetchRaceListResponse(narRaceDataList);
+        return narRaceDataList;
     }
 
     @Logger

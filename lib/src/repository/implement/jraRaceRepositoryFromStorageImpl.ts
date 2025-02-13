@@ -11,7 +11,6 @@ import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
@@ -33,7 +32,7 @@ export class JraRaceRepositoryFromStorageImpl
     @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<JraPlaceEntity>,
-    ): Promise<FetchRaceListResponse<JraRaceEntity>> {
+    ): Promise<JraRaceEntity[]> {
         // ファイル名リストから中央競馬場開催データを取得する
         const raceRecordList: JraRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -52,7 +51,7 @@ export class JraRaceRepositoryFromStorageImpl
                     getJSTDate(raceEntity.raceData.dateTime) <=
                         getJSTDate(request.finishDate),
             );
-        return new FetchRaceListResponse<JraRaceEntity>(filteredRaceEntityList);
+        return filteredRaceEntityList;
     }
 
     /**

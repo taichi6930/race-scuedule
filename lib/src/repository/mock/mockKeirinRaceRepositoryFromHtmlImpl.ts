@@ -18,7 +18,7 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
     @Logger
     fetchRaceEntityList(
         request: FetchRaceListRequest<KeirinPlaceEntity>,
-    ): Promise<FetchRaceListResponse<KeirinRaceEntity>> {
+    ): Promise<KeirinRaceEntity[]> {
         const placeEntityList = request.placeEntityList;
         const raceEntityList: KeirinRaceEntity[] = [];
         if (placeEntityList) {

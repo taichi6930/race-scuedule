@@ -11,7 +11,6 @@ import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
@@ -32,7 +31,7 @@ export class NarRaceRepositoryFromStorageImpl
     @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<NarPlaceEntity>,
-    ): Promise<FetchRaceListResponse<NarRaceEntity>> {
+    ): Promise<NarRaceEntity[]> {
         // ファイル名リストから海外競馬場開催データを取得する
         const raceRecordList: NarRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -49,7 +48,7 @@ export class NarRaceRepositoryFromStorageImpl
                     raceEntity.raceData.dateTime >= request.startDate &&
                     raceEntity.raceData.dateTime <= request.finishDate,
             );
-        return new FetchRaceListResponse<NarRaceEntity>(filteredRaceEntityList);
+        return filteredRaceEntityList;
     }
 
     /**

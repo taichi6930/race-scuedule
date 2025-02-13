@@ -34,7 +34,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('fetchPlaceList', () => {
             test('正しい競輪場データを取得できる', async () => {
-                const response = await repository.fetchRaceEntityList(
+                const raceEntityList = await repository.fetchRaceEntityList(
                     new FetchRaceListRequest<KeirinPlaceEntity>(
                         new Date('2024-10-20'),
                         new Date('2024-10-20'),
@@ -50,7 +50,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         ],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(12);
+                expect(raceEntityList).toHaveLength(12);
             });
         });
 

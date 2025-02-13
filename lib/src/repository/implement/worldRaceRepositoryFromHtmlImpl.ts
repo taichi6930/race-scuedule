@@ -21,7 +21,6 @@ import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -43,7 +42,7 @@ export class WorldRaceRepositoryFromHtmlImpl
     @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<WorldPlaceEntity>,
-    ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
+    ): Promise<WorldRaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
             request.startDate,
             request.finishDate,
@@ -57,7 +56,7 @@ export class WorldRaceRepositoryFromHtmlImpl
             await new Promise((resolve) => setTimeout(resolve, 800));
             console.debug('0.8秒経ちました');
         }
-        return new FetchRaceListResponse(worldRaceDataList);
+        return worldRaceDataList;
     }
 
     /**

@@ -67,10 +67,11 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
                 new Date('2024-02-01'),
             );
             // テスト実行
-            const response = await repository.fetchRaceEntityList(request);
+            const raceEntityList =
+                await repository.fetchRaceEntityList(request);
 
             // レスポンスの検証
-            expect(response.raceEntityList).toHaveLength(1);
+            expect(raceEntityList).toHaveLength(1);
         });
     });
 

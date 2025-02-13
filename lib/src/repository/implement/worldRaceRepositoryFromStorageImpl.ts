@@ -11,7 +11,6 @@ import { Logger } from '../../utility/logger';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
@@ -35,7 +34,7 @@ export class WorldRaceRepositoryFromStorageImpl
     @Logger
     async fetchRaceEntityList(
         request: FetchRaceListRequest<WorldPlaceEntity>,
-    ): Promise<FetchRaceListResponse<WorldRaceEntity>> {
+    ): Promise<WorldRaceEntity[]> {
         // ファイル名リストから海外競馬場開催データを取得する
         const raceRecordList: WorldRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -52,7 +51,7 @@ export class WorldRaceRepositoryFromStorageImpl
                 raceEntity.raceData.dateTime <= request.finishDate,
         );
 
-        return new FetchRaceListResponse(filteredRaceEntityList);
+        return filteredRaceEntityList;
     }
 
     /**

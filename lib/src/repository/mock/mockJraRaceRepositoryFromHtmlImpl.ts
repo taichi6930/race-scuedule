@@ -6,7 +6,6 @@ import { JraRaceEntity } from '../entity/jraRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 import type { RegisterRaceListRequest } from '../request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../response/fetchRaceListResponse';
 import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
@@ -16,7 +15,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
     @Logger
     fetchRaceEntityList(
         request: FetchRaceListRequest<JraPlaceEntity>,
-    ): Promise<FetchRaceListResponse<JraRaceEntity>> {
+    ): Promise<JraRaceEntity[]> {
         const placeEntityList = request.placeEntityList;
         const raceEntityList: JraRaceEntity[] = [];
         if (placeEntityList) {
@@ -47,7 +46,7 @@ export class MockJraRaceRepositoryFromHtmlImpl
                 }
             });
         }
-        return Promise.resolve(new FetchRaceListResponse(raceEntityList));
+        return Promise.resolve(raceEntityList);
     }
 
     @Logger

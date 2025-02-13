@@ -3,7 +3,6 @@ import { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import type { IRaceRepository } from '../../repository/interface/IRaceRepository';
 import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { RegisterRaceListRequest } from '../../repository/request/registerRaceListRequest';
-import { FetchRaceListResponse } from '../../repository/response/fetchRaceListResponse';
 import { DataLocation, type DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import type { IRaceDataService } from '../interface/IRaceDataService';
@@ -41,9 +40,9 @@ export abstract class BaseRaceDataService<
             );
             const repository = this.getRaceRepository(type);
 
-            const fetchRaceListResponse: FetchRaceListResponse<R> =
+            const raceEntityList: R[] =
                 await repository.fetchRaceEntityList(fetchRaceListRequest);
-            return fetchRaceListResponse.raceEntityList;
+            return raceEntityList;
         } catch (error) {
             console.error('レースデータの取得に失敗しました', error);
             return [];

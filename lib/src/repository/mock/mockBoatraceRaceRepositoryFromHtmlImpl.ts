@@ -18,7 +18,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
     @Logger
     fetchRaceEntityList(
         request: FetchRaceListRequest<BoatracePlaceEntity>,
-    ): Promise<FetchRaceListResponse<BoatraceRaceEntity>> {
+    ): Promise<BoatraceRaceEntity[]> {
         const placeEntityList = request.placeEntityList;
         const raceEntityList: BoatraceRaceEntity[] = [];
         if (placeEntityList) {

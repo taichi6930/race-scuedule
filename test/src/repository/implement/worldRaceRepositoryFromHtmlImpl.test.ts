@@ -38,25 +38,25 @@ if (ENV === allowedEnvs.githubActionsCi) {
 
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
-                const response = await repository.fetchRaceEntityList(
+                const raceEntityList = await repository.fetchRaceEntityList(
                     new FetchRaceListRequest<WorldPlaceEntity>(
                         new Date('2024-10-01'),
                         new Date('2024-12-31'),
                         [],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(43);
+                expect(raceEntityList).toHaveLength(43);
             });
 
             test('正しい競馬場データを取得できる（データが足りてないこともある）', async () => {
-                const response = await repository.fetchRaceEntityList(
+                const raceEntityList = await repository.fetchRaceEntityList(
                     new FetchRaceListRequest<WorldPlaceEntity>(
                         new Date('2025-01-01'),
                         new Date('2025-03-31'),
                         [],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(1);
+                expect(raceEntityList).toHaveLength(1);
             });
         });
 

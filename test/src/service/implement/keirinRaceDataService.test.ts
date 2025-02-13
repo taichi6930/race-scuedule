@@ -6,7 +6,6 @@ import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/ke
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
 import type { IRaceRepository } from '../../../../lib/src/repository/interface/IRaceRepository';
-import { FetchRaceListResponse } from '../../../../lib/src/repository/response/fetchRaceListResponse';
 import { KeirinRaceDataService } from '../../../../lib/src/service/implement/keirinRaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseKeirinRaceEntityList } from '../../mock/common/baseKeirinData';
@@ -66,7 +65,7 @@ describe('KeirinRaceDataService', () => {
 
             // モックの戻り値を設定
             keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -85,7 +84,7 @@ describe('KeirinRaceDataService', () => {
 
             // モックの戻り値を設定
             keirinRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -125,7 +124,7 @@ describe('KeirinRaceDataService', () => {
 
             // モックの戻り値を設定
             keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
-                new FetchRaceListResponse<KeirinRaceEntity>(mockRaceEntity),
+                mockRaceEntity,
             );
 
             await service.updateRaceEntityList(mockRaceEntity);

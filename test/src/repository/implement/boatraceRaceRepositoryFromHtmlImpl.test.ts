@@ -34,7 +34,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('fetchPlaceList', () => {
             test('正しいボートレースデータを取得できる', async () => {
-                const response = await repository.fetchRaceEntityList(
+                const raceEntityList = await repository.fetchRaceEntityList(
                     new FetchRaceListRequest<BoatracePlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
@@ -50,7 +50,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
                         ],
                     ),
                 );
-                expect(response.raceEntityList).toHaveLength(1);
+                expect(raceEntityList).toHaveLength(1);
             });
         });
 
