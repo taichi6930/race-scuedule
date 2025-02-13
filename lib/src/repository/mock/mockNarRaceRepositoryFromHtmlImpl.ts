@@ -5,7 +5,6 @@ import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
 export class MockNarRaceRepositoryFromHtmlImpl
@@ -47,9 +46,7 @@ export class MockNarRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    registerRaceEntityList(
-        raceEntityList: NarRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    registerRaceEntityList(raceEntityList: NarRaceEntity[]): Promise<void> {
         console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

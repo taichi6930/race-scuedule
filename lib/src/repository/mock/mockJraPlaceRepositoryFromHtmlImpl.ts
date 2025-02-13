@@ -4,7 +4,6 @@ import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
 export class MockJraPlaceRepositoryFromHtmlImpl
@@ -42,9 +41,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceEntityList(
-        placeEntityList: JraPlaceEntity[],
-    ): Promise<RegisterPlaceListResponse> {
+    registerPlaceEntityList(placeEntityList: JraPlaceEntity[]): Promise<void> {
         console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

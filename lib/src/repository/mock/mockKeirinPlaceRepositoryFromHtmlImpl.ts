@@ -4,7 +4,6 @@ import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
 export class MockKeirinPlaceRepositoryFromHtmlImpl
@@ -44,7 +43,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
     @Logger
     registerPlaceEntityList(
         placeEntityList: KeirinPlaceEntity[],
-    ): Promise<RegisterPlaceListResponse> {
+    ): Promise<void> {
         console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

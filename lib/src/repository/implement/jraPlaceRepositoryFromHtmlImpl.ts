@@ -10,7 +10,6 @@ import { generateJraPlaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
 export class JraPlaceRepositoryFromHtmlImpl
@@ -203,9 +202,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerPlaceEntityList(
-        placeEntityList: JraPlaceEntity[],
-    ): Promise<RegisterPlaceListResponse> {
+    registerPlaceEntityList(placeEntityList: JraPlaceEntity[]): Promise<void> {
         console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

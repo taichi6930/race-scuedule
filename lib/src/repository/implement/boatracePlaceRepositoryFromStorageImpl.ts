@@ -10,7 +10,6 @@ import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * ボートレースデータリポジトリの実装
@@ -61,7 +60,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
     @Logger
     async registerPlaceEntityList(
         placeEntityList: BoatracePlaceEntity[],
-    ): Promise<RegisterPlaceListResponse> {
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: BoatracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -94,8 +93,6 @@ export class BoatracePlaceRepositoryFromStorageImpl
             existFetchPlaceRecordList,
             this.fileName,
         );
-
-        return new RegisterPlaceListResponse(200);
     }
 
     /**

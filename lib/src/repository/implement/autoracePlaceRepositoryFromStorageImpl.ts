@@ -10,7 +10,6 @@ import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * オートレースデータリポジトリの実装
@@ -61,7 +60,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
     @Logger
     async registerPlaceEntityList(
         placeEntityList: AutoracePlaceEntity[],
-    ): Promise<RegisterPlaceListResponse> {
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: AutoracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -94,8 +93,6 @@ export class AutoracePlaceRepositoryFromStorageImpl
             existFetchPlaceRecordList,
             this.fileName,
         );
-
-        return new RegisterPlaceListResponse(200);
     }
 
     /**

@@ -10,7 +10,6 @@ import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
  * 競輪データリポジトリの実装
@@ -61,7 +60,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
     @Logger
     async registerPlaceEntityList(
         placeEntityList: KeirinPlaceEntity[],
-    ): Promise<RegisterPlaceListResponse> {
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: KeirinPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -94,8 +93,6 @@ export class KeirinPlaceRepositoryFromStorageImpl
             existFetchPlaceRecordList,
             this.fileName,
         );
-
-        return new RegisterPlaceListResponse(200);
     }
 
     /**

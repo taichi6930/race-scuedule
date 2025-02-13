@@ -9,7 +9,6 @@ import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
 export class JraPlaceRepositoryFromStorageImpl
@@ -56,7 +55,7 @@ export class JraPlaceRepositoryFromStorageImpl
     @Logger
     async registerPlaceEntityList(
         placeEntityList: JraPlaceEntity[],
-    ): Promise<RegisterPlaceListResponse> {
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: JraPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -89,8 +88,6 @@ export class JraPlaceRepositoryFromStorageImpl
             existFetchPlaceRecordList,
             this.fileName,
         );
-
-        return new RegisterPlaceListResponse(200);
     }
 
     /**

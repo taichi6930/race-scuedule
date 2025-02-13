@@ -7,7 +7,6 @@ import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // BoatraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockBoatraceRaceRepositoryFromHtmlImpl
@@ -53,7 +52,7 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
     @Logger
     registerRaceEntityList(
         raceEntityList: BoatraceRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    ): Promise<void> {
         console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

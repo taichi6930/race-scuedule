@@ -14,7 +14,6 @@ import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * オートレース場開催データリポジトリの実装
@@ -209,7 +208,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     @Logger
     registerRaceEntityList(
         raceEntityList: AutoraceRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    ): Promise<void> {
         console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

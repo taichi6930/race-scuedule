@@ -1,7 +1,6 @@
 import type { IPlaceEntity } from '../entity/iPlaceEntity';
 import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import type { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * レースデータリポジトリ
@@ -22,7 +21,5 @@ export interface IRaceRepository<
      * レースデータを登録する
      * @param request
      */
-    registerRaceEntityList: (
-        raceEntityList: R[],
-    ) => Promise<RegisterRaceListResponse>;
+    registerRaceEntityList: (raceEntityList: R[]) => Promise<void>;
 }

@@ -10,7 +10,6 @@ import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
 export class JraRaceRepositoryFromStorageImpl
@@ -128,7 +127,7 @@ export class JraRaceRepositoryFromStorageImpl
     @Logger
     async registerRaceEntityList(
         raceEntityList: JraRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: JraRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -161,6 +160,5 @@ export class JraRaceRepositoryFromStorageImpl
             existFetchRaceRecordList,
             this.fileName,
         );
-        return new RegisterRaceListResponse(200);
     }
 }

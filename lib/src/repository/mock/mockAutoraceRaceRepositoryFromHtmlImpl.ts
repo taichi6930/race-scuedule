@@ -5,7 +5,6 @@ import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // AutoraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockAutoraceRaceRepositoryFromHtmlImpl
@@ -50,7 +49,7 @@ export class MockAutoraceRaceRepositoryFromHtmlImpl
     @Logger
     registerRaceEntityList(
         raceEntityList: AutoraceRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    ): Promise<void> {
         console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

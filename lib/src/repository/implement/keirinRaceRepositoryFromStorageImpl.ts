@@ -13,7 +13,6 @@ import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * 競輪場開催データリポジトリの実装
@@ -99,7 +98,7 @@ export class KeirinRaceRepositoryFromStorageImpl
     @Logger
     async registerRaceEntityList(
         raceEntityList: KeirinRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: KeirinRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -157,7 +156,6 @@ export class KeirinRaceRepositoryFromStorageImpl
             existFetchRacePlayerRecordList,
             this.racePlayerListFileName,
         );
-        return new RegisterRaceListResponse(200);
     }
 
     /**

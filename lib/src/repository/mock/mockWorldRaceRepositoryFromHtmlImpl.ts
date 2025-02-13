@@ -5,7 +5,6 @@ import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
 import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 // WorldRaceRepositoryFromHtmlImplのモックを作成
 export class MockWorldRaceRepositoryFromHtmlImpl
@@ -46,9 +45,7 @@ export class MockWorldRaceRepositoryFromHtmlImpl
     }
 
     @Logger
-    registerRaceEntityList(
-        raceEntityList: WorldRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    registerRaceEntityList(raceEntityList: WorldRaceEntity[]): Promise<void> {
         console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

@@ -4,7 +4,6 @@ import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // BoatraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockBoatracePlaceRepositoryFromHtmlImpl
@@ -44,7 +43,7 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
     @Logger
     registerPlaceEntityList(
         placeEntityList: BoatracePlaceEntity[],
-    ): Promise<RegisterPlaceListResponse> {
+    ): Promise<void> {
         console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

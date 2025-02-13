@@ -13,7 +13,6 @@ import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * ボートレース場開催データリポジトリの実装
@@ -99,7 +98,7 @@ export class BoatraceRaceRepositoryFromStorageImpl
     @Logger
     async registerRaceEntityList(
         raceEntityList: BoatraceRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: BoatraceRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -157,7 +156,6 @@ export class BoatraceRaceRepositoryFromStorageImpl
             existFetchRacePlayerRecordList,
             this.racePlayerListFileName,
         );
-        return new RegisterRaceListResponse(200);
     }
 
     /**

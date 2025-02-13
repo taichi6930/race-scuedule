@@ -13,7 +13,6 @@ import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * オートレース場開催データリポジトリの実装
@@ -99,7 +98,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
     @Logger
     async registerRaceEntityList(
         raceEntityList: AutoraceRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: AutoraceRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -157,7 +156,6 @@ export class AutoraceRaceRepositoryFromStorageImpl
             existFetchRacePlayerRecordList,
             this.racePlayerListFileName,
         );
-        return new RegisterRaceListResponse(200);
     }
 
     /**

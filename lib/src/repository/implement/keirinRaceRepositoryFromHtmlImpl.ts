@@ -18,7 +18,6 @@ import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * 競輪場開催データリポジトリの実装
@@ -297,9 +296,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceEntityList(
-        raceEntityList: KeirinRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    registerRaceEntityList(raceEntityList: KeirinRaceEntity[]): Promise<void> {
         console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

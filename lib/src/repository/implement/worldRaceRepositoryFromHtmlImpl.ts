@@ -20,7 +20,6 @@ import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * 競馬場開催データリポジトリの実装
@@ -256,9 +255,7 @@ export class WorldRaceRepositoryFromHtmlImpl
      * @param request
      */
     @Logger
-    registerRaceEntityList(
-        raceEntityList: WorldRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    registerRaceEntityList(raceEntityList: WorldRaceEntity[]): Promise<void> {
         console.debug(raceEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }

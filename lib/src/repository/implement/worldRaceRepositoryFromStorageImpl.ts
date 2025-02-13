@@ -10,7 +10,6 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 /**
  * 競馬場開催データリポジトリの実装
@@ -60,7 +59,7 @@ export class WorldRaceRepositoryFromStorageImpl
     @Logger
     async registerRaceEntityList(
         raceEntityList: WorldRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: WorldRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -93,7 +92,6 @@ export class WorldRaceRepositoryFromStorageImpl
             existFetchRaceRecordList,
             this.fileName,
         );
-        return new RegisterRaceListResponse(200);
     }
 
     /**

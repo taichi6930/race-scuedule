@@ -10,7 +10,6 @@ import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
 import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
-import { RegisterRaceListResponse } from '../response/registerRaceListResponse';
 
 @injectable()
 export class NarRaceRepositoryFromStorageImpl
@@ -137,7 +136,7 @@ export class NarRaceRepositoryFromStorageImpl
     @Logger
     async registerRaceEntityList(
         raceEntityList: NarRaceEntity[],
-    ): Promise<RegisterRaceListResponse> {
+    ): Promise<void> {
         // 既に登録されているデータを取得する
         const existFetchRaceRecordList: NarRaceRecord[] =
             await this.getRaceRecordListFromS3();
@@ -166,6 +165,5 @@ export class NarRaceRepositoryFromStorageImpl
             updatedRaceRecordList,
             this.fileName,
         );
-        return new RegisterRaceListResponse(200);
     }
 }
