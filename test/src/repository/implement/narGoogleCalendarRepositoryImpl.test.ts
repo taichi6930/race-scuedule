@@ -5,7 +5,6 @@ import { container } from 'tsyringe';
 import type { ICalendarGateway } from '../../../../lib/src/gateway/interface/iCalendarGateway';
 import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRaceEntity';
 import { NarGoogleCalendarRepositoryImpl } from '../../../../lib/src/repository/implement/narGoogleCalendarRepositoryImpl';
-import { DeleteCalendarListRequest } from '../../../../lib/src/repository/request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import {
@@ -68,8 +67,7 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
     it('should delete events successfully', async () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        const request = new DeleteCalendarListRequest([baseNarCalendarData]);
-        const response = await repository.deleteEvents(request);
+        const response = await repository.deleteEvents([baseNarCalendarData]);
 
         // レスポンスが200で帰ってくることを確認
         expect(response.code).toEqual(200);
@@ -81,9 +79,7 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new DeleteCalendarListRequest([baseNarCalendarData]);
-
-        await repository.deleteEvents(request);
+        await repository.deleteEvents([baseNarCalendarData]);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 

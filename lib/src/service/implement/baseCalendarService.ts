@@ -4,7 +4,6 @@ import '../../utility/format';
 import { CalendarData } from '../../domain/calendarData';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
-import { DeleteCalendarListRequest } from '../../repository/request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../../repository/request/upsertCalendarListRequest';
 import { FetchCalendarListResponse } from '../../repository/response/fetchCalendarListResponse';
@@ -59,7 +58,6 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
             console.debug('指定された期間にイベントが見つかりませんでした。');
             return;
         }
-        const request = new DeleteCalendarListRequest(calendarDataList);
-        await this.calendarRepository.deleteEvents(request);
+        await this.calendarRepository.deleteEvents(calendarDataList);
     }
 }

@@ -5,7 +5,6 @@ import { container } from 'tsyringe';
 import type { ICalendarGateway } from '../../../../lib/src/gateway/interface/iCalendarGateway';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import { KeirinGoogleCalendarRepositoryImpl } from '../../../../lib/src/repository/implement/keirinGoogleCalendarRepositoryImpl';
-import { DeleteCalendarListRequest } from '../../../../lib/src/repository/request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import {
@@ -68,8 +67,9 @@ describe('KeirinGoogleCalendarRepositoryImpl', () => {
     it('should delete events successfully', async () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        const request = new DeleteCalendarListRequest([baseKeirinCalendarData]);
-        const response = await repository.deleteEvents(request);
+        const response = await repository.deleteEvents([
+            baseKeirinCalendarData,
+        ]);
 
         // レスポンスが200で帰ってくることを確認
         expect(response.code).toEqual(200);
@@ -81,9 +81,7 @@ describe('KeirinGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new DeleteCalendarListRequest([baseKeirinCalendarData]);
-
-        await repository.deleteEvents(request);
+        await repository.deleteEvents([baseKeirinCalendarData]);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 

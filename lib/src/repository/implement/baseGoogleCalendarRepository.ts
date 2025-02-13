@@ -4,7 +4,6 @@ import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
-import type { DeleteCalendarListRequest } from '../request/deleteCalendarListRequest';
 import type { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
 import type { UpsertCalendarListRequest } from '../request/upsertCalendarListRequest';
 import { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
@@ -91,10 +90,10 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
     }
 
     async deleteEvents(
-        request: DeleteCalendarListRequest,
+        calendarDataList: CalendarData[],
     ): Promise<DeleteCalendarListResponse> {
         await Promise.all(
-            request.calendarDataList.map(async (calendarData) => {
+            calendarDataList.map(async (calendarData) => {
                 try {
                     await this.googleCalendarGateway.deleteCalendarData(
                         calendarData.id,

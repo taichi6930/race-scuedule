@@ -5,7 +5,6 @@ import { container } from 'tsyringe';
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
-import { DeleteCalendarListRequest } from '../../../../lib/src/repository/request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import { FetchCalendarListResponse } from '../../../../lib/src/repository/response/fetchCalendarListResponse';
@@ -75,7 +74,7 @@ describe('KeirinCalendarService', () => {
         await service.deleteEvents(calendarDataList);
 
         expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-            new DeleteCalendarListRequest(calendarDataList),
+            calendarDataList,
         );
     });
 

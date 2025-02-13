@@ -5,7 +5,6 @@ import { container } from 'tsyringe';
 import type { ICalendarGateway } from '../../../../lib/src/gateway/interface/iCalendarGateway';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldGoogleCalendarRepositoryImpl } from '../../../../lib/src/repository/implement/worldGoogleCalendarRepositoryImpl';
-import { DeleteCalendarListRequest } from '../../../../lib/src/repository/request/deleteCalendarListRequest';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
 import {
@@ -68,8 +67,8 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
     it('should delete events successfully', async () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        const request = new DeleteCalendarListRequest([baseWorldCalendarData]);
-        const response = await repository.deleteEvents(request);
+        const calendarDataList = [baseWorldCalendarData];
+        const response = await repository.deleteEvents(calendarDataList);
 
         // レスポンスが200で帰ってくることを確認
         expect(response.code).toEqual(200);
@@ -81,9 +80,9 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new DeleteCalendarListRequest([baseWorldCalendarData]);
+        const calendarDataList = [baseWorldCalendarData];
 
-        await repository.deleteEvents(request);
+        await repository.deleteEvents(calendarDataList);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
