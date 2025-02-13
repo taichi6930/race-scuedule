@@ -10,7 +10,6 @@ import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -61,17 +60,16 @@ export class KeirinPlaceRepositoryFromStorageImpl
 
     @Logger
     async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<KeirinPlaceEntity>,
+        placeEntityList: KeirinPlaceEntity[],
     ): Promise<RegisterPlaceListResponse> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: KeirinPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: KeirinPlaceRecord[] =
-            request.placeEntityList.map((placeEntity) =>
-                placeEntity.toRecord(),
-            );
+        const placeRecordList: KeirinPlaceRecord[] = placeEntityList.map(
+            (placeEntity) => placeEntity.toRecord(),
+        );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
         placeRecordList.forEach((placeRecord) => {

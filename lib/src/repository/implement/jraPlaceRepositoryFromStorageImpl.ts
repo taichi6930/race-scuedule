@@ -9,7 +9,6 @@ import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
@@ -56,14 +55,14 @@ export class JraPlaceRepositoryFromStorageImpl
 
     @Logger
     async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<JraPlaceEntity>,
+        placeEntityList: JraPlaceEntity[],
     ): Promise<RegisterPlaceListResponse> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: JraPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: JraPlaceRecord[] = request.placeEntityList.map(
+        const placeRecordList: JraPlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
 

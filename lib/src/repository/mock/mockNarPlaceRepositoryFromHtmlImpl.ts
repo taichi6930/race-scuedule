@@ -4,7 +4,6 @@ import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
@@ -44,9 +43,9 @@ export class MockNarPlaceRepositoryFromHtmlImpl
      */
     @Logger
     registerPlaceEntityList(
-        request: RegisterPlaceListRequest<NarPlaceEntity>,
+        placeEntityList: NarPlaceEntity[],
     ): Promise<RegisterPlaceListResponse> {
-        console.debug(request);
+        console.debug(placeEntityList);
         throw new Error('HTMLにはデータを登録出来ません');
     }
 }

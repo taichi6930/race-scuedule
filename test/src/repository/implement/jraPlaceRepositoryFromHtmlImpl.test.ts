@@ -4,10 +4,8 @@ import { container } from 'tsyringe';
 
 import type { IJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iJraPlaceDataHtmlGateway';
 import { MockJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockJraPlaceDataHtmlGateway';
-import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
@@ -43,13 +41,9 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('registerPlaceList', () => {
             test('htmlなので登録できない', async () => {
-                // リクエストの作成
-                const request = new RegisterPlaceListRequest<JraPlaceEntity>(
-                    [],
-                );
                 // テスト実行
                 await expect(
-                    repository.registerPlaceEntityList(request),
+                    repository.registerPlaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
         });

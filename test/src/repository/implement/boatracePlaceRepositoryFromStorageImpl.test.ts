@@ -10,7 +10,6 @@ import type { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boa
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
@@ -56,12 +55,8 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
 
     describe('registerPlaceList', () => {
         test('正しいボートレース場データを登録できる', async () => {
-            // リクエストの作成
-            const request = new RegisterPlaceListRequest<BoatracePlaceEntity>(
-                placeEntityList,
-            );
             // テスト実行
-            await repository.registerPlaceEntityList(request);
+            await repository.registerPlaceEntityList(placeEntityList);
 
             // uploadDataToS3が1回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

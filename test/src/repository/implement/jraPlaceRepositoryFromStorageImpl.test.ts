@@ -10,7 +10,6 @@ import type { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlace
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import { JraPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
@@ -56,12 +55,8 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
 
     describe('registerPlaceList', () => {
         test('正しい競馬場データを登録できる', async () => {
-            // リクエストの作成
-            const request = new RegisterPlaceListRequest<JraPlaceEntity>(
-                placeEntityList,
-            );
             // テスト実行
-            await repository.registerPlaceEntityList(request);
+            await repository.registerPlaceEntityList(placeEntityList);
 
             // uploadDataToS3が12回呼ばれることを検証
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);

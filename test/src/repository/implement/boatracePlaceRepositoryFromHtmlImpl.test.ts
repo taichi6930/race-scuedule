@@ -4,10 +4,8 @@ import { container } from 'tsyringe';
 
 import type { IBoatracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iBoatracePlaceDataHtmlGateway';
 import { MockBoatracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockBoatracePlaceDataHtmlGateway';
-import type { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
 import { BoatracePlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
 import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../../../../lib/src/repository/request/registerPlaceListRequest';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
@@ -44,12 +42,9 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('registerPlaceList', () => {
             test('htmlなので登録できない', async () => {
-                // リクエストの作成
-                const request =
-                    new RegisterPlaceListRequest<BoatracePlaceEntity>([]);
                 // テスト実行
                 await expect(
-                    repository.registerPlaceEntityList(request),
+                    repository.registerPlaceEntityList([]),
                 ).rejects.toThrow('HTMLにはデータを登録出来ません');
             });
         });

@@ -1,6 +1,5 @@
 import type { IPlaceEntity } from '../entity/iPlaceEntity';
 import type { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import type { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import type { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -20,6 +19,6 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
      * @param request
      */
     registerPlaceEntityList: (
-        request: RegisterPlaceListRequest<P>,
+        placeEntityList: P[],
     ) => Promise<RegisterPlaceListResponse>;
 }

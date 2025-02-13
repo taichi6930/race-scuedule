@@ -10,7 +10,6 @@ import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -61,17 +60,16 @@ export class BoatracePlaceRepositoryFromStorageImpl
 
     @Logger
     async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<BoatracePlaceEntity>,
+        placeEntityList: BoatracePlaceEntity[],
     ): Promise<RegisterPlaceListResponse> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: BoatracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: BoatracePlaceRecord[] =
-            request.placeEntityList.map((placeEntity) =>
-                placeEntity.toRecord(),
-            );
+        const placeRecordList: BoatracePlaceRecord[] = placeEntityList.map(
+            (placeEntity) => placeEntity.toRecord(),
+        );
 
         // idが重複しているデータは上書きをし、新規のデータは追加する
         placeRecordList.forEach((placeRecord) => {

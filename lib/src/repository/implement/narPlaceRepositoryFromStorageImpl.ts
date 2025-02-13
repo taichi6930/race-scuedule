@@ -9,7 +9,6 @@ import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
-import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
@@ -56,14 +55,14 @@ export class NarPlaceRepositoryFromStorageImpl
 
     @Logger
     async registerPlaceEntityList(
-        request: RegisterPlaceListRequest<NarPlaceEntity>,
+        placeEntityList: NarPlaceEntity[],
     ): Promise<RegisterPlaceListResponse> {
         // 既に登録されているデータを取得する
         const existFetchPlaceRecordList: NarPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
         // PlaceEntityをPlaceRecordに変換する
-        const placeRecordList: NarPlaceRecord[] = request.placeEntityList.map(
+        const placeRecordList: NarPlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
 
