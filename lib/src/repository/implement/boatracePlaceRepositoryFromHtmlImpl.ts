@@ -9,8 +9,8 @@ import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatrace
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
+import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -35,11 +35,11 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
+        searchFilter: SearchFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
         const quarters: Record<string, Date> = await this.generateQuarterList(
-            request.startDate,
-            request.finishDate,
+            searchFilter.startDate,
+            searchFilter.finishDate,
         );
 
         // quartersの月リストを取得
@@ -55,8 +55,8 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         const filteredPlaceEntityList: BoatracePlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
 
         return filteredPlaceEntityList;

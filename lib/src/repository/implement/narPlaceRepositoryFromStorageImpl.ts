@@ -7,8 +7,8 @@ import { NarPlaceRecord } from '../../gateway/record/narPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
@@ -32,7 +32,7 @@ export class NarPlaceRepositoryFromStorageImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
+        searchFilter: SearchFilterEntity,
     ): Promise<NarPlaceEntity[]> {
         // 年ごとの競馬場開催データを取得
         const placeRecordList: NarPlaceRecord[] =
@@ -46,8 +46,8 @@ export class NarPlaceRepositoryFromStorageImpl
         // filterで日付の範囲を指定
         const filteredPlaceEntityList = placeEntityList.filter(
             (placeEntity) =>
-                placeEntity.placeData.dateTime >= request.startDate &&
-                placeEntity.placeData.dateTime <= request.finishDate,
+                placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                placeEntity.placeData.dateTime <= searchFilter.finishDate,
         );
 
         return filteredPlaceEntityList;

@@ -2,8 +2,8 @@ import { NarPlaceData } from '../../domain/narPlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
+import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
@@ -16,13 +16,13 @@ export class MockNarPlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
+        searchFilter: SearchFilterEntity,
     ): Promise<NarPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの地方競馬場データを取得する
         const fetchPlaceEntityList = [];
-        const currentDate = new Date(request.startDate);
+        const currentDate = new Date(searchFilter.startDate);
 
-        while (currentDate <= request.finishDate) {
+        while (currentDate <= searchFilter.finishDate) {
             // 地方競馬場データを作成
             const narPlaceEntity = NarPlaceEntity.createWithoutId(
                 NarPlaceData.create(new Date(currentDate), '大井'),

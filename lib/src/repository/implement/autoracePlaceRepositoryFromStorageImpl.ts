@@ -8,8 +8,8 @@ import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
+import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -31,12 +31,12 @@ export class AutoracePlaceRepositoryFromStorageImpl
      *
      * このメソッドで日付の範囲を指定してオートレース開催データを取得する
      *
-     * @param request - 開催データ取得リクエスト
+     * @param searchFilter - 開催データ取得リクエスト
      * @returns Promise<AutoracePlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
+        searchFilter: SearchFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
         // ファイル名リストからオートレース開催データを取得する
         const placeRecordList: AutoracePlaceRecord[] =
@@ -51,8 +51,8 @@ export class AutoracePlaceRepositoryFromStorageImpl
         const filteredPlaceEntityList: AutoracePlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
 
         return filteredPlaceEntityList;

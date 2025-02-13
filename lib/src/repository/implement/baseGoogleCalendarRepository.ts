@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import type { CalendarData } from '../../domain/calendarData';
 import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import type { IRaceEntity } from '../entity/iRaceEntity';
+import type { SearchFilterEntity } from '../entity/searchFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
-import type { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
 import { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
 import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
 
@@ -19,15 +19,13 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
         event: object,
     ): CalendarData;
 
-    async getEvents(
-        request: FetchCalendarListRequest,
-    ): Promise<CalendarData[]> {
+    async getEvents(searchFilter: SearchFilterEntity): Promise<CalendarData[]> {
         // GoogleカレンダーAPIからイベントを取得
         try {
             const calendarDataList =
                 await this.googleCalendarGateway.fetchCalendarDataList(
-                    request.startDate,
-                    request.finishDate,
+                    searchFilter.startDate,
+                    searchFilter.finishDate,
                 );
             return calendarDataList.map((calendarData) =>
                 this.fromGoogleCalendarDataToCalendarData(calendarData),

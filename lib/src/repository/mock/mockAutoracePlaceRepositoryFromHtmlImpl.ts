@@ -2,8 +2,8 @@ import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
+import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // AutoraceRaceRepositoryFromHtmlImplのモックを作成
@@ -16,13 +16,13 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
+        searchFilter: SearchFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのオートレース場データを取得する
         const fetchPlaceEntityList = [];
-        const currentDate = new Date(request.startDate);
+        const currentDate = new Date(searchFilter.startDate);
 
-        while (currentDate <= request.finishDate) {
+        while (currentDate <= searchFilter.finishDate) {
             const datetime = new Date(currentDate);
             const place = '伊勢崎';
             // オートレース場データを作成

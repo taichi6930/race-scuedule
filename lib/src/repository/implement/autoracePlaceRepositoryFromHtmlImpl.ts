@@ -11,8 +11,8 @@ import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCour
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
+import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -37,11 +37,11 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
+        searchFilter: SearchFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
-            request.startDate,
-            request.finishDate,
+            searchFilter.startDate,
+            searchFilter.finishDate,
         );
         const placeEntityList: AutoracePlaceEntity[] = (
             await Promise.all(
@@ -55,8 +55,8 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         const filteredPlaceEntityList: AutoracePlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
         return filteredPlaceEntityList;
     }

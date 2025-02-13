@@ -4,8 +4,8 @@ import { container } from 'tsyringe';
 
 import type { INarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarPlaceDataHtmlGateway';
 import { MockNarPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarPlaceDataHtmlGateway';
+import { SearchFilterEntity } from '../../../../lib/src/repository/entity/searchFilterEntity';
 import { NarPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromHtmlImpl';
-import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
@@ -30,7 +30,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
-                    new FetchPlaceListRequest(
+                    new SearchFilterEntity(
                         new Date('2024-10-01'),
                         new Date('2024-10-31'),
                     ),

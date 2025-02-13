@@ -8,8 +8,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { generateJraPlaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
+import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
@@ -31,12 +31,12 @@ export class JraPlaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
+        searchFilter: SearchFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // startDateからfinishDateまでの年のリストを生成する
         const yearList: Date[] = await this.generateYearList(
-            request.startDate,
-            request.finishDate,
+            searchFilter.startDate,
+            searchFilter.finishDate,
         );
 
         // 年ごとの競馬場開催データを取得
@@ -55,8 +55,8 @@ export class JraPlaceRepositoryFromHtmlImpl
         const filteredPlaceEntityList: JraPlaceEntity[] =
             placeEntityList.filter(
                 (placeEntity) =>
-                    placeEntity.placeData.dateTime >= request.startDate &&
-                    placeEntity.placeData.dateTime <= request.finishDate,
+                    placeEntity.placeData.dateTime >= searchFilter.startDate &&
+                    placeEntity.placeData.dateTime <= searchFilter.finishDate,
             );
 
         return filteredPlaceEntityList;

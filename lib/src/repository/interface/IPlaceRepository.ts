@@ -1,5 +1,5 @@
 import type { IPlaceEntity } from '../entity/iPlaceEntity';
-import type { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
+import type { SearchFilterEntity } from '../entity/searchFilterEntity';
 import type { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -12,7 +12,7 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
      * @param request
      * @returns 開催データ
      */
-    fetchPlaceEntityList: (request: FetchPlaceListRequest) => Promise<P[]>;
+    fetchPlaceEntityList: (searchFilter: SearchFilterEntity) => Promise<P[]>;
 
     /**
      * 開催データを登録する

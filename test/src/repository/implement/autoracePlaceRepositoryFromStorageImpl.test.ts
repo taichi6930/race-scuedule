@@ -8,8 +8,8 @@ import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData'
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { AutoracePlaceRecord } from '../../../../lib/src/gateway/record/autoracePlaceRecord';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import { SearchFilterEntity } from '../../../../lib/src/repository/entity/searchFilterEntity';
 import { AutoracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromStorageImpl';
-import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
@@ -39,14 +39,13 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
 
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
-            // リクエストの作成
-            const request = new FetchPlaceListRequest(
-                new Date('2024-01-01'),
-                new Date('2024-02-01'),
-            );
             // テスト実行
-            const placeEntityList =
-                await repository.fetchPlaceEntityList(request);
+            const placeEntityList = await repository.fetchPlaceEntityList(
+                new SearchFilterEntity(
+                    new Date('2024-01-01'),
+                    new Date('2024-02-01'),
+                ),
+            );
 
             // レスポンスの検証
             expect(placeEntityList).toHaveLength(1);

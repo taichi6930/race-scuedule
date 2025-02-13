@@ -4,8 +4,8 @@ import { container } from 'tsyringe';
 
 import type { IJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iJraPlaceDataHtmlGateway';
 import { MockJraPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockJraPlaceDataHtmlGateway';
+import { SearchFilterEntity } from '../../../../lib/src/repository/entity/searchFilterEntity';
 import { JraPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromHtmlImpl';
-import { FetchPlaceListRequest } from '../../../../lib/src/repository/request/fetchPlaceListRequest';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
@@ -30,7 +30,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを1年間の検索で取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
-                    new FetchPlaceListRequest(
+                    new SearchFilterEntity(
                         new Date('2024-01-01'),
                         new Date('2024-12-31'),
                     ),

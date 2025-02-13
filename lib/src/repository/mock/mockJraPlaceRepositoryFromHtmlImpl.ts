@@ -2,8 +2,8 @@ import { JraPlaceData } from '../../domain/jraPlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
+import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
@@ -16,13 +16,13 @@ export class MockJraPlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
+        searchFilter: SearchFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
         const fetchPlaceEntityList = [];
-        const currentDate = new Date(request.startDate);
+        const currentDate = new Date(searchFilter.startDate);
 
-        while (currentDate <= request.finishDate) {
+        while (currentDate <= searchFilter.finishDate) {
             // 中央競馬場データを作成
             const jraPlaceEntity = JraPlaceEntity.createWithoutId(
                 JraPlaceData.create(new Date(currentDate), '東京', 1, 1),

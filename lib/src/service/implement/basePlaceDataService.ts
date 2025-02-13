@@ -1,6 +1,6 @@
 import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
+import { SearchFilterEntity } from '../../repository/entity/searchFilterEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../../repository/request/fetchPlaceListRequest';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import { IPlaceDataService } from '../interface/IPlaceDataService';
@@ -27,11 +27,11 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
         type: DataLocationType,
     ): Promise<P[]> {
         try {
-            const request = new FetchPlaceListRequest(startDate, finishDate);
+            const searchFilter = new SearchFilterEntity(startDate, finishDate);
             const repository = this.getPlaceRepository(type);
 
             const placeEntityList =
-                await repository.fetchPlaceEntityList(request);
+                await repository.fetchPlaceEntityList(searchFilter);
             return placeEntityList;
         } catch (error) {
             console.error('レースデータの取得に失敗しました', error);

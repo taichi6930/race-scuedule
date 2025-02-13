@@ -2,8 +2,8 @@ import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
+import { SearchFilterEntity } from '../entity/searchFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
-import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // BoatraceRaceRepositoryFromHtmlImplのモックを作成
@@ -16,13 +16,13 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        request: FetchPlaceListRequest,
+        searchFilter: SearchFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのボートレース場データを取得する
         const fetchPlaceEntityList = [];
-        const currentDate = new Date(request.startDate);
+        const currentDate = new Date(searchFilter.startDate);
 
-        while (currentDate <= request.finishDate) {
+        while (currentDate <= searchFilter.finishDate) {
             // ボートレース場データを作成
             const boatracePlaceEntity = BoatracePlaceEntity.createWithoutId(
                 BoatracePlaceData.create(new Date(currentDate), '平和島', 'SG'),
