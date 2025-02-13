@@ -42,10 +42,10 @@ describe('JraGoogleCalendarRepositoryImpl', () => {
             new Date('2023-01-01'),
             new Date('2023-12-31'),
         );
-        const response = await repository.getEvents(request);
+        const calendarDataList = await repository.getEvents(request);
 
-        expect(response.calendarDataList).toHaveLength(1);
-        expect(response.calendarDataList[0]).toEqual(baseJraCalendarData);
+        expect(calendarDataList).toHaveLength(1);
+        expect(calendarDataList[0]).toEqual(baseJraCalendarData);
         expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
     });
 
@@ -58,9 +58,9 @@ describe('JraGoogleCalendarRepositoryImpl', () => {
             new Date('2023-01-01'),
             new Date('2023-12-31'),
         );
-        const response = await repository.getEvents(request);
+        const calendarDataList = await repository.getEvents(request);
 
-        expect(response.calendarDataList).toHaveLength(0);
+        expect(calendarDataList).toHaveLength(0);
         expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
     });
 

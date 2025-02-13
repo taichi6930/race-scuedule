@@ -6,7 +6,6 @@ import { IRaceEntity } from '../../repository/entity/iRaceEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
 import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../../repository/request/upsertCalendarListRequest';
-import { FetchCalendarListResponse } from '../../repository/response/fetchCalendarListResponse';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
@@ -29,9 +28,7 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
         finishDate: Date,
     ): Promise<CalendarData[]> {
         const request = new FetchCalendarListRequest(startDate, finishDate);
-        const response: FetchCalendarListResponse =
-            await this.calendarRepository.getEvents(request);
-        return response.calendarDataList;
+        return await this.calendarRepository.getEvents(request);
     }
 
     /**

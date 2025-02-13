@@ -7,7 +7,6 @@ import type { ICalendarRepository } from '../interface/ICalendarRepository';
 import type { FetchCalendarListRequest } from '../request/fetchCalendarListRequest';
 import type { UpsertCalendarListRequest } from '../request/upsertCalendarListRequest';
 import { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
-import { FetchCalendarListResponse } from '../response/fetchCalendarListResponse';
 import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
 
 /**
@@ -23,7 +22,7 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
 
     async getEvents(
         request: FetchCalendarListRequest,
-    ): Promise<FetchCalendarListResponse> {
+    ): Promise<CalendarData[]> {
         // GoogleカレンダーAPIからイベントを取得
         try {
             const calendarDataList =
@@ -31,17 +30,15 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
                     request.startDate,
                     request.finishDate,
                 );
-            return new FetchCalendarListResponse(
-                calendarDataList.map((calendarData) =>
-                    this.fromGoogleCalendarDataToCalendarData(calendarData),
-                ),
+            return calendarDataList.map((calendarData) =>
+                this.fromGoogleCalendarDataToCalendarData(calendarData),
             );
         } catch (error) {
             console.error(
                 'Google Calendar APIからのイベント取得に失敗しました',
                 error,
             );
-            return new FetchCalendarListResponse([]);
+            return [];
         }
     }
 

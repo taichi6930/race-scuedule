@@ -7,7 +7,6 @@ import type { NarRaceEntity } from '../../../../lib/src/repository/entity/narRac
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
-import { FetchCalendarListResponse } from '../../../../lib/src/repository/response/fetchCalendarListResponse';
 import { NarCalendarService } from '../../../../lib/src/service/implement/narCalendarService';
 import {
     baseNarCalendarData,
@@ -30,10 +29,10 @@ describe('NarCalendarService', () => {
         const startDate = new Date('2023-01-01');
         const finishDate = new Date('2023-01-31');
         const calendarDataList: CalendarData[] = [baseNarCalendarData];
-        const response = new FetchCalendarListResponse(calendarDataList);
 
-        (calendarRepository.getEvents as jest.Mock).mockResolvedValue(response);
-
+        (calendarRepository.getEvents as jest.Mock).mockResolvedValue(
+            calendarDataList,
+        );
         const result = await service.getEvents(startDate, finishDate);
 
         expect(calendarRepository.getEvents).toHaveBeenCalledWith(

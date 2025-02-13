@@ -7,7 +7,6 @@ import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worl
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
 import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
 import { UpsertCalendarListRequest } from '../../../../lib/src/repository/request/upsertCalendarListRequest';
-import { FetchCalendarListResponse } from '../../../../lib/src/repository/response/fetchCalendarListResponse';
 import { WorldCalendarService } from '../../../../lib/src/service/implement/worldCalendarService';
 import {
     baseWorldCalendarData,
@@ -33,10 +32,10 @@ describe('WorldCalendarService', () => {
         const startDate = new Date('2023-01-01');
         const finishDate = new Date('2023-01-31');
         const calendarDataList: CalendarData[] = [baseWorldCalendarData];
-        const response = new FetchCalendarListResponse(calendarDataList);
 
-        (calendarRepository.getEvents as jest.Mock).mockResolvedValue(response);
-
+        (calendarRepository.getEvents as jest.Mock).mockResolvedValue(
+            calendarDataList,
+        );
         const result = await service.getEvents(startDate, finishDate);
 
         expect(calendarRepository.getEvents).toHaveBeenCalledWith(
