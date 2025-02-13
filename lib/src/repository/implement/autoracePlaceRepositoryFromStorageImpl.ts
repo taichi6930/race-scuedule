@@ -8,7 +8,7 @@ import { AutoracePlaceRecord } from '../../gateway/record/autoracePlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
@@ -35,7 +35,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
         // ファイル名リストからオートレース開催データを取得する
         const placeRecordList: AutoracePlaceRecord[] =

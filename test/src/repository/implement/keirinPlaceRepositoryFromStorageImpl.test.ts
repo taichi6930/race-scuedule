@@ -8,7 +8,7 @@ import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { KeirinPlaceRecord } from '../../../../lib/src/gateway/record/keirinPlaceRecord';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
-import { SearchFilterEntity } from '../../../../lib/src/repository/entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { KeirinPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -41,7 +41,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
 
             // テスト実行
             const placeEntityList = await repository.fetchPlaceEntityList(
-                new SearchFilterEntity(
+                new SearchPlaceFilterEntity(
                     new Date('2024-01-01'),
                     new Date('2024-02-01'),
                 ),

@@ -2,7 +2,7 @@ import { NarPlaceData } from '../../domain/narPlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
@@ -15,7 +15,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<NarPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの地方競馬場データを取得する
         const fetchPlaceEntityList = [];

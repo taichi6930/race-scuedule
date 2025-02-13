@@ -13,8 +13,8 @@ import { Logger } from '../../utility/logger';
 import { processNarRaceName } from '../../utility/raceName';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 /**
  * 競馬場開催データリポジトリの実装
@@ -29,15 +29,15 @@ export class NarRaceRepositoryFromHtmlImpl
     ) {}
     /**
      * 競馬場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<NarPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         const narRaceDataList: NarRaceEntity[] = [];
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 narRaceDataList.push(

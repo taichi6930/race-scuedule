@@ -11,8 +11,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 /**
  * ボートレース場開催データリポジトリの実装
@@ -32,12 +32,12 @@ export class BoatraceRaceRepositoryFromStorageImpl
     ) {}
     /**
      * ボートレース場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<BoatracePlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<BoatracePlaceEntity>,
     ): Promise<BoatraceRaceEntity[]> {
         // ファイル名リストからボートレース選手データを取得する
         const racePlayerRecordList: BoatraceRacePlayerRecord[] =
@@ -84,8 +84,8 @@ export class BoatraceRaceRepositoryFromStorageImpl
         const filteredRaceEntityList: BoatraceRaceEntity[] =
             raceEntityList.filter(
                 (raceEntity) =>
-                    raceEntity.raceData.dateTime >= request.startDate &&
-                    raceEntity.raceData.dateTime <= request.finishDate,
+                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
             );
 
         return filteredRaceEntityList;

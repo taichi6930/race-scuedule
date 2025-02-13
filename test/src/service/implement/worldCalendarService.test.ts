@@ -3,9 +3,9 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
+import { SearchCalendarFilterEntity } from '../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import type { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
-import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
 import { WorldCalendarService } from '../../../../lib/src/service/implement/worldCalendarService';
 import {
     baseWorldCalendarData,
@@ -38,7 +38,7 @@ describe('WorldCalendarService', () => {
         const result = await service.getEvents(startDate, finishDate);
 
         expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-            new FetchCalendarListRequest(startDate, finishDate),
+            new SearchCalendarFilterEntity(startDate, finishDate),
         );
         expect(result).toEqual(calendarDataList);
     });

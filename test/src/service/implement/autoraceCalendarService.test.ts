@@ -4,8 +4,8 @@ import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
+import { SearchCalendarFilterEntity } from '../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
-import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
 import { AutoraceCalendarService } from '../../../../lib/src/service/implement/autoraceCalendarService';
 import {
     baseAutoraceCalendarData,
@@ -39,7 +39,7 @@ describe('AutoraceCalendarService', () => {
         const result = await service.getEvents(startDate, finishDate);
 
         expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-            new FetchCalendarListRequest(startDate, finishDate),
+            new SearchCalendarFilterEntity(startDate, finishDate),
         );
         expect(result).toEqual(calendarDataList);
     });

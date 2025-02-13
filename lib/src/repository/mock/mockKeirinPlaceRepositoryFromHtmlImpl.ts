@@ -2,7 +2,7 @@ import { KeirinPlaceData } from '../../domain/keirinPlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
@@ -15,7 +15,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<KeirinPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの競輪場データを取得する
         const fetchPlaceEntityList = [];

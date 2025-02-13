@@ -8,7 +8,7 @@ import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { NarPlaceRecord } from '../../../../lib/src/gateway/record/narPlaceRecord';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
-import { SearchFilterEntity } from '../../../../lib/src/repository/entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { NarPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/narPlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -41,7 +41,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
 
             // テスト実行
             const placeEntityList = await repository.fetchPlaceEntityList(
-                new SearchFilterEntity(
+                new SearchPlaceFilterEntity(
                     new Date('2024-01-01'),
                     new Date('2024-02-01'),
                 ),

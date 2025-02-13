@@ -8,7 +8,7 @@ import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { JraPlaceRecord } from '../../../../lib/src/gateway/record/jraPlaceRecord';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
-import { SearchFilterEntity } from '../../../../lib/src/repository/entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { JraPlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/jraPlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -41,7 +41,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
 
             // テスト実行
             const placeEntityList = await repository.fetchPlaceEntityList(
-                new SearchFilterEntity(
+                new SearchPlaceFilterEntity(
                     new Date('2024-01-01'),
                     new Date('2024-02-01'),
                 ),

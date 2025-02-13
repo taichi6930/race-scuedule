@@ -14,7 +14,7 @@ import {
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
@@ -39,7 +39,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<KeirinPlaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
             searchFilter.startDate,

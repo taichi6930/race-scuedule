@@ -4,8 +4,8 @@ import { container } from 'tsyringe';
 
 import type { CalendarData } from '../../../../lib/src/domain/calendarData';
 import type { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import { SearchCalendarFilterEntity } from '../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import type { ICalendarRepository } from '../../../../lib/src/repository/interface/ICalendarRepository';
-import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
 import { KeirinCalendarService } from '../../../../lib/src/service/implement/keirinCalendarService';
 import {
     baseKeirinCalendarData,
@@ -38,7 +38,7 @@ describe('KeirinCalendarService', () => {
         const result = await service.getEvents(startDate, finishDate);
 
         expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-            new FetchCalendarListRequest(startDate, finishDate),
+            new SearchCalendarFilterEntity(startDate, finishDate),
         );
         expect(result).toEqual(calendarDataList);
     });

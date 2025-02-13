@@ -8,7 +8,7 @@ import { KeirinPlaceRecord } from '../../gateway/record/keirinPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
@@ -35,7 +35,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<KeirinPlaceEntity[]> {
         // ファイル名リストから競輪開催データを取得する
         const placeRecordList: KeirinPlaceRecord[] =

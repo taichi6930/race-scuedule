@@ -6,8 +6,8 @@ import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData'
 import type { IBoatraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iBoatraceRaceDataHtmlGateway';
 import { MockBoatraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockBoatraceRaceDataHtmlGateway';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { BoatraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/boatraceRaceRepositoryFromHtmlImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -33,7 +33,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しいボートレースデータを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<BoatracePlaceEntity>(
+                    new SearchRaceFilterEntity<BoatracePlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                         [

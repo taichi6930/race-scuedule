@@ -2,7 +2,7 @@ import { JraPlaceData } from '../../domain/jraPlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
@@ -15,7 +15,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
         const fetchPlaceEntityList = [];

@@ -8,7 +8,7 @@ import { BoatracePlaceData } from '../../../../lib/src/domain/boatracePlaceData'
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { BoatracePlaceRecord } from '../../../../lib/src/gateway/record/boatracePlaceRecord';
 import { BoatracePlaceEntity } from '../../../../lib/src/repository/entity/boatracePlaceEntity';
-import { SearchFilterEntity } from '../../../../lib/src/repository/entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { BoatracePlaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromStorageImpl';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -41,7 +41,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
 
             // テスト実行
             const placeEntityList = await repository.fetchPlaceEntityList(
-                new SearchFilterEntity(
+                new SearchPlaceFilterEntity(
                     new Date('2024-01-01'),
                     new Date('2024-02-01'),
                 ),

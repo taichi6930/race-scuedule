@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { IAutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iAutoracePlaceDataHtmlGateway';
 import { MockAutoracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockAutoracePlaceDataHtmlGateway';
-import { SearchFilterEntity } from '../../../../lib/src/repository/entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { AutoracePlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoracePlaceRepositoryFromHtmlImpl';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -31,7 +31,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しいオートレース場データを取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
-                    new SearchFilterEntity(
+                    new SearchPlaceFilterEntity(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                     ),

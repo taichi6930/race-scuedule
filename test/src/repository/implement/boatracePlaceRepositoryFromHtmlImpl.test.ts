@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { IBoatracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iBoatracePlaceDataHtmlGateway';
 import { MockBoatracePlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockBoatracePlaceDataHtmlGateway';
-import { SearchFilterEntity } from '../../../../lib/src/repository/entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { BoatracePlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/boatracePlaceRepositoryFromHtmlImpl';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -31,7 +31,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しいボートレース場データを取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
-                    new SearchFilterEntity(
+                    new SearchPlaceFilterEntity(
                         new Date('2024-10-01'),
                         new Date('2024-12-31'),
                     ),

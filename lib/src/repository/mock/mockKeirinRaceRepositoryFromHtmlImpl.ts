@@ -5,8 +5,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
-import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
 export class MockKeirinRaceRepositoryFromHtmlImpl
@@ -14,9 +14,9 @@ export class MockKeirinRaceRepositoryFromHtmlImpl
 {
     @Logger
     fetchRaceEntityList(
-        request: FetchRaceListRequest<KeirinPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         const raceEntityList: KeirinRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {

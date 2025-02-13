@@ -1,5 +1,5 @@
 import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
-import { SearchFilterEntity } from '../../repository/entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../../repository/entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../../repository/interface/IPlaceRepository';
 import { DataLocation, DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
@@ -27,7 +27,10 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
         type: DataLocationType,
     ): Promise<P[]> {
         try {
-            const searchFilter = new SearchFilterEntity(startDate, finishDate);
+            const searchFilter = new SearchPlaceFilterEntity(
+                startDate,
+                finishDate,
+            );
             const repository = this.getPlaceRepository(type);
 
             const placeEntityList =

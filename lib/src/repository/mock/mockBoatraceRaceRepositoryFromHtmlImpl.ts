@@ -5,8 +5,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
+import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
-import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 // BoatraceRaceRepositoryFromHtmlImplのモックを作成
 export class MockBoatraceRaceRepositoryFromHtmlImpl
@@ -14,9 +14,9 @@ export class MockBoatraceRaceRepositoryFromHtmlImpl
 {
     @Logger
     fetchRaceEntityList(
-        request: FetchRaceListRequest<BoatracePlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<BoatracePlaceEntity>,
     ): Promise<BoatraceRaceEntity[]> {
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         const raceEntityList: BoatraceRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {

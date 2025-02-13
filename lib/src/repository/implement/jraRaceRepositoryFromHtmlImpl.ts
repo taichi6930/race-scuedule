@@ -14,8 +14,8 @@ import { Logger } from '../../utility/logger';
 import { processJraRaceName } from '../../utility/raceName';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 @injectable()
 export class JraRaceRepositoryFromHtmlImpl
@@ -27,15 +27,15 @@ export class JraRaceRepositoryFromHtmlImpl
     ) {}
     /**
      * 競馬場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<JraPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         const jraRaceEntityList: JraRaceEntity[] = [];
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         // placeEntityListからdateのみをListにする、重複すると思うので重複を削除する
         const dateList = placeEntityList
             ?.map((place) => place.placeData.dateTime)

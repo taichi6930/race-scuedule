@@ -8,8 +8,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 @injectable()
 export class JraRaceRepositoryFromStorageImpl
@@ -24,12 +24,12 @@ export class JraRaceRepositoryFromStorageImpl
 
     /**
      * 競馬場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<JraPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
         // ファイル名リストから中央競馬場開催データを取得する
         const raceRecordList: JraRaceRecord[] =
@@ -45,9 +45,9 @@ export class JraRaceRepositoryFromStorageImpl
             newRaceEntityList.filter(
                 (raceEntity) =>
                     getJSTDate(raceEntity.raceData.dateTime) >=
-                        getJSTDate(request.startDate) &&
+                        getJSTDate(searchFilter.startDate) &&
                     getJSTDate(raceEntity.raceData.dateTime) <=
-                        getJSTDate(request.finishDate),
+                        getJSTDate(searchFilter.finishDate),
             );
         return filteredRaceEntityList;
     }
@@ -122,7 +122,7 @@ export class JraRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param request
+     * @param searchFilter
      */
     @Logger
     async registerRaceEntityList(

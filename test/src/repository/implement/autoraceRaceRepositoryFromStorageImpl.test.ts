@@ -11,8 +11,8 @@ import type { AutoraceRacePlayerRecord } from '../../../../lib/src/gateway/recor
 import type { AutoraceRaceRecord } from '../../../../lib/src/gateway/record/autoraceRaceRecord';
 import type { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../../../../lib/src/repository/entity/autoraceRaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromStorageImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseAutoraceRacePlayerDataList } from '../../mock/common/baseAutoraceData';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -61,7 +61,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
             );
 
             // リクエストの作成
-            const request = new FetchRaceListRequest<AutoracePlaceEntity>(
+            const request = new SearchRaceFilterEntity<AutoracePlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );

@@ -8,7 +8,7 @@ import { BoatracePlaceRecord } from '../../gateway/record/boatracePlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
@@ -35,7 +35,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
         // ファイル名リストからボートレース開催データを取得する
         const placeRecordList: BoatracePlaceRecord[] =

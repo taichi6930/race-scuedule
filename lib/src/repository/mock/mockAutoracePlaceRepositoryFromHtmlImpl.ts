@@ -2,7 +2,7 @@ import { AutoracePlaceData } from '../../domain/autoracePlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // AutoraceRaceRepositoryFromHtmlImplのモックを作成
@@ -15,7 +15,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのオートレース場データを取得する
         const fetchPlaceEntityList = [];

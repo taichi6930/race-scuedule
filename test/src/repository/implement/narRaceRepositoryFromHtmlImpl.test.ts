@@ -6,8 +6,8 @@ import { NarPlaceData } from '../../../../lib/src/domain/narPlaceData';
 import type { INarRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iNarRaceDataHtmlGateway';
 import { MockNarRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockNarRaceDataHtmlGateway';
 import { NarPlaceEntity } from '../../../../lib/src/repository/entity/narPlaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { NarRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/narRaceRepositoryFromHtmlImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -33,7 +33,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<NarPlaceEntity>(
+                    new SearchRaceFilterEntity<NarPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [
@@ -51,7 +51,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             });
             test('正しい競馬場データを取得できる（データが足りてないこともある）', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<NarPlaceEntity>(
+                    new SearchRaceFilterEntity<NarPlaceEntity>(
                         new Date('2023-10-08'),
                         new Date('2023-10-08'),
                         [
@@ -69,7 +69,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             });
             test('正しい競馬場データを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<NarPlaceEntity>(
+                    new SearchRaceFilterEntity<NarPlaceEntity>(
                         new Date('2024-10-02'),
                         new Date('2024-10-02'),
                         [
@@ -87,7 +87,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             });
             test('データがない場合は空のリストを返す', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<NarPlaceEntity>(
+                    new SearchRaceFilterEntity<NarPlaceEntity>(
                         new Date('2024-09-01'),
                         new Date('2024-09-02'),
                         [

@@ -6,8 +6,8 @@ import { KeirinPlaceData } from '../../../../lib/src/domain/keirinPlaceData';
 import type { IKeirinRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iKeirinRaceDataHtmlGateway';
 import { MockKeirinRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockKeirinRaceDataHtmlGateway';
 import { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromHtmlImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -33,7 +33,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しい競輪場データを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<KeirinPlaceEntity>(
+                    new SearchRaceFilterEntity<KeirinPlaceEntity>(
                         new Date('2024-10-20'),
                         new Date('2024-10-20'),
                         [

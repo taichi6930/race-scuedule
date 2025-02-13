@@ -2,7 +2,7 @@ import { BoatracePlaceData } from '../../domain/boatracePlaceData';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 // BoatraceRaceRepositoryFromHtmlImplのモックを作成
@@ -15,7 +15,7 @@ export class MockBoatracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのボートレース場データを取得する
         const fetchPlaceEntityList = [];

@@ -9,7 +9,7 @@ import { IBoatracePlaceDataHtmlGateway } from '../../gateway/interface/iBoatrace
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
@@ -34,7 +34,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
         const quarters: Record<string, Date> = await this.generateQuarterList(
             searchFilter.startDate,

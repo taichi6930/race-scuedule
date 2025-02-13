@@ -11,7 +11,7 @@ import { AutoraceRaceCourse } from '../../utility/data/autorace/autoraceRaceCour
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
@@ -36,7 +36,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
             searchFilter.startDate,

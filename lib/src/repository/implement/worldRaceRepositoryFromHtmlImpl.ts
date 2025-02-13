@@ -16,10 +16,10 @@ import { validateWorldRaceDistance } from '../../utility/data/world/worldRaceDis
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { processWorldRaceName } from '../../utility/raceName';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { WorldPlaceEntity } from '../entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 /**
  * 競馬場開催データリポジトリの実装
@@ -34,16 +34,16 @@ export class WorldRaceRepositoryFromHtmlImpl
     ) {}
     /**
      * 競馬場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<WorldPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
-            request.startDate,
-            request.finishDate,
+            searchFilter.startDate,
+            searchFilter.finishDate,
         );
         const worldRaceDataList: WorldRaceEntity[] = [];
         for (const month of monthList) {

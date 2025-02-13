@@ -11,8 +11,8 @@ import type { KeirinRacePlayerRecord } from '../../../../lib/src/gateway/record/
 import type { KeirinRaceRecord } from '../../../../lib/src/gateway/record/keirinRaceRecord';
 import type { KeirinPlaceEntity } from '../../../../lib/src/repository/entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../../../../lib/src/repository/entity/keirinRaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { KeirinRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/keirinRaceRepositoryFromStorageImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { baseKeirinRacePlayerDataList } from '../../mock/common/baseKeirinData';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
@@ -61,7 +61,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
             );
 
             // リクエストの作成
-            const request = new FetchRaceListRequest<KeirinPlaceEntity>(
+            const request = new SearchRaceFilterEntity<KeirinPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );

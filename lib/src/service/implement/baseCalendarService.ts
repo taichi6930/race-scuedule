@@ -3,8 +3,8 @@ import '../../utility/format';
 
 import { CalendarData } from '../../domain/calendarData';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
+import { SearchCalendarFilterEntity } from '../../repository/entity/searchCalendarFilterEntity';
 import { ICalendarRepository } from '../../repository/interface/ICalendarRepository';
-import { FetchCalendarListRequest } from '../../repository/request/fetchCalendarListRequest';
 import { Logger } from '../../utility/logger';
 import { ICalendarService } from '../interface/ICalendarService';
 
@@ -26,7 +26,7 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {
-        const request = new FetchCalendarListRequest(startDate, finishDate);
+        const request = new SearchCalendarFilterEntity(startDate, finishDate);
         return await this.calendarRepository.getEvents(request);
     }
 

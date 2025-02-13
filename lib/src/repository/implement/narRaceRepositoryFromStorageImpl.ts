@@ -8,8 +8,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { NarRaceEntity } from '../entity/narRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 @injectable()
 export class NarRaceRepositoryFromStorageImpl
@@ -23,12 +23,12 @@ export class NarRaceRepositoryFromStorageImpl
     ) {}
     /**
      * 競馬場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<NarPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
         // ファイル名リストから海外競馬場開催データを取得する
         const raceRecordList: NarRaceRecord[] =
@@ -43,8 +43,8 @@ export class NarRaceRepositoryFromStorageImpl
         const filteredRaceEntityList: NarRaceEntity[] =
             newRaceEntityList.filter(
                 (raceEntity) =>
-                    raceEntity.raceData.dateTime >= request.startDate &&
-                    raceEntity.raceData.dateTime <= request.finishDate,
+                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
             );
         return filteredRaceEntityList;
     }

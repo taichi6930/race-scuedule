@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 import type { IKeirinPlaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iKeirinPlaceDataHtmlGateway';
 import { MockKeirinPlaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockKeirinPlaceDataHtmlGateway';
-import { SearchFilterEntity } from '../../../../lib/src/repository/entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../../../../lib/src/repository/entity/searchPlaceFilterEntity';
 import { KeirinPlaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/keirinPlaceRepositoryFromHtmlImpl';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -30,7 +30,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しい競輪場データを取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
-                    new SearchFilterEntity(
+                    new SearchPlaceFilterEntity(
                         new Date('2024-10-01'),
                         new Date('2024-10-31'),
                     ),

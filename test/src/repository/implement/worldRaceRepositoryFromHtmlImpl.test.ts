@@ -4,9 +4,9 @@ import { container } from 'tsyringe';
 
 import type { IWorldRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iWorldRaceDataHtmlGateway';
 import { MockWorldRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockWorldRaceDataHtmlGateway';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromHtmlImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV === allowedEnvs.githubActionsCi) {
@@ -37,7 +37,7 @@ if (ENV === allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<WorldPlaceEntity>(
+                    new SearchRaceFilterEntity<WorldPlaceEntity>(
                         new Date('2024-10-01'),
                         new Date('2024-12-31'),
                         [],
@@ -48,7 +48,7 @@ if (ENV === allowedEnvs.githubActionsCi) {
 
             test('正しい競馬場データを取得できる（データが足りてないこともある）', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<WorldPlaceEntity>(
+                    new SearchRaceFilterEntity<WorldPlaceEntity>(
                         new Date('2025-01-01'),
                         new Date('2025-03-31'),
                         [],

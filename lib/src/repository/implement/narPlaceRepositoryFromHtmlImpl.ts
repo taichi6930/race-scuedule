@@ -9,7 +9,7 @@ import { INarPlaceDataHtmlGateway } from '../../gateway/interface/iNarPlaceDataH
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { NarPlaceEntity } from '../entity/narPlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
@@ -34,7 +34,7 @@ export class NarPlaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<NarPlaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
             searchFilter.startDate,

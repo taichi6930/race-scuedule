@@ -1,7 +1,7 @@
 import { IPlaceEntity } from '../../repository/entity/iPlaceEntity';
 import { IRaceEntity } from '../../repository/entity/iRaceEntity';
+import { SearchRaceFilterEntity } from '../../repository/entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../../repository/interface/IRaceRepository';
-import { FetchRaceListRequest } from '../../repository/request/fetchRaceListRequest';
 import { DataLocation, type DataLocationType } from '../../utility/dataType';
 import { Logger } from '../../utility/logger';
 import type { IRaceDataService } from '../interface/IRaceDataService';
@@ -32,7 +32,7 @@ export abstract class BaseRaceDataService<
         placeEntityList?: P[],
     ): Promise<R[]> {
         try {
-            const fetchRaceListRequest = new FetchRaceListRequest<P>(
+            const fetchRaceListRequest = new SearchRaceFilterEntity<P>(
                 startDate,
                 finishDate,
                 placeEntityList,

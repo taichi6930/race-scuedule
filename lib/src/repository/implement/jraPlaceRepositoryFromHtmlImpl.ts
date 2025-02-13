@@ -8,7 +8,7 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { generateJraPlaceId } from '../../utility/raceId';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
@@ -30,7 +30,7 @@ export class JraPlaceRepositoryFromHtmlImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // startDateからfinishDateまでの年のリストを生成する
         const yearList: Date[] = await this.generateYearList(

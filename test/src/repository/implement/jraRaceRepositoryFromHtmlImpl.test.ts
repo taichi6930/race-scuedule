@@ -6,8 +6,8 @@ import { JraPlaceData } from '../../../../lib/src/domain/jraPlaceData';
 import type { IJraRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iJraRaceDataHtmlGateway';
 import { MockJraRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockJraRaceDataHtmlGateway';
 import { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { JraRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/jraRaceRepositoryFromHtmlImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -33,7 +33,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<JraPlaceEntity>(
+                    new SearchRaceFilterEntity<JraPlaceEntity>(
                         new Date('2024-05-26'),
                         new Date('2024-05-26'),
                         [

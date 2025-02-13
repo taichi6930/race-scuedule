@@ -8,10 +8,10 @@ import { container } from 'tsyringe';
 import { WorldRaceData } from '../../../../lib/src/domain/worldRaceData';
 import type { IS3Gateway } from '../../../../lib/src/gateway/interface/iS3Gateway';
 import type { WorldRaceRecord } from '../../../../lib/src/gateway/record/worldRaceRecord';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import type { WorldPlaceEntity } from '../../../../lib/src/repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../../../lib/src/repository/entity/worldRaceEntity';
 import { WorldRaceRepositoryFromStorageImpl } from '../../../../lib/src/repository/implement/worldRaceRepositoryFromStorageImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { mockS3Gateway } from '../../mock/gateway/mockS3Gateway';
 
@@ -42,7 +42,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // リクエストの作成
-            const request = new FetchRaceListRequest<WorldPlaceEntity>(
+            const request = new SearchRaceFilterEntity<WorldPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );

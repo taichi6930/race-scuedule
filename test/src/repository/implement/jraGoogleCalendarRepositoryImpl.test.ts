@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { container } from 'tsyringe';
 
 import type { ICalendarGateway } from '../../../../lib/src/gateway/interface/iCalendarGateway';
+import { SearchCalendarFilterEntity } from '../../../../lib/src/repository/entity/searchCalendarFilterEntity';
 import { JraGoogleCalendarRepositoryImpl } from '../../../../lib/src/repository/implement/jraGoogleCalendarRepositoryImpl';
-import { FetchCalendarListRequest } from '../../../../lib/src/repository/request/fetchCalendarListRequest';
 import {
     baseJraCalendarData,
     baseJraCalendarDataFromGoogleCalendar,
@@ -36,7 +36,7 @@ describe('JraGoogleCalendarRepositoryImpl', () => {
             baseJraCalendarDataFromGoogleCalendar,
         ]);
 
-        const request = new FetchCalendarListRequest(
+        const request = new SearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
         );
@@ -52,7 +52,7 @@ describe('JraGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new FetchCalendarListRequest(
+        const request = new SearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
         );

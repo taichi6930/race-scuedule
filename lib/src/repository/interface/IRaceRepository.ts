@@ -1,6 +1,6 @@
 import type { IPlaceEntity } from '../entity/iPlaceEntity';
 import type { IRaceEntity } from '../entity/iRaceEntity';
-import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
+import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 
 /**
  * レースデータリポジトリ
@@ -13,13 +13,17 @@ export interface IRaceRepository<
 > {
     /**
      * 開催データを取得する
-     * @param request
+     * @param searchFilter
+     *
      * @returns レースデータ
      */
-    fetchRaceEntityList: (request: FetchRaceListRequest<P>) => Promise<R[]>;
+    fetchRaceEntityList: (
+        searchFilter: SearchRaceFilterEntity<P>,
+    ) => Promise<R[]>;
     /**
      * レースデータを登録する
-     * @param request
+     * @param searchFilter
+     *
      */
     registerRaceEntityList: (raceEntityList: R[]) => Promise<void>;
 }

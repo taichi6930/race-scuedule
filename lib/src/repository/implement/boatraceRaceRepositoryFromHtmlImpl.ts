@@ -16,8 +16,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { BoatraceRaceEntity } from '../entity/boatraceRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 /**
  * ボートレース場開催データリポジトリの実装
@@ -32,15 +32,15 @@ export class BoatraceRaceRepositoryFromHtmlImpl
     ) {}
     /**
      * ボートレース場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<BoatracePlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<BoatracePlaceEntity>,
     ): Promise<BoatraceRaceEntity[]> {
         const boatraceRaceDataList: BoatraceRaceEntity[] = [];
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         if (placeEntityList) {
             for (const placeEntity of placeEntityList) {
                 boatraceRaceDataList.push(

@@ -1,12 +1,14 @@
 import type { CalendarData } from '../../domain/calendarData';
 import type { IRaceEntity } from '../entity/iRaceEntity';
-import type { SearchFilterEntity } from '../entity/searchFilterEntity';
+import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 
 /**
  * カレンダーリポジトリインターフェース
  */
 export interface ICalendarRepository<R extends IRaceEntity<R>> {
-    getEvents: (searchFilter: SearchFilterEntity) => Promise<CalendarData[]>;
+    getEvents: (
+        searchFilter: SearchPlaceFilterEntity,
+    ) => Promise<CalendarData[]>;
 
     upsertEvents: (raceEntityList: R[]) => Promise<void>;
 

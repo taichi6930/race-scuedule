@@ -8,8 +8,8 @@ import { WorldPlaceEntity } from '../../repository/entity/worldPlaceEntity';
 import { WorldRaceEntity } from '../../repository/entity/worldRaceEntity';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 /**
  * 競馬場開催データリポジトリの実装
@@ -26,12 +26,12 @@ export class WorldRaceRepositoryFromStorageImpl
     ) {}
     /**
      * 競馬場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<WorldPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
         // ファイル名リストから海外競馬場開催データを取得する
         const raceRecordList: WorldRaceRecord[] =
@@ -45,8 +45,8 @@ export class WorldRaceRepositoryFromStorageImpl
         // フィルタリング処理（日付の範囲指定）
         const filteredRaceEntityList: WorldRaceEntity[] = raceEntityList.filter(
             (raceEntity) =>
-                raceEntity.raceData.dateTime >= request.startDate &&
-                raceEntity.raceData.dateTime <= request.finishDate,
+                raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                raceEntity.raceData.dateTime <= searchFilter.finishDate,
         );
 
         return filteredRaceEntityList;

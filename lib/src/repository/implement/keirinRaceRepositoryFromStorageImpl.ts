@@ -11,8 +11,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { KeirinRaceEntity } from '../entity/keirinRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 /**
  * 競輪場開催データリポジトリの実装
@@ -32,12 +32,12 @@ export class KeirinRaceRepositoryFromStorageImpl
     ) {}
     /**
      * 競輪場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<KeirinPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
         // ファイル名リストから競輪選手データを取得する
         const racePlayerRecordList: KeirinRacePlayerRecord[] =
@@ -84,8 +84,8 @@ export class KeirinRaceRepositoryFromStorageImpl
         const filteredRaceEntityList: KeirinRaceEntity[] =
             raceEntityList.filter(
                 (raceEntity) =>
-                    raceEntity.raceData.dateTime >= request.startDate &&
-                    raceEntity.raceData.dateTime <= request.finishDate,
+                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
             );
 
         return filteredRaceEntityList;

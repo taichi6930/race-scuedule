@@ -3,8 +3,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { JraRaceEntity } from '../entity/jraRaceEntity';
+import type { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import type { IRaceRepository } from '../interface/IRaceRepository';
-import type { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
 export class MockJraRaceRepositoryFromHtmlImpl
@@ -12,9 +12,9 @@ export class MockJraRaceRepositoryFromHtmlImpl
 {
     @Logger
     fetchRaceEntityList(
-        request: FetchRaceListRequest<JraPlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
-        const placeEntityList = request.placeEntityList;
+        const placeEntityList = searchFilter.placeEntityList;
         const raceEntityList: JraRaceEntity[] = [];
         if (placeEntityList) {
             placeEntityList.forEach((placeEntity) => {

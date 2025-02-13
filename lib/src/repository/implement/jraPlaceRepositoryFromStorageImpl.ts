@@ -7,7 +7,7 @@ import { JraPlaceRecord } from '../../gateway/record/jraPlaceRecord';
 import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { JraPlaceEntity } from '../entity/jraPlaceEntity';
-import { SearchFilterEntity } from '../entity/searchFilterEntity';
+import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 @injectable()
@@ -31,7 +31,7 @@ export class JraPlaceRepositoryFromStorageImpl
      */
     @Logger
     async fetchPlaceEntityList(
-        searchFilter: SearchFilterEntity,
+        searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
         // 年ごとの競馬場開催データを取得
         const placeRecordList: JraPlaceRecord[] =

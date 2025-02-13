@@ -6,8 +6,8 @@ import { AutoracePlaceData } from '../../../../lib/src/domain/autoracePlaceData'
 import type { IAutoraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/interface/iAutoraceRaceDataHtmlGateway';
 import { MockAutoraceRaceDataHtmlGateway } from '../../../../lib/src/gateway/mock/mockAutoraceRaceDataHtmlGateway';
 import { AutoracePlaceEntity } from '../../../../lib/src/repository/entity/autoracePlaceEntity';
+import { SearchRaceFilterEntity } from '../../../../lib/src/repository/entity/searchRaceFilterEntity';
 import { AutoraceRaceRepositoryFromHtmlImpl } from '../../../../lib/src/repository/implement/autoraceRaceRepositoryFromHtmlImpl';
-import { FetchRaceListRequest } from '../../../../lib/src/repository/request/fetchRaceListRequest';
 import { getJSTDate } from '../../../../lib/src/utility/date';
 import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
@@ -33,7 +33,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         describe('fetchPlaceList', () => {
             test('正しいオートレース場データを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
-                    new FetchRaceListRequest<AutoracePlaceEntity>(
+                    new SearchRaceFilterEntity<AutoracePlaceEntity>(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                         [

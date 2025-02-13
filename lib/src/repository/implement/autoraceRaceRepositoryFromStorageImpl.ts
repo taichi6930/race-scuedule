@@ -11,8 +11,8 @@ import { getJSTDate } from '../../utility/date';
 import { Logger } from '../../utility/logger';
 import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { AutoraceRaceEntity } from '../entity/autoraceRaceEntity';
+import { SearchRaceFilterEntity } from '../entity/searchRaceFilterEntity';
 import { IRaceRepository } from '../interface/IRaceRepository';
-import { FetchRaceListRequest } from '../request/fetchRaceListRequest';
 
 /**
  * オートレース場開催データリポジトリの実装
@@ -32,12 +32,12 @@ export class AutoraceRaceRepositoryFromStorageImpl
     ) {}
     /**
      * オートレース場開催データを取得する
-     * @param request
+     * @param searchFilter
      * @returns
      */
     @Logger
     async fetchRaceEntityList(
-        request: FetchRaceListRequest<AutoracePlaceEntity>,
+        searchFilter: SearchRaceFilterEntity<AutoracePlaceEntity>,
     ): Promise<AutoraceRaceEntity[]> {
         // ファイル名リストからオートレース選手データを取得する
         const racePlayerRecordList: AutoraceRacePlayerRecord[] =
@@ -84,8 +84,8 @@ export class AutoraceRaceRepositoryFromStorageImpl
         const filteredRaceEntityList: AutoraceRaceEntity[] =
             raceEntityList.filter(
                 (raceEntity) =>
-                    raceEntity.raceData.dateTime >= request.startDate &&
-                    raceEntity.raceData.dateTime <= request.finishDate,
+                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
             );
 
         return filteredRaceEntityList;
@@ -93,7 +93,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param request
+     * @param searchFilter
      */
     @Logger
     async registerRaceEntityList(
@@ -160,7 +160,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
-     * @param request
+     * @param searchFilter
      */
     @Logger
     private async getRaceRecordListFromS3(): Promise<AutoraceRaceRecord[]> {
@@ -226,7 +226,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
 
     /**
      * レースプレイヤーデータをS3から取得する
-     * @param request
+     * @param searchFilter
      */
     @Logger
     private async getRacePlayerRecordListFromS3(): Promise<
