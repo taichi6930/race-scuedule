@@ -17,7 +17,6 @@ import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -38,12 +37,12 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定して競輪場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<KeirinPlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<KeirinPlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
+    ): Promise<KeirinPlaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
             request.startDate,
             request.finishDate,
@@ -64,7 +63,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
                     placeEntity.placeData.dateTime <= request.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     /**

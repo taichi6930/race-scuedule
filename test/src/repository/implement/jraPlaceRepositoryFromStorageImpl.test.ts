@@ -46,10 +46,11 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
                 new Date('2024-02-01'),
             );
             // テスト実行
-            const response = await repository.fetchPlaceEntityList(request);
+            const placeEntityList =
+                await repository.fetchPlaceEntityList(request);
 
             // レスポンスの検証
-            expect(response.placeEntityList).toHaveLength(1);
+            expect(placeEntityList).toHaveLength(1);
         });
     });
 

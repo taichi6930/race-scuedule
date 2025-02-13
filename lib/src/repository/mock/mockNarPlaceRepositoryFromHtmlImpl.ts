@@ -5,7 +5,6 @@ import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // NarRaceRepositoryFromHtmlImplのモックを作成
@@ -19,7 +18,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
     @Logger
     fetchPlaceEntityList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
+    ): Promise<NarPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの地方競馬場データを取得する
         const fetchPlaceEntityList = [];
         const currentDate = new Date(request.startDate);
@@ -35,9 +34,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(
-            new FetchPlaceListResponse(fetchPlaceEntityList),
-        );
+        return Promise.resolve(fetchPlaceEntityList);
     }
 
     /**

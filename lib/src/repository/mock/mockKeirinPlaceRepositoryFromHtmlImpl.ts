@@ -5,7 +5,6 @@ import { KeirinPlaceEntity } from '../entity/keirinPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // KeirinRaceRepositoryFromHtmlImplのモックを作成
@@ -19,7 +18,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
     @Logger
     fetchPlaceEntityList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<KeirinPlaceEntity>> {
+    ): Promise<KeirinPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの競輪場データを取得する
         const fetchPlaceEntityList = [];
         const currentDate = new Date(request.startDate);
@@ -35,9 +34,7 @@ export class MockKeirinPlaceRepositoryFromHtmlImpl
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(
-            new FetchPlaceListResponse(fetchPlaceEntityList),
-        );
+        return Promise.resolve(fetchPlaceEntityList);
     }
 
     /**

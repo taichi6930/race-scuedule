@@ -12,7 +12,6 @@ import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -33,12 +32,12 @@ export class NarPlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<NarPlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
+    ): Promise<NarPlaceEntity[]> {
         const monthList: Date[] = await this.generateMonthList(
             request.startDate,
             request.finishDate,
@@ -59,7 +58,7 @@ export class NarPlaceRepositoryFromHtmlImpl
                     placeEntity.placeData.dateTime <= request.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     /**

@@ -4,7 +4,6 @@ import { container } from 'tsyringe';
 
 import type { JraPlaceEntity } from '../../../../lib/src/repository/entity/jraPlaceEntity';
 import type { IPlaceRepository } from '../../../../lib/src/repository/interface/IPlaceRepository';
-import { FetchPlaceListResponse } from '../../../../lib/src/repository/response/fetchPlaceListResponse';
 import { JraPlaceDataService } from '../../../../lib/src/service/implement/jraPlaceDataService';
 import { DataLocation } from '../../../../lib/src/utility/dataType';
 import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
@@ -48,7 +47,7 @@ describe('JraPlaceDataService', () => {
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<JraPlaceEntity>(mockPlaceEntity),
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -68,7 +67,7 @@ describe('JraPlaceDataService', () => {
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<JraPlaceEntity>(mockPlaceEntity),
+                mockPlaceEntity,
             );
 
             const startDate = new Date('2024-06-01');
@@ -112,7 +111,7 @@ describe('JraPlaceDataService', () => {
 
             // モックの戻り値を設定
             jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
-                new FetchPlaceListResponse<JraPlaceEntity>(mockPlaceEntity),
+                mockPlaceEntity,
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);

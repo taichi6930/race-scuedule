@@ -11,7 +11,6 @@ import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -34,12 +33,12 @@ export class AutoracePlaceRepositoryFromStorageImpl
      * このメソッドで日付の範囲を指定してオートレース開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<AutoracePlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<AutoracePlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<AutoracePlaceEntity>> {
+    ): Promise<AutoracePlaceEntity[]> {
         // ファイル名リストからオートレース開催データを取得する
         const placeRecordList: AutoracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -57,7 +56,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
                     placeEntity.placeData.dateTime <= request.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     @Logger

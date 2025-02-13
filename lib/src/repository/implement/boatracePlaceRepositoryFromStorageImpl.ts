@@ -11,7 +11,6 @@ import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -34,12 +33,12 @@ export class BoatracePlaceRepositoryFromStorageImpl
      * このメソッドで日付の範囲を指定してボートレース開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<BoatracePlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<BoatracePlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
+    ): Promise<BoatracePlaceEntity[]> {
         // ファイル名リストからボートレース開催データを取得する
         const placeRecordList: BoatracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -57,7 +56,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
                     placeEntity.placeData.dateTime <= request.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     @Logger

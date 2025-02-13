@@ -12,7 +12,6 @@ import { BoatracePlaceEntity } from '../entity/boatracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 /**
@@ -33,12 +32,12 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * このメソッドで日付の範囲を指定してボートレース場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<BoatracePlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<BoatracePlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<BoatracePlaceEntity>> {
+    ): Promise<BoatracePlaceEntity[]> {
         const quarters: Record<string, Date> = await this.generateQuarterList(
             request.startDate,
             request.finishDate,
@@ -61,7 +60,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                     placeEntity.placeData.dateTime <= request.finishDate,
             );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     /**

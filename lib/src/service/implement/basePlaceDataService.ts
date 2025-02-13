@@ -31,8 +31,9 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
             const request = new FetchPlaceListRequest(startDate, finishDate);
             const repository = this.getPlaceRepository(type);
 
-            const response = await repository.fetchPlaceEntityList(request);
-            return response.placeEntityList;
+            const placeEntityList =
+                await repository.fetchPlaceEntityList(request);
+            return placeEntityList;
         } catch (error) {
             console.error('レースデータの取得に失敗しました', error);
             return [];

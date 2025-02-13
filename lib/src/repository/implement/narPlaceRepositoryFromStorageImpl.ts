@@ -10,7 +10,6 @@ import { NarPlaceEntity } from '../entity/narPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 @injectable()
@@ -30,12 +29,12 @@ export class NarPlaceRepositoryFromStorageImpl
      * このメソッドで日付の範囲を指定して競馬場開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
-     * @returns Promise<FetchPlaceListResponse<NarPlaceEntity>> - 開催データ取得レスポンス
+     * @returns Promise<NarPlaceEntity[]> - 開催データ取得レスポンス
      */
     @Logger
     async fetchPlaceEntityList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<NarPlaceEntity>> {
+    ): Promise<NarPlaceEntity[]> {
         // 年ごとの競馬場開催データを取得
         const placeRecordList: NarPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
@@ -52,7 +51,7 @@ export class NarPlaceRepositoryFromStorageImpl
                 placeEntity.placeData.dateTime <= request.finishDate,
         );
 
-        return new FetchPlaceListResponse(filteredPlaceEntityList);
+        return filteredPlaceEntityList;
     }
 
     @Logger

@@ -5,7 +5,6 @@ import { JraPlaceEntity } from '../entity/jraPlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // JraRaceRepositoryFromHtmlImplのモックを作成
@@ -19,7 +18,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
     @Logger
     fetchPlaceEntityList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<JraPlaceEntity>> {
+    ): Promise<JraPlaceEntity[]> {
         // request.startDateからrequest.finishDateまでの中央競馬場データを取得する
         const fetchPlaceEntityList = [];
         const currentDate = new Date(request.startDate);
@@ -35,9 +34,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(
-            new FetchPlaceListResponse(fetchPlaceEntityList),
-        );
+        return Promise.resolve(fetchPlaceEntityList);
     }
 
     /**

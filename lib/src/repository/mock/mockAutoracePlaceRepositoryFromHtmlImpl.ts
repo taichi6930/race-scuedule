@@ -5,7 +5,6 @@ import { AutoracePlaceEntity } from '../entity/autoracePlaceEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 import { FetchPlaceListRequest } from '../request/fetchPlaceListRequest';
 import { RegisterPlaceListRequest } from '../request/registerPlaceListRequest';
-import { FetchPlaceListResponse } from '../response/fetchPlaceListResponse';
 import { RegisterPlaceListResponse } from '../response/registerPlaceListResponse';
 
 // AutoraceRaceRepositoryFromHtmlImplのモックを作成
@@ -19,7 +18,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
     @Logger
     fetchPlaceEntityList(
         request: FetchPlaceListRequest,
-    ): Promise<FetchPlaceListResponse<AutoracePlaceEntity>> {
+    ): Promise<AutoracePlaceEntity[]> {
         // request.startDateからrequest.finishDateまでのオートレース場データを取得する
         const fetchPlaceEntityList = [];
         const currentDate = new Date(request.startDate);
@@ -37,9 +36,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
             currentDate.setDate(currentDate.getDate() + 1);
         }
 
-        return Promise.resolve(
-            new FetchPlaceListResponse(fetchPlaceEntityList),
-        );
+        return Promise.resolve(fetchPlaceEntityList);
     }
 
     /**

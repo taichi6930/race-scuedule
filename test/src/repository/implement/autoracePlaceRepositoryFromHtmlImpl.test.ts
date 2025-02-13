@@ -32,13 +32,13 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('fetchPlaceList', () => {
             test('正しいオートレース場データを取得できる', async () => {
-                const response = await repository.fetchPlaceEntityList(
+                const placeEntityList = await repository.fetchPlaceEntityList(
                     new FetchPlaceListRequest(
                         new Date('2024-11-01'),
                         new Date('2024-11-30'),
                     ),
                 );
-                expect(response.placeEntityList).toHaveLength(60);
+                expect(placeEntityList).toHaveLength(60);
             });
         });
 

@@ -31,13 +31,13 @@ if (ENV !== allowedEnvs.githubActionsCi) {
 
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
-                const response = await repository.fetchPlaceEntityList(
+                const placeEntityList = await repository.fetchPlaceEntityList(
                     new FetchPlaceListRequest(
                         new Date('2024-10-01'),
                         new Date('2024-10-31'),
                     ),
                 );
-                expect(response.placeEntityList).toHaveLength(120);
+                expect(placeEntityList).toHaveLength(120);
             });
         });
 
