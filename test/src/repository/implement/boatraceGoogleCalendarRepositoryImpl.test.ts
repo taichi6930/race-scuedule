@@ -65,12 +65,8 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
     it('should delete events successfully', async () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        const response = await repository.deleteEvents([
-            baseBoatraceCalendarData,
-        ]);
+        await repository.deleteEvents([baseBoatraceCalendarData]);
 
-        // レスポンスが200で帰ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
@@ -88,12 +84,8 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const response = await repository.upsertEvents([
-            baseBoatraceRaceEntity,
-        ]);
+        await repository.upsertEvents([baseBoatraceRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 
@@ -102,12 +94,8 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
             baseBoatraceCalendarDataFromGoogleCalendar,
         );
 
-        const response = await repository.upsertEvents([
-            baseBoatraceRaceEntity,
-        ]);
+        await repository.upsertEvents([baseBoatraceRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
     });
 

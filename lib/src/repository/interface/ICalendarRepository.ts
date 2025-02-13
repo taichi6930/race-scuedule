@@ -1,8 +1,6 @@
 import type { CalendarData } from '../../domain/calendarData';
 import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { SearchFilterEntity } from '../entity/searchFilterEntity';
-import type { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
-import type { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
 
 /**
  * カレンダーリポジトリインターフェース
@@ -10,9 +8,7 @@ import type { UpsertCalendarListResponse } from '../response/upsertCalendarListR
 export interface ICalendarRepository<R extends IRaceEntity<R>> {
     getEvents: (searchFilter: SearchFilterEntity) => Promise<CalendarData[]>;
 
-    upsertEvents: (raceEntityList: R[]) => Promise<UpsertCalendarListResponse>;
+    upsertEvents: (raceEntityList: R[]) => Promise<void>;
 
-    deleteEvents: (
-        calendarDataList: CalendarData[],
-    ) => Promise<DeleteCalendarListResponse>;
+    deleteEvents: (calendarDataList: CalendarData[]) => Promise<void>;
 }

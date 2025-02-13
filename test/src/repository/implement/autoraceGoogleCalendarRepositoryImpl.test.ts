@@ -65,12 +65,8 @@ describe('AutoraceGoogleCalendarRepositoryImpl', () => {
     it('should delete events successfully', async () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        const response = await repository.deleteEvents([
-            baseAutoraceCalendarData,
-        ]);
+        await repository.deleteEvents([baseAutoraceCalendarData]);
 
-        // レスポンスが200で帰ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
@@ -88,12 +84,8 @@ describe('AutoraceGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const response = await repository.upsertEvents([
-            baseAutoraceRaceEntity,
-        ]);
+        await repository.upsertEvents([baseAutoraceRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 
@@ -102,12 +94,8 @@ describe('AutoraceGoogleCalendarRepositoryImpl', () => {
             baseAutoraceCalendarDataFromGoogleCalendar,
         );
 
-        const response = await repository.upsertEvents([
-            baseAutoraceRaceEntity,
-        ]);
+        await repository.upsertEvents([baseAutoraceRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
     });
 

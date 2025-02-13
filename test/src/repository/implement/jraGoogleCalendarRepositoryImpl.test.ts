@@ -65,10 +65,8 @@ describe('JraGoogleCalendarRepositoryImpl', () => {
     it('should delete events successfully', async () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        const response = await repository.deleteEvents([baseJraCalendarData]);
+        await repository.deleteEvents([baseJraCalendarData]);
 
-        // レスポンスが200で帰ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
@@ -86,10 +84,8 @@ describe('JraGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const response = await repository.upsertEvents([baseJraRaceEntity]);
+        await repository.upsertEvents([baseJraRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 
@@ -98,10 +94,8 @@ describe('JraGoogleCalendarRepositoryImpl', () => {
             baseJraCalendarDataFromGoogleCalendar,
         );
 
-        const response = await repository.upsertEvents([baseJraRaceEntity]);
+        await repository.upsertEvents([baseJraRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
     });
 

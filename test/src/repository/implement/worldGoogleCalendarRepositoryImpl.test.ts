@@ -66,10 +66,8 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
         const calendarDataList = [baseWorldCalendarData];
-        const response = await repository.deleteEvents(calendarDataList);
+        await repository.deleteEvents(calendarDataList);
 
-        // レスポンスが200で帰ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
@@ -88,10 +86,8 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
         googleCalendarGateway.fetchCalendarData.mockRejectedValue(
             new Error('API Error'),
         );
-        const response = await repository.upsertEvents([baseWorldRaceEntity]);
+        await repository.upsertEvents([baseWorldRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 
@@ -100,10 +96,8 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
             baseWorldCalendarDataFromGoogleCalendar,
         );
 
-        const response = await repository.upsertEvents([baseWorldRaceEntity]);
+        await repository.upsertEvents([baseWorldRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
     });
 

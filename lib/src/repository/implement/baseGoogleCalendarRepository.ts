@@ -5,8 +5,6 @@ import type { ICalendarGateway } from '../../gateway/interface/iCalendarGateway'
 import type { IRaceEntity } from '../entity/iRaceEntity';
 import type { SearchFilterEntity } from '../entity/searchFilterEntity';
 import type { ICalendarRepository } from '../interface/ICalendarRepository';
-import { DeleteCalendarListResponse } from '../response/deleteCalendarListResponse';
-import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
 
 /**
  * 開催データリポジトリの基底クラス
@@ -39,9 +37,7 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
         }
     }
 
-    async upsertEvents(
-        raceEntityList: R[],
-    ): Promise<UpsertCalendarListResponse> {
+    async upsertEvents(raceEntityList: R[]): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {
@@ -80,12 +76,9 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
                 }
             }),
         );
-        return new UpsertCalendarListResponse(200);
     }
 
-    async deleteEvents(
-        calendarDataList: CalendarData[],
-    ): Promise<DeleteCalendarListResponse> {
+    async deleteEvents(calendarDataList: CalendarData[]): Promise<void> {
         await Promise.all(
             calendarDataList.map(async (calendarData) => {
                 try {
@@ -100,6 +93,5 @@ export abstract class BaseGoogleCalendarRepository<R extends IRaceEntity<R>>
                 }
             }),
         );
-        return new DeleteCalendarListResponse(200);
     }
 }

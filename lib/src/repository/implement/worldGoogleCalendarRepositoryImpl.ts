@@ -7,7 +7,6 @@ import { ICalendarGateway } from '../../gateway/interface/iCalendarGateway';
 import { Logger } from '../../utility/logger';
 import { generateWorldRaceId } from '../../utility/raceId';
 import { WorldRaceEntity } from '../entity/worldRaceEntity';
-import { UpsertCalendarListResponse } from '../response/upsertCalendarListResponse';
 import { BaseGoogleCalendarRepository } from './baseGoogleCalendarRepository';
 
 /**
@@ -23,9 +22,7 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
     }
 
     @Logger
-    async upsertEvents(
-        raceEntityList: WorldRaceEntity[],
-    ): Promise<UpsertCalendarListResponse> {
+    async upsertEvents(raceEntityList: WorldRaceEntity[]): Promise<void> {
         // Googleカレンダーから取得する
         await Promise.all(
             raceEntityList.map(async (raceEntity) => {
@@ -64,7 +61,6 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
                 }
             }),
         );
-        return new UpsertCalendarListResponse(200);
     }
 
     /**

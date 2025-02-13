@@ -65,12 +65,8 @@ describe('KeirinGoogleCalendarRepositoryImpl', () => {
     it('should delete events successfully', async () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        const response = await repository.deleteEvents([
-            baseKeirinCalendarData,
-        ]);
+        await repository.deleteEvents([baseKeirinCalendarData]);
 
-        // レスポンスが200で帰ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
@@ -88,10 +84,8 @@ describe('KeirinGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const response = await repository.upsertEvents([baseKeirinRaceEntity]);
+        await repository.upsertEvents([baseKeirinRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 
@@ -100,10 +94,8 @@ describe('KeirinGoogleCalendarRepositoryImpl', () => {
             baseKeirinCalendarDataFromGoogleCalendar,
         );
 
-        const response = await repository.upsertEvents([baseKeirinRaceEntity]);
+        await repository.upsertEvents([baseKeirinRaceEntity]);
 
-        // レスポンスが200で返ってくることを確認
-        expect(response.code).toEqual(200);
         expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
     });
 
