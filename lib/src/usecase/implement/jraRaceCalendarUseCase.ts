@@ -76,9 +76,7 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
                     (raceEntity) => raceEntity.id === calendarData.id,
                 ),
         );
-        if (deleteCalendarDataList.length > 0) {
-            await this.calendarService.deleteEvents(deleteCalendarDataList);
-        }
+        await this.calendarService.deleteEvents(deleteCalendarDataList);
         // 2. deleteCalendarDataListのIDに該当しないraceEntityListを取得し、upsertする
         const upsertRaceEntityList: JraRaceEntity[] =
             filteredRaceEntityList.filter(
@@ -88,8 +86,6 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
                             deleteCalendarData.id === raceEntity.id,
                     ),
             );
-        if (upsertRaceEntityList.length > 0) {
-            await this.calendarService.upsertEvents(upsertRaceEntityList);
-        }
+        await this.calendarService.upsertEvents(upsertRaceEntityList);
     }
 }
