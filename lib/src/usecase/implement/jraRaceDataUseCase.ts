@@ -58,7 +58,7 @@ export class JraRaceDataUseCase
             );
 
         const raceDataList: JraRaceData[] = raceEntityList.map(
-            (raceEntity) => raceEntity.raceData,
+            ({ raceData }) => raceData,
         );
 
         // フィルタリング処理

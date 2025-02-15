@@ -65,7 +65,7 @@ export class BoatraceRaceDataUseCase
             );
 
         const raceDataList: BoatraceRaceData[] = raceEntityList.map(
-            (raceEntity) => raceEntity.raceData,
+            ({ raceData }) => raceData,
         );
 
         // フィルタリング処理

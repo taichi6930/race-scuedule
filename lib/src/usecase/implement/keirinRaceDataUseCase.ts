@@ -65,7 +65,7 @@ export class KeirinRaceDataUseCase
             );
 
         const raceDataList: KeirinRaceData[] = raceEntityList.map(
-            (raceEntity) => raceEntity.raceData,
+            ({ raceData }) => raceData,
         );
 
         // フィルタリング処理

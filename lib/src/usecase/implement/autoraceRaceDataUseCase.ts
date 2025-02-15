@@ -65,7 +65,7 @@ export class AutoraceRaceDataUseCase
             );
 
         const raceDataList: AutoraceRaceData[] = raceEntityList.map(
-            (raceEntity) => raceEntity.raceData,
+            ({ raceData }) => raceData,
         );
 
         // フィルタリング処理

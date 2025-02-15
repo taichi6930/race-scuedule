@@ -33,10 +33,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
                 finishDate,
                 DataLocation.Storage,
             );
-        const placeDataList: NarPlaceData[] = placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return placeEntityList.map(({ placeData }) => placeData);
     }
 
     /**

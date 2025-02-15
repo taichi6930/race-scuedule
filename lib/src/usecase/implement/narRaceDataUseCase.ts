@@ -58,7 +58,7 @@ export class NarRaceDataUseCase
             );
 
         const raceDataList: NarRaceData[] = raceEntityList.map(
-            (raceEntity) => raceEntity.raceData,
+            ({ raceData }) => raceData,
         );
 
         // フィルタリング処理

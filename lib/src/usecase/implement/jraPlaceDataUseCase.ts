@@ -33,10 +33,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
                 finishDate,
                 DataLocation.Storage,
             );
-        const placeDataList: JraPlaceData[] = placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return placeEntityList.map(({ placeData }) => placeData);
     }
 
     /**

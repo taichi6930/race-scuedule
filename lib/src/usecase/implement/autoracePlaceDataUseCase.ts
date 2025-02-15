@@ -35,10 +35,7 @@ export class AutoracePlaceDataUseCase
                 finishDate,
                 DataLocation.Storage,
             );
-        const placeDataList: AutoracePlaceData[] = placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return placeEntityList.map(({ placeData }) => placeData);
     }
 
     /**

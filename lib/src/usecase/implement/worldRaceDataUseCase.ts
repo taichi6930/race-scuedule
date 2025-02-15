@@ -52,7 +52,7 @@ export class WorldRaceDataUseCase
             );
 
         const raceDataList: WorldRaceData[] = raceEntityList.map(
-            (raceEntity) => raceEntity.raceData,
+            ({ raceData }) => raceData,
         );
 
         // フィルタリング処理

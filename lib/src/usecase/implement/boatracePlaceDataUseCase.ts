@@ -35,10 +35,7 @@ export class BoatracePlaceDataUseCase
                 finishDate,
                 DataLocation.Storage,
             );
-        const placeDataList: BoatracePlaceData[] = placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return placeEntityList.map(({ placeData }) => placeData);
     }
 
     /**
