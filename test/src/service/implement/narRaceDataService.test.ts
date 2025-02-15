@@ -57,6 +57,10 @@ describe('NarRaceDataService', () => {
         service = container.resolve(NarRaceDataService);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceEntityList', () => {
         it('正常にレースデータが取得できること（storage）', async () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;

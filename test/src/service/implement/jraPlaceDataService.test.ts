@@ -38,6 +38,10 @@ describe('JraPlaceDataService', () => {
         service = container.resolve(JraPlaceDataService);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること(storage)', async () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];

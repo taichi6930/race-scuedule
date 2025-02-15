@@ -45,6 +45,10 @@ describe('BoatraceRaceCalendarUseCase', () => {
         useCase = container.resolve(BoatraceRaceCalendarUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
             const mockCalendarData: CalendarData[] = [baseBoatraceCalendarData];

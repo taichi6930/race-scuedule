@@ -45,6 +45,10 @@ describe('AutoraceRaceDataUseCase', () => {
         useCase = container.resolve(AutoraceRaceDataUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
             const mockRaceData: AutoraceRaceData[] = baseAutoraceRaceDataList;

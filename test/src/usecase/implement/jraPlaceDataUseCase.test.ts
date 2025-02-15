@@ -28,6 +28,10 @@ describe('JraPlaceDataUseCase', () => {
         useCase = container.resolve(JraPlaceDataUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
             const mockPlaceData: JraPlaceData[] = [baseJraPlaceData];

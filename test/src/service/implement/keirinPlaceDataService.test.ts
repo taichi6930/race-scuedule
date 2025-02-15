@@ -39,6 +39,10 @@ describe('KeirinPlaceDataService', () => {
         service = container.resolve(KeirinPlaceDataService);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること(storage)', async () => {
             const mockPlaceEntity: KeirinPlaceEntity[] = [

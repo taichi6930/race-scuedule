@@ -43,6 +43,10 @@ describe('NarRaceCalendarUseCase', () => {
         useCase = container.resolve(NarRaceCalendarUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
             const mockCalendarData: CalendarData[] = [baseNarCalendarData];

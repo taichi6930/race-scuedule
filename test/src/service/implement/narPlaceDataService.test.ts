@@ -38,6 +38,10 @@ describe('NarPlaceDataService', () => {
         service = container.resolve(NarPlaceDataService);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること(storage)', async () => {
             const mockPlaceEntity: NarPlaceEntity[] = [baseNarPlaceEntity];

@@ -43,6 +43,10 @@ describe('NarRaceDataUseCase', () => {
         useCase = container.resolve(NarRaceDataUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
             const mockRaceData: NarRaceData[] = baseNarRaceDataList;

@@ -23,6 +23,10 @@ describe('JraCalendarService', () => {
         service = container.resolve(JraCalendarService);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('should fetch events', async () => {
         const startDate = new Date('2023-01-01');
         const finishDate = new Date('2023-01-31');

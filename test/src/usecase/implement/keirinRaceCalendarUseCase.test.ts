@@ -45,6 +45,10 @@ describe('KeirinRaceCalendarUseCase', () => {
         useCase = container.resolve(KeirinRaceCalendarUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
             const mockCalendarData: CalendarData[] = [baseKeirinCalendarData];

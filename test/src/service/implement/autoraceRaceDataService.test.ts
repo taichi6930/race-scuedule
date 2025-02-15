@@ -57,6 +57,10 @@ describe('AutoraceRaceDataService', () => {
         service = container.resolve(AutoraceRaceDataService);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceEntityList', () => {
         it('正常にレースデータが取得できること（storage）', async () => {
             const mockRaceEntity: AutoraceRaceEntity[] =

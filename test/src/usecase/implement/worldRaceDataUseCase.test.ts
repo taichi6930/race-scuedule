@@ -35,6 +35,10 @@ describe('WorldRaceDataUseCase', () => {
         useCase = container.resolve(WorldRaceDataUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
             const mockRaceData: WorldRaceData[] = baseWorldRaceDataList;

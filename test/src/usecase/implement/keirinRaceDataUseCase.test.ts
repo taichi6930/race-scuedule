@@ -45,6 +45,10 @@ describe('KeirinRaceDataUseCase', () => {
         useCase = container.resolve(KeirinRaceDataUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
             const mockRaceData: KeirinRaceData[] = baseKeirinRaceDataList;

@@ -44,6 +44,10 @@ describe('WorldRaceDataService', () => {
         service = container.resolve(WorldRaceDataService);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceEntityList', () => {
         it('正常にレースデータが取得できること（storage）', async () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;

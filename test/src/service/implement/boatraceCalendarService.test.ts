@@ -26,6 +26,10 @@ describe('BoatraceCalendarService', () => {
         service = container.resolve(BoatraceCalendarService);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('should fetch events', async () => {
         const startDate = new Date('2023-01-01');
         const finishDate = new Date('2023-01-31');

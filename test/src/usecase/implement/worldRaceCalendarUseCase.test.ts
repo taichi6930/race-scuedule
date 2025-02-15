@@ -45,6 +45,10 @@ describe('WorldRaceCalendarUseCase', () => {
         useCase = container.resolve(WorldRaceCalendarUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
             const mockCalendarData: CalendarData[] = [baseWorldCalendarData];

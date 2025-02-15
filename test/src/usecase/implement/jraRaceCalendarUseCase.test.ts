@@ -43,6 +43,10 @@ describe('JraRaceCalendarUseCase', () => {
         useCase = container.resolve(JraRaceCalendarUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('getRacesFromCalendar', () => {
         it('CalendarDataのリストが正常に返ってくること', async () => {
             const mockCalendarData: CalendarData[] = [baseJraCalendarData];

@@ -28,6 +28,10 @@ describe('NarPlaceDataUseCase', () => {
         useCase = container.resolve(NarPlaceDataUseCase);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceDataList', () => {
         it('正常にレースデータが取得できること', async () => {
             const mockPlaceData: NarPlaceData[] = [baseNarPlaceData];

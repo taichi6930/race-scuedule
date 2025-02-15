@@ -26,6 +26,10 @@ describe('WorldCalendarService', () => {
         service = container.resolve(WorldCalendarService);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('should fetch events', async () => {
         const startDate = new Date('2023-01-01');
         const finishDate = new Date('2023-01-31');
