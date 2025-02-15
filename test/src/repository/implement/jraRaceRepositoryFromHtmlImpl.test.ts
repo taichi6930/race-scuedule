@@ -13,17 +13,17 @@ import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('JraRaceRepositoryFromHtmlImpl', () => {
-        let jraRaceDataHtmlGateway: IJraRaceDataHtmlGateway;
+        let raceDataHtmlGateway: IJraRaceDataHtmlGateway;
         let repository: JraRaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            jraRaceDataHtmlGateway = new MockJraRaceDataHtmlGateway();
+            raceDataHtmlGateway = new MockJraRaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
             container.registerInstance(
                 'JraRaceDataHtmlGateway',
-                jraRaceDataHtmlGateway,
+                raceDataHtmlGateway,
             );
 
             // テスト対象のリポジトリを生成

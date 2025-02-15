@@ -28,9 +28,9 @@ export class AutoraceRaceDataUseCase
 {
     constructor(
         @inject('AutoracePlaceDataService')
-        private readonly autoracePlaceDataService: IPlaceDataService<AutoracePlaceEntity>,
+        private readonly placeDataService: IPlaceDataService<AutoracePlaceEntity>,
         @inject('AutoraceRaceDataService')
-        private readonly autoraceRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >,
@@ -50,14 +50,14 @@ export class AutoraceRaceDataUseCase
         },
     ): Promise<AutoraceRaceData[]> {
         const placeEntityList: AutoracePlaceEntity[] =
-            await this.autoracePlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
             );
 
         const raceEntityList: AutoraceRaceEntity[] =
-            await this.autoraceRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -112,7 +112,7 @@ export class AutoraceRaceDataUseCase
     ): Promise<void> {
         // フィルタリング処理
         const placeEntityList: AutoracePlaceEntity[] = (
-            await this.autoracePlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -141,14 +141,14 @@ export class AutoraceRaceDataUseCase
         }
 
         const raceEntityList: AutoraceRaceEntity[] =
-            await this.autoraceRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Web,
                 placeEntityList,
             );
 
-        await this.autoraceRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -165,6 +165,6 @@ export class AutoraceRaceDataUseCase
                     getJSTDate(new Date()),
                 ),
         );
-        await this.autoraceRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 }

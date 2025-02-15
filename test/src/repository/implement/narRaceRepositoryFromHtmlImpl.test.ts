@@ -13,17 +13,17 @@ import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('NarRaceRepositoryFromHtmlImpl', () => {
-        let narRaceDataHtmlGateway: INarRaceDataHtmlGateway;
+        let raceDataHtmlGateway: INarRaceDataHtmlGateway;
         let repository: NarRaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            narRaceDataHtmlGateway = new MockNarRaceDataHtmlGateway();
+            raceDataHtmlGateway = new MockNarRaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
             container.registerInstance(
                 'NarRaceDataHtmlGateway',
-                narRaceDataHtmlGateway,
+                raceDataHtmlGateway,
             );
 
             // テスト対象のリポジトリを生成

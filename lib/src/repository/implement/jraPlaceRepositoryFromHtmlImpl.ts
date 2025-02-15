@@ -17,7 +17,7 @@ export class JraPlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('JraPlaceDataHtmlGateway')
-        private jraPlaceDataHtmlGateway: IJraPlaceDataHtmlGateway,
+        private placeDataHtmlGateway: IJraPlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -104,7 +104,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     ): Promise<JraPlaceRecord[]> {
         // レースHTMLを取得
         const htmlText: string =
-            await this.jraPlaceDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
 
         // 競馬場開催レコードはここに追加
         const jraPlaceRecordList: JraPlaceRecord[] = [];

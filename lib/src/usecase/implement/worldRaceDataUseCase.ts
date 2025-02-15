@@ -26,7 +26,7 @@ export class WorldRaceDataUseCase
 {
     constructor(
         @inject('WorldRaceDataService')
-        private readonly worldRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             WorldRaceEntity,
             WorldPlaceEntity
         >,
@@ -45,7 +45,7 @@ export class WorldRaceDataUseCase
         },
     ): Promise<WorldRaceData[]> {
         const raceEntityList: WorldRaceEntity[] =
-            await this.worldRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -87,12 +87,12 @@ export class WorldRaceDataUseCase
         finishDate: Date,
     ): Promise<void> {
         const raceEntityList: WorldRaceEntity[] =
-            await this.worldRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Web,
             );
-        await this.worldRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -104,6 +104,6 @@ export class WorldRaceDataUseCase
         const raceEntityList: WorldRaceEntity[] = raceDataList.map((raceData) =>
             WorldRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
-        await this.worldRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 }

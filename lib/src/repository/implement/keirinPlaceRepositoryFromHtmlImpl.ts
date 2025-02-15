@@ -26,7 +26,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('KeirinPlaceDataHtmlGateway')
-        private readonly keirinPlaceDataHtmlGateway: IKeirinPlaceDataHtmlGateway,
+        private readonly placeDataHtmlGateway: IKeirinPlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -111,7 +111,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.keirinPlaceDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
 
         const $ = cheerio.load(htmlText);
 

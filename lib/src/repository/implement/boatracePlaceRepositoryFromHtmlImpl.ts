@@ -21,7 +21,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('BoatracePlaceDataHtmlGateway')
-        private readonly boatracePlaceDataHtmlGateway: IBoatracePlaceDataHtmlGateway,
+        private readonly placeDataHtmlGateway: IBoatracePlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -121,9 +121,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         );
         // レース情報を取得
         const htmlText: string =
-            await this.boatracePlaceDataHtmlGateway.getPlaceDataHtml(
-                quarterString,
-            );
+            await this.placeDataHtmlGateway.getPlaceDataHtml(quarterString);
 
         const $ = cheerio.load(htmlText);
 

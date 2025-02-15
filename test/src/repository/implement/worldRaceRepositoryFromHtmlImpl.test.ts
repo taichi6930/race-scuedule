@@ -17,17 +17,17 @@ if (ENV === allowedEnvs.githubActionsCi) {
     });
 } else {
     describe('WorldRaceRepositoryFromHtmlImpl', () => {
-        let worldRaceDataHtmlGateway: IWorldRaceDataHtmlGateway;
+        let raceDataHtmlGateway: IWorldRaceDataHtmlGateway;
         let repository: WorldRaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            worldRaceDataHtmlGateway = new MockWorldRaceDataHtmlGateway();
+            raceDataHtmlGateway = new MockWorldRaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
             container.registerInstance(
                 'WorldRaceDataHtmlGateway',
-                worldRaceDataHtmlGateway,
+                raceDataHtmlGateway,
             );
 
             // テスト対象のリポジトリを生成

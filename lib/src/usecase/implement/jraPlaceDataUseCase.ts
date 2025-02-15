@@ -14,7 +14,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
     constructor(
         @inject('JraPlaceDataService')
-        private readonly jraPlaceDataService: IPlaceDataService<JraPlaceEntity>,
+        private readonly placeDataService: IPlaceDataService<JraPlaceEntity>,
     ) {}
     /**
      * 開催場データを取得する
@@ -28,7 +28,7 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         finishDate: Date,
     ): Promise<JraPlaceData[]> {
         const placeEntityList: JraPlaceEntity[] =
-            await this.jraPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -54,12 +54,12 @@ export class JraPlaceDataUseCase implements IPlaceDataUseCase<JraPlaceData> {
         // finishDateは年の最終日に設定する
         const modifyFinishDate = new Date(finishDate.getFullYear() + 1, 0, 0);
         const placeEntityList: JraPlaceEntity[] =
-            await this.jraPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
                 DataLocation.Web,
             );
 
-        await this.jraPlaceDataService.updatePlaceEntityList(placeEntityList);
+        await this.placeDataService.updatePlaceEntityList(placeEntityList);
     }
 }

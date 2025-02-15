@@ -14,7 +14,7 @@ import { IPlaceDataUseCase } from '../interface/IPlaceDataUseCase';
 export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
     constructor(
         @inject('NarPlaceDataService')
-        private readonly narPlaceDataService: IPlaceDataService<NarPlaceEntity>,
+        private readonly placeDataService: IPlaceDataService<NarPlaceEntity>,
     ) {}
     /**
      * 開催場データを取得する
@@ -28,7 +28,7 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
         finishDate: Date,
     ): Promise<NarPlaceData[]> {
         const placeEntityList: NarPlaceEntity[] =
-            await this.narPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -62,11 +62,11 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
             0,
         );
         const placeEntityList: NarPlaceEntity[] =
-            await this.narPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
                 DataLocation.Web,
             );
-        await this.narPlaceDataService.updatePlaceEntityList(placeEntityList);
+        await this.placeDataService.updatePlaceEntityList(placeEntityList);
     }
 }

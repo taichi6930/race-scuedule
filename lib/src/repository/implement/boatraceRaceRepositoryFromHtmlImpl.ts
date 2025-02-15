@@ -28,7 +28,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('BoatraceRaceDataHtmlGateway')
-        private readonly boatraceRaceDataHtmlGateway: IBoatraceRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: IBoatraceRaceDataHtmlGateway,
     ) {}
     /**
      * 開催データを取得する
@@ -68,12 +68,11 @@ export class BoatraceRaceRepositoryFromHtmlImpl
             ];
             // TODO: 全レースを取りたいが、12レースのみ取得するので、後で修正する
             const raceNumber = 12;
-            const htmlText =
-                await this.boatraceRaceDataHtmlGateway.getRaceDataHtml(
-                    placeData.dateTime,
-                    placeData.location,
-                    raceNumber,
-                );
+            const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
+                placeData.dateTime,
+                placeData.location,
+                raceNumber,
+            );
             const boatraceRaceEntityList: BoatraceRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
 

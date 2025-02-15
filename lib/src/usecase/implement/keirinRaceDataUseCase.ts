@@ -28,9 +28,9 @@ export class KeirinRaceDataUseCase
 {
     constructor(
         @inject('KeirinPlaceDataService')
-        private readonly keirinPlaceDataService: IPlaceDataService<KeirinPlaceEntity>,
+        private readonly placeDataService: IPlaceDataService<KeirinPlaceEntity>,
         @inject('KeirinRaceDataService')
-        private readonly keirinRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >,
@@ -50,14 +50,14 @@ export class KeirinRaceDataUseCase
         },
     ): Promise<KeirinRaceData[]> {
         const placeEntityList: KeirinPlaceEntity[] =
-            await this.keirinPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
             );
 
         const raceEntityList: KeirinRaceEntity[] =
-            await this.keirinRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -112,7 +112,7 @@ export class KeirinRaceDataUseCase
     ): Promise<void> {
         // フィルタリング処理
         const placeEntityList: KeirinPlaceEntity[] = (
-            await this.keirinPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -141,14 +141,14 @@ export class KeirinRaceDataUseCase
         }
 
         const raceEntityList: KeirinRaceEntity[] =
-            await this.keirinRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Web,
                 placeEntityList,
             );
 
-        await this.keirinRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -165,6 +165,6 @@ export class KeirinRaceDataUseCase
                     getJSTDate(new Date()),
                 ),
         );
-        await this.keirinRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 }

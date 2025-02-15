@@ -21,7 +21,7 @@ export class NarPlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('NarPlaceDataHtmlGateway')
-        private readonly narPlaceDataHtmlGateway: INarPlaceDataHtmlGateway,
+        private readonly placeDataHtmlGateway: INarPlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -105,7 +105,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         console.log(`S3から${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.narPlaceDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
 
         const $ = cheerio.load(htmlText);
         // <div class="chartWrapprer">を取得

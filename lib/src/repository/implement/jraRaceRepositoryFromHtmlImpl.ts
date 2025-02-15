@@ -23,7 +23,7 @@ export class JraRaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('JraRaceDataHtmlGateway')
-        private jraRaceDataHtmlGateway: IJraRaceDataHtmlGateway,
+        private raceDataHtmlGateway: IJraRaceDataHtmlGateway,
     ) {}
     /**
      * 開催データを取得する
@@ -57,7 +57,7 @@ export class JraRaceRepositoryFromHtmlImpl
         try {
             // レース情報を取得
             const htmlText: string =
-                await this.jraRaceDataHtmlGateway.getRaceDataHtml(raceDate);
+                await this.raceDataHtmlGateway.getRaceDataHtml(raceDate);
             const jraRaceDataList: JraRaceEntity[] = [];
 
             // mockHTML内のsection id="raceInfo"の中のtableを取得

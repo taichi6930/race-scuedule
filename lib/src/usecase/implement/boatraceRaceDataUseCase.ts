@@ -28,9 +28,9 @@ export class BoatraceRaceDataUseCase
 {
     constructor(
         @inject('BoatracePlaceDataService')
-        private readonly boatracePlaceDataService: IPlaceDataService<BoatracePlaceEntity>,
+        private readonly placeDataService: IPlaceDataService<BoatracePlaceEntity>,
         @inject('BoatraceRaceDataService')
-        private readonly boatraceRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             BoatraceRaceEntity,
             BoatracePlaceEntity
         >,
@@ -50,14 +50,14 @@ export class BoatraceRaceDataUseCase
         },
     ): Promise<BoatraceRaceData[]> {
         const placeEntityList: BoatracePlaceEntity[] =
-            await this.boatracePlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
             );
 
         const raceEntityList: BoatraceRaceEntity[] =
-            await this.boatraceRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -112,7 +112,7 @@ export class BoatraceRaceDataUseCase
     ): Promise<void> {
         // フィルタリング処理
         const placeEntityList: BoatracePlaceEntity[] = (
-            await this.boatracePlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -141,14 +141,14 @@ export class BoatraceRaceDataUseCase
         }
 
         const raceEntityList: BoatraceRaceEntity[] =
-            await this.boatraceRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Web,
                 placeEntityList,
             );
 
-        await this.boatraceRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -165,6 +165,6 @@ export class BoatraceRaceDataUseCase
                     getJSTDate(new Date()),
                 ),
         );
-        await this.boatraceRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 }

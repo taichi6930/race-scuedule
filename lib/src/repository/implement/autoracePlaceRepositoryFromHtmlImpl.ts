@@ -23,7 +23,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('AutoracePlaceDataHtmlGateway')
-        private readonly autoracePlaceDataHtmlGateway: IAutoracePlaceDataHtmlGateway,
+        private readonly placeDataHtmlGateway: IAutoracePlaceDataHtmlGateway,
     ) {}
 
     /**
@@ -107,7 +107,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.autoracePlaceDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
 
         const $ = cheerio.load(htmlText);
 

@@ -22,9 +22,9 @@ export class NarRaceDataUseCase
 {
     constructor(
         @inject('NarPlaceDataService')
-        private readonly narPlaceDataService: IPlaceDataService<NarPlaceEntity>,
+        private readonly placeDataService: IPlaceDataService<NarPlaceEntity>,
         @inject('NarRaceDataService')
-        private readonly narRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             NarRaceEntity,
             NarPlaceEntity
         >,
@@ -43,14 +43,14 @@ export class NarRaceDataUseCase
         },
     ): Promise<NarRaceData[]> {
         const placeEntityList: NarPlaceEntity[] =
-            await this.narPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
             );
 
         const raceEntityList: NarRaceEntity[] =
-            await this.narRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -93,21 +93,21 @@ export class NarRaceDataUseCase
         finishDate: Date,
     ): Promise<void> {
         const placeEntityList: NarPlaceEntity[] =
-            await this.narPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
             );
 
         const raceEntityList: NarRaceEntity[] =
-            await this.narRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Web,
                 placeEntityList,
             );
 
-        await this.narRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -119,6 +119,6 @@ export class NarRaceDataUseCase
         const raceEntityList: NarRaceEntity[] = raceDataList.map((raceData) =>
             NarRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
-        await this.narRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 }
