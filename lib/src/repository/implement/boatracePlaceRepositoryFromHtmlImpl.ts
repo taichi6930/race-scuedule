@@ -68,7 +68,6 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     private generateQuarterList(
@@ -108,7 +107,6 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
-     * @returns
      */
     @Logger
     private async fetchMonthPlaceEntityList(

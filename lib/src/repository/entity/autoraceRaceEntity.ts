@@ -92,7 +92,6 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<AutoraceRaceEntity> = {}): AutoraceRaceEntity {
         return AutoraceRaceEntity.create(
@@ -105,7 +104,6 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
 
     /**
      * AutoraceRaceRecordに変換する
-     * @returns
      */
     toRaceRecord(): AutoraceRaceRecord {
         return AutoraceRaceRecord.create(
@@ -123,7 +121,6 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
     /**
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param raceEntity
-     * @returns
      */
     toGoogleCalendarData(
         updateDate: Date = new Date(),
@@ -170,7 +167,6 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
 
     /**
      * AutoraceRacePlayerRecordに変換する
-     * @returns
      */
     toPlayerRecordList(): AutoraceRacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>

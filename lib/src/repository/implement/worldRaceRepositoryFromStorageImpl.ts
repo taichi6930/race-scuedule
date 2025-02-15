@@ -27,7 +27,6 @@ export class WorldRaceRepositoryFromStorageImpl
     /**
      * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
@@ -54,7 +53,7 @@ export class WorldRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param request
+     * @param raceEntityList
      */
     @Logger
     async registerRaceEntityList(

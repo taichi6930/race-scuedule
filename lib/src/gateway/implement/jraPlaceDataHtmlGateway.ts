@@ -12,7 +12,6 @@ export class JraPlaceDataHtmlGateway implements IJraPlaceDataHtmlGateway {
     /**
      * 開催場データのHTMLを取得する
      * @param date - 取得する年月
-     * @returns
      */
     @Logger
     async getPlaceDataHtml(date: Date): Promise<string> {

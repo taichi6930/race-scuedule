@@ -64,7 +64,6 @@ export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<KeirinPlaceEntity> = {}): KeirinPlaceEntity {
         return KeirinPlaceEntity.create(
@@ -76,7 +75,6 @@ export class KeirinPlaceEntity implements IPlaceEntity<KeirinPlaceEntity> {
 
     /**
      * KeirinPlaceRecordに変換する
-     * @returns
      */
     toRecord(): KeirinPlaceRecord {
         return KeirinPlaceRecord.create(

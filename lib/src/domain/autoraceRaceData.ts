@@ -128,7 +128,6 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<AutoraceRaceData> = {}): AutoraceRaceData {
         return new AutoraceRaceData(

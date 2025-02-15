@@ -68,7 +68,6 @@ export class JraPlaceRepositoryFromHtmlImpl
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     private generateYearList(
@@ -96,7 +95,6 @@ export class JraPlaceRepositoryFromHtmlImpl
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
-     * @returns
      */
     @Logger
     private async fetchYearPlaceRecordList(

@@ -20,7 +20,6 @@ export class NarPlaceDataUseCase implements IPlaceDataUseCase<NarPlaceData> {
      * 開催場データを取得する
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     async fetchPlaceDataList(

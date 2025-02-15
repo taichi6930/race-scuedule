@@ -11,7 +11,6 @@ export class JraRaceDataHtmlGateway implements IJraRaceDataHtmlGateway {
     /**
      * レースデータのHTMLを取得する
      * @param date
-     * @returns
      */
     @Logger
     async getRaceDataHtml(date: Date): Promise<string> {

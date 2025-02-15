@@ -81,7 +81,6 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<JraPlaceRecord> = {}): JraPlaceRecord {
         return JraPlaceRecord.create(
@@ -96,7 +95,6 @@ export class JraPlaceRecord implements IRecord<JraPlaceRecord> {
 
     /**
      * Entityに変換する
-     * @returns
      */
     toEntity(): JraPlaceEntity {
         return JraPlaceEntity.create(

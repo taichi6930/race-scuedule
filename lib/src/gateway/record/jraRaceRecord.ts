@@ -132,7 +132,6 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<JraRaceRecord> = {}): JraRaceRecord {
         return JraRaceRecord.create(
@@ -152,7 +151,6 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
 
     /**
      * JraRaceEntityに変換する
-     * @returns
      */
     toEntity(): JraRaceEntity {
         return JraRaceEntity.create(

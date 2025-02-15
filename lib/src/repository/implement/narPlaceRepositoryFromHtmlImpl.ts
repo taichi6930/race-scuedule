@@ -66,7 +66,6 @@ export class NarPlaceRepositoryFromHtmlImpl
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     private generateMonthList(
@@ -96,7 +95,6 @@ export class NarPlaceRepositoryFromHtmlImpl
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
-     * @returns
      */
     @Logger
     private async fetchMonthPlaceEntityList(

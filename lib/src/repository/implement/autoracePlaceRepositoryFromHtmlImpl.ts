@@ -31,8 +31,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      *
      * このメソッドで日付の範囲を指定して開催データを取得する
      *
-     * @param request - 開催データ取得リクエスト
-     * @returns Promise<AutoracePlaceEntity[]> - 開催データ取得レスポンス
+     * @param searchFilter - 開催データ取得フィルタ
      */
     @Logger
     async fetchPlaceEntityList(
@@ -67,7 +66,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     private generateMonthList(
@@ -97,7 +95,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
-     * @returns
      */
     @Logger
     private async fetchMonthPlaceEntityList(

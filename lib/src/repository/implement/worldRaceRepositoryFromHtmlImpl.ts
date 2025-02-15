@@ -35,7 +35,6 @@ export class WorldRaceRepositoryFromHtmlImpl
     /**
      * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
@@ -64,7 +63,6 @@ export class WorldRaceRepositoryFromHtmlImpl
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     private generateMonthList(

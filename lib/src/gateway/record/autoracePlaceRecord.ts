@@ -74,7 +74,6 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<AutoracePlaceRecord> = {}): AutoracePlaceRecord {
         return AutoracePlaceRecord.create(
@@ -88,7 +87,6 @@ export class AutoracePlaceRecord implements IRecord<AutoracePlaceRecord> {
 
     /**
      * AutoracePlaceEntityに変換する
-     * @returns
      */
     toEntity(): AutoracePlaceEntity {
         return AutoracePlaceEntity.create(

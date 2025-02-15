@@ -33,7 +33,6 @@ export class KeirinRaceRepositoryFromStorageImpl
     /**
      * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(

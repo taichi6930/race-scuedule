@@ -24,7 +24,6 @@ export class NarRaceRepositoryFromStorageImpl
     /**
      * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(

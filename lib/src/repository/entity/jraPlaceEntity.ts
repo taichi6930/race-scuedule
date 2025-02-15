@@ -50,7 +50,6 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
      *
      * @param placeData
      * @param updateDate
-     * @returns
      */
     static createWithoutId(
         placeData: JraPlaceData,
@@ -66,7 +65,6 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<JraPlaceEntity> = {}): JraPlaceEntity {
         return JraPlaceEntity.create(
@@ -78,7 +76,6 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
 
     /**
      * JraPlaceRecordに変換する
-     * @returns
      */
     toRecord(): JraPlaceRecord {
         return JraPlaceRecord.create(

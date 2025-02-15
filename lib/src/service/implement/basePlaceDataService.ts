@@ -62,7 +62,6 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
     /**
      * リポジトリを取得する
      * @param type
-     * @returns
      */
     private getPlaceRepository(type: DataLocationType): IPlaceRepository<P> {
         switch (type) {

@@ -102,7 +102,6 @@ export class BoatraceRaceRecord implements IRecord<BoatraceRaceRecord> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<BoatraceRaceRecord> = {}): BoatraceRaceRecord {
         return BoatraceRaceRecord.create(
