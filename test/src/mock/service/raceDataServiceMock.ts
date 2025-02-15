@@ -2,6 +2,10 @@ import type { IPlaceEntity } from '../../../../lib/src/repository/entity/iPlaceE
 import type { IRaceEntity } from '../../../../lib/src/repository/entity/iRaceEntity';
 import type { IRaceDataService } from '../../../../lib/src/service/interface/IRaceDataService';
 
+/**
+ * RaceDataServiceのモックを作成する
+ * @returns
+ */
 export const RaceDataServiceMock = <
     R extends IRaceEntity<R>,
     P extends IPlaceEntity<P>,
