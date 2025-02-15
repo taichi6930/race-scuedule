@@ -27,7 +27,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
         private readonly autoraceRaceDataHtmlGateway: IAutoraceRaceDataHtmlGateway,
     ) {}
     /**
-     * オートレース場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
      * @returns
      */

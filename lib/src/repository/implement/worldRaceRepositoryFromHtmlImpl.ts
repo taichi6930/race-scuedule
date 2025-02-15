@@ -33,7 +33,7 @@ export class WorldRaceRepositoryFromHtmlImpl
         private readonly worldRaceDataHtmlGateway: IWorldRaceDataHtmlGateway,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
      * @returns
      */

@@ -22,9 +22,9 @@ export class JraPlaceRepositoryFromStorageImpl
         private s3Gateway: IS3Gateway<JraPlaceRecord>,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      *
-     * このメソッドで日付の範囲を指定して競馬場開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<JraPlaceEntity[]> - 開催データ取得レスポンス
@@ -33,11 +33,10 @@ export class JraPlaceRepositoryFromStorageImpl
     async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<JraPlaceEntity[]> {
-        // 年ごとの競馬場開催データを取得
+        // 開催データを取得
         const placeRecordList: JraPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        // Entityに変換
         const placeEntityList: JraPlaceEntity[] = placeRecordList.map(
             (placeRecord) => placeRecord.toEntity(),
         );
@@ -60,7 +59,6 @@ export class JraPlaceRepositoryFromStorageImpl
         const existFetchPlaceRecordList: JraPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        // PlaceEntityをPlaceRecordに変換する
         const placeRecordList: JraPlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
@@ -83,7 +81,6 @@ export class JraPlaceRepositoryFromStorageImpl
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 
-        // placeをS3にアップロードする
         await this.s3Gateway.uploadDataToS3(
             existFetchPlaceRecordList,
             this.fileName,

@@ -28,7 +28,7 @@ export class NarRaceRepositoryFromHtmlImpl
         private readonly narRaceDataHtmlGateway: INarRaceDataHtmlGateway,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
      * @returns
      */

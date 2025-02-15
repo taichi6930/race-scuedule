@@ -11,10 +11,10 @@ export class MockAutoracePlaceDataHtmlGateway
     implements IAutoracePlaceDataHtmlGateway
 {
     /**
-     * オートレース開催データのHTMLを取得する
+     * 開催データのHTMLを取得する
      *
      * @param date - 取得する年月
-     * @returns Promise<string> - オートレース場開催データのHTML
+     * @returns Promise<string> - 開催データのHTML
      */
     @Logger
     getPlaceDataHtml(date: Date): Promise<string> {

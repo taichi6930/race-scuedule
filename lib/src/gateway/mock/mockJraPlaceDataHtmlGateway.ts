@@ -9,10 +9,10 @@ import { IJraPlaceDataHtmlGateway } from '../interface/iJraPlaceDataHtmlGateway'
  */
 export class MockJraPlaceDataHtmlGateway implements IJraPlaceDataHtmlGateway {
     /**
-     * 競馬場開催データのHTMLを取得する
+     * 開催データのHTMLを取得する
      *
      * @param date - 取得する年月
-     * @returns Promise<string> - 競馬場開催データのHTML
+     * @returns Promise<string> - 開催データのHTML
      */
     @Logger
     getPlaceDataHtml(date: Date): Promise<string> {

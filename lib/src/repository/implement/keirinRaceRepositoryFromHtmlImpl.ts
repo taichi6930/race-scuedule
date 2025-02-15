@@ -31,7 +31,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
         private readonly keirinRaceDataHtmlGateway: IKeirinRaceDataHtmlGateway,
     ) {}
     /**
-     * 競輪場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
      * @returns
      */

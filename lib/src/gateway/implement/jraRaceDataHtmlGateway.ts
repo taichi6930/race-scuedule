@@ -9,7 +9,7 @@ export class JraRaceDataHtmlGateway implements IJraRaceDataHtmlGateway {
     }
 
     /**
-     * JRAのレースデータのHTMLを取得する
+     * レースデータのHTMLを取得する
      * @param date
      * @returns
      */

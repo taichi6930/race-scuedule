@@ -27,9 +27,9 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     ) {}
 
     /**
-     * オートレース開催データを取得する
+     * 開催データを取得する
      *
-     * このメソッドで日付の範囲を指定してオートレース開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<AutoracePlaceEntity[]> - 開催データ取得レスポンス
@@ -91,9 +91,9 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * S3からオートレース開催データを取得する
+     * S3から開催データを取得する
      *
-     * ファイル名を利用してS3からオートレース開催データを取得する
+     * ファイル名を利用してS3から開催データを取得する
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
@@ -182,7 +182,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * オートレース開催データを登録する
+     * 開催データを登録する
      * HTMLにはデータを登録しない
      * @param request
      */

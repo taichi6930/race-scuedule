@@ -31,7 +31,7 @@ export class BoatraceRaceRepositoryFromHtmlImpl
         private readonly boatraceRaceDataHtmlGateway: IBoatraceRaceDataHtmlGateway,
     ) {}
     /**
-     * ボートレース場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
      * @returns
      */

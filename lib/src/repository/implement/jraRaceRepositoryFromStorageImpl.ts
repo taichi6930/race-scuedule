@@ -23,7 +23,7 @@ export class JraRaceRepositoryFromStorageImpl
     ) {}
 
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
      * @returns
      */
@@ -31,7 +31,7 @@ export class JraRaceRepositoryFromStorageImpl
     async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<JraPlaceEntity>,
     ): Promise<JraRaceEntity[]> {
-        // ファイル名リストから中央競馬場開催データを取得する
+        // ファイル名リストから開催データを取得する
         const raceRecordList: JraRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
@@ -53,7 +53,7 @@ export class JraRaceRepositoryFromStorageImpl
     }
 
     /**
-     * 新ファイルリストからレースデータを取得する
+     * ファイルリストからレースデータを取得する
      */
     @Logger
     private async getRaceRecordListFromS3(): Promise<JraRaceRecord[]> {
@@ -155,7 +155,6 @@ export class JraRaceRepositoryFromStorageImpl
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 
-        // 月毎に分けられたplaceをS3にアップロードする
         await this.s3Gateway.uploadDataToS3(
             existFetchRaceRecordList,
             this.fileName,

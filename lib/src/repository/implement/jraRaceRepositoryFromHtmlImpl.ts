@@ -26,7 +26,7 @@ export class JraRaceRepositoryFromHtmlImpl
         private jraRaceDataHtmlGateway: IJraRaceDataHtmlGateway,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
      * @returns
      */
