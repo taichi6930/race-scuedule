@@ -125,13 +125,11 @@ describe('NarPlaceDataService', () => {
         it('件数0の場合、エラーが発生すること', async () => {
             const mockPlaceEntity: NarPlaceEntity[] = [];
 
-            const consoleSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation();
-
             await service.updatePlaceEntityList(mockPlaceEntity);
 
-            expect(consoleSpy).toHaveBeenCalled();
+            expect(
+                placeRepositoryFromStorageImpl.registerPlaceEntityList,
+            ).not.toHaveBeenCalled();
         });
 
         it('競馬場データが取得できない場合、エラーが発生すること', async () => {
