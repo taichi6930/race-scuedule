@@ -17,7 +17,6 @@ describe('AutoracePlaceDataUseCase', () => {
     let useCase: AutoracePlaceDataUseCase;
 
     beforeEach(() => {
-        // PlaceDataServiceをコンテナに登録
         placeDataService = PlaceDataServiceMock<AutoracePlaceEntity>();
         container.register<IPlaceDataService<AutoracePlaceEntity>>(
             'AutoracePlaceDataService',
@@ -26,7 +25,6 @@ describe('AutoracePlaceDataUseCase', () => {
             },
         );
 
-        // PlaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(AutoracePlaceDataUseCase);
     });
 

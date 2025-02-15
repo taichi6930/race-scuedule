@@ -17,7 +17,6 @@ describe('JraPlaceDataUseCase', () => {
     let useCase: JraPlaceDataUseCase;
 
     beforeEach(() => {
-        // PlaceDataServiceをコンテナに登録
         placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
         container.register<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
@@ -26,7 +25,6 @@ describe('JraPlaceDataUseCase', () => {
             },
         );
 
-        // PlaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(JraPlaceDataUseCase);
     });
 

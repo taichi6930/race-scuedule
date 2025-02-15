@@ -11,38 +11,36 @@ import { baseWorldRaceEntityList } from '../../mock/common/baseWorldData';
 import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
 describe('WorldRaceDataService', () => {
-    let worldRaceRepositoryFromStorageImpl: jest.Mocked<
+    let raceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
     >;
-    let worldRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let raceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
     >;
     let service: WorldRaceDataService;
 
     beforeEach(() => {
-        // IRaceRepositoryインターフェースの依存関係を登録
-        worldRaceRepositoryFromStorageImpl = mockRaceRepository<
+        raceRepositoryFromStorageImpl = mockRaceRepository<
             WorldRaceEntity,
             WorldPlaceEntity
         >();
         container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
             'WorldRaceRepositoryFromStorage',
             {
-                useValue: worldRaceRepositoryFromStorageImpl,
+                useValue: raceRepositoryFromStorageImpl,
             },
         );
-        worldRaceRepositoryFromHtmlImpl = mockRaceRepository<
+        raceRepositoryFromHtmlImpl = mockRaceRepository<
             WorldRaceEntity,
             WorldPlaceEntity
         >();
         container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
             'WorldRaceRepositoryFromHtml',
             {
-                useValue: worldRaceRepositoryFromHtmlImpl,
+                useValue: raceRepositoryFromHtmlImpl,
             },
         );
 
-        // WorldRaceCalendarServiceをコンテナから取得
         service = container.resolve(WorldRaceDataService);
     });
 
@@ -51,7 +49,7 @@ describe('WorldRaceDataService', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -70,7 +68,7 @@ describe('WorldRaceDataService', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -88,7 +86,7 @@ describe('WorldRaceDataService', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -110,14 +108,14 @@ describe('WorldRaceDataService', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
             await service.updateRaceEntityList(mockRaceEntity);
 
             expect(
-                worldRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -127,7 +125,7 @@ describe('WorldRaceDataService', () => {
             await service.updateRaceEntityList(mockRaceEntity);
 
             expect(
-                worldRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).not.toHaveBeenCalled();
         });
 
@@ -135,7 +133,7 @@ describe('WorldRaceDataService', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定（エラーが発生するように設定）
-            worldRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
+            raceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 

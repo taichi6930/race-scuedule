@@ -10,34 +10,32 @@ import { baseBoatracePlaceEntity } from '../../mock/common/baseBoatraceData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('BoatracePlaceDataService', () => {
-    let boatracePlaceRepositoryFromStorageImpl: jest.Mocked<
+    let placeRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<BoatracePlaceEntity>
     >;
-    let boatracePlaceRepositoryFromHtmlImpl: jest.Mocked<
+    let placeRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<BoatracePlaceEntity>
     >;
     let service: BoatracePlaceDataService;
 
     beforeEach(() => {
-        // boatracePlaceRepositoryFromStorageImplをコンテナに登録
-        boatracePlaceRepositoryFromStorageImpl =
+        placeRepositoryFromStorageImpl =
             mockPlaceRepository<BoatracePlaceEntity>();
         container.register<IPlaceRepository<BoatracePlaceEntity>>(
             'BoatracePlaceRepositoryFromStorage',
             {
-                useValue: boatracePlaceRepositoryFromStorageImpl,
+                useValue: placeRepositoryFromStorageImpl,
             },
         );
 
-        boatracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
+        placeRepositoryFromHtmlImpl = mockPlaceRepository();
         container.register<IPlaceRepository<BoatracePlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
             {
-                useValue: boatracePlaceRepositoryFromHtmlImpl,
+                useValue: placeRepositoryFromHtmlImpl,
             },
         );
 
-        // BoatracePlaceCalendarServiceをコンテナから取得
         service = container.resolve(BoatracePlaceDataService);
     });
 
@@ -48,7 +46,7 @@ describe('BoatracePlaceDataService', () => {
             ];
 
             // モックの戻り値を設定
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -70,7 +68,7 @@ describe('BoatracePlaceDataService', () => {
             ];
 
             // モックの戻り値を設定
-            boatracePlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -88,7 +86,7 @@ describe('BoatracePlaceDataService', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -116,14 +114,14 @@ describe('BoatracePlaceDataService', () => {
             ];
 
             // モックの戻り値を設定
-            boatracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);
 
             expect(
-                boatracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                placeRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -144,7 +142,7 @@ describe('BoatracePlaceDataService', () => {
                 baseBoatracePlaceEntity,
             ];
             // モックの戻り値を設定（エラーが発生するように設定）
-            boatracePlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
+            placeRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('競馬場データの登録に失敗しました'),
             );
 

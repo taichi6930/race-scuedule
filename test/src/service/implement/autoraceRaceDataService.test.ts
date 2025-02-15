@@ -13,45 +13,43 @@ import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
 describe('AutoraceRaceDataService', () => {
-    let autoraceRaceRepositoryFromStorageImpl: jest.Mocked<
+    let raceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
     >;
-    let autoraceRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let raceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
     >;
-    let autoracePlaceRepositoryFromStorageImpl: jest.Mocked<
+    let placeRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<AutoracePlaceEntity>
     >;
     let service: AutoraceRaceDataService;
 
     beforeEach(() => {
-        // IRaceRepositoryインターフェースの依存関係を登録
-        autoraceRaceRepositoryFromStorageImpl = mockRaceRepository<
+        raceRepositoryFromStorageImpl = mockRaceRepository<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
         container.register<
             IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
         >('AutoraceRaceRepositoryFromStorage', {
-            useValue: autoraceRaceRepositoryFromStorageImpl,
+            useValue: raceRepositoryFromStorageImpl,
         });
-        autoraceRaceRepositoryFromHtmlImpl = mockRaceRepository<
+        raceRepositoryFromHtmlImpl = mockRaceRepository<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
         container.register<
             IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
         >('AutoraceRaceRepositoryFromHtml', {
-            useValue: autoraceRaceRepositoryFromHtmlImpl,
+            useValue: raceRepositoryFromHtmlImpl,
         });
 
-        // autoracePlaceRepositoryFromStorageImplをコンテナに登録
-        autoracePlaceRepositoryFromStorageImpl =
+        placeRepositoryFromStorageImpl =
             mockPlaceRepository<AutoracePlaceEntity>();
         container.register<IPlaceRepository<AutoracePlaceEntity>>(
             'AutoracePlaceRepositoryFromStorage',
             {
-                useValue: autoracePlaceRepositoryFromStorageImpl,
+                useValue: placeRepositoryFromStorageImpl,
             },
         );
 
@@ -65,7 +63,7 @@ describe('AutoraceRaceDataService', () => {
                 baseAutoraceRaceEntityList;
 
             // モックの戻り値を設定
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -85,7 +83,7 @@ describe('AutoraceRaceDataService', () => {
                 baseAutoraceRaceEntityList;
 
             // モックの戻り値を設定
-            autoraceRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -103,7 +101,7 @@ describe('AutoraceRaceDataService', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -126,14 +124,14 @@ describe('AutoraceRaceDataService', () => {
                 baseAutoraceRaceEntityList;
 
             // モックの戻り値を設定
-            autoraceRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
             await service.updateRaceEntityList(mockRaceEntity);
 
             expect(
-                autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -143,7 +141,7 @@ describe('AutoraceRaceDataService', () => {
             await service.updateRaceEntityList(mockRaceEntity);
 
             expect(
-                autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).not.toHaveBeenCalled();
         });
 
@@ -152,7 +150,7 @@ describe('AutoraceRaceDataService', () => {
                 baseAutoraceRaceEntityList;
 
             // モックの戻り値を設定（エラーが発生するように設定）
-            autoraceRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
+            raceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 

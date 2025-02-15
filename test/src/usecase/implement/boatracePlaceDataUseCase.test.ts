@@ -17,7 +17,6 @@ describe('BoatracePlaceDataUseCase', () => {
     let useCase: BoatracePlaceDataUseCase;
 
     beforeEach(() => {
-        // PlaceDataServiceをコンテナに登録
         placeDataService = PlaceDataServiceMock<BoatracePlaceEntity>();
         container.register<IPlaceDataService<BoatracePlaceEntity>>(
             'BoatracePlaceDataService',
@@ -26,7 +25,6 @@ describe('BoatracePlaceDataUseCase', () => {
             },
         );
 
-        // PlaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(BoatracePlaceDataUseCase);
     });
 

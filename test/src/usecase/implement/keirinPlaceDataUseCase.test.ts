@@ -17,7 +17,6 @@ describe('KeirinPlaceDataUseCase', () => {
     let useCase: KeirinPlaceDataUseCase;
 
     beforeEach(() => {
-        // PlaceDataServiceをコンテナに登録
         placeDataService = PlaceDataServiceMock<KeirinPlaceEntity>();
         container.register<IPlaceDataService<KeirinPlaceEntity>>(
             'KeirinPlaceDataService',
@@ -26,7 +25,6 @@ describe('KeirinPlaceDataUseCase', () => {
             },
         );
 
-        // PlaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(KeirinPlaceDataUseCase);
     });
 

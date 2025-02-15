@@ -19,7 +19,6 @@ describe('NarCalendarService', () => {
 
     beforeEach(() => {
         calendarRepository = mockCalendarRepository<NarRaceEntity>();
-
         container.registerInstance('NarCalendarRepository', calendarRepository);
         service = container.resolve(NarCalendarService);
     });

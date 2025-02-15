@@ -31,7 +31,7 @@ describe('WorldRaceDataUseCase', () => {
                 useValue: raceDataService,
             },
         );
-        // RaceCalendarUseCaseをコンテナから取得
+
         useCase = container.resolve(WorldRaceDataUseCase);
     });
 

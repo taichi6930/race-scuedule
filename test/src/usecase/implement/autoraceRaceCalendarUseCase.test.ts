@@ -24,7 +24,6 @@ describe('AutoraceRaceCalendarUseCase', () => {
     let useCase: AutoraceRaceCalendarUseCase;
 
     beforeEach(() => {
-        // ICalendarServiceインターフェースの依存関係を登録
         calendarService = CalendarServiceMock<AutoraceRaceEntity>();
         container.register<ICalendarService<AutoraceRaceEntity>>(
             'AutoraceCalendarService',
@@ -33,7 +32,6 @@ describe('AutoraceRaceCalendarUseCase', () => {
             },
         );
 
-        // RaceDataServiceをコンテナに登録
         raceDataService = RaceDataServiceMock<
             AutoraceRaceEntity,
             AutoracePlaceEntity
@@ -44,7 +42,6 @@ describe('AutoraceRaceCalendarUseCase', () => {
             useValue: raceDataService,
         });
 
-        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(AutoraceRaceCalendarUseCase);
     });
 

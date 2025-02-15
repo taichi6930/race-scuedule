@@ -24,7 +24,6 @@ describe('NarRaceDataUseCase', () => {
     let useCase: NarRaceDataUseCase;
 
     beforeEach(() => {
-        // PlaceDataServiceをコンテナに登録
         placeDataService = PlaceDataServiceMock<NarPlaceEntity>();
         container.register<IPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
@@ -32,7 +31,7 @@ describe('NarRaceDataUseCase', () => {
                 useValue: placeDataService,
             },
         );
-        // RaceDataServiceをコンテナに登録
+
         raceDataService = RaceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
         container.register<IRaceDataService<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceDataService',
@@ -41,7 +40,6 @@ describe('NarRaceDataUseCase', () => {
             },
         );
 
-        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(NarRaceDataUseCase);
     });
 

@@ -13,51 +13,47 @@ import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
 describe('NarRaceDataService', () => {
-    let narRaceRepositoryFromStorageImpl: jest.Mocked<
+    let raceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<NarRaceEntity, NarPlaceEntity>
     >;
-    let narRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let raceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<NarRaceEntity, NarPlaceEntity>
     >;
-    let narPlaceRepositoryFromStorageImpl: jest.Mocked<
+    let placeRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<NarPlaceEntity>
     >;
     let service: NarRaceDataService;
 
     beforeEach(() => {
-        // IRaceRepositoryインターフェースの依存関係を登録
-        narRaceRepositoryFromStorageImpl = mockRaceRepository<
+        raceRepositoryFromStorageImpl = mockRaceRepository<
             NarRaceEntity,
             NarPlaceEntity
         >();
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromStorage',
             {
-                useValue: narRaceRepositoryFromStorageImpl,
+                useValue: raceRepositoryFromStorageImpl,
             },
         );
-        narRaceRepositoryFromHtmlImpl = mockRaceRepository<
+        raceRepositoryFromHtmlImpl = mockRaceRepository<
             NarRaceEntity,
             NarPlaceEntity
         >();
         container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceRepositoryFromHtml',
             {
-                useValue: narRaceRepositoryFromHtmlImpl,
+                useValue: raceRepositoryFromHtmlImpl,
             },
         );
 
-        // narPlaceRepositoryFromStorageImplをコンテナに登録
-        narPlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<NarPlaceEntity>();
+        placeRepositoryFromStorageImpl = mockPlaceRepository<NarPlaceEntity>();
         container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromStorage',
             {
-                useValue: narPlaceRepositoryFromStorageImpl,
+                useValue: placeRepositoryFromStorageImpl,
             },
         );
 
-        // NarRaceCalendarServiceをコンテナから取得
         service = container.resolve(NarRaceDataService);
     });
 
@@ -66,7 +62,7 @@ describe('NarRaceDataService', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -85,7 +81,7 @@ describe('NarRaceDataService', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -103,7 +99,7 @@ describe('NarRaceDataService', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -125,14 +121,14 @@ describe('NarRaceDataService', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
             await service.updateRaceEntityList(mockRaceEntity);
 
             expect(
-                narRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -142,7 +138,7 @@ describe('NarRaceDataService', () => {
             await service.updateRaceEntityList(mockRaceEntity);
 
             expect(
-                narRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).not.toHaveBeenCalled();
         });
 
@@ -150,7 +146,7 @@ describe('NarRaceDataService', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定（エラーが発生するように設定）
-            narRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
+            raceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 

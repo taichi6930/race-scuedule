@@ -24,7 +24,6 @@ describe('NarRaceCalendarUseCase', () => {
     let useCase: NarRaceCalendarUseCase;
 
     beforeEach(() => {
-        // ICalendarServiceインターフェースの依存関係を登録
         calendarService = CalendarServiceMock<NarRaceEntity>();
         container.register<ICalendarService<NarRaceEntity>>(
             'NarCalendarService',
@@ -33,7 +32,6 @@ describe('NarRaceCalendarUseCase', () => {
             },
         );
 
-        // RaceDataServiceをコンテナに登録
         raceDataService = RaceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
         container.register<IRaceDataService<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceDataService',
@@ -42,7 +40,6 @@ describe('NarRaceCalendarUseCase', () => {
             },
         );
 
-        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(NarRaceCalendarUseCase);
     });
 

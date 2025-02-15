@@ -10,34 +10,31 @@ import { baseJraPlaceEntity } from '../../mock/common/baseJraData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('JraPlaceDataService', () => {
-    let jraPlaceRepositoryFromStorageImpl: jest.Mocked<
+    let placeRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<JraPlaceEntity>
     >;
-    let jraPlaceRepositoryFromHtmlImpl: jest.Mocked<
+    let placeRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<JraPlaceEntity>
     >;
     let service: JraPlaceDataService;
 
     beforeEach(() => {
-        // jraPlaceRepositoryFromStorageImplをコンテナに登録
-        jraPlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<JraPlaceEntity>();
+        placeRepositoryFromStorageImpl = mockPlaceRepository<JraPlaceEntity>();
         container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromStorage',
             {
-                useValue: jraPlaceRepositoryFromStorageImpl,
+                useValue: placeRepositoryFromStorageImpl,
             },
         );
 
-        jraPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
+        placeRepositoryFromHtmlImpl = mockPlaceRepository();
         container.register<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
             {
-                useValue: jraPlaceRepositoryFromHtmlImpl,
+                useValue: placeRepositoryFromHtmlImpl,
             },
         );
 
-        // JraPlaceCalendarServiceをコンテナから取得
         service = container.resolve(JraPlaceDataService);
     });
 
@@ -46,7 +43,7 @@ describe('JraPlaceDataService', () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
-            jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -66,7 +63,7 @@ describe('JraPlaceDataService', () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
-            jraPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -84,7 +81,7 @@ describe('JraPlaceDataService', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -110,14 +107,14 @@ describe('JraPlaceDataService', () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
-            jraPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);
 
             expect(
-                jraPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                placeRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -136,7 +133,7 @@ describe('JraPlaceDataService', () => {
         it('競馬場データが取得できない場合、エラーが発生すること', async () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
             // モックの戻り値を設定（エラーが発生するように設定）
-            jraPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
+            placeRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('競馬場データの登録に失敗しました'),
             );
 

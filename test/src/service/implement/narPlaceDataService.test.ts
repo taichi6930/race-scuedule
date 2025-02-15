@@ -10,34 +10,31 @@ import { baseNarPlaceEntity } from '../../mock/common/baseNarData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('NarPlaceDataService', () => {
-    let narPlaceRepositoryFromStorageImpl: jest.Mocked<
+    let placeRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<NarPlaceEntity>
     >;
-    let narPlaceRepositoryFromHtmlImpl: jest.Mocked<
+    let placeRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<NarPlaceEntity>
     >;
     let service: NarPlaceDataService;
 
     beforeEach(() => {
-        // narPlaceRepositoryFromStorageImplをコンテナに登録
-        narPlaceRepositoryFromStorageImpl =
-            mockPlaceRepository<NarPlaceEntity>();
+        placeRepositoryFromStorageImpl = mockPlaceRepository<NarPlaceEntity>();
         container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromStorage',
             {
-                useValue: narPlaceRepositoryFromStorageImpl,
+                useValue: placeRepositoryFromStorageImpl,
             },
         );
 
-        narPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
+        placeRepositoryFromHtmlImpl = mockPlaceRepository();
         container.register<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromHtml',
             {
-                useValue: narPlaceRepositoryFromHtmlImpl,
+                useValue: placeRepositoryFromHtmlImpl,
             },
         );
 
-        // NarPlaceCalendarServiceをコンテナから取得
         service = container.resolve(NarPlaceDataService);
     });
 
@@ -46,7 +43,7 @@ describe('NarPlaceDataService', () => {
             const mockPlaceEntity: NarPlaceEntity[] = [baseNarPlaceEntity];
 
             // モックの戻り値を設定
-            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -66,7 +63,7 @@ describe('NarPlaceDataService', () => {
             const mockPlaceEntity: NarPlaceEntity[] = [baseNarPlaceEntity];
 
             // モックの戻り値を設定
-            narPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -84,7 +81,7 @@ describe('NarPlaceDataService', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -110,14 +107,14 @@ describe('NarPlaceDataService', () => {
             const mockPlaceEntity: NarPlaceEntity[] = [baseNarPlaceEntity];
 
             // モックの戻り値を設定
-            narPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);
 
             expect(
-                narPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                placeRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -136,7 +133,7 @@ describe('NarPlaceDataService', () => {
         it('競馬場データが取得できない場合、エラーが発生すること', async () => {
             const mockPlaceEntity: NarPlaceEntity[] = [baseNarPlaceEntity];
             // モックの戻り値を設定（エラーが発生するように設定）
-            narPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
+            placeRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('競馬場データの登録に失敗しました'),
             );
 

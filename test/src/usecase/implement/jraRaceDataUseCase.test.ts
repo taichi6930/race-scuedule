@@ -24,7 +24,6 @@ describe('JraRaceDataUseCase', () => {
     let useCase: JraRaceDataUseCase;
 
     beforeEach(() => {
-        // PlaceDataServiceをコンテナに登録
         placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
         container.register<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
@@ -32,7 +31,7 @@ describe('JraRaceDataUseCase', () => {
                 useValue: placeDataService,
             },
         );
-        // RaceDataServiceをコンテナに登録
+
         raceDataService = RaceDataServiceMock<JraRaceEntity, JraPlaceEntity>();
         container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
             'JraRaceDataService',
@@ -41,7 +40,6 @@ describe('JraRaceDataUseCase', () => {
             },
         );
 
-        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(JraRaceDataUseCase);
     });
 

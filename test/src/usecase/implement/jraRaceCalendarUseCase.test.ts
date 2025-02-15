@@ -24,7 +24,6 @@ describe('JraRaceCalendarUseCase', () => {
     let useCase: JraRaceCalendarUseCase;
 
     beforeEach(() => {
-        // ICalendarServiceインターフェースの依存関係を登録
         calendarService = CalendarServiceMock<JraRaceEntity>();
         container.register<ICalendarService<JraRaceEntity>>(
             'JraCalendarService',
@@ -33,7 +32,6 @@ describe('JraRaceCalendarUseCase', () => {
             },
         );
 
-        // RaceDataServiceをコンテナに登録
         raceDataService = RaceDataServiceMock<JraRaceEntity, JraPlaceEntity>();
         container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
             'JraRaceDataService',
@@ -42,7 +40,6 @@ describe('JraRaceCalendarUseCase', () => {
             },
         );
 
-        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(JraRaceCalendarUseCase);
     });
 

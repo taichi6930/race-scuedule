@@ -17,7 +17,6 @@ describe('NarPlaceDataUseCase', () => {
     let useCase: NarPlaceDataUseCase;
 
     beforeEach(() => {
-        // PlaceDataServiceをコンテナに登録
         placeDataService = PlaceDataServiceMock<NarPlaceEntity>();
         container.register<IPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
@@ -26,7 +25,6 @@ describe('NarPlaceDataUseCase', () => {
             },
         );
 
-        // PlaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(NarPlaceDataUseCase);
     });
 

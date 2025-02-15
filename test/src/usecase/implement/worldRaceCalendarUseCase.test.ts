@@ -24,7 +24,6 @@ describe('WorldRaceCalendarUseCase', () => {
     let useCase: WorldRaceCalendarUseCase;
 
     beforeEach(() => {
-        // ICalendarServiceインターフェースの依存関係を登録
         calendarService = CalendarServiceMock<WorldRaceEntity>();
         container.register<ICalendarService<WorldRaceEntity>>(
             'WorldCalendarService',
@@ -43,7 +42,6 @@ describe('WorldRaceCalendarUseCase', () => {
             },
         );
 
-        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(WorldRaceCalendarUseCase);
     });
 
