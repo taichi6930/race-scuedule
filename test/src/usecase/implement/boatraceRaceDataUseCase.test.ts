@@ -13,7 +13,7 @@ import {
     baseBoatraceRaceDataList,
     baseBoatraceRaceEntityList,
 } from '../../mock/common/baseBoatraceData';
-import { mockBoatracePlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { mockBoatraceRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceDataUseCase', () => {
@@ -35,7 +35,7 @@ describe('BoatraceRaceDataUseCase', () => {
         });
 
         // BoatracePlaceDataServiceをコンテナに登録
-        boatracePlaceDataService = mockBoatracePlaceDataServiceMock();
+        boatracePlaceDataService = PlaceDataServiceMock<BoatracePlaceEntity>();
         container.register<IPlaceDataService<BoatracePlaceEntity>>(
             'BoatracePlaceDataService',
             {

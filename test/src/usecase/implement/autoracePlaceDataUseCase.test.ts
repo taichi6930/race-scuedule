@@ -10,7 +10,7 @@ import {
     baseAutoracePlaceData,
     baseAutoracePlaceEntity,
 } from '../../mock/common/baseAutoraceData';
-import { mockAutoracePlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('AutoracePlaceDataUseCase', () => {
     let autoracePlaceDataService: jest.Mocked<
@@ -20,7 +20,7 @@ describe('AutoracePlaceDataUseCase', () => {
 
     beforeEach(() => {
         // AutoracePlaceDataServiceをコンテナに登録
-        autoracePlaceDataService = mockAutoracePlaceDataServiceMock();
+        autoracePlaceDataService = PlaceDataServiceMock<AutoracePlaceEntity>();
         container.register<IPlaceDataService<AutoracePlaceEntity>>(
             'AutoracePlaceDataService',
             {

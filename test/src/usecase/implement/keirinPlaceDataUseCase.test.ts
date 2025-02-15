@@ -10,7 +10,7 @@ import {
     baseKeirinPlaceData,
     baseKeirinPlaceEntity,
 } from '../../mock/common/baseKeirinData';
-import { mockKeirinPlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('KeirinPlaceDataUseCase', () => {
     let keirinPlaceDataService: jest.Mocked<
@@ -20,7 +20,7 @@ describe('KeirinPlaceDataUseCase', () => {
 
     beforeEach(() => {
         // KeirinPlaceDataServiceをコンテナに登録
-        keirinPlaceDataService = mockKeirinPlaceDataServiceMock();
+        keirinPlaceDataService = PlaceDataServiceMock<KeirinPlaceEntity>();
         container.register<IPlaceDataService<KeirinPlaceEntity>>(
             'KeirinPlaceDataService',
             {

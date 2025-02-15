@@ -13,7 +13,7 @@ import {
     baseNarRaceEntity,
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
-import { mockNarPlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { mockNarRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceDataUseCase', () => {
@@ -25,7 +25,7 @@ describe('NarRaceDataUseCase', () => {
 
     beforeEach(() => {
         // NarPlaceDataServiceをコンテナに登録
-        narPlaceDataService = mockNarPlaceDataServiceMock();
+        narPlaceDataService = PlaceDataServiceMock<NarPlaceEntity>();
         container.register<IPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
             {

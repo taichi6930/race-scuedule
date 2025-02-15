@@ -13,7 +13,7 @@ import {
     baseKeirinRaceDataList,
     baseKeirinRaceEntityList,
 } from '../../mock/common/baseKeirinData';
-import { mockKeirinPlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { mockKeirinRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceDataUseCase', () => {
@@ -35,7 +35,7 @@ describe('KeirinRaceDataUseCase', () => {
         });
 
         // KeirinPlaceDataServiceをコンテナに登録
-        keirinPlaceDataService = mockKeirinPlaceDataServiceMock();
+        keirinPlaceDataService = PlaceDataServiceMock<KeirinPlaceEntity>();
         container.register<IPlaceDataService<KeirinPlaceEntity>>(
             'KeirinPlaceDataService',
             {
