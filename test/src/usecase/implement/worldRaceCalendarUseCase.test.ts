@@ -14,7 +14,7 @@ import {
     baseWorldRaceEntity,
 } from '../../mock/common/baseWorldData';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { mockWorldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('WorldRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<WorldRaceEntity>>;
@@ -32,7 +32,10 @@ describe('WorldRaceCalendarUseCase', () => {
                 useValue: calendarServiceMock,
             },
         );
-        worldRaceDataService = mockWorldRaceDataServiceMock();
+        worldRaceDataService = RaceDataServiceMock<
+            WorldRaceEntity,
+            WorldPlaceEntity
+        >();
         container.register<IRaceDataService<WorldRaceEntity, WorldPlaceEntity>>(
             'WorldRaceDataService',
             {

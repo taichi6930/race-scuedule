@@ -14,7 +14,7 @@ import {
     baseJraRaceEntity,
 } from '../../mock/common/baseJraData';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { mockJraRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceCalendarUseCase', () => {
     let calendarServiceMock: jest.Mocked<ICalendarService<JraRaceEntity>>;
@@ -34,7 +34,10 @@ describe('JraRaceCalendarUseCase', () => {
         );
 
         // JraRaceDataServiceをコンテナに登録
-        jraRaceDataService = mockJraRaceDataServiceMock();
+        jraRaceDataService = RaceDataServiceMock<
+            JraRaceEntity,
+            JraPlaceEntity
+        >();
         container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
             'JraRaceDataService',
             {

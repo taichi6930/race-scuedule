@@ -14,7 +14,7 @@ import {
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
 import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { mockNarRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceDataUseCase', () => {
     let narPlaceDataService: jest.Mocked<IPlaceDataService<NarPlaceEntity>>;
@@ -33,7 +33,10 @@ describe('NarRaceDataUseCase', () => {
             },
         );
         // NarRaceDataServiceをコンテナに登録
-        narRaceDataService = mockNarRaceDataServiceMock();
+        narRaceDataService = RaceDataServiceMock<
+            NarRaceEntity,
+            NarPlaceEntity
+        >();
         container.register<IRaceDataService<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceDataService',
             {

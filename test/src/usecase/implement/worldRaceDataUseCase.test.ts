@@ -12,7 +12,7 @@ import {
     baseWorldRaceEntity,
     baseWorldRaceEntityList,
 } from '../../mock/common/baseWorldData';
-import { mockWorldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('WorldRaceDataUseCase', () => {
     let worldRaceDataService: jest.Mocked<
@@ -21,7 +21,10 @@ describe('WorldRaceDataUseCase', () => {
     let useCase: WorldRaceDataUseCase;
 
     beforeEach(() => {
-        worldRaceDataService = mockWorldRaceDataServiceMock();
+        worldRaceDataService = RaceDataServiceMock<
+            WorldRaceEntity,
+            WorldPlaceEntity
+        >();
         container.register<IRaceDataService<WorldRaceEntity, WorldPlaceEntity>>(
             'WorldRaceDataService',
             {

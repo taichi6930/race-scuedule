@@ -14,7 +14,7 @@ import {
     baseJraRaceEntityList,
 } from '../../mock/common/baseJraData';
 import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { mockJraRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceDataUseCase', () => {
     let jraPlaceDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
@@ -33,7 +33,10 @@ describe('JraRaceDataUseCase', () => {
             },
         );
         // JraRaceDataServiceをコンテナに登録
-        jraRaceDataService = mockJraRaceDataServiceMock();
+        jraRaceDataService = RaceDataServiceMock<
+            JraRaceEntity,
+            JraPlaceEntity
+        >();
         container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
             'JraRaceDataService',
             {

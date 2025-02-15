@@ -14,7 +14,7 @@ import {
     baseBoatraceRaceEntityList,
 } from '../../mock/common/baseBoatraceData';
 import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { mockBoatraceRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceDataUseCase', () => {
     let boatraceRaceDataService: jest.Mocked<
@@ -27,7 +27,10 @@ describe('BoatraceRaceDataUseCase', () => {
 
     beforeEach(() => {
         // BoatraceRaceDataServiceをコンテナに登録
-        boatraceRaceDataService = mockBoatraceRaceDataServiceMock();
+        boatraceRaceDataService = RaceDataServiceMock<
+            BoatraceRaceEntity,
+            BoatracePlaceEntity
+        >();
         container.register<
             IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
         >('BoatraceRaceDataService', {

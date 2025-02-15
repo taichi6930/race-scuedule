@@ -14,7 +14,7 @@ import {
     baseKeirinRaceEntityList,
 } from '../../mock/common/baseKeirinData';
 import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { mockKeirinRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceDataUseCase', () => {
     let keirinRaceDataService: jest.Mocked<
@@ -27,7 +27,10 @@ describe('KeirinRaceDataUseCase', () => {
 
     beforeEach(() => {
         // KeirinRaceDataServiceをコンテナに登録
-        keirinRaceDataService = mockKeirinRaceDataServiceMock();
+        keirinRaceDataService = RaceDataServiceMock<
+            KeirinRaceEntity,
+            KeirinPlaceEntity
+        >();
         container.register<
             IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceDataService', {
