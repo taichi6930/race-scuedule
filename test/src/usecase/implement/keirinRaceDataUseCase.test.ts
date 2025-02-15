@@ -17,36 +17,34 @@ import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceDataUseCase', () => {
-    let keirinRaceDataService: jest.Mocked<
+    let raceDataService: jest.Mocked<
         IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
     >;
-    let keirinPlaceDataService: jest.Mocked<
-        IPlaceDataService<KeirinPlaceEntity>
-    >;
+    let placeDataService: jest.Mocked<IPlaceDataService<KeirinPlaceEntity>>;
     let useCase: KeirinRaceDataUseCase;
 
     beforeEach(() => {
-        // KeirinRaceDataServiceをコンテナに登録
-        keirinRaceDataService = RaceDataServiceMock<
+        // RaceDataServiceをコンテナに登録
+        raceDataService = RaceDataServiceMock<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
         container.register<
             IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceDataService', {
-            useValue: keirinRaceDataService,
+            useValue: raceDataService,
         });
 
-        // KeirinPlaceDataServiceをコンテナに登録
-        keirinPlaceDataService = PlaceDataServiceMock<KeirinPlaceEntity>();
+        // PlaceDataServiceをコンテナに登録
+        placeDataService = PlaceDataServiceMock<KeirinPlaceEntity>();
         container.register<IPlaceDataService<KeirinPlaceEntity>>(
             'KeirinPlaceDataService',
             {
-                useValue: keirinPlaceDataService,
+                useValue: placeDataService,
             },
         );
 
-        // KeirinRaceCalendarUseCaseをコンテナから取得
+        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(KeirinRaceDataUseCase);
     });
 
@@ -55,7 +53,7 @@ describe('KeirinRaceDataUseCase', () => {
             const mockRaceData: KeirinRaceData[] = baseKeirinRaceDataList;
 
             // モックの戻り値を設定
-            keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 baseKeirinRaceEntityList,
             );
 
@@ -139,7 +137,7 @@ describe('KeirinRaceDataUseCase', () => {
         ].forEach(({ searchConditions, descriptions, expectedLength }) => {
             it(`正常にレースデータが取得できること（${descriptions}）`, async () => {
                 // モックの戻り値を設定
-                keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                raceDataService.fetchRaceEntityList.mockResolvedValue(
                     baseKeirinRaceEntityList,
                 );
 
@@ -171,10 +169,10 @@ describe('KeirinRaceDataUseCase', () => {
             };
 
             // モックの戻り値を設定
-            keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 baseKeirinRaceEntityList,
             );
-            keirinPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -184,15 +182,9 @@ describe('KeirinRaceDataUseCase', () => {
                 searchList,
             );
 
-            expect(
-                keirinPlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                keirinRaceDataService.fetchRaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                keirinRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
 
         it('競輪場がない時、正常にレースデータが更新されないこと', async () => {
@@ -206,10 +198,10 @@ describe('KeirinRaceDataUseCase', () => {
             };
 
             // モックの戻り値を設定
-            keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 baseKeirinRaceEntityList,
             );
-            keirinPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -219,15 +211,9 @@ describe('KeirinRaceDataUseCase', () => {
                 searchList,
             );
 
-            expect(
-                keirinPlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                keirinRaceDataService.fetchRaceEntityList,
-            ).not.toHaveBeenCalled();
-            expect(
-                keirinRaceDataService.updateRaceEntityList,
-            ).not.toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).not.toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).not.toHaveBeenCalled();
         });
 
         it('検索条件がなく、正常にレースデータが更新されること', async () => {
@@ -239,10 +225,10 @@ describe('KeirinRaceDataUseCase', () => {
             const searchList = {};
 
             // モックの戻り値を設定
-            keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 baseKeirinRaceEntityList,
             );
-            keirinPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -252,15 +238,9 @@ describe('KeirinRaceDataUseCase', () => {
                 searchList,
             );
 
-            expect(
-                keirinPlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                keirinRaceDataService.fetchRaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                keirinRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 
@@ -270,9 +250,7 @@ describe('KeirinRaceDataUseCase', () => {
 
             await useCase.upsertRaceDataList(mockRaceData);
 
-            expect(
-                keirinRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 });

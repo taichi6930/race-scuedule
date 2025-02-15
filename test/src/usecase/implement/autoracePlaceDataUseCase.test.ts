@@ -13,22 +13,20 @@ import {
 import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('AutoracePlaceDataUseCase', () => {
-    let autoracePlaceDataService: jest.Mocked<
-        IPlaceDataService<AutoracePlaceEntity>
-    >;
+    let placeDataService: jest.Mocked<IPlaceDataService<AutoracePlaceEntity>>;
     let useCase: AutoracePlaceDataUseCase;
 
     beforeEach(() => {
-        // AutoracePlaceDataServiceをコンテナに登録
-        autoracePlaceDataService = PlaceDataServiceMock<AutoracePlaceEntity>();
+        // PlaceDataServiceをコンテナに登録
+        placeDataService = PlaceDataServiceMock<AutoracePlaceEntity>();
         container.register<IPlaceDataService<AutoracePlaceEntity>>(
             'AutoracePlaceDataService',
             {
-                useValue: autoracePlaceDataService,
+                useValue: placeDataService,
             },
         );
 
-        // AutoracePlaceCalendarUseCaseをコンテナから取得
+        // PlaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(AutoracePlaceDataUseCase);
     });
 
@@ -40,7 +38,7 @@ describe('AutoracePlaceDataUseCase', () => {
             ];
 
             // モックの戻り値を設定
-            autoracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -66,18 +64,14 @@ describe('AutoracePlaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            autoracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
-            expect(
-                autoracePlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                autoracePlaceDataService.updatePlaceEntityList,
-            ).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(placeDataService.updatePlaceEntityList).toHaveBeenCalled();
         });
     });
 });

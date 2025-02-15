@@ -17,34 +17,34 @@ import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('KeirinRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<KeirinRaceEntity>>;
-    let keirinRaceDataService: jest.Mocked<
+    let calendarService: jest.Mocked<ICalendarService<KeirinRaceEntity>>;
+    let raceDataService: jest.Mocked<
         IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
     >;
     let useCase: KeirinRaceCalendarUseCase;
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<KeirinRaceEntity>();
+        calendarService = CalendarServiceMock<KeirinRaceEntity>();
         container.register<ICalendarService<KeirinRaceEntity>>(
             'KeirinCalendarService',
             {
-                useValue: calendarServiceMock,
+                useValue: calendarService,
             },
         );
 
-        // KeirinRaceDataServiceをコンテナに登録
-        keirinRaceDataService = RaceDataServiceMock<
+        // RaceDataServiceをコンテナに登録
+        raceDataService = RaceDataServiceMock<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
         container.register<
             IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceDataService', {
-            useValue: keirinRaceDataService,
+            useValue: raceDataService,
         });
 
-        // KeirinRaceCalendarUseCaseをコンテナから取得
+        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(KeirinRaceCalendarUseCase);
     });
 
@@ -53,7 +53,7 @@ describe('KeirinRaceCalendarUseCase', () => {
             const mockCalendarData: CalendarData[] = [baseKeirinCalendarData];
 
             // モックの戻り値を設定
-            calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);
+            calendarService.getEvents.mockResolvedValue(mockCalendarData);
 
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
@@ -63,7 +63,7 @@ describe('KeirinRaceCalendarUseCase', () => {
                 finishDate,
             );
 
-            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+            expect(calendarService.getEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
             );
@@ -98,10 +98,8 @@ describe('KeirinRaceCalendarUseCase', () => {
             const expectRaceEntityList: KeirinRaceEntity[] = mockRaceEntityList;
 
             // モックの戻り値を設定
-            calendarServiceMock.getEvents.mockResolvedValue(
-                mockCalendarDataList,
-            );
-            keirinRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            calendarService.getEvents.mockResolvedValue(mockCalendarDataList);
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -115,18 +113,18 @@ describe('KeirinRaceCalendarUseCase', () => {
             );
 
             // モックが呼び出されたことを確認
-            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+            expect(calendarService.getEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
             );
 
             // deleteEventsが呼び出された回数を確認
-            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
+            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });

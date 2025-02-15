@@ -17,34 +17,31 @@ import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('JraRaceDataUseCase', () => {
-    let jraPlaceDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
-    let jraRaceDataService: jest.Mocked<
+    let placeDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
+    let raceDataService: jest.Mocked<
         IRaceDataService<JraRaceEntity, JraPlaceEntity>
     >;
     let useCase: JraRaceDataUseCase;
 
     beforeEach(() => {
-        // JraPlaceDataServiceをコンテナに登録
-        jraPlaceDataService = PlaceDataServiceMock<JraPlaceEntity>();
+        // PlaceDataServiceをコンテナに登録
+        placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
         container.register<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
             {
-                useValue: jraPlaceDataService,
+                useValue: placeDataService,
             },
         );
-        // JraRaceDataServiceをコンテナに登録
-        jraRaceDataService = RaceDataServiceMock<
-            JraRaceEntity,
-            JraPlaceEntity
-        >();
+        // RaceDataServiceをコンテナに登録
+        raceDataService = RaceDataServiceMock<JraRaceEntity, JraPlaceEntity>();
         container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
             'JraRaceDataService',
             {
-                useValue: jraRaceDataService,
+                useValue: raceDataService,
             },
         );
 
-        // JraRaceCalendarUseCaseをコンテナから取得
+        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(JraRaceDataUseCase);
     });
 
@@ -54,7 +51,7 @@ describe('JraRaceDataUseCase', () => {
             const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
 
             // モックの戻り値を設定
-            jraRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -73,7 +70,7 @@ describe('JraRaceDataUseCase', () => {
             const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
 
             // モックの戻り値を設定
-            jraRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -94,7 +91,7 @@ describe('JraRaceDataUseCase', () => {
             const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
 
             // モックの戻り値を設定
-            jraRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -115,7 +112,7 @@ describe('JraRaceDataUseCase', () => {
             const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
 
             // モックの戻り値を設定
-            jraRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -141,15 +138,15 @@ describe('JraRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            jraRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 
-            expect(jraPlaceDataService.fetchPlaceEntityList).toHaveBeenCalled();
-            expect(jraRaceDataService.fetchRaceEntityList).toHaveBeenCalled();
-            expect(jraRaceDataService.updateRaceEntityList).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 
@@ -159,7 +156,7 @@ describe('JraRaceDataUseCase', () => {
 
             await useCase.upsertRaceDataList(mockRaceData);
 
-            expect(jraRaceDataService.updateRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 });

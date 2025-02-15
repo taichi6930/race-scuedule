@@ -17,36 +17,34 @@ import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceDataUseCase', () => {
-    let autoraceRaceDataService: jest.Mocked<
+    let raceDataService: jest.Mocked<
         IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
     >;
-    let autoracePlaceDataService: jest.Mocked<
-        IPlaceDataService<AutoracePlaceEntity>
-    >;
+    let placeDataService: jest.Mocked<IPlaceDataService<AutoracePlaceEntity>>;
     let useCase: AutoraceRaceDataUseCase;
 
     beforeEach(() => {
-        // AutoraceRaceDataServiceをコンテナに登録
-        autoraceRaceDataService = RaceDataServiceMock<
+        // RaceDataServiceをコンテナに登録
+        raceDataService = RaceDataServiceMock<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
         container.register<
             IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
         >('AutoraceRaceDataService', {
-            useValue: autoraceRaceDataService,
+            useValue: raceDataService,
         });
 
-        // AutoracePlaceDataServiceをコンテナに登録
-        autoracePlaceDataService = PlaceDataServiceMock<AutoracePlaceEntity>();
+        // PlaceDataServiceをコンテナに登録
+        placeDataService = PlaceDataServiceMock<AutoracePlaceEntity>();
         container.register<IPlaceDataService<AutoracePlaceEntity>>(
             'AutoracePlaceDataService',
             {
-                useValue: autoracePlaceDataService,
+                useValue: placeDataService,
             },
         );
 
-        // AutoraceRaceCalendarUseCaseをコンテナから取得
+        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(AutoraceRaceDataUseCase);
     });
 
@@ -57,7 +55,7 @@ describe('AutoraceRaceDataUseCase', () => {
                 baseAutoraceRaceEntityList;
 
             // モックの戻り値を設定
-            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -144,7 +142,7 @@ describe('AutoraceRaceDataUseCase', () => {
                     baseAutoraceRaceEntityList;
 
                 // モックの戻り値を設定
-                autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                raceDataService.fetchRaceEntityList.mockResolvedValue(
                     mockRaceEntity,
                 );
 
@@ -176,10 +174,10 @@ describe('AutoraceRaceDataUseCase', () => {
             };
 
             // モックの戻り値を設定
-            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 baseAutoraceRaceEntityList,
             );
-            autoracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -189,15 +187,9 @@ describe('AutoraceRaceDataUseCase', () => {
                 searchList,
             );
 
-            expect(
-                autoracePlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                autoraceRaceDataService.fetchRaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                autoraceRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
 
         it('競輪場がない時、正常にレースデータが更新されないこと', async () => {
@@ -211,10 +203,10 @@ describe('AutoraceRaceDataUseCase', () => {
             };
 
             // モックの戻り値を設定
-            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 baseAutoraceRaceEntityList,
             );
-            autoracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -224,15 +216,9 @@ describe('AutoraceRaceDataUseCase', () => {
                 searchList,
             );
 
-            expect(
-                autoracePlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                autoraceRaceDataService.fetchRaceEntityList,
-            ).not.toHaveBeenCalled();
-            expect(
-                autoraceRaceDataService.updateRaceEntityList,
-            ).not.toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).not.toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).not.toHaveBeenCalled();
         });
 
         it('検索条件がなく、正常にレースデータが更新されること', async () => {
@@ -244,10 +230,10 @@ describe('AutoraceRaceDataUseCase', () => {
             const searchList = {};
 
             // モックの戻り値を設定
-            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 baseAutoraceRaceEntityList,
             );
-            autoracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -257,15 +243,9 @@ describe('AutoraceRaceDataUseCase', () => {
                 searchList,
             );
 
-            expect(
-                autoracePlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                autoraceRaceDataService.fetchRaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                autoraceRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 
@@ -275,9 +255,7 @@ describe('AutoraceRaceDataUseCase', () => {
 
             await useCase.upsertRaceDataList(mockRaceData);
 
-            expect(
-                autoraceRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 });

@@ -13,20 +13,20 @@ import {
 import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('JraPlaceDataUseCase', () => {
-    let jraPlaceDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
+    let placeDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
     let useCase: JraPlaceDataUseCase;
 
     beforeEach(() => {
-        // JraPlaceDataServiceをコンテナに登録
-        jraPlaceDataService = PlaceDataServiceMock<JraPlaceEntity>();
+        // PlaceDataServiceをコンテナに登録
+        placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
         container.register<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
             {
-                useValue: jraPlaceDataService,
+                useValue: placeDataService,
             },
         );
 
-        // JraPlaceCalendarUseCaseをコンテナから取得
+        // PlaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(JraPlaceDataUseCase);
     });
 
@@ -36,7 +36,7 @@ describe('JraPlaceDataUseCase', () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
-            jraPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -60,16 +60,14 @@ describe('JraPlaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            jraPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
-            expect(jraPlaceDataService.fetchPlaceEntityList).toHaveBeenCalled();
-            expect(
-                jraPlaceDataService.updatePlaceEntityList,
-            ).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(placeDataService.updatePlaceEntityList).toHaveBeenCalled();
         });
     });
 });

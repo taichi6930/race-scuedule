@@ -17,34 +17,34 @@ import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
 import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('AutoraceRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<AutoraceRaceEntity>>;
-    let autoraceRaceDataService: jest.Mocked<
+    let calendarService: jest.Mocked<ICalendarService<AutoraceRaceEntity>>;
+    let raceDataService: jest.Mocked<
         IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
     >;
     let useCase: AutoraceRaceCalendarUseCase;
 
     beforeEach(() => {
         // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<AutoraceRaceEntity>();
+        calendarService = CalendarServiceMock<AutoraceRaceEntity>();
         container.register<ICalendarService<AutoraceRaceEntity>>(
             'AutoraceCalendarService',
             {
-                useValue: calendarServiceMock,
+                useValue: calendarService,
             },
         );
 
-        // AutoraceRaceDataServiceをコンテナに登録
-        autoraceRaceDataService = RaceDataServiceMock<
+        // RaceDataServiceをコンテナに登録
+        raceDataService = RaceDataServiceMock<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
         container.register<
             IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
         >('AutoraceRaceDataService', {
-            useValue: autoraceRaceDataService,
+            useValue: raceDataService,
         });
 
-        // AutoraceRaceCalendarUseCaseをコンテナから取得
+        // RaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(AutoraceRaceCalendarUseCase);
     });
 
@@ -53,7 +53,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
             const mockCalendarData: CalendarData[] = [baseAutoraceCalendarData];
 
             // モックの戻り値を設定
-            calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);
+            calendarService.getEvents.mockResolvedValue(mockCalendarData);
 
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
@@ -63,7 +63,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 finishDate,
             );
 
-            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+            expect(calendarService.getEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
             );
@@ -99,10 +99,8 @@ describe('AutoraceRaceCalendarUseCase', () => {
                 mockRaceEntityList;
 
             // モックの戻り値を設定
-            calendarServiceMock.getEvents.mockResolvedValue(
-                mockCalendarDataList,
-            );
-            autoraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            calendarService.getEvents.mockResolvedValue(mockCalendarDataList);
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -116,18 +114,18 @@ describe('AutoraceRaceCalendarUseCase', () => {
             );
 
             // モックが呼び出されたことを確認
-            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+            expect(calendarService.getEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
             );
 
             // deleteEventsが呼び出された回数を確認
-            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
+            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });
