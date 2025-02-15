@@ -9,6 +9,7 @@ export interface IPlaceDataService<P extends IPlaceEntity<P>> {
      * 開催場データを取得する
      * @param startDate
      * @param finishDate
+     * @param type
      */
     fetchPlaceEntityList: (
         startDate: Date,
@@ -18,8 +19,7 @@ export interface IPlaceDataService<P extends IPlaceEntity<P>> {
 
     /**
      * 開催場データを更新する
-     * @param startDate
-     * @param finishDate
+     * @param placeEntityList
      */
     updatePlaceEntityList: (placeEntityList: P[]) => Promise<void>;
 }
