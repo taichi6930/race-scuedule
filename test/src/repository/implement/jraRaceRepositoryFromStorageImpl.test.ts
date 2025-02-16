@@ -30,6 +30,10 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
         repository = container.resolve(JraRaceRepositoryFromStorageImpl);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchRaceList', () => {
         test('正しいレースデータを取得できる', async () => {
             // モックの戻り値を設定

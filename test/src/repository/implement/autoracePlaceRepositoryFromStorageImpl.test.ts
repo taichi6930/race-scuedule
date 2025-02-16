@@ -28,6 +28,10 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
         repository = container.resolve(AutoracePlaceRepositoryFromStorageImpl);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchPlaceList', () => {
         test('正しいオートレース場データを取得できる', async () => {
             // モックの戻り値を設定

@@ -30,6 +30,10 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             repository = container.resolve(BoatraceRaceRepositoryFromHtmlImpl);
         });
 
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
         describe('fetchPlaceList', () => {
             test('正しいボートレースデータを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(

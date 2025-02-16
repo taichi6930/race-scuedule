@@ -34,6 +34,10 @@ if (ENV === allowedEnvs.githubActionsCi) {
             repository = container.resolve(WorldRaceRepositoryFromHtmlImpl);
         });
 
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(

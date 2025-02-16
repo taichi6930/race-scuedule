@@ -28,6 +28,10 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
         repository = container.resolve(JraPlaceRepositoryFromStorageImpl);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchPlaceList', () => {
         test('正しい競馬場データを取得できる', async () => {
             // モックの戻り値を設定

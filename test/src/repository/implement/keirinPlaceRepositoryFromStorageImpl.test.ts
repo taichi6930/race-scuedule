@@ -28,6 +28,10 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
         repository = container.resolve(KeirinPlaceRepositoryFromStorageImpl);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchPlaceList', () => {
         test('正しい競輪場データを取得できる', async () => {
             // モックの戻り値を設定

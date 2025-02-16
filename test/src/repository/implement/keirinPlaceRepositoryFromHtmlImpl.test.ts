@@ -27,6 +27,10 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             repository = container.resolve(KeirinPlaceRepositoryFromHtmlImpl);
         });
 
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
         describe('fetchPlaceList', () => {
             test('正しい競輪場データを取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(

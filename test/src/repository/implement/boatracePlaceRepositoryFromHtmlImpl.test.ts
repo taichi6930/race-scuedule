@@ -28,6 +28,10 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             repository = container.resolve(BoatracePlaceRepositoryFromHtmlImpl);
         });
 
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
         describe('fetchPlaceList', () => {
             test('正しいボートレース場データを取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(

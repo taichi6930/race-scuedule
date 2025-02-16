@@ -28,6 +28,10 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
         repository = container.resolve(BoatracePlaceRepositoryFromStorageImpl);
     });
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe('fetchPlaceList', () => {
         test('正しいボートレース場データを取得できる', async () => {
             // モックの戻り値を設定
