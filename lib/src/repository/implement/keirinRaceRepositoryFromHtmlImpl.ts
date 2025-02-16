@@ -28,12 +28,11 @@ export class KeirinRaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('KeirinRaceDataHtmlGateway')
-        private readonly keirinRaceDataHtmlGateway: IKeirinRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: IKeirinRaceDataHtmlGateway,
     ) {}
     /**
-     * 競輪場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
@@ -66,11 +65,10 @@ export class KeirinRaceRepositoryFromHtmlImpl
                 placeData.dateTime.getMonth() + 1,
                 placeData.dateTime.getDate(),
             ];
-            const htmlText =
-                await this.keirinRaceDataHtmlGateway.getRaceDataHtml(
-                    placeData.dateTime,
-                    placeData.location,
-                );
+            const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
+                placeData.dateTime,
+                placeData.location,
+            );
             const keirinRaceEntityList: KeirinRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得

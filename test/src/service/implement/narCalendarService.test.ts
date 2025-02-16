@@ -19,9 +19,12 @@ describe('NarCalendarService', () => {
 
     beforeEach(() => {
         calendarRepository = mockCalendarRepository<NarRaceEntity>();
-
         container.registerInstance('NarCalendarRepository', calendarRepository);
         service = container.resolve(NarCalendarService);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     it('should fetch events', async () => {

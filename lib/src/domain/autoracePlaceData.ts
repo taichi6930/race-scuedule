@@ -72,7 +72,6 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
     /**
      * データのコピー
      * @param partial - 上書きする部分データ
-     * @returns 新しいAutoracePlaceDataインスタンス
      */
     copy(partial: Partial<AutoracePlaceData> = {}): AutoracePlaceData {
         return AutoracePlaceData.create(

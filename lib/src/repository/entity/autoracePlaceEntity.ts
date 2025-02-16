@@ -50,7 +50,6 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
      *
      * @param placeData
      * @param updateDate
-     * @returns
      */
     static createWithoutId(
         placeData: AutoracePlaceData,
@@ -66,7 +65,6 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<AutoracePlaceEntity> = {}): AutoracePlaceEntity {
         return AutoracePlaceEntity.create(
@@ -78,7 +76,6 @@ export class AutoracePlaceEntity implements IPlaceEntity<AutoracePlaceEntity> {
 
     /**
      * AutoracePlaceRecordに変換する
-     * @returns
      */
     toRecord(): AutoracePlaceRecord {
         return AutoracePlaceRecord.create(

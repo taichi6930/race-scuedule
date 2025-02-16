@@ -14,36 +14,37 @@ import {
     baseNarRaceEntity,
 } from '../../mock/common/baseNarData';
 import { CalendarServiceMock } from '../../mock/service/calendarServiceMock';
-import { mockNarRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceCalendarUseCase', () => {
-    let calendarServiceMock: jest.Mocked<ICalendarService<NarRaceEntity>>;
-    let narRaceDataService: jest.Mocked<
+    let calendarService: jest.Mocked<ICalendarService<NarRaceEntity>>;
+    let raceDataService: jest.Mocked<
         IRaceDataService<NarRaceEntity, NarPlaceEntity>
     >;
     let useCase: NarRaceCalendarUseCase;
 
     beforeEach(() => {
-        // ICalendarServiceインターフェースの依存関係を登録
-        calendarServiceMock = CalendarServiceMock<NarRaceEntity>();
+        calendarService = CalendarServiceMock<NarRaceEntity>();
         container.register<ICalendarService<NarRaceEntity>>(
             'NarCalendarService',
             {
-                useValue: calendarServiceMock,
+                useValue: calendarService,
             },
         );
 
-        // NarRaceDataServiceをコンテナに登録
-        narRaceDataService = mockNarRaceDataServiceMock();
+        raceDataService = RaceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
         container.register<IRaceDataService<NarRaceEntity, NarPlaceEntity>>(
             'NarRaceDataService',
             {
-                useValue: narRaceDataService,
+                useValue: raceDataService,
             },
         );
 
-        // NarRaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(NarRaceCalendarUseCase);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('getRacesFromCalendar', () => {
@@ -51,7 +52,7 @@ describe('NarRaceCalendarUseCase', () => {
             const mockCalendarData: CalendarData[] = [baseNarCalendarData];
 
             // モックの戻り値を設定
-            calendarServiceMock.getEvents.mockResolvedValue(mockCalendarData);
+            calendarService.getEvents.mockResolvedValue(mockCalendarData);
 
             const startDate = new Date('2023-08-01');
             const finishDate = new Date('2023-08-31');
@@ -61,7 +62,7 @@ describe('NarRaceCalendarUseCase', () => {
                 finishDate,
             );
 
-            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+            expect(calendarService.getEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
             );
@@ -96,10 +97,8 @@ describe('NarRaceCalendarUseCase', () => {
             const expectRaceEntityList: NarRaceEntity[] = mockRaceEntityList;
 
             // モックの戻り値を設定
-            calendarServiceMock.getEvents.mockResolvedValue(
-                mockCalendarDataList,
-            );
-            narRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            calendarService.getEvents.mockResolvedValue(mockCalendarDataList);
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntityList,
             );
 
@@ -113,18 +112,18 @@ describe('NarRaceCalendarUseCase', () => {
             );
 
             // モックが呼び出されたことを確認
-            expect(calendarServiceMock.getEvents).toHaveBeenCalledWith(
+            expect(calendarService.getEvents).toHaveBeenCalledWith(
                 startDate,
                 finishDate,
             );
 
             // deleteEventsが呼び出された回数を確認
-            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledTimes(1);
-            expect(calendarServiceMock.deleteEvents).toHaveBeenCalledWith(
+            expect(calendarService.deleteEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.deleteEvents).toHaveBeenCalledWith(
                 expectCalendarDataList,
             );
-            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledTimes(1);
-            expect(calendarServiceMock.upsertEvents).toHaveBeenCalledWith(
+            expect(calendarService.upsertEvents).toHaveBeenCalledTimes(1);
+            expect(calendarService.upsertEvents).toHaveBeenCalledWith(
                 expectRaceEntityList,
             );
         });

@@ -10,35 +10,37 @@ import { baseKeirinPlaceEntity } from '../../mock/common/baseKeirinData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('KeirinPlaceDataService', () => {
-    let keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
+    let placeRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<KeirinPlaceEntity>
     >;
-    let keirinPlaceRepositoryFromHtmlImpl: jest.Mocked<
+    let placeRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<KeirinPlaceEntity>
     >;
     let service: KeirinPlaceDataService;
 
     beforeEach(() => {
-        // keirinPlaceRepositoryFromStorageImplをコンテナに登録
-        keirinPlaceRepositoryFromStorageImpl =
+        placeRepositoryFromStorageImpl =
             mockPlaceRepository<KeirinPlaceEntity>();
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromStorage',
             {
-                useValue: keirinPlaceRepositoryFromStorageImpl,
+                useValue: placeRepositoryFromStorageImpl,
             },
         );
 
-        keirinPlaceRepositoryFromHtmlImpl = mockPlaceRepository();
+        placeRepositoryFromHtmlImpl = mockPlaceRepository();
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
             {
-                useValue: keirinPlaceRepositoryFromHtmlImpl,
+                useValue: placeRepositoryFromHtmlImpl,
             },
         );
 
-        // KeirinPlaceCalendarServiceをコンテナから取得
         service = container.resolve(KeirinPlaceDataService);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('fetchRaceDataList', () => {
@@ -48,7 +50,7 @@ describe('KeirinPlaceDataService', () => {
             ];
 
             // モックの戻り値を設定
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -70,7 +72,7 @@ describe('KeirinPlaceDataService', () => {
             ];
 
             // モックの戻り値を設定
-            keirinPlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -88,7 +90,7 @@ describe('KeirinPlaceDataService', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -116,27 +118,25 @@ describe('KeirinPlaceDataService', () => {
             ];
 
             // モックの戻り値を設定
-            keirinPlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);
 
             expect(
-                keirinPlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                placeRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
 
         it('件数0の場合、エラーが発生すること', async () => {
             const mockPlaceEntity: KeirinPlaceEntity[] = [];
 
-            const consoleSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation();
-
             await service.updatePlaceEntityList(mockPlaceEntity);
 
-            expect(consoleSpy).toHaveBeenCalled();
+            expect(
+                placeRepositoryFromStorageImpl.registerPlaceEntityList,
+            ).not.toHaveBeenCalled();
         });
 
         it('競馬場データが取得できない場合、エラーが発生すること', async () => {
@@ -144,7 +144,7 @@ describe('KeirinPlaceDataService', () => {
                 baseKeirinPlaceEntity,
             ];
             // モックの戻り値を設定（エラーが発生するように設定）
-            keirinPlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
+            placeRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('競馬場データの登録に失敗しました'),
             );
 

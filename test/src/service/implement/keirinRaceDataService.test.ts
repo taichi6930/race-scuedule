@@ -13,50 +13,51 @@ import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 import { mockRaceRepository } from '../../mock/repository/mockRaceRepository';
 
 describe('KeirinRaceDataService', () => {
-    let keirinRaceRepositoryFromStorageImpl: jest.Mocked<
+    let raceRepositoryFromStorageImpl: jest.Mocked<
         IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
     >;
-    let keirinRaceRepositoryFromHtmlImpl: jest.Mocked<
+    let raceRepositoryFromHtmlImpl: jest.Mocked<
         IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
     >;
-    let keirinPlaceRepositoryFromStorageImpl: jest.Mocked<
+    let placeRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<KeirinPlaceEntity>
     >;
     let service: KeirinRaceDataService;
 
     beforeEach(() => {
-        // IRaceRepositoryインターフェースの依存関係を登録
-        keirinRaceRepositoryFromStorageImpl = mockRaceRepository<
+        raceRepositoryFromStorageImpl = mockRaceRepository<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
         container.register<
             IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceRepositoryFromStorage', {
-            useValue: keirinRaceRepositoryFromStorageImpl,
+            useValue: raceRepositoryFromStorageImpl,
         });
-        keirinRaceRepositoryFromHtmlImpl = mockRaceRepository<
+        raceRepositoryFromHtmlImpl = mockRaceRepository<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
         container.register<
             IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
         >('KeirinRaceRepositoryFromHtml', {
-            useValue: keirinRaceRepositoryFromHtmlImpl,
+            useValue: raceRepositoryFromHtmlImpl,
         });
 
-        // keirinPlaceRepositoryFromStorageImplをコンテナに登録
-        keirinPlaceRepositoryFromStorageImpl =
+        placeRepositoryFromStorageImpl =
             mockPlaceRepository<KeirinPlaceEntity>();
         container.register<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromStorage',
             {
-                useValue: keirinPlaceRepositoryFromStorageImpl,
+                useValue: placeRepositoryFromStorageImpl,
             },
         );
 
-        // KeirinRaceCalendarServiceをコンテナから取得
         service = container.resolve(KeirinRaceDataService);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('fetchRaceEntityList', () => {
@@ -64,7 +65,7 @@ describe('KeirinRaceDataService', () => {
             const mockRaceEntity: KeirinRaceEntity[] = baseKeirinRaceEntityList;
 
             // モックの戻り値を設定
-            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -83,7 +84,7 @@ describe('KeirinRaceDataService', () => {
             const mockRaceEntity: KeirinRaceEntity[] = baseKeirinRaceEntityList;
 
             // モックの戻り値を設定
-            keirinRaceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromHtmlImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -101,7 +102,7 @@ describe('KeirinRaceDataService', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -123,14 +124,14 @@ describe('KeirinRaceDataService', () => {
             const mockRaceEntity: KeirinRaceEntity[] = baseKeirinRaceEntityList;
 
             // モックの戻り値を設定
-            keirinRaceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
+            raceRepositoryFromStorageImpl.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
             await service.updateRaceEntityList(mockRaceEntity);
 
             expect(
-                keirinRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).toHaveBeenCalled();
         });
 
@@ -140,7 +141,7 @@ describe('KeirinRaceDataService', () => {
             await service.updateRaceEntityList(mockRaceEntity);
 
             expect(
-                keirinRaceRepositoryFromStorageImpl.registerRaceEntityList,
+                raceRepositoryFromStorageImpl.registerRaceEntityList,
             ).not.toHaveBeenCalled();
         });
 
@@ -148,7 +149,7 @@ describe('KeirinRaceDataService', () => {
             const mockRaceEntity: KeirinRaceEntity[] = baseKeirinRaceEntityList;
 
             // モックの戻り値を設定（エラーが発生するように設定）
-            keirinRaceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
+            raceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 

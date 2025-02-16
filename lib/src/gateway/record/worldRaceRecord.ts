@@ -105,7 +105,6 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<WorldRaceRecord> = {}): WorldRaceRecord {
         return WorldRaceRecord.create(
@@ -123,7 +122,6 @@ export class WorldRaceRecord implements IRecord<WorldRaceRecord> {
 
     /**
      * Entityに変換する
-     * @returns
      */
     toEntity(): WorldRaceEntity {
         return WorldRaceEntity.create(

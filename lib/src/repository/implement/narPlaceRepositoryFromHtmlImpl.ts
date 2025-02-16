@@ -13,7 +13,7 @@ import { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity';
 import { IPlaceRepository } from '../interface/IPlaceRepository';
 
 /**
- * 競馬場データリポジトリの実装
+ * Narデータリポジトリの実装
  */
 @injectable()
 export class NarPlaceRepositoryFromHtmlImpl
@@ -21,13 +21,13 @@ export class NarPlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('NarPlaceDataHtmlGateway')
-        private readonly narPlaceDataHtmlGateway: INarPlaceDataHtmlGateway,
+        private readonly placeDataHtmlGateway: INarPlaceDataHtmlGateway,
     ) {}
 
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      *
-     * このメソッドで日付の範囲を指定して競馬場開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<NarPlaceEntity[]> - 開催データ取得レスポンス
@@ -66,7 +66,6 @@ export class NarPlaceRepositoryFromHtmlImpl
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     private generateMonthList(
@@ -90,13 +89,12 @@ export class NarPlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * S3から競馬場開催データを取得する
+     * S3から開催データを取得する
      *
-     * ファイル名を利用してS3から競馬場開催データを取得する
+     * ファイル名を利用してS3から開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
-     * @returns
      */
     @Logger
     private async fetchMonthPlaceEntityList(
@@ -105,7 +103,7 @@ export class NarPlaceRepositoryFromHtmlImpl
         console.log(`S3から${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.narPlaceDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
 
         const $ = cheerio.load(htmlText);
         // <div class="chartWrapprer">を取得
@@ -166,7 +164,7 @@ export class NarPlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * 競馬場開催データを登録する
+     * 開催データを登録する
      * HTMLにはデータを登録しない
      * @param request
      */

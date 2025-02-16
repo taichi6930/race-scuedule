@@ -23,7 +23,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
         @inject('KeirinCalendarService')
         private readonly calendarService: ICalendarService<KeirinRaceEntity>,
         @inject('KeirinRaceDataService')
-        private readonly keirinRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >,
@@ -55,7 +55,7 @@ export class KeirinRaceCalendarUseCase implements IRaceCalendarUseCase {
         displayGradeList: KeirinGradeType[],
     ): Promise<void> {
         const raceEntityList: KeirinRaceEntity[] =
-            await this.keirinRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,

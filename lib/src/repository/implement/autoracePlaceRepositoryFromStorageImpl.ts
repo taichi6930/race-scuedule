@@ -26,9 +26,9 @@ export class AutoracePlaceRepositoryFromStorageImpl
         private readonly s3Gateway: IS3Gateway<AutoracePlaceRecord>,
     ) {}
     /**
-     * オートレース開催データを取得する
+     * 開催データを取得する
      *
-     * このメソッドで日付の範囲を指定してオートレース開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
      *
      * @param searchFilter - 開催データ取得リクエスト
      * @returns Promise<AutoracePlaceEntity[]> - 開催データ取得レスポンス
@@ -37,11 +37,10 @@ export class AutoracePlaceRepositoryFromStorageImpl
     async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<AutoracePlaceEntity[]> {
-        // ファイル名リストからオートレース開催データを取得する
+        // ファイル名リストから開催データを取得する
         const placeRecordList: AutoracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        // AutoracePlaceRecordをAutoracePlaceEntityに変換
         const placeEntityList: AutoracePlaceEntity[] = placeRecordList.map(
             (placeRecord) => placeRecord.toEntity(),
         );

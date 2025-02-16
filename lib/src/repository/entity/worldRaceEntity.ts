@@ -75,7 +75,6 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<WorldRaceEntity> = {}): WorldRaceEntity {
         return new WorldRaceEntity(
@@ -87,7 +86,6 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
 
     /**
      * WorldRaceRecordに変換する
-     * @returns
      */
     toRaceRecord(): WorldRaceRecord {
         return WorldRaceRecord.create(
@@ -106,7 +104,6 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
     /**
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param raceEntity
-     * @returns
      */
     toGoogleCalendarData(
         updateDate: Date = new Date(),

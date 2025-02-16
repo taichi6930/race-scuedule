@@ -108,7 +108,6 @@ export class MockS3Gateway<T extends IRecord<T>>
      * モックのデータをS3から取得する
      *
      * @param fileName
-     * @returns
      */
     @Logger
     async fetchDataFromS3(fileName: string): Promise<string> {

@@ -50,7 +50,6 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
      *
      * @param placeData
      * @param updateDate
-     * @returns
      */
     static createWithoutId(
         placeData: NarPlaceData,
@@ -66,7 +65,6 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<NarPlaceEntity> = {}): NarPlaceEntity {
         return NarPlaceEntity.create(
@@ -78,7 +76,6 @@ export class NarPlaceEntity implements IPlaceEntity<NarPlaceEntity> {
 
     /**
      * NarPlaceRecordに変換する
-     * @returns
      */
     toRecord(): NarPlaceRecord {
         return NarPlaceRecord.create(

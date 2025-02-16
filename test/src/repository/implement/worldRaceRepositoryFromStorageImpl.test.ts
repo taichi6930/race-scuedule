@@ -42,13 +42,13 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             s3Gateway.fetchDataFromS3.mockResolvedValue(csvData);
 
             // リクエストの作成
-            const request = new SearchRaceFilterEntity<WorldPlaceEntity>(
+            const searchFilter = new SearchRaceFilterEntity<WorldPlaceEntity>(
                 new Date('2024-01-01'),
                 new Date('2024-02-01'),
             );
             // テスト実行
             const raceEntityList =
-                await repository.fetchRaceEntityList(request);
+                await repository.fetchRaceEntityList(searchFilter);
 
             // レスポンスの検証
             expect(raceEntityList).toHaveLength(1);

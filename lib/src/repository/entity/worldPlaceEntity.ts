@@ -30,7 +30,6 @@ export class WorldPlaceEntity implements IPlaceEntity<WorldPlaceEntity> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<WorldPlaceEntity> = {}): WorldPlaceEntity {
         return new WorldPlaceEntity(

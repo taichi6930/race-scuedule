@@ -75,7 +75,6 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<BoatracePlaceRecord> = {}): BoatracePlaceRecord {
         return BoatracePlaceRecord.create(
@@ -89,7 +88,6 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
 
     /**
      * BoatracePlaceEntityに変換する
-     * @returns
      */
     toEntity(): BoatracePlaceEntity {
         return BoatracePlaceEntity.create(

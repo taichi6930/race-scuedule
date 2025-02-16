@@ -22,15 +22,14 @@ export class NarRaceRepositoryFromStorageImpl
         private s3Gateway: IS3Gateway<NarRaceRecord>,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<NarPlaceEntity>,
     ): Promise<NarRaceEntity[]> {
-        // ファイル名リストから海外競馬場開催データを取得する
+        // ファイル名リストから開催データを取得する
         const raceRecordList: NarRaceRecord[] =
             await this.getRaceRecordListFromS3();
 

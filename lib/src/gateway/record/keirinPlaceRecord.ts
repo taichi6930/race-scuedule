@@ -75,7 +75,6 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<KeirinPlaceRecord> = {}): KeirinPlaceRecord {
         return KeirinPlaceRecord.create(
@@ -89,7 +88,6 @@ export class KeirinPlaceRecord implements IRecord<KeirinPlaceRecord> {
 
     /**
      * Entityに変換する
-     * @returns
      */
     toEntity(): KeirinPlaceEntity {
         return KeirinPlaceEntity.create(

@@ -93,7 +93,6 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<KeirinRaceEntity> = {}): KeirinRaceEntity {
         return KeirinRaceEntity.create(
@@ -106,7 +105,6 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
 
     /**
      * KeirinRaceRecordに変換する
-     * @returns
      */
     toRaceRecord(): KeirinRaceRecord {
         return KeirinRaceRecord.create(
@@ -124,7 +122,6 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
     /**
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param raceEntity
-     * @returns
      */
     toGoogleCalendarData(
         updateDate: Date = new Date(),
@@ -184,7 +181,6 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
 
     /**
      * KeirinRacePlayerRecordに変換する
-     * @returns
      */
     toPlayerRecordList(): KeirinRacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>

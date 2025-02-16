@@ -10,26 +10,26 @@ import {
     baseBoatracePlaceData,
     baseBoatracePlaceEntity,
 } from '../../mock/common/baseBoatraceData';
-import { mockBoatracePlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('BoatracePlaceDataUseCase', () => {
-    let boatracePlaceDataService: jest.Mocked<
-        IPlaceDataService<BoatracePlaceEntity>
-    >;
+    let placeDataService: jest.Mocked<IPlaceDataService<BoatracePlaceEntity>>;
     let useCase: BoatracePlaceDataUseCase;
 
     beforeEach(() => {
-        // BoatracePlaceDataServiceをコンテナに登録
-        boatracePlaceDataService = mockBoatracePlaceDataServiceMock();
+        placeDataService = PlaceDataServiceMock<BoatracePlaceEntity>();
         container.register<IPlaceDataService<BoatracePlaceEntity>>(
             'BoatracePlaceDataService',
             {
-                useValue: boatracePlaceDataService,
+                useValue: placeDataService,
             },
         );
 
-        // BoatracePlaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(BoatracePlaceDataUseCase);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('fetchRaceDataList', () => {
@@ -40,7 +40,7 @@ describe('BoatracePlaceDataUseCase', () => {
             ];
 
             // モックの戻り値を設定
-            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -66,18 +66,14 @@ describe('BoatracePlaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
-            expect(
-                boatracePlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                boatracePlaceDataService.updatePlaceEntityList,
-            ).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(placeDataService.updatePlaceEntityList).toHaveBeenCalled();
         });
     });
 });

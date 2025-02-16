@@ -26,9 +26,9 @@ export class KeirinPlaceRepositoryFromStorageImpl
         private readonly s3Gateway: IS3Gateway<KeirinPlaceRecord>,
     ) {}
     /**
-     * 競輪開催データを取得する
+     * 開催データを取得する
      *
-     * このメソッドで日付の範囲を指定して競輪開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<KeirinPlaceEntity[]> - 開催データ取得レスポンス
@@ -37,7 +37,7 @@ export class KeirinPlaceRepositoryFromStorageImpl
     async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<KeirinPlaceEntity[]> {
-        // ファイル名リストから競輪開催データを取得する
+        // ファイル名リストから開催データを取得する
         const placeRecordList: KeirinPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 

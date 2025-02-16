@@ -145,7 +145,6 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<WorldRaceData> = {}): WorldRaceData {
         return new WorldRaceData(

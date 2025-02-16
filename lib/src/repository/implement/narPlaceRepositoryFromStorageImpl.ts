@@ -22,9 +22,9 @@ export class NarPlaceRepositoryFromStorageImpl
         private s3Gateway: IS3Gateway<NarPlaceRecord>,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      *
-     * このメソッドで日付の範囲を指定して競馬場開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<NarPlaceEntity[]> - 開催データ取得レスポンス
@@ -33,7 +33,7 @@ export class NarPlaceRepositoryFromStorageImpl
     async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<NarPlaceEntity[]> {
-        // 年ごとの競馬場開催データを取得
+        // 年ごとの開催データを取得
         const placeRecordList: NarPlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 

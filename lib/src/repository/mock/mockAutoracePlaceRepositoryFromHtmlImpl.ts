@@ -38,7 +38,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * オートレース場開催データを登録する
+     * 開催データを登録する
      * HTMLにはデータを登録しない
      * @param request
      */

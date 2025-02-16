@@ -24,12 +24,11 @@ export class AutoraceRaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('AutoraceRaceDataHtmlGateway')
-        private readonly autoraceRaceDataHtmlGateway: IAutoraceRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: IAutoraceRaceDataHtmlGateway,
     ) {}
     /**
-     * オートレース場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
@@ -62,11 +61,10 @@ export class AutoraceRaceRepositoryFromHtmlImpl
                 placeEntity.placeData.dateTime.getMonth() + 1,
                 placeEntity.placeData.dateTime.getDate(),
             ];
-            const htmlText =
-                await this.autoraceRaceDataHtmlGateway.getRaceDataHtml(
-                    placeEntity.placeData.dateTime,
-                    placeEntity.placeData.location,
-                );
+            const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
+                placeEntity.placeData.dateTime,
+                placeEntity.placeData.location,
+            );
             const autoraceRaceDataList: AutoraceRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             // id="content"を取得

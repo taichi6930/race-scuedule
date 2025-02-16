@@ -60,7 +60,6 @@ export class AutoraceRacePlayerData {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(
         partial: Partial<AutoraceRacePlayerData> = {},

@@ -128,7 +128,6 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<KeirinRaceData> = {}): KeirinRaceData {
         return new KeirinRaceData(

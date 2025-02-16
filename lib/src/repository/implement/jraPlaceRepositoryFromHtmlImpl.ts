@@ -17,13 +17,13 @@ export class JraPlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('JraPlaceDataHtmlGateway')
-        private jraPlaceDataHtmlGateway: IJraPlaceDataHtmlGateway,
+        private placeDataHtmlGateway: IJraPlaceDataHtmlGateway,
     ) {}
 
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      *
-     * このメソッドで日付の範囲を指定して競馬場開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<JraPlaceEntity[]> - 開催データ取得レスポンス
@@ -38,7 +38,7 @@ export class JraPlaceRepositoryFromHtmlImpl
             searchFilter.finishDate,
         );
 
-        // 年ごとの競馬場開催データを取得
+        // 年ごとの開催データを取得
         const placeRecordList: JraPlaceRecord[] = (
             await Promise.all(
                 yearList.map((year) => this.fetchYearPlaceRecordList(year)),
@@ -68,7 +68,6 @@ export class JraPlaceRepositoryFromHtmlImpl
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     private generateYearList(
@@ -90,13 +89,12 @@ export class JraPlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * S3から競馬場開催データを取得する
+     * S3から開催データを取得する
      *
-     * ファイル名を利用してS3から競馬場開催データを取得する
+     * ファイル名を利用してS3から開催データを取得する
      * placeDataが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
-     * @returns
      */
     @Logger
     private async fetchYearPlaceRecordList(
@@ -104,7 +102,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     ): Promise<JraPlaceRecord[]> {
         // レースHTMLを取得
         const htmlText: string =
-            await this.jraPlaceDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
 
         // 競馬場開催レコードはここに追加
         const jraPlaceRecordList: JraPlaceRecord[] = [];
@@ -197,7 +195,7 @@ export class JraPlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * 競馬場開催データを登録する
+     * 開催データを登録する
      * HTMLにはデータを登録しない
      * @param request
      */

@@ -13,6 +13,8 @@ export interface IRaceDataService<
      * レース開催のデータを取得する
      * @param startDate
      * @param finishDate
+     * @param type
+     * @param placeEntityList
      */
     fetchRaceEntityList: (
         startDate: Date,
@@ -23,8 +25,7 @@ export interface IRaceDataService<
 
     /**
      * レース開催のデータを更新する
-     * @param startDate
-     * @param finishDate
+     * @param raceEntityList
      */
     updateRaceEntityList: (raceEntityList: R[]) => Promise<void>;
 }

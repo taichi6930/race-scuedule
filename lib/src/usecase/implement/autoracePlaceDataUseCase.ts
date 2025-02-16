@@ -16,13 +16,12 @@ export class AutoracePlaceDataUseCase
 {
     constructor(
         @inject('AutoracePlaceDataService')
-        private readonly autoracePlaceDataService: IPlaceDataService<AutoracePlaceEntity>,
+        private readonly placeDataService: IPlaceDataService<AutoracePlaceEntity>,
     ) {}
     /**
      * 開催場データを取得する
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     async fetchPlaceDataList(
@@ -30,15 +29,12 @@ export class AutoracePlaceDataUseCase
         finishDate: Date,
     ): Promise<AutoracePlaceData[]> {
         const placeEntityList: AutoracePlaceEntity[] =
-            await this.autoracePlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
             );
-        const placeDataList: AutoracePlaceData[] = placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return placeEntityList.map(({ placeData }) => placeData);
     }
 
     /**
@@ -64,13 +60,11 @@ export class AutoracePlaceDataUseCase
             0,
         );
         const placeEntityList: AutoracePlaceEntity[] =
-            await this.autoracePlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
                 DataLocation.Web,
             );
-        await this.autoracePlaceDataService.updatePlaceEntityList(
-            placeEntityList,
-        );
+        await this.placeDataService.updatePlaceEntityList(placeEntityList);
     }
 }

@@ -21,7 +21,7 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
         @inject('JraCalendarService')
         private readonly calendarService: ICalendarService<JraRaceEntity>,
         @inject('JraRaceDataService')
-        private readonly jraRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             JraRaceEntity,
             JraPlaceEntity
         >,
@@ -54,7 +54,7 @@ export class JraRaceCalendarUseCase implements IRaceCalendarUseCase {
     ): Promise<void> {
         // レース情報を取得する
         const raceEntityList: JraRaceEntity[] =
-            await this.jraRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,

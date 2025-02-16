@@ -36,11 +36,11 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             baseNarCalendarDataFromGoogleCalendar,
         ]);
 
-        const request = new SearchCalendarFilterEntity(
+        const searchFilter = new SearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
         );
-        const calendarDataList = await repository.getEvents(request);
+        const calendarDataList = await repository.getEvents(searchFilter);
 
         expect(calendarDataList).toHaveLength(1);
         expect(calendarDataList[0]).toEqual(baseNarCalendarData);
@@ -52,11 +52,11 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
             new Error('API Error'),
         );
 
-        const request = new SearchCalendarFilterEntity(
+        const searchFilter = new SearchCalendarFilterEntity(
             new Date('2023-01-01'),
             new Date('2023-12-31'),
         );
-        const calendarDataList = await repository.getEvents(request);
+        const calendarDataList = await repository.getEvents(searchFilter);
 
         expect(calendarDataList).toHaveLength(0);
         expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();

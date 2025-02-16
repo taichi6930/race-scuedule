@@ -114,7 +114,6 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<NarRaceRecord> = {}): NarRaceRecord {
         return NarRaceRecord.create(
@@ -132,7 +131,6 @@ export class NarRaceRecord implements IRecord<NarRaceRecord> {
 
     /**
      * NarRaceEntityに変換する
-     * @returns
      */
     toEntity(): NarRaceEntity {
         return NarRaceEntity.create(

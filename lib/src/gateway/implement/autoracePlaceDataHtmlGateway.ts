@@ -10,10 +10,10 @@ export class AutoracePlaceDataHtmlGateway
     implements IAutoracePlaceDataHtmlGateway
 {
     /**
-     * オートレース開催データのHTMLを取得する
+     * 開催データのHTMLを取得する
      *
      * @param date - 取得する年月
-     * @returns Promise<string> - オートレース開催データのHTML
+     * @returns Promise<string> - 開催データのHTML
      */
     @Logger
     async getPlaceDataHtml(date: AutoraceRaceDate): Promise<string> {

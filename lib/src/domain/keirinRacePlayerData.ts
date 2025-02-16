@@ -60,7 +60,6 @@ export class KeirinRacePlayerData {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<KeirinRacePlayerData> = {}): KeirinRacePlayerData {
         return new KeirinRacePlayerData(

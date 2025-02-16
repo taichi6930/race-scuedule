@@ -74,7 +74,6 @@ export class BoatraceRacePlayerRecord
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(
         partial: Partial<BoatraceRacePlayerRecord> = {},

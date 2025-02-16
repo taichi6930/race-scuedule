@@ -21,7 +21,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
         @inject('NarCalendarService')
         private readonly calendarService: ICalendarService<NarRaceEntity>,
         @inject('NarRaceDataService')
-        private readonly narRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             NarRaceEntity,
             NarPlaceEntity
         >,
@@ -54,7 +54,7 @@ export class NarRaceCalendarUseCase implements IRaceCalendarUseCase {
     ): Promise<void> {
         // レース情報を取得する
         const raceEntityList: NarRaceEntity[] =
-            await this.narRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,

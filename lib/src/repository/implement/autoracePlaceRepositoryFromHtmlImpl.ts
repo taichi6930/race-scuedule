@@ -23,16 +23,15 @@ export class AutoracePlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('AutoracePlaceDataHtmlGateway')
-        private readonly autoracePlaceDataHtmlGateway: IAutoracePlaceDataHtmlGateway,
+        private readonly placeDataHtmlGateway: IAutoracePlaceDataHtmlGateway,
     ) {}
 
     /**
-     * オートレース開催データを取得する
+     * 開催データを取得する
      *
-     * このメソッドで日付の範囲を指定してオートレース開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
      *
-     * @param request - 開催データ取得リクエスト
-     * @returns Promise<AutoracePlaceEntity[]> - 開催データ取得レスポンス
+     * @param searchFilter - 開催データ取得フィルタ
      */
     @Logger
     async fetchPlaceEntityList(
@@ -67,7 +66,6 @@ export class AutoracePlaceRepositoryFromHtmlImpl
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     private generateMonthList(
@@ -91,13 +89,12 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * S3からオートレース開催データを取得する
+     * S3から開催データを取得する
      *
-     * ファイル名を利用してS3からオートレース開催データを取得する
+     * ファイル名を利用してS3から開催データを取得する
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
-     * @returns
      */
     @Logger
     private async fetchMonthPlaceEntityList(
@@ -107,7 +104,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
         console.log(`HTMLから${formatDate(date, 'yyyy-MM')}を取得します`);
         // レース情報を取得
         const htmlText: string =
-            await this.autoracePlaceDataHtmlGateway.getPlaceDataHtml(date);
+            await this.placeDataHtmlGateway.getPlaceDataHtml(date);
 
         const $ = cheerio.load(htmlText);
 
@@ -182,7 +179,7 @@ export class AutoracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * オートレース開催データを登録する
+     * 開催データを登録する
      * HTMLにはデータを登録しない
      * @param request
      */

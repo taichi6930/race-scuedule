@@ -7,10 +7,10 @@ export class BoatracePlaceDataHtmlGateway
     implements IBoatracePlaceDataHtmlGateway
 {
     /**
-     * ボートレース開催データのHTMLを取得する
+     * 開催データのHTMLを取得する
      *
      * @param quarter - 取得するクォーター
-     * @returns Promise<string> - ボートレース開催データのHTML
+     * @returns Promise<string> - 開催データのHTML
      */
     @Logger
     async getPlaceDataHtml(quarter: string): Promise<string> {

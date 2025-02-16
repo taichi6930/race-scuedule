@@ -181,7 +181,6 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<JraRaceData> = {}): JraRaceData {
         return new JraRaceData(

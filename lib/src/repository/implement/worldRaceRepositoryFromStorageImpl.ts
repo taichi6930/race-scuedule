@@ -25,15 +25,14 @@ export class WorldRaceRepositoryFromStorageImpl
         private readonly s3Gateway: IS3Gateway<WorldRaceRecord>,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<WorldPlaceEntity>,
     ): Promise<WorldRaceEntity[]> {
-        // ファイル名リストから海外競馬場開催データを取得する
+        // ファイル名リストから開催データを取得する
         const raceRecordList: WorldRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
@@ -54,7 +53,7 @@ export class WorldRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param request
+     * @param raceEntityList
      */
     @Logger
     async registerRaceEntityList(
