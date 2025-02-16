@@ -31,8 +31,6 @@ export class AutoraceRacePlayerRecord
      * @param positionNumber - 枠番
      * @param playerNumber - 選手番号
      * @param updateDate - 更新日時
-     *
-     *
      */
     private constructor(
         public readonly id: AutoraceRacePlayerId,

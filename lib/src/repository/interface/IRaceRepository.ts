@@ -23,7 +23,6 @@ export interface IRaceRepository<
     /**
      * レースデータを登録する
      * @param searchFilter
-     *
      */
     registerRaceEntityList: (raceEntityList: R[]) => Promise<void>;
 }
