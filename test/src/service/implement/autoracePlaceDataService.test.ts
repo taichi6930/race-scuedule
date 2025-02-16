@@ -10,35 +10,37 @@ import { baseAutoracePlaceEntity } from '../../mock/common/baseAutoraceData';
 import { mockPlaceRepository } from '../../mock/repository/mockPlaceRepository';
 
 describe('AutoracePlaceDataService', () => {
-    let autoracePlaceRepositoryFromStorageImpl: jest.Mocked<
+    let placeRepositoryFromStorageImpl: jest.Mocked<
         IPlaceRepository<AutoracePlaceEntity>
     >;
-    let autoracePlaceRepositoryFromHtmlImpl: jest.Mocked<
+    let placeRepositoryFromHtmlImpl: jest.Mocked<
         IPlaceRepository<AutoracePlaceEntity>
     >;
     let service: AutoracePlaceDataService;
 
     beforeEach(() => {
-        // autoracePlaceRepositoryFromStorageImplをコンテナに登録
-        autoracePlaceRepositoryFromStorageImpl =
+        placeRepositoryFromStorageImpl =
             mockPlaceRepository<AutoracePlaceEntity>();
         container.register<IPlaceRepository<AutoracePlaceEntity>>(
             'AutoracePlaceRepositoryFromStorage',
             {
-                useValue: autoracePlaceRepositoryFromStorageImpl,
+                useValue: placeRepositoryFromStorageImpl,
             },
         );
 
-        autoracePlaceRepositoryFromHtmlImpl = mockPlaceRepository();
+        placeRepositoryFromHtmlImpl = mockPlaceRepository();
         container.register<IPlaceRepository<AutoracePlaceEntity>>(
             'AutoracePlaceRepositoryFromHtml',
             {
-                useValue: autoracePlaceRepositoryFromHtmlImpl,
+                useValue: placeRepositoryFromHtmlImpl,
             },
         );
 
-        // AutoracePlaceCalendarServiceをコンテナから取得
         service = container.resolve(AutoracePlaceDataService);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('fetchRaceDataList', () => {
@@ -48,7 +50,7 @@ describe('AutoracePlaceDataService', () => {
             ];
 
             // モックの戻り値を設定
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -70,7 +72,7 @@ describe('AutoracePlaceDataService', () => {
             ];
 
             // モックの戻り値を設定
-            autoracePlaceRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromHtmlImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -88,7 +90,7 @@ describe('AutoracePlaceDataService', () => {
 
         it('レースデータが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
                 new Error('レースデータの取得に失敗しました'),
             );
 
@@ -116,27 +118,25 @@ describe('AutoracePlaceDataService', () => {
             ];
 
             // モックの戻り値を設定
-            autoracePlaceRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
+            placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
             await service.updatePlaceEntityList(mockPlaceEntity);
 
             expect(
-                autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList,
+                placeRepositoryFromStorageImpl.registerPlaceEntityList,
             ).toHaveBeenCalled();
         });
 
         it('件数0の場合、エラーが発生すること', async () => {
             const mockPlaceEntity: AutoracePlaceEntity[] = [];
 
-            const consoleSpy = jest
-                .spyOn(console, 'error')
-                .mockImplementation();
-
             await service.updatePlaceEntityList(mockPlaceEntity);
 
-            expect(consoleSpy).toHaveBeenCalled();
+            expect(
+                placeRepositoryFromStorageImpl.registerPlaceEntityList,
+            ).not.toHaveBeenCalled();
         });
 
         it('競馬場データが取得できない場合、エラーが発生すること', async () => {
@@ -144,7 +144,7 @@ describe('AutoracePlaceDataService', () => {
                 baseAutoracePlaceEntity,
             ];
             // モックの戻り値を設定（エラーが発生するように設定）
-            autoracePlaceRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
+            placeRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
                 new Error('競馬場データの登録に失敗しました'),
             );
 

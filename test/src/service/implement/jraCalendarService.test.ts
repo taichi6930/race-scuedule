@@ -19,9 +19,12 @@ describe('JraCalendarService', () => {
 
     beforeEach(() => {
         calendarRepository = mockCalendarRepository<JraRaceEntity>();
-
         container.registerInstance('JraCalendarRepository', calendarRepository);
         service = container.resolve(JraCalendarService);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     it('should fetch events', async () => {

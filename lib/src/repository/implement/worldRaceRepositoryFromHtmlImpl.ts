@@ -30,12 +30,11 @@ export class WorldRaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('WorldRaceDataHtmlGateway')
-        private readonly worldRaceDataHtmlGateway: IWorldRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: IWorldRaceDataHtmlGateway,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
@@ -64,7 +63,6 @@ export class WorldRaceRepositoryFromHtmlImpl
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     private generateMonthList(
@@ -91,7 +89,7 @@ export class WorldRaceRepositoryFromHtmlImpl
     async fetchRaceListFromHtml(date: Date): Promise<WorldRaceEntity[]> {
         try {
             const htmlText =
-                await this.worldRaceDataHtmlGateway.getRaceDataHtml(date);
+                await this.raceDataHtmlGateway.getRaceDataHtml(date);
             const worldRaceDataList: WorldRaceEntity[] = [];
             const $ = cheerio.load(htmlText);
             const content = $('.racelist');

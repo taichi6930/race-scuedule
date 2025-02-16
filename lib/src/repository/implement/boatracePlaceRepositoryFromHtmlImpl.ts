@@ -21,13 +21,13 @@ export class BoatracePlaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('BoatracePlaceDataHtmlGateway')
-        private readonly boatracePlaceDataHtmlGateway: IBoatracePlaceDataHtmlGateway,
+        private readonly placeDataHtmlGateway: IBoatracePlaceDataHtmlGateway,
     ) {}
 
     /**
-     * ボートレース場開催データを取得する
+     * 開催データを取得する
      *
-     * このメソッドで日付の範囲を指定してボートレース場開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<BoatracePlaceEntity[]> - 開催データ取得レスポンス
@@ -68,7 +68,6 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      *
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     private generateQuarterList(
@@ -102,13 +101,12 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * S3からボートレース場開催データを取得する
+     * S3から開催データを取得する
      *
-     * ファイル名を利用してS3からボートレース場開催データを取得する
+     * ファイル名を利用してS3から開催データを取得する
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
      * @param date
-     * @returns
      */
     @Logger
     private async fetchMonthPlaceEntityList(
@@ -121,9 +119,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
         );
         // レース情報を取得
         const htmlText: string =
-            await this.boatracePlaceDataHtmlGateway.getPlaceDataHtml(
-                quarterString,
-            );
+            await this.placeDataHtmlGateway.getPlaceDataHtml(quarterString);
 
         const $ = cheerio.load(htmlText);
 
@@ -188,7 +184,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     }
 
     /**
-     * ボートレース場開催データを登録する
+     * 開催データを登録する
      * HTMLにはデータを登録しない
      * @param request
      */

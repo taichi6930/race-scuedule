@@ -72,7 +72,6 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
     /**
      * データのコピー
      * @param partial - 上書きする部分データ
-     * @returns 新しいBoatracePlaceDataインスタンス
      */
     copy(partial: Partial<BoatracePlaceData> = {}): BoatracePlaceData {
         return new BoatracePlaceData(

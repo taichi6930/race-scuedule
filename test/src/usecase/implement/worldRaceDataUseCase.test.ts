@@ -12,24 +12,31 @@ import {
     baseWorldRaceEntity,
     baseWorldRaceEntityList,
 } from '../../mock/common/baseWorldData';
-import { mockWorldRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('WorldRaceDataUseCase', () => {
-    let worldRaceDataService: jest.Mocked<
+    let raceDataService: jest.Mocked<
         IRaceDataService<WorldRaceEntity, WorldPlaceEntity>
     >;
     let useCase: WorldRaceDataUseCase;
 
     beforeEach(() => {
-        worldRaceDataService = mockWorldRaceDataServiceMock();
+        raceDataService = RaceDataServiceMock<
+            WorldRaceEntity,
+            WorldPlaceEntity
+        >();
         container.register<IRaceDataService<WorldRaceEntity, WorldPlaceEntity>>(
             'WorldRaceDataService',
             {
-                useValue: worldRaceDataService,
+                useValue: raceDataService,
             },
         );
-        // WorldRaceCalendarUseCaseをコンテナから取得
+
         useCase = container.resolve(WorldRaceDataUseCase);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('fetchRaceDataList', () => {
@@ -38,7 +45,7 @@ describe('WorldRaceDataUseCase', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -57,7 +64,7 @@ describe('WorldRaceDataUseCase', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -78,7 +85,7 @@ describe('WorldRaceDataUseCase', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -99,7 +106,7 @@ describe('WorldRaceDataUseCase', () => {
             const mockRaceEntity: WorldRaceEntity[] = baseWorldRaceEntityList;
 
             // モックの戻り値を設定
-            worldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -125,16 +132,14 @@ describe('WorldRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            worldRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 
-            expect(worldRaceDataService.fetchRaceEntityList).toHaveBeenCalled();
-            expect(
-                worldRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 
@@ -144,9 +149,7 @@ describe('WorldRaceDataUseCase', () => {
 
             await useCase.upsertRaceDataList(mockRaceData);
 
-            expect(
-                worldRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 });

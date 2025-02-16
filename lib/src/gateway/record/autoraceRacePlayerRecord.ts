@@ -75,7 +75,6 @@ export class AutoraceRacePlayerRecord
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(
         partial: Partial<AutoraceRacePlayerRecord> = {},

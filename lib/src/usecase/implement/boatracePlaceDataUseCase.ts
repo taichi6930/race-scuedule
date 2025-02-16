@@ -16,13 +16,12 @@ export class BoatracePlaceDataUseCase
 {
     constructor(
         @inject('BoatracePlaceDataService')
-        private readonly boatracePlaceDataService: IPlaceDataService<BoatracePlaceEntity>,
+        private readonly placeDataService: IPlaceDataService<BoatracePlaceEntity>,
     ) {}
     /**
      * 開催場データを取得する
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     async fetchPlaceDataList(
@@ -30,15 +29,12 @@ export class BoatracePlaceDataUseCase
         finishDate: Date,
     ): Promise<BoatracePlaceData[]> {
         const placeEntityList: BoatracePlaceEntity[] =
-            await this.boatracePlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
             );
-        const placeDataList: BoatracePlaceData[] = placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return placeEntityList.map(({ placeData }) => placeData);
     }
 
     /**
@@ -64,13 +60,11 @@ export class BoatracePlaceDataUseCase
             0,
         );
         const placeEntityList: BoatracePlaceEntity[] =
-            await this.boatracePlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
                 DataLocation.Web,
             );
-        await this.boatracePlaceDataService.updatePlaceEntityList(
-            placeEntityList,
-        );
+        await this.placeDataService.updatePlaceEntityList(placeEntityList);
     }
 }

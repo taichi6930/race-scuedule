@@ -31,7 +31,6 @@ export class CalendarData {
      * @param endTime
      * @param location
      * @param description
-     * @returns
      */
     static create(
         id: string | null | undefined,
@@ -54,7 +53,6 @@ export class CalendarData {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<CalendarData> = {}): CalendarData {
         return new CalendarData(

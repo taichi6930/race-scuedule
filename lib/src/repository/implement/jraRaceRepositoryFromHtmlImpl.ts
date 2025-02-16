@@ -23,12 +23,11 @@ export class JraRaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('JraRaceDataHtmlGateway')
-        private jraRaceDataHtmlGateway: IJraRaceDataHtmlGateway,
+        private raceDataHtmlGateway: IJraRaceDataHtmlGateway,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
@@ -57,7 +56,7 @@ export class JraRaceRepositoryFromHtmlImpl
         try {
             // レース情報を取得
             const htmlText: string =
-                await this.jraRaceDataHtmlGateway.getRaceDataHtml(raceDate);
+                await this.raceDataHtmlGateway.getRaceDataHtml(raceDate);
             const jraRaceDataList: JraRaceEntity[] = [];
 
             // mockHTML内のsection id="raceInfo"の中のtableを取得
@@ -187,7 +186,6 @@ export class JraRaceRepositoryFromHtmlImpl
      * 開催競馬場を取得
      *
      * @param theadElementMatch
-     * @returns
      */
     private extractRaceCourse = (
         theadElementMatch: RegExpExecArray,
@@ -202,7 +200,6 @@ export class JraRaceRepositoryFromHtmlImpl
      * 開催回数を取得
      *
      * @param theadElementMatch
-     * @returns
      */
     private extractRaceHeld = (
         theadElementMatch: RegExpExecArray,
@@ -219,7 +216,6 @@ export class JraRaceRepositoryFromHtmlImpl
      * 開催日数を取得
      *
      * @param theadElementMatch
-     * @returns
      */
     private extractRaceHeldDay = (
         theadElementMatch: RegExpExecArray,
@@ -236,7 +232,6 @@ export class JraRaceRepositoryFromHtmlImpl
      * レース番号を取得
      *
      * @param element
-     * @returns
      */
     private extractRaceNumber = (element: cheerio.Cheerio): number => {
         const raceNumAndTime = element.find('td').eq(0).text().split(' ')[0];
@@ -249,7 +244,6 @@ export class JraRaceRepositoryFromHtmlImpl
      * レース距離を取得
      *
      * @param element
-     * @returns
      */
     private extractRaceDistance = (element: cheerio.Cheerio): number | null => {
         // tdの2つ目の要素からレース距離を取得
@@ -266,7 +260,6 @@ export class JraRaceRepositoryFromHtmlImpl
      * レース時間を取得
      *
      * @param element
-     * @returns
      */
     private extractRaceTime = (element: cheerio.Cheerio, date: Date): Date => {
         // tdが3つある
@@ -314,7 +307,6 @@ export class JraRaceRepositoryFromHtmlImpl
      * @param element
      * @param raceSurfaceType
      * @param rowRaceName
-     * @returns
      */
     private extractRaceGradeAndRaceName = (
         element: cheerio.Cheerio,

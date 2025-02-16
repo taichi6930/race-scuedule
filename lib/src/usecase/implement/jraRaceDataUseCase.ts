@@ -22,9 +22,9 @@ export class JraRaceDataUseCase
 {
     constructor(
         @inject('JraPlaceDataService')
-        private readonly jraPlaceDataService: IPlaceDataService<JraPlaceEntity>,
+        private readonly placeDataService: IPlaceDataService<JraPlaceEntity>,
         @inject('JraRaceDataService')
-        private readonly jraRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             JraRaceEntity,
             JraPlaceEntity
         >,
@@ -43,14 +43,14 @@ export class JraRaceDataUseCase
         },
     ): Promise<JraRaceData[]> {
         const placeEntityList: JraPlaceEntity[] =
-            await this.jraPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
             );
 
         const raceEntityList: JraRaceEntity[] =
-            await this.jraRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
@@ -58,7 +58,7 @@ export class JraRaceDataUseCase
             );
 
         const raceDataList: JraRaceData[] = raceEntityList.map(
-            (raceEntity) => raceEntity.raceData,
+            ({ raceData }) => raceData,
         );
 
         // フィルタリング処理
@@ -93,21 +93,21 @@ export class JraRaceDataUseCase
         finishDate: Date,
     ): Promise<void> {
         const placeEntityList: JraPlaceEntity[] =
-            await this.jraPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
             );
 
         const raceEntityList: JraRaceEntity[] =
-            await this.jraRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Web,
                 placeEntityList,
             );
 
-        await this.jraRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 
     /**
@@ -119,6 +119,6 @@ export class JraRaceDataUseCase
         const raceEntityList: JraRaceEntity[] = raceDataList.map((raceData) =>
             JraRaceEntity.createWithoutId(raceData, getJSTDate(new Date())),
         );
-        await this.jraRaceDataService.updateRaceEntityList(raceEntityList);
+        await this.raceDataService.updateRaceEntityList(raceEntityList);
     }
 }

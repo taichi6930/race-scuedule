@@ -10,24 +10,26 @@ import {
     baseJraPlaceData,
     baseJraPlaceEntity,
 } from '../../mock/common/baseJraData';
-import { mockJraPlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
 
 describe('JraPlaceDataUseCase', () => {
-    let jraPlaceDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
+    let placeDataService: jest.Mocked<IPlaceDataService<JraPlaceEntity>>;
     let useCase: JraPlaceDataUseCase;
 
     beforeEach(() => {
-        // JraPlaceDataServiceをコンテナに登録
-        jraPlaceDataService = mockJraPlaceDataServiceMock();
+        placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
         container.register<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
             {
-                useValue: jraPlaceDataService,
+                useValue: placeDataService,
             },
         );
 
-        // JraPlaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(JraPlaceDataUseCase);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('fetchRaceDataList', () => {
@@ -36,7 +38,7 @@ describe('JraPlaceDataUseCase', () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
-            jraPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -60,16 +62,14 @@ describe('JraPlaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            jraPlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
             await useCase.updatePlaceDataList(startDate, finishDate);
 
-            expect(jraPlaceDataService.fetchPlaceEntityList).toHaveBeenCalled();
-            expect(
-                jraPlaceDataService.updatePlaceEntityList,
-            ).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(placeDataService.updatePlaceEntityList).toHaveBeenCalled();
         });
     });
 });

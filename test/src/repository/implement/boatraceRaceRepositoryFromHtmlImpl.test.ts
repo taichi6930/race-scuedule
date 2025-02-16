@@ -13,17 +13,17 @@ import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('BoatraceRaceRepositoryFromHtmlImpl', () => {
-        let boatraceRaceDataHtmlGateway: IBoatraceRaceDataHtmlGateway;
+        let raceDataHtmlGateway: IBoatraceRaceDataHtmlGateway;
         let repository: BoatraceRaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            boatraceRaceDataHtmlGateway = new MockBoatraceRaceDataHtmlGateway();
+            raceDataHtmlGateway = new MockBoatraceRaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
             container.registerInstance(
                 'BoatraceRaceDataHtmlGateway',
-                boatraceRaceDataHtmlGateway,
+                raceDataHtmlGateway,
             );
 
             // テスト対象のリポジトリを生成

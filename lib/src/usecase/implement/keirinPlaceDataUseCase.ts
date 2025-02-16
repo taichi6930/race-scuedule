@@ -16,13 +16,12 @@ export class KeirinPlaceDataUseCase
 {
     constructor(
         @inject('KeirinPlaceDataService')
-        private readonly keirinPlaceDataService: IPlaceDataService<KeirinPlaceEntity>,
+        private readonly placeDataService: IPlaceDataService<KeirinPlaceEntity>,
     ) {}
     /**
      * 開催場データを取得する
      * @param startDate
      * @param finishDate
-     * @returns
      */
     @Logger
     async fetchPlaceDataList(
@@ -30,15 +29,12 @@ export class KeirinPlaceDataUseCase
         finishDate: Date,
     ): Promise<KeirinPlaceData[]> {
         const placeEntityList: KeirinPlaceEntity[] =
-            await this.keirinPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,
             );
-        const placeDataList: KeirinPlaceData[] = placeEntityList.map(
-            (placeEntity) => placeEntity.placeData,
-        );
-        return placeDataList;
+        return placeEntityList.map(({ placeData }) => placeData);
     }
 
     /**
@@ -64,13 +60,11 @@ export class KeirinPlaceDataUseCase
             0,
         );
         const placeEntityList: KeirinPlaceEntity[] =
-            await this.keirinPlaceDataService.fetchPlaceEntityList(
+            await this.placeDataService.fetchPlaceEntityList(
                 modifyStartDate,
                 modifyFinishDate,
                 DataLocation.Web,
             );
-        await this.keirinPlaceDataService.updatePlaceEntityList(
-            placeEntityList,
-        );
+        await this.placeDataService.updatePlaceEntityList(placeEntityList);
     }
 }

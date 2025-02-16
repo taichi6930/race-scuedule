@@ -26,8 +26,11 @@ export abstract class BaseCalendarService<R extends IRaceEntity<R>>
         startDate: Date,
         finishDate: Date,
     ): Promise<CalendarData[]> {
-        const request = new SearchCalendarFilterEntity(startDate, finishDate);
-        return await this.calendarRepository.getEvents(request);
+        const searchFilter = new SearchCalendarFilterEntity(
+            startDate,
+            finishDate,
+        );
+        return await this.calendarRepository.getEvents(searchFilter);
     }
 
     /**

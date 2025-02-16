@@ -128,7 +128,6 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<BoatraceRaceData> = {}): BoatraceRaceData {
         return new BoatraceRaceData(

@@ -23,7 +23,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
         @inject('AutoraceCalendarService')
         private readonly calendarService: ICalendarService<AutoraceRaceEntity>,
         @inject('AutoraceRaceDataService')
-        private readonly autoraceRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >,
@@ -55,7 +55,7 @@ export class AutoraceRaceCalendarUseCase implements IRaceCalendarUseCase {
         displayGradeList: AutoraceGradeType[],
     ): Promise<void> {
         const raceEntityList: AutoraceRaceEntity[] =
-            await this.autoraceRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,

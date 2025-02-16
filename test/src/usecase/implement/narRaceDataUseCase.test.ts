@@ -13,36 +13,38 @@ import {
     baseNarRaceEntity,
     baseNarRaceEntityList,
 } from '../../mock/common/baseNarData';
-import { mockNarPlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { mockNarRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('NarRaceDataUseCase', () => {
-    let narPlaceDataService: jest.Mocked<IPlaceDataService<NarPlaceEntity>>;
-    let narRaceDataService: jest.Mocked<
+    let placeDataService: jest.Mocked<IPlaceDataService<NarPlaceEntity>>;
+    let raceDataService: jest.Mocked<
         IRaceDataService<NarRaceEntity, NarPlaceEntity>
     >;
     let useCase: NarRaceDataUseCase;
 
     beforeEach(() => {
-        // NarPlaceDataServiceをコンテナに登録
-        narPlaceDataService = mockNarPlaceDataServiceMock();
+        placeDataService = PlaceDataServiceMock<NarPlaceEntity>();
         container.register<IPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
             {
-                useValue: narPlaceDataService,
-            },
-        );
-        // NarRaceDataServiceをコンテナに登録
-        narRaceDataService = mockNarRaceDataServiceMock();
-        container.register<IRaceDataService<NarRaceEntity, NarPlaceEntity>>(
-            'NarRaceDataService',
-            {
-                useValue: narRaceDataService,
+                useValue: placeDataService,
             },
         );
 
-        // NarRaceCalendarUseCaseをコンテナから取得
+        raceDataService = RaceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
+        container.register<IRaceDataService<NarRaceEntity, NarPlaceEntity>>(
+            'NarRaceDataService',
+            {
+                useValue: raceDataService,
+            },
+        );
+
         useCase = container.resolve(NarRaceDataUseCase);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('fetchRaceDataList', () => {
@@ -51,7 +53,7 @@ describe('NarRaceDataUseCase', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -70,7 +72,7 @@ describe('NarRaceDataUseCase', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -91,7 +93,7 @@ describe('NarRaceDataUseCase', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -112,7 +114,7 @@ describe('NarRaceDataUseCase', () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
-            narRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -138,15 +140,15 @@ describe('NarRaceDataUseCase', () => {
             const finishDate = new Date('2024-06-30');
 
             // モックの戻り値を設定
-            narRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
             await useCase.updateRaceEntityList(startDate, finishDate);
 
-            expect(narPlaceDataService.fetchPlaceEntityList).toHaveBeenCalled();
-            expect(narRaceDataService.fetchRaceEntityList).toHaveBeenCalled();
-            expect(narRaceDataService.updateRaceEntityList).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 
@@ -156,7 +158,7 @@ describe('NarRaceDataUseCase', () => {
 
             await useCase.upsertRaceDataList(mockRaceData);
 
-            expect(narRaceDataService.updateRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 });

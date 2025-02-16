@@ -20,7 +20,7 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
         @inject('WorldCalendarService')
         private readonly calendarService: ICalendarService<WorldRaceEntity>,
         @inject('WorldRaceDataService')
-        private readonly worldRaceDataService: IRaceDataService<
+        private readonly raceDataService: IRaceDataService<
             WorldRaceEntity,
             WorldPlaceEntity
         >,
@@ -53,7 +53,7 @@ export class WorldRaceCalendarUseCase implements IRaceCalendarUseCase {
     ): Promise<void> {
         // displayGradeListに含まれるレース情報のみを抽出
         const filteredRaceEntityList: WorldRaceEntity[] = (
-            await this.worldRaceDataService.fetchRaceEntityList(
+            await this.raceDataService.fetchRaceEntityList(
                 startDate,
                 finishDate,
                 DataLocation.Storage,

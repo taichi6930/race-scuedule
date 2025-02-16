@@ -31,15 +31,14 @@ export class KeirinRaceRepositoryFromStorageImpl
         private readonly racePlayerS3Gateway: IS3Gateway<KeirinRacePlayerRecord>,
     ) {}
     /**
-     * 競輪場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
         searchFilter: SearchRaceFilterEntity<KeirinPlaceEntity>,
     ): Promise<KeirinRaceEntity[]> {
-        // ファイル名リストから競輪選手データを取得する
+        // ファイル名リストから選手データを取得する
         const racePlayerRecordList: KeirinRacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 

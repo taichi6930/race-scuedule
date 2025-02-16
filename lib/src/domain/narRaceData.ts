@@ -147,7 +147,6 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<NarRaceData> = {}): NarRaceData {
         return new NarRaceData(

@@ -13,17 +13,17 @@ import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('KeirinRaceRepositoryFromHtmlImpl', () => {
-        let keirinRaceDataHtmlGateway: IKeirinRaceDataHtmlGateway;
+        let raceDataHtmlGateway: IKeirinRaceDataHtmlGateway;
         let repository: KeirinRaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            keirinRaceDataHtmlGateway = new MockKeirinRaceDataHtmlGateway();
+            raceDataHtmlGateway = new MockKeirinRaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
             container.registerInstance(
                 'KeirinRaceDataHtmlGateway',
-                keirinRaceDataHtmlGateway,
+                raceDataHtmlGateway,
             );
 
             // テスト対象のリポジトリを生成

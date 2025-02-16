@@ -85,7 +85,6 @@ export class NarRaceEntity {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<NarRaceEntity> = {}): NarRaceEntity {
         return new NarRaceEntity(
@@ -97,7 +96,6 @@ export class NarRaceEntity {
 
     /**
      * NarRaceRecordに変換する
-     * @returns
      */
     toRaceRecord(): NarRaceRecord {
         return NarRaceRecord.create(
@@ -116,7 +114,6 @@ export class NarRaceEntity {
     /**
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param raceEntity
-     * @returns
      */
     toGoogleCalendarData(
         updateDate: Date = new Date(),

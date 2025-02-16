@@ -67,7 +67,6 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
      * イベントIDを生成する
      * netkeiba、netkeirinのレースIDを元に生成
      * @param raceEntity
-     * @returns
      */
     private generateEventId(raceEntity: WorldRaceEntity): string {
         // w, x, y, zはGoogle Calendar APIのIDで使用できないため、置換

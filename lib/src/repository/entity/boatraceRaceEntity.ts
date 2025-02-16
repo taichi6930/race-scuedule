@@ -92,7 +92,6 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<BoatraceRaceEntity> = {}): BoatraceRaceEntity {
         return BoatraceRaceEntity.create(
@@ -105,7 +104,6 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
 
     /**
      * BoatraceRaceRecordに変換する
-     * @returns
      */
     toRaceRecord(): BoatraceRaceRecord {
         return BoatraceRaceRecord.create(
@@ -123,7 +121,6 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
     /**
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param raceEntity
-     * @returns
      */
     toGoogleCalendarData(
         updateDate: Date = new Date(),
@@ -170,7 +167,6 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
 
     /**
      * BoatraceRacePlayerRecordに変換する
-     * @returns
      */
     toPlayerRecordList(): BoatraceRacePlayerRecord[] {
         return this.racePlayerDataList.map((playerData) =>

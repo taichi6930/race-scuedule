@@ -41,6 +41,7 @@ export abstract class BaseRaceDataService<
 
             const raceEntityList: R[] =
                 await repository.fetchRaceEntityList(fetchRaceListRequest);
+
             return raceEntityList;
         } catch (error) {
             console.error('レースデータの取得に失敗しました', error);

@@ -89,7 +89,6 @@ export class S3Gateway<T extends IRecord<T>> implements IS3Gateway<T> {
      * データをS3から取得する
      *
      * @param fileName
-     * @returns
      */
     @Logger
     async fetchDataFromS3(fileName: string): Promise<string> {

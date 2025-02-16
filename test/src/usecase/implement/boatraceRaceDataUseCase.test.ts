@@ -13,38 +13,40 @@ import {
     baseBoatraceRaceDataList,
     baseBoatraceRaceEntityList,
 } from '../../mock/common/baseBoatraceData';
-import { mockBoatracePlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
-import { mockBoatraceRaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
+import { PlaceDataServiceMock } from '../../mock/service/placeDataServiceMock';
+import { RaceDataServiceMock } from '../../mock/service/raceDataServiceMock';
 
 describe('BoatraceRaceDataUseCase', () => {
-    let boatraceRaceDataService: jest.Mocked<
+    let raceDataService: jest.Mocked<
         IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
     >;
-    let boatracePlaceDataService: jest.Mocked<
-        IPlaceDataService<BoatracePlaceEntity>
-    >;
+    let placeDataService: jest.Mocked<IPlaceDataService<BoatracePlaceEntity>>;
     let useCase: BoatraceRaceDataUseCase;
 
     beforeEach(() => {
-        // BoatraceRaceDataServiceをコンテナに登録
-        boatraceRaceDataService = mockBoatraceRaceDataServiceMock();
+        raceDataService = RaceDataServiceMock<
+            BoatraceRaceEntity,
+            BoatracePlaceEntity
+        >();
         container.register<
             IRaceDataService<BoatraceRaceEntity, BoatracePlaceEntity>
         >('BoatraceRaceDataService', {
-            useValue: boatraceRaceDataService,
+            useValue: raceDataService,
         });
 
-        // BoatracePlaceDataServiceをコンテナに登録
-        boatracePlaceDataService = mockBoatracePlaceDataServiceMock();
+        placeDataService = PlaceDataServiceMock<BoatracePlaceEntity>();
         container.register<IPlaceDataService<BoatracePlaceEntity>>(
             'BoatracePlaceDataService',
             {
-                useValue: boatracePlaceDataService,
+                useValue: placeDataService,
             },
         );
 
-        // BoatraceRaceCalendarUseCaseをコンテナから取得
         useCase = container.resolve(BoatraceRaceDataUseCase);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('fetchRaceDataList', () => {
@@ -54,7 +56,7 @@ describe('BoatraceRaceDataUseCase', () => {
                 baseBoatraceRaceEntityList;
 
             // モックの戻り値を設定
-            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 mockRaceEntity,
             );
 
@@ -141,7 +143,7 @@ describe('BoatraceRaceDataUseCase', () => {
                     baseBoatraceRaceEntityList;
 
                 // モックの戻り値を設定
-                boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+                raceDataService.fetchRaceEntityList.mockResolvedValue(
                     mockRaceEntity,
                 );
 
@@ -173,10 +175,10 @@ describe('BoatraceRaceDataUseCase', () => {
             };
 
             // モックの戻り値を設定
-            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 baseBoatraceRaceEntityList,
             );
-            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -186,15 +188,9 @@ describe('BoatraceRaceDataUseCase', () => {
                 searchList,
             );
 
-            expect(
-                boatracePlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                boatraceRaceDataService.fetchRaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                boatraceRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
 
         it('競輪場がない時、正常にレースデータが更新されないこと', async () => {
@@ -208,10 +204,10 @@ describe('BoatraceRaceDataUseCase', () => {
             };
 
             // モックの戻り値を設定
-            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 baseBoatraceRaceEntityList,
             );
-            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -221,15 +217,9 @@ describe('BoatraceRaceDataUseCase', () => {
                 searchList,
             );
 
-            expect(
-                boatracePlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                boatraceRaceDataService.fetchRaceEntityList,
-            ).not.toHaveBeenCalled();
-            expect(
-                boatraceRaceDataService.updateRaceEntityList,
-            ).not.toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).not.toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).not.toHaveBeenCalled();
         });
 
         it('検索条件がなく、正常にレースデータが更新されること', async () => {
@@ -241,10 +231,10 @@ describe('BoatraceRaceDataUseCase', () => {
             const searchList = {};
 
             // モックの戻り値を設定
-            boatraceRaceDataService.fetchRaceEntityList.mockResolvedValue(
+            raceDataService.fetchRaceEntityList.mockResolvedValue(
                 baseBoatraceRaceEntityList,
             );
-            boatracePlaceDataService.fetchPlaceEntityList.mockResolvedValue(
+            placeDataService.fetchPlaceEntityList.mockResolvedValue(
                 mockPlaceEntity,
             );
 
@@ -254,15 +244,9 @@ describe('BoatraceRaceDataUseCase', () => {
                 searchList,
             );
 
-            expect(
-                boatracePlaceDataService.fetchPlaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                boatraceRaceDataService.fetchRaceEntityList,
-            ).toHaveBeenCalled();
-            expect(
-                boatraceRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(placeDataService.fetchPlaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.fetchRaceEntityList).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 
@@ -272,9 +256,7 @@ describe('BoatraceRaceDataUseCase', () => {
 
             await useCase.upsertRaceDataList(mockRaceData);
 
-            expect(
-                boatraceRaceDataService.updateRaceEntityList,
-            ).toHaveBeenCalled();
+            expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
     });
 });

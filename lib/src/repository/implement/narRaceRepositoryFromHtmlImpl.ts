@@ -25,12 +25,11 @@ export class NarRaceRepositoryFromHtmlImpl
 {
     constructor(
         @inject('NarRaceDataHtmlGateway')
-        private readonly narRaceDataHtmlGateway: INarRaceDataHtmlGateway,
+        private readonly raceDataHtmlGateway: INarRaceDataHtmlGateway,
     ) {}
     /**
-     * 競馬場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(
@@ -55,7 +54,7 @@ export class NarRaceRepositoryFromHtmlImpl
         placeEntity: NarPlaceEntity,
     ): Promise<NarRaceEntity[]> {
         try {
-            const htmlText = await this.narRaceDataHtmlGateway.getRaceDataHtml(
+            const htmlText = await this.raceDataHtmlGateway.getRaceDataHtml(
                 placeEntity.placeData.dateTime,
                 placeEntity.placeData.location,
             );

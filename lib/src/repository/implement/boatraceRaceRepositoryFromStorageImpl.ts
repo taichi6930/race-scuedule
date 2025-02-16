@@ -31,9 +31,8 @@ export class BoatraceRaceRepositoryFromStorageImpl
         private readonly racePlayerS3Gateway: IS3Gateway<BoatraceRacePlayerRecord>,
     ) {}
     /**
-     * ボートレース場開催データを取得する
+     * 開催データを取得する
      * @param searchFilter
-     * @returns
      */
     @Logger
     async fetchRaceEntityList(

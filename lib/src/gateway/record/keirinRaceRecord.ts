@@ -104,7 +104,6 @@ export class KeirinRaceRecord implements IRecord<KeirinRaceRecord> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<KeirinRaceRecord> = {}): KeirinRaceRecord {
         return KeirinRaceRecord.create(

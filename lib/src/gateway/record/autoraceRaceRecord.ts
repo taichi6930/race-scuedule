@@ -101,7 +101,6 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<AutoraceRaceRecord> = {}): AutoraceRaceRecord {
         return AutoraceRaceRecord.create(

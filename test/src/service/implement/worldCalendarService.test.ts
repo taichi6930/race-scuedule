@@ -19,12 +19,15 @@ describe('WorldCalendarService', () => {
 
     beforeEach(() => {
         calendarRepository = mockCalendarRepository<WorldRaceEntity>();
-
         container.registerInstance(
             'WorldCalendarRepository',
             calendarRepository,
         );
         service = container.resolve(WorldCalendarService);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     it('should fetch events', async () => {

@@ -80,7 +80,6 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     /**
      * データのコピー
      * @param partial
-     * @returns
      */
     copy(partial: Partial<JraRaceEntity> = {}): JraRaceEntity {
         return new JraRaceEntity(
@@ -92,7 +91,6 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
 
     /**
      * JraRaceRecordに変換する
-     * @returns
      */
     toRaceRecord(): JraRaceRecord {
         return JraRaceRecord.create(
@@ -113,7 +111,6 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
     /**
      * レースデータをGoogleカレンダーのイベントに変換する
      * @param raceEntity
-     * @returns
      */
     toGoogleCalendarData(
         updateDate: Date = new Date(),
