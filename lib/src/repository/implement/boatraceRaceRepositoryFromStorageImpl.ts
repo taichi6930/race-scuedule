@@ -42,11 +42,11 @@ export class BoatraceRaceRepositoryFromStorageImpl
         const racePlayerRecordList: BoatraceRacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
-        // ボートレースデータを取得する
+        // レースデータを取得する
         const raceRaceRecordList: BoatraceRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
-        // ボートレースデータをBoatraceRaceEntityに変換
+        // RaceEntityに変換
         const raceEntityList: BoatraceRaceEntity[] = raceRaceRecordList.map(
             (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得

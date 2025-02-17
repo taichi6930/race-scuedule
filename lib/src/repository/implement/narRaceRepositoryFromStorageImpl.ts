@@ -34,17 +34,16 @@ export class NarRaceRepositoryFromStorageImpl
             await this.getRaceRecordListFromS3();
 
         // RaceRecordをRaceEntityに変換
-        const newRaceEntityList: NarRaceEntity[] = raceRecordList.map(
+        const raceEntityList: NarRaceEntity[] = raceRecordList.map(
             (raceRecord) => raceRecord.toEntity(),
         );
 
         // フィルタリング処理（日付の範囲指定）
-        const filteredRaceEntityList: NarRaceEntity[] =
-            newRaceEntityList.filter(
-                (raceEntity) =>
-                    raceEntity.raceData.dateTime >= searchFilter.startDate &&
-                    raceEntity.raceData.dateTime <= searchFilter.finishDate,
-            );
+        const filteredRaceEntityList: NarRaceEntity[] = raceEntityList.filter(
+            (raceEntity) =>
+                raceEntity.raceData.dateTime >= searchFilter.startDate &&
+                raceEntity.raceData.dateTime <= searchFilter.finishDate,
+        );
         return filteredRaceEntityList;
     }
 

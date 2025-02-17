@@ -35,7 +35,6 @@ export class AutoraceRaceEntity implements IRaceEntity<AutoraceRaceEntity> {
      * @param raceData - レースデータ
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
-     *
      */
     private constructor(
         public readonly id: AutoraceRaceId,

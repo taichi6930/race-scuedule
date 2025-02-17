@@ -65,7 +65,6 @@ export class JraRaceRecord implements IRecord<JraRaceRecord> {
      * @param heldTimes - 開催回数
      * @param heldDayTimes - 開催日数
      * @param updateDate - 更新日時
-     *
      */
     private constructor(
         public readonly id: JraRaceId,

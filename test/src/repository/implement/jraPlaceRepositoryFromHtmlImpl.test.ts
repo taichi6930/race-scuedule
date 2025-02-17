@@ -27,6 +27,10 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             repository = container.resolve(JraPlaceRepositoryFromHtmlImpl);
         });
 
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
         describe('fetchPlaceList', () => {
             test('正しい競馬場データを1年間の検索で取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(

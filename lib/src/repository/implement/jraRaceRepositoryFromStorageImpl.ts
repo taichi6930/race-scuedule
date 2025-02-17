@@ -35,19 +35,18 @@ export class JraRaceRepositoryFromStorageImpl
             await this.getRaceRecordListFromS3();
 
         // RaceRecordをRaceEntityに変換
-        const newRaceEntityList: JraRaceEntity[] = raceRecordList.map(
+        const raceEntityList: JraRaceEntity[] = raceRecordList.map(
             (raceRecord) => raceRecord.toEntity(),
         );
 
         // フィルタリング処理（日付の範囲指定）
-        const filteredRaceEntityList: JraRaceEntity[] =
-            newRaceEntityList.filter(
-                (raceEntity) =>
-                    getJSTDate(raceEntity.raceData.dateTime) >=
-                        getJSTDate(searchFilter.startDate) &&
-                    getJSTDate(raceEntity.raceData.dateTime) <=
-                        getJSTDate(searchFilter.finishDate),
-            );
+        const filteredRaceEntityList: JraRaceEntity[] = raceEntityList.filter(
+            (raceEntity) =>
+                getJSTDate(raceEntity.raceData.dateTime) >=
+                    getJSTDate(searchFilter.startDate) &&
+                getJSTDate(raceEntity.raceData.dateTime) <=
+                    getJSTDate(searchFilter.finishDate),
+        );
         return filteredRaceEntityList;
     }
 

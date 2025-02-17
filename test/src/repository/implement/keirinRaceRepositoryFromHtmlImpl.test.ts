@@ -30,6 +30,10 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             repository = container.resolve(KeirinRaceRepositoryFromHtmlImpl);
         });
 
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
         describe('fetchPlaceList', () => {
             test('正しい競輪場データを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(

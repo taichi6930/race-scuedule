@@ -36,7 +36,6 @@ export class KeirinRaceEntity implements IRaceEntity<KeirinRaceEntity> {
      * @param raceData - レースデータ
      * @param racePlayerDataList - レースの選手データ
      * @param updateDate - 更新日時
-     *
      */
     private constructor(
         public readonly id: KeirinRaceId,

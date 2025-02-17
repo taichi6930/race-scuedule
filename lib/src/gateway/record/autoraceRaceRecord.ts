@@ -48,7 +48,6 @@ export class AutoraceRaceRecord implements IRecord<AutoraceRaceRecord> {
      * @param grade - グレード
      * @param number - レース番号
      * @param updateDate - 更新日時
-     *
      */
     private constructor(
         public readonly id: AutoraceRaceId,
