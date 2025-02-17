@@ -42,11 +42,11 @@ export class KeirinRaceRepositoryFromStorageImpl
         const racePlayerRecordList: KeirinRacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
-        // 競輪データを取得する
+        // レースデータを取得する
         const raceRaceRecordList: KeirinRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
-        // 競輪データをKeirinRaceEntityに変換
+        // RaceEntityに変換
         const raceEntityList: KeirinRaceEntity[] = raceRaceRecordList.map(
             (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得

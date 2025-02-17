@@ -88,7 +88,6 @@ export class KeirinPlaceRepositoryFromStorageImpl
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 
-        // placeをS3にアップロードする
         await this.s3Gateway.uploadDataToS3(
             existFetchPlaceRecordList,
             this.fileName,

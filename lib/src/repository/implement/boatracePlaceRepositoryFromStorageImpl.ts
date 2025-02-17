@@ -26,9 +26,9 @@ export class BoatracePlaceRepositoryFromStorageImpl
         private readonly s3Gateway: IS3Gateway<BoatracePlaceRecord>,
     ) {}
     /**
-     * ボートレース開催データを取得する
+     * 開催データを取得する
      *
-     * このメソッドで日付の範囲を指定してボートレース開催データを取得する
+     * このメソッドで日付の範囲を指定して開催データを取得する
      *
      * @param request - 開催データ取得リクエスト
      * @returns Promise<BoatracePlaceEntity[]> - 開催データ取得レスポンス
@@ -37,11 +37,10 @@ export class BoatracePlaceRepositoryFromStorageImpl
     async fetchPlaceEntityList(
         searchFilter: SearchPlaceFilterEntity,
     ): Promise<BoatracePlaceEntity[]> {
-        // ファイル名リストからボートレース開催データを取得する
+        // ファイル名リストから開催データを取得する
         const placeRecordList: BoatracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        // BoatracePlaceRecordをBoatracePlaceEntityに変換
         const placeEntityList: BoatracePlaceEntity[] = placeRecordList.map(
             (placeRecord) => placeRecord.toEntity(),
         );
@@ -65,7 +64,6 @@ export class BoatracePlaceRepositoryFromStorageImpl
         const existFetchPlaceRecordList: BoatracePlaceRecord[] =
             await this.getPlaceRecordListFromS3();
 
-        // PlaceEntityをPlaceRecordに変換する
         const placeRecordList: BoatracePlaceRecord[] = placeEntityList.map(
             (placeEntity) => placeEntity.toRecord(),
         );
@@ -88,7 +86,6 @@ export class BoatracePlaceRepositoryFromStorageImpl
             (a, b) => b.dateTime.getTime() - a.dateTime.getTime(),
         );
 
-        // placeをS3にアップロードする
         await this.s3Gateway.uploadDataToS3(
             existFetchPlaceRecordList,
             this.fileName,

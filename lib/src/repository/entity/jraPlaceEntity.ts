@@ -16,7 +16,7 @@ export class JraPlaceEntity implements IPlaceEntity<JraPlaceEntity> {
      * コンストラクタ
      *
      * @remarks
-     * 中央競馬のレース開催場所データを生成する
+     * レース開催場所データを生成する
      * @param id - ID
      * @param placeData - レース開催場所データ
      * @param updateDate - 更新日時

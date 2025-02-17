@@ -42,11 +42,11 @@ export class AutoraceRaceRepositoryFromStorageImpl
         const racePlayerRecordList: AutoraceRacePlayerRecord[] =
             await this.getRacePlayerRecordListFromS3();
 
-        // オートレースデータを取得する
+        // レースデータを取得する
         const raceRaceRecordList: AutoraceRaceRecord[] =
             await this.getRaceRecordListFromS3();
 
-        // オートレースデータをAutoraceRaceEntityに変換
+        // RaceEntityに変換
         const raceEntityList: AutoraceRaceEntity[] = raceRaceRecordList.map(
             (raceRecord) => {
                 // raceIdに対応したracePlayerRecordListを取得

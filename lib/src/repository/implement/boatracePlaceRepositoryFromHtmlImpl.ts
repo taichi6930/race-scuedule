@@ -135,7 +135,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
                 .eq(0)
                 .text()
                 .trim();
-            // 9 / 27(金)～10 / 2(水)から、最初の日と最後の日を取得
+            // 最初の日と最後の日を取得
             const startDateString: string = dateText.split('～')[0];
             const finishDateString = dateText.split('～')[1];
             const startDate = new Date(
