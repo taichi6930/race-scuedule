@@ -55,15 +55,5 @@ export const NarSpecifiedGradeList: NarGradeType[] = [
  * @param grade - 地方競馬のグレード
  * @returns - バリデーション済みの地方競馬のグレード
  */
-export const validateNarGradeType = (
-    grade: string | undefined,
-): NarGradeType => {
-    if (grade === undefined) {
-        throw new Error('地方競馬のグレードがundefinedです');
-    }
-    const result = NarGradeTypeSchema.safeParse(grade);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${grade}`);
-    }
-    return result.data;
-};
+export const validateNarGradeType = (grade: string): NarGradeType =>
+    NarGradeTypeSchema.parse(grade);

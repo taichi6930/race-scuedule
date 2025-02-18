@@ -22,13 +22,8 @@ const AutoraceGradeTypeList: string[] = ['SG', '特GⅠ', 'GⅠ', 'GⅡ', '開�
  * @param grade - オートレースのグレード
  * @returns - バリデーション済みのオートレースのグレード
  */
-export const validateAutoraceGradeType = (grade: string): AutoraceGradeType => {
-    const result = AutoraceGradeTypeSchema.safeParse(grade);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${grade}`);
-    }
-    return result.data;
-};
+export const validateAutoraceGradeType = (grade: string): AutoraceGradeType =>
+    AutoraceGradeTypeSchema.parse(grade);
 
 /**
  * オートレースの指定グレードリスト

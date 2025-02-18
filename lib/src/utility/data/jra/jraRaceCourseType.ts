@@ -22,15 +22,5 @@ const JraRaceCourseTypeList: string[] = ['芝', 'ダート', '障害'];
  * @param type - 中央競馬の馬場種別
  * @returns - バリデーション済みの中央競馬の馬場種別
  */
-export const validateJraRaceCourseType = (
-    type: string | undefined,
-): JraRaceCourseType => {
-    if (type === undefined) {
-        throw new Error('中央競馬の馬場種別がundefinedです');
-    }
-    const result = JraRaceCourseTypeSchema.safeParse(type);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${type}`);
-    }
-    return result.data;
-};
+export const validateJraRaceCourseType = (type: string): JraRaceCourseType =>
+    JraRaceCourseTypeSchema.parse(type);

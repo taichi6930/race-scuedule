@@ -127,10 +127,10 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
     static create(
         name: string | undefined,
         dateTime: Date | string | undefined,
-        location: string | undefined,
-        surfaceType: string | undefined,
+        location: string,
+        surfaceType: string,
         distance: number | undefined,
-        grade: string | undefined,
+        grade: string,
         number: number | undefined,
     ): NarRaceData {
         return new NarRaceData(

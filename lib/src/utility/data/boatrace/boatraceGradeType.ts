@@ -22,13 +22,8 @@ const BoatraceGradeTypeList: string[] = ['SG', 'GⅠ', 'GⅡ', 'GⅢ', '一般']
  * @param grade - ボートレースのグレード
  * @returns - バリデーション済みのボートレースのグレード
  */
-export const validateBoatraceGradeType = (grade: string): BoatraceGradeType => {
-    const result = BoatraceGradeTypeSchema.safeParse(grade);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${grade}`);
-    }
-    return result.data;
-};
+export const validateBoatraceGradeType = (grade: string): BoatraceGradeType =>
+    BoatraceGradeTypeSchema.parse(grade);
 
 /**
  * ボートレースのグレード

@@ -184,10 +184,10 @@ export class NarRaceEntity {
             NarRaceData.create(
                 event.extendedProperties?.private?.name,
                 event.extendedProperties?.private?.dateTime,
-                event.extendedProperties?.private?.location,
-                event.extendedProperties?.private?.surfaceType,
+                event.extendedProperties?.private?.location ?? '',
+                event.extendedProperties?.private?.surfaceType ?? '',
                 Number(event.extendedProperties?.private?.distance),
-                event.extendedProperties?.private?.grade,
+                event.extendedProperties?.private?.grade ?? '',
                 Number(event.extendedProperties?.private?.number),
             ),
             validateUpdateDate(event.extendedProperties?.private?.updateDate),

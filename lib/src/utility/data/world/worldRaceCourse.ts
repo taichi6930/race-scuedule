@@ -109,10 +109,5 @@ export const WorldPlaceCodeMap: Record<string, string> = {
 /**
  * 開催海外競馬場のバリデーション
  */
-export const validateWorldRaceCourse = (course: string): WorldRaceCourse => {
-    const result = WorldRaceCourseSchema.safeParse(course);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${course}`);
-    }
-    return result.data;
-};
+export const validateWorldRaceCourse = (course: string): WorldRaceCourse =>
+    WorldRaceCourseSchema.parse(course);

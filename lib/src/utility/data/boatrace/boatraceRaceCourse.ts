@@ -27,18 +27,6 @@ export const BoatracePlaceCodeMap: Record<string, string> = {
     大村: '24',
 };
 
-/**
- * BoatraceRaceCourseのzod型定義
- */
-export const BoatraceRaceCourseSchema = z.string().refine((value) => {
-    return BoatraceRaceCourseList.includes(value);
-}, 'ボートレース場ではありません');
-
-/**
- * BoatraceRaceCourseの型定義
- */
-export type BoatraceRaceCourse = z.infer<typeof BoatraceRaceCourseSchema>;
-
 const BoatraceRaceCourseList: string[] = [
     '桐生',
     '戸田',
@@ -67,14 +55,20 @@ const BoatraceRaceCourseList: string[] = [
 ];
 
 /**
+ * BoatraceRaceCourseのzod型定義
+ */
+export const BoatraceRaceCourseSchema = z.string().refine((value) => {
+    return BoatraceRaceCourseList.includes(value);
+}, 'ボートレース場ではありません');
+
+/**
+ * BoatraceRaceCourseの型定義
+ */
+export type BoatraceRaceCourse = z.infer<typeof BoatraceRaceCourseSchema>;
+
+/**
  * 開催ボートレース場のバリデーション
  */
 export const validateBoatraceRaceCourse = (
     course: string,
-): BoatraceRaceCourse => {
-    const result = BoatraceRaceCourseSchema.safeParse(course);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${course}`);
-    }
-    return result.data;
-};
+): BoatraceRaceCourse => BoatraceRaceCourseSchema.parse(course);

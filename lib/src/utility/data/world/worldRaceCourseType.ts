@@ -24,10 +24,4 @@ const WorldRaceCourseTypeList: string[] = ['芝', 'ダート', '障害', 'AW'];
  */
 export const validateWorldRaceCourseType = (
     type: string,
-): WorldRaceCourseType => {
-    const result = WorldRaceCourseTypeSchema.safeParse(type);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${type}`);
-    }
-    return result.data;
-};
+): WorldRaceCourseType => WorldRaceCourseTypeSchema.parse(type);

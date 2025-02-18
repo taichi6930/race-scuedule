@@ -89,15 +89,5 @@ export const NarBabacodeMap: Record<string, string> = {
 /**
  * 開催地方競馬場のバリデーション
  */
-export const validateNarRaceCourse = (
-    course: string | undefined,
-): NarRaceCourse => {
-    if (course === undefined) {
-        throw new Error('地方競馬の競馬場がundefinedです');
-    }
-    const result = NarRaceCourseSchema.safeParse(course);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${course}`);
-    }
-    return result.data;
-};
+export const validateNarRaceCourse = (course: string): NarRaceCourse =>
+    NarRaceCourseSchema.parse(course);

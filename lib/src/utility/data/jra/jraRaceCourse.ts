@@ -31,15 +31,5 @@ const JraRaceCourseList: string[] = [
 /**
  * 開催中央競馬場のバリデーション
  */
-export const validateJraRaceCourse = (
-    course: string | undefined,
-): JraRaceCourse => {
-    if (course === undefined) {
-        throw new Error('中央競馬の競馬場がundefinedです');
-    }
-    const result = JraRaceCourseSchema.safeParse(course);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${course}`);
-    }
-    return result.data;
-};
+export const validateJraRaceCourse = (course: string): JraRaceCourse =>
+    JraRaceCourseSchema.parse(course);
