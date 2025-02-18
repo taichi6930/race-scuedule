@@ -130,7 +130,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
      * @param partial
      */
     copy(partial: Partial<KeirinRaceData> = {}): KeirinRaceData {
-        return new KeirinRaceData(
+        return KeirinRaceData.create(
             partial.name ?? this.name,
             partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,

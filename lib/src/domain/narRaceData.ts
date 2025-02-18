@@ -149,7 +149,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * @param partial
      */
     copy(partial: Partial<NarRaceData> = {}): NarRaceData {
-        return new NarRaceData(
+        return NarRaceData.create(
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

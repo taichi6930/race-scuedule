@@ -130,7 +130,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
      * @param partial
      */
     copy(partial: Partial<AutoraceRaceData> = {}): AutoraceRaceData {
-        return new AutoraceRaceData(
+        return AutoraceRaceData.create(
             partial.name ?? this.name,
             partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,

@@ -34,10 +34,4 @@ export type BoatracePlayerNumber = z.infer<typeof BoatracePlayerNumberSchema>;
  */
 export const validateBoatracePlayerNumber = (
     playerNumber: number,
-): BoatracePlayerNumber => {
-    const result = BoatracePlayerNumberSchema.safeParse(playerNumber);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${playerNumber.toString()}`);
-    }
-    return result.data;
-};
+): BoatracePlayerNumber => BoatracePlayerNumberSchema.parse(playerNumber);

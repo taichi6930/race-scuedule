@@ -22,12 +22,4 @@ export type BoatracePositionNumber = z.infer<
  */
 export const validateBoatracePositionNumber = (
     positionNumber: number,
-): BoatracePositionNumber => {
-    const result = BoatracePositionNumberSchema.safeParse(positionNumber);
-    if (!result.success) {
-        throw new Error(
-            `${result.error.message}: ${positionNumber.toString()}`,
-        );
-    }
-    return result.data;
-};
+): BoatracePositionNumber => BoatracePositionNumberSchema.parse(positionNumber);

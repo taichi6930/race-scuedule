@@ -48,10 +48,4 @@ export type BoatraceRacePlayerId = z.infer<typeof BoatraceRacePlayerIdSchema>;
  */
 export const validateBoatraceRacePlayerId = (
     value: string,
-): BoatraceRacePlayerId => {
-    const result = BoatraceRacePlayerIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+): BoatraceRacePlayerId => BoatraceRacePlayerIdSchema.parse(value);

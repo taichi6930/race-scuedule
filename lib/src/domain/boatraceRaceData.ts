@@ -130,7 +130,7 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
      * @param partial
      */
     copy(partial: Partial<BoatraceRaceData> = {}): BoatraceRaceData {
-        return new BoatraceRaceData(
+        return BoatraceRaceData.create(
             partial.name ?? this.name,
             partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,

@@ -34,10 +34,4 @@ export type AutoracePlayerNumber = z.infer<typeof AutoracePlayerNumberSchema>;
  */
 export const validateAutoracePlayerNumber = (
     playerNumber: number,
-): AutoracePlayerNumber => {
-    const result = AutoracePlayerNumberSchema.safeParse(playerNumber);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${playerNumber.toString()}`);
-    }
-    return result.data;
-};
+): AutoracePlayerNumber => AutoracePlayerNumberSchema.parse(playerNumber);

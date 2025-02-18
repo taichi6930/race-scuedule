@@ -162,8 +162,8 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
         distance: number,
         grade: string,
         number: number,
-        heldTimes: number | undefined,
-        heldDayTimes: number | undefined,
+        heldTimes: number,
+        heldDayTimes: number,
     ): JraRaceData {
         return new JraRaceData(
             validateJraRaceName(name),
@@ -183,7 +183,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      * @param partial
      */
     copy(partial: Partial<JraRaceData> = {}): JraRaceData {
-        return new JraRaceData(
+        return JraRaceData.create(
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

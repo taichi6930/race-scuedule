@@ -147,7 +147,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
      * @param partial
      */
     copy(partial: Partial<WorldRaceData> = {}): WorldRaceData {
-        return new WorldRaceData(
+        return WorldRaceData.create(
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,
