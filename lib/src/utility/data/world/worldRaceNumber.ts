@@ -17,7 +17,5 @@ export type WorldRaceNumber = z.infer<typeof WorldRaceNumberSchema>;
  * @param {number} number - レース番号
  * @returns {WorldRaceNumber} - バリデーション済みのレース番号
  */
-export const validateWorldRaceNumber = (number: number): WorldRaceNumber => {
-    const result = WorldRaceNumberSchema.parse(number);
-    return result;
-};
+export const validateWorldRaceNumber = (number: number): WorldRaceNumber =>
+    WorldRaceNumberSchema.parse(number);

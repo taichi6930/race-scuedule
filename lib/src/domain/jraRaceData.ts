@@ -161,7 +161,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
         surfaceType: string,
         distance: number,
         grade: string,
-        number: number | undefined,
+        number: number,
         heldTimes: number | undefined,
         heldDayTimes: number | undefined,
     ): JraRaceData {

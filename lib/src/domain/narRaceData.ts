@@ -131,7 +131,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
         surfaceType: string,
         distance: number,
         grade: string,
-        number: number | undefined,
+        number: number,
     ): NarRaceData {
         return new NarRaceData(
             validateNarRaceName(name),

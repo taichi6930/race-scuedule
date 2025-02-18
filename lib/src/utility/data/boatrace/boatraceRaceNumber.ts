@@ -22,10 +22,4 @@ export type BoatraceRaceNumber = z.infer<typeof BoatraceRaceNumberSchema>;
  */
 export const validateBoatraceRaceNumber = (
     number: number,
-): BoatraceRaceNumber => {
-    const result = BoatraceRaceNumberSchema.safeParse(number);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${number.toString()}`);
-    }
-    return result.data;
-};
+): BoatraceRaceNumber => BoatraceRaceNumberSchema.parse(number);
