@@ -147,13 +147,8 @@ export const KeirinSpecifiedGradeAndStageList: {
  * @param stage - ステージ
  * @returns - バリデーション済みのステージ
  */
-export const validateKeirinRaceStage = (stage: string): KeirinRaceStage => {
-    const result = KeirinRaceStageSchema.safeParse(stage);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${stage}`);
-    }
-    return result.data;
-};
+export const validateKeirinRaceStage = (stage: string): KeirinRaceStage =>
+    KeirinRaceStageSchema.parse(stage);
 
 /**
  * HTMLのステージ名を正式名称に変換するためのマップ

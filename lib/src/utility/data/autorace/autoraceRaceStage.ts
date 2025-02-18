@@ -19,13 +19,8 @@ export type AutoraceRaceStage = z.infer<typeof AutoraceRaceStageSchema>;
  * @param stage - ステージ
  * @returns - バリデーション済みのステージ
  */
-export const validateAutoraceRaceStage = (stage: string): AutoraceRaceStage => {
-    const result = AutoraceRaceStageSchema.safeParse(stage);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${stage}`);
-    }
-    return result.data;
-};
+export const validateAutoraceRaceStage = (stage: string): AutoraceRaceStage =>
+    AutoraceRaceStageSchema.parse(stage);
 
 /**
  * ボートレースのステージ リスト
