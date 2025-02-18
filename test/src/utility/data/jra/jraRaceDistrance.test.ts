@@ -16,11 +16,4 @@ describe('JraRaceDistance', () => {
             '距離は0よりも大きい必要があります',
         );
     });
-
-    it('異常系: レース距離がundefinedの場合', () => {
-        const distance = undefined;
-        expect(() => validateJraRaceDistance(distance)).toThrow(
-            '距離がundefinedです',
-        );
-    });
 });

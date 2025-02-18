@@ -129,7 +129,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
         dateTime: Date | string | undefined,
         location: string,
         surfaceType: string,
-        distance: number | undefined,
+        distance: number,
         grade: string,
         number: number | undefined,
     ): NarRaceData {

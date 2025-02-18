@@ -16,11 +16,4 @@ describe('NarRaceDistance', () => {
             '距離は0よりも大きい必要があります',
         );
     });
-
-    it('異常系: レース距離がundefinedの場合', () => {
-        const distance = undefined;
-        expect(() => validateNarRaceDistance(distance)).toThrow(
-            '地方競馬の距離がundefinedです',
-        );
-    });
 });
