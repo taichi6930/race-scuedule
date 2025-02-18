@@ -87,7 +87,7 @@ export class NarRaceEntity {
      * @param partial
      */
     copy(partial: Partial<NarRaceEntity> = {}): NarRaceEntity {
-        return new NarRaceEntity(
+        return NarRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.updateDate ?? this.updateDate,
@@ -179,8 +179,8 @@ export class NarRaceEntity {
     static fromGoogleCalendarDataToRaceEntity(
         event: calendar_v3.Schema$Event,
     ): NarRaceEntity {
-        return new NarRaceEntity(
-            validateNarRaceId(event.extendedProperties?.private?.raceId),
+        return NarRaceEntity.create(
+            event.extendedProperties?.private?.raceId ?? '',
             NarRaceData.create(
                 event.extendedProperties?.private?.name,
                 event.extendedProperties?.private?.dateTime,

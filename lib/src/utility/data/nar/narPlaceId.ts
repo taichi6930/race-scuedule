@@ -23,10 +23,5 @@ export type NarPlaceId = z.infer<typeof NarPlaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのNarPlaceId
  */
-export const validateNarPlaceId = (value: string): NarPlaceId => {
-    const result = NarPlaceIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+export const validateNarPlaceId = (value: string): NarPlaceId =>
+    NarPlaceIdSchema.parse(value);

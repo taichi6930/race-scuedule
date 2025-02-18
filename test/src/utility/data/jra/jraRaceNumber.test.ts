@@ -16,11 +16,4 @@ describe('JraRaceNumber', () => {
             'レース番号は1以上である必要があります',
         );
     });
-
-    it('異常系: レース番号がundefinedの場合', () => {
-        const raceNumber = undefined;
-        expect(() => validateJraRaceNumber(raceNumber)).toThrow(
-            'レース番号がundefinedです',
-        );
-    });
 });

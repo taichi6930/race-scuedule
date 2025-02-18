@@ -23,10 +23,5 @@ export type JraPlaceId = z.infer<typeof JraPlaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのJraPlaceId
  */
-export const validateJraPlaceId = (value: string): JraPlaceId => {
-    const result = JraPlaceIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+export const validateJraPlaceId = (value: string): JraPlaceId =>
+    JraPlaceIdSchema.parse(value);
