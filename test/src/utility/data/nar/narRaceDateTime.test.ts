@@ -20,9 +20,4 @@ describe('NarRaceDateTime', () => {
         const dateTime = '2021-01-500';
         expect(() => validateNarRaceDateTime(dateTime)).toThrow();
     });
-
-    it('異常系 undefined', () => {
-        const dateTime = undefined;
-        expect(() => validateNarRaceDateTime(dateTime)).toThrow();
-    });
 });

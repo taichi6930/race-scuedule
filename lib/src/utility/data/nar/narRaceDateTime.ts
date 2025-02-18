@@ -16,17 +16,10 @@ export type NarRaceDateTime = z.infer<typeof NarRaceDateTimeSchema>;
  * @returns - バリデーション済みの開催日時
  */
 export const validateNarRaceDateTime = (
-    dateTime: string | Date | undefined,
+    dateTime: string | Date,
 ): NarRaceDateTime => {
-    if (dateTime === undefined) {
-        throw new Error('dateTime is undefined');
-    }
     if (typeof dateTime === 'string') {
         dateTime = new Date(dateTime);
     }
-    const result = NarRaceDateTimeSchema.safeParse(dateTime);
-    if (!result.success) {
-        throw new Error(result.error.message);
-    }
-    return result.data;
+    return NarRaceDateTimeSchema.parse(dateTime);
 };

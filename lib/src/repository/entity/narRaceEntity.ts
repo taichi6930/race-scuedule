@@ -183,7 +183,7 @@ export class NarRaceEntity {
             event.extendedProperties?.private?.raceId ?? '',
             NarRaceData.create(
                 event.extendedProperties?.private?.name ?? '',
-                event.extendedProperties?.private?.dateTime,
+                event.extendedProperties?.private?.dateTime ?? new Date(),
                 event.extendedProperties?.private?.location ?? '',
                 event.extendedProperties?.private?.surfaceType ?? '',
                 Number(event.extendedProperties?.private?.distance),
