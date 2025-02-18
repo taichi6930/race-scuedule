@@ -2,8 +2,8 @@ name: Race Schedule Batch
 
 on:
   schedule:
-    # 日本時間の毎日21時に実行
-    - cron: '0 12 * * *'
+    # 日本時間の毎日6,16,22時に実行
+    - cron: '0 7,13,21 * * *'
   workflow_dispatch:
     inputs:
       start-date:
