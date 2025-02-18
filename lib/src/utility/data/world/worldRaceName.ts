@@ -15,10 +15,5 @@ export type WorldRaceName = z.infer<typeof WorldRaceNameSchema>;
  * @param name - 海外競馬のレース名
  * @returns - バリデーション済みの海外競馬のレース名
  */
-export const validateWorldRaceName = (name: string): WorldRaceName => {
-    const result = WorldRaceNameSchema.safeParse(name);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${name}`);
-    }
-    return result.data;
-};
+export const validateWorldRaceName = (name: string): WorldRaceName =>
+    WorldRaceNameSchema.parse(name);

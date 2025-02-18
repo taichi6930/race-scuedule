@@ -14,11 +14,5 @@ describe('JraRaceName', () => {
                 '空文字は許可されていません',
             );
         });
-
-        it('異常系: undefined', () => {
-            expect(() => validateJraRaceName(undefined)).toThrow(
-                '中央競馬のレース名がundefinedです',
-            );
-        });
     });
 });

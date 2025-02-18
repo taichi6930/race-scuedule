@@ -125,7 +125,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * @param number - レース番号
      */
     static create(
-        name: string | undefined,
+        name: string,
         dateTime: Date | string | undefined,
         location: string,
         surfaceType: string,

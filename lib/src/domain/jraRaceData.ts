@@ -155,7 +155,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      * @param heldDayTimes - 開催日数
      */
     static create(
-        name: string | undefined,
+        name: string,
         dateTime: Date | string | undefined,
         location: string,
         surfaceType: string,

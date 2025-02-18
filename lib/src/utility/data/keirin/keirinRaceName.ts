@@ -15,10 +15,5 @@ export type KeirinRaceName = z.infer<typeof KeirinRaceNameSchema>;
  * @param name - 競輪のレース名
  * @returns - バリデーション済みの競輪のレース名
  */
-export const validateKeirinRaceName = (name: string): KeirinRaceName => {
-    const result = KeirinRaceNameSchema.safeParse(name);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${name}`);
-    }
-    return result.data;
-};
+export const validateKeirinRaceName = (name: string): KeirinRaceName =>
+    KeirinRaceNameSchema.parse(name);

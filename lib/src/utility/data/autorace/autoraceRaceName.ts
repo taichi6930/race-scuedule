@@ -15,10 +15,5 @@ export type AutoraceRaceName = z.infer<typeof AutoraceRaceNameSchema>;
  * @param name - オートレースのレース名
  * @returns - バリデーション済みのオートレースのレース名
  */
-export const validateAutoraceRaceName = (name: string): AutoraceRaceName => {
-    const result = AutoraceRaceNameSchema.safeParse(name);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${name}`);
-    }
-    return result.data;
-};
+export const validateAutoraceRaceName = (name: string): AutoraceRaceName =>
+    AutoraceRaceNameSchema.parse(name);
