@@ -1,4 +1,36 @@
-import { z } from 'zod';
+import type { z } from 'zod';
+
+import {
+    BaseRaceCourseSchema,
+    validateBaseRaceCourse,
+} from '../base/baseRaceCourse';
+
+const BoatraceRaceCourseList: string[] = [
+    '桐生',
+    '戸田',
+    '江戸川',
+    '平和島',
+    '多摩川',
+    '浜名湖',
+    '蒲郡',
+    '常滑',
+    '津',
+    '三国',
+    'びわこ',
+    '住之江',
+    '尼崎',
+    '鳴門',
+    '丸亀',
+    '児島',
+    '宮島',
+    '徳山',
+    '下関',
+    '若松',
+    '芦屋',
+    '福岡',
+    '唐津',
+    '大村',
+];
 
 export const BoatracePlaceCodeMap: Record<string, string> = {
     桐生: '01',
@@ -30,51 +62,20 @@ export const BoatracePlaceCodeMap: Record<string, string> = {
 /**
  * BoatraceRaceCourseのzod型定義
  */
-export const BoatraceRaceCourseSchema = z.string().refine((value) => {
-    return BoatraceRaceCourseList.includes(value);
-}, 'ボートレース場ではありません');
+export const BoatraceRaceCourseSchema = BaseRaceCourseSchema(
+    BoatraceRaceCourseList,
+    'ボートレース場',
+);
 
 /**
  * BoatraceRaceCourseの型定義
  */
 export type BoatraceRaceCourse = z.infer<typeof BoatraceRaceCourseSchema>;
 
-const BoatraceRaceCourseList: string[] = [
-    '桐生',
-    '戸田',
-    '江戸川',
-    '平和島',
-    '多摩川',
-    '浜名湖',
-    '蒲郡',
-    '常滑',
-    '津',
-    '三国',
-    'びわこ',
-    '住之江',
-    '尼崎',
-    '鳴門',
-    '丸亀',
-    '児島',
-    '宮島',
-    '徳山',
-    '下関',
-    '若松',
-    '芦屋',
-    '福岡',
-    '唐津',
-    '大村',
-];
-
 /**
  * 開催ボートレース場のバリデーション
  */
 export const validateBoatraceRaceCourse = (
     course: string,
-): BoatraceRaceCourse => {
-    const result = BoatraceRaceCourseSchema.safeParse(course);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${course}`);
-    }
-    return result.data;
-};
+): BoatraceRaceCourse =>
+    validateBaseRaceCourse(course, BoatraceRaceCourseSchema);

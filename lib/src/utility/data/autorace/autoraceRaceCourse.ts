@@ -1,16 +1,9 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 
-/**
- * AutoraceRaceCourseのzod型定義
- */
-export const AutoraceRaceCourseSchema = z.string().refine((value) => {
-    return AutoraceRaceCourseList.includes(value);
-}, 'オートレース場ではありません');
-
-/**
- * AutoraceRaceCourseの型定義
- */
-export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
+import {
+    BaseRaceCourseSchema,
+    validateBaseRaceCourse,
+} from '../base/baseRaceCourse';
 
 /**
  * オートレース場リスト
@@ -25,19 +18,6 @@ const AutoraceRaceCourseList: string[] = [
 ];
 
 /**
- * 開催オートレース場のバリデーション
- */
-export const validateAutoraceRaceCourse = (
-    course: string,
-): AutoraceRaceCourse => {
-    const result = AutoraceRaceCourseSchema.safeParse(course);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${course}`);
-    }
-    return result.data;
-};
-
-/**
  * オートレースのレース場名とコードの対応表
  */
 export const AutoracePlaceCodeMap: Record<string, string> = {
@@ -48,3 +28,24 @@ export const AutoracePlaceCodeMap: Record<string, string> = {
     飯塚: '05',
     山陽: '06',
 };
+
+/**
+ * オートレース場のzod型定義
+ */
+export const AutoraceRaceCourseSchema = BaseRaceCourseSchema(
+    AutoraceRaceCourseList,
+    'オートレース場',
+);
+
+/**
+ * AutoraceRaceCourseの型定義
+ */
+export type AutoraceRaceCourse = z.infer<typeof AutoraceRaceCourseSchema>;
+
+/**
+ * 開催オートレース場のバリデーション
+ */
+export const validateAutoraceRaceCourse = (
+    course: string,
+): AutoraceRaceCourse =>
+    validateBaseRaceCourse(course, AutoraceRaceCourseSchema);
