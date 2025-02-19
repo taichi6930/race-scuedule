@@ -2,8 +2,10 @@ import type { AutoraceGradeType } from '../utility/data/autorace/autoraceGradeTy
 import { validateAutoraceGradeType } from '../utility/data/autorace/autoraceGradeType';
 import type { AutoraceRaceCourse } from '../utility/data/autorace/autoraceRaceCourse';
 import { validateAutoraceRaceCourse } from '../utility/data/autorace/autoraceRaceCourse';
-import type { AutoraceRaceDate } from '../utility/data/autorace/autoraceRaceDate';
-import { validateAutoraceRaceDate } from '../utility/data/autorace/autoraceRaceDate';
+import {
+    type AutoraceRaceDateTime,
+    validateAutoraceRaceDateTime,
+} from '../utility/data/autorace/autoraceRaceDateTime';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -13,10 +15,10 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
     /**
      * 開催日時
      *
-     * @type {AutoraceRaceDate}
+     * @type {AutoraceRaceDateTime}
      * @memberof AutoracePlaceData
      */
-    public readonly dateTime: AutoraceRaceDate;
+    public readonly dateTime: AutoraceRaceDateTime;
     /**
      * 開催場所
      *
@@ -42,7 +44,7 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
      * @param grade - グレード
      */
     private constructor(
-        dateTime: AutoraceRaceDate,
+        dateTime: AutoraceRaceDateTime,
         location: AutoraceRaceCourse,
         grade: AutoraceGradeType,
     ) {
@@ -64,7 +66,7 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
         grade: string,
     ): AutoracePlaceData {
         return new AutoracePlaceData(
-            validateAutoraceRaceDate(dateTime),
+            validateAutoraceRaceDateTime(dateTime),
             validateAutoraceRaceCourse(location),
             validateAutoraceGradeType(grade),
         );

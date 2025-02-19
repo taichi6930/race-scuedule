@@ -156,7 +156,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      */
     static create(
         name: string,
-        dateTime: Date | string,
+        dateTime: Date,
         location: string,
         surfaceType: string,
         distance: number,

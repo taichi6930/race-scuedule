@@ -16,11 +16,5 @@ export type BoatraceRaceDateTime = z.infer<typeof BoatraceRaceDateTimeSchema>;
  * @returns - バリデーション済みの開催日時
  */
 export const validateBoatraceRaceDateTime = (
-    dateTime: unknown,
-): BoatraceRaceDateTime => {
-    const result = BoatraceRaceDateTimeSchema.safeParse(dateTime);
-    if (!result.success) {
-        throw new Error(result.error.message);
-    }
-    return result.data;
-};
+    dateTime: Date,
+): BoatraceRaceDateTime => BoatraceRaceDateTimeSchema.parse(dateTime);

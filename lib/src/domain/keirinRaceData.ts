@@ -6,8 +6,8 @@ import {
     type KeirinRaceCourse,
     validateKeirinRaceCourse,
 } from '../utility/data/keirin/keirinRaceCourse';
-import { validateKeirinRaceDate } from '../utility/data/keirin/keirinRaceDate';
 import type { KeirinRaceDateTime } from '../utility/data/keirin/keirinRaceDateTime';
+import { validateKeirinRaceDateTime } from '../utility/data/keirin/keirinRaceDateTime';
 import {
     type KeirinRaceName,
     validateKeirinRaceName,
@@ -118,7 +118,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
         return new KeirinRaceData(
             validateKeirinRaceName(name),
             validateKeirinRaceStage(stage),
-            validateKeirinRaceDate(dateTime),
+            validateKeirinRaceDateTime(dateTime),
             validateKeirinRaceCourse(location),
             validateKeirinGradeType(grade),
             validateKeirinRaceNumber(number),

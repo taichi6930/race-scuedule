@@ -15,11 +15,5 @@ export type NarRaceDateTime = z.infer<typeof NarRaceDateTimeSchema>;
  * @param dateTime - 開催日時
  * @returns - バリデーション済みの開催日時
  */
-export const validateNarRaceDateTime = (
-    dateTime: string | Date,
-): NarRaceDateTime => {
-    if (typeof dateTime === 'string') {
-        dateTime = new Date(dateTime);
-    }
-    return NarRaceDateTimeSchema.parse(dateTime);
-};
+export const validateNarRaceDateTime = (dateTime: Date): NarRaceDateTime =>
+    NarRaceDateTimeSchema.parse(dateTime);

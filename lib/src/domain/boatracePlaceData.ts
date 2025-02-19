@@ -2,8 +2,8 @@ import type { BoatraceGradeType } from '../utility/data/boatrace/boatraceGradeTy
 import { validateBoatraceGradeType } from '../utility/data/boatrace/boatraceGradeType';
 import type { BoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
 import { validateBoatraceRaceCourse } from '../utility/data/boatrace/boatraceRaceCourse';
-import type { BoatraceRaceDate } from '../utility/data/boatrace/boatraceRaceDate';
-import { validateBoatraceRaceDate } from '../utility/data/boatrace/boatraceRaceDate';
+import type { BoatraceRaceDateTime } from '../utility/data/boatrace/boatraceRaceDateTime';
+import { validateBoatraceRaceDateTime } from '../utility/data/boatrace/boatraceRaceDateTime';
 import type { IPlaceData } from './iPlaceData';
 
 /**
@@ -13,10 +13,10 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
     /**
      * 開催日時
      *
-     * @type {BoatraceRaceDate}
+     * @type {BoatraceRaceDateTime}
      * @memberof BoatracePlaceData
      */
-    public readonly dateTime: BoatraceRaceDate;
+    public readonly dateTime: BoatraceRaceDateTime;
     /**
      * 開催場所
      *
@@ -42,7 +42,7 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
      * @param grade - グレード
      */
     private constructor(
-        dateTime: BoatraceRaceDate,
+        dateTime: BoatraceRaceDateTime,
         location: BoatraceRaceCourse,
         grade: BoatraceGradeType,
     ) {
@@ -64,7 +64,7 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
         grade: string,
     ): BoatracePlaceData {
         return new BoatracePlaceData(
-            validateBoatraceRaceDate(dateTime),
+            validateBoatraceRaceDateTime(dateTime),
             validateBoatraceRaceCourse(location),
             validateBoatraceGradeType(grade),
         );

@@ -16,11 +16,5 @@ export type KeirinRaceDateTime = z.infer<typeof KeirinRaceDateTimeSchema>;
  * @returns - バリデーション済みの開催日時
  */
 export const validateKeirinRaceDateTime = (
-    dateTime: unknown,
-): KeirinRaceDateTime => {
-    const result = KeirinRaceDateTimeSchema.safeParse(dateTime);
-    if (!result.success) {
-        throw new Error(result.error.message);
-    }
-    return result.data;
-};
+    dateTime: Date,
+): KeirinRaceDateTime => KeirinRaceDateTimeSchema.parse(dateTime);

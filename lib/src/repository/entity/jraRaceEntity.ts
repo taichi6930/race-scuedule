@@ -179,7 +179,7 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
             validateJraRaceId(event.extendedProperties?.private?.raceId ?? ''),
             JraRaceData.create(
                 event.extendedProperties?.private?.name ?? '',
-                event.extendedProperties?.private?.dateTime ?? '',
+                new Date(event.extendedProperties?.private?.dateTime ?? ''),
                 event.extendedProperties?.private?.location ?? '',
                 event.extendedProperties?.private?.surfaceType ?? '',
                 Number(event.extendedProperties?.private?.distance),

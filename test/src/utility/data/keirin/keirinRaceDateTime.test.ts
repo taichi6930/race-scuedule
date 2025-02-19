@@ -11,7 +11,7 @@ describe('KeirinRaceDateTime', () => {
     });
 
     it('異常系', () => {
-        const dateTime = '2021-01-01';
+        const dateTime = new Date('');
         expect(() => validateKeirinRaceDateTime(dateTime)).toThrow();
     });
 });

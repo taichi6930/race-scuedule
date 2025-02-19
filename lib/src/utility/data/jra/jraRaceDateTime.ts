@@ -15,11 +15,5 @@ export type JraRaceDateTime = z.infer<typeof JraRaceDateTimeSchema>;
  * @param dateTime - 開催日時
  * @returns - バリデーション済みの開催日時
  */
-export const validateJraRaceDateTime = (
-    dateTime: string | Date,
-): JraRaceDateTime => {
-    if (typeof dateTime === 'string') {
-        dateTime = new Date(dateTime);
-    }
-    return JraRaceDateTimeSchema.parse(dateTime);
-};
+export const validateJraRaceDateTime = (dateTime: Date): JraRaceDateTime =>
+    JraRaceDateTimeSchema.parse(dateTime);
