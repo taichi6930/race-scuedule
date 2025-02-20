@@ -12,8 +12,6 @@ import {
 } from '../../mock/common/baseKeirinData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
-jest.mock('../../../../lib/src/gateway/interface/iCalendarGateway');
-
 describe('KeirinGoogleCalendarRepositoryImpl', () => {
     let repository: KeirinGoogleCalendarRepositoryImpl;
     let googleCalendarGateway: jest.Mocked<ICalendarGateway>;

@@ -12,8 +12,6 @@ import {
 } from '../../mock/common/baseNarData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
-jest.mock('../../../../lib/src/gateway/interface/iCalendarGateway');
-
 describe('NarGoogleCalendarRepositoryImpl', () => {
     let repository: NarGoogleCalendarRepositoryImpl;
     let googleCalendarGateway: jest.Mocked<ICalendarGateway>;
