@@ -12,8 +12,6 @@ import {
 } from '../../mock/common/baseJraData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
-jest.mock('../../../../lib/src/gateway/interface/iCalendarGateway');
-
 describe('JraGoogleCalendarRepositoryImpl', () => {
     let repository: JraGoogleCalendarRepositoryImpl;
     let googleCalendarGateway: jest.Mocked<ICalendarGateway>;

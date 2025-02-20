@@ -87,7 +87,7 @@ export class NarRaceEntity {
      * @param partial
      */
     copy(partial: Partial<NarRaceEntity> = {}): NarRaceEntity {
-        return new NarRaceEntity(
+        return NarRaceEntity.create(
             partial.id ?? this.id,
             partial.raceData ?? this.raceData,
             partial.updateDate ?? this.updateDate,
@@ -144,7 +144,7 @@ export class NarRaceEntity {
                 ${createAnchorTag('レース映像（地方競馬LIVE）', CHIHO_KEIBA_LIVE_URL)}
                 ${createAnchorTag('レース映像（YouTube）', getYoutubeLiveUrl(ChihoKeibaYoutubeUserIdMap[this.raceData.location]))}
                 ${createAnchorTag('レース情報（netkeiba）', `https://netkeiba.page.link/?link=https%3A%2F%2Fnar.sp.netkeiba.com%2Frace%2Fshutuba.html%3Frace_id%3D${this.raceData.dateTime.getFullYear().toString()}${NetkeibaBabacodeMap[this.raceData.location]}${(this.raceData.dateTime.getMonth() + 1).toXDigits(2)}${this.raceData.dateTime.getDate().toXDigits(2)}${this.raceData.number.toXDigits(2)}`)}
-                ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_raceDate=${this.raceData.dateTime.getFullYear().toString()}%2f${this.raceData.dateTime.getXDigitMonth(2)}%2f${this.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${this.raceData.number.toXDigits(2)}&k_babaCode=${NarBabacodeMap[this.raceData.location]}`)}
+                ${createAnchorTag('レース情報（NAR）', `https://www2.keiba.go.jp/KeibaWeb/TodayRaceInfo/DebaTable?k_RaceDateTime=${this.raceData.dateTime.getFullYear().toString()}%2f${this.raceData.dateTime.getXDigitMonth(2)}%2f${this.raceData.dateTime.getXDigitDays(2)}&k_raceNo=${this.raceData.number.toXDigits(2)}&k_babaCode=${NarBabacodeMap[this.raceData.location]}`)}
                 更新日時: ${format(getJSTDate(updateDate), 'yyyy/MM/dd HH:mm:ss')}
             `.replace(/\n\s+/g, '\n'),
             extendedProperties: {
@@ -179,15 +179,15 @@ export class NarRaceEntity {
     static fromGoogleCalendarDataToRaceEntity(
         event: calendar_v3.Schema$Event,
     ): NarRaceEntity {
-        return new NarRaceEntity(
-            validateNarRaceId(event.extendedProperties?.private?.raceId),
+        return NarRaceEntity.create(
+            event.extendedProperties?.private?.raceId ?? '',
             NarRaceData.create(
-                event.extendedProperties?.private?.name,
-                event.extendedProperties?.private?.dateTime,
-                event.extendedProperties?.private?.location,
-                event.extendedProperties?.private?.surfaceType,
+                event.extendedProperties?.private?.name ?? '',
+                new Date(event.extendedProperties?.private?.dateTime ?? ''),
+                event.extendedProperties?.private?.location ?? '',
+                event.extendedProperties?.private?.surfaceType ?? '',
                 Number(event.extendedProperties?.private?.distance),
-                event.extendedProperties?.private?.grade,
+                event.extendedProperties?.private?.grade ?? '',
                 Number(event.extendedProperties?.private?.number),
             ),
             validateUpdateDate(event.extendedProperties?.private?.updateDate),

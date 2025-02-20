@@ -15,13 +15,5 @@ export type NarRaceName = z.infer<typeof NarRaceNameSchema>;
  * @param name - 地方競馬のレース名
  * @returns - バリデーション済みの地方競馬のレース名
  */
-export const validateNarRaceName = (name: string | undefined): NarRaceName => {
-    if (name === undefined) {
-        throw new Error('地方競馬のレース名がundefinedです');
-    }
-    const result = NarRaceNameSchema.safeParse(name);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${name}`);
-    }
-    return result.data;
-};
+export const validateNarRaceName = (name: string): NarRaceName =>
+    NarRaceNameSchema.parse(name);

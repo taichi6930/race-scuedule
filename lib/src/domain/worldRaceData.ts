@@ -10,8 +10,8 @@ import {
     validateWorldRaceCourseType,
     type WorldRaceCourseType,
 } from '../utility/data/world/worldRaceCourseType';
-import { validateWorldRaceDate } from '../utility/data/world/worldRaceDate';
 import type { WorldRaceDateTime } from '../utility/data/world/worldRaceDateTime';
+import { validateWorldRaceDateTime } from '../utility/data/world/worldRaceDateTime';
 import {
     validateWorldRaceDistance,
     type WorldRaceDistance,
@@ -133,7 +133,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
     ): WorldRaceData {
         return new WorldRaceData(
             validateWorldRaceName(name),
-            validateWorldRaceDate(dateTime),
+            validateWorldRaceDateTime(dateTime),
             validateWorldRaceCourse(location),
             validateWorldRaceCourseType(surfaceType),
             validateWorldRaceDistance(distance),
@@ -147,7 +147,7 @@ export class WorldRaceData implements IPlaceData<WorldRaceData> {
      * @param partial
      */
     copy(partial: Partial<WorldRaceData> = {}): WorldRaceData {
-        return new WorldRaceData(
+        return WorldRaceData.create(
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

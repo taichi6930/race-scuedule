@@ -125,13 +125,13 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * @param number - レース番号
      */
     static create(
-        name: string | undefined,
-        dateTime: Date | string | undefined,
-        location: string | undefined,
-        surfaceType: string | undefined,
-        distance: number | undefined,
-        grade: string | undefined,
-        number: number | undefined,
+        name: string,
+        dateTime: Date,
+        location: string,
+        surfaceType: string,
+        distance: number,
+        grade: string,
+        number: number,
     ): NarRaceData {
         return new NarRaceData(
             validateNarRaceName(name),
@@ -149,7 +149,7 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * @param partial
      */
     copy(partial: Partial<NarRaceData> = {}): NarRaceData {
-        return new NarRaceData(
+        return NarRaceData.create(
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

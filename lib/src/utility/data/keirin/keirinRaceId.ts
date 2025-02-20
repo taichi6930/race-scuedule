@@ -36,10 +36,5 @@ export type KeirinRaceId = z.infer<typeof KeirinRaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのKeirinRaceId
  */
-export const validateKeirinRaceId = (value: string): KeirinRaceId => {
-    const result = KeirinRaceIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+export const validateKeirinRaceId = (value: string): KeirinRaceId =>
+    KeirinRaceIdSchema.parse(value);

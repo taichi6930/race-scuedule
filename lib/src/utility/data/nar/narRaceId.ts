@@ -36,13 +36,5 @@ export type NarRaceId = z.infer<typeof NarRaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのNarRaceId
  */
-export const validateNarRaceId = (value: string | undefined): NarRaceId => {
-    if (value === undefined) {
-        throw new Error('NarRaceIdがundefinedです');
-    }
-    const result = NarRaceIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+export const validateNarRaceId = (value: string): NarRaceId =>
+    NarRaceIdSchema.parse(value);

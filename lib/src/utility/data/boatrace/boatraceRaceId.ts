@@ -36,10 +36,5 @@ export type BoatraceRaceId = z.infer<typeof BoatraceRaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのBoatraceRaceId
  */
-export const validateBoatraceRaceId = (value: string): BoatraceRaceId => {
-    const result = BoatraceRaceIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+export const validateBoatraceRaceId = (value: string): BoatraceRaceId =>
+    BoatraceRaceIdSchema.parse(value);

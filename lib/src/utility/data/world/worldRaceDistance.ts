@@ -17,10 +17,4 @@ export type WorldRaceDistance = z.infer<typeof WorldRaceDistanceSchema>;
  */
 export const validateWorldRaceDistance = (
     distance: number,
-): WorldRaceDistance => {
-    const result = WorldRaceDistanceSchema.safeParse(distance);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${distance.toString()}`);
-    }
-    return result.data;
-};
+): WorldRaceDistance => WorldRaceDistanceSchema.parse(distance);

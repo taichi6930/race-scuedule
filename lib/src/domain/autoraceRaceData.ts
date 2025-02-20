@@ -6,8 +6,10 @@ import {
     type AutoraceRaceCourse,
     validateAutoraceRaceCourse,
 } from '../utility/data/autorace/autoraceRaceCourse';
-import { validateAutoraceRaceDate } from '../utility/data/autorace/autoraceRaceDate';
-import type { AutoraceRaceDateTime } from '../utility/data/autorace/autoraceRaceDateTime';
+import {
+    type AutoraceRaceDateTime,
+    validateAutoraceRaceDateTime,
+} from '../utility/data/autorace/autoraceRaceDateTime';
 import {
     type AutoraceRaceName,
     validateAutoraceRaceName,
@@ -118,7 +120,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
         return new AutoraceRaceData(
             validateAutoraceRaceName(name),
             validateAutoraceRaceStage(stage),
-            validateAutoraceRaceDate(dateTime),
+            validateAutoraceRaceDateTime(dateTime),
             validateAutoraceRaceCourse(location),
             validateAutoraceGradeType(grade),
             validateAutoraceRaceNumber(number),
@@ -130,7 +132,7 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
      * @param partial
      */
     copy(partial: Partial<AutoraceRaceData> = {}): AutoraceRaceData {
-        return new AutoraceRaceData(
+        return AutoraceRaceData.create(
             partial.name ?? this.name,
             partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,

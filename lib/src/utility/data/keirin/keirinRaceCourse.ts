@@ -110,10 +110,5 @@ const KeirinRaceCourseList: string[] = [
 /**
  * 開催競輪場のバリデーション
  */
-export const validateKeirinRaceCourse = (course: string): KeirinRaceCourse => {
-    const result = KeirinRaceCourseSchema.safeParse(course);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${course}`);
-    }
-    return result.data;
-};
+export const validateKeirinRaceCourse = (course: string): KeirinRaceCourse =>
+    KeirinRaceCourseSchema.parse(course);

@@ -15,15 +15,5 @@ export type NarRaceDistance = z.infer<typeof NarRaceDistanceSchema>;
 /**
  * 地方競馬の距離をバリデーションする
  */
-export const validateNarRaceDistance = (
-    distance: number | undefined,
-): NarRaceDistance => {
-    if (distance === undefined) {
-        throw new Error('地方競馬の距離がundefinedです');
-    }
-    const result = NarRaceDistanceSchema.safeParse(distance);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${distance.toString()}`);
-    }
-    return result.data;
-};
+export const validateNarRaceDistance = (distance: number): NarRaceDistance =>
+    NarRaceDistanceSchema.parse(distance);

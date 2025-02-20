@@ -22,10 +22,5 @@ export type WorldPlaceId = z.infer<typeof WorldPlaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのWorldPlaceId
  */
-export const validateWorldPlaceId = (value: string): WorldPlaceId => {
-    const result = WorldPlaceIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+export const validateWorldPlaceId = (value: string): WorldPlaceId =>
+    WorldPlaceIdSchema.parse(value);

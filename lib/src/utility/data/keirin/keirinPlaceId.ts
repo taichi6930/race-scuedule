@@ -23,10 +23,5 @@ export type KeirinPlaceId = z.infer<typeof KeirinPlaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのKeirinPlaceId
  */
-export const validateKeirinPlaceId = (value: string): KeirinPlaceId => {
-    const result = KeirinPlaceIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+export const validateKeirinPlaceId = (value: string): KeirinPlaceId =>
+    KeirinPlaceIdSchema.parse(value);

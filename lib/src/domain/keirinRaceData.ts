@@ -6,8 +6,8 @@ import {
     type KeirinRaceCourse,
     validateKeirinRaceCourse,
 } from '../utility/data/keirin/keirinRaceCourse';
-import { validateKeirinRaceDate } from '../utility/data/keirin/keirinRaceDate';
 import type { KeirinRaceDateTime } from '../utility/data/keirin/keirinRaceDateTime';
+import { validateKeirinRaceDateTime } from '../utility/data/keirin/keirinRaceDateTime';
 import {
     type KeirinRaceName,
     validateKeirinRaceName,
@@ -118,7 +118,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
         return new KeirinRaceData(
             validateKeirinRaceName(name),
             validateKeirinRaceStage(stage),
-            validateKeirinRaceDate(dateTime),
+            validateKeirinRaceDateTime(dateTime),
             validateKeirinRaceCourse(location),
             validateKeirinGradeType(grade),
             validateKeirinRaceNumber(number),
@@ -130,7 +130,7 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
      * @param partial
      */
     copy(partial: Partial<KeirinRaceData> = {}): KeirinRaceData {
-        return new KeirinRaceData(
+        return KeirinRaceData.create(
             partial.name ?? this.name,
             partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,

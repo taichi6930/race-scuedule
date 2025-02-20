@@ -16,11 +16,5 @@ export type AutoraceRaceDateTime = z.infer<typeof AutoraceRaceDateTimeSchema>;
  * @returns - バリデーション済みの開催日時
  */
 export const validateAutoraceRaceDateTime = (
-    dateTime: unknown,
-): AutoraceRaceDateTime => {
-    const result = AutoraceRaceDateTimeSchema.safeParse(dateTime);
-    if (!result.success) {
-        throw new Error(result.error.message);
-    }
-    return result.data;
-};
+    dateTime: Date,
+): AutoraceRaceDateTime => AutoraceRaceDateTimeSchema.parse(dateTime);

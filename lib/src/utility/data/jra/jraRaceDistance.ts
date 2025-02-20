@@ -15,15 +15,5 @@ export type JraRaceDistance = z.infer<typeof JraRaceDistanceSchema>;
 /**
  * 中央競馬の距離をバリデーションする
  */
-export const validateJraRaceDistance = (
-    distance: number | undefined,
-): JraRaceDistance => {
-    if (distance === undefined) {
-        throw new Error('中央競馬の距離がundefinedです');
-    }
-    const result = JraRaceDistanceSchema.safeParse(distance);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${distance.toString()}`);
-    }
-    return result.data;
-};
+export const validateJraRaceDistance = (distance: number): JraRaceDistance =>
+    JraRaceDistanceSchema.parse(distance);

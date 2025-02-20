@@ -15,12 +15,5 @@ export type WorldRaceDateTime = z.infer<typeof WorldRaceDateTimeSchema>;
  * @param dateTime - 開催日時
  * @returns - バリデーション済みの開催日時
  */
-export const validateWorldRaceDateTime = (
-    dateTime: unknown,
-): WorldRaceDateTime => {
-    const result = WorldRaceDateTimeSchema.safeParse(dateTime);
-    if (!result.success) {
-        throw new Error(result.error.message);
-    }
-    return result.data;
-};
+export const validateWorldRaceDateTime = (dateTime: Date): WorldRaceDateTime =>
+    WorldRaceDateTimeSchema.parse(dateTime);

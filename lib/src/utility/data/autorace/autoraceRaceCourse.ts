@@ -29,13 +29,7 @@ const AutoraceRaceCourseList: string[] = [
  */
 export const validateAutoraceRaceCourse = (
     course: string,
-): AutoraceRaceCourse => {
-    const result = AutoraceRaceCourseSchema.safeParse(course);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${course}`);
-    }
-    return result.data;
-};
+): AutoraceRaceCourse => AutoraceRaceCourseSchema.parse(course);
 
 /**
  * オートレースのレース場名とコードの対応表

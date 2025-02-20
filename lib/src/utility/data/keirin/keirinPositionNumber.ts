@@ -24,12 +24,4 @@ export type KeirinPositionNumber = z.infer<typeof KeirinPositionNumberSchema>;
  */
 export const validateKeirinPositionNumber = (
     positionNumber: number,
-): KeirinPositionNumber => {
-    const result = KeirinPositionNumberSchema.safeParse(positionNumber);
-    if (!result.success) {
-        throw new Error(
-            `${result.error.message}: ${positionNumber.toString()}`,
-        );
-    }
-    return result.data;
-};
+): KeirinPositionNumber => KeirinPositionNumberSchema.parse(positionNumber);

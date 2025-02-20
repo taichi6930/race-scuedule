@@ -16,11 +16,4 @@ describe('NarRaceCourseType', () => {
             '地方競馬の馬場種別ではありません',
         );
     });
-
-    it('異常系: 地方競馬場タイプがundefinedの場合', () => {
-        const courseType = undefined;
-        expect(() => validateNarRaceCourseType(courseType)).toThrow(
-            '地方競馬の馬場種別がundefinedです',
-        );
-    });
 });

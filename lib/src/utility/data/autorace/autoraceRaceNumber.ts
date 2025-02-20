@@ -22,10 +22,4 @@ export type AutoraceRaceNumber = z.infer<typeof AutoraceRaceNumberSchema>;
  */
 export const validateAutoraceRaceNumber = (
     number: number,
-): AutoraceRaceNumber => {
-    const result = AutoraceRaceNumberSchema.safeParse(number);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${number.toString()}`);
-    }
-    return result.data;
-};
+): AutoraceRaceNumber => AutoraceRaceNumberSchema.parse(number);

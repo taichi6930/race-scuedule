@@ -6,8 +6,10 @@ import {
     type BoatraceRaceCourse,
     validateBoatraceRaceCourse,
 } from '../utility/data/boatrace/boatraceRaceCourse';
-import { validateBoatraceRaceDate } from '../utility/data/boatrace/boatraceRaceDate';
-import type { BoatraceRaceDateTime } from '../utility/data/boatrace/boatraceRaceDateTime';
+import {
+    type BoatraceRaceDateTime,
+    validateBoatraceRaceDateTime,
+} from '../utility/data/boatrace/boatraceRaceDateTime';
 import {
     type BoatraceRaceName,
     validateBoatraceRaceName,
@@ -118,7 +120,7 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
         return new BoatraceRaceData(
             validateBoatraceRaceName(name),
             validateBoatraceRaceStage(stage),
-            validateBoatraceRaceDate(dateTime),
+            validateBoatraceRaceDateTime(dateTime),
             validateBoatraceRaceCourse(location),
             validateBoatraceGradeType(grade),
             validateBoatraceRaceNumber(number),
@@ -130,7 +132,7 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
      * @param partial
      */
     copy(partial: Partial<BoatraceRaceData> = {}): BoatraceRaceData {
-        return new BoatraceRaceData(
+        return BoatraceRaceData.create(
             partial.name ?? this.name,
             partial.stage ?? this.stage,
             partial.dateTime ?? this.dateTime,

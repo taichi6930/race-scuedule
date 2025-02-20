@@ -155,15 +155,15 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      * @param heldDayTimes - 開催日数
      */
     static create(
-        name: string | undefined,
-        dateTime: Date | string | undefined,
-        location: string | undefined,
-        surfaceType: string | undefined,
-        distance: number | undefined,
-        grade: string | undefined,
-        number: number | undefined,
-        heldTimes: number | undefined,
-        heldDayTimes: number | undefined,
+        name: string,
+        dateTime: Date,
+        location: string,
+        surfaceType: string,
+        distance: number,
+        grade: string,
+        number: number,
+        heldTimes: number,
+        heldDayTimes: number,
     ): JraRaceData {
         return new JraRaceData(
             validateJraRaceName(name),
@@ -183,7 +183,7 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      * @param partial
      */
     copy(partial: Partial<JraRaceData> = {}): JraRaceData {
-        return new JraRaceData(
+        return JraRaceData.create(
             partial.name ?? this.name,
             partial.dateTime ?? this.dateTime,
             partial.location ?? this.location,

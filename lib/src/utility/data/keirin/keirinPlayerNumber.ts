@@ -146,10 +146,4 @@ export type KeirinPlayerNumber = z.infer<typeof KeirinPlayerNumberSchema>;
  */
 export const validateKeirinPlayerNumber = (
     playerNumber: number,
-): KeirinPlayerNumber => {
-    const result = KeirinPlayerNumberSchema.safeParse(playerNumber);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${playerNumber.toString()}`);
-    }
-    return result.data;
-};
+): KeirinPlayerNumber => KeirinPlayerNumberSchema.parse(playerNumber);

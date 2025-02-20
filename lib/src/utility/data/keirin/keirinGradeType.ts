@@ -34,10 +34,5 @@ export const KeirinSpecifiedGradeList: KeirinGradeType[] = [
  * @param grade - 競輪のグレード
  * @returns - バリデーション済みの競輪のグレード
  */
-export const validateKeirinGradeType = (grade: string): KeirinGradeType => {
-    const result = KeirinGradeTypeSchema.safeParse(grade);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${grade}`);
-    }
-    return result.data;
-};
+export const validateKeirinGradeType = (grade: string): KeirinGradeType =>
+    KeirinGradeTypeSchema.parse(grade);

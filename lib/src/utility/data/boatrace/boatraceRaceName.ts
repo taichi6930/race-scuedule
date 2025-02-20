@@ -15,10 +15,5 @@ export type BoatraceRaceName = z.infer<typeof BoatraceRaceNameSchema>;
  * @param name - ボートレースのレース名
  * @returns - バリデーション済みのボートレースのレース名
  */
-export const validateBoatraceRaceName = (name: string): BoatraceRaceName => {
-    const result = BoatraceRaceNameSchema.safeParse(name);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${name}`);
-    }
-    return result.data;
-};
+export const validateBoatraceRaceName = (name: string): BoatraceRaceName =>
+    BoatraceRaceNameSchema.parse(name);

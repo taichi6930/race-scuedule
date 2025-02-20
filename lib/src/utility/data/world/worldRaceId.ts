@@ -24,10 +24,5 @@ export type WorldRaceId = z.infer<typeof WorldRaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのWorldRaceId
  */
-export const validateWorldRaceId = (value: string): WorldRaceId => {
-    const result = WorldRaceIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+export const validateWorldRaceId = (value: string): WorldRaceId =>
+    WorldRaceIdSchema.parse(value);

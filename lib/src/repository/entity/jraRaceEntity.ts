@@ -176,14 +176,14 @@ export class JraRaceEntity implements IRaceEntity<JraRaceEntity> {
         event: calendar_v3.Schema$Event,
     ): JraRaceEntity {
         return new JraRaceEntity(
-            validateJraRaceId(event.extendedProperties?.private?.raceId),
+            validateJraRaceId(event.extendedProperties?.private?.raceId ?? ''),
             JraRaceData.create(
-                event.extendedProperties?.private?.name,
-                event.extendedProperties?.private?.dateTime,
-                event.extendedProperties?.private?.location,
-                event.extendedProperties?.private?.surfaceType,
+                event.extendedProperties?.private?.name ?? '',
+                new Date(event.extendedProperties?.private?.dateTime ?? ''),
+                event.extendedProperties?.private?.location ?? '',
+                event.extendedProperties?.private?.surfaceType ?? '',
                 Number(event.extendedProperties?.private?.distance),
-                event.extendedProperties?.private?.grade,
+                event.extendedProperties?.private?.grade ?? '',
                 Number(event.extendedProperties?.private?.number),
                 Number(event.extendedProperties?.private?.heldTimes),
                 Number(event.extendedProperties?.private?.heldDayTimes),

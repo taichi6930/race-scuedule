@@ -65,15 +65,5 @@ export const JraSpecifiedGradeList: JraGradeType[] = [
  * @param grade - 中央競馬のグレード
  * @returns - バリデーション済みの中央競馬のグレード
  */
-export const validateJraGradeType = (
-    grade: string | undefined,
-): JraGradeType => {
-    if (grade === undefined) {
-        throw new Error('JRAのグレードがundefinedです');
-    }
-    const result = JraGradeTypeSchema.safeParse(grade);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${grade}`);
-    }
-    return result.data;
-};
+export const validateJraGradeType = (grade: string): JraGradeType =>
+    JraGradeTypeSchema.parse(grade);

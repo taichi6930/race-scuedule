@@ -20,15 +20,5 @@ export type JraRaceNumber = z.infer<typeof JraRaceNumberSchema>;
  * @param number - レース番号
  * @returns - バリデーション済みのレース番号
  */
-export const validateJraRaceNumber = (
-    number: number | undefined,
-): JraRaceNumber => {
-    if (number === undefined) {
-        throw new Error('レース番号がundefinedです');
-    }
-    const result = JraRaceNumberSchema.safeParse(number);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${number.toString()}`);
-    }
-    return result.data;
-};
+export const validateJraRaceNumber = (number: number): JraRaceNumber =>
+    JraRaceNumberSchema.parse(number);

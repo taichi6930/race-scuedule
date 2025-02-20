@@ -13,9 +13,9 @@ import {
     validateBoatraceRaceCourse,
 } from '../../utility/data/boatrace/boatraceRaceCourse';
 import {
-    type BoatraceRaceDate,
-    validateBoatraceRaceDate,
-} from '../../utility/data/boatrace/boatraceRaceDate';
+    type BoatraceRaceDateTime,
+    validateBoatraceRaceDateTime,
+} from '../../utility/data/boatrace/boatraceRaceDateTime';
 import { type UpdateDate, validateUpdateDate } from '../../utility/updateDate';
 import type { IRecord } from './iRecord';
 
@@ -36,7 +36,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
      */
     private constructor(
         public readonly id: BoatracePlaceId,
-        public readonly dateTime: BoatraceRaceDate,
+        public readonly dateTime: BoatraceRaceDateTime,
         public readonly location: BoatraceRaceCourse,
         public readonly grade: BoatraceGradeType,
         public readonly updateDate: UpdateDate,
@@ -60,7 +60,7 @@ export class BoatracePlaceRecord implements IRecord<BoatracePlaceRecord> {
         try {
             return new BoatracePlaceRecord(
                 validateBoatracePlaceId(id),
-                validateBoatraceRaceDate(dateTime),
+                validateBoatraceRaceDateTime(dateTime),
                 validateBoatraceRaceCourse(location),
                 validateBoatraceGradeType(grade),
                 validateUpdateDate(updateDate),

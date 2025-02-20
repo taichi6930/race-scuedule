@@ -33,10 +33,5 @@ export const WorldSpecifiedGradeList: WorldGradeType[] = [
  * @param grade - 海外競馬のグレード
  * @returns - バリデーション済みの海外競馬のグレード
  */
-export const validateWorldGradeType = (grade: string): WorldGradeType => {
-    const result = WorldGradeTypeSchema.safeParse(grade);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${grade}`);
-    }
-    return result.data;
-};
+export const validateWorldGradeType = (grade: string): WorldGradeType =>
+    WorldGradeTypeSchema.parse(grade);

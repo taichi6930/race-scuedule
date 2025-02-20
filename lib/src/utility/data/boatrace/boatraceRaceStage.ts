@@ -41,10 +41,5 @@ export const BoatraceSpecifiedGradeAndStageList: {
  * @param stage - ステージ
  * @returns - バリデーション済みのステージ
  */
-export const validateBoatraceRaceStage = (stage: string): BoatraceRaceStage => {
-    const result = BoatraceRaceStageSchema.safeParse(stage);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${stage}`);
-    }
-    return result.data;
-};
+export const validateBoatraceRaceStage = (stage: string): BoatraceRaceStage =>
+    BoatraceRaceStageSchema.parse(stage);

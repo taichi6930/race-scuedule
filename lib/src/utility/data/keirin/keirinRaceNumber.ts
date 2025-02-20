@@ -20,10 +20,5 @@ export type KeirinRaceNumber = z.infer<typeof KeirinRaceNumberSchema>;
  * @param number - レース番号
  * @returns - バリデーション済みのレース番号
  */
-export const validateKeirinRaceNumber = (number: number): KeirinRaceNumber => {
-    const result = KeirinRaceNumberSchema.safeParse(number);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${number.toString()}`);
-    }
-    return result.data;
-};
+export const validateKeirinRaceNumber = (number: number): KeirinRaceNumber =>
+    KeirinRaceNumberSchema.parse(number);

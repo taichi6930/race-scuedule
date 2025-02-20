@@ -48,10 +48,4 @@ export type AutoraceRacePlayerId = z.infer<typeof AutoraceRacePlayerIdSchema>;
  */
 export const validateAutoraceRacePlayerId = (
     value: string,
-): AutoraceRacePlayerId => {
-    const result = AutoraceRacePlayerIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+): AutoraceRacePlayerId => AutoraceRacePlayerIdSchema.parse(value);

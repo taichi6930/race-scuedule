@@ -22,12 +22,4 @@ export type AutoracePositionNumber = z.infer<
  */
 export const validateAutoracePositionNumber = (
     positionNumber: number,
-): AutoracePositionNumber => {
-    const result = AutoracePositionNumberSchema.safeParse(positionNumber);
-    if (!result.success) {
-        throw new Error(
-            `${result.error.message}: ${positionNumber.toString()}`,
-        );
-    }
-    return result.data;
-};
+): AutoracePositionNumber => AutoracePositionNumberSchema.parse(positionNumber);

@@ -23,10 +23,5 @@ export type BoatracePlaceId = z.infer<typeof BoatracePlaceIdSchema>;
  * @param value - バリデーション対象
  * @returns バリデーション済みのBoatracePlaceId
  */
-export const validateBoatracePlaceId = (value: string): BoatracePlaceId => {
-    const result = BoatracePlaceIdSchema.safeParse(value);
-    if (!result.success) {
-        throw new Error(`${result.error.message}: ${value}`);
-    }
-    return result.data;
-};
+export const validateBoatracePlaceId = (value: string): BoatracePlaceId =>
+    BoatracePlaceIdSchema.parse(value);
