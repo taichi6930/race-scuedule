@@ -76,10 +76,11 @@ export class WorldGoogleCalendarRepositoryImpl extends BaseGoogleCalendarReposit
             raceEntity.raceData.location,
             raceEntity.raceData.number,
         )
-            .replace('w', 'vv')
-            .replace('x', 'cs')
-            .replace('y', 'v')
-            .replace('z', 's');
+            .replace(/w/g, 'vv')
+            .replace(/x/g, 'cs')
+            .replace(/y/g, 'v')
+            .replace(/z/g, 's')
+            .replace(/-/g, '');
     }
     protected fromGoogleCalendarDataToCalendarData(
         event: object,
