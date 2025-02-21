@@ -117,10 +117,11 @@ export class WorldRaceEntity implements IRaceEntity<WorldRaceEntity> {
                 // GoogleカレンダーのIDにwxyzは入れられない
                 // そのため、wxyzを置換する
                 // TODO: 正しい置換方法を検討する
-                .replace('w', 'vv')
-                .replace('x', 'cs')
-                .replace('y', 'v')
-                .replace('z', 's'),
+                .replace(/w/g, 'vv')
+                .replace(/x/g, 'cs')
+                .replace(/y/g, 'v')
+                .replace(/z/g, 's')
+                .replace(/-/g, ''),
             summary: this.raceData.name,
             location: `${this.raceData.location}競馬場`,
             start: {
