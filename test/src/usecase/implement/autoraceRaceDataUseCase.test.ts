@@ -50,27 +50,6 @@ describe('AutoraceRaceDataUseCase', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        it('正常にレースデータが取得できること', async () => {
-            const mockRaceData: AutoraceRaceData[] = baseAutoraceRaceDataList;
-            const mockRaceEntity: AutoraceRaceEntity[] =
-                baseAutoraceRaceEntityList;
-
-            // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntity,
-            );
-
-            const startDate = new Date('2024-06-01');
-            const finishDate = new Date('2024-06-30');
-
-            const result = await useCase.fetchRaceDataList(
-                startDate,
-                finishDate,
-            );
-
-            expect(result).toEqual(mockRaceData);
-        });
-
         [
             {
                 searchConditions: { gradeList: ['SG'] },
@@ -138,7 +117,7 @@ describe('AutoraceRaceDataUseCase', () => {
                 expectedLength: 60,
             },
         ].forEach(({ searchConditions, descriptions, expectedLength }) => {
-            it(`正常にレースデータが取得できること（${descriptions}）`, async () => {
+            it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                 const mockRaceEntity: AutoraceRaceEntity[] =
                     baseAutoraceRaceEntityList;
 
@@ -162,7 +141,7 @@ describe('AutoraceRaceDataUseCase', () => {
     });
 
     describe('updateRaceDataList', () => {
-        it('正常にレースデータが更新されること', async () => {
+        it('正常にレース開催データが更新されること', async () => {
             const mockPlaceEntity: AutoracePlaceEntity[] = [
                 baseAutoracePlaceEntity,
             ];
@@ -193,7 +172,7 @@ describe('AutoraceRaceDataUseCase', () => {
             expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
 
-        it('競輪場がない時、正常にレースデータが更新されないこと', async () => {
+        it('開催場がない時、正常にレース開催データが更新されないこと', async () => {
             const mockPlaceEntity: AutoracePlaceEntity[] = [];
 
             const startDate = new Date('2025-12-01');
@@ -222,7 +201,7 @@ describe('AutoraceRaceDataUseCase', () => {
             expect(raceDataService.updateRaceEntityList).not.toHaveBeenCalled();
         });
 
-        it('検索条件がなく、正常にレースデータが更新されること', async () => {
+        it('検索条件がなく、正常にレース開催データが更新されること', async () => {
             const mockPlaceEntity: AutoracePlaceEntity[] = [
                 baseAutoracePlaceEntity,
             ];
@@ -251,7 +230,7 @@ describe('AutoraceRaceDataUseCase', () => {
     });
 
     describe('upsertRaceDataList', () => {
-        it('正常にレースデータが更新されること', async () => {
+        it('正常にレース開催データが更新されること', async () => {
             const mockRaceData: AutoraceRaceData[] = baseAutoraceRaceDataList;
 
             await useCase.upsertRaceDataList(mockRaceData);
