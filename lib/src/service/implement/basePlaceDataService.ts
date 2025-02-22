@@ -37,7 +37,7 @@ export abstract class BasePlaceDataService<P extends IPlaceEntity<P>>
                 await repository.fetchPlaceEntityList(searchFilter);
             return placeEntityList;
         } catch (error) {
-            console.error('レースデータの取得に失敗しました', error);
+            console.error('開催場データの取得に失敗しました', error);
             return [];
         }
     }

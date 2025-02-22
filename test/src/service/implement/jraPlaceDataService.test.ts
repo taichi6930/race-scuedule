@@ -43,7 +43,7 @@ describe('JraPlaceDataService', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        it('正常にレースデータが取得できること(storage)', async () => {
+        it('正常に開催場データが取得できること(storage)', async () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
@@ -63,7 +63,7 @@ describe('JraPlaceDataService', () => {
             expect(result).toEqual(mockPlaceEntity);
         });
 
-        it('正常にレースデータが取得できること（web）', async () => {
+        it('正常に開催場データが取得できること（web）', async () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
@@ -83,10 +83,10 @@ describe('JraPlaceDataService', () => {
             expect(result).toEqual(mockPlaceEntity);
         });
 
-        it('レースデータが取得できない場合、エラーが発生すること', async () => {
+        it('開催場データが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
             placeRepositoryFromStorageImpl.fetchPlaceEntityList.mockRejectedValue(
-                new Error('レースデータの取得に失敗しました'),
+                new Error('開催場データの取得に失敗しました'),
             );
 
             const consoleSpy = jest
@@ -107,7 +107,7 @@ describe('JraPlaceDataService', () => {
     });
 
     describe('updatePlaceDataList', () => {
-        it('正常に競馬場データが更新されること', async () => {
+        it('正常に開催場データが更新されること', async () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             // モックの戻り値を設定
@@ -122,7 +122,7 @@ describe('JraPlaceDataService', () => {
             ).toHaveBeenCalled();
         });
 
-        it('件数0の場合、エラーが発生すること', async () => {
+        it('開催場データの件数が0の場合、Repositoryを呼び出さないこと', async () => {
             const mockPlaceEntity: JraPlaceEntity[] = [];
 
             await service.updatePlaceEntityList(mockPlaceEntity);
@@ -132,11 +132,11 @@ describe('JraPlaceDataService', () => {
             ).not.toHaveBeenCalled();
         });
 
-        it('競馬場データが取得できない場合、エラーが発生すること', async () => {
+        it('開催場データが更新できない場合、エラーが発生すること', async () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
             // モックの戻り値を設定（エラーが発生するように設定）
             placeRepositoryFromStorageImpl.registerPlaceEntityList.mockRejectedValue(
-                new Error('競馬場データの登録に失敗しました'),
+                new Error('開催場データの登録に失敗しました'),
             );
 
             const consoleSpy = jest
