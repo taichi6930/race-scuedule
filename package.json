@@ -54,6 +54,7 @@
         "gaxios": "^6.7.1",
         "google-auth-library": "^9.15.1",
         "googleapis": "^144.0.0",
+        "jest-html-reporters": "^3.1.7",
         "only-allow": "^1.2.1",
         "prettier": "^3.5.1",
         "puppeteer": "^24.2.1",
