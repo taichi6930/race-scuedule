@@ -71,7 +71,7 @@ describe('JraRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        it('CalendarList、RaceListもあり、IDが複数被る場合、イベントが追加・削除されること', async () => {
+        it('イベントが追加・削除されること', async () => {
             const mockCalendarDataList: CalendarData[] = Array.from(
                 { length: 8 },
                 (_, i: number) =>
