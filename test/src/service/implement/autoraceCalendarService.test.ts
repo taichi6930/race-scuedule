@@ -15,14 +15,15 @@ import { mockCalendarRepository } from '../../mock/repository/mockCalendarReposi
 
 describe('AutoraceCalendarService', () => {
     let service: AutoraceCalendarService;
-    let calendarRepository: ICalendarRepository<AutoraceRaceEntity>;
+    let calendarRepository: jest.Mocked<
+        ICalendarRepository<AutoraceRaceEntity>
+    >;
 
     beforeEach(() => {
         calendarRepository = mockCalendarRepository<AutoraceRaceEntity>();
-        container.registerInstance(
-            'AutoraceCalendarRepository',
-            calendarRepository,
-        );
+        container.register('AutoraceCalendarRepository', {
+            useValue: calendarRepository,
+        });
         service = container.resolve(AutoraceCalendarService);
     });
 
@@ -30,66 +31,75 @@ describe('AutoraceCalendarService', () => {
         jest.clearAllMocks();
     });
 
-    it('should fetch events', async () => {
-        const startDate = new Date('2023-01-01');
-        const finishDate = new Date('2023-01-31');
-        const calendarDataList: CalendarData[] = [baseAutoraceCalendarData];
+    describe('getEvents', () => {
+        it('カレンダーのイベントの取得が正常に行われること', async () => {
+            const startDate = new Date('2023-01-01');
+            const finishDate = new Date('2023-01-31');
+            const calendarDataList: CalendarData[] = [baseAutoraceCalendarData];
 
-        (calendarRepository.getEvents as jest.Mock).mockResolvedValue(
-            calendarDataList,
-        );
+            calendarRepository.getEvents.mockResolvedValue(calendarDataList);
+            const result = await service.getEvents(startDate, finishDate);
 
-        const result = await service.getEvents(startDate, finishDate);
-
-        expect(calendarRepository.getEvents).toHaveBeenCalledWith(
-            new SearchCalendarFilterEntity(startDate, finishDate),
-        );
-        expect(result).toEqual(calendarDataList);
+            expect(calendarRepository.getEvents).toHaveBeenCalledWith(
+                new SearchCalendarFilterEntity(startDate, finishDate),
+            );
+            expect(result).toEqual(calendarDataList);
+        });
     });
 
-    it('should upsert events', async () => {
-        const raceEntityList: AutoraceRaceEntity[] = [baseAutoraceRaceEntity];
+    describe('upsertEvents', () => {
+        it('カレンダーのイベントの更新が正常に行われること', async () => {
+            const raceEntityList: AutoraceRaceEntity[] = [
+                baseAutoraceRaceEntity,
+            ];
 
-        await service.upsertEvents(raceEntityList);
+            await service.upsertEvents(raceEntityList);
 
-        expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
-            raceEntityList,
-        );
+            expect(calendarRepository.upsertEvents).toHaveBeenCalledWith(
+                raceEntityList,
+            );
+        });
+
+        it('更新対象のイベントが見つからない場合、更新処理が行われないこと', async () => {
+            const consoleSpy = jest
+                .spyOn(console, 'debug')
+                .mockImplementation();
+
+            await service.upsertEvents([]);
+
+            expect(consoleSpy).toHaveBeenCalledWith(
+                '更新対象のイベントが見つかりませんでした。',
+            );
+            expect(calendarRepository.upsertEvents).not.toHaveBeenCalled();
+
+            consoleSpy.mockRestore();
+        });
     });
 
-    it('should not upsert events if raceEntityList is empty', async () => {
-        const consoleSpy = jest.spyOn(console, 'debug').mockImplementation();
+    describe('deleteEvents', () => {
+        it('カレンダーのイベントの削除が正常に行われること', async () => {
+            const calendarDataList: CalendarData[] = [baseAutoraceCalendarData];
 
-        await service.upsertEvents([]);
+            await service.deleteEvents(calendarDataList);
 
-        expect(consoleSpy).toHaveBeenCalledWith(
-            '更新対象のイベントが見つかりませんでした。',
-        );
-        expect(calendarRepository.upsertEvents).not.toHaveBeenCalled();
+            expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
+                calendarDataList,
+            );
+        });
 
-        consoleSpy.mockRestore();
-    });
+        it('削除対象のイベントが見つからない場合、削除処理が行われないこと', async () => {
+            const consoleSpy = jest
+                .spyOn(console, 'debug')
+                .mockImplementation();
 
-    it('should delete events', async () => {
-        const calendarDataList: CalendarData[] = [baseAutoraceCalendarData];
+            await service.deleteEvents([]);
 
-        await service.deleteEvents(calendarDataList);
+            expect(consoleSpy).toHaveBeenCalledWith(
+                '指定された期間にイベントが見つかりませんでした。',
+            );
+            expect(calendarRepository.deleteEvents).not.toHaveBeenCalled();
 
-        expect(calendarRepository.deleteEvents).toHaveBeenCalledWith(
-            calendarDataList,
-        );
-    });
-
-    it('should not delete events if calendarDataList is empty', async () => {
-        const consoleSpy = jest.spyOn(console, 'debug').mockImplementation();
-
-        await service.deleteEvents([]);
-
-        expect(consoleSpy).toHaveBeenCalledWith(
-            '指定された期間にイベントが見つかりませんでした。',
-        );
-        expect(calendarRepository.deleteEvents).not.toHaveBeenCalled();
-
-        consoleSpy.mockRestore();
+            consoleSpy.mockRestore();
+        });
     });
 });
