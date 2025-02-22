@@ -33,7 +33,7 @@ describe('KeirinPlaceDataUseCase', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        it('正常にレースデータが取得できること', async () => {
+        it('正常に開催場データが取得できること', async () => {
             const mockPlaceData: KeirinPlaceData[] = [baseKeirinPlaceData];
             const mockPlaceEntity: KeirinPlaceEntity[] = [
                 baseKeirinPlaceEntity,
@@ -57,7 +57,7 @@ describe('KeirinPlaceDataUseCase', () => {
     });
 
     describe('updatePlaceDataList', () => {
-        it('正常に競輪場データが更新されること', async () => {
+        it('正常に開催場データが更新されること', async () => {
             const mockPlaceEntity: KeirinPlaceEntity[] = [
                 baseKeirinPlaceEntity,
             ];
