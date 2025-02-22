@@ -58,7 +58,7 @@ if (ENV === allowedEnvs.githubActionsCi) {
                         [],
                     ),
                 );
-                expect(raceEntityList).toHaveLength(1);
+                expect(raceEntityList).toHaveLength(13);
             });
         });
 
