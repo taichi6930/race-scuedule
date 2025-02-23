@@ -22,7 +22,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
         s3Gateway = mockS3Gateway<JraPlaceRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('JraPlaceS3Gateway', s3Gateway);
+        container.register('JraPlaceS3Gateway', { useValue: s3Gateway });
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(JraPlaceRepositoryFromStorageImpl);

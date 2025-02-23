@@ -10,18 +10,17 @@ import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('NarPlaceRepositoryFromHtmlImpl', () => {
-        let narPlaceDataHtmlgateway: INarPlaceDataHtmlGateway;
+        let placeDataHtmlgateway: INarPlaceDataHtmlGateway;
         let repository: NarPlaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            narPlaceDataHtmlgateway = new MockNarPlaceDataHtmlGateway();
+            placeDataHtmlgateway = new MockNarPlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
-            container.registerInstance(
-                'NarPlaceDataHtmlGateway',
-                narPlaceDataHtmlgateway,
-            );
+            container.register('NarPlaceDataHtmlGateway', {
+                useValue: placeDataHtmlgateway,
+            });
 
             // テスト対象のリポジトリを生成
             repository = container.resolve(NarPlaceRepositoryFromHtmlImpl);

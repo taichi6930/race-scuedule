@@ -21,10 +21,9 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             raceDataHtmlGateway = new MockJraRaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
-            container.registerInstance(
-                'JraRaceDataHtmlGateway',
-                raceDataHtmlGateway,
-            );
+            container.register('JraRaceDataHtmlGateway', {
+                useValue: raceDataHtmlGateway,
+            });
 
             // テスト対象のリポジトリを生成
             repository = container.resolve(JraRaceRepositoryFromHtmlImpl);

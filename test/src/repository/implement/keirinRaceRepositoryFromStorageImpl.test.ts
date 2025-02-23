@@ -28,11 +28,10 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
         racePlayerS3Gateway = mockS3Gateway<KeirinRacePlayerRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('KeirinRaceS3Gateway', raceS3Gateway);
-        container.registerInstance(
-            'KeirinRacePlayerS3Gateway',
-            racePlayerS3Gateway,
-        );
+        container.register('KeirinRaceS3Gateway', { useValue: raceS3Gateway });
+        container.register('KeirinRacePlayerS3Gateway', {
+            useValue: racePlayerS3Gateway,
+        });
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(KeirinRaceRepositoryFromStorageImpl);

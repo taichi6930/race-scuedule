@@ -18,10 +18,9 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
 
     beforeEach(() => {
         googleCalendarGateway = mockGoogleCalendarGateway();
-        container.registerInstance(
-            'BoatraceGoogleCalendarGateway',
-            googleCalendarGateway,
-        );
+        container.register('BoatraceGoogleCalendarGateway', {
+            useValue: googleCalendarGateway,
+        });
         repository = container.resolve(BoatraceGoogleCalendarRepositoryImpl);
     });
 

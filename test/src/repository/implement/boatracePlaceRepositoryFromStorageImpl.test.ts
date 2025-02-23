@@ -22,7 +22,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
         s3Gateway = mockS3Gateway<BoatracePlaceRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('BoatracePlaceS3Gateway', s3Gateway);
+        container.register('BoatracePlaceS3Gateway', { useValue: s3Gateway });
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(BoatracePlaceRepositoryFromStorageImpl);

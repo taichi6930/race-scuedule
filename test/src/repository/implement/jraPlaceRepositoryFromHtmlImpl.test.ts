@@ -10,18 +10,17 @@ import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('JraPlaceRepositoryFromHtmlImpl', () => {
-        let jraPlaceDataHtmlgateway: IJraPlaceDataHtmlGateway;
+        let placeDataHtmlgateway: IJraPlaceDataHtmlGateway;
         let repository: JraPlaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            jraPlaceDataHtmlgateway = new MockJraPlaceDataHtmlGateway();
+            placeDataHtmlgateway = new MockJraPlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
-            container.registerInstance(
-                'JraPlaceDataHtmlGateway',
-                jraPlaceDataHtmlgateway,
-            );
+            container.register('JraPlaceDataHtmlGateway', {
+                useValue: placeDataHtmlgateway,
+            });
 
             // テスト対象のリポジトリを生成
             repository = container.resolve(JraPlaceRepositoryFromHtmlImpl);

@@ -24,7 +24,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
         s3Gateway = mockS3Gateway<WorldRaceRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('WorldRaceS3Gateway', s3Gateway);
+        container.register('WorldRaceS3Gateway', { useValue: s3Gateway });
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(WorldRaceRepositoryFromStorageImpl);

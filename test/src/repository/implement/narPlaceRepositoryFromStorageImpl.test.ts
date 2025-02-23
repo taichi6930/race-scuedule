@@ -22,7 +22,7 @@ describe('NarPlaceRepositoryFromStorageImpl', () => {
         s3Gateway = mockS3Gateway<NarPlaceRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('NarPlaceS3Gateway', s3Gateway);
+        container.register('NarPlaceS3Gateway', { useValue: s3Gateway });
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(NarPlaceRepositoryFromStorageImpl);

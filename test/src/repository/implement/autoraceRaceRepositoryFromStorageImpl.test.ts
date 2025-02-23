@@ -28,11 +28,12 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
         racePlayerS3Gateway = mockS3Gateway<AutoraceRacePlayerRecord>();
 
         // DIコンテナにモックを登録
-        container.registerInstance('AutoraceRaceS3Gateway', raceS3Gateway);
-        container.registerInstance(
-            'AutoraceRacePlayerS3Gateway',
-            racePlayerS3Gateway,
-        );
+        container.register('AutoraceRaceS3Gateway', {
+            useValue: raceS3Gateway,
+        });
+        container.register('AutoraceRacePlayerS3Gateway', {
+            useValue: racePlayerS3Gateway,
+        });
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(AutoraceRaceRepositoryFromStorageImpl);

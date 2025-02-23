@@ -10,18 +10,17 @@ import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
-        let keirinPlaceDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
+        let placeDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
         let repository: KeirinPlaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            keirinPlaceDataHtmlgateway = new MockKeirinPlaceDataHtmlGateway();
+            placeDataHtmlgateway = new MockKeirinPlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
-            container.registerInstance(
-                'KeirinPlaceDataHtmlGateway',
-                keirinPlaceDataHtmlgateway,
-            );
+            container.register('KeirinPlaceDataHtmlGateway', {
+                useValue: placeDataHtmlgateway,
+            });
 
             // テスト対象のリポジトリを生成
             repository = container.resolve(KeirinPlaceRepositoryFromHtmlImpl);

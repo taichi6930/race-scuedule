@@ -10,19 +10,17 @@ import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('AutoracePlaceRepositoryFromHtmlImpl', () => {
-        let autoracePlaceDataHtmlgateway: IAutoracePlaceDataHtmlGateway;
+        let placeDataHtmlgateway: IAutoracePlaceDataHtmlGateway;
         let repository: AutoracePlaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            autoracePlaceDataHtmlgateway =
-                new MockAutoracePlaceDataHtmlGateway();
+            placeDataHtmlgateway = new MockAutoracePlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
-            container.registerInstance(
-                'AutoracePlaceDataHtmlGateway',
-                autoracePlaceDataHtmlgateway,
-            );
+            container.register('AutoracePlaceDataHtmlGateway', {
+                useValue: placeDataHtmlgateway,
+            });
 
             // テスト対象のリポジトリを生成
             repository = container.resolve(AutoracePlaceRepositoryFromHtmlImpl);
