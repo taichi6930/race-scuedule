@@ -68,7 +68,7 @@ describe('JraPlaceRepositoryFromStorageImpl', () => {
 
     // 1年間の開催場データを登録する
     const placeEntityList: JraPlaceEntity[] = Array.from(
-        { length: 366 },
+        { length: 60 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);

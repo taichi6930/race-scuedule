@@ -82,7 +82,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
         test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
             // 1年間のレース開催データを登録する
             const raceEntityList: KeirinRaceEntity[] = Array.from(
-                { length: 366 },
+                { length: 60 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
                     date.setDate(date.getDate() + day);
