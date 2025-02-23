@@ -33,7 +33,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         });
 
         describe('fetchPlaceList', () => {
-            test('正しいボートレース場データを取得できる', async () => {
+            test('正しい開催場データを取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         new Date('2024-10-01'),

@@ -33,7 +33,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
     });
 
     describe('fetchPlaceList', () => {
-        test('正しいボートレース場データを取得できる', async () => {
+        test('正しい開催場データを取得できる', async () => {
             // モックの戻り値を設定
             const csvFilePath = path.resolve(
                 __dirname,
@@ -57,7 +57,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
     });
 
     describe('registerPlaceList', () => {
-        test('正しいボートレース場データを登録できる', async () => {
+        test('正しい開催場データを登録できる', async () => {
             // テスト実行
             await repository.registerPlaceEntityList(placeEntityList);
 
@@ -66,7 +66,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
         });
     });
 
-    // 1年間のボートレース場データを登録する
+    // 1年間の開催場データを登録する
     const placeEntityList: BoatracePlaceEntity[] = Array.from(
         { length: 366 },
         (_, day) => {
