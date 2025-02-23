@@ -22,6 +22,8 @@ module.exports = {
     },
     reporters: [
         'default',
-         "jest-html-reporters",
+        ["jest-html-reporters", {
+            "darkTheme": true
+        }]
     ],
 };
