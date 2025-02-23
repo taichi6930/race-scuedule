@@ -34,7 +34,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             jest.clearAllMocks();
         });
 
-        describe('fetchPlaceList', () => {
+        describe('fetchRaceList', () => {
             test('正しいレース開催データを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<KeirinPlaceEntity>(
