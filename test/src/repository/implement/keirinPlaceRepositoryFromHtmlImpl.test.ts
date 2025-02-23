@@ -18,9 +18,10 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             placeDataHtmlgateway = new MockKeirinPlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
-            container.register('KeirinPlaceDataHtmlGateway', {
-                useValue: placeDataHtmlgateway,
-            });
+            container.registerInstance(
+                'KeirinPlaceDataHtmlGateway',
+                placeDataHtmlgateway,
+            );
 
             // テスト対象のリポジトリを生成
             repository = container.resolve(KeirinPlaceRepositoryFromHtmlImpl);

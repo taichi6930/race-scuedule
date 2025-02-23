@@ -29,29 +29,21 @@ describe('JraRaceDataService', () => {
             JraRaceEntity,
             JraPlaceEntity
         >();
-        container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
-            'JraRaceRepositoryFromStorage',
-            {
-                useValue: raceRepositoryFromStorageImpl,
-            },
-        );
+        container.registerInstance<
+            IRaceRepository<JraRaceEntity, JraPlaceEntity>
+        >('JraRaceRepositoryFromStorage', raceRepositoryFromStorageImpl);
         raceRepositoryFromHtmlImpl = mockRaceRepository<
             JraRaceEntity,
             JraPlaceEntity
         >();
-        container.register<IRaceRepository<JraRaceEntity, JraPlaceEntity>>(
-            'JraRaceRepositoryFromHtml',
-            {
-                useValue: raceRepositoryFromHtmlImpl,
-            },
-        );
+        container.registerInstance<
+            IRaceRepository<JraRaceEntity, JraPlaceEntity>
+        >('JraRaceRepositoryFromHtml', raceRepositoryFromHtmlImpl);
 
         placeRepositoryFromStorageImpl = mockPlaceRepository<JraPlaceEntity>();
-        container.register<IPlaceRepository<JraPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         service = container.resolve(JraRaceDataService);

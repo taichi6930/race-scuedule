@@ -18,11 +18,9 @@ describe('AutoracePlaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<AutoracePlaceEntity>();
-        container.register<IPlaceDataService<AutoracePlaceEntity>>(
+        container.registerInstance<IPlaceDataService<AutoracePlaceEntity>>(
             'AutoracePlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         useCase = container.resolve(AutoracePlaceDataUseCase);

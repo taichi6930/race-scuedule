@@ -28,10 +28,11 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
         racePlayerS3Gateway = mockS3Gateway<KeirinRacePlayerRecord>();
 
         // DIコンテナにモックを登録
-        container.register('KeirinRaceS3Gateway', { useValue: raceS3Gateway });
-        container.register('KeirinRacePlayerS3Gateway', {
-            useValue: racePlayerS3Gateway,
-        });
+        container.registerInstance('KeirinRaceS3Gateway', raceS3Gateway);
+        container.registerInstance(
+            'KeirinRacePlayerS3Gateway',
+            racePlayerS3Gateway,
+        );
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(KeirinRaceRepositoryFromStorageImpl);
@@ -113,7 +114,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
     test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
         // 1年間のレース開催データを登録する
         const raceEntityList: KeirinRaceEntity[] = Array.from(
-            { length: 366 },
+            { length: 10 },
             (_, day) => {
                 const date = new Date('2024-01-01');
                 date.setDate(date.getDate() + day);

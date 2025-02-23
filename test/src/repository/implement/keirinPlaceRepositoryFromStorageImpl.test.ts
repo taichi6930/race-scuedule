@@ -22,7 +22,7 @@ describe('KeirinPlaceRepositoryFromStorageImpl', () => {
         s3Gateway = mockS3Gateway<KeirinPlaceRecord>();
 
         // DIコンテナにモックを登録
-        container.register('KeirinPlaceS3Gateway', { useValue: s3Gateway });
+        container.registerInstance('KeirinPlaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(KeirinPlaceRepositoryFromStorageImpl);

@@ -18,9 +18,10 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             placeDataHtmlgateway = new MockNarPlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
-            container.register('NarPlaceDataHtmlGateway', {
-                useValue: placeDataHtmlgateway,
-            });
+            container.registerInstance(
+                'NarPlaceDataHtmlGateway',
+                placeDataHtmlgateway,
+            );
 
             // テスト対象のリポジトリを生成
             repository = container.resolve(NarPlaceRepositoryFromHtmlImpl);

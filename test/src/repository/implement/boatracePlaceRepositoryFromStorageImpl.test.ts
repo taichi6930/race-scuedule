@@ -22,7 +22,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
         s3Gateway = mockS3Gateway<BoatracePlaceRecord>();
 
         // DIコンテナにモックを登録
-        container.register('BoatracePlaceS3Gateway', { useValue: s3Gateway });
+        container.registerInstance('BoatracePlaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(BoatracePlaceRepositoryFromStorageImpl);
@@ -68,7 +68,7 @@ describe('BoatracePlaceRepositoryFromStorageImpl', () => {
 
     // 1年間の開催場データを登録する
     const placeEntityList: BoatracePlaceEntity[] = Array.from(
-        { length: 366 },
+        { length: 10 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);

@@ -29,28 +29,22 @@ describe('AutoraceRaceDataService', () => {
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
-        >('AutoraceRaceRepositoryFromStorage', {
-            useValue: raceRepositoryFromStorageImpl,
-        });
+        >('AutoraceRaceRepositoryFromStorage', raceRepositoryFromStorageImpl);
         raceRepositoryFromHtmlImpl = mockRaceRepository<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
-        >('AutoraceRaceRepositoryFromHtml', {
-            useValue: raceRepositoryFromHtmlImpl,
-        });
+        >('AutoraceRaceRepositoryFromHtml', raceRepositoryFromHtmlImpl);
 
         placeRepositoryFromStorageImpl =
             mockPlaceRepository<AutoracePlaceEntity>();
-        container.register<IPlaceRepository<AutoracePlaceEntity>>(
+        container.registerInstance<IPlaceRepository<AutoracePlaceEntity>>(
             'AutoracePlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         // AutoraceRaceCalendarServiceをコンテナから取得

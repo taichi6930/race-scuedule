@@ -21,9 +21,10 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             raceDataHtmlGateway = new MockNarRaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
-            container.register('NarRaceDataHtmlGateway', {
-                useValue: raceDataHtmlGateway,
-            });
+            container.registerInstance(
+                'NarRaceDataHtmlGateway',
+                raceDataHtmlGateway,
+            );
 
             // テスト対象のリポジトリを生成
             repository = container.resolve(NarRaceRepositoryFromHtmlImpl);

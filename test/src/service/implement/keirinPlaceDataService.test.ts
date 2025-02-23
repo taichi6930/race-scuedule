@@ -21,19 +21,15 @@ describe('KeirinPlaceDataService', () => {
     beforeEach(() => {
         placeRepositoryFromStorageImpl =
             mockPlaceRepository<KeirinPlaceEntity>();
-        container.register<IPlaceRepository<KeirinPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         placeRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.register<IPlaceRepository<KeirinPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromHtml',
-            {
-                useValue: placeRepositoryFromHtmlImpl,
-            },
+            placeRepositoryFromHtmlImpl,
         );
 
         service = container.resolve(KeirinPlaceDataService);

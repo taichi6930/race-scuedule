@@ -24,7 +24,7 @@ describe('JraRaceRepositoryFromStorageImpl', () => {
         s3Gateway = mockS3Gateway<JraRaceRecord>();
 
         // DIコンテナにモックを登録
-        container.register('JraRaceS3Gateway', { useValue: s3Gateway });
+        container.registerInstance('JraRaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(JraRaceRepositoryFromStorageImpl);

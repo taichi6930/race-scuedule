@@ -18,9 +18,10 @@ describe('NarGoogleCalendarRepositoryImpl', () => {
 
     beforeEach(() => {
         googleCalendarGateway = mockGoogleCalendarGateway();
-        container.register('NarGoogleCalendarGateway', {
-            useValue: googleCalendarGateway,
-        });
+        container.registerInstance(
+            'NarGoogleCalendarGateway',
+            googleCalendarGateway,
+        );
         repository = container.resolve(NarGoogleCalendarRepositoryImpl);
     });
 

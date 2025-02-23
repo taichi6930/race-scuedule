@@ -25,22 +25,18 @@ describe('KeirinRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         calendarService = CalendarServiceMock<KeirinRaceEntity>();
-        container.register<ICalendarService<KeirinRaceEntity>>(
+        container.registerInstance<ICalendarService<KeirinRaceEntity>>(
             'KeirinCalendarService',
-            {
-                useValue: calendarService,
-            },
+            calendarService,
         );
 
         raceDataService = RaceDataServiceMock<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
-        >('KeirinRaceDataService', {
-            useValue: raceDataService,
-        });
+        >('KeirinRaceDataService', raceDataService);
 
         useCase = container.resolve(KeirinRaceCalendarUseCase);
     });

@@ -21,19 +21,15 @@ describe('BoatracePlaceDataService', () => {
     beforeEach(() => {
         placeRepositoryFromStorageImpl =
             mockPlaceRepository<BoatracePlaceEntity>();
-        container.register<IPlaceRepository<BoatracePlaceEntity>>(
+        container.registerInstance<IPlaceRepository<BoatracePlaceEntity>>(
             'BoatracePlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         placeRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.register<IPlaceRepository<BoatracePlaceEntity>>(
+        container.registerInstance<IPlaceRepository<BoatracePlaceEntity>>(
             'BoatracePlaceRepositoryFromHtml',
-            {
-                useValue: placeRepositoryFromHtmlImpl,
-            },
+            placeRepositoryFromHtmlImpl,
         );
 
         service = container.resolve(BoatracePlaceDataService);

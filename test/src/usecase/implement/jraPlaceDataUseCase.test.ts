@@ -18,11 +18,9 @@ describe('JraPlaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
-        container.register<IPlaceDataService<JraPlaceEntity>>(
+        container.registerInstance<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         useCase = container.resolve(JraPlaceDataUseCase);

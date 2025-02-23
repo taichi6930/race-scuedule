@@ -18,11 +18,9 @@ describe('KeirinPlaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<KeirinPlaceEntity>();
-        container.register<IPlaceDataService<KeirinPlaceEntity>>(
+        container.registerInstance<IPlaceDataService<KeirinPlaceEntity>>(
             'KeirinPlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         useCase = container.resolve(KeirinPlaceDataUseCase);

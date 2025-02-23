@@ -19,9 +19,7 @@ describe('JraCalendarService', () => {
 
     beforeEach(() => {
         calendarRepository = mockCalendarRepository<JraRaceEntity>();
-        container.register('JraCalendarRepository', {
-            useValue: calendarRepository,
-        });
+        container.registerInstance('JraCalendarRepository', calendarRepository);
         service = container.resolve(JraCalendarService);
     });
 

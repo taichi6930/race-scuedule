@@ -20,19 +20,15 @@ describe('JraPlaceDataService', () => {
 
     beforeEach(() => {
         placeRepositoryFromStorageImpl = mockPlaceRepository<JraPlaceEntity>();
-        container.register<IPlaceRepository<JraPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         placeRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.register<IPlaceRepository<JraPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<JraPlaceEntity>>(
             'JraPlaceRepositoryFromHtml',
-            {
-                useValue: placeRepositoryFromHtmlImpl,
-            },
+            placeRepositoryFromHtmlImpl,
         );
 
         service = container.resolve(JraPlaceDataService);

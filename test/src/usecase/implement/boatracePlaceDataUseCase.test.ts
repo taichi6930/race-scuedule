@@ -18,11 +18,9 @@ describe('BoatracePlaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<BoatracePlaceEntity>();
-        container.register<IPlaceDataService<BoatracePlaceEntity>>(
+        container.registerInstance<IPlaceDataService<BoatracePlaceEntity>>(
             'BoatracePlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         useCase = container.resolve(BoatracePlaceDataUseCase);

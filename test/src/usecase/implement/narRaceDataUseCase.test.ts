@@ -25,20 +25,15 @@ describe('NarRaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<NarPlaceEntity>();
-        container.register<IPlaceDataService<NarPlaceEntity>>(
+        container.registerInstance<IPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         raceDataService = RaceDataServiceMock<NarRaceEntity, NarPlaceEntity>();
-        container.register<IRaceDataService<NarRaceEntity, NarPlaceEntity>>(
-            'NarRaceDataService',
-            {
-                useValue: raceDataService,
-            },
-        );
+        container.registerInstance<
+            IRaceDataService<NarRaceEntity, NarPlaceEntity>
+        >('NarRaceDataService', raceDataService);
 
         useCase = container.resolve(NarRaceDataUseCase);
     });

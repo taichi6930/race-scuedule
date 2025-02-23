@@ -18,9 +18,10 @@ describe('WorldGoogleCalendarRepositoryImpl', () => {
 
     beforeEach(() => {
         googleCalendarGateway = mockGoogleCalendarGateway();
-        container.register('WorldGoogleCalendarGateway', {
-            useValue: googleCalendarGateway,
-        });
+        container.registerInstance(
+            'WorldGoogleCalendarGateway',
+            googleCalendarGateway,
+        );
         repository = container.resolve(WorldGoogleCalendarRepositoryImpl);
     });
 

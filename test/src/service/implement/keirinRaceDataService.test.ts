@@ -29,28 +29,22 @@ describe('KeirinRaceDataService', () => {
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
-        >('KeirinRaceRepositoryFromStorage', {
-            useValue: raceRepositoryFromStorageImpl,
-        });
+        >('KeirinRaceRepositoryFromStorage', raceRepositoryFromStorageImpl);
         raceRepositoryFromHtmlImpl = mockRaceRepository<
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceRepository<KeirinRaceEntity, KeirinPlaceEntity>
-        >('KeirinRaceRepositoryFromHtml', {
-            useValue: raceRepositoryFromHtmlImpl,
-        });
+        >('KeirinRaceRepositoryFromHtml', raceRepositoryFromHtmlImpl);
 
         placeRepositoryFromStorageImpl =
             mockPlaceRepository<KeirinPlaceEntity>();
-        container.register<IPlaceRepository<KeirinPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<KeirinPlaceEntity>>(
             'KeirinPlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         service = container.resolve(KeirinRaceDataService);

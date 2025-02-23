@@ -25,12 +25,9 @@ describe('WorldRaceDataUseCase', () => {
             WorldRaceEntity,
             WorldPlaceEntity
         >();
-        container.register<IRaceDataService<WorldRaceEntity, WorldPlaceEntity>>(
-            'WorldRaceDataService',
-            {
-                useValue: raceDataService,
-            },
-        );
+        container.registerInstance<
+            IRaceDataService<WorldRaceEntity, WorldPlaceEntity>
+        >('WorldRaceDataService', raceDataService);
 
         useCase = container.resolve(WorldRaceDataUseCase);
     });

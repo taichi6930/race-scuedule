@@ -24,22 +24,16 @@ describe('WorldRaceDataService', () => {
             WorldRaceEntity,
             WorldPlaceEntity
         >();
-        container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
-            'WorldRaceRepositoryFromStorage',
-            {
-                useValue: raceRepositoryFromStorageImpl,
-            },
-        );
+        container.registerInstance<
+            IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
+        >('WorldRaceRepositoryFromStorage', raceRepositoryFromStorageImpl);
         raceRepositoryFromHtmlImpl = mockRaceRepository<
             WorldRaceEntity,
             WorldPlaceEntity
         >();
-        container.register<IRaceRepository<WorldRaceEntity, WorldPlaceEntity>>(
-            'WorldRaceRepositoryFromHtml',
-            {
-                useValue: raceRepositoryFromHtmlImpl,
-            },
-        );
+        container.registerInstance<
+            IRaceRepository<WorldRaceEntity, WorldPlaceEntity>
+        >('WorldRaceRepositoryFromHtml', raceRepositoryFromHtmlImpl);
 
         service = container.resolve(WorldRaceDataService);
     });

@@ -21,9 +21,10 @@ describe('AutoraceCalendarService', () => {
 
     beforeEach(() => {
         calendarRepository = mockCalendarRepository<AutoraceRaceEntity>();
-        container.register('AutoraceCalendarRepository', {
-            useValue: calendarRepository,
-        });
+        container.registerInstance(
+            'AutoraceCalendarRepository',
+            calendarRepository,
+        );
         service = container.resolve(AutoraceCalendarService);
     });
 

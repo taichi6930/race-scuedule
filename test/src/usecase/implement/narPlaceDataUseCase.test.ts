@@ -18,11 +18,9 @@ describe('NarPlaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<NarPlaceEntity>();
-        container.register<IPlaceDataService<NarPlaceEntity>>(
+        container.registerInstance<IPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         useCase = container.resolve(NarPlaceDataUseCase);

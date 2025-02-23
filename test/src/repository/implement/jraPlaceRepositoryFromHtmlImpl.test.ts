@@ -18,9 +18,10 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             placeDataHtmlgateway = new MockJraPlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
-            container.register('JraPlaceDataHtmlGateway', {
-                useValue: placeDataHtmlgateway,
-            });
+            container.registerInstance(
+                'JraPlaceDataHtmlGateway',
+                placeDataHtmlgateway,
+            );
 
             // テスト対象のリポジトリを生成
             repository = container.resolve(JraPlaceRepositoryFromHtmlImpl);

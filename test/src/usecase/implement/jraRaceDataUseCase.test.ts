@@ -25,20 +25,15 @@ describe('JraRaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
-        container.register<IPlaceDataService<JraPlaceEntity>>(
+        container.registerInstance<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         raceDataService = RaceDataServiceMock<JraRaceEntity, JraPlaceEntity>();
-        container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
-            'JraRaceDataService',
-            {
-                useValue: raceDataService,
-            },
-        );
+        container.registerInstance<
+            IRaceDataService<JraRaceEntity, JraPlaceEntity>
+        >('JraRaceDataService', raceDataService);
 
         useCase = container.resolve(JraRaceDataUseCase);
     });

@@ -29,28 +29,22 @@ describe('BoatraceRaceDataService', () => {
             BoatraceRaceEntity,
             BoatracePlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
-        >('BoatraceRaceRepositoryFromStorage', {
-            useValue: raceRepositoryFromStorageImpl,
-        });
+        >('BoatraceRaceRepositoryFromStorage', raceRepositoryFromStorageImpl);
         raceRepositoryFromHtmlImpl = mockRaceRepository<
             BoatraceRaceEntity,
             BoatracePlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceRepository<BoatraceRaceEntity, BoatracePlaceEntity>
-        >('BoatraceRaceRepositoryFromHtml', {
-            useValue: raceRepositoryFromHtmlImpl,
-        });
+        >('BoatraceRaceRepositoryFromHtml', raceRepositoryFromHtmlImpl);
 
         placeRepositoryFromStorageImpl =
             mockPlaceRepository<BoatracePlaceEntity>();
-        container.register<IPlaceRepository<BoatracePlaceEntity>>(
+        container.registerInstance<IPlaceRepository<BoatracePlaceEntity>>(
             'BoatracePlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         service = container.resolve(BoatraceRaceDataService);

@@ -29,29 +29,21 @@ describe('NarRaceDataService', () => {
             NarRaceEntity,
             NarPlaceEntity
         >();
-        container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
-            'NarRaceRepositoryFromStorage',
-            {
-                useValue: raceRepositoryFromStorageImpl,
-            },
-        );
+        container.registerInstance<
+            IRaceRepository<NarRaceEntity, NarPlaceEntity>
+        >('NarRaceRepositoryFromStorage', raceRepositoryFromStorageImpl);
         raceRepositoryFromHtmlImpl = mockRaceRepository<
             NarRaceEntity,
             NarPlaceEntity
         >();
-        container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
-            'NarRaceRepositoryFromHtml',
-            {
-                useValue: raceRepositoryFromHtmlImpl,
-            },
-        );
+        container.registerInstance<
+            IRaceRepository<NarRaceEntity, NarPlaceEntity>
+        >('NarRaceRepositoryFromHtml', raceRepositoryFromHtmlImpl);
 
         placeRepositoryFromStorageImpl = mockPlaceRepository<NarPlaceEntity>();
-        container.register<IPlaceRepository<NarPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         service = container.resolve(NarRaceDataService);

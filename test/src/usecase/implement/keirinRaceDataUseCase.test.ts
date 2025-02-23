@@ -28,18 +28,14 @@ describe('KeirinRaceDataUseCase', () => {
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
-        >('KeirinRaceDataService', {
-            useValue: raceDataService,
-        });
+        >('KeirinRaceDataService', raceDataService);
 
         placeDataService = PlaceDataServiceMock<KeirinPlaceEntity>();
-        container.register<IPlaceDataService<KeirinPlaceEntity>>(
+        container.registerInstance<IPlaceDataService<KeirinPlaceEntity>>(
             'KeirinPlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         useCase = container.resolve(KeirinRaceDataUseCase);

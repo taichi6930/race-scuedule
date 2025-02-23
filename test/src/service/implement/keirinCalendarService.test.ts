@@ -19,9 +19,10 @@ describe('KeirinCalendarService', () => {
 
     beforeEach(() => {
         calendarRepository = mockCalendarRepository<KeirinRaceEntity>();
-        container.register('KeirinCalendarRepository', {
-            useValue: calendarRepository,
-        });
+        container.registerInstance(
+            'KeirinCalendarRepository',
+            calendarRepository,
+        );
         service = container.resolve(KeirinCalendarService);
     });
 

@@ -20,19 +20,15 @@ describe('NarPlaceDataService', () => {
 
     beforeEach(() => {
         placeRepositoryFromStorageImpl = mockPlaceRepository<NarPlaceEntity>();
-        container.register<IPlaceRepository<NarPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         placeRepositoryFromHtmlImpl = mockPlaceRepository();
-        container.register<IPlaceRepository<NarPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromHtml',
-            {
-                useValue: placeRepositoryFromHtmlImpl,
-            },
+            placeRepositoryFromHtmlImpl,
         );
 
         service = container.resolve(NarPlaceDataService);

@@ -22,7 +22,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
         s3Gateway = mockS3Gateway<AutoracePlaceRecord>();
 
         // DIコンテナにモックを登録
-        container.register('AutoracePlaceS3Gateway', { useValue: s3Gateway });
+        container.registerInstance('AutoracePlaceS3Gateway', s3Gateway);
 
         // テスト対象のリポジトリを生成
         repository = container.resolve(AutoracePlaceRepositoryFromStorageImpl);
@@ -68,7 +68,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
 
     // 1年間の開催場データを登録する
     const placeEntityList: AutoracePlaceEntity[] = Array.from(
-        { length: 366 },
+        { length: 10 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);

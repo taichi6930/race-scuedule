@@ -18,9 +18,10 @@ if (ENV !== allowedEnvs.githubActionsCi) {
             placeDataHtmlgateway = new MockBoatracePlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
-            container.register('BoatracePlaceDataHtmlGateway', {
-                useValue: placeDataHtmlgateway,
-            });
+            container.registerInstance(
+                'BoatracePlaceDataHtmlGateway',
+                placeDataHtmlgateway,
+            );
 
             // テスト対象のリポジトリを生成
             repository = container.resolve(BoatracePlaceRepositoryFromHtmlImpl);
