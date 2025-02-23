@@ -43,7 +43,7 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
     });
 
     describe('fetchRaceList', () => {
-        test('正しいレースデータを取得できる', async () => {
+        test('レース開催データを正常に取得できる', async () => {
             // モックの戻り値を設定
             const csvFilePath = path.resolve(
                 __dirname,
@@ -80,8 +80,8 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        test('DBが空データのところに、正しいレースデータを登録できる', async () => {
-            // 1年間のレースデータを登録する
+        test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
+            // 1年間のレース開催データを登録する
             const raceEntityList: AutoraceRaceEntity[] = Array.from(
                 { length: 366 },
                 (_, day) => {
@@ -112,8 +112,8 @@ describe('AutoraceRaceRepositoryFromStorageImpl', () => {
         });
     });
 
-    test('DBにデータの存在するところに、正しいレースデータを登録できる', async () => {
-        // 1年間のレースデータを登録する
+    test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
+        // 1年間のレース開催データを登録する
         const raceEntityList: AutoraceRaceEntity[] = Array.from(
             { length: 366 },
             (_, day) => {

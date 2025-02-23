@@ -35,7 +35,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
     });
 
     describe('fetchRaceList', () => {
-        test('正しいレースデータを取得できる', async () => {
+        test('正しいレース開催データを取得できる', async () => {
             // モックの戻り値を設定
             const csvFilePath = path.resolve(
                 __dirname,
@@ -60,7 +60,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        test('正しいレースデータを登録できる（既存データあり）', async () => {
+        test('正しいレース開催データを登録できる（既存データあり）', async () => {
             // モックの戻り値を設定
             const csvFilePath = path.resolve(
                 __dirname,
@@ -77,7 +77,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
             expect(s3Gateway.uploadDataToS3).toHaveBeenCalledTimes(1);
         });
 
-        test('正しいレースデータを登録できる（既存データなし）', async () => {
+        test('正しいレース開催データを登録できる（既存データなし）', async () => {
             // テスト実行
             await repository.registerRaceEntityList(raceEntityList);
 
@@ -86,7 +86,7 @@ describe('WorldRaceRepositoryFromStorageImpl', () => {
         });
     });
 
-    // 1年間のレースデータを登録する
+    // 1年間のレース開催データを登録する
     const raceEntityList: WorldRaceEntity[] = Array.from(
         { length: 366 },
         (_, day) => {

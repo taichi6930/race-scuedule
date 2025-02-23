@@ -39,7 +39,7 @@ if (ENV === allowedEnvs.githubActionsCi) {
         });
 
         describe('fetchPlaceList', () => {
-            test('正しい競馬場データを取得できる', async () => {
+            test('正しいレース開催データを取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
                         new Date('2024-10-01'),
@@ -50,7 +50,7 @@ if (ENV === allowedEnvs.githubActionsCi) {
                 expect(raceEntityList).toHaveLength(43);
             });
 
-            test('正しい競馬場データを取得できる（データが足りてないこともある）', async () => {
+            test('正しいレース開催データを取得できる（データが足りてないこともある）', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<WorldPlaceEntity>(
                         new Date('2025-01-01'),
