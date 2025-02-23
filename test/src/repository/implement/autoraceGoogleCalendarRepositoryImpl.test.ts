@@ -12,97 +12,95 @@ import {
 } from '../../mock/common/baseAutoraceData';
 import { mockGoogleCalendarGateway } from '../../mock/gateway/mockGoogleCalendarGateway';
 
-describe('AutoraceGoogleCalendarRepositoryImpl', () => {
-    let repository: AutoraceGoogleCalendarRepositoryImpl;
-    let googleCalendarGateway: jest.Mocked<ICalendarGateway>;
+let repository: AutoraceGoogleCalendarRepositoryImpl;
+let googleCalendarGateway: jest.Mocked<ICalendarGateway>;
 
-    beforeEach(() => {
-        googleCalendarGateway = mockGoogleCalendarGateway();
-        container.registerInstance(
-            'AutoraceGoogleCalendarGateway',
-            googleCalendarGateway,
-        );
-        repository = container.resolve(AutoraceGoogleCalendarRepositoryImpl);
-    });
+beforeEach(() => {
+    googleCalendarGateway = mockGoogleCalendarGateway();
+    container.registerInstance(
+        'AutoraceGoogleCalendarGateway',
+        googleCalendarGateway,
+    );
+    repository = container.resolve(AutoraceGoogleCalendarRepositoryImpl);
+});
 
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
+afterEach(() => {
+    jest.clearAllMocks();
+});
 
-    it('should fetch events successfully', async () => {
-        googleCalendarGateway.fetchCalendarDataList.mockResolvedValue([
-            baseAutoraceCalendarDataFromGoogleCalendar,
-        ]);
+it('カレンダー情報が正常に取得できること', async () => {
+    googleCalendarGateway.fetchCalendarDataList.mockResolvedValue([
+        baseAutoraceCalendarDataFromGoogleCalendar,
+    ]);
 
-        const searchFilter = new SearchCalendarFilterEntity(
-            new Date('2023-01-01'),
-            new Date('2023-12-31'),
-        );
-        const calendarDataList = await repository.getEvents(searchFilter);
+    const searchFilter = new SearchCalendarFilterEntity(
+        new Date('2023-01-01'),
+        new Date('2023-12-31'),
+    );
+    const calendarDataList = await repository.getEvents(searchFilter);
 
-        expect(calendarDataList).toHaveLength(1);
-        expect(calendarDataList[0]).toEqual(baseAutoraceCalendarData);
-        expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
-    });
+    expect(calendarDataList).toHaveLength(1);
+    expect(calendarDataList[0]).toEqual(baseAutoraceCalendarData);
+    expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
+});
 
-    it('should handle error when fetching events', async () => {
-        googleCalendarGateway.fetchCalendarDataList.mockRejectedValue(
-            new Error('API Error'),
-        );
+it('カレンダー情報が正常に取得できないこと', async () => {
+    googleCalendarGateway.fetchCalendarDataList.mockRejectedValue(
+        new Error('API Error'),
+    );
 
-        const searchFilter = new SearchCalendarFilterEntity(
-            new Date('2023-01-01'),
-            new Date('2023-12-31'),
-        );
-        const calendarDataList = await repository.getEvents(searchFilter);
+    const searchFilter = new SearchCalendarFilterEntity(
+        new Date('2023-01-01'),
+        new Date('2023-12-31'),
+    );
+    const calendarDataList = await repository.getEvents(searchFilter);
 
-        expect(calendarDataList).toHaveLength(0);
-        expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
-    });
+    expect(calendarDataList).toHaveLength(0);
+    expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
+});
 
-    it('should delete events successfully', async () => {
-        googleCalendarGateway.deleteCalendarData.mockResolvedValue();
+it('カレンダー情報が正常に削除できること', async () => {
+    googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
-        await repository.deleteEvents([baseAutoraceCalendarData]);
+    await repository.deleteEvents([baseAutoraceCalendarData]);
 
-        expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
-    });
+    expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
+});
 
-    it('should handle error when deleting events', async () => {
-        googleCalendarGateway.deleteCalendarData.mockRejectedValue(
-            new Error('API Error'),
-        );
+it('カレンダー情報が正常に削除できないこと', async () => {
+    googleCalendarGateway.deleteCalendarData.mockRejectedValue(
+        new Error('API Error'),
+    );
 
-        await repository.deleteEvents([baseAutoraceCalendarData]);
-        expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
-    });
+    await repository.deleteEvents([baseAutoraceCalendarData]);
+    expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
+});
 
-    it('should insert events successfully', async () => {
-        googleCalendarGateway.fetchCalendarData.mockRejectedValue(
-            new Error('API Error'),
-        );
+it('カレンダー情報が正常に登録できること', async () => {
+    googleCalendarGateway.fetchCalendarData.mockRejectedValue(
+        new Error('API Error'),
+    );
 
-        await repository.upsertEvents([baseAutoraceRaceEntity]);
+    await repository.upsertEvents([baseAutoraceRaceEntity]);
 
-        expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
-    });
+    expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
+});
 
-    it('should update events successfully', async () => {
-        googleCalendarGateway.fetchCalendarData.mockResolvedValue(
-            baseAutoraceCalendarDataFromGoogleCalendar,
-        );
+it('カレンダー情報が正常に更新できること', async () => {
+    googleCalendarGateway.fetchCalendarData.mockResolvedValue(
+        baseAutoraceCalendarDataFromGoogleCalendar,
+    );
 
-        await repository.upsertEvents([baseAutoraceRaceEntity]);
+    await repository.upsertEvents([baseAutoraceRaceEntity]);
 
-        expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
-    });
+    expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
+});
 
-    it('should handle error when upserting events', async () => {
-        googleCalendarGateway.insertCalendarData.mockRejectedValue(
-            new Error('API Error'),
-        );
+it('カレンダー情報が正常に更新できないこと', async () => {
+    googleCalendarGateway.insertCalendarData.mockRejectedValue(
+        new Error('API Error'),
+    );
 
-        await repository.upsertEvents([baseAutoraceRaceEntity]);
-        expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
-    });
+    await repository.upsertEvents([baseAutoraceRaceEntity]);
+    expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
 });

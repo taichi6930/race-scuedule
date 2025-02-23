@@ -29,28 +29,22 @@ describe('AutoraceRaceDataService', () => {
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
-        >('AutoraceRaceRepositoryFromStorage', {
-            useValue: raceRepositoryFromStorageImpl,
-        });
+        >('AutoraceRaceRepositoryFromStorage', raceRepositoryFromStorageImpl);
         raceRepositoryFromHtmlImpl = mockRaceRepository<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceRepository<AutoraceRaceEntity, AutoracePlaceEntity>
-        >('AutoraceRaceRepositoryFromHtml', {
-            useValue: raceRepositoryFromHtmlImpl,
-        });
+        >('AutoraceRaceRepositoryFromHtml', raceRepositoryFromHtmlImpl);
 
         placeRepositoryFromStorageImpl =
             mockPlaceRepository<AutoracePlaceEntity>();
-        container.register<IPlaceRepository<AutoracePlaceEntity>>(
+        container.registerInstance<IPlaceRepository<AutoracePlaceEntity>>(
             'AutoracePlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         // AutoraceRaceCalendarServiceをコンテナから取得
@@ -62,7 +56,7 @@ describe('AutoraceRaceDataService', () => {
     });
 
     describe('fetchRaceEntityList', () => {
-        it('正常にレースデータが取得できること（storage）', async () => {
+        it('正常にレース開催データが取得できること（storage）', async () => {
             const mockRaceEntity: AutoraceRaceEntity[] =
                 baseAutoraceRaceEntityList;
 
@@ -82,7 +76,7 @@ describe('AutoraceRaceDataService', () => {
 
             expect(result).toEqual(mockRaceEntity);
         });
-        it('正常にレースデータが取得できること（web）', async () => {
+        it('正常にレース開催データが取得できること（web）', async () => {
             const mockRaceEntity: AutoraceRaceEntity[] =
                 baseAutoraceRaceEntityList;
 
@@ -103,10 +97,10 @@ describe('AutoraceRaceDataService', () => {
             expect(result).toEqual(mockRaceEntity);
         });
 
-        it('レースデータが取得できない場合、エラーが発生すること', async () => {
+        it('レース開催データが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
             raceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
-                new Error('レースデータの取得に失敗しました'),
+                new Error('レース開催データの取得に失敗しました'),
             );
 
             const consoleSpy = jest
@@ -123,7 +117,7 @@ describe('AutoraceRaceDataService', () => {
     });
 
     describe('updateRaceDataList', () => {
-        it('正常にレースデータが更新されること', async () => {
+        it('正常にレース開催データが更新されること', async () => {
             const mockRaceEntity: AutoraceRaceEntity[] =
                 baseAutoraceRaceEntityList;
 
@@ -139,7 +133,7 @@ describe('AutoraceRaceDataService', () => {
             ).toHaveBeenCalled();
         });
 
-        it('レース数が0件の場合、更新処理が実行されないこと', async () => {
+        it('レース開催データが0件の場合、更新処理が実行されないこと', async () => {
             const mockRaceEntity: AutoraceRaceEntity[] = [];
 
             await service.updateRaceEntityList(mockRaceEntity);
@@ -149,13 +143,13 @@ describe('AutoraceRaceDataService', () => {
             ).not.toHaveBeenCalled();
         });
 
-        it('レースデータが取得できない場合、エラーが発生すること', async () => {
+        it('レース開催データが取得できない場合、エラーが発生すること', async () => {
             const mockRaceEntity: AutoraceRaceEntity[] =
                 baseAutoraceRaceEntityList;
 
             // モックの戻り値を設定（エラーが発生するように設定）
             raceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
-                new Error('レースデータの取得に失敗しました'),
+                new Error('レース開催データの取得に失敗しました'),
             );
 
             const consoleSpy = jest

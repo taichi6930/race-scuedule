@@ -18,11 +18,9 @@ describe('JraPlaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
-        container.register<IPlaceDataService<JraPlaceEntity>>(
+        container.registerInstance<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         useCase = container.resolve(JraPlaceDataUseCase);
@@ -33,7 +31,7 @@ describe('JraPlaceDataUseCase', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        it('正常にレースデータが取得できること', async () => {
+        it('正常に開催場データが取得できること', async () => {
             const mockPlaceData: JraPlaceData[] = [baseJraPlaceData];
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
@@ -55,7 +53,7 @@ describe('JraPlaceDataUseCase', () => {
     });
 
     describe('updatePlaceDataList', () => {
-        it('正常に競馬場データが更新されること', async () => {
+        it('正常に開催場データが更新されること', async () => {
             const mockPlaceEntity: JraPlaceEntity[] = [baseJraPlaceEntity];
 
             const startDate = new Date('2024-06-01');

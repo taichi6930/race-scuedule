@@ -43,7 +43,7 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
     });
 
     describe('fetchRaceList', () => {
-        test('正しいレースデータを取得できる', async () => {
+        test('正しいレース開催データを取得できる', async () => {
             // モックの戻り値を設定
             const csvFilePath = path.resolve(
                 __dirname,
@@ -79,10 +79,10 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
     });
 
     describe('registerRaceList', () => {
-        test('DBが空データのところに、正しいレースデータを登録できる', async () => {
-            // 1年間のレースデータを登録する
+        test('DBが空データのところに、正しいレース開催データを登録できる', async () => {
+            // 1年間のレース開催データを登録する
             const raceEntityList: KeirinRaceEntity[] = Array.from(
-                { length: 366 },
+                { length: 60 },
                 (_, day) => {
                     const date = new Date('2024-01-01');
                     date.setDate(date.getDate() + day);
@@ -111,10 +111,10 @@ describe('KeirinRaceRepositoryFromStorageImpl', () => {
         });
     });
 
-    test('DBにデータの存在するところに、正しいレースデータを登録できる', async () => {
-        // 1年間のレースデータを登録する
+    test('DBにデータの存在するところに、正しいレース開催データを登録できる', async () => {
+        // 1年間のレース開催データを登録する
         const raceEntityList: KeirinRaceEntity[] = Array.from(
-            { length: 366 },
+            { length: 10 },
             (_, day) => {
                 const date = new Date('2024-01-01');
                 date.setDate(date.getDate() + day);

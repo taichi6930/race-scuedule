@@ -18,11 +18,9 @@ describe('NarPlaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<NarPlaceEntity>();
-        container.register<IPlaceDataService<NarPlaceEntity>>(
+        container.registerInstance<IPlaceDataService<NarPlaceEntity>>(
             'NarPlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         useCase = container.resolve(NarPlaceDataUseCase);
@@ -33,7 +31,7 @@ describe('NarPlaceDataUseCase', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        it('正常にレースデータが取得できること', async () => {
+        it('正常に開催場データが取得できること', async () => {
             const mockPlaceData: NarPlaceData[] = [baseNarPlaceData];
             const mockPlaceEntity: NarPlaceEntity[] = [baseNarPlaceEntity];
 
@@ -55,7 +53,7 @@ describe('NarPlaceDataUseCase', () => {
     });
 
     describe('updatePlaceDataList', () => {
-        it('正常に競馬場データが更新されること', async () => {
+        it('正常に開催場データが更新されること', async () => {
             const mockPlaceEntity: NarPlaceEntity[] = [baseNarPlaceEntity];
 
             const startDate = new Date('2024-06-01');

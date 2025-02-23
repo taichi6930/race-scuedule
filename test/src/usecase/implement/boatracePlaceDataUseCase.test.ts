@@ -18,11 +18,9 @@ describe('BoatracePlaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<BoatracePlaceEntity>();
-        container.register<IPlaceDataService<BoatracePlaceEntity>>(
+        container.registerInstance<IPlaceDataService<BoatracePlaceEntity>>(
             'BoatracePlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         useCase = container.resolve(BoatracePlaceDataUseCase);
@@ -33,7 +31,7 @@ describe('BoatracePlaceDataUseCase', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        it('正常にレースデータが取得できること', async () => {
+        it('正常に開催場データが取得できること', async () => {
             const mockPlaceData: BoatracePlaceData[] = [baseBoatracePlaceData];
             const mockPlaceEntity: BoatracePlaceEntity[] = [
                 baseBoatracePlaceEntity,
@@ -57,7 +55,7 @@ describe('BoatracePlaceDataUseCase', () => {
     });
 
     describe('updatePlaceDataList', () => {
-        it('正常に競輪場データが更新されること', async () => {
+        it('正常に開催場データが更新されること', async () => {
             const mockPlaceEntity: BoatracePlaceEntity[] = [
                 baseBoatracePlaceEntity,
             ];

@@ -29,7 +29,7 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
         jest.clearAllMocks();
     });
 
-    it('should fetch events successfully', async () => {
+    it('カレンダー情報が正常に取得できること', async () => {
         googleCalendarGateway.fetchCalendarDataList.mockResolvedValue([
             baseBoatraceCalendarDataFromGoogleCalendar,
         ]);
@@ -45,7 +45,7 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
         expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
     });
 
-    it('should handle error when fetching events', async () => {
+    it('カレンダー情報が正常に取得できないこと', async () => {
         googleCalendarGateway.fetchCalendarDataList.mockRejectedValue(
             new Error('API Error'),
         );
@@ -60,7 +60,7 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
         expect(googleCalendarGateway.fetchCalendarDataList).toHaveBeenCalled();
     });
 
-    it('should delete events successfully', async () => {
+    it('カレンダー情報が正常に削除できること', async () => {
         googleCalendarGateway.deleteCalendarData.mockResolvedValue();
 
         await repository.deleteEvents([baseBoatraceCalendarData]);
@@ -68,7 +68,7 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
-    it('should handle error when deleting events', async () => {
+    it('カレンダー情報が正常に削除できないこと', async () => {
         googleCalendarGateway.deleteCalendarData.mockRejectedValue(
             new Error('API Error'),
         );
@@ -77,7 +77,7 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
         expect(googleCalendarGateway.deleteCalendarData).toHaveBeenCalled();
     });
 
-    it('should insert events successfully', async () => {
+    it('カレンダー情報が正常に登録できること', async () => {
         googleCalendarGateway.fetchCalendarData.mockRejectedValue(
             new Error('API Error'),
         );
@@ -87,7 +87,7 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
         expect(googleCalendarGateway.insertCalendarData).toHaveBeenCalled();
     });
 
-    it('should update events successfully', async () => {
+    it('カレンダー情報が正常に更新できること', async () => {
         googleCalendarGateway.fetchCalendarData.mockResolvedValue(
             baseBoatraceCalendarDataFromGoogleCalendar,
         );
@@ -97,7 +97,7 @@ describe('BoatraceGoogleCalendarRepositoryImpl', () => {
         expect(googleCalendarGateway.updateCalendarData).toHaveBeenCalled();
     });
 
-    it('should handle error when upserting events', async () => {
+    it('カレンダー情報が正常に更新できないこと', async () => {
         googleCalendarGateway.insertCalendarData.mockRejectedValue(
             new Error('API Error'),
         );

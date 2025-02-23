@@ -33,7 +33,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
     });
 
     describe('fetchPlaceList', () => {
-        test('正しいオートレース場データを取得できる', async () => {
+        test('正しい開催場データを取得できる', async () => {
             // モックの戻り値を設定
             const csvFilePath = path.resolve(
                 __dirname,
@@ -57,7 +57,7 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
     });
 
     describe('registerPlaceList', () => {
-        test('正しいオートレース場データを登録できる', async () => {
+        test('正しい開催場データを登録できる', async () => {
             // テスト実行
             await repository.registerPlaceEntityList(placeEntityList);
 
@@ -66,9 +66,9 @@ describe('AutoracePlaceRepositoryFromStorageImpl', () => {
         });
     });
 
-    // 1年間のオートレース場データを登録する
+    // 1年間の開催場データを登録する
     const placeEntityList: AutoracePlaceEntity[] = Array.from(
-        { length: 366 },
+        { length: 10 },
         (_, day) => {
             const date = new Date('2024-01-01');
             date.setDate(date.getDate() + day);

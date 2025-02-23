@@ -25,22 +25,18 @@ describe('AutoraceRaceCalendarUseCase', () => {
 
     beforeEach(() => {
         calendarService = CalendarServiceMock<AutoraceRaceEntity>();
-        container.register<ICalendarService<AutoraceRaceEntity>>(
+        container.registerInstance<ICalendarService<AutoraceRaceEntity>>(
             'AutoraceCalendarService',
-            {
-                useValue: calendarService,
-            },
+            calendarService,
         );
 
         raceDataService = RaceDataServiceMock<
             AutoraceRaceEntity,
             AutoracePlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceDataService<AutoraceRaceEntity, AutoracePlaceEntity>
-        >('AutoraceRaceDataService', {
-            useValue: raceDataService,
-        });
+        >('AutoraceRaceDataService', raceDataService);
 
         useCase = container.resolve(AutoraceRaceCalendarUseCase);
     });
@@ -73,7 +69,7 @@ describe('AutoraceRaceCalendarUseCase', () => {
     });
 
     describe('updateRacesToCalendar', () => {
-        it('CalendarList、RaceListもあり、IDが複数被る場合、イベントが追加・削除されること', async () => {
+        it('イベントが追加・削除されること', async () => {
             const mockCalendarDataList: CalendarData[] = Array.from(
                 { length: 8 },
                 (_, i: number) =>

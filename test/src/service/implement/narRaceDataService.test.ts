@@ -29,29 +29,21 @@ describe('NarRaceDataService', () => {
             NarRaceEntity,
             NarPlaceEntity
         >();
-        container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
-            'NarRaceRepositoryFromStorage',
-            {
-                useValue: raceRepositoryFromStorageImpl,
-            },
-        );
+        container.registerInstance<
+            IRaceRepository<NarRaceEntity, NarPlaceEntity>
+        >('NarRaceRepositoryFromStorage', raceRepositoryFromStorageImpl);
         raceRepositoryFromHtmlImpl = mockRaceRepository<
             NarRaceEntity,
             NarPlaceEntity
         >();
-        container.register<IRaceRepository<NarRaceEntity, NarPlaceEntity>>(
-            'NarRaceRepositoryFromHtml',
-            {
-                useValue: raceRepositoryFromHtmlImpl,
-            },
-        );
+        container.registerInstance<
+            IRaceRepository<NarRaceEntity, NarPlaceEntity>
+        >('NarRaceRepositoryFromHtml', raceRepositoryFromHtmlImpl);
 
         placeRepositoryFromStorageImpl = mockPlaceRepository<NarPlaceEntity>();
-        container.register<IPlaceRepository<NarPlaceEntity>>(
+        container.registerInstance<IPlaceRepository<NarPlaceEntity>>(
             'NarPlaceRepositoryFromStorage',
-            {
-                useValue: placeRepositoryFromStorageImpl,
-            },
+            placeRepositoryFromStorageImpl,
         );
 
         service = container.resolve(NarRaceDataService);
@@ -62,7 +54,7 @@ describe('NarRaceDataService', () => {
     });
 
     describe('fetchRaceEntityList', () => {
-        it('正常にレースデータが取得できること（storage）', async () => {
+        it('正常にレース開催データが取得できること（storage）', async () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
@@ -81,7 +73,7 @@ describe('NarRaceDataService', () => {
 
             expect(result).toEqual(mockRaceEntity);
         });
-        it('正常にレースデータが取得できること（web）', async () => {
+        it('正常にレース開催データが取得できること（web）', async () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
@@ -101,10 +93,10 @@ describe('NarRaceDataService', () => {
             expect(result).toEqual(mockRaceEntity);
         });
 
-        it('レースデータが取得できない場合、エラーが発生すること', async () => {
+        it('レース開催データが取得できない場合、エラーが発生すること', async () => {
             // モックの戻り値を設定（エラーが発生するように設定）
             raceRepositoryFromStorageImpl.fetchRaceEntityList.mockRejectedValue(
-                new Error('レースデータの取得に失敗しました'),
+                new Error('レース開催データの取得に失敗しました'),
             );
 
             const consoleSpy = jest
@@ -121,7 +113,7 @@ describe('NarRaceDataService', () => {
     });
 
     describe('updateRaceDataList', () => {
-        it('正常にレースデータが更新されること', async () => {
+        it('正常にレース開催データが更新されること', async () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定
@@ -136,7 +128,7 @@ describe('NarRaceDataService', () => {
             ).toHaveBeenCalled();
         });
 
-        it('レース数が0件の場合、更新処理が実行されないこと', async () => {
+        it('レース開催データが0件の場合、更新処理が実行されないこと', async () => {
             const mockRaceEntity: NarRaceEntity[] = [];
 
             await service.updateRaceEntityList(mockRaceEntity);
@@ -146,12 +138,12 @@ describe('NarRaceDataService', () => {
             ).not.toHaveBeenCalled();
         });
 
-        it('レースデータが取得できない場合、エラーが発生すること', async () => {
+        it('レース開催データが取得できない場合、エラーが発生すること', async () => {
             const mockRaceEntity: NarRaceEntity[] = baseNarRaceEntityList;
 
             // モックの戻り値を設定（エラーが発生するように設定）
             raceRepositoryFromStorageImpl.registerRaceEntityList.mockRejectedValue(
-                new Error('レースデータの取得に失敗しました'),
+                new Error('レース開催データの取得に失敗しました'),
             );
 
             const consoleSpy = jest

@@ -10,17 +10,17 @@ import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('KeirinPlaceRepositoryFromHtmlImpl', () => {
-        let keirinPlaceDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
+        let placeDataHtmlgateway: IKeirinPlaceDataHtmlGateway;
         let repository: KeirinPlaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            keirinPlaceDataHtmlgateway = new MockKeirinPlaceDataHtmlGateway();
+            placeDataHtmlgateway = new MockKeirinPlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
             container.registerInstance(
                 'KeirinPlaceDataHtmlGateway',
-                keirinPlaceDataHtmlgateway,
+                placeDataHtmlgateway,
             );
 
             // テスト対象のリポジトリを生成
@@ -32,7 +32,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         });
 
         describe('fetchPlaceList', () => {
-            test('正しい競輪場データを取得できる', async () => {
+            test('正しい開催場データを取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         new Date('2024-10-01'),

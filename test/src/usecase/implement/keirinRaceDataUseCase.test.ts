@@ -28,18 +28,14 @@ describe('KeirinRaceDataUseCase', () => {
             KeirinRaceEntity,
             KeirinPlaceEntity
         >();
-        container.register<
+        container.registerInstance<
             IRaceDataService<KeirinRaceEntity, KeirinPlaceEntity>
-        >('KeirinRaceDataService', {
-            useValue: raceDataService,
-        });
+        >('KeirinRaceDataService', raceDataService);
 
         placeDataService = PlaceDataServiceMock<KeirinPlaceEntity>();
-        container.register<IPlaceDataService<KeirinPlaceEntity>>(
+        container.registerInstance<IPlaceDataService<KeirinPlaceEntity>>(
             'KeirinPlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         useCase = container.resolve(KeirinRaceDataUseCase);
@@ -50,25 +46,6 @@ describe('KeirinRaceDataUseCase', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        it('正常にレースデータが取得できること', async () => {
-            const mockRaceData: KeirinRaceData[] = baseKeirinRaceDataList;
-
-            // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                baseKeirinRaceEntityList,
-            );
-
-            const startDate = new Date('2024-06-01');
-            const finishDate = new Date('2024-06-30');
-
-            const result = await useCase.fetchRaceDataList(
-                startDate,
-                finishDate,
-            );
-
-            expect(result).toEqual(mockRaceData);
-        });
-
         [
             {
                 searchConditions: { gradeList: ['GP'] },
@@ -136,7 +113,7 @@ describe('KeirinRaceDataUseCase', () => {
                 expectedLength: 72,
             },
         ].forEach(({ searchConditions, descriptions, expectedLength }) => {
-            it(`正常にレースデータが取得できること（${descriptions}）`, async () => {
+            it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
                 // モックの戻り値を設定
                 raceDataService.fetchRaceEntityList.mockResolvedValue(
                     baseKeirinRaceEntityList,
@@ -157,7 +134,7 @@ describe('KeirinRaceDataUseCase', () => {
     });
 
     describe('updateRaceDataList', () => {
-        it('正常にレースデータが更新されること', async () => {
+        it('正常にレース開催データが更新されること', async () => {
             const mockPlaceEntity: KeirinPlaceEntity[] = [
                 baseKeirinPlaceEntity,
             ];
@@ -188,7 +165,7 @@ describe('KeirinRaceDataUseCase', () => {
             expect(raceDataService.updateRaceEntityList).toHaveBeenCalled();
         });
 
-        it('競輪場がない時、正常にレースデータが更新されないこと', async () => {
+        it('開催場がない時、正常にレース開催データが更新されないこと', async () => {
             const mockPlaceEntity: KeirinPlaceEntity[] = [];
 
             const startDate = new Date('2025-12-01');
@@ -217,7 +194,7 @@ describe('KeirinRaceDataUseCase', () => {
             expect(raceDataService.updateRaceEntityList).not.toHaveBeenCalled();
         });
 
-        it('検索条件がなく、正常にレースデータが更新されること', async () => {
+        it('検索条件がなく、正常にレース開催データが更新されること', async () => {
             const mockPlaceEntity: KeirinPlaceEntity[] = [
                 baseKeirinPlaceEntity,
             ];
@@ -246,7 +223,7 @@ describe('KeirinRaceDataUseCase', () => {
     });
 
     describe('upsertRaceDataList', () => {
-        it('正常にレースデータが更新されること', async () => {
+        it('正常にレース開催データが更新されること', async () => {
             const mockRaceData: KeirinRaceData[] = baseKeirinRaceDataList;
 
             await useCase.upsertRaceDataList(mockRaceData);

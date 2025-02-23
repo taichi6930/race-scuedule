@@ -18,7 +18,7 @@ export abstract class BaseRaceDataService<
     protected abstract raceRepositoryFromHtml: IRaceRepository<R, P>;
 
     /**
-     * レース開催のデータを取得する
+     * レース開催データを取得する
      * @param startDate
      * @param finishDate
      * @param type
@@ -44,13 +44,13 @@ export abstract class BaseRaceDataService<
 
             return raceEntityList;
         } catch (error) {
-            console.error('レースデータの取得に失敗しました', error);
+            console.error('レース開催データの取得に失敗しました', error);
             return [];
         }
     }
 
     /**
-     * レース開催地のデータを更新する
+     * レース開催データを更新する
      * @param raceEntityList
      */
     @Logger
@@ -61,7 +61,7 @@ export abstract class BaseRaceDataService<
                 raceEntityList,
             );
         } catch (error) {
-            console.error('開催場データの更新に失敗しました', error);
+            console.error('レース開催データの更新に失敗しました', error);
         }
     }
 

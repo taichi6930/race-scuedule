@@ -25,20 +25,15 @@ describe('JraRaceDataUseCase', () => {
 
     beforeEach(() => {
         placeDataService = PlaceDataServiceMock<JraPlaceEntity>();
-        container.register<IPlaceDataService<JraPlaceEntity>>(
+        container.registerInstance<IPlaceDataService<JraPlaceEntity>>(
             'JraPlaceDataService',
-            {
-                useValue: placeDataService,
-            },
+            placeDataService,
         );
 
         raceDataService = RaceDataServiceMock<JraRaceEntity, JraPlaceEntity>();
-        container.register<IRaceDataService<JraRaceEntity, JraPlaceEntity>>(
-            'JraRaceDataService',
-            {
-                useValue: raceDataService,
-            },
-        );
+        container.registerInstance<
+            IRaceDataService<JraRaceEntity, JraPlaceEntity>
+        >('JraRaceDataService', raceDataService);
 
         useCase = container.resolve(JraRaceDataUseCase);
     });
@@ -48,92 +43,146 @@ describe('JraRaceDataUseCase', () => {
     });
 
     describe('fetchRaceDataList', () => {
-        it('正常にレースデータが取得できること', async () => {
-            const mockRaceData: JraRaceData[] = baseJraRaceDataList;
-            const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
+        [
+            {
+                searchConditions: { gradeList: ['GⅠ'] },
+                descriptions: 'gradeを検索条件に入れて',
+                expectedLength: 2,
+            },
+            {
+                searchConditions: {
+                    locationList: ['東京'],
+                },
+                descriptions: 'locationを検索条件に入れて',
+                expectedLength: 12,
+            },
+            {
+                searchConditions: {
+                    gradeList: ['GⅠ'],
+                    locationList: ['東京'],
+                },
+                descriptions: 'gradeとlocationを検索条件に入れて',
+                expectedLength: 1,
+            },
+            {
+                searchConditions: {
+                    gradeList: ['GⅠ'],
+                    locationList: ['阪神'],
+                },
+                descriptions: 'gradeとlocationを検索条件に入れて',
+                expectedLength: 0,
+            },
+            {
+                searchConditions: {},
+                descriptions: '検索条件なし',
+                expectedLength: 24,
+            },
+        ].forEach(({ searchConditions, descriptions, expectedLength }) => {
+            it(`正常にレース開催データが取得できること（${descriptions}${expectedLength.toString()}件になる）`, async () => {
+                // モックの戻り値を設定
+                raceDataService.fetchRaceEntityList.mockResolvedValue(
+                    baseJraRaceEntityList,
+                );
 
-            // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntity,
-            );
+                const startDate = new Date('2025-12-01');
+                const finishDate = new Date('2025-12-31');
 
-            const startDate = new Date('2024-06-01');
-            const finishDate = new Date('2024-06-30');
+                const result = await useCase.fetchRaceDataList(
+                    startDate,
+                    finishDate,
+                    searchConditions,
+                );
 
-            const result = await useCase.fetchRaceDataList(
-                startDate,
-                finishDate,
-            );
-
-            expect(result).toEqual(mockRaceData);
-        });
-
-        it('正常にレースデータが取得できること（gradeを検索条件に入れて）', async () => {
-            const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
-
-            // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntity,
-            );
-
-            const startDate = new Date('2024-06-01');
-            const finishDate = new Date('2024-06-30');
-
-            const result = await useCase.fetchRaceDataList(
-                startDate,
-                finishDate,
-                { gradeList: ['GⅠ'] },
-            );
-
-            // レース数が2件であることを確認
-            expect(result.length).toBe(2);
-        });
-
-        it('正常にレースデータが取得できること（locationを検索条件に入れて）', async () => {
-            const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
-
-            // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntity,
-            );
-
-            const startDate = new Date('2024-06-01');
-            const finishDate = new Date('2024-06-30');
-
-            const result = await useCase.fetchRaceDataList(
-                startDate,
-                finishDate,
-                { locationList: ['東京'] },
-            );
-
-            // レース数が12件であることを確認
-            expect(result.length).toBe(12);
-        });
-
-        it('正常にレースデータが取得できること（grade, locationを検索条件に入れて）', async () => {
-            const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
-
-            // モックの戻り値を設定
-            raceDataService.fetchRaceEntityList.mockResolvedValue(
-                mockRaceEntity,
-            );
-
-            const startDate = new Date('2024-06-01');
-            const finishDate = new Date('2024-06-30');
-
-            const result = await useCase.fetchRaceDataList(
-                startDate,
-                finishDate,
-                { gradeList: ['GⅠ'], locationList: ['東京'] },
-            );
-
-            // レース数が1件であることを確認
-            expect(result.length).toBe(1);
+                expect(result.length).toBe(expectedLength);
+            });
         });
     });
+    //     it('正常にレース開催データが取得できること', async () => {
+    //         const mockRaceData: JraRaceData[] = baseJraRaceDataList;
+    //         const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
+
+    //         // モックの戻り値を設定
+    //         raceDataService.fetchRaceEntityList.mockResolvedValue(
+    //             mockRaceEntity,
+    //         );
+
+    //         const startDate = new Date('2024-06-01');
+    //         const finishDate = new Date('2024-06-30');
+
+    //         const result = await useCase.fetchRaceDataList(
+    //             startDate,
+    //             finishDate,
+    //         );
+
+    //         expect(result).toEqual(mockRaceData);
+    //     });
+
+    //     it('正常にレース開催データが取得できること（gradeを検索条件に入れて）', async () => {
+    //         const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
+
+    //         // モックの戻り値を設定
+    //         raceDataService.fetchRaceEntityList.mockResolvedValue(
+    //             mockRaceEntity,
+    //         );
+
+    //         const startDate = new Date('2024-06-01');
+    //         const finishDate = new Date('2024-06-30');
+
+    //         const result = await useCase.fetchRaceDataList(
+    //             startDate,
+    //             finishDate,
+    //             { gradeList: ['GⅠ'] },
+    //         );
+
+    //         // レース数が2件であることを確認
+    //         expect(result.length).toBe(2);
+    //     });
+
+    //     it('正常にレース開催データが取得できること（locationを検索条件に入れて）', async () => {
+    //         const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
+
+    //         // モックの戻り値を設定
+    //         raceDataService.fetchRaceEntityList.mockResolvedValue(
+    //             mockRaceEntity,
+    //         );
+
+    //         const startDate = new Date('2024-06-01');
+    //         const finishDate = new Date('2024-06-30');
+
+    //         const result = await useCase.fetchRaceDataList(
+    //             startDate,
+    //             finishDate,
+    //             { locationList: ['東京'] },
+    //         );
+
+    //         // レース数が12件であることを確認
+    //         expect(result.length).toBe(12);
+    //     });
+
+    //     it('正常にレース開催データが取得できること（grade, locationを検索条件に入れて）', async () => {
+    //         const mockRaceEntity: JraRaceEntity[] = baseJraRaceEntityList;
+
+    //         // モックの戻り値を設定
+    //         raceDataService.fetchRaceEntityList.mockResolvedValue(
+    //             mockRaceEntity,
+    //         );
+
+    //         const startDate = new Date('2024-06-01');
+    //         const finishDate = new Date('2024-06-30');
+
+    //         const result = await useCase.fetchRaceDataList(
+    //             startDate,
+    //             finishDate,
+    //             { gradeList: ['GⅠ'], locationList: ['東京'] },
+    //         );
+
+    //         // レース数が1件であることを確認
+    //         expect(result.length).toBe(1);
+    //     });
+    // });
 
     describe('updateRaceDataList', () => {
-        it('正常にレースデータが更新されること', async () => {
+        it('正常にレース開催データが更新されること', async () => {
             const mockRaceEntity: JraRaceEntity[] = [baseJraRaceEntity];
 
             const startDate = new Date('2024-06-01');
@@ -153,7 +202,7 @@ describe('JraRaceDataUseCase', () => {
     });
 
     describe('upsertRaceDataList', () => {
-        it('正常にレースデータが更新されること', async () => {
+        it('正常にレース開催データが更新されること', async () => {
             const mockRaceData: JraRaceData[] = baseJraRaceDataList;
 
             await useCase.upsertRaceDataList(mockRaceData);

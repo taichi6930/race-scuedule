@@ -10,17 +10,17 @@ import { allowedEnvs, ENV } from '../../../../lib/src/utility/env';
 
 if (ENV !== allowedEnvs.githubActionsCi) {
     describe('JraPlaceRepositoryFromHtmlImpl', () => {
-        let jraPlaceDataHtmlgateway: IJraPlaceDataHtmlGateway;
+        let placeDataHtmlgateway: IJraPlaceDataHtmlGateway;
         let repository: JraPlaceRepositoryFromHtmlImpl;
 
         beforeEach(() => {
             // gatwayのモックを作成
-            jraPlaceDataHtmlgateway = new MockJraPlaceDataHtmlGateway();
+            placeDataHtmlgateway = new MockJraPlaceDataHtmlGateway();
 
             // DIコンテナにモックを登録
             container.registerInstance(
                 'JraPlaceDataHtmlGateway',
-                jraPlaceDataHtmlgateway,
+                placeDataHtmlgateway,
             );
 
             // テスト対象のリポジトリを生成
@@ -32,7 +32,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         });
 
         describe('fetchPlaceList', () => {
-            test('正しい競馬場データを1年間の検索で取得できる', async () => {
+            test('正しい開催場データを取得できる', async () => {
                 const placeEntityList = await repository.fetchPlaceEntityList(
                     new SearchPlaceFilterEntity(
                         new Date('2024-01-01'),

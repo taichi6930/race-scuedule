@@ -20,4 +20,8 @@ module.exports = {
     transform: {
         '^.+\\.tsx?$': ['@swc/jest'],
     },
+    reporters: [
+        'default',
+         "jest-html-reporters",
+    ],
 };

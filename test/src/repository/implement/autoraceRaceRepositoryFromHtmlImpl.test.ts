@@ -35,7 +35,7 @@ if (ENV !== allowedEnvs.githubActionsCi) {
         });
 
         describe('fetchPlaceList', () => {
-            test('正しいオートレース場データを取得できる', async () => {
+            test('レース開催データを正常に取得できる', async () => {
                 const raceEntityList = await repository.fetchRaceEntityList(
                     new SearchRaceFilterEntity<AutoracePlaceEntity>(
                         new Date('2024-11-01'),
