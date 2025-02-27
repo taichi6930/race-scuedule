@@ -83,6 +83,15 @@ describe('KeirinRaceCalendarUseCase', () => {
                     baseKeirinRaceEntity.copy({
                         id: `keirin2024122920${(i + 1).toXDigits(2)}`,
                     }),
+            ).concat(
+                Array.from({ length: 3 }, (_, i: number) =>
+                    baseKeirinRaceEntity.copy({
+                        id: `keirin2024122920${(i + 6).toXDigits(2)}`,
+                        raceData: baseKeirinRaceEntity.raceData.copy({
+                            grade: 'FⅠ',
+                        }),
+                    }),
+                ),
             );
 
             const expectCalendarDataList: CalendarData[] = Array.from(
@@ -92,7 +101,13 @@ describe('KeirinRaceCalendarUseCase', () => {
                         id: `keirin2024122920${(i + 6).toXDigits(2)}`,
                     }),
             );
-            const expectRaceEntityList: KeirinRaceEntity[] = mockRaceEntityList;
+            const expectRaceEntityList: KeirinRaceEntity[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseKeirinRaceEntity.copy({
+                        id: `keirin2024122920${(i + 1).toXDigits(2)}`,
+                    }),
+            );
 
             // モックの戻り値を設定
             calendarService.getEvents.mockResolvedValue(mockCalendarDataList);
