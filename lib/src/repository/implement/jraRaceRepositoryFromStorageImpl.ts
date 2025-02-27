@@ -51,7 +51,7 @@ export class JraRaceRepositoryFromStorageImpl
     }
 
     /**
-     * ファイルリストからレースデータを取得する
+     * レースデータをS3から取得する
      */
     @Logger
     private async getRaceRecordListFromS3(): Promise<JraRaceRecord[]> {
@@ -120,7 +120,7 @@ export class JraRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param searchFilter
+     * @param raceEntityList
      */
     @Logger
     async registerRaceEntityList(

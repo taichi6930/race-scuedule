@@ -94,8 +94,7 @@ export class AutoracePlaceRepositoryFromStorageImpl
     }
 
     /**
-     * レースデータをS3から取得する
-     * @param request
+     * 開催場データをS3から取得する
      */
     @Logger
     private async getPlaceRecordListFromS3(): Promise<AutoracePlaceRecord[]> {

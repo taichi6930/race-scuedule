@@ -37,7 +37,6 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
      * バリデーション済みデータを元にインスタンスを生成する
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param grade - グレード
      */
     static create(dateTime: Date, location: string): NarPlaceData {
         return new NarPlaceData(

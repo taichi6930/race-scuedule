@@ -95,7 +95,6 @@ export class WorldRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
-     * @param request
      */
     @Logger
     private async getRaceRecordListFromS3(): Promise<WorldRaceRecord[]> {

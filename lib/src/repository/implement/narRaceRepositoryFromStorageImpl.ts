@@ -48,7 +48,7 @@ export class NarRaceRepositoryFromStorageImpl
     }
 
     /**
-     * 新ファイルリストからレースデータを取得する
+     * レースデータをS3から取得する
      */
     @Logger
     private async getRaceRecordListFromS3(): Promise<NarRaceRecord[]> {
@@ -129,7 +129,7 @@ export class NarRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param request
+     * @param raceEntityList
      */
     @Logger
     async registerRaceEntityList(

@@ -231,7 +231,7 @@ export class NarRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param request
+     * @param raceEntityList
      */
     @Logger
     registerRaceEntityList(raceEntityList: NarRaceEntity[]): Promise<void> {

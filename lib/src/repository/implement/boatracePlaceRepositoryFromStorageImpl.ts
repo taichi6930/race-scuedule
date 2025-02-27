@@ -30,8 +30,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
      *
      * このメソッドで日付の範囲を指定して開催データを取得する
      *
-     * @param request - 開催データ取得リクエスト
-     * @returns Promise<BoatracePlaceEntity[]> - 開催データ取得レスポンス
+     * @param searchFilter
      */
     @Logger
     async fetchPlaceEntityList(
@@ -93,8 +92,7 @@ export class BoatracePlaceRepositoryFromStorageImpl
     }
 
     /**
-     * レースデータをS3から取得する
-     * @param request
+     * 開催場データをS3から取得する
      */
     @Logger
     private async getPlaceRecordListFromS3(): Promise<BoatracePlaceRecord[]> {

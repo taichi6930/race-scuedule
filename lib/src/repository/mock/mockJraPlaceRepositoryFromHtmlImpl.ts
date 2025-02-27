@@ -11,7 +11,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
 {
     /**
      * 中央競馬場データを取得する
-     * @param request
+     * @param searchFilter
      */
     @Logger
     fetchPlaceEntityList(
@@ -38,7 +38,7 @@ export class MockJraPlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
-     * @param request
+     * @param placeEntityList
      */
     @Logger
     registerPlaceEntityList(placeEntityList: JraPlaceEntity[]): Promise<void> {

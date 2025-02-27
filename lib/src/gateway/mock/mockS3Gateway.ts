@@ -39,7 +39,6 @@ export class MockS3Gateway<T extends IRecord<T>>
     /**
      * 初期化処理フラグ
      * @private
-     * @static
      * @type {boolean}
      */
     private static isInitialized = false;
