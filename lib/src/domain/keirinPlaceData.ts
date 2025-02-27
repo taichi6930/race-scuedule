@@ -14,21 +14,18 @@ export class KeirinPlaceData implements IPlaceData<KeirinPlaceData> {
      * 開催日
      *
      * @type {KeirinRaceDateTime}
-     * @memberof KeirinPlaceData
      */
     public readonly dateTime: KeirinRaceDateTime;
     /**
      * 開催場所
      *
      * @type {KeirinRaceCourse}
-     * @memberof KeirinPlaceData
      */
     public readonly location: KeirinRaceCourse;
     /**
      * グレード
      *
      * @type {KeirinGradeType}
-     * @memberof KeirinPlaceData
      */
     public readonly grade: KeirinGradeType;
 

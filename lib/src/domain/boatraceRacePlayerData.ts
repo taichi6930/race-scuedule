@@ -15,14 +15,12 @@ export class BoatraceRacePlayerData {
      * 枠番
      *
      * @type {BoatracePositionNumber}
-     * @memberof BoatraceRacePlayerData
      */
     public readonly positionNumber: BoatracePositionNumber;
     /**
      * 選手番号
      *
      * @type {BoatracePlayerNumber}
-     * @memberof BoatraceRacePlayerData
      */
     public readonly playerNumber: BoatracePlayerNumber;
 

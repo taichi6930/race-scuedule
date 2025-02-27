@@ -14,21 +14,18 @@ export class BoatracePlaceData implements IPlaceData<BoatracePlaceData> {
      * 開催日時
      *
      * @type {BoatraceRaceDateTime}
-     * @memberof BoatracePlaceData
      */
     public readonly dateTime: BoatraceRaceDateTime;
     /**
      * 開催場所
      *
      * @type {BoatraceRaceCourse}
-     * @memberof BoatracePlaceData
      */
     public readonly location: BoatraceRaceCourse;
     /**
      * グレード
      *
      * @type {BoatraceGradeType}
-     * @memberof BoatracePlaceData
      */
     public readonly grade: BoatraceGradeType;
 

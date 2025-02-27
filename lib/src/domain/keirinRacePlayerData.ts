@@ -15,14 +15,12 @@ export class KeirinRacePlayerData {
      * 枠番
      *
      * @type {KeirinPositionNumber}
-     * @memberof KeirinRacePlayerData
      */
     public readonly positionNumber: KeirinPositionNumber;
     /**
      * 選手番号
      *
      * @type {KeirinPlayerNumber}
-     * @memberof KeirinRacePlayerData
      */
     public readonly playerNumber: KeirinPlayerNumber;
 

@@ -36,49 +36,42 @@ export class NarRaceData implements IPlaceData<NarRaceData> {
      * レース名
      *
      * @type {NarRaceName}
-     * @memberof NarRaceData
      */
     public readonly name: NarRaceName;
     /**
      * 開催日時
      *
      * @type {NarRaceDateTime}
-     * @memberof NarRaceData
      */
     public readonly dateTime: NarRaceDateTime;
     /**
      * 開催場所
      *
      * @type {NarRaceCourse}
-     * @memberof NarRaceData
      */
     public readonly location: NarRaceCourse;
     /**
      * 馬場種別
      *
      * @type {NarRaceCourseType}
-     * @memberof NarRaceData
      */
     public readonly surfaceType: NarRaceCourseType;
     /**
      * 距離
      *
      * @type {NarRaceDistance}
-     * @memberof NarRaceData
      */
     public readonly distance: NarRaceDistance;
     /**
      * グレード
      *
      * @type {NarGradeType}
-     * @memberof NarRaceData
      */
     public readonly grade: NarGradeType;
     /**
      * レース番号
      *
      * @type {NarRaceNumber}
-     * @memberof NarRaceData
      */
     public readonly number: NarRaceNumber;
 

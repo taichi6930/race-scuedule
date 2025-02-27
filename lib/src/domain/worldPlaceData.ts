@@ -14,14 +14,12 @@ export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
      * 開催日
      *
      * @type {WorldRaceDateTime}
-     * @memberof WorldPlaceData
      */
     public readonly dateTime: WorldRaceDateTime;
     /**
      * 開催場所
      *
      * @type {WorldRaceCourse}
-     * @memberof WorldPlaceData
      */
     public readonly location: WorldRaceCourse;
 

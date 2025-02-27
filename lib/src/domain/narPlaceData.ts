@@ -12,14 +12,12 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
      * 開催日
      *
      * @type {NarRaceDateTime}
-     * @memberof NarPlaceData
      */
     public readonly dateTime: NarRaceDateTime;
     /**
      * 開催場所
      *
      * @type {NarRaceCourse}
-     * @memberof NarPlaceData
      */
     public readonly location: NarRaceCourse;
 
