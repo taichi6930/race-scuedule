@@ -35,7 +35,7 @@
         ]
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.750.0",
+        "@aws-sdk/client-s3": "^3.758.0",
         "@codegenie/serverless-express": "^4.16.0",
         "@types/aws-lambda": "^8.10.147",
         "@types/cheerio": "^0.22.35",
@@ -53,7 +53,7 @@
         "express": "^4.21.2",
         "gaxios": "^6.7.1",
         "google-auth-library": "^9.15.1",
-        "googleapis": "^144.0.0",
+        "googleapis": "^146.0.0",
         "jest-html-reporters": "^3.1.7",
         "only-allow": "^1.2.1",
         "prettier": "^3.5.2",
@@ -70,7 +70,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.21.0",
-        "@swc/core": "^1.11.1",
+        "@swc/core": "^1.11.4",
         "@swc/jest": "^0.2.37",
         "@types/jest": "^29.5.14",
         "@types/node": "22.13.5",
