@@ -15,14 +15,12 @@ export class AutoraceRacePlayerData {
      * 枠番
      *
      * @type {AutoracePositionNumber}
-     * @memberof AutoraceRacePlayerData
      */
     public readonly positionNumber: AutoracePositionNumber;
     /**
      * 選手番号
      *
      * @type {AutoracePlayerNumber}
-     * @memberof AutoraceRacePlayerData
      */
     public readonly playerNumber: AutoracePlayerNumber;
 

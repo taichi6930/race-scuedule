@@ -38,7 +38,7 @@ export interface ICalendarGateway {
 
     /**
      * イベントの削除を行う
-     * @param events
+     * @param eventId
      */
     deleteCalendarData: (eventId: string) => Promise<void>;
 }

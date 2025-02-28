@@ -12,14 +12,12 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
      * 開催日
      *
      * @type {NarRaceDateTime}
-     * @memberof NarPlaceData
      */
     public readonly dateTime: NarRaceDateTime;
     /**
      * 開催場所
      *
      * @type {NarRaceCourse}
-     * @memberof NarPlaceData
      */
     public readonly location: NarRaceCourse;
 
@@ -39,7 +37,6 @@ export class NarPlaceData implements IPlaceData<NarPlaceData> {
      * バリデーション済みデータを元にインスタンスを生成する
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param grade - グレード
      */
     static create(dateTime: Date, location: string): NarPlaceData {
         return new NarPlaceData(

@@ -418,7 +418,7 @@ export class JraRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param request
+     * @param raceEntityList
      */
     @Logger
     registerRaceEntityList(raceEntityList: JraRaceEntity[]): Promise<void> {

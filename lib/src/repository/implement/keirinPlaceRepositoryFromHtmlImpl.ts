@@ -34,8 +34,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
      *
      * このメソッドで日付の範囲を指定して開催データを取得する
      *
-     * @param request - 開催データ取得リクエスト
-     * @returns Promise<KeirinPlaceEntity[]> - 開催データ取得レスポンス
+     * @param searchFilter
      */
     @Logger
     async fetchPlaceEntityList(
@@ -183,7 +182,7 @@ export class KeirinPlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
-     * @param request
+     * @param placeEntityList
      */
     @Logger
     registerPlaceEntityList(

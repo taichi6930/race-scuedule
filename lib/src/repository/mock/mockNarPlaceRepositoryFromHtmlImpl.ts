@@ -11,7 +11,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
 {
     /**
      * 地方競馬場データを取得する
-     * @param request
+     * @param searchFilter
      */
     @Logger
     fetchPlaceEntityList(
@@ -38,7 +38,7 @@ export class MockNarPlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
-     * @param request
+     * @param placeEntityList
      */
     @Logger
     registerPlaceEntityList(placeEntityList: NarPlaceEntity[]): Promise<void> {

@@ -291,7 +291,7 @@ export class KeirinRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param request
+     * @param raceEntityList
      */
     @Logger
     registerRaceEntityList(raceEntityList: KeirinRaceEntity[]): Promise<void> {

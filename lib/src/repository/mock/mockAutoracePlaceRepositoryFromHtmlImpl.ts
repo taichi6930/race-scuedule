@@ -11,7 +11,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
 {
     /**
      * オートレース場データを取得する
-     * @param request
+     * @param searchFilter
      */
     @Logger
     fetchPlaceEntityList(
@@ -40,7 +40,7 @@ export class MockAutoracePlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
-     * @param request
+     * @param placeEntityList
      */
     @Logger
     registerPlaceEntityList(

@@ -32,42 +32,36 @@ export class BoatraceRaceData implements IPlaceData<BoatraceRaceData> {
      * レース名
      *
      * @type {BoatraceRaceName}
-     * @memberof BoatraceRaceData
      */
     public readonly name: BoatraceRaceName;
     /**
      * 開催ステージ
      *
      * @type {BoatraceRaceStage}
-     * @memberof BoatraceRaceData
      */
     public readonly stage: BoatraceRaceStage;
     /**
      * 開催日時
      *
      * @type {BoatraceRaceDateTime}
-     * @memberof BoatraceRaceData
      */
     public readonly dateTime: BoatraceRaceDateTime;
     /**
      * 開催場所
      *
      * @type {BoatraceRaceCourse}
-     * @memberof BoatraceRaceData
      */
     public readonly location: BoatraceRaceCourse;
     /**
      * グレード
      *
      * @type {BoatraceGradeType}
-     * @memberof BoatraceRaceData
      */
     public readonly grade: BoatraceGradeType;
     /**
      * レース番号
      *
      * @type {BoatraceRaceNumber}
-     * @memberof BoatraceRaceData
      */
     public readonly number: BoatraceRaceNumber;
 

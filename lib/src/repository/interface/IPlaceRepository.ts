@@ -8,8 +8,7 @@ import type { SearchPlaceFilterEntity } from '../entity/searchPlaceFilterEntity'
 export interface IPlaceRepository<P extends IPlaceEntity<P>> {
     /**
      * 開催データを取得する
-     * @param request
-     * @returns 開催データ
+     * @param searchFilter
      */
     fetchPlaceEntityList: (
         searchFilter: SearchPlaceFilterEntity,
@@ -17,7 +16,7 @@ export interface IPlaceRepository<P extends IPlaceEntity<P>> {
 
     /**
      * 開催データを登録する
-     * @param request
+     * @param placeEntityList
      */
     registerPlaceEntityList: (placeEntityList: P[]) => Promise<void>;
 }

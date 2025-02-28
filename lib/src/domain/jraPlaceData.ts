@@ -22,28 +22,24 @@ export class JraPlaceData implements IPlaceData<JraPlaceData> {
      * 開催日時
      *
      * @type {JraRaceDateTime}
-     * @memberof JraPlaceData
      */
     public readonly dateTime: JraRaceDateTime;
     /**
      * 開催場所
      *
      * @type {JraRaceCourse}
-     * @memberof JraPlaceData
      */
     public readonly location: JraRaceCourse;
     /**
      * 開催回数
      *
      * @type {JraHeldTimes}
-     * @memberof JraPlaceData
      */
     public readonly heldTimes: JraHeldTimes;
     /**
      * 開催日数
      *
      * @type {JraHeldDayTimes}
-     * @memberof JraPlaceData
      */
     public readonly heldDayTimes: JraHeldDayTimes;
 

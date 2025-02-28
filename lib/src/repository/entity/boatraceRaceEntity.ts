@@ -119,7 +119,7 @@ export class BoatraceRaceEntity implements IRaceEntity<BoatraceRaceEntity> {
 
     /**
      * レースデータをGoogleカレンダーのイベントに変換する
-     * @param raceEntity
+     * @param updateDate - 更新日時
      */
     toGoogleCalendarData(
         updateDate: Date = new Date(),

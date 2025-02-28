@@ -32,42 +32,36 @@ export class AutoraceRaceData implements IPlaceData<AutoraceRaceData> {
      * レース名
      *
      * @type {AutoraceRaceName}
-     * @memberof AutoraceRaceData
      */
     public readonly name: AutoraceRaceName;
     /**
      * 開催ステージ
      *
      * @type {AutoraceRaceStage}
-     * @memberof AutoraceRaceData
      */
     public readonly stage: AutoraceRaceStage;
     /**
      * 開催日時
      *
      * @type {AutoraceRaceDateTime}
-     * @memberof AutoraceRaceData
      */
     public readonly dateTime: AutoraceRaceDateTime;
     /**
      * 開催場所
      *
      * @type {AutoraceRaceCourse}
-     * @memberof AutoraceRaceData
      */
     public readonly location: AutoraceRaceCourse;
     /**
      * グレード
      *
      * @type {AutoraceGradeType}
-     * @memberof AutoraceRaceData
      */
     public readonly grade: AutoraceGradeType;
     /**
      * レース番号
      *
      * @type {AutoraceRaceNumber}
-     * @memberof AutoraceRaceData
      */
     public readonly number: AutoraceRaceNumber;
 

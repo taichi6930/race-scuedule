@@ -14,14 +14,12 @@ export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
      * 開催日
      *
      * @type {WorldRaceDateTime}
-     * @memberof WorldPlaceData
      */
     public readonly dateTime: WorldRaceDateTime;
     /**
      * 開催場所
      *
      * @type {WorldRaceCourse}
-     * @memberof WorldPlaceData
      */
     public readonly location: WorldRaceCourse;
 
@@ -43,7 +41,6 @@ export class WorldPlaceData implements IPlaceData<WorldPlaceData> {
      * バリデーション済みデータを元にインスタンスを生成する
      * @param dateTime - 開催日時
      * @param location - 開催場所
-     * @param grade - グレード
      */
     static create(dateTime: Date, location: string): WorldPlaceData {
         return new WorldPlaceData(

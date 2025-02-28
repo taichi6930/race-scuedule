@@ -201,7 +201,7 @@ export class AutoraceRaceRepositoryFromHtmlImpl
     /**
      * レースデータを登録する
      * HTMLにはデータを登録しない
-     * @param request
+     * @param raceEntityList
      */
     @Logger
     registerRaceEntityList(

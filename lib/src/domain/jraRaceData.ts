@@ -44,63 +44,54 @@ export class JraRaceData implements IPlaceData<JraRaceData> {
      * レース名
      *
      * @type {JraRaceName}
-     * @memberof JraRaceData
      */
     public readonly name: JraRaceName;
     /**
      * 開催日時
      *
      * @type {JraRaceDateTime}
-     * @memberof JraRaceData
      */
     public readonly dateTime: JraRaceDateTime;
     /**
      * 開催場所
      *
      * @type {JraRaceCourse}
-     * @memberof JraRaceData
      */
     public readonly location: JraRaceCourse;
     /**
      * 馬場種別
      *
      * @type {JraRaceCourseType}
-     * @memberof JraRaceData
      */
     public readonly surfaceType: JraRaceCourseType;
     /**
      * 距離
      *
      * @type {JraRaceDistance}
-     * @memberof JraRaceData
      */
     public readonly distance: JraRaceDistance;
     /**
      * グレード
      *
      * @type {JraGradeType}
-     * @memberof JraRaceData
      */
     public readonly grade: JraGradeType;
     /**
      * レース番号
      *
      * @type {JraRaceNumber}
-     * @memberof JraRaceData
      */
     public readonly number: JraRaceNumber;
     /**
      * 開催回数
      *
      * @type {JraHeldTimes}
-     * @memberof JraRaceData
      */
     public readonly heldTimes: JraHeldTimes;
     /**
      * 開催日数
      *
      * @type {JraHeldDayTimes}
-     * @memberof JraRaceData
      */
     public readonly heldDayTimes: JraHeldDayTimes;
 

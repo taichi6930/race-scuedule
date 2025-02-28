@@ -30,42 +30,36 @@ export class KeirinRaceData implements IPlaceData<KeirinRaceData> {
      * レース名
      *
      * @type {KeirinRaceName}
-     * @memberof KeirinRaceData
      */
     public readonly name: KeirinRaceName;
     /**
      * 開催ステージ
      *
      * @type {KeirinRaceStage}
-     * @memberof KeirinRaceData
      */
     public readonly stage: KeirinRaceStage;
     /**
      * 開催日時
      *
      * @type {KeirinRaceDateTime}
-     * @memberof KeirinRaceData
      */
     public readonly dateTime: KeirinRaceDateTime;
     /**
      * 開催場所
      *
      * @type {KeirinRaceCourse}
-     * @memberof KeirinRaceData
      */
     public readonly location: KeirinRaceCourse;
     /**
      * グレード
      *
      * @type {KeirinGradeType}
-     * @memberof KeirinRaceData
      */
     public readonly grade: KeirinGradeType;
     /**
      * レース番号
      *
      * @type {KeirinRaceNumber}
-     * @memberof KeirinRaceData
      */
     public readonly number: KeirinRaceNumber;
 

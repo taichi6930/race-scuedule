@@ -83,6 +83,15 @@ describe('AutoraceRaceCalendarUseCase', () => {
                     baseAutoraceRaceEntity.copy({
                         id: `autorace2024122920${(i + 1).toXDigits(2)}`,
                     }),
+            ).concat(
+                Array.from({ length: 3 }, (_, i: number) =>
+                    baseAutoraceRaceEntity.copy({
+                        id: `autorace2024122920${(i + 6).toXDigits(2)}`,
+                        raceData: baseAutoraceRaceEntity.raceData.copy({
+                            grade: '開催',
+                        }),
+                    }),
+                ),
             );
 
             const expectCalendarDataList: CalendarData[] = Array.from(
@@ -92,8 +101,13 @@ describe('AutoraceRaceCalendarUseCase', () => {
                         id: `autorace2024122920${(i + 6).toXDigits(2)}`,
                     }),
             );
-            const expectRaceEntityList: AutoraceRaceEntity[] =
-                mockRaceEntityList;
+            const expectRaceEntityList: AutoraceRaceEntity[] = Array.from(
+                { length: 5 },
+                (_, i: number) =>
+                    baseAutoraceRaceEntity.copy({
+                        id: `autorace2024122920${(i + 1).toXDigits(2)}`,
+                    }),
+            );
 
             // モックの戻り値を設定
             calendarService.getEvents.mockResolvedValue(mockCalendarDataList);

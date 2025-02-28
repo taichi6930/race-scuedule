@@ -92,7 +92,7 @@ export class AutoraceRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param searchFilter
+     * @param raceEntityList
      */
     @Logger
     async registerRaceEntityList(
@@ -159,7 +159,6 @@ export class AutoraceRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
-     * @param searchFilter
      */
     @Logger
     private async getRaceRecordListFromS3(): Promise<AutoraceRaceRecord[]> {
@@ -225,7 +224,6 @@ export class AutoraceRaceRepositoryFromStorageImpl
 
     /**
      * レースプレイヤーデータをS3から取得する
-     * @param searchFilter
      */
     @Logger
     private async getRacePlayerRecordListFromS3(): Promise<

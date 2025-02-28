@@ -92,7 +92,7 @@ export class KeirinRaceRepositoryFromStorageImpl
 
     /**
      * レースデータを登録する
-     * @param request
+     * @param raceEntityList
      */
     @Logger
     async registerRaceEntityList(
@@ -159,7 +159,6 @@ export class KeirinRaceRepositoryFromStorageImpl
 
     /**
      * レースデータをS3から取得する
-     * @param request
      */
     @Logger
     private async getRaceRecordListFromS3(): Promise<KeirinRaceRecord[]> {
@@ -225,7 +224,6 @@ export class KeirinRaceRepositoryFromStorageImpl
 
     /**
      * レースプレイヤーデータをS3から取得する
-     * @param request
      */
     @Logger
     private async getRacePlayerRecordListFromS3(): Promise<

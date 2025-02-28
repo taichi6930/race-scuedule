@@ -16,21 +16,18 @@ export class AutoracePlaceData implements IPlaceData<AutoracePlaceData> {
      * 開催日時
      *
      * @type {AutoraceRaceDateTime}
-     * @memberof AutoracePlaceData
      */
     public readonly dateTime: AutoraceRaceDateTime;
     /**
      * 開催場所
      *
      * @type {AutoraceRaceCourse}
-     * @memberof AutoracePlaceData
      */
     public readonly location: AutoraceRaceCourse;
     /**
      * グレード
      *
      * @type {AutoraceGradeType}
-     * @memberof AutoracePlaceData
      */
     public readonly grade: AutoraceGradeType;
 

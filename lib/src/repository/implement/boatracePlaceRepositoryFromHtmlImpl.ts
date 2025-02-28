@@ -29,8 +29,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      *
      * このメソッドで日付の範囲を指定して開催データを取得する
      *
-     * @param request - 開催データ取得リクエスト
-     * @returns Promise<BoatracePlaceEntity[]> - 開催データ取得レスポンス
+     * @param searchFilter - 開催データ取得フィルタ
      */
     @Logger
     async fetchPlaceEntityList(
@@ -106,6 +105,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
      * ファイル名を利用してS3から開催データを取得する
      * placeEntityが存在しない場合はundefinedを返すので、filterで除外する
      *
+     * @param quarterString
      * @param date
      */
     @Logger
@@ -186,7 +186,7 @@ export class BoatracePlaceRepositoryFromHtmlImpl
     /**
      * 開催データを登録する
      * HTMLにはデータを登録しない
-     * @param request
+     * @param placeEntityList
      */
     @Logger
     registerPlaceEntityList(
