@@ -67,7 +67,7 @@ export class JraRaceRepositoryFromStorageImpl
         const lines = csv.split('\n');
 
         // ヘッダー行を解析
-        const headers = lines[0].replace('\r', '').split(',');
+        const headers = lines[0].split('\r').join('').split(',');
 
         // ヘッダーに基づいてインデックスを取得
         const indices = {
@@ -89,7 +89,7 @@ export class JraRaceRepositoryFromStorageImpl
             .slice(1)
             .map((line: string) => {
                 try {
-                    const columns = line.replace('\r', '').split(',');
+                    const columns = line.split('\r').join('').split(',');
 
                     const updateDate = columns[indices.updateDate]
                         ? new Date(columns[indices.updateDate])
